@@ -1,0 +1,278 @@
+body {
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .drop-zone {
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .drop-zone.drag-over {
+      transform: scale(1.1);
+      opacity: 0.7;
+    }
+
+    .part {
+      cursor: grab;
+      transition: transform 0.2s, box-shadow 0.2s;
+      user-select: none;
+      max-width: 150px;
+    }
+
+    .part img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .part:active {
+      cursor: grabbing;
+    }
+
+    .part:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .part.placed {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .option-button {
+      display: inline-block;
+      margin-right: 20px;
+      background: #00bc74;
+      color: rgb(255, 255, 255);
+      font-weight: 600;
+      font-style: normal;
+      font-size: 16px;
+      border-radius: 999px;
+    }
+
+    .plant-area {
+      position: relative;
+      width: 280px;
+      height: 400px;
+    }
+
+    .plant-image {
+        max-width: 99%;
+        max-height: 99%;
+        border: 20px solid white;
+        border-radius: 20px;
+    }    
+
+    .slot {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed #a7c4a0;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .slot .slot-rectangle {
+      position: absolute;
+      border: 2px solid white; /* Defines the rectangle */
+      background-color: white;
+      opacity: 1;
+      z-index: 1; /* Higher z-index ensures it appears on top */
+      border-radius: 8px;
+    }
+
+    .filled .slot-rectangle {
+      opacity: 0;
+    }
+
+    .slot.filled {
+      border-color: transparent;
+    }
+
+    .slot.filled .slot-content {
+      opacity: 1;
+    }
+
+    .slot .slot-content {
+      opacity: 0.2;
+      z-index: 2;
+    }
+
+    .slot-flower {
+      top: 20px;
+      left: 80px;
+      width: 110px;
+      height: 85px;
+    }
+    
+    .slot-left-leaf {
+      top: 115px;
+      left: 50px;
+      width: 75px;
+      height: 55px;
+    }
+    
+    
+    .slot-right-leaf {
+      top: 125px;
+      right: 60px;
+      width: 75px;
+      height: 55px;
+    }
+    
+    .slot-roots {
+      bottom: 60px;
+      left: 85px;
+      width: 100px;
+      height: 80px;
+    }
+    
+    .emoji-flower {
+      font-size: 60px;
+    }
+    
+    .emoji-leaf {
+      font-size: 44px;
+    }
+    
+    .slot-flower .slot-rectangle {
+      width: 100%;
+      height: 100%;
+    }
+
+    .slot-left-leaf .slot-rectangle {
+      width: 100%;
+      height: 100%;
+    }
+
+    .slot-right-leaf .slot-rectangle {
+      width: 100%;
+      height: 100%;
+    }
+
+    .slot-roots .slot-rectangle {
+      width: 100%;
+      height: 100%;
+    }
+
+    .emoji-leaf-flip {
+      font-size: 44px;
+      transform: scaleX(-1);
+    }
+
+    .emoji-roots {
+      font-size: 44px;
+    }
+
+    .label-slot {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed #a7c4a0;
+      border-radius: 8px;
+      transition: all 0.3s;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .label-slot.filled {
+      border-color: #4a7c25;
+      background: #e8f5e1;
+    }
+
+    .label-slot {
+      width: 70px;
+      height: 30px;
+    }
+
+    .label-flower-slot {
+      top: 30px;
+      right: 40px;
+    }
+
+    .label-leaf-slot {
+      top: 120px;
+      left: 5px;
+    }
+
+    .label-stem-slot {
+      top: 175px;
+      right: 60px;
+    }
+
+    .label-roots-slot {
+      bottom: 50px;
+      right: 110px;
+    }
+
+    .plant2-flower {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 60px;
+    }
+
+    .plant2-left-leaf {
+      position: absolute;
+      top: 155px;
+      left: 35px;
+      font-size: 44px;
+    }
+
+    .plant2-right-leaf {
+      position: absolute;
+      top: 205px;
+      right: 35px;
+      font-size: 44px;
+      transform: scaleX(-1);
+    }
+
+    .plant2-roots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 44px;
+    }
+
+    .tab {
+      cursor: pointer;
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .tab:not(.active) {
+      background: #e8f5e1;
+      color: #2d5016;
+    }
+
+    @keyframes bounce-in {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .animate-in {
+      animation: bounce-in 0.4s ease-out;
+    }
+
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      100% { transform: translateY(-60px) rotate(360deg); opacity: 0; }
+    }
+
+    .success-icon {
+      animation: confetti 1s ease-out infinite;
+    }
+
+    .part-emoji-large {
+      font-size: 40px;
+    }
+
+    .part-emoji-large-flip {
+      font-size: 40px;
+      transform: scaleX(-1);
+      display: inline-block;
+    }
