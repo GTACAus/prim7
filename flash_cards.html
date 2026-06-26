@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script src="/_sdk/telemetry_sdk.js"></script>
+		<meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Investigable Sorting</title>
+		
+		<link rel="stylesheet" href="./styles/flash_cards_style.css">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+		
+		<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+		<script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+		<script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+	</head>
+	<body data-template-id="__page-root" style="background: linear-gradient(180deg, #f0fdf4, #dcfce7);">
+		<div data-template-id="__page-root" style="background: linear-gradient(180deg, #f0fdf4, #dcfce7);">
+			<header class="mb-8 text-center">
+				<h1 data-template-id="page-title" class="canva-text mb-2"></h1>
+				<p data-template-id="subtitle" class="canva-text"></p>
+			</header>
+			<main class="main-content">
+				<div class="layout">
+					<div class="pile-section">
+						<h2 data-template-id="left-label" class="canva-text mb-3"></h2>
+						<div id="left-pile" class="pile-container"></div>
+						<p id="left-count">0</p>
+					</div>
+					<div class="center-section">
+						<div id="card-area">
+							<div id="current-card"></div>
+							<div id="done-message">
+								<span>🎉</span>
+								<p>All Sorted!</p>
+							</div>
+						</div>
+						<p id="progress"></p>
+						<div class="btn-row">
+							<button data-template-id="btn-investigable" class="canva-button sort-btn" onclick="sortCard('left')">Investigable</button> <button data-template-id="btn-uninvestigable" class="canva-button sort-btn sort-btn-red" onclick="sortCard('right')">Uninvestigable</button>
+						</div>
+						<button id="reset-btn" data-template-id="btn-reset" class="canva-button reset-btn hidden" onclick="resetCards()">Reset</button>
+					</div>
+					<div class="pile-section">
+						<h2 data-template-id="right-label" class="canva-text mb-3"></h2>
+						<div id="right-pile" class="pile-container"></div>
+						<p id="right-count">0</p>
+					</div>
+				</div>
+			</main>
+			<script src="/_sdk/editing_sdk.js"></script>
+			<script src="./scripts/flash_cards.js"></script>
+			<script>
+				(
+				    function() {
+				        function c() {
+				            var b = a.contentDocument || a.contentWindow.document;
+				            if (b) {
+				                var d = b.createElement('script');
+				                d.innerHTML = "window.__CF$cv$params={r:'a11892abb7202649',t:'MTc4MjQzODc1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+				                b.getElementsByTagName('head')[0].appendChild(d)
+				            }
+				        }
+				        if (document.body) {
+				            var a = document.createElement('iframe');
+				            a.height = 1;
+				            a.width = 1;
+				            a.style.position = 'absolute';
+				            a.style.top = 0;
+				            a.style.left = 0;
+				            a.style.border = 'none';
+				            a.style.visibility = 'hidden';
+				            document.body.appendChild(a);
+				            if ('loading' !== document.readyState) c();
+				            else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+				            else {
+				                var e = document.onreadystatechange || function() {};
+				                document.onreadystatechange = function(b) {
+				                    e(b);
+				                    'loading' !== document.readyState && (document.onreadystatechange = e, c())
+				                }
+				            }
+				        }
+				    }
+				)(); 
+				    
+			</script>
+		</div>
+	</body>
+</html>
