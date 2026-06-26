@@ -135,6 +135,7 @@ function resetGame2() {
   document.querySelectorAll('#game-labels .part').forEach(p => p.classList.remove('placed'));
   document.getElementById('success-2').classList.add('hidden');
   document.getElementById('buildNextButton').classList.remove('ready');
+  checklabelComplete();
 }
 
 function checkLabelComplete() {
