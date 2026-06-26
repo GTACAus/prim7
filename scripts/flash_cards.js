@@ -1,9 +1,42 @@
-import questions from './flash_card_questions.js' with { type: 'json' };
+const questions = [
+    {
+        text: "Does the amount of sunlight affect plant growth?",
+        answer: "left"
+    },
+    {
+        text: "Which colour is the prettiest?",
+        answer: "right"
+    },
+    {
+        text: "Does temperature affect how fast ice melts?",
+        answer: "left"
+    },
+    {
+        text: "Is chocolate better than vanilla?",
+        answer: "right"
+    },
+    {
+        text: "Do heavier objects fall faster?",
+        answer: "left"
+    },
+    {
+        text: "What is the best sport?",
+        answer: "right"
+    },
+    {
+        text: "Does salt change the boiling point of water?",
+        answer: "left"
+    },
+    {
+        text: "Are cats smarter than dogs?",
+        answer: "right"
+    }
+];
 
 let currentIndex = 0,
     leftCount = 0,
     rightCount = 0,
-    hasStarted = false;
+    hasStarted = false,
     isSorted = false;
 
 function showCard() {
@@ -78,12 +111,16 @@ function resetCards() {
     rightCount = 0;
     hasStarted = false;
     isSorted = false;
+    document.getElementById('progress').textContent = (currentIndex + 1) + ' of ' + questions.length;
     document.getElementById('reset-btn').classList.add('hidden');
     document.getElementById('left-pile').innerHTML = '';
     document.getElementById('right-pile').innerHTML = '';
     document.getElementById('left-count').textContent = '0';
     document.getElementById('right-count').textContent = '0';
-    document.getElementById('current-card').classList.remove('hidden');
+    
+    const card = document.getElementById('current-card');
+    card.classList.remove('hidden', 'card-fly-left', 'card-fly-right', 'card-fly-up');
+    card.style.opacity = '1';
     document.getElementById('done-message').classList.remove('visible');
     document.getElementById('btn-investigable').disabled = false;
     document.getElementById('btn-uninvestigable').disabled = false;
