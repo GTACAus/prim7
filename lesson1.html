@@ -448,6 +448,38 @@
       cursor: pointer;
     }
 
+    .home-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 18px;
+
+  background: #ffffff;
+  color: var(--text);
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  text-decoration: none;
+  font-weight: 600;
+
+  box-shadow: 0 6px 18px rgba(63,70,63,0.12);
+
+  z-index: 1000;
+
+  transition: 0.2s;
+}
+
+.home-button:hover{
+    background: var(--soft-blue);
+    transform: translateY(-2px);
+}
+
     .next-button:hover,
     .glossary-button:hover {
       background: var(--button-hover);
@@ -593,6 +625,32 @@
   background: var(--soft-green);
 }
 
+.detective-embed-box {
+  background: var(--soft-blue);
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  padding: 12px;
+  min-height: 760px;
+}
+
+.detective-iframe {
+  width: 100%;
+  height: 740px;
+  border: none;
+  border-radius: 16px;
+  background: white;
+}
+
+@media (max-width: 800px) {
+  .detective-embed-box {
+    min-height: 900px;
+  }
+
+  .detective-iframe {
+    height: 880px;
+  }
+}
+
     @media (max-width: 800px) {
       .site-intro {
         padding-right: 0;
@@ -646,6 +704,10 @@
   <button class="glossary-button" onclick="openGlossary()">
     📖 Vocabulary
   </button>
+
+  <a href="index.html" class="home-button">
+    🏠 Home
+</a>
 
   <div class="modal" id="glossaryModal">
     <div class="modal-content">
@@ -989,12 +1051,16 @@
     </section>
 
     <section class="section locked" id="detective">
-      <h2 class="section-title">Be a plant detective</h2>
+  <h2 class="section-title">Be a plant detective</h2>
 
-      <div class="reflection-box">
-        Plant detective game embed
-      </div>
-    </section>
+  <div class="detective-embed-box">
+    <iframe
+      src="plant-detective.html"
+      title="Plant Detective Game"
+      class="detective-iframe">
+    </iframe>
+  </div>
+</section>
 
   </main>
 
