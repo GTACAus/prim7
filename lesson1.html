@@ -648,7 +648,7 @@
   padding: 24px;
 
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 1fr;
   gap: 18px;
 }
 
@@ -664,15 +664,16 @@
 }
 
 .final-branch {
+  width: 100%;
   background: #ffffff;
   border: 1px solid var(--line);
   border-radius: 20px;
-  padding: 16px;
+  padding: 18px;
 }
 
 .final-branch h3 {
   margin: 0 0 12px;
-  text-align: center;
+  text-align: left;
   color: var(--text);
 }
 
@@ -727,12 +728,6 @@
   border-radius: 999px;
   padding: 8px 10px 8px 14px;
   margin-bottom: 8px;
-}
-
-@media (max-width: 800px) {
-  .final-brainstorm-box {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 800px) {
