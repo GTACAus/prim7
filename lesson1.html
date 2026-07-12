@@ -641,6 +641,100 @@
   background: white;
 }
 
+.final-brainstorm-box {
+  background: var(--soft-green);
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  padding: 24px;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+.final-brainstorm-centre {
+  grid-column: 1 / -1;
+  background: #fffdf5;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 18px 24px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.final-branch {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.final-branch h3 {
+  margin: 0 0 12px;
+  text-align: center;
+  color: var(--text);
+}
+
+.final-branch input {
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: #fffdf5;
+  color: var(--text);
+}
+
+.final-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.final-input-row input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: #fffdf5;
+  color: var(--text);
+}
+
+.final-input-row button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: var(--button);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.final-answer-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 12px 0 0;
+}
+
+.final-answer-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  background: #fffdf5;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 10px 8px 14px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 800px) {
+  .final-brainstorm-box {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 800px) {
   .detective-embed-box {
     min-height: 900px;
@@ -1060,6 +1154,68 @@
       class="detective-iframe">
     </iframe>
   </div>
+  <button class="next-button" onclick="unlockSection('final-brainstorm', 'detective')">
+  Next
+</button>
+</section>
+
+
+
+<p class="completed-note">Completed — next activity unlocked.</p>
+
+<section class="section locked" id="final-brainstorm">
+  <h2 class="section-title">Final brainstorm</h2>
+
+  <div class="final-brainstorm-box">
+    <div class="final-brainstorm-centre">
+      Why do plants need these things?
+    </div>
+
+    <div class="final-branch">
+      <h3>Water</h3>
+      <div class="final-input-row">
+        <input id="final-water-input" type="text" placeholder="Why do plants need water?" onkeydown="submitFinalAnswerOnEnter(event, 'water')">
+        <button onclick="submitFinalAnswer('water')">Add</button>
+      </div>
+      <ul id="final-water-list" class="final-answer-list"></ul>
+    </div>
+
+    <div class="final-branch">
+      <h3>Sunlight</h3>
+      <div class="final-input-row">
+        <input id="final-sunlight-input" type="text" placeholder="Why do plants need sunlight?" onkeydown="submitFinalAnswerOnEnter(event, 'sunlight')">
+        <button onclick="submitFinalAnswer('sunlight')">Add</button>
+      </div>
+      <ul id="final-sunlight-list" class="final-answer-list"></ul>
+    </div>
+
+    <div class="final-branch">
+      <h3>Nutrients</h3>
+      <div class="final-input-row">
+        <input id="final-nutrients-input" type="text" placeholder="Why do plants need nutrients?" onkeydown="submitFinalAnswerOnEnter(event, 'nutrients')">
+        <button onclick="submitFinalAnswer('nutrients')">Add</button>
+      </div>
+      <ul id="final-nutrients-list" class="final-answer-list"></ul>
+    </div>
+
+    <div class="final-branch">
+      <h3>Temperature</h3>
+      <div class="final-input-row">
+        <input id="final-temperature-input" type="text" placeholder="Why does temperature matter?" onkeydown="submitFinalAnswerOnEnter(event, 'temperature')">
+        <button onclick="submitFinalAnswer('temperature')">Add</button>
+      </div>
+      <ul id="final-temperature-list" class="final-answer-list"></ul>
+    </div>
+
+    <div class="final-branch">
+      <h3>Fertiliser</h3>
+      <div class="final-input-row">
+        <input id="final-fertiliser-input" type="text" placeholder="Why might plants need fertiliser?" onkeydown="submitFinalAnswerOnEnter(event, 'fertiliser')">
+        <button onclick="submitFinalAnswer('fertiliser')">Add</button>
+      </div>
+      <ul id="final-fertiliser-list" class="final-answer-list"></ul>
+    </div>
+  </div>
 </section>
 
   </main>
@@ -1069,6 +1225,40 @@
   <script src="scripts/plant_drag_and_drop.js"></script>
   <script src="scripts/brainstorm.js"></script>
   <script>
+    function submitFinalAnswerOnEnter(event, type) {
+  if (event.key === 'Enter') {
+    submitFinalAnswer(type);
+  }
+}
+
+function submitFinalAnswer(type) {
+  const input = document.getElementById('final-' + type + '-input');
+  const list = document.getElementById('final-' + type + '-list');
+  const answer = input.value.trim();
+
+  if (answer === '') {
+    return;
+  }
+
+  const listItem = document.createElement('li');
+
+  const answerText = document.createElement('span');
+  answerText.textContent = answer;
+
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = '×';
+  deleteButton.className = 'delete-answer';
+
+  deleteButton.onclick = function() {
+    listItem.remove();
+  };
+
+  listItem.appendChild(answerText);
+  listItem.appendChild(deleteButton);
+  list.appendChild(listItem);
+
+  input.value = '';
+}
     (
       function() {
         function c() {
