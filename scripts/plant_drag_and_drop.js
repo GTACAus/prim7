@@ -1,10 +1,8 @@
 let placed1 = new Set();
 const total1 = 4;
 
-const dev = true;
-
 function switchGame(game) {
-  if (placed1.size === total1 || dev === true) {
+  if (placed1.size === total1) {
     document.getElementById('game-parts').classList.toggle('hidden', game !== 'parts');
     document.getElementById('game-labels').classList.toggle('hidden', game !== 'labels');
     document.getElementById('tab-parts').classList.toggle('active', game === 'parts');
