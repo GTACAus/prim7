@@ -1,4 +1,4 @@
-const questions = [
+const questionsText = [
     {
         text: "Does the amount of sunlight affect plant growth?",
         answer: "left"
@@ -33,11 +33,31 @@ const questions = [
     }
 ];
 
+let questions = [...questionsText]; // Create a copy of the questions array
+
 let currentIndex = 0,
     leftCount = 0,
     rightCount = 0,
     hasStarted = false,
     isSorted = false;
+
+function shuffleRandom(array) {
+  let currentIndex = array.length;
+  let randomArray = [];
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    
+    // And swap it with the current element.
+    randomArray.push(array[randomIndex]);
+  }
+
+  return randomArray;
+}
 
 function showCard() {
     const card = document.getElementById('current-card');
@@ -106,6 +126,7 @@ function addToPile(direction, text) {
 }
 
 function resetCards() {
+    questions = shuffleRandom([...questionsText]);
     currentIndex = 0;
     leftCount = 0;
     rightCount = 0;
@@ -119,6 +140,7 @@ function resetCards() {
     document.getElementById('right-count').textContent = '0';
     
     const card = document.getElementById('current-card');
+    card.textContent = questions[currentIndex].text;
     card.classList.remove('hidden', 'card-fly-left', 'card-fly-right', 'card-fly-up');
     card.style.opacity = '1';
     document.getElementById('done-message').classList.remove('visible');
