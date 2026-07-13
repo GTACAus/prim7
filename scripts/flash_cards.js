@@ -1,4 +1,5 @@
-const questionsText = [{
+const questionsText = [
+	{
 		text: "Does the amount of sunlight affect plant growth?",
 		answer: "left"
 	},
@@ -43,9 +44,9 @@ let currentIndex = 0,
 function shuffleRandom(array) {
 	const shuffled = [...array];
 	
-	for (let i = shuffled.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+	for (let currentIndex = shuffled.length - 1; currentIndex > 0; currentIndex--) {
+		const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
+		[shuffled[currentIndex], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[currentIndex]];
 	}
 
 	return shuffled;
