@@ -1619,6 +1619,395 @@ function submitFinalAnswer(type) {
   input.value = '';
 }
 
+/* ---------- Save and restore Lesson 1 answers ---------- */
+
+const LESSON1_SAVE_KEY = 'plantExplorerLesson1Save';
+
+let lesson1IsRestoring = false;
+let lesson1SaveTimer = null;
+
+/*
+  Read the visible text from an answer that may also
+  contain an X delete button.
+*/
+function getAnswerText(element) {
+  if (!element) {
+    return '';
+  }
+
+  const clone = element.cloneNode(true);
+
+  clone.querySelectorAll('button').forEach(button => {
+    button.remove();
+  });
+
+  return clone.textContent.trim();
+}
+
+/*
+  Collect the student's current answers and opened sections.
+*/
+function collectLesson1Data() {
+  const data = {
+    stw: {
+      see: [],
+      think: [],
+      wonder: []
+    },
+
+    brainstorm: {},
+
+    functions: {
+      leaves: '',
+      stem: '',
+      roots: ''
+    },
+
+    finalBrainstorm: {
+      water: [],
+      sunlight: [],
+      nutrients: [],
+      temperature: [],
+      fertiliser: []
+    },
+
+    unlockedSections: []
+  };
+
+  /* See / Think / Wonder */
+
+  ['see', 'think', 'wonder'].forEach(type => {
+    const list = document.getElementById(type + 'List');
+
+    if (list) {
+      data.stw[type] = Array.from(list.querySelectorAll('li'))
+        .map(getAnswerText)
+        .filter(Boolean);
+    }
+  });
+
+  /* First brainstorm */
+
+  for (let number = 1; number <= 8; number++) {
+    const answerBox = document.getElementById(
+      'brainstormAnswer' + number
+    );
+
+    const answer = getAnswerText(answerBox);
+
+    if (
+      answerBox &&
+      answerBox.style.display !== 'none' &&
+      answer !== ''
+    ) {
+      data.brainstorm[number] = answer;
+    }
+  }
+
+  /* Leaves, stem and roots */
+
+  ['leaves', 'stem', 'roots'].forEach(part => {
+    const answerBox = document.getElementById(
+      part + 'FunctionAnswer'
+    );
+
+    const answer = getAnswerText(answerBox);
+
+    if (
+      answerBox &&
+      answerBox.style.display !== 'none' &&
+      answer !== ''
+    ) {
+      data.functions[part] = answer;
+    }
+  });
+
+  /* Final brainstorm */
+
+  [
+    'water',
+    'sunlight',
+    'nutrients',
+    'temperature',
+    'fertiliser'
+  ].forEach(type => {
+    const list = document.getElementById(
+      'final-' + type + '-list'
+    );
+
+    if (list) {
+      data.finalBrainstorm[type] =
+        Array.from(list.querySelectorAll('li'))
+          .map(getAnswerText)
+          .filter(Boolean);
+    }
+  });
+
+  /* Remember which sections are visible */
+
+  [
+    'watch',
+    'build',
+    'brainstorm',
+    'diagram',
+    'detective',
+    'final-brainstorm'
+  ].forEach(sectionId => {
+    const section = document.getElementById(sectionId);
+
+    if (section && !section.classList.contains('locked')) {
+      data.unlockedSections.push(sectionId);
+    }
+  });
+
+  return data;
+}
+
+/*
+  Save everything to this browser.
+*/
+function saveLesson1Data() {
+  if (lesson1IsRestoring) {
+    return;
+  }
+
+  const data = collectLesson1Data();
+
+  localStorage.setItem(
+    LESSON1_SAVE_KEY,
+    JSON.stringify(data)
+  );
+
+  console.log('Lesson 1 progress saved.');
+}
+
+/*
+  Avoid saving many times during one quick action.
+*/
+function scheduleLesson1Save() {
+  if (lesson1IsRestoring) {
+    return;
+  }
+
+  clearTimeout(lesson1SaveTimer);
+
+  lesson1SaveTimer = setTimeout(() => {
+    saveLesson1Data();
+  }, 150);
+}
+
+/*
+  Recreate See / Think / Wonder answers through your
+  existing addSTW function.
+*/
+function restoreSTWAnswers(savedSTW) {
+  ['see', 'think', 'wonder'].forEach(type => {
+    const answers = savedSTW[type] || [];
+    const input = document.getElementById(type + 'Input');
+
+    answers.forEach(answer => {
+      input.value = answer;
+      addSTW(type);
+    });
+  });
+}
+
+/*
+  Recreate the first brainstorm through your existing
+  submitBrainstorm function.
+*/
+function restoreBrainstormAnswers(savedBrainstorm) {
+  for (let number = 1; number <= 8; number++) {
+    const answer = savedBrainstorm[number];
+
+    if (!answer) {
+      continue;
+    }
+
+    const input = document.getElementById(
+      'brainstormInput' + number
+    );
+
+    input.value = answer;
+
+    submitBrainstorm(
+      {
+        key: 'Enter',
+        preventDefault: function() {}
+      },
+      number
+    );
+  }
+}
+
+/*
+  Recreate leaves, stem and roots answers.
+*/
+function restoreFunctionAnswers(savedFunctions) {
+  ['leaves', 'stem', 'roots'].forEach(part => {
+    const answer = savedFunctions[part];
+
+    if (!answer) {
+      return;
+    }
+
+    const input = document.getElementById(
+      part + 'FunctionInput'
+    );
+
+    input.value = answer;
+
+    submitFunctionAnswer(
+      {
+        key: 'Enter',
+        preventDefault: function() {}
+      },
+      part
+    );
+  });
+}
+
+/*
+  Recreate final brainstorm answers.
+*/
+function restoreFinalBrainstorm(savedFinalBrainstorm) {
+  [
+    'water',
+    'sunlight',
+    'nutrients',
+    'temperature',
+    'fertiliser'
+  ].forEach(type => {
+    const answers = savedFinalBrainstorm[type] || [];
+    const input = document.getElementById(
+      'final-' + type + '-input'
+    );
+
+    answers.forEach(answer => {
+      input.value = answer;
+      submitFinalAnswer(type);
+    });
+  });
+}
+
+/*
+  Restore all saved progress when the page opens.
+*/
+function restoreLesson1Data() {
+  const savedText = localStorage.getItem(
+    LESSON1_SAVE_KEY
+  );
+
+  if (!savedText) {
+    return;
+  }
+
+  let savedData;
+
+  try {
+    savedData = JSON.parse(savedText);
+  } catch (error) {
+    console.error(
+      'Could not read saved Lesson 1 progress:',
+      error
+    );
+
+    return;
+  }
+
+  lesson1IsRestoring = true;
+
+  /*
+    Restore opened sections first so their elements
+    are visible before rebuilding the answers.
+  */
+  const unlockedSections =
+    savedData.unlockedSections || ['watch'];
+
+  unlockedSections.forEach(sectionId => {
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.classList.remove('locked');
+    }
+  });
+
+  restoreSTWAnswers(
+    savedData.stw || {
+      see: [],
+      think: [],
+      wonder: []
+    }
+  );
+
+  restoreBrainstormAnswers(
+    savedData.brainstorm || {}
+  );
+
+  restoreFunctionAnswers(
+    savedData.functions || {}
+  );
+
+  restoreFinalBrainstorm(
+    savedData.finalBrainstorm || {}
+  );
+
+  lesson1IsRestoring = false;
+
+  console.log('Lesson 1 progress restored.');
+}
+
+/*
+  Watch answer areas for additions or deletions.
+*/
+const lesson1Observer = new MutationObserver(() => {
+  scheduleLesson1Save();
+});
+
+/*
+  Begin watching after the HTML has loaded.
+*/
+document.addEventListener('DOMContentLoaded', function() {
+  const areasToWatch = [
+    document.getElementById('seeList'),
+    document.getElementById('thinkList'),
+    document.getElementById('wonderList'),
+
+    document.getElementById('brainstorm'),
+    document.getElementById('diagram'),
+
+    document.getElementById('final-water-list'),
+    document.getElementById('final-sunlight-list'),
+    document.getElementById('final-nutrients-list'),
+    document.getElementById('final-temperature-list'),
+    document.getElementById('final-fertiliser-list')
+  ];
+
+  areasToWatch.forEach(area => {
+    if (area) {
+      lesson1Observer.observe(area, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        characterData: true
+      });
+    }
+  });
+
+  restoreLesson1Data();
+});
+
+/*
+  Save when a Next button opens another section.
+*/
+document.addEventListener('click', function(event) {
+  if (event.target.closest('.next-button')) {
+    setTimeout(() => {
+      scheduleLesson1Save();
+    }, 200);
+  }
+});
+
 /* ---------- Hidden teacher navigation ---------- */
 
 const teacherTrigger = document.getElementById('teacherTrigger');
