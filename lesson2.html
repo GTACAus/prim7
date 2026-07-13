@@ -177,7 +177,111 @@ body{
 }
 
 </style>
+<style>
+.final-branch input {
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: #fffdf5;
+  color: var(--text);
+}
 
+.final-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.final-input-row input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: #fffdf5;
+  color: var(--text);
+}
+
+.final-input-row button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: var(--button);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.final-answer-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 12px 0 0;
+}
+
+.final-answer-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  background: #fffdf5;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 10px 8px 14px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 800px) {
+  .detective-embed-box {
+    min-height: 900px;
+  }
+}
+
+    @media (max-width: 800px) {
+      .site-intro {
+        padding-right: 0;
+        padding-top: 58px;
+      }
+
+      .flashcard-iframe {
+        height: 67rem;
+    }
+
+      .video-row,
+      .plant-game,
+      .learning-row {
+        grid-template-columns: 1fr;
+      }
+
+      .label-bank {
+        min-height: 160px;
+      }
+
+      .brainstorm-box {
+        display: flex;
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .brainstorm-line {
+        display: none;
+      }
+
+      .brainstorm-centre {
+        order: -1;
+        width: 100%;
+        border-radius: 20px;
+      }
+
+      .brainstorm-item {
+        max-width: 100%;
+      }
+
+      .thinglink-box {
+        min-height: 520px;
+      }
+    }
+  </style>
 </head>
 
 <body>

@@ -233,14 +233,11 @@ body {
     flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .layout {
         flex-direction: column;
         gap: 1.0rem;
     }
 
-    #card-area {
-        width: 16rem;
-        height: 12rem;
-    }
+   
 }
