@@ -730,6 +730,143 @@
   margin-bottom: 8px;
 }
 
+/* ---------- Hidden teacher navigation ---------- */
+
+#teacherTrigger {
+  user-select: none;
+}
+
+.teacher-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  padding: 24px;
+  background: rgba(39, 42, 36, 0.42);
+  align-items: center;
+  justify-content: center;
+}
+
+.teacher-modal.open {
+  display: flex;
+}
+
+.teacher-panel {
+  width: min(560px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+
+  background: #fffdf5;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 26px;
+
+  box-shadow: 0 20px 55px rgba(39, 42, 36, 0.24);
+}
+
+.teacher-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.teacher-label {
+  margin: 0 0 5px;
+  color: var(--button-hover);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.teacher-panel-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.55rem;
+}
+
+.teacher-close {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: var(--soft-orange);
+  color: var(--text);
+
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.teacher-section-list {
+  display: grid;
+  gap: 10px;
+}
+
+.teacher-section-list button {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 13px 16px;
+
+  background: #ffffff;
+  color: var(--text);
+
+  text-align: left;
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.teacher-section-list button:hover {
+  background: var(--soft-green);
+  transform: translateX(3px);
+}
+
+.teacher-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.teacher-secondary-button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 11px 14px;
+
+  background: var(--soft-blue);
+  color: var(--text);
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.teacher-secondary-button:hover {
+  background: var(--soft-green);
+}
+
+.teacher-note {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .teacher-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 800px) {
   .detective-embed-box {
     min-height: 900px;
@@ -839,10 +976,77 @@
     </div>
   </div>
 
+  <div class="teacher-modal" id="teacherModal">
+  <div class="teacher-panel">
+
+    <div class="teacher-panel-header">
+      <div>
+        <p class="teacher-label">Teacher tools</p>
+        <h2>Jump to an activity</h2>
+      </div>
+
+      <button
+        type="button"
+        class="teacher-close"
+        onclick="closeTeacherMenu()"
+        aria-label="Close teacher menu">
+        ×
+      </button>
+    </div>
+
+    <div class="teacher-section-list">
+      <button type="button" onclick="teacherJump('watch')">
+        1. Watch me
+      </button>
+
+      <button type="button" onclick="teacherJump('build')">
+        2. Build a plant
+      </button>
+
+      <button type="button" onclick="teacherJump('brainstorm')">
+        3. Brainstorm
+      </button>
+
+      <button type="button" onclick="teacherJump('diagram')">
+        4. Explore the diagram
+      </button>
+
+      <button type="button" onclick="teacherJump('detective')">
+        5. Be a plant detective
+      </button>
+
+      <button type="button" onclick="teacherJump('final-brainstorm')">
+        6. Final brainstorm
+      </button>
+    </div>
+
+    <div class="teacher-actions">
+      <button
+        type="button"
+        class="teacher-secondary-button"
+        onclick="teacherShowAll()">
+        Show all sections
+      </button>
+
+      <button
+        type="button"
+        class="teacher-secondary-button"
+        onclick="teacherResetView()">
+        Reset student view
+      </button>
+    </div>
+
+    <p class="teacher-note">
+      Teacher mode changes navigation only. Student answers are not deleted.
+    </p>
+
+  </div>
+</div>
+
   <main class="page">
 
     <div class="site-intro">
-      <h1>Plant Explorer</h1>
+      <h1 id="teacherTrigger" title="Plant Explorer">Plant Explorer</h1>
       <p>Move through each activity one step at a time.</p>
     </div>
 
@@ -1254,6 +1458,123 @@ function submitFinalAnswer(type) {
 
   input.value = '';
 }
+
+/* ---------- Hidden teacher navigation ---------- */
+
+const teacherTrigger = document.getElementById('teacherTrigger');
+const teacherModal = document.getElementById('teacherModal');
+
+let teacherClickCount = 0;
+let teacherClickTimer = null;
+
+teacherTrigger.addEventListener('click', function() {
+  teacherClickCount++;
+
+  clearTimeout(teacherClickTimer);
+
+  teacherClickTimer = setTimeout(function() {
+    teacherClickCount = 0;
+  }, 1800);
+
+  if (teacherClickCount >= 5) {
+    teacherClickCount = 0;
+    clearTimeout(teacherClickTimer);
+    openTeacherMenu();
+  }
+});
+
+function openTeacherMenu() {
+  teacherModal.classList.add('open');
+}
+
+function closeTeacherMenu() {
+  teacherModal.classList.remove('open');
+}
+
+function teacherJump(sectionId) {
+  const section = document.getElementById(sectionId);
+
+  if (!section) {
+    return;
+  }
+
+  section.classList.remove('locked');
+  closeTeacherMenu();
+
+  setTimeout(function() {
+    section.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }, 100);
+}
+
+function teacherShowAll() {
+  const sectionIds = [
+    'watch',
+    'build',
+    'brainstorm',
+    'diagram',
+    'detective',
+    'final-brainstorm'
+  ];
+
+  sectionIds.forEach(function(sectionId) {
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.classList.remove('locked');
+    }
+  });
+
+  closeTeacherMenu();
+}
+
+function teacherResetView() {
+  const sectionsToLock = [
+    'build',
+    'brainstorm',
+    'diagram',
+    'detective',
+    'final-brainstorm'
+  ];
+
+  sectionsToLock.forEach(function(sectionId) {
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.classList.add('locked');
+      section.classList.remove('completed');
+    }
+  });
+
+  const watchSection = document.getElementById('watch');
+
+  if (watchSection) {
+    watchSection.classList.remove('locked');
+    watchSection.classList.remove('completed');
+  }
+
+  closeTeacherMenu();
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+teacherModal.addEventListener('click', function(event) {
+  if (event.target === teacherModal) {
+    closeTeacherMenu();
+  }
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeTeacherMenu();
+  }
+});
+
     (
       function() {
         function c() {
