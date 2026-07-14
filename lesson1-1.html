@@ -1372,11 +1372,8 @@
   <button class="next-button" onclick="unlockSection('final-brainstorm', 'detective')">
   Next
 </button>
-</section>
-
-
-
 <p class="completed-note">Completed — next activity unlocked.</p>
+</section>
 
 <section class="section locked" id="final-brainstorm">
   <h2 class="section-title">Final brainstorm</h2>
@@ -1694,7 +1691,8 @@ function collectLesson1Data() {
       fertiliser: []
     },
 
-    unlockedSections: []
+    unlockedSections: [],
+    completedSections: []
   };
 
   /* See / Think / Wonder */
@@ -1769,19 +1767,27 @@ function collectLesson1Data() {
   /* Remember which sections are visible */
 
   [
-    'watch',
-    'build',
-    'brainstorm',
-    'diagram',
-    'detective',
-    'final-brainstorm'
-  ].forEach(sectionId => {
-    const section = document.getElementById(sectionId);
+  'watch',
+  'build',
+  'brainstorm',
+  'diagram',
+  'detective',
+  'final-brainstorm'
+].forEach(sectionId => {
+  const section = document.getElementById(sectionId);
 
-    if (section && !section.classList.contains('locked')) {
-      data.unlockedSections.push(sectionId);
-    }
-  });
+  if (!section) {
+    return;
+  }
+
+  if (!section.classList.contains('locked')) {
+    data.unlockedSections.push(sectionId);
+  }
+
+  if (section.classList.contains('completed')) {
+    data.completedSections.push(sectionId);
+  }
+});
 
   return data;
 }
@@ -1954,6 +1960,17 @@ function restoreLesson1Data() {
       section.classList.remove('locked');
     }
   });
+
+  const completedSections =
+  savedData.completedSections || [];
+
+completedSections.forEach(sectionId => {
+  const section = document.getElementById(sectionId);
+
+  if (section) {
+    section.classList.add('completed');
+  }
+});
 
   restoreSTWAnswers(
     savedData.stw || {
