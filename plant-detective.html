@@ -28,7 +28,7 @@
       margin-top: 0.5rem;
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: 900px) {
       #plant-comparison {
         flex-direction: row;
         gap: 0.5rem;
@@ -52,7 +52,7 @@
       transition: width 0.3s ease;
     }
 
-    @media (max-width: 1023px) {
+    @media (max-width: 899px) {
       #left-frame,
       #right-frame {
         width: clamp(5rem, 30vw, 12rem);
@@ -85,13 +85,13 @@
       font-weight: bold;
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: 900px) {
       #arrow-separator::before {
         content: '→';
       }
     }
 
-    @media (max-width: 1023px) {
+    @media (max-width: 899px) {
       #arrow-separator::before {
         content: '↓';
       }
@@ -144,7 +144,7 @@
 
     @media (max-width: 1023px) {
       #controls {
-        margin-top: 0.75rem;
+        margin-top: 0.5rem;
       }
     }
 
@@ -183,21 +183,41 @@
    <p id="hint-text" class="text-center text-sm mb-2 text-amber-800 font-medium"></p>
    <div id="plant-comparison">
     <div id="left-frame">
-     <img data-template-id="plant-s1" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/10651660/pexels-photo-10651660.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A wilted plant that needs more water"> <img data-template-id="plant-s2" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/4503276/pexels-photo-4503276.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="An overwatered plant with yellow soggy leaves"> <img data-template-id="plant-s3" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/18286956/pexels-photo-18286956.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A pale plant stretching toward light needing more sunlight"> <img data-template-id="plant-s4" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/1145033/pexels-photo-1145033.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A plant with scorched brown leaves from too much sun"> <img data-template-id="plant-s5" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/7208482/pexels-photo-7208482.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A small stunted plant growing slowly needing more CO2"> <img data-template-id="plant-s6" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/27810913/pexels-photo-27810913.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A plant with curling leaves needing less carbon dioxide"> <img data-template-id="plant-s7" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/19248484/pexels-photo-19248484.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A plant with yellow leaves showing nutrient deficiency"> <img data-template-id="plant-s8" class="canva-image scenario-img hidden" loading="lazy" src="https://images.pexels.com/photos/30201181/pexels-photo-30201181.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A plant with brown burnt leaf tips from too much fertilizer"> <img data-template-id="healthy-plant-overlay" class="canva-image scenario-img opacity-0" loading="lazy" id="healthy-overlay" src="https://images.pexels.com/photos/8988951/pexels-photo-8988951.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Vibrant healthy green houseplant">
+     <img data-template-id="plant-s1" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/not_enough_water_plant.png" alt="A wilted plant that needs more water"> 
+     <img data-template-id="plant-s2" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/too_much_water_plant.png" alt="An overwatered plant with yellow soggy leaves"> 
+     <img data-template-id="plant-s3" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/not_enough_sunlight_plant.png" alt="A pale plant stretching toward light needing more sunlight"> 
+     <img data-template-id="plant-s4" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/too_much_sunlight_plant.png" alt="A plant with scorched brown leaves from too much sun"> 
+     <img data-template-id="plant-s5" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/not_enough_co2_plant.png" alt="A small stunted plant growing slowly needing more CO2"> 
+     <img data-template-id="plant-s6" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/too_much_co2_plant.png" alt="A plant with curling leaves needing less carbon dioxide"> 
+     <img data-template-id="plant-s7" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/not_enough_nutrients_plant.png" alt="A plant with yellow leaves showing nutrient deficiency"> 
+     <img data-template-id="plant-s8" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/too_much_nutrients_plant.png" alt="A plant with brown burnt leaf tips from too much fertilizer"> 
+     <img data-template-id="healthy-plant-overlay" class="canva-image scenario-img opacity-0" loading="lazy" id="healthy-overlay" src="images/plant_detective/healthy_plant.png" alt="Vibrant healthy green houseplant">
     </div>
     <div id="arrow-separator"></div>
     <div id="right-frame">
-     <img data-template-id="healthy-plant" class="canva-image" loading="lazy" src="https://images.pexels.com/photos/8988951/pexels-photo-8988951.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Vibrant healthy green houseplant goal">
+      <img data-template-id="healthy-plant" class="canva-image" loading="lazy" src="images/plant_detective/healthy_plant.png" alt="Vibrant healthy green houseplant goal">
     </div>
    </div>
    <div id="controls" class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-xl mx-auto mb-2">
-    <div class="flex flex-col items-center gap-2"><button class="control-btn bg-blue-400 text-white" aria-label="More Water" data-action="water-more">▲</button> <span data-template-id="label-water" class="canva-text font-medium text-sm" style="color: rgb(21, 101, 192); font-weight: 400; font-style: normal; font-size: 18px;">💧 Water</span> <button class="control-btn bg-blue-200 text-blue-800" aria-label="Less Water" data-action="water-less">▼</button>
+    <div class="flex flex-col items-center gap-2">
+      <button class="control-btn bg-blue-400 text-white" aria-label="More Water" data-action="water-more">▲</button> 
+      <span data-template-id="label-water" class="canva-text font-medium text-sm" style="color: rgb(21, 101, 192); font-weight: 400; font-style: normal; font-size: 18px;">💧 Water</span> 
+      <button class="control-btn bg-blue-200 text-blue-800" aria-label="Less Water" data-action="water-less">▼</button>
     </div>
-    <div class="flex flex-col items-center gap-2"><button class="control-btn bg-yellow-400 text-white" aria-label="More Sunlight" data-action="sunlight-more">▲</button> <span data-template-id="label-sunlight" class="canva-text font-medium text-sm" style="color: rgb(245, 127, 23); font-weight: 400; font-style: normal; font-size: 18px;">☀️ Sunlight</span> <button class="control-btn bg-yellow-200 text-yellow-800" aria-label="Less Sunlight" data-action="sunlight-less">▼</button>
+    <div class="flex flex-col items-center gap-2">
+      <button class="control-btn bg-yellow-400 text-white" aria-label="More Sunlight" data-action="sunlight-more">▲</button> 
+      <span data-template-id="label-sunlight" class="canva-text font-medium text-sm" style="color: rgb(245, 127, 23); font-weight: 400; font-style: normal; font-size: 18px;">☀️ Sunlight</span> 
+      <button class="control-btn bg-yellow-200 text-yellow-800" aria-label="Less Sunlight" data-action="sunlight-less">▼</button>
     </div>
-    <div class="flex flex-col items-center gap-2"><button class="control-btn bg-gray-500 text-white" aria-label="More Carbon Dioxide" data-action="co2-more">▲</button> <span data-template-id="label-co2" class="canva-text font-medium text-sm" style="color: rgb(69, 90, 100); font-weight: 400; font-style: normal; font-size: 18px;">🌬️ CO₂</span> <button class="control-btn bg-gray-200 text-gray-700" aria-label="Less Carbon Dioxide" data-action="co2-less">▼</button>
+    <div class="flex flex-col items-center gap-2">
+      <button class="control-btn bg-gray-500 text-white" aria-label="More Carbon Dioxide" data-action="co2-more">▲</button> 
+      <span data-template-id="label-co2" class="canva-text font-medium text-sm" style="color: rgb(69, 90, 100); font-weight: 400; font-style: normal; font-size: 18px;">🌬️ CO₂</span> 
+      <button class="control-btn bg-gray-200 text-gray-700" aria-label="Less Carbon Dioxide" data-action="co2-less">▼</button>
     </div>
-    <div class="flex flex-col items-center gap-2"><button class="control-btn bg-orange-500 text-white" aria-label="More Nutrients" data-action="nutrients-more">▲</button> <span data-template-id="label-nutrients" class="canva-text font-medium text-sm" style="color: rgb(230, 81, 0); font-weight: 400; font-style: normal; font-size: 18px;">🧪 Nutrients</span> <button class="control-btn bg-orange-200 text-orange-800" aria-label="Less Nutrients" data-action="nutrients-less">▼</button>
+    <div class="flex flex-col items-center gap-2">
+      <button class="control-btn bg-orange-500 text-white" aria-label="More Nutrients" data-action="nutrients-more">▲</button> 
+      <span data-template-id="label-nutrients" class="canva-text font-medium text-sm" style="color: rgb(230, 81, 0); font-weight: 400; font-style: normal; font-size: 18px;">🧪 Nutrients</span> 
+      <button class="control-btn bg-orange-200 text-orange-800" aria-label="Less Nutrients" data-action="nutrients-less">▼</button>
     </div>
    </div>
    <div id="feedback" class="text-center min-h-[2rem] flex items-center justify-center">
