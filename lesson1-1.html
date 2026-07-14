@@ -1678,6 +1678,11 @@ function collectLesson1Data() {
       wonder: []
     },
 
+    plantBuilding: {
+      partsPlaced: [],
+      labelsPlaced: []
+    },
+
     brainstorm: {},
 
     functions: {
@@ -1708,6 +1713,19 @@ function collectLesson1Data() {
         .filter(Boolean);
     }
   });
+
+  /* Plant building */
+  const parts = document.querySelectorAll('.slot');
+  const labels = document.querySelectorAll('.label-slot');
+
+  // Save a boolean for each part and label
+  data.plantBuilding.partsPlaced = Array.from(parts)
+    .filter(slot => slot.classList.contains('filled'))
+    .map(slot => slot.dataset.part);
+
+  data.plantBuilding.labelsPlaced = Array.from(labels)
+    .filter(slot => slot.classList.contains('filled'))
+    .map(slot => slot.dataset.label);
 
   /* First brainstorm */
 
@@ -1795,6 +1813,7 @@ function saveLesson1Data() {
   }
 
   const data = collectLesson1Data();
+  console.log(data.plantBuilding);
 
   localStorage.setItem(
     LESSON1_SAVE_KEY,
@@ -1832,6 +1851,30 @@ function restoreSTWAnswers(savedSTW) {
       input.value = answer;
       addSTW(type);
     });
+  });
+}
+
+function restorePlantBuilding(savedPlantBuilding) {
+  if (!savedPlantBuilding) return;
+
+  (savedPlantBuilding.partsPlaced || []).forEach(partId => {
+    const slot = document.querySelector(
+      `.slot[data-part="${partId}"]`
+    );
+
+    if (slot) {
+      placePart(partId, slot);
+    }
+  });
+  
+  (savedPlantBuilding.labelsPlaced || []).forEach(labelId => {
+    const labelSlot = document.querySelector(
+      `.label-slot[data-label="${labelId}"]`
+    );
+
+    if (labelSlot) {
+      placeLabel(labelId, labelSlot);
+    }
   });
 }
 
@@ -1960,6 +2003,13 @@ function restoreLesson1Data() {
       see: [],
       think: [],
       wonder: []
+    }
+  );
+
+  restorePlantBuilding(
+    savedData.plantBuilding || {
+      partsPlaced: [],
+      labelsPlaced: []
     }
   );
 

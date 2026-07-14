@@ -25,7 +25,7 @@ document.querySelectorAll('#game-parts .part').forEach(part => {
     const t = e.changedTouches[0];
     const el = document.elementFromPoint(t.clientX, t.clientY);
     const slot = el ? el.closest('.slot') : null;
-    if (slot && slot.dataset.part === window._drag1.dataset.part) placePart1(window._drag1.dataset.part, slot);
+    if (slot && slot.dataset.part === window._drag1.dataset.part) placePart(window._drag1.dataset.part, slot);
     window._drag1 = null;
   });
 });
@@ -40,11 +40,11 @@ document.querySelectorAll('#plant-area-1 .slot').forEach(slot => {
     e.preventDefault();
     slot.classList.remove('drag-over');
     const partId = e.dataTransfer.getData('text/plain');
-    if (partId === slot.dataset.part) placePart1(partId, slot);
+    if (partId === slot.dataset.part) placePart(partId, slot);
   });
 });
 
-function placePart1(partId, slot) {
+function placePart(partId, slot) {
   if (placed1.has(partId)) return;
   placed1.add(partId);
   slot.classList.add('filled');
