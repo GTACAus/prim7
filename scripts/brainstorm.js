@@ -98,24 +98,21 @@ function submitBrainstorm(event, number) {
   deleteButton.className = 'delete-answer';
 
   deleteButton.onclick = function() {
-    answerBox.innerHTML = '';
-    answerBox.style.display = 'none';
+  answerBox.innerHTML = '';
+  answerBox.classList.remove('visible');
 
-    input.value = '';
-    input.style.display = 'block';
+  input.value = '';
+  input.style.display = 'block';
 
-    brainstormAnswers[number] = false;
+  brainstormAnswers[number] = false;
 
-    checkBrainstormComplete();
-  };
+  checkBrainstormComplete();
+};
 
   answerBox.appendChild(answerText);
   answerBox.appendChild(deleteButton);
 
-  answerBox.style.display = 'flex';
-  answerBox.style.justifyContent = 'space-between';
-  answerBox.style.alignItems = 'center';
-  answerBox.style.gap = '10px';
+  answerBox.classList.add('visible');
 
   input.style.display = 'none';
 
