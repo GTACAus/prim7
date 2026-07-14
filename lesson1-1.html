@@ -1961,8 +1961,46 @@ function restoreLesson1Data() {
     }
   });
 
-  const completedSections =
+  let completedSections =
   savedData.completedSections || [];
+
+/*
+  This also fixes older saved progress created before
+  completedSections existed.
+*/
+if (completedSections.length === 0) {
+  const unlockedSections =
+    savedData.unlockedSections || ['watch'];
+
+  const progression = [
+    {
+      unlocked: 'build',
+      completed: 'watch'
+    },
+    {
+      unlocked: 'brainstorm',
+      completed: 'build'
+    },
+    {
+      unlocked: 'diagram',
+      completed: 'brainstorm'
+    },
+    {
+      unlocked: 'detective',
+      completed: 'diagram'
+    },
+    {
+      unlocked: 'final-brainstorm',
+      completed: 'detective'
+    }
+  ];
+
+  progression.forEach(step => {
+    if (unlockedSections.includes(step.unlocked)) {
+      completedSections.push(step.completed);
+    }
+  });
+}
 
 completedSections.forEach(sectionId => {
   const section = document.getElementById(sectionId);
@@ -2041,11 +2079,21 @@ document.addEventListener('DOMContentLoaded', function() {
   Save when a Next button opens another section.
 */
 document.addEventListener('click', function(event) {
-  if (event.target.closest('.next-button')) {
-    setTimeout(() => {
-      scheduleLesson1Save();
-    }, 200);
+  const nextButton = event.target.closest('.next-button');
+
+  if (!nextButton) {
+    return;
   }
+
+  const currentSection = nextButton.closest('.section');
+
+  if (currentSection) {
+    currentSection.classList.add('completed');
+  }
+
+  setTimeout(function() {
+    saveLesson1Data();
+  }, 250);
 });
 
 /* ---------- Hidden teacher navigation ---------- */
