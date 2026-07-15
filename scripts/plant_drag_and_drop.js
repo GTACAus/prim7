@@ -10,19 +10,47 @@ function switchGame(game) {
   }
 }
 
+let partGhost = null;
+
 document.querySelectorAll('#game-parts .part').forEach(part => {
-  part.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', part.dataset.part));
+  part.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', part.dataset.part);
+  });
   part.addEventListener('touchstart', e => {
-    e.preventDefault()
+    e.preventDefault();
+    const touch = e.touches[0];
+
+    partGhost = part.cloneNode(true);
+    partGhost.classList.add("drag-ghost");
+    partGhost.classList.add("drag-ghost-part");
+
+    document.body.appendChild(partGhost);
+
+    partGhost.style.left = touch.clientX + "px";
+    partGhost.style.top = touch.clientY + "px";
+
     window._drag1 = part;
   }, {
     passive: true
   });
-  part.addEventListener('touchmove', e => e.preventDefault(), {
+  part.addEventListener('touchmove', e => {
     e.preventDefault();
+    if (!partGhost) return;
+
+    const touch = e.touches[0];
+
+    partGhost.style.left = touch.clientX + "px";
+    partGhost.style.top = touch.clientY + "px";
+
+  }, {
     passive: false
   });
   part.addEventListener('touchend', e => {
+    if (partGhost) {
+        partGhost.remove();
+        partGhost = null;
+    }
+
     if (!window._drag1) return;
     const t = e.changedTouches[0];
     const el = document.elementFromPoint(t.clientX, t.clientY);
@@ -77,17 +105,44 @@ const total2 = 4;
 
 let labelState = false;
 
+let labelGhost = null;
+
 document.querySelectorAll('#game-labels .part').forEach(part => {
   part.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', part.dataset.label));
   part.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+
+    labelGhost = part.cloneNode(true);
+    labelGhost.classList.add("drag-ghost");
+    labelGhost.classList.add("drag-ghost-label");
+
+    document.body.appendChild(labelGhost);
+
+    labelGhost.style.left = touch.clientX + "px";
+    labelGhost.style.top = touch.clientY + "px";
+
     window._drag2 = part;
   }, {
     passive: true
   });
-  part.addEventListener('touchmove', e => e.preventDefault(), {
+  part.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (!labelGhost) return;
+
+    const touch = e.touches[0];
+
+    labelGhost.style.left = touch.clientX + "px";
+    labelGhost.style.top = touch.clientY + "px";
+  }, {
     passive: false
   });
   part.addEventListener('touchend', e => {
+    if (labelGhost) {
+        labelGhost.remove();
+        labelGhost = null;
+    }
+
     if (!window._drag2) return;
     const t = e.changedTouches[0];
     const el = document.elementFromPoint(t.clientX, t.clientY);

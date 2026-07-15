@@ -1287,6 +1287,22 @@ body {
         border-radius: 20px;
     }    
 
+    .drag-ghost {
+      position: fixed;
+      /* width: 50%; */
+      /* height: 50%; */
+      pointer-events: none;  /* don't block elementFromPoint() */
+      opacity: 0.7;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: none;
+    }
+
+    .drag-ghost-part {
+      width: 50%;
+      height: 50%;
+    }
+
     .slot {
       position: absolute;
       display: flex;
