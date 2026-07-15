@@ -752,7 +752,7 @@
       cursor: pointer;
     }
 
-    .home-button {
+    .top-button {
   position: fixed;
   top: 20px;
   left: 20px;
@@ -779,7 +779,7 @@
   transition: 0.2s;
 }
 
-.home-button:hover{
+.top-button:hover{
     background: var(--soft-blue);
     transform: translateY(-2px);
 }
@@ -787,6 +787,7 @@
     .next-button:hover,
     .glossary-button:hover {
       background: var(--button-hover);
+      transform: translateY(-2px);
     }
 
     #watchNextButton,
@@ -1942,7 +1943,7 @@ body {
 
 .next-button,
 .download-button,
-.home-button,
+.top-button,
 .glossary-button {
   border: 2px solid var(--line);
   border-radius: 12px;
@@ -1988,7 +1989,7 @@ body {
 
 .next-button:active,
 .download-button:active,
-.home-button:active,
+.top-button:active,
 .glossary-button:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 var(--line);
@@ -2003,13 +2004,13 @@ body {
   background: var(--mint);
 }
 
-.home-button,
+.top-button,
 .glossary-button {
   background: var(--card);
   color: var(--text);
 }
 
-.home-button:hover {
+.top-button:hover {
   background: var(--yellow);
 }
 
@@ -2613,12 +2614,12 @@ body {
     height: 120px;
   }
 
-  .home-button,
+  .top-button,
   .glossary-button {
     top: 14px;
   }
 
-  .home-button {
+  .top-button {
     left: 14px;
   }
 

@@ -17,13 +17,13 @@
 </head>
 
 <body>
-
+  <div id="top"></div>
   <button class="glossary-button" onclick="openGlossary()">
     📖 Vocabulary
   </button>
 
-  <a href="index.html" class="home-button">
-    🏠 Home
+  <a href="#top" class="top-button">
+    🏠 Back to Top
 </a>
 
   <div class="modal" id="glossaryModal">
@@ -632,21 +632,30 @@ Use your detective skills to make observations and come up with an idea for what
     </div>
 
     <div class="final-branch">
-      <h3>Temperature</h3>
+      <h3>Soil</h3>
       <div class="final-input-row">
-        <input id="final-temperature-input" type="text" placeholder="Why does temperature matter?" onkeydown="submitFinalAnswerOnEnter(event, 'temperature')">
-        <button onclick="submitFinalAnswer('temperature')">Add</button>
+        <input id="final-soil-input" type="text" placeholder="Why does soil matter?" onkeydown="submitFinalAnswerOnEnter(event, 'soil')">
+        <button onclick="submitFinalAnswer('soil')">Add</button>
       </div>
-      <ul id="final-temperature-list" class="final-answer-list"></ul>
+      <ul id="final-soil-list" class="final-answer-list"></ul>
     </div>
 
     <div class="final-branch">
-      <h3>Fertiliser</h3>
+      <h3>Carbon Dioxide</h3>
       <div class="final-input-row">
-        <input id="final-fertiliser-input" type="text" placeholder="Why might plants need fertiliser?" onkeydown="submitFinalAnswerOnEnter(event, 'fertiliser')">
-        <button onclick="submitFinalAnswer('fertiliser')">Add</button>
+        <input id="final-co2-input" type="text" placeholder="Why might plants need carbon dioxide?" onkeydown="submitFinalAnswerOnEnter(event, 'co2')">
+        <button onclick="submitFinalAnswer('co2')">Add</button>
       </div>
-      <ul id="final-fertiliser-list" class="final-answer-list"></ul>
+      <ul id="final-co2-list" class="final-answer-list"></ul>
+    </div>
+
+    <div class="final-branch">
+      <h3>Oxygen</h3>
+      <div class="final-input-row">
+        <input id="final-oxygen-input" type="text" placeholder="Why might plants need oxygen?" onkeydown="submitFinalAnswerOnEnter(event, 'oxygen')">
+        <button onclick="submitFinalAnswer('oxygen')">Add</button>
+      </div>
+      <ul id="final-oxygen-list" class="final-answer-list"></ul>
     </div>
   </div>
 </section>
@@ -913,8 +922,9 @@ function collectLesson1Data() {
       water: [],
       sunlight: [],
       nutrients: [],
-      temperature: [],
-      fertiliser: []
+      soil: [],
+      co2: [],
+      oxygen: []
     },
 
     unlockedSections: [],
@@ -988,8 +998,9 @@ function collectLesson1Data() {
     'water',
     'sunlight',
     'nutrients',
-    'temperature',
-    'fertiliser'
+    'soil',
+    'co2',
+    'oxygen'
   ].forEach(type => {
     const list = document.getElementById(
       'final-' + type + '-list'
@@ -1168,8 +1179,9 @@ function restoreFinalBrainstorm(savedFinalBrainstorm) {
     'water',
     'sunlight',
     'nutrients',
-    'temperature',
-    'fertiliser'
+    'soil',
+    'co2',
+    'oxygen'
   ].forEach(type => {
     const answers = savedFinalBrainstorm[type] || [];
     const input = document.getElementById(
@@ -1328,8 +1340,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('final-water-list'),
     document.getElementById('final-sunlight-list'),
     document.getElementById('final-nutrients-list'),
-    document.getElementById('final-temperature-list'),
-    document.getElementById('final-fertiliser-list')
+    document.getElementById('final-soil-list'),
+    document.getElementById('final-co2-list'),
+    document.getElementById('final-oxygen-list')
   ];
 
   areasToWatch.forEach(area => {
