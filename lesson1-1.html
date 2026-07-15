@@ -16,33 +16,36 @@
 
   <style>
     :root {
-  /* GTAC-inspired core palette */
-  --bg: #F7F2DF;
-  --card: #FFFDF4;
+  /* Core GTAC palette */
+  --cream: #F7F2DF;
+  --paper: #FFFDF4;
+  --yellow: #FFC91C;
+  --orange: #FF6B3D;
+  --green: #00C77A;
+  --mint: #67E5C1;
+  --purple: #4E32E8;
+  --lavender: #B8A4FF;
+  --blue: #75DDE8;
+  --charcoal: #30332F;
 
-  --gtac-yellow: #FFC91C;
-  --gtac-orange: #FF6B3D;
-  --gtac-green: #00C77A;
-  --gtac-mint: #67E5C1;
-  --gtac-purple: #4E32E8;
-  --gtac-lavender: #B8A4FF;
-  --gtac-blue: #75DDE8;
+  /* Functional aliases */
+  --bg: var(--cream);
+  --card: var(--paper);
+  --text: var(--charcoal);
+  --muted: #62655F;
+  --line: var(--charcoal);
 
-  --soft-green: #DDF7E9;
-  --soft-blue: #DFF5F7;
-  --soft-yellow: #FFF3B8;
-  --soft-orange: #FFD9CB;
-  --soft-purple: #E8E1FF;
+  --soft-yellow: #FFF0A8;
+  --soft-orange: #FFD3C3;
+  --soft-green: #D7F5E9;
+  --soft-purple: #DED7FF;
+  --soft-blue: #D7F2F4;
 
-  --text: #282B27;
-  --muted: #626861;
-  --line: #30332F;
+  --button: var(--green);
+  --button-hover: var(--purple);
 
-  --button: var(--gtac-green);
-  --button-hover: #00A965;
-
-  --shadow-small: 0 4px 0 #30332F;
-  --shadow-medium: 0 7px 0 #30332F;
+  --shadow-small: 0 4px 0 var(--charcoal);
+  --shadow-medium: 0 6px 0 var(--charcoal);
 }
 
     * {
