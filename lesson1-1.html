@@ -19,53 +19,106 @@
 <body>
   <div id="top"></div>
   <button class="glossary-button" onclick="openGlossary()">
-    📖 Vocabulary
-  </button>
+  📖 Vocabulary
+</button>
 
-  <a href="#top" class="top-button">
-    🏠 Back to Top
+<a
+  class="worksheet-button"
+  href="plant-worksheet.pdf"
+  download>
+  📄 Download worksheet
+</a>
+
+<a href="index.html" class="home-button">
+  🏠 Home
 </a>
 
   <div class="modal" id="glossaryModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Vocabulary List</h2>
-        <button class="close-button" onclick="closeGlossary()">×</button>
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <div>
+        <p class="teacher-label">Lesson 1: Structure &amp; Function of a Plant</p>
+        <h2>Glossary Terms</h2>
       </div>
 
-      <div class="vocab-list">
-        <div class="vocab-card">
-          <h3>Stem</h3>
-          <p>The stem holds the plant upright and carries water and nutrients to different parts of the plant.</p>
-        </div>
+      <button
+        class="close-button"
+        onclick="closeGlossary()"
+        aria-label="Close glossary">
+        ×
+      </button>
+    </div>
 
-        <div class="vocab-card">
-          <h3>Bud</h3>
-          <p>A bud is a small growth on a plant that can develop into a leaf, flower, or new shoot.</p>
-        </div>
+    <div class="vocab-list">
 
-        <div class="vocab-card">
-          <h3>Roots</h3>
-          <p>Roots hold the plant in the soil and absorb water and nutrients from the ground.</p>
-        </div>
-
-        <div class="vocab-card">
-          <h3>Leaf</h3>
-          <p>A leaf captures sunlight and helps the plant make food.</p>
-        </div>
-
-        <div class="vocab-card">
-          <h3>Flower</h3>
-          <p>A flower is the part of some plants that helps the plant make seeds.</p>
-        </div>
-
-        <div class="vocab-card">
-          <h3>Seed</h3>
-          <p>A seed can grow into a new plant when it has the right conditions.</p>
-        </div>
+      <div class="vocab-card">
+        <h3>Botanist</h3>
+        <p>
+          A scientist who studies plants.
+        </p>
       </div>
+
+      <div class="vocab-card">
+        <h3>Diagnose</h3>
+        <p>
+          To identify what is wrong with a living thing by carefully examining
+          it and looking for clues about what physical condition may be missing
+          or out of balance.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Function</h3>
+        <p>
+          The job or role that a part of a plant performs to help it survive.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Germinate</h3>
+        <p>
+          When a seed begins to sprout and grow into a new plant after absorbing
+          water and being exposed to the right temperature and conditions.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Investigate</h3>
+        <p>
+          To carefully examine and gather information about something in order
+          to find an answer or understand it better.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Nutrients</h3>
+        <p>
+          Substances found in soil and water that plants absorb through their
+          roots to grow and stay healthy.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Observe / Observation</h3>
+        <p>
+          Information gathered by using your senses—sight, hearing, touch,
+          smell, or taste—to carefully notice and describe something in the
+          world around you.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Structure</h3>
+        <p>
+          A physical part of a plant, such as the roots, stem, leaves, flower,
+          or fruit, that has a specific job.
+        </p>
+      </div>
+
     </div>
   </div>
+</div>
 
   <div class="teacher-modal" id="teacherModal">
   <div class="teacher-panel">
@@ -165,7 +218,7 @@
 
       <p>
         In this lesson, you will become a plant detective. You will investigate
-        why plants become sick and work out how to make them healthy again.
+        why plants become unhealthy and work out how to make them healthy again.
       </p>
     </div>
   </div>
@@ -190,7 +243,7 @@
 
     <li>
       I can compare healthy and unhealthy plants to identify which physical
-      condition needs to change to treat the unhealthy plant.
+      condition to change to make it healthy again.
     </li>
   </ol>
 </section>
@@ -303,7 +356,7 @@
       <h2 class="section-title">The structure of a flowering plant</h2>
       <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
-          Use what you learned from the previous timelapse video to build and label a plant.
+          Watching time lapse videos of plants helps us to observe the behaviour of plants. As a <strong>botanist</strong> you want to be sure you use the correct terms when talking about plants. To remind yourself of the major parts of a flowering plant complete this drag and drop activity.
         </p>
       </div>
       <div class="plant-game">
@@ -414,7 +467,9 @@
 
   <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
-          What do plants need to grow and survive? Add your ideas to at least four sticky notes.
+          <strong>Botanists</strong> like to collaborate and share ideas with one another when they are investigating plants. One way to do this is to brainstorm to think of new ideas.  
+In this activity you can work on your own or in a team to brainstorm ideas to explore the question, what are the <strong>physical conditions</strong> that plants require to grow and survive.  Come up with as many ideas as you can. You can use the picture to help you think of ideas.
+
         </p>
       </div>
 
@@ -514,13 +569,12 @@
 
     <section class="section locked" id="diagram">
       <h2 class="section-title">Why do plants need the right physical conditions to survive?</h2>
-      <a class="download-button" href="plant-worksheet.pdf" download>Download worksheet</a>
 
       <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
           Some of the physical conditions that plants need to grow include sunlight, soil, water, carbon dioxide, oxygen, nutrients, and temperature.
-          Use the diagram and interactive <i><strong>thinglink</strong></i> to investigate why they need these factors. You will also explore the function of different
-          parts of the plant.
+          Use the diagram and interactive video to investigate why they need these factors. You will also explore the function of different
+          parts of the plant. 
         </p>
       </div>
 
@@ -574,11 +628,11 @@
     </section>
 
     <section class="section locked" id="detective">
-  <h2 class="section-title">Can you solve the mystery of the sick plants?</h2>
+  <h2 class="section-title">Can you solve the mystery of the unhealthy plants?</h2>
 
   <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
-          Botanists, farmers, nursery workers and gardeners often need to be plant detectives to solve the mystery of unhealthy plants. They think about the physical factors that plants need to be healthy and how too much or too little of each factor can cause a plant to become unhealthy.
+          Botanists, farmers, nursery workers and gardeners often need to be plant detectives to solve the mystery of unhealthy plants. They think about the <strong>physical conditions</strong> that plants need to be healthy and how too much or too little of each factor can cause a plant to become unhealthy.
 Use your detective skills to make observations and come up with an idea for what each plant might need to become healthy again. Test your idea and see if you can solve the mystery for each unhealthy plant.
         </p>
       </div>
@@ -601,7 +655,7 @@ Use your detective skills to make observations and come up with an idea for what
 
   <div class="final-brainstorm-box">
     <div class="final-brainstorm-centre">
-      Why do plants need these things?
+      Why do plants need these physical conditions?
     </div>
 
     <div class="final-branch">
