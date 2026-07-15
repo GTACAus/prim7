@@ -249,6 +249,706 @@ body {
       color: #2d5016;
     }
 
+    
+/* ==================================================
+   GTAC VISUAL THEME OVERRIDES
+   Paste immediately before </style>
+   ================================================== */
+
+/* ---------- Overall page ---------- */
+
+body {
+  background:
+    radial-gradient(
+      circle at 7% 4%,
+      rgba(255, 201, 28, 0.22),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 94% 8%,
+      rgba(103, 229, 193, 0.22),
+      transparent 24%
+    ),
+    var(--bg);
+
+  color: var(--text);
+}
+
+.page {
+  width: min(1180px, 94%);
+  padding-top: 38px;
+}
+
+/* ---------- Lesson heading ---------- */
+
+.lesson-intro {
+  position: relative;
+  padding-top: 70px;
+  margin-bottom: 34px;
+}
+
+.lesson-intro::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 0;
+  right: 0;
+
+  height: 8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--gtac-yellow) 0 20%,
+      var(--gtac-orange) 20% 40%,
+      var(--gtac-green) 40% 60%,
+      var(--gtac-purple) 60% 80%,
+      var(--gtac-mint) 80% 100%
+    );
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+}
+
+.lesson-heading {
+  max-width: 900px;
+}
+
+.lesson-label {
+  padding: 8px 16px;
+
+  background: var(--gtac-purple);
+  color: white;
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  box-shadow: 0 3px 0 var(--line);
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lesson-heading h1 {
+  color: var(--text);
+
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.lesson-summary {
+  color: var(--muted);
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+
+/* ---------- Mission card ---------- */
+
+.botanist-mission {
+  position: relative;
+
+  padding: 26px;
+
+  background: var(--gtac-yellow);
+  border: 3px solid var(--line);
+  border-radius: 26px;
+
+  box-shadow: var(--shadow-medium);
+}
+
+.botanist-mission::after {
+  content: "";
+  position: absolute;
+  left: 44px;
+  bottom: -24px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 24px solid transparent;
+  border-right: 24px solid transparent;
+  border-top: 24px solid var(--line);
+
+  z-index: -1;
+}
+
+.mission-icon {
+  width: 132px;
+  height: 132px;
+
+  border: 3px solid var(--line);
+  border-radius: 24px;
+
+  background: white;
+
+  box-shadow: 0 5px 0 rgba(48, 51, 47, 0.25);
+}
+
+.botanist-mission h2 {
+  margin-bottom: 8px;
+
+  color: var(--gtac-purple);
+
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.botanist-mission p {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.intro-eyebrow {
+  color: var(--gtac-purple) !important;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+/* ---------- Introduction cards ---------- */
+
+.intro-grid {
+  margin-top: 30px;
+  gap: 22px;
+}
+
+.intro-card {
+  position: relative;
+
+  padding: 24px;
+
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 24px;
+
+  box-shadow: var(--shadow-small);
+}
+
+.intro-card::before {
+  content: "";
+  display: block;
+
+  width: 58%;
+  margin: 2px 0 18px;
+
+  border-top: 3px dashed var(--gtac-mint);
+}
+
+.objectives-card {
+  border-top: 12px solid var(--gtac-orange);
+}
+
+.observation-card {
+  border-top: 12px solid var(--gtac-purple);
+}
+
+.learning-objective-text {
+  background: var(--soft-yellow);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.objective-list li {
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
+}
+
+.objective-list li::before {
+  background: var(--gtac-yellow);
+  border: 2px solid var(--line);
+
+  color: var(--text);
+}
+
+.stw-explanation div {
+  background: var(--soft-yellow);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+}
+
+.stw-explanation div:nth-child(2) {
+  background: var(--soft-green);
+}
+
+.stw-explanation div:nth-child(3) {
+  background: var(--soft-purple);
+}
+
+.watch-instruction {
+  background: var(--soft-blue);
+  border: 2px solid var(--line);
+}
+
+/* ---------- Main lesson sections ---------- */
+
+.section {
+  position: relative;
+
+  margin-bottom: 34px;
+  padding: 26px;
+
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 26px;
+
+  box-shadow: var(--shadow-medium);
+}
+
+.section:nth-of-type(odd) {
+  border-top-color: var(--gtac-orange);
+}
+
+.section:nth-of-type(even) {
+  border-top-color: var(--gtac-purple);
+}
+
+.section-title {
+  position: relative;
+
+  margin-bottom: 20px;
+  padding: 9px 17px;
+
+  background: var(--gtac-yellow);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  box-shadow: 0 3px 0 var(--line);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+/* ---------- Video and See Think Wonder ---------- */
+
+.video-box {
+  background: #101110;
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.think-box {
+  background: var(--soft-yellow);
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.stw-column {
+  padding: 17px;
+  border-bottom: 2px dashed rgba(48, 51, 47, 0.32);
+}
+
+.stw-column h3 {
+  color: var(--gtac-purple);
+
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stw-input-row input,
+.function-row input,
+.final-input-row input,
+.postit-answer input {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  background: white;
+
+  box-shadow: inset 0 -2px 0 rgba(48, 51, 47, 0.09);
+
+  font-family: inherit;
+}
+
+.stw-input-row input:focus,
+.function-row input:focus,
+.final-input-row input:focus {
+  outline: 3px solid rgba(78, 50, 232, 0.18);
+  border-color: var(--gtac-purple);
+}
+
+.stw-input-row button,
+.final-input-row button {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  background: var(--gtac-green);
+  color: white;
+
+  box-shadow: 0 3px 0 var(--line);
+
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.stw-input-row button:hover,
+.final-input-row button:hover {
+  background: var(--gtac-purple);
+  transform: translateY(-1px);
+}
+
+.stw-list li,
+.final-answer-list li {
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-shadow: 0 2px 0 rgba(48, 51, 47, 0.2);
+}
+
+.delete-answer {
+  flex: 0 0 auto;
+
+  background: var(--soft-orange);
+  border: 2px solid var(--line);
+
+  box-shadow: none;
+}
+
+/* ---------- Plant builder ---------- */
+
+.plant-canvas {
+  background:
+    radial-gradient(
+      circle,
+      rgba(78, 50, 232, 0.10) 1.5px,
+      transparent 1.5px
+    ),
+    var(--card);
+
+  background-size: 22px 22px;
+
+  border: 3px solid var(--line);
+  border-radius: 22px;
+}
+
+.plant-game-container {
+  width: 100%;
+  margin: 0;
+}
+
+.tab-button {
+  padding: 10px;
+
+  background: var(--gtac-purple);
+  border: 3px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.tab-button .option-button,
+.tab-button button {
+  border: 2px solid var(--line) !important;
+  border-radius: 12px !important;
+
+  background: var(--soft-purple);
+  color: var(--text);
+
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.tab-button .active,
+.tab-button button.active {
+  background: var(--gtac-yellow) !important;
+}
+
+.canva-section {
+  border: 2px solid var(--line);
+  border-radius: 18px !important;
+
+  background: var(--card) !important;
+}
+
+/* ---------- Post-it brainstorm ---------- */
+
+.postit-brainstorm {
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.postit-answer input {
+  border: 2px solid rgba(48, 51, 47, 0.75);
+
+  background: rgba(255, 253, 244, 0.86);
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.postit-answer .brainstorm-answer {
+  border: 2px solid var(--line);
+
+  background: rgba(255, 253, 244, 0.92);
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.22);
+}
+
+/* ---------- Diagram ---------- */
+
+.diagram-activity,
+.thinglink-box {
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.diagram-activity {
+  background: var(--card);
+}
+
+.plant-image-box {
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 199, 122, 0.16) 2px,
+      transparent 2px
+    ),
+    var(--soft-green);
+
+  background-size: 24px 24px;
+
+  border: 2px dashed var(--gtac-green);
+}
+
+.function-answer {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  background: var(--soft-green);
+}
+
+/* ---------- Download and navigation buttons ---------- */
+
+.next-button,
+.download-button,
+.home-button,
+.glossary-button {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-shadow: 0 4px 0 var(--line);
+
+  font-family: inherit;
+  font-weight: 700;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.next-button {
+  background: var(--gtac-orange);
+  color: white;
+}
+
+.next-button::after {
+  content: " →";
+}
+
+.next-button:hover {
+  background: var(--gtac-purple);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.next-button:active,
+.download-button:active,
+.home-button:active,
+.glossary-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.download-button {
+  background: var(--gtac-yellow);
+  color: var(--text);
+}
+
+.download-button:hover {
+  background: var(--gtac-mint);
+}
+
+.home-button,
+.glossary-button {
+  background: var(--card);
+  color: var(--text);
+}
+
+.home-button:hover {
+  background: var(--gtac-yellow);
+}
+
+.glossary-button:hover {
+  background: var(--soft-purple);
+}
+
+/* ---------- Completion message ---------- */
+
+.completed-note {
+  display: none;
+
+  width: fit-content;
+  padding: 9px 13px;
+
+  background: var(--soft-green);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.section.completed .completed-note {
+  display: block;
+}
+
+/* ---------- Detective section ---------- */
+
+.detective-embed-box {
+  background: var(--soft-blue);
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow: 0 6px 0 var(--line);
+}
+
+/* ---------- Final brainstorm ---------- */
+
+.final-brainstorm-box {
+  background: var(--gtac-yellow);
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.final-brainstorm-centre {
+  background: var(--gtac-purple);
+  color: white;
+
+  border: 3px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.final-branch {
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 18px;
+
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.final-branch h3 {
+  color: var(--gtac-purple);
+  text-transform: uppercase;
+}
+
+/* ---------- Modals ---------- */
+
+.modal-content,
+.teacher-panel {
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 24px;
+
+  box-shadow: 0 8px 0 var(--line);
+}
+
+.vocab-card,
+.teacher-section-list button {
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+}
+
+.vocab-card:nth-child(4n + 1) {
+  border-left: 10px solid var(--gtac-yellow);
+}
+
+.vocab-card:nth-child(4n + 2) {
+  border-left: 10px solid var(--gtac-orange);
+}
+
+.vocab-card:nth-child(4n + 3) {
+  border-left: 10px solid var(--gtac-green);
+}
+
+.vocab-card:nth-child(4n + 4) {
+  border-left: 10px solid var(--gtac-purple);
+}
+
+.teacher-section-list button:hover {
+  background: var(--soft-yellow);
+}
+
+.teacher-secondary-button {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  background: var(--soft-purple);
+
+  box-shadow: 0 3px 0 var(--line);
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 800px) {
+  .section {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .lesson-intro {
+    padding-top: 92px;
+  }
+
+  .botanist-mission {
+    flex-direction: column;
+  }
+
+  .mission-icon {
+    width: 120px;
+    height: 120px;
+  }
+
+  .home-button,
+  .glossary-button {
+    top: 14px;
+  }
+
+  .home-button {
+    left: 14px;
+  }
+
+  .glossary-button {
+    right: 14px;
+    left: auto;
+  }
+}
+
     @keyframes bounce-in {
       0% { transform: scale(0); }
       50% { transform: scale(1.2); }
