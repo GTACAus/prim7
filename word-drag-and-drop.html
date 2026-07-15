@@ -88,11 +88,18 @@
             { text: "Plants make sugar to get energy to grow. This occurs in the leaves using {0}, {1}, and {2}.", answers: ["sunlight","carbon dioxide","water"], flexible: true },
             { text: "Roots grow through {0} and this helps to keep the plant anchored.", answers: ["soil"], flexible: false },
             { text: "{0} moves from soil to roots, travels up the stem, and evaporates from the leaves. This helps the plant stay upright.", answers: ["water"], flexible: false },
-            { text: "{0} in the soil are dissolved in water and enter the roots to travel around the plant.", answers: ["Nutrients"], flexible: false },
-            { text: "{0} is found in pores in the soil and is needed to keep roots healthy. If plants are over-watered, they don't get enough oxygen.", answers: ["Oxygen"], flexible: false }
+            { text: "{0} in the soil are dissolved in water and enter the roots to travel around the plant.", answers: ["nutrients"], flexible: false },
+            { text: "{0} is found in pores in the soil and is needed to keep roots healthy. If plants are over-watered, they don't get enough oxygen.", answers: ["oxygen"], flexible: false }
         ];
 
-        const allWords = ["sunlight","carbon dioxide","water","soil","Nutrients","Oxygen"];
+        const allWords = [
+  "sunlight",
+  "carbon dioxide",
+  "water",
+  "soil",
+  "nutrients",
+  "oxygen"
+];
         let placed = {}; // key: "sentIdx-slotIdx", value: word
         let draggedWord = null;
         let draggedFromSlot = null;
@@ -175,8 +182,18 @@
                 
                 let isValid = false;
                 if (sentence.flexible) {
-                    isValid = sentence.answers.map(a => a.toLowerCase()).includes(word.toLowerCase());
-                } else {
+  const isAllowedAnswer = sentence.answers
+    .map(answer => answer.toLowerCase())
+    .includes(word.toLowerCase());
+
+  const isDuplicate = isWordAlreadyUsedInSentence(
+    word,
+    sentIdx,
+    slot
+  );
+
+  isValid = isAllowedAnswer && !isDuplicate;
+} else {
                     isValid = word.toLowerCase() === sentence.answers[slotIdx].toLowerCase();
                 }
                 
@@ -207,6 +224,20 @@
             e.currentTarget.classList.remove('drag-over');
         }
 
+        function isWordAlreadyUsedInSentence(word, sentenceIndex, ignoredSlot = null) {
+  const normalisedWord = word.toLowerCase();
+
+  return Object.entries(placed).some(([slot, placedWord]) => {
+    const [placedSentenceIndex] = slot.split('-').map(Number);
+
+    return (
+      placedSentenceIndex === sentenceIndex &&
+      slot !== ignoredSlot &&
+      placedWord.toLowerCase() === normalisedWord
+    );
+  });
+}
+
         function dropWord(e) {
             e.preventDefault();
             const zone = e.currentTarget;
@@ -219,9 +250,18 @@
             // Check if word is valid for this slot
             let isValid = false;
             if (sentence.flexible) {
-                // Flexible: check if word matches any answer (case-insensitive)
-                isValid = sentence.answers.map(a => a.toLowerCase()).includes(word.toLowerCase());
-            } else {
+  const isAllowedAnswer = sentence.answers
+    .map(answer => answer.toLowerCase())
+    .includes(word.toLowerCase());
+
+  const isDuplicate = isWordAlreadyUsedInSentence(
+    word,
+    sentIdx,
+    slot
+  );
+
+  isValid = isAllowedAnswer && !isDuplicate;
+} else {
                 // Strict: check exact slot match (case-insensitive)
                 isValid = word.toLowerCase() === sentence.answers[slotIdx].toLowerCase();
             }
@@ -299,8 +339,18 @@
                     
                     let isValid = false;
                     if (sentence.flexible) {
-                        isValid = sentence.answers.map(a => a.toLowerCase()).includes(draggedWord.toLowerCase());
-                    } else {
+  const isAllowedAnswer = sentence.answers
+    .map(answer => answer.toLowerCase())
+    .includes(draggedWord.toLowerCase());
+
+  const isDuplicate = isWordAlreadyUsedInSentence(
+    draggedWord,
+    sentIdx,
+    sourceSlot
+  );
+
+  isValid = isAllowedAnswer && !isDuplicate;
+} else {
                         isValid = draggedWord.toLowerCase() === sentence.answers[slotIdx].toLowerCase();
                     }
                     
