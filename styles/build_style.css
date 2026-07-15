@@ -637,55 +637,11 @@
 }
 
 @media (max-width: 800px) {
-  .postit-brainstorm {
-    aspect-ratio: 1 / 1.15;
-    background-position: center;
-  }
-
   .postit-answer {
-    width: 22%;
-    height: 13%;
+    width: 20%;
+    height: 20%;
   }
-
-  .postit-1 {
-    top: 13%;
-    left: 5%;
-  }
-
-  .postit-2 {
-    top: 13%;
-    left: 39%;
-  }
-
-  .postit-3 {
-    top: 13%;
-    right: 5%;
-  }
-
-  .postit-4 {
-    top: 43%;
-    left: 5%;
-  }
-
-  .postit-5 {
-    top: 43%;
-    right: 5%;
-  }
-
-  .postit-6 {
-    bottom: 10%;
-    left: 5%;
-  }
-
-  .postit-7 {
-    bottom: 10%;
-    left: 39%;
-  }
-
-  .postit-8 {
-    bottom: 10%;
-    right: 5%;
-  }
+  
 }
 
     .diagram-activity {
@@ -1215,7 +1171,7 @@
   }
 
   .detective-iframe {
-    height: 900px;
+    height: 1250px;
   }
 
   .video-row,
