@@ -5,147 +5,18 @@
   <title>Plant Needs Game</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link href="styles/build_style.css" rel="stylesheet" type="text/css">
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <style>
     /* Root layout */
     html, body {
-      overflow: hidden !important;
-      height: 100%;
-    }
+  min-height: 100%;
+  height: auto;
+  overflow: visible;
+}
     
     body {
       font-family: 'DM Sans', sans-serif;
-    }
-
-    /* Plant comparison container */
-    #plant-comparison {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      margin-top: 0.5rem;
-    }
-
-    @media (min-width: 900px) {
-      #plant-comparison {
-        flex-direction: row;
-        gap: 0.5rem;
-      }
-    }
-
-    /* Plant image frames - left and right */
-    #left-frame,
-    #right-frame {
-      width: clamp(6rem, 35vw, 16rem);
-      aspect-ratio: 1;
-      flex-shrink: 0;
-      position: relative;
-      border-radius: 0.75rem;
-      overflow: hidden;
-      border: 3px solid;
-      background-color: #fef3c7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: width 0.3s ease;
-    }
-
-    @media (max-width: 899px) {
-      #left-frame,
-      #right-frame {
-        width: clamp(5rem, 30vw, 12rem);
-      }
-    }
-
-    #right-frame {
-      border-color: #4ade80;
-      background-color: #f0fdf4;
-    }
-
-    #left-frame {
-      border-color: #fcd34d;
-      background-color: #fef3c7;
-    }
-
-    /* Arrow separator */
-    #arrow-separator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      color: #16a34a;
-    }
-
-    #arrow-separator::before {
-      font-size: 2rem;
-      color: #16a34a;
-      font-weight: bold;
-    }
-
-    @media (min-width: 900px) {
-      #arrow-separator::before {
-        content: '→';
-      }
-    }
-
-    @media (max-width: 899px) {
-      #arrow-separator::before {
-        content: '↓';
-      }
-    }
-
-    #right-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Plant image positioning */
-    .scenario-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Control buttons styling */
-    .control-btn {
-      width: 100px;
-      height: 26px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.1s;
-    }
-
-    .control-btn:active {
-      transform: scale(0.9);
-    }
-
-    .control-btn:focus-visible {
-      outline: 3px solid #000;
-      outline-offset: 2px;
-    }
-
-    /* Control grid container */
-    #controls {
-      margin-top: 2.5rem;
-      overflow: hidden !important;
-    }
-
-    @media (max-width: 1023px) {
-      #controls {
-        margin-top: 0.5rem;
-      }
     }
 
     /* Animations */
@@ -173,14 +44,36 @@
   <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
   <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
  </head>
- <body data-template-id="__page-root" class="flex flex-col items-center justify-center p-4" style="height: 100%; background: linear-gradient(90deg, rgb(224, 247, 250), rgb(255, 249, 196));">
-  <header class="text-center mb-2">
-   <h1 data-template-id="game-title" class="canva-text font-bold" style="color: rgb(46, 125, 50); font-weight: 700; font-style: normal; font-size: 32px;">🌱 Plant Needs Game</h1>
-   <p id="score-display" class="text-xs font-medium mt-0.5 text-green-700"></p>
-  </header>
-  <main id="game-area" class="w-full flex flex-col items-center justify-start overflow-y-auto overflow-x-hidden" style="max-height: calc(100 * min(var(--vh, 1vh), 1vh));">
-   <p data-template-id="prompt-text" class="canva-text text-center mb-2 font-medium" style="color: rgb(78, 52, 46); font-weight: 400; font-style: normal; font-size: 20px;">What does this plant need?</p>
-   <p id="hint-text" class="text-center text-sm mb-2 text-amber-800 font-medium"></p>
+ <body
+  data-template-id="__page-root"
+  class="plant-detective-page flex flex-col items-center justify-start p-4">
+
+  <header class="detective-header">
+  <span class="detective-label">Plant investigation</span>
+
+  <h1 data-template-id="game-title">
+    Be a plant detective
+  </h1>
+
+  <p class="detective-subtitle">
+    Compare the unhealthy plant with the healthy plant and work out which
+    physical condition needs to change.
+  </p>
+
+  <p id="score-display" class="detective-score"></p>
+</header>
+
+  <main
+  id="game-area"
+  class="w-full flex flex-col items-center justify-start">
+    <div class="detective-question-card">
+  <p data-template-id="prompt-text" class="detective-question">
+    What does this plant need?
+  </p>
+
+  <p id="hint-text" class="detective-hint"></p>
+</div>
+
    <div id="plant-comparison">
     <div id="left-frame">
      <img data-template-id="plant-s1" class="canva-image scenario-img hidden" loading="lazy" src="images/plant_detective/not_enough_water_plant.png" alt="A wilted plant that needs more water"> 
@@ -198,37 +91,114 @@
       <img data-template-id="healthy-plant" class="canva-image" loading="lazy" src="images/plant_detective/healthy_plant.png" alt="Vibrant healthy green houseplant goal">
     </div>
    </div>
-   <div id="controls" class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-xl mx-auto mb-2">
-    <div class="flex flex-col items-center gap-2">
-      <button class="control-btn bg-blue-400 text-white" aria-label="More Water" data-action="water-more">▲</button> 
-      <span data-template-id="label-water" class="canva-text font-medium text-sm" style="color: rgb(21, 101, 192); font-weight: 400; font-style: normal; font-size: 18px;">💧 Water</span> 
-      <button class="control-btn bg-blue-200 text-blue-800" aria-label="Less Water" data-action="water-less">▼</button>
-    </div>
-    <div class="flex flex-col items-center gap-2">
-      <button class="control-btn bg-yellow-400 text-white" aria-label="More Sunlight" data-action="sunlight-more">▲</button> 
-      <span data-template-id="label-sunlight" class="canva-text font-medium text-sm" style="color: rgb(245, 127, 23); font-weight: 400; font-style: normal; font-size: 18px;">☀️ Sunlight</span> 
-      <button class="control-btn bg-yellow-200 text-yellow-800" aria-label="Less Sunlight" data-action="sunlight-less">▼</button>
-    </div>
-    <div class="flex flex-col items-center gap-2">
-      <button class="control-btn bg-gray-500 text-white" aria-label="More Carbon Dioxide" data-action="co2-more">▲</button> 
-      <span data-template-id="label-co2" class="canva-text font-medium text-sm" style="color: rgb(69, 90, 100); font-weight: 400; font-style: normal; font-size: 18px;">🌬️ CO₂</span> 
-      <button class="control-btn bg-gray-200 text-gray-700" aria-label="Less Carbon Dioxide" data-action="co2-less">▼</button>
-    </div>
-    <div class="flex flex-col items-center gap-2">
-      <button class="control-btn bg-orange-500 text-white" aria-label="More Nutrients" data-action="nutrients-more">▲</button> 
-      <span data-template-id="label-nutrients" class="canva-text font-medium text-sm" style="color: rgb(230, 81, 0); font-weight: 400; font-style: normal; font-size: 18px;">🧪 Nutrients</span> 
-      <button class="control-btn bg-orange-200 text-orange-800" aria-label="Less Nutrients" data-action="nutrients-less">▼</button>
-    </div>
-   </div>
-   <div id="feedback" class="text-center min-h-[2rem] flex items-center justify-center">
-    <p id="feedback-text" class="text-lg font-bold text-green-600 hidden"></p>
-   </div>
-  </main>
-  <div id="complete-screen" class="hidden w-full max-w-md text-center">
-   <p class="text-5xl mb-4">🎉</p>
-   <h2 data-template-id="complete-title" class="canva-text font-bold mb-2" style="color: rgb(46, 125, 50); font-weight: 700; font-style: normal; font-size: 28px;">Well done! You helped all the plants! 🌿</h2>
-   <p id="final-score" class="text-xl font-medium text-green-700 mb-6"></p><button id="replay-btn" data-template-id="replay-button" class="canva-button px-8 py-4 rounded-xl text-lg font-bold" style="background: rgb(67, 160, 71); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 18px;">🔄 Play Again</button>
+   <div id="controls" class="detective-controls">
+
+  <div class="detective-control-group water-control">
+    <button
+      class="control-btn control-more"
+      aria-label="More Water"
+      data-action="water-more">
+      ▲
+    </button>
+
+    <span data-template-id="label-water" class="control-label">
+      💧 Water
+    </span>
+
+    <button
+      class="control-btn control-less"
+      aria-label="Less Water"
+      data-action="water-less">
+      ▼
+    </button>
   </div>
+
+  <div class="detective-control-group sunlight-control">
+    <button
+      class="control-btn control-more"
+      aria-label="More Sunlight"
+      data-action="sunlight-more">
+      ▲
+    </button>
+
+    <span data-template-id="label-sunlight" class="control-label">
+      ☀️ Sunlight
+    </span>
+
+    <button
+      class="control-btn control-less"
+      aria-label="Less Sunlight"
+      data-action="sunlight-less">
+      ▼
+    </button>
+  </div>
+
+  <div class="detective-control-group co2-control">
+    <button
+      class="control-btn control-more"
+      aria-label="More Carbon Dioxide"
+      data-action="co2-more">
+      ▲
+    </button>
+
+    <span data-template-id="label-co2" class="control-label">
+      🌬️ CO₂
+    </span>
+
+    <button
+      class="control-btn control-less"
+      aria-label="Less Carbon Dioxide"
+      data-action="co2-less">
+      ▼
+    </button>
+  </div>
+
+  <div class="detective-control-group nutrient-control">
+    <button
+      class="control-btn control-more"
+      aria-label="More Nutrients"
+      data-action="nutrients-more">
+      ▲
+    </button>
+
+    <span data-template-id="label-nutrients" class="control-label">
+      🧪 Nutrients
+    </span>
+
+    <button
+      class="control-btn control-less"
+      aria-label="Less Nutrients"
+      data-action="nutrients-less">
+      ▼
+    </button>
+  </div>
+
+
+</div>
+<div id="feedback">
+  <p id="feedback-text" class="hidden"></p>
+</div>
+  </main>
+
+  <div id="complete-screen" class="hidden detective-complete-screen">
+  <p class="detective-complete-icon">🎉</p>
+
+  <span class="detective-label">Investigation complete</span>
+
+  <h2 data-template-id="complete-title">
+    Well done! You helped all the plants.
+  </h2>
+
+  <p id="final-score" class="detective-final-score"></p>
+
+  <button
+    id="replay-btn"
+    data-template-id="replay-button"
+    class="detective-replay-button">
+    Play again
+  </button>
+</div>
+  
   <script src="/_sdk/719055fef2a85d14.editing_sdk.js" integrity="sha512-kFqrdGgIiTOsu307feB5Cy3JVP9IayftsmCIZ0csxYBGuBmJQPhyvcnmKR8F0fTW97h5s1gAvz3SumI8zJ6OxQ=="></script>
   <script>
     lucide.createIcons();

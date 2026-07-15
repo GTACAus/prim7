@@ -965,12 +965,12 @@
   border: 1px dashed var(--line);
   border-radius: 20px;
   padding: 12px;
-  min-height: 760px;
+  min-height: 960px;
 }
 
 .detective-iframe {
   width: 100%;
-  height: 740px;
+  height: 940px;
   border: none;
   border-radius: 16px;
   background: white;
@@ -1906,6 +1906,25 @@ body {
   box-shadow: 0 3px 0 rgba(48, 51, 47, 0.22);
 }
 
+.image-box {
+    margin: 20px 0;
+
+    border: 3px solid var(--line);
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    background: white;
+
+    box-shadow: 0 5px 0 var(--line);
+}
+
+.image-box img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 /* ---------- Diagram ---------- */
 
 .diagram-activity,
@@ -2130,6 +2149,469 @@ body {
   background: var(--soft-purple);
 
   box-shadow: 0 3px 0 var(--line);
+}
+
+/* ==================================================
+   PLANT DETECTIVE GAME
+   ================================================== */
+
+.plant-detective-page {
+  min-height: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 18px;
+
+  background: var(--cream);
+  color: var(--charcoal);
+
+  font-family: "DM Sans", Arial, sans-serif;
+}
+
+/* ---------- Heading ---------- */
+
+.detective-header {
+  width: min(780px, 100%);
+  margin: 0 auto 12px;
+  text-align: center;
+}
+
+.detective-label {
+  display: inline-block;
+
+  margin-bottom: 8px;
+  padding: 7px 13px;
+
+  background: var(--purple);
+  color: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+
+  box-shadow: 0 3px 0 var(--charcoal);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.detective-header h1 {
+  margin: 5px 0 5px;
+
+  color: var(--charcoal);
+
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.detective-subtitle {
+  max-width: 650px;
+  margin: 0 auto 8px;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.detective-score {
+  display: inline-block;
+
+  margin: 4px 0 0;
+  padding: 6px 11px;
+
+  background: var(--mint);
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+
+  color: var(--charcoal);
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* ---------- Main game area ---------- */
+
+.plant-detective-page #game-area {
+  width: min(900px, 100%);
+  margin: 0 auto;
+
+  padding: 14px 18px 16px;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.detective-question-card {
+  width: min(620px, 100%);
+  margin: 0 auto 10px;
+  padding: 10px 15px;
+
+  background: var(--yellow);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+
+  text-align: center;
+
+  box-shadow: 0 3px 0 var(--charcoal);
+}
+
+.detective-question {
+  margin: 0;
+
+  color: var(--charcoal);
+
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.detective-hint {
+  min-height: 1.3rem;
+  margin: 4px 0 0;
+
+  color: var(--charcoal);
+
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+/* ---------- Plant comparison ---------- */
+
+.plant-detective-page #plant-comparison {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+  margin: 8px 0 12px;
+}
+
+.plant-detective-page #left-frame,
+.plant-detective-page #right-frame {
+  width: clamp(150px, 28vw, 255px);
+  aspect-ratio: 1;
+
+  position: relative;
+  overflow: hidden;
+
+  background: var(--paper);
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--charcoal);
+}
+
+.plant-detective-page #left-frame {
+  border-top: 12px solid var(--orange);
+}
+
+.plant-detective-page #right-frame {
+  border-top: 12px solid var(--green);
+}
+
+/* Keep every plant image inside the same frame during the fade */
+.plant-detective-page #left-frame .scenario-img,
+.plant-detective-page #right-frame img {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.plant-detective-page #left-frame .scenario-img.hidden {
+  display: none;
+}
+
+.plant-detective-page #healthy-overlay {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.plant-detective-page #left-frame::before,
+.plant-detective-page #right-frame::before {
+  display: none;
+  position: absolute;
+  top: 8px;
+  left: 10px;
+
+  z-index: 5;
+
+  padding: 4px 8px;
+
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+
+  color: var(--charcoal);
+
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.plant-detective-page #left-frame::before {
+  content: "Investigate";
+}
+
+.plant-detective-page #right-frame::before {
+  content: "Healthy plant";
+}
+
+.plant-detective-page #arrow-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  background: var(--orange);
+  border: 3px solid var(--charcoal);
+  border-radius: 50%;
+
+  color: white;
+
+  box-shadow: 0 4px 0 var(--charcoal);
+}
+
+.plant-detective-page #arrow-separator::before {
+  content: "→";
+
+  color: white;
+
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+/* ---------- Control panel ---------- */
+
+.detective-controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+
+  width: min(760px, 100%);
+  margin: 10px auto 4px;
+  gap: 12px;
+}
+
+.detective-control-group {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
+  gap: 7px;
+
+  padding: 11px;
+
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 0 var(--charcoal);
+}
+
+.water-control {
+  border-top: 9px solid var(--blue);
+}
+
+.sunlight-control {
+  border-top: 9px solid var(--yellow);
+}
+
+.co2-control {
+  border-top: 9px solid var(--lavender);
+}
+
+.nutrient-control {
+  border-top: 9px solid var(--orange);
+}
+
+.control-label {
+  color: var(--charcoal);
+
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.control-btn {
+  width: 100%;
+  min-width: 76px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+
+  color: var(--charcoal);
+
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  box-shadow: 0 3px 0 var(--charcoal);
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease;
+}
+
+.control-more {
+  background: var(--green);
+  color: white;
+}
+
+.control-less {
+  background: var(--paper);
+}
+
+.control-btn:hover {
+  background: var(--purple);
+  color: white;
+
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 var(--charcoal);
+}
+
+.control-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--charcoal);
+}
+
+.control-btn:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+/* ---------- Feedback ---------- */
+
+.plant-detective-page #feedback {
+  min-height: 38px;
+  margin-top: 8px;
+}
+
+.plant-detective-page #feedback-text {
+  margin: 0;
+  padding: 7px 13px;
+
+  background: var(--mint);
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+
+  color: var(--charcoal);
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  box-shadow: 0 3px 0 var(--charcoal);
+}
+
+/* ---------- Completion screen ---------- */
+
+.detective-complete-screen {
+  width: min(520px, 92%);
+  margin: auto;
+  padding: 30px;
+
+  background: var(--yellow);
+  border: 3px solid var(--charcoal);
+  border-radius: 24px;
+
+  color: var(--charcoal);
+  text-align: center;
+
+  box-shadow: 0 7px 0 var(--charcoal);
+}
+
+.detective-complete-icon {
+  margin: 0 0 8px;
+  font-size: 3rem;
+}
+
+.detective-complete-screen h2 {
+  margin: 12px 0 8px;
+
+  color: var(--charcoal);
+
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.detective-final-score {
+  margin: 0 0 18px;
+
+  color: var(--charcoal);
+
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.detective-replay-button {
+  padding: 11px 20px;
+
+  background: var(--orange);
+  color: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+
+  box-shadow: 0 4px 0 var(--charcoal);
+
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.detective-replay-button:hover {
+  background: var(--purple);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+  .plant-detective-page {
+    padding: 10px;
+  }
+
+  .plant-detective-page #game-area {
+    padding: 12px;
+  }
+
+  .plant-detective-page #plant-comparison {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .plant-detective-page #arrow-separator::before {
+    content: "↓";
+  }
+
+  .detective-controls {
+    grid-template-columns: repeat(2, minmax(105px, 1fr));
+  }
+
+  .plant-detective-page #left-frame,
+  .plant-detective-page #right-frame {
+    width: min(220px, 66vw);
+  }
 }
 
 /* ---------- Mobile ---------- */
