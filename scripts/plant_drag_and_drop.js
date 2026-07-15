@@ -13,11 +13,13 @@ function switchGame(game) {
 document.querySelectorAll('#game-parts .part').forEach(part => {
   part.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', part.dataset.part));
   part.addEventListener('touchstart', e => {
+    e.preventDefault()
     window._drag1 = part;
   }, {
     passive: true
   });
   part.addEventListener('touchmove', e => e.preventDefault(), {
+    e.preventDefault();
     passive: false
   });
   part.addEventListener('touchend', e => {

@@ -306,6 +306,11 @@
 
     <section class="section locked" id="build">
       <h2 class="section-title">Plant Structure</h2>
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Use what you learned from the previous timelapse video to build and label a plant.
+        </p>
+      </div>
       <div class="plant-game">
         <div class="plant-canvas">
           <div class="plant-game-container">
@@ -314,9 +319,6 @@
               <button class="tab option-button" id="tab-labels" onclick="switchGame('labels')">Label the Plant</button>
             </div>
             <main id="game-parts" class="flex flex-col items-center gap-6">
-                <div class="instructions ">
-                  <p data-template-id="game1-instructions" class="canva-text text-center" style="color: rgb(74, 124, 37); font-weight: 500; font-style: normal; font-size: 15px;">Drag each part onto the picture to grow your plant!</p>
-                </div>
                 <div class="plant-area" id="plant-area-1">
                   <div class="plant-image-container">
                     <img class="plant-image" src="images/sunflower.png" alt="Sunflower">
@@ -366,7 +368,6 @@
               </div>
             </main>
             <main id="game-labels" class="hidden flex flex-col items-center gap-6">
-              <p data-template-id="game2-instructions" class="canva-text text-center" style="color: rgb(74, 124, 37); font-weight: 500; font-style: normal; font-size: 15px;">Drag the correct label to each part of the plant!</p>
               <div class="plant-area" id="plant-area-2">
                 <div class="plant-image-container">
                   <img class="plant-image" src="images/sunflower.png" alt="Sunflower">
@@ -533,27 +534,6 @@
           </div>
 
           <div class="plant-functions">
-            <!-- <p class="activity-instruction">
-              Describe in your own words the function of each plant structure:
-            </p>
-
-            <div class="function-row">
-              <label>Leaves:</label>
-              <input id="leavesFunctionInput" type="text" placeholder="What do leaves do?" onkeydown="submitFunctionAnswer(event, 'leaves')">
-              <div id="leavesFunctionAnswer" class="function-answer"></div>
-            </div>
-
-            <div class="function-row">
-              <label>Stem:</label>
-              <input id="stemFunctionInput" type="text" placeholder="What does the stem do?" onkeydown="submitFunctionAnswer(event, 'stem')">
-              <div id="stemFunctionAnswer" class="function-answer"></div>
-            </div>
-
-            <div class="function-row">
-              <label>Roots:</label>
-              <input id="rootsFunctionInput" type="text" placeholder="What do roots do?" onkeydown="submitFunctionAnswer(event, 'roots')">
-              <div id="rootsFunctionAnswer" class="function-answer"></div>
-            </div> -->
             <iframe
               width="100%" 
               height="100%"
