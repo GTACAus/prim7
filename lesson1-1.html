@@ -16,26 +16,42 @@
 
   <style>
     :root {
-      --bg: #F9F6E7;
-      --card: #fffdf5;
-      --soft-green: #DFF4E8;
-      --soft-blue: #E9F0FF;
-      --soft-yellow: #FFF4C7;
-      --soft-orange: #FFE2D6;
-      --text: #3f463f;
-      --muted: #6d746d;
-      --line: rgba(63, 70, 63, 0.18);
-      --button: #00BC74;
-      --button-hover: #009f63;
-    }
+  /* GTAC-inspired core palette */
+  --bg: #F7F2DF;
+  --card: #FFFDF4;
+
+  --gtac-yellow: #FFC91C;
+  --gtac-orange: #FF6B3D;
+  --gtac-green: #00C77A;
+  --gtac-mint: #67E5C1;
+  --gtac-purple: #4E32E8;
+  --gtac-lavender: #B8A4FF;
+  --gtac-blue: #75DDE8;
+
+  --soft-green: #DDF7E9;
+  --soft-blue: #DFF5F7;
+  --soft-yellow: #FFF3B8;
+  --soft-orange: #FFD9CB;
+  --soft-purple: #E8E1FF;
+
+  --text: #282B27;
+  --muted: #626861;
+  --line: #30332F;
+
+  --button: var(--gtac-green);
+  --button-hover: #00A965;
+
+  --shadow-small: 0 4px 0 #30332F;
+  --shadow-medium: 0 7px 0 #30332F;
+}
 
     * {
       box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: "DM Sans", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
@@ -1052,6 +1068,7 @@
   margin-bottom: 8px;
 }
 
+
 /* ---------- Hidden teacher navigation ---------- */
 
 #teacherTrigger {
@@ -1197,7 +1214,6 @@
   .detective-iframe {
     height: 900px;
   }
-}
 
   .video-row,
   .plant-game,
@@ -1208,6 +1224,7 @@
   .label-bank {
     min-height: 160px;
   }
+}
 
   </style>
 </head>
