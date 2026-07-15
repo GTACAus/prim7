@@ -709,12 +709,18 @@
     }
 
     .diagram-iframe {
-      height: 60rem;
+      height: 70rem;
     }
 
     @media (max-width: 800px) {
       .diagram-iframe {
-        height: 70rem;
+        height: 72rem;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .diagram-iframe {
+        height: 85rem;
       }
     }
 
@@ -1286,6 +1292,22 @@ body {
         border: 20px solid white;
         border-radius: 20px;
     }    
+
+    .drag-ghost {
+      position: fixed;
+      /* width: 50%; */
+      /* height: 50%; */
+      pointer-events: none;  /* don't block elementFromPoint() */
+      opacity: 0.7;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: none;
+    }
+
+    .drag-ghost-part {
+      width: 50%;
+      height: 50%;
+    }
 
     .slot {
       position: absolute;
