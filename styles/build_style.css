@@ -2020,8 +2020,8 @@ body {
 
 .worksheet-button {
   position: fixed;
-  top: 82px;
-  right: 20px;
+  top: 20px;
+  right: 160px;
 
   display: inline-flex;
   align-items: center;
