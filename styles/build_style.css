@@ -1944,7 +1944,8 @@ body {
 .next-button,
 .download-button,
 .top-button,
-.glossary-button {
+.glossary-button,
+.worksheet-button {
   border: 2px solid var(--line);
   border-radius: 12px;
 
