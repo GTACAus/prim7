@@ -1943,7 +1943,8 @@ body {
 .next-button,
 .download-button,
 .home-button,
-.glossary-button {
+.glossary-button,
+.worksheet-button {
   border: 2px solid var(--line);
   border-radius: 12px;
 
