@@ -709,12 +709,18 @@
     }
 
     .diagram-iframe {
-      height: 60rem;
+      height: 70rem;
     }
 
     @media (max-width: 800px) {
       .diagram-iframe {
-        height: 70rem;
+        height: 72rem;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .diagram-iframe {
+        height: 85rem;
       }
     }
 
