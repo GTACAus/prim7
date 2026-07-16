@@ -53,10 +53,190 @@
   </style>
 </head>
 
+<style>
+  /* ---------- Experiment video selection ---------- */
+
+.experiment-video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+
+  margin-top: 20px;
+}
+
+.experiment-video-card {
+  width: 100%;
+  padding: 12px;
+
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+
+  color: var(--text);
+  font-family: inherit;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.experiment-video-card:hover {
+  background: var(--soft-yellow);
+
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 var(--line);
+}
+
+.experiment-video-card.selected {
+  background: var(--soft-green);
+  border-color: var(--purple);
+
+  box-shadow: 0 5px 0 var(--purple);
+}
+
+.experiment-video-preview {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  background: var(--soft-blue);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+}
+
+.experiment-video-preview video {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.experiment-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 54px;
+  height: 54px;
+
+  background: var(--purple);
+  color: white;
+
+  border: 3px solid var(--line);
+  border-radius: 50%;
+
+  box-shadow: 0 4px 0 var(--line);
+
+  font-size: 1.25rem;
+
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.experiment-video-card.selected .experiment-play-icon {
+  background: var(--green);
+}
+
+.experiment-video-title {
+  display: block;
+
+  margin-top: 12px;
+
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ---------- Investigation dropdown menus ---------- */
+
+.investigation-menu-panel {
+  margin-top: 24px;
+  padding: 22px;
+
+  background: var(--soft-purple);
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.selected-video-message {
+  margin: 0 0 18px;
+
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.investigation-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.investigation-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.investigation-field label {
+  color: var(--text);
+
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.investigation-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 36px 10px 12px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+
+  font-family: inherit;
+  font-size: 0.95rem;
+
+  cursor: pointer;
+}
+
+.investigation-field select:focus {
+  outline: 3px solid rgba(78, 50, 232, 0.2);
+  border-color: var(--purple);
+}
+
+/* ---------- Responsive experiment section ---------- */
+
+@media (max-width: 800px) {
+  .experiment-video-grid,
+  .investigation-menu-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 <body>
-
-
-</a>
 
 <main class="page">
 
@@ -79,27 +259,292 @@
 </header>
 
 <section class="section">
-
 <h2 class="section-title">
 Investigable or Non-investigable?
 </h2>
 
 <div class="flashcard-box">
-
 <iframe
 src="flash-cards.html"
 class="flashcard-frame">
 </iframe>
-
 </div>
 
 <button class="next-button">
 Next
 </button>
+</section>
+
+<section class="section" id="question-builder">
+
+  <h2 class="section-title">
+    Build an investigable question
+  </h2>
+
+  <div class="diagram-box diagram-activity">
+    <p class="activity-instruction">
+      Choose one of the videos below. Then use the dropdown menus to build
+      an investigable question about what you observed.
+    </p>
+  </div>
+
+  <div class="experiment-video-grid">
+
+    <button
+      type="button"
+      class="experiment-video-card"
+      data-video="water"
+      onclick="selectExperimentVideo('water', this)">
+
+      <div class="experiment-video-preview">
+        <video muted loop playsinline>
+          <source src="../videos/water-experiment.mp4" type="video/mp4">
+        </video>
+
+        <span class="experiment-play-icon">▶</span>
+      </div>
+
+      <span class="experiment-video-title">
+        Video 1: Water
+      </span>
+    </button>
+
+    <button
+      type="button"
+      class="experiment-video-card"
+      data-video="light"
+      onclick="selectExperimentVideo('light', this)">
+
+      <div class="experiment-video-preview">
+        <video muted loop playsinline>
+          <source src="../videos/light-experiment.mp4" type="video/mp4">
+        </video>
+
+        <span class="experiment-play-icon">▶</span>
+      </div>
+
+      <span class="experiment-video-title">
+        Video 2: Sunlight
+      </span>
+    </button>
+
+    <button
+      type="button"
+      class="experiment-video-card"
+      data-video="temperature"
+      onclick="selectExperimentVideo('temperature', this)">
+
+      <div class="experiment-video-preview">
+        <video muted loop playsinline>
+          <source src="../videos/temperature-experiment.mp4" type="video/mp4">
+        </video>
+
+        <span class="experiment-play-icon">▶</span>
+      </div>
+
+      <span class="experiment-video-title">
+        Video 3: Temperature
+      </span>
+    </button>
+
+  </div>
+
+  <div
+    id="investigationMenus"
+    class="investigation-menu-panel"
+    hidden>
+
+    <p class="selected-video-message">
+      You selected:
+      <strong id="selectedVideoName"></strong>
+    </p>
+
+    <div class="investigation-menu-grid">
+
+      <div class="investigation-field">
+        <label for="sentenceStarter">
+          1. Pick a sentence starter
+        </label>
+
+        <select id="sentenceStarter">
+          <option value="">Choose an option</option>
+        </select>
+      </div>
+
+      <div class="investigation-field">
+        <label for="measuringVariable">
+          2. What are you measuring?
+        </label>
+
+        <select id="measuringVariable">
+          <option value="">Choose an option</option>
+        </select>
+      </div>
+
+      <div class="investigation-field">
+        <label for="changingVariable">
+          3. What are you changing?
+        </label>
+
+        <select id="changingVariable">
+          <option value="">Choose an option</option>
+        </select>
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
 </main>
+
+<script>
+  const experimentVideoOptions = {
+    water: {
+      name: 'the water experiment',
+
+      sentenceStarters: [
+        'How does',
+        'What happens to',
+        'Does changing'
+      ],
+
+      measuring: [
+        'plant height',
+        'number of leaves',
+        'leaf colour',
+        'plant health'
+      ],
+
+      changing: [
+        'the amount of water',
+        'how often the plant is watered',
+        'the volume of water given'
+      ]
+    },
+
+    light: {
+      name: 'the sunlight experiment',
+
+      sentenceStarters: [
+        'How does',
+        'What happens to',
+        'Does changing'
+      ],
+
+      measuring: [
+        'plant height',
+        'direction of growth',
+        'leaf colour',
+        'number of leaves'
+      ],
+
+      changing: [
+        'the amount of sunlight',
+        'the number of hours of light',
+        'the distance from the light'
+      ]
+    },
+
+    temperature: {
+      name: 'the temperature experiment',
+
+      sentenceStarters: [
+        'How does',
+        'What happens to',
+        'Does changing'
+      ],
+
+      measuring: [
+        'plant height',
+        'time taken to germinate',
+        'number of leaves',
+        'plant health'
+      ],
+
+      changing: [
+        'the temperature',
+        'where the plant is kept',
+        'the warmth of the environment'
+      ]
+    }
+  };
+
+  function fillInvestigationSelect(selectId, options) {
+    const select = document.getElementById(selectId);
+
+    select.innerHTML =
+      '<option value="">Choose an option</option>';
+
+    options.forEach(optionText => {
+      const option = document.createElement('option');
+
+      option.value = optionText;
+      option.textContent = optionText;
+
+      select.appendChild(option);
+    });
+  }
+
+  function selectExperimentVideo(videoId, selectedCard) {
+    const selectedVideo =
+      experimentVideoOptions[videoId];
+
+    if (!selectedVideo) {
+      return;
+    }
+
+    document
+      .querySelectorAll('.experiment-video-card')
+      .forEach(card => {
+        card.classList.remove('selected');
+
+        const video = card.querySelector('video');
+
+        if (video) {
+          video.pause();
+        }
+      });
+
+    selectedCard.classList.add('selected');
+
+    const selectedVideoElement =
+      selectedCard.querySelector('video');
+
+    if (selectedVideoElement) {
+      selectedVideoElement.play().catch(() => {
+        /*
+          Some browsers may prevent automatic playback.
+          The dropdown menus will still work.
+        */
+      });
+    }
+
+    document.getElementById(
+      'selectedVideoName'
+    ).textContent = selectedVideo.name;
+
+    fillInvestigationSelect(
+      'sentenceStarter',
+      selectedVideo.sentenceStarters
+    );
+
+    fillInvestigationSelect(
+      'measuringVariable',
+      selectedVideo.measuring
+    );
+
+    fillInvestigationSelect(
+      'changingVariable',
+      selectedVideo.changing
+    );
+
+    document.getElementById(
+      'investigationMenus'
+    ).hidden = false;
+  }
+</script>
 
 </body>
 
