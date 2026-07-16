@@ -1262,6 +1262,13 @@ body {
       max-height: 100%;
     }
 
+    @media (max-width: 1024px) {
+      .part {
+        max-width: 15vw;
+        max-height: 15vw;
+      }
+    }
+
     .part:active {
       cursor: grabbing;
     }
