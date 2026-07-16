@@ -2007,10 +2007,44 @@ body {
   font-family: inherit;
   font-weight: 700;
 
+  cursor: pointer;
+
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease,
     background 0.15s ease;
+}
+
+.general-button {
+  padding: 12px 22px;
+
+  background: var(--button);
+  color: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+
+  box-shadow: 0 4px 0 var(--charcoal);
+
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.general-button:hover {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+}
+
+.general-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--line);
 }
 
 .next-button {
