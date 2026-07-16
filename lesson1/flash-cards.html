@@ -21,6 +21,7 @@
 			display: flex;
 			flex-direction: column;
 			padding: 1rem;
+			background-color: var(--soft-blue);
 		}
 
 		.main-content {
@@ -52,7 +53,6 @@
 			position: relative;
 			width: 8rem;
 			height: 12rem;
-			background: rgba(255, 255, 255, 0.4);
 			border-radius: 0.5rem;
 			border: 2px dashed;
 			padding: 0.5rem;
@@ -63,22 +63,24 @@
 		}
 
 		#left-pile {
-			border-color: #86efac;
+			border-color: var(--mint);
+			background: var(--soft-green);
 		}
-
+		
 		#right-pile {
-			border-color: #fca5a5;
+			border-color: var(--orange);
+			background: var(--soft-orange);
 		}
 
 		#left-count {
-			color: #15803d;
+			color: var(--green);
 			font-size: 0.875rem;
 			margin-top: 0.75rem;
 			font-weight: 600;
 		}
 
 		#right-count {
-			color: #b91c1c;
+			color: var(--orange);
 			font-size: 0.875rem;
 			margin-top: 0.75rem;
 			font-weight: 600;
@@ -101,17 +103,17 @@
 		#current-card {
 			position: absolute;
 			inset: 0;
-			background: #fff;
+			background: var(--paper);
 			border-radius: 1rem;
-			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-			border: 4px solid #86efac;
+			box-shadow: 0 25px 50px -12px var(--charcoal);
+			border: 4px solid var(--mint);
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			padding: 2rem;
 			text-align: center;
 			font-weight: 600;
-			color: #1f2937;
+			color: var(--charcoal);
 			font-size: 1.25rem;
 			line-height: 1.6;
 		}
@@ -142,7 +144,7 @@
 
 		#progress {
 			font-size: 1rem;
-			color: #4b5563;
+			color: var(--charcoal);
 			margin-bottom: 1.5rem;
 			font-weight: 500;
 		}
@@ -171,7 +173,7 @@
 			font-weight: 600;
 			border: none;
 			cursor: pointer;
-			background: #6b7280;
+			background: var(--charcoal);
 			color: #fff;
 		}
 
@@ -231,13 +233,13 @@
 		}
 
 		.pile-card {
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 2px 8px var(--charcoal);
 			background: #fff;
 			border-radius: 0.5rem;
 			padding: 0.5rem;
 			font-size: 0.75rem;
-			color: #374151;
-			border: 1px solid #d1d5db;
+			color: var(--charcoal);
+			border: 1px solid var(--paper);
 			flex-shrink: 0;
 		}
 
@@ -251,8 +253,8 @@
 		}
 		</style>
 	</head>
-	<body data-template-id="__page-root" style="background: linear-gradient(180deg, #f0fdf4, #dcfce7);">
-		<div data-template-id="__page-root" style="background: linear-gradient(180deg, #f0fdf4, #dcfce7);">
+	<body data-template-id="__page-root">
+		<div data-template-id="__page-root">
 			<header class="mb-8 text-center">
 				<h1 data-template-id="page-title" class="canva-text mb-2"></h1>
 				<p data-template-id="subtitle" class="canva-text"></p>
