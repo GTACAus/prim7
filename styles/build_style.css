@@ -978,12 +978,12 @@
   border: 1px dashed var(--line);
   border-radius: 20px;
   padding: 12px;
-  min-height: 960px;
+  min-height: 760px;
 }
 
 .detective-iframe {
   width: 100%;
-  height: 940px;
+  height: 740px;
   border: none;
   border-radius: 16px;
   background: white;
