@@ -226,6 +226,52 @@
   border-color: var(--purple);
 }
 
+/* ---------- Student investigation questions ---------- */
+
+.investigation-question-area {
+  margin-top: 24px;
+  padding-top: 22px;
+
+  border-top: 2px dashed var(--line);
+}
+
+.investigation-question-area h3 {
+  margin: 0 0 6px;
+
+  color: var(--purple);
+
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.investigation-question-instruction {
+  margin: 0 0 18px;
+
+  color: var(--muted);
+
+  line-height: 1.5;
+}
+
+.investigation-question-list {
+  display: grid;
+  gap: 16px;
+}
+
+.investigation-question-item {
+  padding: 16px;
+
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+}
+
+.investigation-question-item .final-answer-list {
+  margin-top: 10px;
+}
+
 /* ---------- Responsive experiment section ---------- */
 
 @media (max-width: 800px) {
@@ -390,8 +436,84 @@ Next
           <option value="">Choose an option</option>
         </select>
       </div>
-
     </div>
+
+    <div class="investigation-question-area">
+
+        <h3>Write your questions</h3>
+
+        <p class="investigation-question-instruction">
+          Use the dropdown menus above to help you write three investigable questions.
+        </p>
+
+        <div class="investigation-question-list">
+
+          <div class="investigation-question-item">
+            <div class="final-input-row">
+              <input
+                id="investigationQuestionInput1"
+                type="text"
+                placeholder="Write your first question"
+                onkeydown="submitInvestigationQuestionOnEnter(event, 1)">
+
+              <button
+                type="button"
+                onclick="submitInvestigationQuestion(1)">
+                Add
+              </button>
+            </div>
+
+            <ul
+              id="investigationQuestionList1"
+              class="final-answer-list">
+            </ul>
+          </div>
+
+          <div class="investigation-question-item">
+            <div class="final-input-row">
+              <input
+                id="investigationQuestionInput2"
+                type="text"
+                placeholder="Write your second question"
+                onkeydown="submitInvestigationQuestionOnEnter(event, 2)">
+
+              <button
+                type="button"
+                onclick="submitInvestigationQuestion(2)">
+                Add
+              </button>
+            </div>
+
+            <ul
+              id="investigationQuestionList2"
+              class="final-answer-list">
+            </ul>
+          </div>
+
+          <div class="investigation-question-item">
+            <div class="final-input-row">
+              <input
+                id="investigationQuestionInput3"
+                type="text"
+                placeholder="Write your third question"
+                onkeydown="submitInvestigationQuestionOnEnter(event, 3)">
+
+              <button
+                type="button"
+                onclick="submitInvestigationQuestion(3)">
+                Add
+              </button>
+            </div>
+
+            <ul
+              id="investigationQuestionList3"
+              class="final-answer-list">
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
 
   </div>
 
@@ -544,6 +666,64 @@ Next
       'investigationMenus'
     ).hidden = false;
   }
+
+  function submitInvestigationQuestionOnEnter(event, questionNumber) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+
+    submitInvestigationQuestion(questionNumber);
+  }
+}
+
+function submitInvestigationQuestion(questionNumber) {
+  const input = document.getElementById(
+    'investigationQuestionInput' + questionNumber
+  );
+
+  const list = document.getElementById(
+    'investigationQuestionList' + questionNumber
+  );
+
+  const answer = input.value.trim();
+
+  if (answer === '') {
+    return;
+  }
+
+  /*
+    Keep only one submitted answer in each question box.
+    This prevents multiple answers being added to the
+    same numbered question.
+  */
+  list.innerHTML = '';
+
+  const listItem = document.createElement('li');
+
+  const answerText = document.createElement('span');
+  answerText.textContent = answer;
+
+  const deleteButton = document.createElement('button');
+  deleteButton.type = 'button';
+  deleteButton.textContent = '×';
+  deleteButton.className = 'delete-answer';
+  deleteButton.setAttribute(
+    'aria-label',
+    'Delete question ' + questionNumber
+  );
+
+  deleteButton.onclick = function() {
+    listItem.remove();
+    input.value = '';
+    input.focus();
+  };
+
+  listItem.appendChild(answerText);
+  listItem.appendChild(deleteButton);
+
+  list.appendChild(listItem);
+
+  input.value = '';
+}
 </script>
 
 </body>
