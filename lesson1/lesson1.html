@@ -22,23 +22,6 @@
   <style>
     /* Lesson 1-specific styles only */
 
-    .site-intro {
-      margin-bottom: 30px;
-      padding-top: 58px;
-    }
-
-    .site-intro h1 {
-      margin: 0 0 8px;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      line-height: 1.1;
-    }
-
-    .site-intro p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
     .flashcard-box {
       padding: 12px;
 
@@ -62,9 +45,6 @@
     }
 
     @media (max-width: 800px) {
-      .site-intro {
-        padding-top: 92px;
-      }
 
       .flashcard-frame {
         height: 67rem;
@@ -80,13 +60,23 @@
 
 <main class="page">
 
-<div class="site-intro">
+<header class="lesson-intro">
+  <div class="lesson-heading">
 
-<h1>Lesson 1</h1>
+    <span class="lesson-label">
+      Lesson 1
+    </span>
 
-<p>Investigating plants</p>
+    <h1>
+      Investigating plants
+    </h1>
 
-</div>
+    <p class="lesson-summary">
+      Explore which questions about plants can be investigated scientifically.
+    </p>
+
+  </div>
+</header>
 
 <section class="section">
 
