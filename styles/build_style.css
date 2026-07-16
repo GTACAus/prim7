@@ -2242,6 +2242,9 @@ body {
 /* ---------- Heading ---------- */
 
 .detective-header {
+  display: grid;
+  grid-column: 1 / -1;
+  
   width: min(780px, 100%);
   margin: 0 auto 12px;
   text-align: center;
@@ -2288,9 +2291,8 @@ body {
 }
 
 .detective-score {
-  display: inline-block;
-
-  margin: 4px 0 0;
+  display: grid;
+  margin: 4px 30%;
   padding: 6px 11px;
 
   background: var(--mint);
@@ -2962,7 +2964,7 @@ body {
     }
 
     .success-icon {
-      animation: confetti 1s ease-out infinite;
+      animation: confetti 1s 5 ease-out;
     }
 
     .part-emoji-large {
