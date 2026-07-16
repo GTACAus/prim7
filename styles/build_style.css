@@ -802,7 +802,7 @@
       cursor: pointer;
     }
 
-    .top-button {
+    .home-button {
   position: fixed;
   top: 20px;
   left: 20px;
@@ -829,7 +829,7 @@
   transition: 0.2s;
 }
 
-.top-button:hover{
+.home-button:hover{
     background: var(--soft-blue);
     transform: translateY(-2px);
 }
@@ -1996,7 +1996,7 @@ body {
 
 .next-button,
 .download-button,
-.top-button,
+.home-button,
 .glossary-button,
 .worksheet-button {
   border: 2px solid var(--line);
@@ -2043,7 +2043,7 @@ body {
 
 .next-button:active,
 .download-button:active,
-.top-button:active,
+.home-button:active,
 .glossary-button:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 var(--line);
@@ -2058,13 +2058,13 @@ body {
   background: var(--mint);
 }
 
-.top-button,
+.home-button,
 .glossary-button {
   background: var(--card);
   color: var(--text);
 }
 
-.top-button:hover {
+.home-button:hover {
   background: var(--yellow);
 }
 
@@ -2702,7 +2702,7 @@ body {
   .glossary-button,
   .worksheet-button,
   .save-work-button,
-  .top-button,
+  .home-button,
   .next-button,
   .delete-answer,
   .teacher-modal,
@@ -2928,12 +2928,12 @@ body {
     height: 120px;
   }
 
-  .top-button,
+  .home-button,
   .glossary-button {
     top: 14px;
   }
 
-  .top-button {
+  .home-button {
     left: 14px;
   }
 
