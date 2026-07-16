@@ -304,7 +304,7 @@
   </div>
 </header>
 
-<section class="section">
+<section class="section" id="flashcards">
 <h2 class="section-title">
 Investigable or Non-investigable?
 </h2>
@@ -316,12 +316,19 @@ class="flashcard-frame">
 </iframe>
 </div>
 
-<button class="next-button">
-Next
+<button
+    id="flashcardsNextButton"
+    class="next-button"
+    onclick="unlockSection('question-builder', 'flashcards')">
+    Next
 </button>
+
+<p class="completed-note">
+    Completed — next activity unlocked.
+</p>
 </section>
 
-<section class="section" id="question-builder">
+<section class="section locked" id="question-builder">
 
   <h2 class="section-title">
     Build an investigable question
@@ -521,6 +528,7 @@ Next
 
 </main>
 
+<script src="../scripts/common_functions.js"></script>
 <script>
   const experimentVideoOptions = {
     water: {
