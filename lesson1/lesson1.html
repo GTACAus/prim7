@@ -280,12 +280,151 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Question choice and prediction ---------- */
+
+.chosen-question-box {
+  display: block;
+  margin-top: 18px;
+  background: var(--soft-green);
+}
+
+.chosen-question-box[hidden] {
+  display: none;
+}
+
+.chosen-question-box strong {
+  display: block;
+  margin-bottom: 8px;
+
+  color: var(--purple);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.chosen-question-box p {
+  margin: 0;
+
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.prediction-activity {
+  margin-top: 24px;
+  background: var(--soft-yellow);
+}
+
+.prediction-heading {
+  margin: 0 0 8px;
+
+  color: var(--purple);
+  font-size: 1.15rem;
+  text-transform: uppercase;
+}
 </style>
 
 <body>
 
+  <div id="top"></div> <!-- Top anchor for scrolling -->
+  
+  <!-- Vocabulary Button -->
+<button class="glossary-button" onclick="openGlossary()">
+  📖 Vocabulary
+</button>
+
+<!-- Vocabulary Modal -->
+<div class="modal" id="glossaryModal">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <div>
+        <p class="teacher-label">Lesson 1: Structure &amp; Function of a Plant</p>
+        <h2>Glossary Terms</h2>
+      </div>
+
+      <button
+        class="close-button"
+        onclick="closeGlossary()"
+        aria-label="Close glossary">
+        ×
+      </button>
+    </div>
+
+    <div class="vocab-list">
+
+      <div class="vocab-card">
+        <h3>Botanist</h3>
+        <p>
+          A scientist who studies plants.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Diagnose</h3>
+        <p>
+          To identify what is wrong with a living thing by carefully examining
+          it and looking for clues about what physical condition may be missing
+          or out of balance.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Function</h3>
+        <p>
+          The job or role that a part of a plant performs to help it survive.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Germinate</h3>
+        <p>
+          When a seed begins to sprout and grow into a new plant after absorbing
+          water and being exposed to the right temperature and conditions.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Investigate</h3>
+        <p>
+          To carefully examine and gather information about something in order
+          to find an answer or understand it better.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Nutrients</h3>
+        <p>
+          Substances found in soil and water that plants absorb through their
+          roots to grow and stay healthy.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Observe / Observation</h3>
+        <p>
+          Information gathered by using your senses—sight, hearing, touch,
+          smell, or taste—to carefully notice and describe something in the
+          world around you.
+        </p>
+      </div>
+
+      <div class="vocab-card">
+        <h3>Structure</h3>
+        <p>
+          A physical part of a plant, such as the roots, stem, leaves, flower,
+          or fruit, that has a specific job.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <main class="page">
 
+<!-- ---------- Header ---------- --> 
 <header class="lesson-intro">
   <div class="lesson-heading">
 
@@ -294,15 +433,70 @@
     </span>
 
     <h1>
-      Investigating plants
+      Questioning and Predicting
     </h1>
 
     <p class="lesson-summary">
-      Explore which questions about plants can be investigated scientifically.
+      How to conduct a fair test
     </p>
+  </div>
+
+    <div class="intro-grid">
+
+    <section class="intro-card objectives-card">
+  <p class="intro-eyebrow">Learning objective</p>
+
+  <p class="learning-objective-text">
+    Learn to ask testable questions and make reasoned predictions for a scientific experiment
+  </p>
+
+  <p class="success-heading">Success criteria</p>
+
+  <ol class="objective-list">
+    <li>
+      I can identify the <strong>physical conditions</strong> that a plant needs to grow
+      and survive.
+    </li>
+
+    <li>
+       I can compare healthy and unhealthy plants to explain why plants need the correct <strong>physical conditions</strong> to be healthy
+    </li>
+  </ol>
+</section>
+
+    <section class="intro-card observation-card">
+      <p class="intro-eyebrow">Think like a scientist</p>
+
+      <h2>See, Think, Wonder</h2>
+
+      <p>
+        <strong>Botanists</strong> observe how plants grow and behave. They use a thinking
+        routine called <strong><i>See, Think, Wonder</strong></i> to make scientific
+        <strong>observations</strong>.
+      </p>
+
+      <div class="stw-explanation">
+        <div>
+          <strong>See</strong>
+          <span>What do you notice?</span>
+        </div>
+
+        <div>
+          <strong>Think</strong>
+          <span>What do you think is happening?</span>
+        </div>
+
+        <div>
+          <strong>Wonder</strong>
+          <span>What questions do you have?</span>
+        </div>
+      </div>
+    </section>
 
   </div>
 </header>
+
+<!-- ---------- Flashcards ---------- --> 
 
 <section class="section" id="flashcards">
 <h2 class="section-title">
@@ -327,6 +521,8 @@ class="flashcard-frame">
     Completed — next activity unlocked.
 </p>
 </section>
+
+<!-- ---------- Question Builder ---------- --> 
 
 <section class="section locked" id="question-builder">
 
@@ -520,7 +716,130 @@ class="flashcard-frame">
 
         </div>
 
-      </div>
+            </div>
+
+  </div>
+
+  <button
+  id="questionBuilderNextButton"
+  type="button"
+  class="next-button"
+  onclick="openQuestionChoiceSection()"
+  hidden>
+  Next
+</button>
+
+  <p class="completed-note">
+    Completed — next activity unlocked.
+  </p>
+
+</section>
+
+<section
+  class="section locked"
+  id="question-choice">
+
+  <h2 class="section-title">
+    Choose your investigation question
+  </h2>
+
+  <div class="diagram-box diagram-activity">
+    <p class="activity-instruction">
+      Choose the question you would most like to investigate.
+    </p>
+  </div>
+
+  <div class="diagram-box diagram-activity">
+
+    <div class="investigation-field">
+      <label for="favouriteQuestionSelect">
+        Select one of your questions
+      </label>
+
+      <select
+        id="favouriteQuestionSelect"
+        onchange="showChosenQuestion()">
+
+        <option value="">
+          Choose a question
+        </option>
+      </select>
+    </div>
+
+    <div
+      id="chosenQuestionDisplay"
+      class="function-answer chosen-question-box"
+      hidden>
+
+      <strong>Your investigation question</strong>
+
+      <p id="chosenQuestionText"></p>
+    </div>
+
+  </div>
+
+  <div
+    id="predictionActivity"
+    class="diagram-box diagram-activity prediction-activity"
+    hidden>
+
+    <h3 class="prediction-heading">
+      Now, make your prediction
+    </h3>
+
+    <p class="activity-instruction">
+      Write what you think will happen, then explain your reasoning.
+    </p>
+
+    <div class="investigation-question-item">
+  <label for="predictionInput">
+    I predict that...
+  </label>
+
+  <div class="final-input-row">
+    <input
+      id="predictionInput"
+      type="text"
+      placeholder="Write what you think will happen"
+      onkeydown="submitPredictionOnEnter(event, 'prediction')">
+
+    <button
+      type="button"
+      onclick="submitPredictionAnswer('prediction')">
+      Add
+    </button>
+  </div>
+
+  <ul
+    id="predictionList"
+    class="final-answer-list">
+  </ul>
+</div>
+
+<div class="investigation-question-item">
+  <label for="predictionReasonInput">
+    Because...
+  </label>
+
+  <div class="final-input-row">
+    <input
+      id="predictionReasonInput"
+      type="text"
+      placeholder="Explain why you think this will happen"
+      onkeydown="submitPredictionOnEnter(event, 'reason')">
+
+    <button
+      type="button"
+      onclick="submitPredictionAnswer('reason')">
+      Add
+    </button>
+  </div>
+
+  <ul
+    id="predictionReasonList"
+    class="final-answer-list">
+  </ul>
+</div>
 
   </div>
 
@@ -683,6 +1002,187 @@ class="flashcard-frame">
   }
 }
 
+function updateQuestionBuilderNextButton() {
+  const question1 =
+    document.querySelector(
+      '#investigationQuestionList1 li'
+    );
+
+  const question2 =
+    document.querySelector(
+      '#investigationQuestionList2 li'
+    );
+
+  const question3 =
+    document.querySelector(
+      '#investigationQuestionList3 li'
+    );
+
+  const nextButton = document.getElementById(
+    'questionBuilderNextButton'
+  );
+
+  const allQuestionsCompleted =
+    question1 && question2 && question3;
+
+  nextButton.hidden = !allQuestionsCompleted;
+}
+
+function getInvestigationQuestion(questionNumber) {
+  const answerElement = document.querySelector(
+    '#investigationQuestionList' +
+    questionNumber +
+    ' li span'
+  );
+
+  if (!answerElement) {
+    return '';
+  }
+
+  return answerElement.textContent.trim();
+}
+
+function populateQuestionChoiceDropdown() {
+  const select = document.getElementById(
+    'favouriteQuestionSelect'
+  );
+
+  select.innerHTML =
+    '<option value="">Choose a question</option>';
+
+  for (let questionNumber = 1; questionNumber <= 3; questionNumber++) {
+    const question =
+      getInvestigationQuestion(questionNumber);
+
+    if (question === '') {
+      continue;
+    }
+
+    const option = document.createElement('option');
+
+    option.value = question;
+    option.textContent =
+      'Question ' + questionNumber + ': ' + question;
+
+    select.appendChild(option);
+  }
+
+  /*
+    Reset the selected-question and prediction areas
+    whenever this section is opened.
+  */
+  select.value = '';
+
+  document.getElementById(
+    'chosenQuestionDisplay'
+  ).hidden = true;
+
+  document.getElementById(
+    'predictionActivity'
+  ).hidden = true;
+
+  document.getElementById(
+    'chosenQuestionText'
+  ).textContent = '';
+}
+
+function openQuestionChoiceSection() {
+  populateQuestionChoiceDropdown();
+
+  unlockSection(
+    'question-choice',
+    'question-builder'
+  );
+}
+
+function showChosenQuestion() {
+  const select = document.getElementById(
+    'favouriteQuestionSelect'
+  );
+
+  const chosenQuestionDisplay =
+    document.getElementById(
+      'chosenQuestionDisplay'
+    );
+
+  const chosenQuestionText =
+    document.getElementById(
+      'chosenQuestionText'
+    );
+
+  const predictionActivity =
+    document.getElementById(
+      'predictionActivity'
+    );
+
+  const chosenQuestion = select.value;
+
+  if (chosenQuestion === '') {
+    chosenQuestionDisplay.hidden = true;
+    predictionActivity.hidden = true;
+    chosenQuestionText.textContent = '';
+
+    return;
+  }
+
+  chosenQuestionText.textContent =
+    chosenQuestion;
+
+  chosenQuestionDisplay.hidden = false;
+  predictionActivity.hidden = false;
+}
+
+function submitPredictionOnEnter(event, answerType) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    submitPredictionAnswer(answerType);
+  }
+}
+
+function submitPredictionAnswer(answerType) {
+  let input;
+  let list;
+
+  if (answerType === 'prediction') {
+    input = document.getElementById('predictionInput');
+    list = document.getElementById('predictionList');
+  } else {
+    input = document.getElementById('predictionReasonInput');
+    list = document.getElementById('predictionReasonList');
+  }
+
+  const answer = input.value.trim();
+
+  if (answer === '') {
+    return;
+  }
+
+  list.innerHTML = '';
+
+  const listItem = document.createElement('li');
+
+  const answerText = document.createElement('span');
+  answerText.textContent = answer;
+
+  const deleteButton = document.createElement('button');
+  deleteButton.type = 'button';
+  deleteButton.textContent = '×';
+  deleteButton.className = 'delete-answer';
+
+  deleteButton.onclick = function() {
+    listItem.remove();
+    input.value = '';
+    input.focus();
+  };
+
+  listItem.appendChild(answerText);
+  listItem.appendChild(deleteButton);
+
+  list.appendChild(listItem);
+
+  input.value = '';
+}
+
 function submitInvestigationQuestion(questionNumber) {
   const input = document.getElementById(
     'investigationQuestionInput' + questionNumber
@@ -723,6 +1223,7 @@ function submitInvestigationQuestion(questionNumber) {
     listItem.remove();
     input.value = '';
     input.focus();
+    updateQuestionBuilderNextButton();
   };
 
   listItem.appendChild(answerText);
@@ -731,6 +1232,8 @@ function submitInvestigationQuestion(questionNumber) {
   list.appendChild(listItem);
 
   input.value = '';
+
+  updateQuestionBuilderNextButton();
 }
 </script>
 

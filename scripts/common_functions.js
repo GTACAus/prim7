@@ -12,3 +12,27 @@ function unlockSection(nextSectionId, currentSectionId) {
     });
   }, 100);
 }
+
+function openGlossary() {
+  const modal = document.getElementById('glossaryModal');
+
+  if (modal) {
+    modal.style.display = 'block';
+  }
+}
+
+function closeGlossary() {
+  const modal = document.getElementById('glossaryModal');
+
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('glossaryModal');
+
+  if (modal && event.target === modal) {
+    closeGlossary();
+  }
+});

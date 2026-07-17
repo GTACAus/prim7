@@ -211,18 +211,3 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-function openGlossary() {
-  document.getElementById('glossaryModal').style.display = 'block';
-}
-
-function closeGlossary() {
-  document.getElementById('glossaryModal').style.display = 'none';
-}
-
-window.onclick = function(event) {
-  const modal = document.getElementById('glossaryModal');
-
-  if (event.target === modal) {
-    closeGlossary();
-  }
-};
