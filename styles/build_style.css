@@ -208,6 +208,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
+  margin-bottom: 24px;
 }
 
 .intro-card {
@@ -1741,6 +1742,7 @@ body {
   text-transform: uppercase;
 }
 
+/*-- Pretask section intro bubble colours */
 #watch .section-title {
   background: var(--yellow);
 }
@@ -1765,6 +1767,16 @@ body {
 #final-brainstorm .section-title {
   background: var(--purple);
   color: white;
+}
+
+/*-- Lesson 1 intro bubble colours --*/
+
+#observe-experiment .section-title {
+  background: var(--green);
+}
+
+#testable-question-intro .section-title {
+  background: var(--blue);
 }
 
 /* ---------- Video and See Think Wonder ---------- */
