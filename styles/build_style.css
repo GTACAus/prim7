@@ -207,23 +207,52 @@
 .intro-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 22px;
   margin-bottom: 24px;
 }
 
 .intro-card {
-  padding: 22px;
+  position: relative;
+  padding: 26px;
 
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--paper);
+  border: 3px solid var(--charcoal);
   border-radius: 24px;
 
-  box-shadow: 0 8px 22px rgba(63, 70, 63, 0.06);
+  box-shadow: var(--shadow-small);
+}
+
+.intro-card::before {
+  content: "";
+  display: block;
+
+  width: 54%;
+  margin: 0 0 18px;
+
+  border-top: 3px dashed var(--mint);
 }
 
 .intro-card p {
   color: var(--muted);
   line-height: 1.6;
+}
+
+.objectives-card {
+  border-top: 10px solid var(--orange);
+}
+
+.observation-card {
+  border-top: 10px solid var(--purple);
+}
+
+.testable-card {
+  background: #F3FFF8;
+  border-top: 10px solid var(--green);
+}
+
+.untestable-card {
+  background: #FFF8F3;
+  border-top: 10px solid var(--orange);
 }
 
 .objective-list {
@@ -242,9 +271,11 @@
   margin-bottom: 12px;
   padding: 10px 12px 10px 50px;
 
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 16px;
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
 
   color: var(--text);
   line-height: 1.45;
@@ -270,7 +301,8 @@
   width: 30px;
   height: 30px;
 
-  background: var(--soft-green);
+  background: var(--yellow);
+  border: 2px solid var(--line);
   border-radius: 50%;
 
   color: var(--text);
@@ -281,9 +313,11 @@
   margin: 12px 0 18px;
   padding: 14px 16px;
 
-  background: var(--soft-blue);
-  border: 1px solid var(--line);
-  border-radius: 16px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
 
   color: var(--text) !important;
   font-weight: 600;
@@ -315,7 +349,7 @@
   padding: 10px 12px;
 
   background: var(--soft-yellow);
-  border: 1px solid rgba(63, 70, 63, 0.12);
+  border: 2px solid var(--line);
   border-radius: 14px;
 }
 
@@ -326,6 +360,84 @@
 .stw-explanation span {
   color: var(--muted);
 }
+
+.stw-explanation div:nth-child(2) {
+  background: var(--soft-green);
+}
+
+.stw-explanation div:nth-child(3) {
+  background: var(--soft-purple);
+}
+
+.watch-instruction {
+  background: var(--soft-blue);
+  border: 2px solid var(--line);
+}
+
+/* ---------- Static question check rows (lesson 1 but can reuse) ---------- */
+
+.question-check-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.question-check-row {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: start;
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  background: var(--soft-yellow);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.question-check-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border: 2px solid var(--line);
+  border-radius: 8px;
+
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.question-check-icon.correct {
+  background: var(--soft-green);
+  color: var(--text);
+}
+
+.question-check-icon.incorrect {
+  background: var(--soft-orange);
+  color: var(--text);
+}
+
+.question-check-row strong {
+  display: block;
+  margin-bottom: 5px;
+
+  color: var(--text);
+}
+
+.question-check-row p {
+  margin: 0;
+
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ---------- Watch instructions ---------- */
 
 .watch-instruction {
   margin: 16px 0 0 !important;
@@ -1625,85 +1737,6 @@ body {
   color: var(--purple) !important;
   font-size: 0.76rem;
   font-weight: 700;
-}
-
-/* ---------- Introduction cards ---------- */
-
-.intro-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-}
-
-.intro-card {
-  position: relative;
-  padding: 26px;
-
-  background: var(--paper);
-  border: 3px solid var(--charcoal);
-  border-radius: 24px;
-
-  box-shadow: var(--shadow-small);
-}
-
-.intro-card::before {
-  content: "";
-  display: block;
-
-  width: 54%;
-  margin: 0 0 18px;
-
-  border-top: 3px dashed var(--mint);
-}
-
-.objectives-card {
-  border-top: 10px solid var(--orange);
-}
-
-.observation-card {
-  border-top: 10px solid var(--purple);
-}
-
-.learning-objective-text {
-  background: var(--soft-yellow);
-  border: 2px solid var(--line);
-  border-radius: 14px;
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
-}
-
-.objective-list li {
-  background: white;
-  border: 2px solid var(--line);
-  border-radius: 14px;
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
-}
-
-.objective-list li::before {
-  background: var(--yellow);
-  border: 2px solid var(--line);
-
-  color: var(--text);
-}
-
-.stw-explanation div {
-  background: var(--soft-yellow);
-  border: 2px solid var(--line);
-  border-radius: 14px;
-}
-
-.stw-explanation div:nth-child(2) {
-  background: var(--soft-green);
-}
-
-.stw-explanation div:nth-child(3) {
-  background: var(--soft-purple);
-}
-
-.watch-instruction {
-  background: var(--soft-blue);
-  border: 2px solid var(--line);
 }
 
 /* ---------- Main lesson sections ---------- */
