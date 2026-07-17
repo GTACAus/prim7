@@ -1703,6 +1703,10 @@
   background: var(--green);
 }
 
+#testable-questions .section-title {
+  background: var(--orange);
+}
+
 #testable-question-intro .section-title {
   background: var(--blue);
 }
