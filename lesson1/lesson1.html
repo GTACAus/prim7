@@ -788,16 +788,180 @@ class="flashcard-frame">
 <!-- Part C: How do we write testable questions? -->
 
 <section class="section" id="testable-questions">
+
   <h2 class="section-title">
-  How do we write testable questions?
+    How do we write testable questions?
   </h2>
 
   <div class="diagram-box diagram-activity">
-        <p class="activity-instruction">
-          A testable question describes what is being changed and what is being measured. 
-          They begin with words such as What, How, Does, If. Below are some examples of how you can structure your questions starting with these words.
+    <p class="activity-instruction">
+      A testable question describes what is being changed and what is being measured.
+      Testable questions can begin with words such as
+      <strong>What</strong>, <strong>How</strong>,
+      <strong>Does</strong> and <strong>If</strong>.
+    </p>
+  </div>
+
+  <!-- Example question structures -->
+  <div class="question-structure-card">
+
+    <h3>Question structures</h3>
+
+    <div class="question-example">
+      <span class="question-word what-word">What</span>
+
+      <span>
+        will changing
+        <span class="example-blank"></span>
+        do to
+        <span class="example-blank"></span>?
+      </span>
+    </div>
+
+    <div class="question-example">
+      <span class="question-word how-word">How</span>
+
+      <span>
+        does changing
+        <span class="example-blank"></span>
+        affect
+        <span class="example-blank"></span>?
+      </span>
+    </div>
+
+    <div class="question-example">
+      <span class="question-word does-word">Does</span>
+
+      <span>
+        changing
+        <span class="example-blank"></span>
+        affect
+        <span class="example-blank"></span>?
+      </span>
+    </div>
+
+    <div class="question-example">
+      <span class="question-word if-word">If</span>
+
+      <span>
+        we change
+        <span class="example-blank"></span>,
+        how does it affect
+        <span class="example-blank"></span>?
+      </span>
+    </div>
+
+  </div>
+
+  <!-- Student activity -->
+  <div class="testable-question-activity">
+
+    <div class="activity-heading">
+      <p class="activity-eyebrow">Your turn</p>
+      <h3>Create a testable question</h3>
+
+      <p>
+        Think back to what you were curious about during the
+        <strong>See, Think, Wonder</strong> activity.
+        Spin the wheel to choose a question structure.
+      </p>
+    </div>
+
+    <div class="question-wheel-layout">
+
+      <!-- Wheel side -->
+      <div class="wheel-panel">
+
+        <div class="question-wheel-wrapper">
+
+          <div
+            class="question-wheel"
+            id="questionWheel"
+            aria-label="Question starter wheel">
+
+            <span class="wheel-label wheel-label-what">What</span>
+            <span class="wheel-label wheel-label-how">How</span>
+            <span class="wheel-label wheel-label-does">Does</span>
+            <span class="wheel-label wheel-label-if">If</span>
+
+          </div>
+
+          <div class="wheel-pointer" aria-hidden="true"></div>
+
+        </div>
+
+        <button
+          type="button"
+          class="general-button spin-wheel-button"
+          id="spinQuestionWheel">
+          Spin the wheel
+        </button>
+
+        <p class="wheel-result" id="wheelResult" aria-live="polite">
+          Spin the wheel to receive a question structure.
         </p>
+
       </div>
+
+      <!-- Question-writing side -->
+      <div class="question-builder-panel">
+
+        <h4>Your question structure</h4>
+
+        <div
+          class="selected-question-template"
+          id="selectedQuestionTemplate">
+
+          <p class="template-placeholder">
+            Your question structure will appear here.
+          </p>
+
+        </div>
+
+        <button
+          type="button"
+          class="general-button save-testable-question-button"
+          id="saveTestableQuestionButton"
+          disabled>
+          Save my question
+        </button>
+
+        <div
+          class="saved-testable-question"
+          id="savedTestableQuestion"
+          aria-live="polite">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Testability checklist -->
+  <div class="testable-check-card">
+
+    <h3>Check whether your question is testable</h3>
+
+    <label class="testable-check-item">
+      <input type="checkbox" id="changeCheck">
+
+      <span>
+        <strong>Is something being changed?</strong>
+        <small>What are you changing?</small>
+      </span>
+    </label>
+
+    <label class="testable-check-item">
+      <input type="checkbox" id="measureCheck">
+
+      <span>
+        <strong>Can the effect be measured?</strong>
+        <small>What will you observe or measure?</small>
+      </span>
+    </label>
+
+  </div>
 
 </section>
 
@@ -1520,6 +1684,269 @@ function submitInvestigationQuestion(questionNumber) {
 
   updateQuestionBuilderNextButton();
 }
+
+</script>
+
+<!-- Question Wheel Script -->
+
+<script>
+  const questionWheel = document.getElementById("questionWheel");
+  const spinQuestionWheelButton =
+    document.getElementById("spinQuestionWheel");
+
+  const wheelResult =
+    document.getElementById("wheelResult");
+
+  const selectedQuestionTemplate =
+    document.getElementById("selectedQuestionTemplate");
+
+  const saveTestableQuestionButton =
+    document.getElementById("saveTestableQuestionButton");
+
+  const savedTestableQuestion =
+    document.getElementById("savedTestableQuestion");
+
+  const questionStructures = [
+    {
+      word: "What",
+      html: `
+        <p class="question-template-sentence">
+          What will changing
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="changed"
+            placeholder="what you will change">
+          do to
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="measured"
+            placeholder="what you will measure">?
+        </p>
+      `,
+      createQuestion: function(changed, measured) {
+        return `What will changing ${changed} do to ${measured}?`;
+      }
+    },
+
+    {
+      word: "How",
+      html: `
+        <p class="question-template-sentence">
+          How does changing
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="changed"
+            placeholder="what you will change">
+          affect
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="measured"
+            placeholder="what you will measure">?
+        </p>
+      `,
+      createQuestion: function(changed, measured) {
+        return `How does changing ${changed} affect ${measured}?`;
+      }
+    },
+
+    {
+      word: "Does",
+      html: `
+        <p class="question-template-sentence">
+          Does changing
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="changed"
+            placeholder="what you will change">
+          affect
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="measured"
+            placeholder="what you will measure">?
+        </p>
+      `,
+      createQuestion: function(changed, measured) {
+        return `Does changing ${changed} affect ${measured}?`;
+      }
+    },
+
+    {
+      word: "If",
+      html: `
+        <p class="question-template-sentence">
+          If we change
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="changed"
+            placeholder="what you will change">,
+          how does it affect
+          <input
+            type="text"
+            class="question-template-input"
+            data-question-part="measured"
+            placeholder="what you will measure">?
+        </p>
+      `,
+      createQuestion: function(changed, measured) {
+        return `If we change ${changed}, how does it affect ${measured}?`;
+      }
+    }
+  ];
+
+  let currentWheelRotation = 0;
+  let selectedQuestionStructure = null;
+  let wheelIsSpinning = false;
+
+  spinQuestionWheelButton.addEventListener("click", function() {
+    if (wheelIsSpinning) {
+      return;
+    }
+
+    wheelIsSpinning = true;
+    spinQuestionWheelButton.disabled = true;
+    saveTestableQuestionButton.disabled = true;
+
+    savedTestableQuestion.classList.remove("visible");
+    savedTestableQuestion.innerHTML = "";
+
+    wheelResult.textContent = "The wheel is spinning...";
+
+    const selectedIndex = Math.floor(
+      Math.random() * questionStructures.length
+    );
+
+    /*
+      Each wheel section occupies 90 degrees.
+
+      These destination angles align the selected section
+      with the pointer at the top of the wheel.
+    */
+    /*
+  Starting positions of the four sections:
+
+  What = top
+  How = left
+  Does = right
+  If = bottom
+
+  These values rotate the selected section
+  to the pointer at the top.
+*/
+const destinationAngles = [
+  0,    // What
+  90,   // How
+  270,  // Does
+  180   // If
+];
+
+const selectedDestination =
+  destinationAngles[selectedIndex];
+
+const currentPosition =
+  ((currentWheelRotation % 360) + 360) % 360;
+
+const rotationToDestination =
+  (selectedDestination - currentPosition + 360) % 360;
+
+const extraSpins = 5 * 360;
+
+currentWheelRotation +=
+  extraSpins +
+  rotationToDestination;
+
+questionWheel.style.transform =
+  `rotate(${currentWheelRotation}deg)`;
+
+/*
+  Counter-rotate each word so the words move with
+  their sections but remain upright.
+*/
+questionWheel
+  .querySelectorAll(".wheel-label")
+  .forEach(function(label) {
+    label.style.transform =
+      `translate(-50%, -50%) rotate(${-currentWheelRotation}deg)`;
+  });
+
+    window.setTimeout(function() {
+      selectedQuestionStructure =
+        questionStructures[selectedIndex];
+
+      wheelResult.innerHTML =
+        `You landed on <strong>${selectedQuestionStructure.word}</strong>.`;
+
+      selectedQuestionTemplate.innerHTML =
+        selectedQuestionStructure.html;
+
+      saveTestableQuestionButton.disabled = false;
+      spinQuestionWheelButton.disabled = false;
+      wheelIsSpinning = false;
+
+      const firstInput =
+        selectedQuestionTemplate.querySelector("input");
+
+      if (firstInput) {
+        firstInput.focus();
+      }
+    }, 3250);
+  });
+
+
+  saveTestableQuestionButton.addEventListener("click", function() {
+    if (!selectedQuestionStructure) {
+      return;
+    }
+
+    const changedInput =
+      selectedQuestionTemplate.querySelector(
+        '[data-question-part="changed"]'
+      );
+
+    const measuredInput =
+      selectedQuestionTemplate.querySelector(
+        '[data-question-part="measured"]'
+      );
+
+    const changedValue = changedInput.value.trim();
+    const measuredValue = measuredInput.value.trim();
+
+    if (!changedValue || !measuredValue) {
+      savedTestableQuestion.innerHTML = `
+        <strong>Almost there!</strong>
+        Complete both blanks before saving your question.
+      `;
+
+      savedTestableQuestion.classList.add("visible");
+
+      if (!changedValue) {
+        changedInput.focus();
+      } else {
+        measuredInput.focus();
+      }
+
+      return;
+    }
+
+    const completedQuestion =
+      selectedQuestionStructure.createQuestion(
+        changedValue,
+        measuredValue
+      );
+
+    savedTestableQuestion.innerHTML = `
+      <strong>Your testable question</strong>
+      <span>${completedQuestion}</span>
+    `;
+
+    savedTestableQuestion.classList.add("visible");
+  });
 </script>
 
 </body>
