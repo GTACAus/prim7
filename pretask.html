@@ -732,170 +732,8 @@ Use your detective skills to make <strong>observations</strong> and come up with
   <script src="scripts/brainstorm.js"></script>
   <script>
 
-    /* ---------- Classroom language filter ---------- */
-
-let profanityList = [];
-let profanityReady = false;
-
-async function loadProfanityList() {
-  try {
-    const encodedText = await fetchText('cypher.txt');
-    const decodedText = caesarCipher(encodedText, -3);
-
-    profanityList = decodedText
-      .split(/\r?\n/)
-      .map(word => word.trim().toLowerCase())
-      .filter(Boolean);
-
-    profanityReady = true;
-    console.log('Classroom language filter loaded.');
-  } catch (error) {
-    console.error('Could not load cypher.txt:', error);
-  }
-}
-
-function caesarCipher(text, shift) {
-  return text.split('').map(char => {
-    if (!/[a-z]/i.test(char)) {
-      return char;
-    }
-
-    const code = char.charCodeAt(0);
-    const base = code >= 65 && code <= 90 ? 65 : 97;
-
-    return String.fromCharCode(
-      ((code - base + shift + 26) % 26) + base
-    );
-  }).join('');
-}
-
-async function fetchText(filePath) {
-  const response = await fetch(filePath);
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${filePath}`);
-  }
-
-  return response.text();
-}
-
-function normaliseForProfanityCheck(text) {
-  return text
-    .toLowerCase()
-    .replace(/[@]/g, 'a')
-    .replace(/[3]/g, 'e')
-    .replace(/[1!|]/g, 'i')
-    .replace(/[0]/g, 'o')
-    .replace(/[$5]/g, 's')
-    .replace(/[7]/g, 't')
-    .replace(/[^a-z0-9\s'-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function containsProfanity(text) {
-  if (!profanityReady) {
-    return false;
-  }
-
-  const normalisedText = normaliseForProfanityCheck(text);
-
-  const words = normalisedText
-    .split(/\s+/)
-    .filter(Boolean);
-
-  return profanityList.some(blockedEntry => {
-    const normalisedBlockedEntry =
-      normaliseForProfanityCheck(blockedEntry);
-
-    if (normalisedBlockedEntry.includes(' ')) {
-      return normalisedText.includes(normalisedBlockedEntry);
-    }
-
-    return words.includes(normalisedBlockedEntry);
-  });
-}
-
-loadProfanityList();
-
-/* ---------- Block inappropriate answers in every text box ---------- */
-
-function blockInputIfNeeded(input, event) {
-  if (!input || input.tagName !== 'INPUT') {
-    return false;
-  }
-
-  const answer = input.value.trim();
-
-  if (answer === '') {
-    return false;
-  }
-
-  if (containsProfanity(answer)) {
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-
-    input.value = '';
-    input.focus();
-
-    console.log('Blocked inappropriate classroom language.');
-
-    return true;
-  }
-
-  return false;
-}
-
-/*
-  Check every text box when Enter is pressed.
-  This covers:
-  - See / Think / Wonder
-  - First brainstorm
-  - Leaves / Stem / Roots
-  - Final brainstorm
-*/
-document.addEventListener(
-  'keydown',
-  function(event) {
-    if (event.key !== 'Enter') {
-      return;
-    }
-
-    if (event.target.matches('input[type="text"]')) {
-      blockInputIfNeeded(event.target, event);
-    }
-  },
-  true
-);
-
-/*
-  Check the Add buttons used in:
-  - See / Think / Wonder
-  - Final brainstorm
-*/
-document.addEventListener(
-  'click',
-  function(event) {
-    const button = event.target.closest('button');
-
-    if (!button) {
-      return;
-    }
-
-    const inputRow = button.closest(
-      '.stw-input-row, .final-input-row'
-    );
-
-    if (!inputRow) {
-      return;
-    }
-
-    const input = inputRow.querySelector('input[type="text"]');
-
-    blockInputIfNeeded(input, event);
-  },
-  true
+    initialiseClassroomLanguageFilter(
+  "cypher.txt"
 );
 
     function submitFinalAnswerOnEnter(event, type) {
@@ -907,11 +745,18 @@ document.addEventListener(
 function submitFinalAnswer(type) {
   const input = document.getElementById('final-' + type + '-input');
   const list = document.getElementById('final-' + type + '-list');
-  const answer = input.value.trim();
+  const answer =
+  input.value.trim();
 
-  if (answer === '') {
-    return;
-  }
+if (answer === '') {
+  return;
+}
+
+if (containsProfanity(answer)) {
+  input.value = '';
+  input.focus();
+  return;
+}
 
   const listItem = document.createElement('li');
 
