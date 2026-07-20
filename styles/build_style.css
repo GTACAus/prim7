@@ -2037,9 +2037,12 @@ height: 44px;
 }
 
 
-/* ---------- Question inputs ---------- */
+/* ---------- Question templates and saved answers ---------- */
 
 .selected-question-template {
+  display: grid;
+  gap: 16px;
+
   min-height: 170px;
   padding: 18px;
 
@@ -2052,22 +2055,71 @@ height: 44px;
   margin: 0;
 
   color: var(--muted);
+  line-height: 1.5;
 }
 
+
+/* One card is created after every spin */
+
+.wheel-question-card {
+  padding: 16px;
+
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+}
+
+.wheel-question-card.saved {
+  background: white;
+  border-color: var(--green);
+}
+
+.wheel-question-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+.wheel-question-number {
+  color: var(--purple);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.wheel-card-delete {
+  flex: 0 0 auto;
+}
+
+
+/* Sentence and inputs */
+
 .question-template-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+
   margin: 0;
 
   color: var(--text);
 
   font-size: 1.05rem;
   font-weight: 600;
-  line-height: 2.5;
+  line-height: 1.8;
 }
 
 .question-template-input {
   width: min(190px, 100%);
 
-  margin: 0 5px;
+  margin: 0;
   padding: 8px 10px;
 
   background: white;
@@ -2085,33 +2137,137 @@ height: 44px;
   border-color: var(--purple);
 }
 
-.save-testable-question-button {
-  align-self: flex-start;
-  margin-top: 16px;
-}
 
-.saved-testable-question {
-  display: none;
+/* Highlight the question starter */
 
-  margin-top: 16px;
-  padding: 15px;
+.sentence-starter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  background: var(--soft-purple);
+  padding: 6px 11px;
+
   border: 2px solid var(--line);
-  border-radius: 14px;
+  border-radius: 10px;
 
   color: var(--text);
+  font-weight: 700;
+
+  box-shadow: 0 2px 0 var(--line);
 }
 
-.saved-testable-question.visible {
-  display: block;
+.starter-what {
+  background: var(--yellow);
 }
 
-.saved-testable-question strong {
-  display: block;
-  margin-bottom: 5px;
+.starter-how {
+  background: var(--mint);
+}
+
+.starter-does {
+  background: var(--lavender);
+}
+
+.starter-if {
+  background: var(--soft-orange);
+}
+
+
+/* Highlight the student's saved variables */
+
+.submitted-variable {
+  display: inline-block;
+
+  margin: 2px 3px;
+  padding: 4px 8px;
+
+  background: var(--soft-blue);
+  border: 2px solid var(--line);
+  border-radius: 9px;
+
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* Submitted individual wheel answers */
+
+.submitted-question-part {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  vertical-align: middle;
+}
+
+.submitted-question-part-text {
+  line-height: 1.3;
+}
+
+.submitted-part-delete {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+
+/* Save becomes available after both blanks are submitted */
+
+.wheel-save-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 0 var(--charcoal);
+}
+
+
+/* Checklist inside each generated question */
+
+.wheel-question-checklist {
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 2px dashed rgba(48, 51, 47, 0.35);
+}
+
+.wheel-question-checklist h5 {
+  margin: 0 0 12px;
 
   color: var(--purple);
+
+  font-size: 0.95rem;
+}
+
+
+/* Save button and validation message */
+
+.wheel-save-button {
+  margin-top: 14px;
+}
+
+.wheel-question-message {
+  display: none;
+
+  margin: 12px 0 0;
+
+  color: var(--orange);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.wheel-question-message.visible {
+  display: block;
+}
+
+.wheel-question-message.success {
+  color: var(--green);
 }
 
 
@@ -2182,9 +2338,17 @@ height: 44px;
   }
 
   .question-template-input {
-    width: 100%;
-    margin: 5px 0;
-  }
+  width: 100%;
+  margin: 4px 0;
+}
+
+.question-template-sentence {
+  align-items: stretch;
+}
+
+.question-template-sentence > span:not(.sentence-starter) {
+  align-self: center;
+}
 }
 
 /* ---------- Video and See Think Wonder ---------- */
