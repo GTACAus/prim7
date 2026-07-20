@@ -1396,80 +1396,36 @@ class="flashcard-frame">
       
     </div>
 
-    <div
-      id="chosenQuestionDisplay"
-      class="function-answer chosen-question-box"
-      hidden>
-
-      <strong>Your investigation question</strong>
-
-      <p id="chosenQuestionText"></p>
-    </div>
 
   </div>
 
-  <div
-    id="predictionActivity"
-    class="diagram-box diagram-activity prediction-activity"
-    hidden>
+</section>
 
-    <h3 class="prediction-heading">
-      Now, make your prediction
-    </h3>
+<!-- ---------- Reasoned Prediction Builder ---------- -->
+<section
+  class="section"
+  id="reasoned-builder">
+
+  <h2 class="section-title">
+    Now build your own reasoned prediction
+  </h2>
+
+  <div class="diagram-box diagram-activity">
 
     <p class="activity-instruction">
-      Write what you think will happen, then explain your reasoning.
+      Use the organiser below to construct a reasoned prediction
+      for your investigation question.
     </p>
 
-    <div class="investigation-question-item">
-  <label for="predictionInput">
-    I predict that...
-  </label>
+    <div class="reasoned-prediction-embed-box">
 
-  <div class="final-input-row">
-    <input
-      id="predictionInput"
-      type="text"
-      placeholder="Write what you think will happen"
-      onkeydown="submitPredictionOnEnter(event, 'prediction')">
+      <iframe
+        src="reasoned-prediction-builder.html"
+        title="Reasoned prediction builder"
+        class="reasoned-prediction-iframe">
+      </iframe>
 
-    <button
-      type="button"
-      onclick="submitPredictionAnswer('prediction')">
-      Add
-    </button>
-  </div>
-
-  <ul
-    id="predictionList"
-    class="final-answer-list">
-  </ul>
-</div>
-
-<div class="investigation-question-item">
-  <label for="predictionReasonInput">
-    Because...
-  </label>
-
-  <div class="final-input-row">
-    <input
-      id="predictionReasonInput"
-      type="text"
-      placeholder="Explain why you think this will happen"
-      onkeydown="submitPredictionOnEnter(event, 'reason')">
-
-    <button
-      type="button"
-      onclick="submitPredictionAnswer('reason')">
-      Add
-    </button>
-  </div>
-
-  <ul
-    id="predictionReasonList"
-    class="final-answer-list">
-  </ul>
-</div>
+    </div>
 
   </div>
 

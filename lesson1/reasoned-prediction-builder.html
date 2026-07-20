@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Reasoned Prediction Builder</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <!--
+    This assumes reasoned-prediction-builder.html is in the
+    same folder as lesson1.html.
+  -->
+  <link
+    href="../styles/build_style.css"
+    rel="stylesheet"
+    type="text/css">
+
+  <style>
+    /* ==================================================
+       REASONED PREDICTION BUILDER
+       Activity-specific styles only
+       ================================================== */
+
+    body {
+  margin: 0;
+  padding: 18px;
+}
+
+    .reasoned-builder {
+      width: min(1080px, 100%);
+      margin: 0 auto;
+    }
+
+    .builder-introduction {
+      margin-bottom: 20px;
+      padding: 18px 20px;
+
+      background: var(--soft-blue);
+      border: 3px solid var(--line);
+      border-radius: 20px;
+
+      box-shadow: 0 5px 0 var(--line);
+    }
+
+    .builder-introduction h1 {
+      margin: 0 0 8px;
+
+      color: var(--purple);
+
+      font-size: 1.45rem;
+      line-height: 1.25;
+    }
+
+    .builder-introduction p {
+      margin: 0;
+
+      color: var(--text);
+
+      line-height: 1.6;
+    }
+
+    /* ---------- Main organiser ---------- */
+
+    .prediction-builder {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr);
+
+      overflow: hidden;
+
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 22px;
+
+      box-shadow: 0 6px 0 var(--line);
+    }
+
+    .builder-cell {
+      min-width: 0;
+      padding: 16px;
+
+      border-right: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
+    }
+
+    .builder-cell:nth-child(3n) {
+      border-right: none;
+    }
+
+    .builder-cell.last-row {
+      border-bottom: none;
+    }
+
+    .builder-cell.span-two {
+      grid-column: span 2;
+      border-right: none;
+    }
+
+    .builder-label {
+      background: var(--soft-yellow);
+
+      color: var(--text);
+
+      font-weight: 700;
+    }
+
+    .builder-heading {
+      background: var(--purple);
+      color: white;
+
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .builder-subheading {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--purple);
+
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    .builder-helper {
+      display: block;
+
+      margin-top: 6px;
+
+      color: var(--muted);
+
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    /* ---------- Text inputs ---------- */
+
+    .builder-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .builder-input-row input,
+    .relationship-select,
+    .condition-input {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+
+      background: #fffdf5;
+      color: var(--text);
+
+      border: 2px solid var(--line);
+      border-radius: 12px;
+
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .builder-input-row input:focus,
+    .relationship-select:focus,
+    .condition-input:focus {
+      outline: 3px solid rgba(78, 50, 232, 0.18);
+      border-color: var(--purple);
+    }
+
+    .builder-add-button {
+      flex: 0 0 auto;
+
+      min-height: 44px;
+      padding: 9px 14px;
+
+      background: var(--green);
+      color: white;
+
+      border: 2px solid var(--line);
+      border-radius: 12px;
+
+      font-family: inherit;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .builder-add-button:hover {
+      background: var(--purple);
+    }
+
+    /* ---------- Permanent answers ---------- */
+
+    .builder-submitted-answer {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      width: 100%;
+      padding: 10px 12px;
+
+      background: var(--soft-green);
+      color: var(--text);
+
+      border: 2px solid var(--line);
+      border-radius: 12px;
+
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .builder-submitted-answer.visible {
+      display: flex;
+    }
+
+    /* Uses .delete-answer from build_style.css */
+
+    /* ---------- Relationship selectors ---------- */
+
+    .relationship-area {
+      display: grid;
+      gap: 12px;
+    }
+
+    .relationship-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .relationship-buttons.three-options {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .relationship-option {
+      min-height: 44px;
+      padding: 9px 10px;
+
+      background: white;
+      color: var(--text);
+
+      border: 2px solid var(--line);
+      border-radius: 12px;
+
+      font-family: inherit;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .relationship-option:hover {
+      background: var(--soft-yellow);
+    }
+
+    .relationship-option.selected {
+      background: var(--purple);
+      color: white;
+    }
+
+    .condition-comparison-inputs {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .condition-comparison-inputs.visible {
+      display: grid;
+    }
+
+    /* ---------- Generated text ---------- */
+
+    .generated-example {
+      min-height: 58px;
+      padding: 12px 14px;
+
+      background: var(--soft-purple);
+      color: var(--text);
+
+      border: 2px solid var(--line);
+      border-radius: 14px;
+
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .generated-example.placeholder {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .final-prediction {
+      background: var(--soft-green);
+
+      font-size: 1.03rem;
+    }
+
+    .builder-status {
+      min-height: 24px;
+      margin: 16px 0 0;
+
+      color: var(--purple);
+
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* ---------- Responsive layout ---------- */
+
+    @media (max-width: 820px) {
+      body {
+        padding: 10px;
+      }
+
+      .prediction-builder {
+        grid-template-columns: 1fr;
+      }
+
+      .builder-cell,
+      .builder-cell:nth-child(3n) {
+        border-right: none;
+      }
+
+      .builder-cell.span-two {
+        grid-column: span 1;
+      }
+
+      .relationship-buttons,
+      .relationship-buttons.three-options,
+      .condition-comparison-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="reasoned-builder">
+
+    <div class="builder-introduction">
+      <h1>Build a reasoned prediction</h1>
+
+      <p>
+        Add the parts of your investigation, choose the relationship you predict,
+        and explain your scientific reason. Your complete reasoned prediction will
+        be created automatically.
+      </p>
+    </div>
+
+    <div
+      class="prediction-builder"
+      aria-label="Reasoned prediction graphic organiser">
+
+      <!-- ========================================
+           Header row
+           ======================================== -->
+
+      <div class="builder-cell builder-label">
+        Testable question
+      </div>
+
+      <div class="builder-cell builder-heading">
+        Change this
+      </div>
+
+      <div class="builder-cell builder-heading">
+        Measure this
+      </div>
+
+      <!-- ========================================
+           Variables row
+           ======================================== -->
+
+      <div class="builder-cell builder-label">
+        <span class="builder-subheading">
+          Variables
+        </span>
+
+        Identify the two things in your investigation.
+      </div>
+
+      <div class="builder-cell">
+        <span class="builder-subheading">
+          Changing variable
+        </span>
+
+        <div
+          class="builder-input-row"
+          id="changeInputRow">
+
+          <input
+            id="changeVariableInput"
+            type="text"
+            placeholder="e.g. the angle of the ramp">
+
+          <button
+            type="button"
+            class="builder-add-button"
+            onclick="submitBuilderAnswer('change')">
+            Add
+          </button>
+        </div>
+
+        <div
+          id="changeVariableAnswer"
+          class="builder-submitted-answer">
+        </div>
+      </div>
+
+      <div class="builder-cell">
+        <span class="builder-subheading">
+          Measured variable
+        </span>
+
+        <div
+          class="builder-input-row"
+          id="measureInputRow">
+
+          <input
+            id="measureVariableInput"
+            type="text"
+            placeholder="e.g. how far the car travels">
+
+          <button
+            type="button"
+            class="builder-add-button"
+            onclick="submitBuilderAnswer('measure')">
+            Add
+          </button>
+        </div>
+
+        <div
+          id="measureVariableAnswer"
+          class="builder-submitted-answer">
+        </div>
+      </div>
+
+      <!-- ========================================
+           Full question row
+           ======================================== -->
+
+      <div class="builder-cell builder-label">
+        <span class="builder-subheading">
+          Your testable question
+        </span>
+
+        Enter the complete question.
+      </div>
+
+      <div class="builder-cell span-two">
+
+        <div
+          class="builder-input-row"
+          id="questionInputRow">
+
+          <input
+            id="testableQuestionInput"
+            type="text"
+            placeholder="e.g. Does changing the angle of the ramp affect how far the car travels?">
+
+          <button
+            type="button"
+            class="builder-add-button"
+            onclick="submitBuilderAnswer('question')">
+            Add
+          </button>
+        </div>
+
+        <div
+          id="testableQuestionAnswer"
+          class="builder-submitted-answer">
+        </div>
+      </div>
+
+      <!-- ========================================
+           Prediction reference row
+           ======================================== -->
+
+      <div class="builder-cell builder-label">
+        Prediction
+      </div>
+
+      <div class="builder-cell builder-heading">
+        If I do this
+      </div>
+
+      <div class="builder-cell builder-heading">
+        then this will happen
+      </div>
+
+      <!-- ========================================
+           Relationship controls
+           ======================================== -->
+
+      <div class="builder-cell builder-label">
+        <span class="builder-subheading">
+          Relationship
+        </span>
+
+        Choose what you will do and what you think will happen.
+      </div>
+
+      <!-- Cause -->
+
+      <div class="builder-cell">
+
+        <span class="builder-subheading">
+          Cause
+        </span>
+
+        <div class="relationship-area">
+
+          <select
+            id="causeRelationshipType"
+            class="relationship-select"
+            onchange="changeCauseRelationshipType()">
+
+            <option value="">
+              Choose a relationship type
+            </option>
+
+            <option value="increase-decrease">
+              Increase / decrease
+            </option>
+
+            <option value="more-less">
+              More / less
+            </option>
+
+            <option value="with-without">
+              With / without
+            </option>
+
+            <option value="condition-comparison">
+              Condition 1 versus condition 2
+            </option>
+          </select>
+
+          <div
+            id="causeRelationshipButtons"
+            class="relationship-buttons">
+          </div>
+
+          <div
+            id="conditionComparisonInputs"
+            class="condition-comparison-inputs">
+
+            <input
+              id="conditionOneInput"
+              class="condition-input"
+              type="text"
+              placeholder="Condition 1, e.g. sunlight">
+
+            <input
+              id="conditionTwoInput"
+              class="condition-input"
+              type="text"
+              placeholder="Condition 2, e.g. darkness">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Effect -->
+
+      <div class="builder-cell">
+
+        <span class="builder-subheading">
+          Effect or result
+        </span>
+
+        <div class="relationship-area">
+
+          <select
+            id="effectRelationshipType"
+            class="relationship-select"
+            onchange="changeEffectRelationshipType()">
+
+            <option value="">
+              Choose a result type
+            </option>
+
+            <option value="increase-decrease">
+              Increase / decrease / stay the same
+            </option>
+
+            <option value="more-less">
+              More / less / no difference
+            </option>
+
+            <option value="faster-slower">
+              Faster / slower / same rate
+            </option>
+
+            <option value="condition-comparison">
+              Greater under one condition
+            </option>
+          </select>
+
+          <div
+            id="effectRelationshipButtons"
+            class="relationship-buttons three-options">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========================================
+           Generated examples
+           ======================================== -->
+
+      <div class="builder-cell builder-label">
+        Example
+      </div>
+
+      <div class="builder-cell">
+
+        <div
+          id="causeExample"
+          class="generated-example placeholder">
+          Choose a cause relationship.
+        </div>
+      </div>
+
+      <div class="builder-cell">
+
+        <div
+          id="effectExample"
+          class="generated-example placeholder">
+          Choose an effect relationship.
+        </div>
+      </div>
+
+      <!-- ========================================
+           Reason
+           ======================================== -->
+
+      <div class="builder-cell builder-label">
+        <span class="builder-subheading">
+          Reason
+        </span>
+
+        Explain why you expect this result.
+      </div>
+
+      <div class="builder-cell span-two">
+
+        <span class="builder-subheading">
+          This is because...
+        </span>
+
+        <div
+          class="builder-input-row"
+          id="reasonInputRow">
+
+          <input
+            id="reasonInput"
+            type="text"
+            placeholder="e.g. the car gains more speed travelling down the ramp">
+
+          <button
+            type="button"
+            class="builder-add-button"
+            onclick="submitBuilderAnswer('reason')">
+            Add
+          </button>
+        </div>
+
+        <div
+          id="reasonAnswer"
+          class="builder-submitted-answer">
+        </div>
+      </div>
+
+      <!-- ========================================
+           Final generated prediction
+           ======================================== -->
+
+      <div class="builder-cell builder-label last-row">
+        <span class="builder-subheading">
+          Reasoned prediction
+        </span>
+
+        Your complete sentence.
+      </div>
+
+      <div class="builder-cell span-two last-row">
+
+        <div
+          id="finalReasonedPrediction"
+          class="generated-example final-prediction placeholder"
+          aria-live="polite">
+
+          Complete the organiser to build your reasoned prediction.
+        </div>
+      </div>
+
+    </div>
+
+    <p
+      id="builderStatus"
+      class="builder-status"
+      aria-live="polite">
+    </p>
+
+  </main>
+
+  <!-- Shared functions -->
+  <script src="../scripts/common_functions.js"></script>
+
+  <script>
+    /* ==================================================
+       PROFANITY FILTER
+       ================================================== */
+
+    if (
+      typeof initialiseClassroomLanguageFilter === "function"
+    ) {
+      initialiseClassroomLanguageFilter(
+        "../cypher.txt"
+      );
+    }
+
+
+    /* ==================================================
+       ACTIVITY STATE
+       ================================================== */
+
+    const builderState = {
+      question: "",
+      change: "",
+      measure: "",
+      reason: "",
+      causeRelationship: "",
+      effectRelationship: ""
+    };
+
+
+    /* ==================================================
+       PERMANENT TEXT ANSWERS
+       ================================================== */
+
+    function getBuilderAnswerElements(answerType) {
+      const answerElements = {
+        question: {
+          inputId: "testableQuestionInput",
+          inputRowId: "questionInputRow",
+          answerId: "testableQuestionAnswer"
+        },
+
+        change: {
+          inputId: "changeVariableInput",
+          inputRowId: "changeInputRow",
+          answerId: "changeVariableAnswer"
+        },
+
+        measure: {
+          inputId: "measureVariableInput",
+          inputRowId: "measureInputRow",
+          answerId: "measureVariableAnswer"
+        },
+
+        reason: {
+          inputId: "reasonInput",
+          inputRowId: "reasonInputRow",
+          answerId: "reasonAnswer"
+        }
+      };
+
+      return answerElements[answerType];
+    }
+
+
+    function submitBuilderAnswer(answerType) {
+      const elements =
+        getBuilderAnswerElements(answerType);
+
+      if (!elements) {
+        return;
+      }
+
+      const input =
+        document.getElementById(
+          elements.inputId
+        );
+
+      const inputRow =
+        document.getElementById(
+          elements.inputRowId
+        );
+
+      const answerBox =
+        document.getElementById(
+          elements.answerId
+        );
+
+      const answer =
+        input.value.trim();
+
+      if (answer === "") {
+        input.focus();
+        return;
+      }
+
+      if (
+        typeof containsProfanity === "function" &&
+        containsProfanity(answer)
+      ) {
+        input.value = "";
+        input.focus();
+        return;
+      }
+
+      builderState[answerType] =
+        answer;
+
+      answerBox.innerHTML = "";
+
+      const answerText =
+        document.createElement("span");
+
+      answerText.textContent =
+        answer;
+
+      const deleteButton =
+        document.createElement("button");
+
+      deleteButton.type = "button";
+      deleteButton.className =
+        "delete-answer";
+
+      deleteButton.textContent = "×";
+
+      deleteButton.setAttribute(
+        "aria-label",
+        "Edit " + answerType
+      );
+
+      deleteButton.addEventListener(
+        "click",
+        function() {
+          restoreBuilderAnswer(
+            answerType,
+            answer
+          );
+        }
+      );
+
+      answerBox.appendChild(
+        answerText
+      );
+
+      answerBox.appendChild(
+        deleteButton
+      );
+
+      inputRow.style.display = "none";
+
+      answerBox.classList.add(
+        "visible"
+      );
+
+      input.value = "";
+
+      updateGeneratedPrediction();
+    }
+
+
+    function restoreBuilderAnswer(
+      answerType,
+      previousAnswer
+    ) {
+      const elements =
+        getBuilderAnswerElements(answerType);
+
+      if (!elements) {
+        return;
+      }
+
+      const input =
+        document.getElementById(
+          elements.inputId
+        );
+
+      const inputRow =
+        document.getElementById(
+          elements.inputRowId
+        );
+
+      const answerBox =
+        document.getElementById(
+          elements.answerId
+        );
+
+      builderState[answerType] = "";
+
+      answerBox.classList.remove(
+        "visible"
+      );
+
+      answerBox.innerHTML = "";
+
+      inputRow.style.display = "flex";
+
+      input.value =
+        previousAnswer;
+
+      input.focus();
+
+      updateGeneratedPrediction();
+    }
+
+
+    function connectBuilderEnter(
+      inputId,
+      answerType
+    ) {
+      const input =
+        document.getElementById(inputId);
+
+      input.addEventListener(
+        "keydown",
+        function(event) {
+          if (event.key !== "Enter") {
+            return;
+          }
+
+          event.preventDefault();
+
+          submitBuilderAnswer(
+            answerType
+          );
+        }
+      );
+    }
+
+
+    connectBuilderEnter(
+      "testableQuestionInput",
+      "question"
+    );
+
+    connectBuilderEnter(
+      "changeVariableInput",
+      "change"
+    );
+
+    connectBuilderEnter(
+      "measureVariableInput",
+      "measure"
+    );
+
+    connectBuilderEnter(
+      "reasonInput",
+      "reason"
+    );
+
+
+    /* ==================================================
+       RELATIONSHIP OPTIONS
+       ================================================== */
+
+    const causeRelationshipOptions = {
+      "increase-decrease": [
+        {
+          value: "increase",
+          label: "Increase"
+        },
+        {
+          value: "decrease",
+          label: "Decrease"
+        }
+      ],
+
+      "more-less": [
+        {
+          value: "more",
+          label: "More"
+        },
+        {
+          value: "less",
+          label: "Less"
+        }
+      ],
+
+      "with-without": [
+        {
+          value: "with",
+          label: "With"
+        },
+        {
+          value: "without",
+          label: "Without"
+        }
+      ],
+
+      "condition-comparison": [
+        {
+          value: "condition-one",
+          label: "Condition 1"
+        },
+        {
+          value: "condition-two",
+          label: "Condition 2"
+        }
+      ]
+    };
+
+
+    const effectRelationshipOptions = {
+      "increase-decrease": [
+        {
+          value: "increase",
+          label: "Increase"
+        },
+        {
+          value: "decrease",
+          label: "Decrease"
+        },
+        {
+          value: "stay-the-same",
+          label: "Stay the same"
+        }
+      ],
+
+      "more-less": [
+        {
+          value: "more",
+          label: "More"
+        },
+        {
+          value: "less",
+          label: "Less"
+        },
+        {
+          value: "no-difference",
+          label: "No difference"
+        }
+      ],
+
+      "faster-slower": [
+        {
+          value: "faster",
+          label: "Faster"
+        },
+        {
+          value: "slower",
+          label: "Slower"
+        },
+        {
+          value: "same-rate",
+          label: "Same rate"
+        }
+      ],
+
+      "condition-comparison": [
+        {
+          value: "greater-condition-one",
+          label: "Greater in condition 1"
+        },
+        {
+          value: "greater-condition-two",
+          label: "Greater in condition 2"
+        },
+        {
+          value: "no-difference",
+          label: "No difference"
+        }
+      ]
+    };
+
+
+    function createRelationshipButtons(
+      container,
+      options,
+      selectedValue,
+      selectFunction
+    ) {
+      container.innerHTML = "";
+
+      options.forEach(function(option) {
+        const button =
+          document.createElement("button");
+
+        button.type = "button";
+
+        button.className =
+          "relationship-option";
+
+        button.textContent =
+          option.label;
+
+        if (
+          option.value === selectedValue
+        ) {
+          button.classList.add(
+            "selected"
+          );
+        }
+
+        button.addEventListener(
+          "click",
+          function() {
+            selectFunction(
+              option.value
+            );
+          }
+        );
+
+        container.appendChild(
+          button
+        );
+      });
+    }
+
+
+    /* ---------- Cause controls ---------- */
+
+    function changeCauseRelationshipType() {
+      builderState.causeRelationship = "";
+
+      renderCauseRelationshipButtons();
+
+      updateConditionInputs();
+
+      updateGeneratedPrediction();
+    }
+
+
+    function renderCauseRelationshipButtons() {
+      const relationshipType =
+        document.getElementById(
+          "causeRelationshipType"
+        ).value;
+
+      const container =
+        document.getElementById(
+          "causeRelationshipButtons"
+        );
+
+      const options =
+        causeRelationshipOptions[
+          relationshipType
+        ] || [];
+
+      createRelationshipButtons(
+        container,
+        options,
+        builderState.causeRelationship,
+        function(selectedValue) {
+          builderState.causeRelationship =
+            selectedValue;
+
+          renderCauseRelationshipButtons();
+
+          updateGeneratedPrediction();
+        }
+      );
+    }
+
+
+    function updateConditionInputs() {
+      const relationshipType =
+        document.getElementById(
+          "causeRelationshipType"
+        ).value;
+
+      const conditionInputs =
+        document.getElementById(
+          "conditionComparisonInputs"
+        );
+
+      conditionInputs.classList.toggle(
+        "visible",
+        relationshipType ===
+          "condition-comparison"
+      );
+    }
+
+
+    /* ---------- Effect controls ---------- */
+
+    function changeEffectRelationshipType() {
+      builderState.effectRelationship = "";
+
+      renderEffectRelationshipButtons();
+
+      updateGeneratedPrediction();
+    }
+
+
+    function renderEffectRelationshipButtons() {
+      const relationshipType =
+        document.getElementById(
+          "effectRelationshipType"
+        ).value;
+
+      const container =
+        document.getElementById(
+          "effectRelationshipButtons"
+        );
+
+      const options =
+        effectRelationshipOptions[
+          relationshipType
+        ] || [];
+
+      createRelationshipButtons(
+        container,
+        options,
+        builderState.effectRelationship,
+        function(selectedValue) {
+          builderState.effectRelationship =
+            selectedValue;
+
+          renderEffectRelationshipButtons();
+
+          updateGeneratedPrediction();
+        }
+      );
+    }
+
+
+    /* ==================================================
+       GENERATED LANGUAGE
+       ================================================== */
+
+    function getConditionOne() {
+      return (
+        document
+          .getElementById(
+            "conditionOneInput"
+          )
+          .value
+          .trim() ||
+        "condition 1"
+      );
+    }
+
+
+    function getConditionTwo() {
+      return (
+        document
+          .getElementById(
+            "conditionTwoInput"
+          )
+          .value
+          .trim() ||
+        "condition 2"
+      );
+    }
+
+
+    function getCausePhrase() {
+      const changingVariable =
+        builderState.change;
+
+      const relationship =
+        builderState.causeRelationship;
+
+      if (
+        changingVariable === "" ||
+        relationship === ""
+      ) {
+        return "";
+      }
+
+      const causePhrases = {
+        increase:
+          "increase " +
+          changingVariable,
+
+        decrease:
+          "decrease " +
+          changingVariable,
+
+        more:
+          "use more " +
+          changingVariable,
+
+        less:
+          "use less " +
+          changingVariable,
+
+        with:
+          "conduct the investigation with " +
+          changingVariable,
+
+        without:
+          "conduct the investigation without " +
+          changingVariable,
+
+        "condition-one":
+          "use " +
+          getConditionOne() +
+          " instead of " +
+          getConditionTwo(),
+
+        "condition-two":
+          "use " +
+          getConditionTwo() +
+          " instead of " +
+          getConditionOne()
+      };
+
+      return (
+        causePhrases[relationship] ||
+        ""
+      );
+    }
+
+
+    function getEffectPhrase() {
+      const measuredVariable =
+        builderState.measure;
+
+      const relationship =
+        builderState.effectRelationship;
+
+      if (
+        measuredVariable === "" ||
+        relationship === ""
+      ) {
+        return "";
+      }
+
+      const effectPhrases = {
+        increase:
+          "increase " +
+          measuredVariable,
+
+        decrease:
+          "decrease " +
+          measuredVariable,
+
+        "stay-the-same":
+          "keep " +
+          measuredVariable +
+          " the same",
+
+        more:
+          "result in more " +
+          measuredVariable,
+
+        less:
+          "result in less " +
+          measuredVariable,
+
+        "no-difference":
+          "make no difference to " +
+          measuredVariable,
+
+        faster:
+          "make " +
+          measuredVariable +
+          " happen faster",
+
+        slower:
+          "make " +
+          measuredVariable +
+          " happen more slowly",
+
+        "same-rate":
+          "keep the rate of " +
+          measuredVariable +
+          " the same",
+
+        "greater-condition-one":
+          "make " +
+          measuredVariable +
+          " greater in " +
+          getConditionOne() +
+          " than in " +
+          getConditionTwo(),
+
+        "greater-condition-two":
+          "make " +
+          measuredVariable +
+          " greater in " +
+          getConditionTwo() +
+          " than in " +
+          getConditionOne()
+      };
+
+      return (
+        effectPhrases[relationship] ||
+        ""
+      );
+    }
+
+
+    function updateOutput(
+      elementId,
+      outputText,
+      placeholderText
+    ) {
+      const element =
+        document.getElementById(
+          elementId
+        );
+
+      if (outputText === "") {
+        element.textContent =
+          placeholderText;
+
+        element.classList.add(
+          "placeholder"
+        );
+
+        return;
+      }
+
+      element.textContent =
+        outputText;
+
+      element.classList.remove(
+        "placeholder"
+      );
+    }
+
+
+    function updateGeneratedPrediction() {
+      const causePhrase =
+        getCausePhrase();
+
+      const effectPhrase =
+        getEffectPhrase();
+
+      updateOutput(
+        "causeExample",
+        causePhrase === ""
+          ? ""
+          : "If I " + causePhrase,
+        "Choose a cause relationship."
+      );
+
+      updateOutput(
+        "effectExample",
+        effectPhrase === ""
+          ? ""
+          : "then this will " + effectPhrase,
+        "Choose an effect relationship."
+      );
+
+      let finalPrediction = "";
+
+      if (
+        causePhrase !== "" &&
+        effectPhrase !== ""
+      ) {
+        finalPrediction =
+          "If I " +
+          causePhrase +
+          ", then this will " +
+          effectPhrase +
+          ".";
+      }
+
+      if (
+        finalPrediction !== "" &&
+        builderState.reason !== ""
+      ) {
+        finalPrediction +=
+          " This is because " +
+          builderState.reason +
+          ".";
+      }
+
+      updateOutput(
+        "finalReasonedPrediction",
+        finalPrediction,
+        "Complete the organiser to build your reasoned prediction."
+      );
+
+      const statusMessage =
+        document.getElementById(
+          "builderStatus"
+        );
+
+      if (
+        causePhrase !== "" &&
+        effectPhrase !== "" &&
+        builderState.reason !== ""
+      ) {
+        statusMessage.textContent =
+          "Your reasoned prediction is complete.";
+      } else {
+        statusMessage.textContent = "";
+      }
+    }
+
+
+    /* Update condition-comparison sentences as students type. */
+
+    document
+      .getElementById(
+        "conditionOneInput"
+      )
+      .addEventListener(
+        "input",
+        updateGeneratedPrediction
+      );
+
+    document
+      .getElementById(
+        "conditionTwoInput"
+      )
+      .addEventListener(
+        "input",
+        updateGeneratedPrediction
+      );
+  </script>
+
+</body>
+</html>
