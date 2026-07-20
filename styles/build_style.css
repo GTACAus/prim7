@@ -2318,8 +2318,20 @@ height: 44px;
 
 
 /* ---------- Mobile ---------- */
-
+@media (max-width: 1024px) {
+  .question-wheel-wrapper {
+    width: 25vw;
+  }
+}
 @media (max-width: 800px) {
+  .testable-question-activity {
+    font-size: 3vw;
+  }
+
+  .question-wheel-wrapper {
+    width: 40vw;
+  }
+
   .question-wheel-layout {
     grid-template-columns: 1fr;
   }
