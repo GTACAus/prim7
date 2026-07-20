@@ -104,6 +104,52 @@
         padding: 0px;
     }
 
+  .prediction-input,
+  .prediction-select {
+    width: 100%;
+    font: inherit;
+    color: var(--text);
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+}
+
+.prediction-input:focus,
+.prediction-select:focus {
+    outline: none;
+    border-color: var(--purple);
+}
+
+.prediction-select {
+    cursor: pointer;
+}
+
+.reason-inline{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+}
+
+.reason-inline .cell-helper{
+    margin:0;
+    white-space:nowrap;
+}
+
+.inline-input{
+    flex:1;
+}
+
+.reset-btn {
+  background-color: var(--orange);
+}
+
+.reset-button-container {
+  display: flex;
+  justify-content: center;
+}
+
 </style>
 
 <body>
@@ -123,39 +169,96 @@
        <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-measure-label">Measure this</span>
        </div>
        <div class="prediction-organiser-cell span-2"></div>
-      </div><!-- Relationship row -->
-      <div class="prediction-organiser-row row-relationship">
-       <div class="prediction-organiser-cell cell-label">
-        <span class="cell-sublabel" data-template-id="org-row-rel-label">Relationship:</span>
-        <span class="cell-helper" data-template-id="org-row-rel-label">Description here</span>
-       </div>
-       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-cause-label">Cause</span> <span class="cell-helper" data-template-id="org-cause-helper">increase / decrease<br>
-         more / less<br>
-         with / without<br>
-         condition 1 versus condition 2</span>
-       </div>
-       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-effect-label">Effect (result)</span> <span class="cell-helper" data-template-id="org-effect-helper">increase / decrease / stay the same<br>
-         more / less / no difference</span>
-       </div>
-      </div><!-- Prediction row -->
+      </div>
+      <div class="prediction-organiser-row row-question">
+      <div class="prediction-organiser-cell cell-label">
+        <span class="cell-sublabel">Variables</span>
+      </div>
+
+      <div class="prediction-organiser-cell">
+        <input
+          id="changeVariable"
+          type="text"
+          class="prediction-input"
+          placeholder="What will you change?">
+      </div>
+
+      <div class="prediction-organiser-cell">
+        <input
+          id="measureVariable"
+          type="text"
+          class="prediction-input"
+          placeholder="What will you measure?">
+      </div>
+    </div>
+      <!-- Relationship row -->
+<div class="prediction-organiser-row row-relationship">
+
+  <div class="prediction-organiser-cell cell-label">
+    <span class="cell-sublabel">Relationship</span>
+    <span class="cell-helper">
+      Describe how changing one variable affects the other.
+    </span>
+  </div>
+
+  <div class="prediction-organiser-cell">
+    <span class="cell-sublabel">Cause</span>
+
+    <select id="causeSelect" class="prediction-select">
+      <option value="">Select...</option>
+      <option>increase</option>
+      <option>decrease</option>
+      <option>more</option>
+      <option>less</option>
+      <option>with</option>
+      <option>without</option>
+      <option>condition 1</option>
+      <option>condition 2</option>
+    </select>
+  </div>
+
+  <div class="prediction-organiser-cell">
+    <span class="cell-sublabel">Effect (result)</span>
+
+    <select id="effectSelect" class="prediction-select">
+      <option value="">Select...</option>
+      <option>increase</option>
+      <option>decrease</option>
+      <option>stay the same</option>
+      <option>more</option>
+      <option>less</option>
+      <option>no difference</option>
+    </select>
+  </div>
+
+</div>
+      <!-- Prediction row -->
       <div class="prediction-organiser-row row-prediction">
        <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-pred-label">Prediction:</span>
        </div>
-       <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-if">If I do this</span>
+       <div class="prediction-organiser-cell"><span class="cell-helper" id="predictionIf">If I do this</span>
        </div>
-       <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-then">then this will happen</span>
+       <div class="prediction-organiser-cell"><span class="cell-helper" id="predictionThen">then this will happen</span>
        </div>
       </div><!-- Reason row -->
       <div class="prediction-organiser-row row-reason">
        <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-reason-label">Reason:</span>
        </div>
-       <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-reason-body">This is because…</span>
+       <div class="reason-inline prediction-organiser-cell span-2">
+        <span class="cell-helper">This is because...</span>
+        <input
+          id="reasonInput"
+          type="text"
+          class="prediction-input inline-input"
+          placeholder="your answer here...">
+        
        </div>
       </div><!-- Reasoned prediction row -->
       <div class="prediction-organiser-row row-full">
        <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-full-label">Reasoned prediction:</span>
        </div>
-       <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-full-body">If I do this then this will happen. This is because of this.</span>
+       <div class="prediction-organiser-cell span-2">
+        <span id="reasonedPrediction" class="cell-helper">If I do <strong>this</strong> then <strong>this</strong> will happen. This is because of <strong>this</strong>.</span>
        </div>
       </div>
     </div>
@@ -165,11 +268,168 @@
 </div>
 
   </div>
-
+  <div class="reset-button-container">
+  <button
+      id="flashcardsNextButton"
+      class="reset-btn general-button"
+      onclick="resetGrid()">
+      Reset
+  </button>
+  </div>
 </section>
 
 </main>
 
 </body>
+<script>
+  const changeVariable = document.getElementById("changeVariable");
+  const measureVariable = document.getElementById("measureVariable");
 
+  const causeSelect = document.getElementById("causeSelect");
+  const effectSelect = document.getElementById("effectSelect");
+
+  const predictionIf = document.getElementById("predictionIf");
+  const predictionThen = document.getElementById("predictionThen");
+
+  const reasonInput = document.getElementById("reasonInput");
+  const reasonedPrediction = document.getElementById("reasonedPrediction");
+
+  function updatePrediction() {
+
+      const change = changeVariable.value.trim();
+      const measure = measureVariable.value.trim();
+      const reason = reasonInput.value.trim();
+      const cause = causeSelect.value;
+      const effect = effectSelect.value;
+
+      // ----- First sentence -----
+      if (change && cause) {
+        let sentence = "";
+
+        switch (cause) {
+
+            case "increase":
+            case "decrease":
+                sentence = `If I ${cause} the ${change}`;
+                break;
+
+            case "more":
+            case "less":
+                sentence = `If there is ${cause} ${change}`;
+                break;
+
+            case "with":
+                sentence = `If there is ${change}`;
+                break;
+
+            case "without":
+                sentence = `If there is no ${change}`;
+                break;
+
+            case "no difference":
+                sentence = `If there is no difference in the ${change}`;
+                break;
+
+            default:
+                sentence = "If I change...";
+        }
+
+        predictionIf.textContent = sentence;
+      } else {
+          predictionIf.textContent = "If I change...";
+      }
+
+      // ----- Second sentence -----
+      if (measure && effect) {
+
+          let sentence = "";
+
+          switch (effect) {
+
+              case "increase":
+                  sentence = `then the ${measure} will increase`;
+                  break;
+
+              case "decrease":
+                  sentence = `then the ${measure} will decrease`;
+                  break;
+
+              case "stay the same":
+                  sentence = `then the ${measure} will stay the same`;
+                  break;
+
+              case "more":
+                  sentence = `then there will be more ${measure}`;
+                  break;
+
+              case "less":
+                  sentence = `then there will be less ${measure}`;
+                  break;
+
+              case "no difference":
+                  sentence = `then there will be no difference in the ${measure}`;
+                  break;
+
+              default:
+                  sentence = "then...";
+          }
+
+          predictionThen.textContent = sentence;
+
+      } else {
+
+          predictionThen.textContent = "then...";
+      }
+
+      // ----- Full reasoned prediction -----
+      if (change && cause && measure && effect) {
+
+          const firstSentence = predictionIf.textContent;
+          const secondSentence = predictionThen.textContent;
+
+          let full = `${firstSentence}, ${secondSentence}.`;
+
+          if (reason) {
+              full += ` This is because ${reason}.`;
+          } else {
+              full += " This is because...";
+          }
+
+          reasonedPrediction.textContent = full;
+
+      } else {
+
+          reasonedPrediction.innerHTML =
+              "If I do <strong>this</strong> then <strong>this</strong> will happen. This is because of <strong>this</strong>.";
+      }
+  }
+
+  function resetGrid() {
+    // Clear inputs
+    changeVariable.value = "";
+    measureVariable.value = "";
+    reasonInput.value = "";
+
+    // Reset dropdowns
+    causeSelect.selectedIndex = 0;
+    effectSelect.selectedIndex = 0;
+
+    // Refresh generated text
+    updatePrediction();
+  }
+
+  // Update whenever anything changes
+  [
+      changeVariable,
+      measureVariable,
+      causeSelect,
+      effectSelect,
+      reasonInput
+  ].forEach(element => {
+      element.addEventListener("input", updatePrediction);
+      element.addEventListener("change", updatePrediction);
+  });
+
+  updatePrediction();
+</script>
 </html>
