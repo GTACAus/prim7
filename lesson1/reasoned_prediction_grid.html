@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Lesson 1 - Questioning and Predicting</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <link
+    href="../styles/build_style.css"
+    rel="stylesheet"
+    type="text/css">
+
+  <style>
+
+.prediction-activity {
+  margin-top: 24px;
+  background: var(--soft-yellow);
+}
+
+.prediction-heading {
+  margin: 0 0 8px;
+
+  color: var(--soft-purple);
+  font-size: 1.15rem;
+  /* text-transform: uppercase; */
+}
+
+.prediction-organiser {
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 5px 0 var(--line);
+    }
+
+    /* Each row is a horizontal stripe */
+    .prediction-organiser-row {
+      display: grid;
+      grid-template-columns: 180px 1fr 1fr;
+      border-bottom: 2px solid var(--line);
+    }
+    .prediction-organiser-row:last-child { border-bottom: none; }
+
+    .prediction-organiser-cell {
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      border-right: 2px solid var(--line);
+    }
+    .prediction-organiser-cell:last-child { border-right: none; }
+
+    /* Row-type colour bands */
+    .row-header   { background: var(--purple); }
+    .row-header   .prediction-organiser-cell { color: var(--paper); font-weight: 700; font-size: 1rem; }
+
+    .row-question { background: var(--soft-blue); }
+    .row-relationship { background: var(--soft-yellow); }
+    .row-prediction   { background: var(--soft-green); }
+    .row-reason       { background: var(--soft-purple); }
+    .row-full         { background: var(--card); }
+
+    /* Span-2 cell (no right border on the spanning cell) */
+    .prediction-organiser-cell.span-2 {
+      grid-column: span 2;
+      border-right: none;
+    }
+
+    /* Label column — always slightly darker */
+    .cell-label {
+      background: rgba(0,0,0,.04);
+      font-weight: 700;
+    }
+
+    /* sub-labels inside cells */
+    .cell-sublabel {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .row-header .cell-sublabel { color: var(--cream); }
+
+    /* italic helper lines */
+    .cell-helper {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ---- diagram-grid wrapper ---- */
+    .grid-container {
+        padding: 0px;
+    }
+
+</style>
+
+<body>
+<section
+  class="section"
+  id="reasoned-prediction">
+
+  <h2 class="section-title">
+    Writing a Reasoned Prediction
+  </h2>
+
+  <div class="grid-container diagram-box diagram-activity">
+      <div class="prediction-organiser-row row-header">
+        <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-tq-label">Testable question:</span></div>
+        <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-change-label">Change this</span>
+        </div>
+       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-measure-label">Measure this</span>
+       </div>
+       <div class="prediction-organiser-cell span-2"></div>
+      </div><!-- Relationship row -->
+      <div class="prediction-organiser-row row-relationship">
+       <div class="prediction-organiser-cell cell-label">
+        <span class="cell-sublabel" data-template-id="org-row-rel-label">Relationship:</span>
+        <span class="cell-helper" data-template-id="org-row-rel-label">Description here</span>
+       </div>
+       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-cause-label">Cause</span> <span class="cell-helper" data-template-id="org-cause-helper">increase / decrease<br>
+         more / less<br>
+         with / without<br>
+         condition 1 versus condition 2</span>
+       </div>
+       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-effect-label">Effect (result)</span> <span class="cell-helper" data-template-id="org-effect-helper">increase / decrease / stay the same<br>
+         more / less / no difference</span>
+       </div>
+      </div><!-- Prediction row -->
+      <div class="prediction-organiser-row row-prediction">
+       <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-pred-label">Prediction:</span>
+       </div>
+       <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-if">If I do this</span>
+       </div>
+       <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-then">then this will happen</span>
+       </div>
+      </div><!-- Reason row -->
+      <div class="prediction-organiser-row row-reason">
+       <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-reason-label">Reason:</span>
+       </div>
+       <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-reason-body">This is because…</span>
+       </div>
+      </div><!-- Reasoned prediction row -->
+      <div class="prediction-organiser-row row-full">
+       <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-full-label">Reasoned prediction:</span>
+       </div>
+       <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-full-body">If I do this then this will happen. This is because of this.</span>
+       </div>
+      </div>
+    </div>
+    <div class="activity-instruction">
+      
+    </div>
+</div>
+
+  </div>
+
+</section>
+
+</main>
+
+</body>
+
+</html>
