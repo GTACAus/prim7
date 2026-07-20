@@ -1883,6 +1883,7 @@
 .question-builder-panel {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .question-builder-panel h4 {
@@ -2116,7 +2117,7 @@ height: 44px;
 
 /* ---------- Checklist ---------- */
 
-.testable-check-item {
+.check-item {
   display: grid;
   grid-template-columns: 34px 1fr;
   align-items: start;
@@ -2134,11 +2135,11 @@ height: 44px;
   box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
 }
 
-.testable-check-item:last-child {
+.check-item:last-child {
   margin-bottom: 0;
 }
 
-.testable-check-item input {
+.check-item input {
   width: 23px;
   height: 23px;
   margin-top: 1px;
@@ -2146,14 +2147,14 @@ height: 44px;
   accent-color: var(--green);
 }
 
-.testable-check-item strong {
+.check-item strong {
   display: block;
   margin-bottom: 4px;
 
   color: var(--text);
 }
 
-.testable-check-item small {
+.check-item small {
   color: var(--muted);
 
   font-size: 0.9rem;

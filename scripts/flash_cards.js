@@ -40,6 +40,7 @@ let currentIndex = 0,
 	rightCount = 0,
 	hasStarted = false,
 	isSorted = false;
+	inputLocked = false;
 
 function shuffleRandom(array) {
 	const shuffled = [...array];
@@ -70,10 +71,12 @@ function showCard() {
 }
 
 function sortCard(direction) {
-	if (currentIndex >= questions.length) return;
+	if (currentIndex >= questions.length || inputLocked) return;
 	const card = document.getElementById('current-card');
 	const correctAnswer = questions[currentIndex].answer;
 	const isCorrect = direction === correctAnswer;
+	
+	inputLocked = true;
 
 	if (!hasStarted) {
 		hasStarted = true;
@@ -87,6 +90,7 @@ function sortCard(direction) {
 			addToPile(direction, questions[currentIndex].text);
 			currentIndex++;
 			showCard();
+			inputLocked = false;
 		}, 350);
 	} else {
 		// Wrong answer: show feedback briefly, then send to back of deck
@@ -99,6 +103,7 @@ function sortCard(direction) {
 			questions.push(currentCard);
 			// Show next card (now at currentIndex)
 			showCard();
+			inputLocked = false;
 		}, 600);
 	}
 }
@@ -125,6 +130,7 @@ function resetCards() {
 	rightCount = 0;
 	hasStarted = false;
 	isSorted = false;
+	inputLocked = false;
 	document.getElementById('progress').textContent = (currentIndex + 1) + ' of ' + questions.length;
 	document.getElementById('reset-btn').classList.add('hidden');
 	document.getElementById('left-pile').innerHTML = '';

@@ -105,8 +105,9 @@
 			inset: 0;
 			background: var(--paper);
 			border-radius: 1rem;
-			box-shadow: 0 25px 50px -12px var(--charcoal);
-			border: 4px solid var(--mint);
+ 			box-shadow: 0 4px 0 var(--charcoal);
+			border: 2px solid var(--line);
+  			border-top: 10px solid var(--green);
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -159,22 +160,23 @@
 			background: var(--green);
 		}
 
-		#btn-investigable:hover {
-			background: var(--button-hover);
-		}
-
 		#btn-uninvestigable {
 			background: var(--orange);
 		}
 
-		.reset-btn {
-			padding: 0.5rem 1.5rem;
-			border-radius: 9999px;
-			font-weight: 600;
-			border: none;
-			cursor: pointer;
-			background: var(--charcoal);
-			color: #fff;
+		#btn-investigable:hover,
+		#btn-uninvestigable:hover {
+			background: var(--button-hover);
+		}
+
+		#reset-btn {
+			/* padding: 0.5rem 1.5rem; */
+			background: var(--muted);
+			color: var(--paper);
+		}
+
+		#reset-btn:hover {
+			background: var(--soft-purple);
 		}
 
 		.hidden {
@@ -233,13 +235,13 @@
 		}
 
 		.pile-card {
-			box-shadow: 0 2px 8px var(--charcoal);
+ 			box-shadow: 0 4px 0 var(--charcoal);
 			background: #fff;
 			border-radius: 0.5rem;
 			padding: 0.5rem;
 			font-size: 0.75rem;
 			color: var(--charcoal);
-			border: 1px solid var(--paper);
+			border: 2px solid var(--line);
 			flex-shrink: 0;
 		}
 
@@ -279,7 +281,7 @@
 							<button data-template-id="btn-investigable" id="btn-investigable" class="general-button" onclick="sortCard('left')">Investigable</button>
 							<button data-template-id="btn-uninvestigable" id="btn-uninvestigable" class="general-button" onclick="sortCard('right')">Uninvestigable</button>
 						</div>
-						<button id="reset-btn" data-template-id="btn-reset" class="canva-button reset-btn hidden" onclick="resetCards()">Reset</button>
+						<button id="reset-btn" data-template-id="btn-reset" class="general-button hidden" onclick="resetCards()">Reset</button>
 					</div>
 					<div class="pile-section">
 						<h2 data-template-id="right-label" class="canva-text mb-3"></h2>
