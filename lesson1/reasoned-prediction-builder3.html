@@ -97,36 +97,88 @@ body {
   <main class="reasoned-builder">
     <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
       <div class="prediction-organiser-row row-header">
-        <div class="prediction-organiser-cell"><span class="cell-sublabel">Testable question</span></div>
+        <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
         <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
         <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
       </div>
 
       <div class="prediction-organiser-row row-variables">
         <div class="prediction-organiser-cell cell-label">
-          <span class="cell-sublabel">Variables</span>
-          <span class="cell-helper">Identify the two things in your testable question.</span>
+          <span class="cell-sublabel">Testable Question</span>
+          <span class="cell-helper">Identify the two things in your testable question</span>
         </div>
+
         <div class="prediction-organiser-cell">
-          <label class="cell-sublabel" for="changeVariable">Changing variable</label>
-          <div id="changeVariableInputRow" class="permanent-input-row">
-            <input id="changeVariable" type="text" class="prediction-input" placeholder="e.g. the amount of water">
-          </div>
-          <div id="changeVariableAnswer" class="submitted-answer"></div>
-        </div>
+  <label class="cell-sublabel" for="changeVariable">
+    The thing I am changing
+  </label>
+
+  <select
+    id="changeVariable"
+    class="prediction-select">
+
+    <option value="">
+      Choose what you are changing
+    </option>
+
+    <option value="the amount of water">
+      The amount of water
+    </option>
+
+    <option value="the number of hours of sunlight">
+      The number of hours of sunlight
+    </option>
+
+    <option value="the temperature">
+      The temperature
+    </option>
+
+  </select>
+</div>
+
         <div class="prediction-organiser-cell">
-          <label class="cell-sublabel" for="measureVariable">Measured variable</label>
-          <div id="measureVariableInputRow" class="permanent-input-row">
-            <input id="measureVariable" type="text" class="prediction-input" placeholder="e.g. plant height">
-          </div>
-          <div id="measureVariableAnswer" class="submitted-answer"></div>
-        </div>
+  <label class="cell-sublabel" for="measureVariable">
+    The thing I am measuring
+  </label>
+
+  <select
+    id="measureVariable"
+    class="prediction-select">
+
+    <option value="">
+      Choose what you are measuring
+    </option>
+
+    <option value="plant height">
+      Plant height
+    </option>
+
+    <option value="the number of leaves">
+      Number of leaves
+    </option>
+
+    <option value="leaf colour">
+      Leaf colour
+    </option>
+
+    <option value="plant health">
+      Plant health
+    </option>
+
+    <option value="the time taken to germinate">
+      Time taken to germinate
+    </option>
+
+  </select>
+</div>
+
+
       </div>
 
       <div class="prediction-organiser-row row-relationship">
         <div class="prediction-organiser-cell cell-label">
           <span class="cell-sublabel">Relationship</span>
-          <span class="cell-helper">Choose what you will change and what you think will happen.</span>
+          <span class="cell-helper">Choose what you will change and what you think will happen</span>
         </div>
         <div class="prediction-organiser-cell">
           <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
@@ -213,22 +265,12 @@ body {
     let selectedEffect = "";
 
     const permanentFields = {
-      change: {
-        input: changeVariable,
-        inputRow: document.getElementById("changeVariableInputRow"),
-        answer: document.getElementById("changeVariableAnswer")
-      },
-      measure: {
-        input: measureVariable,
-        inputRow: document.getElementById("measureVariableInputRow"),
-        answer: document.getElementById("measureVariableAnswer")
-      },
-      reason: {
-        input: reasonInput,
-        inputRow: document.getElementById("reasonInputRow"),
-        answer: document.getElementById("reasonAnswer")
-      }
-    };
+  reason: {
+    input: reasonInput,
+    inputRow: document.getElementById("reasonInputRow"),
+    answer: document.getElementById("reasonAnswer")
+  }
+};
 
     const causeOptions = {
       "increase-decrease": [
@@ -436,6 +478,12 @@ body {
         field.answer.innerHTML = "";
       });
 
+      builderState.change = "";
+      builderState.measure = "";
+
+      changeVariable.selectedIndex = 0;
+      measureVariable.selectedIndex = 0;
+
       causeRelationshipType.selectedIndex = 0;
       conditionOneInput.value = "";
       conditionTwoInput.value = "";
@@ -454,9 +502,27 @@ body {
       changeVariable.focus();
     }
 
-    connectPermanentField("change");
-    connectPermanentField("measure");
     connectPermanentField("reason");
+
+changeVariable.addEventListener(
+  "change",
+  function() {
+    builderState.change =
+      changeVariable.value;
+
+    updatePrediction();
+  }
+);
+
+measureVariable.addEventListener(
+  "change",
+  function() {
+    builderState.measure =
+      measureVariable.value;
+
+    updatePrediction();
+  }
+);
 
     causeRelationshipType.addEventListener("change", createCauseButtons);
 
