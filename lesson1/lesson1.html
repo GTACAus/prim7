@@ -352,7 +352,10 @@
     /* Each row is a horizontal stripe */
     .prediction-organiser-row {
       display: grid;
-      grid-template-columns: 180px 1fr 1fr;
+      grid-template-columns:
+        clamp(80px, 18vw, 180px)
+        minmax(0, 1fr)
+        minmax(0, 1fr);
       border-bottom: 2px solid var(--line);
     }
     .prediction-organiser-row:last-child { border-bottom: none; }
