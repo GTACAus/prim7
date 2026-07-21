@@ -16,360 +16,313 @@
       <style>
          /* Lesson 1-specific styles only */
          .flashcard-box {
-          padding: 12px;
-          background: var(--soft-blue);
-          border: 3px solid var(--line);
-          border-radius: 22px;
-          box-shadow: 0 5px 0 var(--line);
-        }
-        .flashcard-frame {
-          display: block;
-          width: 100%;
-          height: 600px;
-          border: none;
-          border-radius: 16px;
-          background: white;
-        }
-        @media (max-width: 1000px) {
-          .flashcard-frame {
-            height: 70rem;
-          }
-        }
-        .reasoned-prediction-iframe {
-          display: block;
-          width: 100%;
-          height: 720px;
-          margin-top: 0;
-          border: none;
-          background: var(--paper);
-          overflow: hidden;
-        }
+         padding: 12px;
+         background: var(--soft-blue);
+         border: 3px solid var(--line);
+         border-radius: 22px;
+         box-shadow: 0 5px 0 var(--line);
+         }
+         .flashcard-frame {
+         display: block;
+         width: 100%;
+         height: 600px;
+         border: none;
+         border-radius: 16px;
+         background: white;
+         }
+         @media (max-width: 1000px) {
+         .flashcard-frame {
+         height: 70rem;
+         }
+         }
+         .reasoned-prediction-iframe {
+         display: block;
+         width: 100%;
+         height: 720px;
+         margin-top: 0;
+         border: none;
+         background: var(--paper);
+         overflow: hidden;
+         }
       </style>
    </head>
    <style>
       /* ---------- Experiment video selection ---------- */
       .experiment-video-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-        margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 20px;
       }
-
       .experiment-video-card {
-        width: 100%;
-        padding: 12px;
-        background: var(--card);
-        border: 3px solid var(--line);
-        border-radius: 20px;
-        box-shadow: 0 5px 0 var(--line);
-        color: var(--text);
-        font-family: inherit;
-        text-align: left;
-        cursor: pointer;
-        transition:
-          transform 0.15s ease,
-          box-shadow 0.15s ease,
-          background 0.15s ease;
+      width: 100%;
+      padding: 12px;
+      background: var(--card);
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 5px 0 var(--line);
+      color: var(--text);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
       }
-
       .experiment-video-card:hover {
-        background: var(--soft-yellow);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 0 var(--line);
+      background: var(--soft-yellow);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 0 var(--line);
       }
-
       .experiment-video-card.selected {
-        background: var(--soft-green);
-        border-color: var(--purple);
-        box-shadow: 0 5px 0 var(--purple);
+      background: var(--soft-green);
+      border-color: var(--purple);
+      box-shadow: 0 5px 0 var(--purple);
       }
-
       .experiment-video-preview {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-        background: var(--soft-blue);
-        border: 2px solid var(--line);
-        border-radius: 14px;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--soft-blue);
+      border: 2px solid var(--line);
+      border-radius: 14px;
       }
-
       .experiment-video-preview video {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       }
-
       .experiment-play-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 54px;
-        height: 54px;
-        background: var(--purple);
-        color: white;
-        border: 3px solid var(--line);
-        border-radius: 50%;
-        box-shadow: 0 4px 0 var(--line);
-        font-size: 1.25rem;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      background: var(--purple);
+      color: white;
+      border: 3px solid var(--line);
+      border-radius: 50%;
+      box-shadow: 0 4px 0 var(--line);
+      font-size: 1.25rem;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
       }
-
       .experiment-video-card.selected .experiment-play-icon {
-        background: var(--green);
+      background: var(--green);
       }
-
       .experiment-video-title {
-        display: block;
-        margin-top: 12px;
-        font-size: 1rem;
-        font-weight: 700;
-        text-align: center;
+      display: block;
+      margin-top: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
       }
-
       /* ---------- Investigation dropdown menus ---------- */
       .investigation-menu-panel {
-        margin-top: 24px;
-        padding: 22px;
-        background: var(--soft-purple);
-        border: 3px solid var(--line);
-        border-radius: 20px;
-        box-shadow: 0 5px 0 var(--line);
+      margin-top: 24px;
+      padding: 22px;
+      background: var(--soft-purple);
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 5px 0 var(--line);
       }
-
       .selected-video-message {
-        margin: 0 0 18px;
-        color: var(--text);
-        font-size: 1rem;
+      margin: 0 0 18px;
+      color: var(--text);
+      font-size: 1rem;
       }
-
       .investigation-menu-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
       }
-
       .investigation-field {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       }
-
       .investigation-field label {
-        color: var(--text);
-        font-size: 0.92rem;
-        font-weight: 700;
-        line-height: 1.4;
+      color: var(--text);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.4;
       }
-
       .investigation-field select {
-        width: 100%;
-        min-height: 48px;
-        padding: 10px 36px 10px 12px;
-        background: white;
-        color: var(--text);
-        border: 2px solid var(--line);
-        border-radius: 12px;
-        box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
-        font-family: inherit;
-        font-size: 0.95rem;
-        cursor: pointer;
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 36px 10px 12px;
+      background: white;
+      color: var(--text);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
       }
-
       .investigation-field select:focus {
-        outline: 3px solid rgba(78, 50, 232, 0.2);
-        border-color: var(--purple);
+      outline: 3px solid rgba(78, 50, 232, 0.2);
+      border-color: var(--purple);
       }
-
       /* ---------- Student investigation questions ---------- */
       .investigation-question-area {
-        margin-top: 24px;
-        padding-top: 22px;
-        border-top: 2px dashed var(--line);
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 2px dashed var(--line);
       }
-
       .investigation-question-area h3 {
-        margin: 0 0 6px;
-        color: var(--purple);
-        font-size: 1.15rem;
-        font-weight: 700;
-        text-transform: uppercase;
+      margin: 0 0 6px;
+      color: var(--purple);
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-transform: uppercase;
       }
-
       .investigation-question-instruction {
-        margin: 0 0 18px;
-        color: var(--muted);
-        line-height: 1.5;
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
       }
-
       .investigation-question-list {
-        display: grid;
-        gap: 16px;
+      display: grid;
+      gap: 16px;
       }
-
       .investigation-question-item {
-        padding: 16px;
-        background: var(--card);
-        border: 2px solid var(--line);
-        border-radius: 16px;
-        box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+      padding: 16px;
+      background: var(--card);
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
       }
-
       .investigation-question-item .final-answer-list {
-        margin-top: 10px;
+      margin-top: 10px;
       }
-
       /* ---------- Responsive experiment section ---------- */
       @media (max-width: 800px) {
-
-        .experiment-video-grid,
-        .investigation-menu-grid {
-          grid-template-columns: 1fr;
-        }
+      .experiment-video-grid,
+      .investigation-menu-grid {
+      grid-template-columns: 1fr;
       }
-
+      }
       /* ---------- Question choice and prediction ---------- */
       .chosen-question-box {
-        display: block;
-        margin-top: 18px;
-        background: var(--soft-green);
+      display: block;
+      margin-top: 18px;
+      background: var(--soft-green);
       }
-
       .chosen-question-box[hidden] {
-        display: none;
+      display: none;
       }
-
       .chosen-question-box strong {
-        display: block;
-        margin-bottom: 8px;
-        color: var(--purple);
-        font-size: 0.82rem;
-        text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--purple);
+      font-size: 0.82rem;
+      text-transform: uppercase;
       }
-
       .chosen-question-box p {
-        margin: 0;
-        color: var(--text);
-        font-size: 1.1rem;
-        font-weight: 700;
-        line-height: 1.5;
+      margin: 0;
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.5;
       }
-
       .prediction-activity {
-        margin-top: 24px;
-        background: var(--soft-yellow);
+      margin-top: 24px;
+      background: var(--soft-yellow);
       }
-
       .prediction-heading {
-        margin: 0 0 8px;
-        color: var(--purple);
-        font-size: 1.15rem;
-        text-transform: uppercase;
+      margin: 0 0 8px;
+      color: var(--purple);
+      font-size: 1.15rem;
+      text-transform: uppercase;
       }
-
       .prediction-organiser {
-        border: 3px solid var(--line);
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 5px 0 var(--line);
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 5px 0 var(--line);
       }
-
       /* Each row is a horizontal stripe */
       .prediction-organiser-row {
-        display: grid;
-        grid-template-columns:
-          clamp(80px, 18vw, 180px) minmax(0, 1fr) minmax(0, 1fr);
-        border-bottom: 2px solid var(--line);
+      display: grid;
+      grid-template-columns:
+      clamp(80px, 18vw, 180px) minmax(0, 1fr) minmax(0, 1fr);
+      border-bottom: 2px solid var(--line);
       }
-
       .prediction-organiser-row:last-child {
-        border-bottom: none;
+      border-bottom: none;
       }
-
       .prediction-organiser-cell {
-        padding: 14px 18px;
-        font-size: 0.95rem;
-        line-height: 1.55;
-        border-right: 2px solid var(--line);
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      border-right: 2px solid var(--line);
       }
-
       .prediction-organiser-cell:last-child {
-        border-right: none;
+      border-right: none;
       }
-
       /* Row-type colour bands */
       .row-header {
-        background: var(--purple);
+      background: var(--purple);
       }
-
       .row-header .prediction-organiser-cell {
-        color: #fff;
-        font-weight: 700;
-        font-size: 1rem;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
       }
-
       .row-question {
-        background: var(--soft-blue);
+      background: var(--soft-blue);
       }
-
       .row-relationship {
-        background: var(--soft-yellow);
+      background: var(--soft-yellow);
       }
-
       .row-prediction {
-        background: var(--soft-green);
+      background: var(--soft-green);
       }
-
       .row-reason {
-        background: var(--soft-purple);
+      background: var(--soft-purple);
       }
-
       .row-full {
-        background: var(--card);
+      background: var(--card);
       }
-
       /* Span-2 cell (no right border on the spanning cell) */
       .prediction-organiser-cell.span-2 {
-        grid-column: span 2;
-        border-right: none;
+      grid-column: span 2;
+      border-right: none;
       }
-
       /* Label column — always slightly darker */
       .cell-label {
-        background: rgba(0, 0, 0, .04);
-        font-weight: 700;
-        overflow-wrap: break-word;
+      background: rgba(0, 0, 0, .04);
+      font-weight: 700;
+      overflow-wrap: break-word;
       }
-
       /* sub-labels inside cells */
       .cell-sublabel {
-        display: block;
-        font-size: 0.82rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .04em;
-        color: var(--purple);
-        margin-bottom: 4px;
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--purple);
+      margin-bottom: 4px;
       }
-
       .row-header .cell-sublabel {
-        color: var(--cream);
+      color: var(--cream);
       }
-
       /* italic helper lines */
       .cell-helper {
-        display: block;
-        font-size: 0.88rem;
-        color: var(--muted);
-        font-style: italic;
-        line-height: 1.5;
+      display: block;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.5;
       }
-
       /* ---- diagram-grid wrapper ---- */
       .grid-container {}
    </style>
@@ -2050,6 +2003,8 @@
              document.createElement("div");
          
            questionCard.className = "wheel-question-card";
+           questionCard.dataset.questionStarter =
+            questionStructure.word;
          
            questionCard.innerHTML = `
          <div class="wheel-question-card-header">
@@ -2282,6 +2237,12 @@
          }
          }
          
+         function getUnsavedQuestionCard() {
+         return selectedQuestionTemplate.querySelector(
+         ".wheel-question-card:not(.saved)"
+         );
+         }
+         
          /* ----------------------------------------
             Spin the wheel
             ---------------------------------------- */
@@ -2291,26 +2252,6 @@
            function() {
              wheelResult.style.backgroundColor = "var(--soft-purple)";
          
-             // Remove an empty, unsaved question before spinning again
-             const unsavedCards = selectedQuestionTemplate.querySelectorAll(
-               ".wheel-question-card:not(.saved)"
-             );
-         
-             unsavedCards.forEach(card => {
-               const inputs = card.querySelectorAll(".question-template-input");
-               const submissions = card.querySelectorAll(".submitted-question-part");
-         
-               const hasInputs = Array.from(inputs).some(input =>
-                 input.value.trim() !== ""
-               );
-         
-               const hasSubmissions = submissions.length > 0;
-         
-               if (!hasInputs && !hasSubmissions) {
-                 card.remove();
-                 questionCardCount--;
-               }
-             });
              
              if (wheelIsSpinning) {
                return;
@@ -2376,33 +2317,64 @@
                  const selectedQuestionStructure =
                    questionStructures[selectedIndex];
          
-                 if (usedQuestionStarters.has(selectedQuestionStructure.word)) {
-                   wheelResult.innerHTML = `
-                     <strong>${selectedQuestionStructure.word}</strong>
-                     has already been used.<br>
-                     Spin again to choose a different question starter.
-                   `;
-                   wheelResult.style.backgroundColor = "var(--orange)";
+                 const unsavedQuestionCard =
+         getUnsavedQuestionCard();
          
-                   spinQuestionWheelButton.disabled = false;
-                   wheelIsSpinning = false;
+         const unsavedStarter =
+         unsavedQuestionCard
+         ? unsavedQuestionCard.dataset.questionStarter
+         : null;
          
-                   return;
-                 }
+         const starterAlreadySaved =
+         usedQuestionStarters.has(
+         selectedQuestionStructure.word
+         );
+         
+         const starterAlreadyBeingWritten =
+         unsavedStarter ===
+         selectedQuestionStructure.word;
+         
+         if (
+         starterAlreadySaved ||
+         starterAlreadyBeingWritten
+         ) {
+         wheelResult.innerHTML = `
+         <strong>${selectedQuestionStructure.word}</strong>
+         has already been used.<br>
+         Spin again to choose a different question starter.
+         `;
+         
+         wheelResult.style.backgroundColor =
+         "var(--orange)";
+         
+         spinQuestionWheelButton.disabled = false;
+         wheelIsSpinning = false;
+         
+         return;
+         }
          
                  wheelResult.innerHTML = `
-                   You landed on
-                   <strong>
-                     ${selectedQuestionStructure.word}
-                   </strong>.
-                 `;
+         You landed on
+         <strong>
+         ${selectedQuestionStructure.word}
+         </strong>.
+         `;
          
-                 /*
-                   Append instead of replacing.
-                 */
-                 addQuestionCard(
-                   selectedQuestionStructure
-                 );
+         /*
+         A different starter was selected.
+         
+         Remove the previous unfinished question,
+         including any text that has not been saved,
+         before showing the new structure.
+         */
+         if (unsavedQuestionCard) {
+         unsavedQuestionCard.remove();
+         questionCardCount--;
+         }
+         
+         addQuestionCard(
+         selectedQuestionStructure
+         );
          
                  spinQuestionWheelButton.disabled =
                    false;
