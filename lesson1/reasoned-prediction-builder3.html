@@ -116,50 +116,143 @@ body {
   }
 }
 
-@media (max-width: 920px) {
-  .relationship-buttons.three-options {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-  }
-
-  .relationship-buttons.three-options
-  .relationship-option:last-child {
-    grid-column: 1 / -1;
-  }
-}
-
-
-
     @media (max-width: 820px) {
-      body { padding: 10px; }
-      .prediction-organiser-row { grid-template-columns: 1fr; }
-      .prediction-organiser-cell, .prediction-organiser-cell:last-child, .prediction-organiser-cell.span-2 { grid-column: span 1; border-right: none; border-bottom: 2px solid var(--line); }
-      .prediction-organiser-row .prediction-organiser-cell:last-child { border-bottom: none; }
-      .relationship-buttons, .relationship-buttons.three-options, .condition-comparison-inputs { grid-template-columns: 1fr; }
-      .reason-inline { align-items: stretch; flex-direction: column; }
-      .reason-inline .cell-helper { white-space: normal; }
-      .prediction-organiser {
-  border-radius: 16px;
+  body {
+    padding: 6px 0;
+  }
+
+  .reasoned-builder {
+    width: 100%;
+  }
+
+  .prediction-organiser-row {
+    grid-template-columns:
+      118px
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+  }
+
+  .prediction-organiser-cell {
+    padding: 9px 10px;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .cell-sublabel {
+    margin-bottom: 4px;
+    font-size: 0.67rem;
+    letter-spacing: 0.025em;
+  }
+
+  .cell-helper {
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+
+  .prediction-input,
+  .prediction-select,
+  .condition-input {
+    min-height: 38px;
+    padding: 7px 8px;
+    font-size: 0.78rem;
+  }
+
+  .relationship-option {
+    min-height: 38px;
+    padding: 6px 5px;
+    font-size: 0.76rem;
+  }
+
+  .generated-text {
+    min-height: 42px;
+    padding: 8px 9px;
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .reason-inline {
+    gap: 8px;
+  }
+
+  .reason-inline .cell-helper {
+    font-size: 0.66rem;
+    white-space: nowrap;
+  }
+
+  .final-prediction {
+    font-size: 0.8rem;
+  }
+
+  .reset-button-container {
+    margin-top: 14px;
+  }
+
+  .reset-btn {
+    padding: 9px 16px;
+    font-size: 0.8rem;
+  }
 }
 
-.prediction-organiser-cell {
-  padding: 12px;
+@media (max-width: 600px) {
+  .prediction-organiser-row {
+    grid-template-columns:
+      92px
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+  }
+
+  .prediction-organiser-cell {
+    padding: 7px 6px;
+    font-size: 0.67rem;
+  }
+
+  .cell-sublabel {
+    font-size: 0.58rem;
+  }
+
+  .cell-helper {
+    font-size: 0.62rem;
+  }
+
+  .prediction-input,
+  .prediction-select,
+  .condition-input {
+    min-height: 34px;
+    padding: 5px 6px;
+    font-size: 0.68rem;
+  }
+
+  .relationship-buttons,
+  .relationship-buttons.three-options,
+  .condition-comparison-inputs {
+    gap: 4px;
+  }
+
+  .relationship-option {
+    min-height: 34px;
+    padding: 4px 3px;
+    font-size: 0.64rem;
+  }
+
+  .generated-text {
+    min-height: 36px;
+    padding: 6px;
+    font-size: 0.65rem;
+  }
+
+  .reason-inline {
+    gap: 5px;
+  }
+
+  .reason-inline .cell-helper {
+    font-size: 0.56rem;
+  }
+
+  .final-prediction {
+    font-size: 0.68rem;
+  }
 }
 
-.row-header {
-  display: none;
-}
-
-.cell-label {
-  background: rgba(0, 0, 0, 0.07);
-}
-
-.prediction-select,
-.prediction-input,
-.condition-input {
-  font-size: 16px;
-}
-    }
   </style>
 </head>
 <body>
