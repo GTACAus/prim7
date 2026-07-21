@@ -79,9 +79,57 @@ body {
   flex: 1;
   min-width: 0;
 }
+
+.prediction-select {
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.prediction-organiser-cell {
+  overflow-wrap: anywhere;
+}
+
     .final-prediction { background: var(--soft-green); font-size: 1.02rem; }
     .reset-button-container { display: flex; justify-content: center; margin-top: 18px; }
     .reset-btn { background: var(--orange); }
+
+    @media (max-width: 1050px) {
+  .prediction-organiser-row {
+    grid-template-columns:
+      155px
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+  }
+
+  .prediction-organiser-cell {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .cell-sublabel {
+    font-size: 0.76rem;
+  }
+
+  .relationship-option {
+    padding: 8px 6px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 920px) {
+  .relationship-buttons.three-options {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .relationship-buttons.three-options
+  .relationship-option:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+
+
     @media (max-width: 820px) {
       body { padding: 10px; }
       .prediction-organiser-row { grid-template-columns: 1fr; }
@@ -90,6 +138,27 @@ body {
       .relationship-buttons, .relationship-buttons.three-options, .condition-comparison-inputs { grid-template-columns: 1fr; }
       .reason-inline { align-items: stretch; flex-direction: column; }
       .reason-inline .cell-helper { white-space: normal; }
+      .prediction-organiser {
+  border-radius: 16px;
+}
+
+.prediction-organiser-cell {
+  padding: 12px;
+}
+
+.row-header {
+  display: none;
+}
+
+.cell-label {
+  background: rgba(0, 0, 0, 0.07);
+}
+
+.prediction-select,
+.prediction-input,
+.condition-input {
+  font-size: 16px;
+}
     }
   </style>
 </head>
