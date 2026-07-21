@@ -50,6 +50,18 @@
         height: 70rem;
       }
     }
+
+ .reasoned-prediction-iframe {
+  display: block;
+  width: 100%;
+  height: 720px;
+
+  margin-top: 0;
+
+  border: none;
+  background: var(--paper);
+  overflow: hidden;
+}
   </style>
 </head>
 
@@ -1410,23 +1422,18 @@ class="flashcard-frame">
   </h2>
 
   <div class="diagram-box diagram-activity">
+  <p class="activity-instruction">
+    Use the organiser below to construct a reasoned prediction
+    for your investigation question.
+  </p>
+</div>
 
-    <p class="activity-instruction">
-      Use the organiser below to construct a reasoned prediction
-      for your investigation question.
-    </p>
-
-    <div class="reasoned-prediction-embed-box">
-
-      <iframe
-        src="reasoned-prediction-builder.html"
-        title="Reasoned prediction builder"
-        class="reasoned-prediction-iframe">
-      </iframe>
-
-    </div>
-
-  </div>
+  <iframe
+  src="reasoned-prediction-builder2.html"
+  title="Reasoned prediction builder"
+  class="reasoned-prediction-iframe"
+  scrolling="no">
+</iframe>
 
 </section>
 

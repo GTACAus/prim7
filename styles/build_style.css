@@ -1926,8 +1926,6 @@
   border: 5px solid var(--line);
   border-radius: 50%;
 
-  box-shadow: 0 7px 0 var(--line);
-
   transition: transform 3.2s cubic-bezier(0.15, 0.7, 0.1, 1);
 }
 
