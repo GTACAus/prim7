@@ -7,252 +7,435 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
   <style>
-    html,
+   html,
 body {
-  margin: 0;
-  padding: 8px 0;
-  background: transparent;
-}
-    .reasoned-builder { width: min(1080px, 100%); margin: 0 auto; }
-    .prediction-organiser { overflow: hidden; border: 3px solid var(--line); border-radius: 20px; box-shadow: 0 5px 0 var(--line); }
-    .prediction-organiser-row { display: grid; grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr); border-bottom: 2px solid var(--line); }
-    .prediction-organiser-row:last-child { border-bottom: none; }
-    .prediction-organiser-cell { min-width: 0; padding: 14px 18px; border-right: 2px solid var(--line); font-size: 0.95rem; line-height: 1.55; }
-    .prediction-organiser-cell:last-child { border-right: none; }
-    .prediction-organiser-cell.span-2 { grid-column: span 2; border-right: none; }
-    .row-header { background: var(--purple); }
-    .row-header .prediction-organiser-cell { color: var(--paper); font-size: 1rem; font-weight: 700; }
-    .row-variables { background: var(--soft-blue); }
-    .row-relationship { background: var(--soft-yellow); }
-    .row-prediction { background: var(--soft-green); }
-    .row-reason { background: var(--soft-purple); }
-    .row-full { background: var(--card); }
-    .cell-label { background: rgba(0, 0, 0, 0.04); font-weight: 700; }
-    .cell-sublabel { display: block; margin-bottom: 5px; color: var(--purple); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-    .row-header .cell-sublabel { color: var(--cream); }
-    .cell-helper { display: block; color: var(--muted); font-size: 0.88rem; font-style: italic; line-height: 1.5; }
-    .prediction-input, .prediction-select, .condition-input { width: 100%; min-height: 44px; padding: 9px 11px; box-sizing: border-box; background: white; color: var(--text); border: 2px solid var(--line); border-radius: 10px; font: inherit; }
-    .prediction-input:focus, .prediction-select:focus, .condition-input:focus { outline: 3px solid rgba(78, 50, 232, 0.18); border-color: var(--purple); }
-    .permanent-input-row { display: block; }
-    .submitted-answer { display: none; align-items: center; justify-content: space-between; gap: 10px; width: 100%; min-height: 44px; padding: 9px 11px; box-sizing: border-box; background: var(--soft-green); color: var(--text); border: 2px solid var(--line); border-radius: 10px; font-weight: 700; }
-    .submitted-answer.visible { display: flex; }
-    .submitted-answer .delete-answer { flex: 0 0 auto; }
-    .relationship-area { display: grid; gap: 10px; }
-    .relationship-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-    .relationship-buttons.three-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .relationship-option { min-height: 42px; padding: 8px 10px; background: white; color: var(--text); border: 2px solid var(--line); border-radius: 10px; font: inherit; font-weight: 700; cursor: pointer; }
-    .relationship-option:hover { background: var(--soft-yellow); }
-    .relationship-option.selected { background: var(--purple); color: white; }
-    .condition-comparison-inputs { display: none; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .condition-comparison-inputs.visible { display: grid; }
-    .generated-text { min-height: 48px; padding: 10px 12px; background: rgba(255, 255, 255, 0.55); border: 2px solid var(--line); border-radius: 10px; font-weight: 700; line-height: 1.5; }
-    .generated-text.placeholder { color: var(--muted); font-weight: 500; }
-    .reason-inline {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+	margin: 0;
+	padding: 8px 0;
+	background: transparent;
 }
 
-.reason-inline .cell-helper {
-  flex: 0 0 auto;
-  margin: 0;
-  white-space: nowrap;
-
-  color: var(--purple);
-  font-size: 0.82rem;
-  font-weight: 700;
-  font-style: normal;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+.reasoned-builder {
+	width: min(1080px, 100%);
+	margin: 0 auto;
 }
 
-.reason-inline .permanent-input-row {
-  flex: 1;
-  min-width: 0;
+.prediction-organiser {
+	overflow: hidden;
+	border: 3px solid var(--line);
+	border-radius: 20px;
+	box-shadow: 0 5px 0 var(--line);
 }
 
-.reason-inline .prediction-input {
-  width: 100%;
+.prediction-organiser-row {
+	display: grid;
+	grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr);
+	border-bottom: 2px solid var(--line);
 }
 
-.reason-inline .submitted-answer {
-  flex: 1;
-  min-width: 0;
-}
-
-.prediction-select {
-  max-width: 100%;
-  text-overflow: ellipsis;
+.prediction-organiser-row:last-child {
+	border-bottom: none;
 }
 
 .prediction-organiser-cell {
-  overflow-wrap: anywhere;
+	min-width: 0;
+	padding: 14px 18px;
+	border-right: 2px solid var(--line);
+	font-size: 0.95rem;
+	line-height: 1.55;
 }
 
-    .final-prediction { background: var(--soft-green); font-size: 1.02rem; }
-    .reset-button-container { display: flex; justify-content: center; margin-top: 18px; }
-    .reset-btn { background: var(--orange); }
-
-    @media (max-width: 1050px) {
-  .prediction-organiser-row {
-    grid-template-columns:
-      155px
-      minmax(0, 1fr)
-      minmax(0, 1fr);
-  }
-
-  .prediction-organiser-cell {
-    padding: 12px 14px;
-    font-size: 0.9rem;
-  }
-
-  .cell-sublabel {
-    font-size: 0.76rem;
-  }
-
-  .relationship-option {
-    padding: 8px 6px;
-    font-size: 0.9rem;
-  }
+.prediction-organiser-cell:last-child {
+	border-right: none;
 }
 
-    @media (max-width: 820px) {
-  body {
-    padding: 6px 0;
-  }
+.prediction-organiser-cell.span-2 {
+	grid-column: span 2;
+	border-right: none;
+}
 
-  .reasoned-builder {
-    width: 100%;
-  }
+.row-header {
+	background: var(--purple);
+}
 
-  .prediction-organiser-row {
-    grid-template-columns:
-      118px
-      minmax(0, 1fr)
-      minmax(0, 1fr);
-  }
+.row-header .prediction-organiser-cell {
+	color: var(--paper);
+	font-size: 1rem;
+	font-weight: 700;
+}
 
-  .prediction-organiser-cell {
-    padding: 9px 10px;
-    font-size: 0.78rem;
-    line-height: 1.35;
-  }
+.row-variables {
+	background: var(--soft-blue);
+}
 
-  .cell-sublabel {
-    margin-bottom: 4px;
-    font-size: 0.67rem;
-    letter-spacing: 0.025em;
-  }
+.row-relationship {
+	background: var(--soft-yellow);
+}
 
-  .cell-helper {
-    font-size: 0.72rem;
-    line-height: 1.35;
-  }
+.row-prediction {
+	background: var(--soft-green);
+}
 
-  .prediction-input,
-  .prediction-select,
-  .condition-input {
-    min-height: 38px;
-    padding: 7px 8px;
-    font-size: 0.78rem;
-  }
+.row-reason {
+	background: var(--soft-purple);
+}
 
-  .relationship-option {
-    min-height: 38px;
-    padding: 6px 5px;
-    font-size: 0.76rem;
-  }
+.row-full {
+	background: var(--card);
+}
 
-  .generated-text {
-    min-height: 42px;
-    padding: 8px 9px;
-    font-size: 0.76rem;
-    line-height: 1.35;
-  }
+.cell-label {
+	background: rgba(0, 0, 0, 0.04);
+	font-weight: 700;
+}
 
-  .reason-inline {
-    gap: 8px;
-  }
+.cell-sublabel {
+	display: block;
+	margin-bottom: 5px;
+	color: var(--purple);
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
 
-  .reason-inline .cell-helper {
-    font-size: 0.66rem;
-    white-space: nowrap;
-  }
+.row-header .cell-sublabel {
+	color: var(--cream);
+}
 
-  .final-prediction {
-    font-size: 0.8rem;
-  }
+.cell-helper {
+	display: block;
+	color: var(--muted);
+	font-size: 0.88rem;
+	font-style: italic;
+	line-height: 1.5;
+}
 
-  .reset-button-container {
-    margin-top: 14px;
-  }
+.prediction-input,
+.prediction-select,
+.condition-input {
+	width: 100%;
+	min-height: 44px;
+	padding: 9px 11px;
+	box-sizing: border-box;
+	background: white;
+	color: var(--text);
+	border: 2px solid var(--line);
+	border-radius: 10px;
+	font: inherit;
+}
 
-  .reset-btn {
-    padding: 9px 16px;
-    font-size: 0.8rem;
-  }
+.prediction-input:focus,
+.prediction-select:focus,
+.condition-input:focus {
+	outline: 3px solid rgba(78, 50, 232, 0.18);
+	border-color: var(--purple);
+}
+
+.permanent-input-row {
+	display: block;
+}
+
+.submitted-answer {
+	display: none;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	width: 100%;
+	min-height: 44px;
+	padding: 9px 11px;
+	box-sizing: border-box;
+	background: var(--soft-green);
+	color: var(--text);
+	border: 2px solid var(--line);
+	border-radius: 10px;
+	font-weight: 700;
+}
+
+.submitted-answer.visible {
+	display: flex;
+}
+
+.submitted-answer .delete-answer {
+	flex: 0 0 auto;
+}
+
+.relationship-area {
+	display: grid;
+	gap: 10px;
+}
+
+.relationship-buttons {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.relationship-buttons.three-options {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.relationship-option {
+	min-height: 42px;
+	padding: 8px 10px;
+	background: white;
+	color: var(--text);
+	border: 2px solid var(--line);
+	border-radius: 10px;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.relationship-option:hover {
+	background: var(--soft-purple);
+  cursor: pointer;
+}
+
+.prediction-select:hover {
+  cursor: pointer;
+}
+
+.relationship-option.selected {
+	background: var(--purple);
+	color: white;
+}
+
+.condition-comparison-inputs {
+	display: none;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.condition-comparison-inputs.visible {
+	display: grid;
+}
+
+.generated-text {
+	min-height: 48px;
+	padding: 10px 12px;
+	background: rgba(255, 255, 255, 0.55);
+	border: 2px solid var(--line);
+	border-radius: 10px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.generated-text.placeholder {
+	color: var(--muted);
+	font-weight: 500;
+}
+
+.reason-inline {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.reason-inline .cell-helper {
+	flex: 0 0 auto;
+	margin: 0;
+	white-space: nowrap;
+
+	color: var(--purple);
+	font-size: 0.82rem;
+	font-weight: 700;
+	font-style: normal;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.reason-inline .permanent-input-row {
+	flex: 1;
+	min-width: 0;
+}
+
+.reason-inline .prediction-input {
+	width: 100%;
+}
+
+.reason-inline .submitted-answer {
+	flex: 1;
+	min-width: 0;
+}
+
+.prediction-select {
+	max-width: 100%;
+	text-overflow: ellipsis;
+}
+
+.prediction-organiser-cell {
+	overflow-wrap: anywhere;
+}
+
+.final-prediction {
+	background: var(--soft-green);
+	font-size: 1.02rem;
+}
+
+.reset-button-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 18px;
+}
+
+.reset-btn {
+	background: var(--orange);
+}
+
+@media (max-width: 1050px) {
+	.prediction-organiser-row {
+		grid-template-columns:
+			155px minmax(0, 1fr) minmax(0, 1fr);
+	}
+
+	.prediction-organiser-cell {
+		padding: 12px 14px;
+		font-size: 0.9rem;
+	}
+
+	.cell-sublabel {
+		font-size: 0.76rem;
+	}
+
+	.relationship-option {
+		padding: 8px 6px;
+		font-size: 0.9rem;
+	}
+}
+
+@media (max-width: 820px) {
+	body {
+		padding: 6px 0;
+	}
+
+	.reasoned-builder {
+		width: 100%;
+	}
+
+	.prediction-organiser-row {
+		grid-template-columns:
+			118px minmax(0, 1fr) minmax(0, 1fr);
+	}
+
+	.prediction-organiser-cell {
+		padding: 9px 10px;
+		font-size: 0.78rem;
+		line-height: 1.35;
+	}
+
+	.cell-sublabel {
+		margin-bottom: 4px;
+		font-size: 0.67rem;
+		letter-spacing: 0.025em;
+	}
+
+	.cell-helper {
+		font-size: 0.72rem;
+		line-height: 1.35;
+	}
+
+	.prediction-input,
+	.prediction-select,
+	.condition-input {
+		min-height: 38px;
+		padding: 7px 8px;
+		font-size: 0.78rem;
+	}
+
+	.relationship-option {
+		min-height: 38px;
+		padding: 6px 5px;
+		font-size: 0.76rem;
+	}
+
+	.generated-text {
+		min-height: 42px;
+		padding: 8px 9px;
+		font-size: 0.76rem;
+		line-height: 1.35;
+	}
+
+	.reason-inline {
+		gap: 8px;
+	}
+
+	.reason-inline .cell-helper {
+		font-size: 0.66rem;
+		white-space: nowrap;
+	}
+
+	.final-prediction {
+		font-size: 0.8rem;
+	}
+
+	.reset-button-container {
+		margin-top: 14px;
+	}
+
+	.reset-btn {
+		padding: 9px 16px;
+		font-size: 0.8rem;
+	}
 }
 
 @media (max-width: 600px) {
-  .prediction-organiser-row {
-    grid-template-columns:
-      92px
-      minmax(0, 1fr)
-      minmax(0, 1fr);
-  }
+	.prediction-organiser-row {
+		grid-template-columns:
+			92px minmax(0, 1fr) minmax(0, 1fr);
+	}
 
-  .prediction-organiser-cell {
-    padding: 7px 6px;
-    font-size: 0.67rem;
-  }
+	.prediction-organiser-cell {
+		padding: 7px 6px;
+		font-size: 0.67rem;
+	}
 
-  .cell-sublabel {
-    font-size: 0.58rem;
-  }
+	.cell-sublabel {
+		font-size: 0.58rem;
+	}
 
-  .cell-helper {
-    font-size: 0.62rem;
-  }
+	.cell-helper {
+		font-size: 0.62rem;
+	}
 
-  .prediction-input,
-  .prediction-select,
-  .condition-input {
-    min-height: 34px;
-    padding: 5px 6px;
-    font-size: 0.68rem;
-  }
+	.prediction-input,
+	.prediction-select,
+	.condition-input {
+		min-height: 34px;
+		padding: 5px 6px;
+		font-size: 0.68rem;
+	}
 
-  .relationship-buttons,
-  .relationship-buttons.three-options,
-  .condition-comparison-inputs {
-    gap: 4px;
-    		grid-template-columns: 1fr;
+	.relationship-buttons,
+	.relationship-buttons.three-options,
+	.condition-comparison-inputs {
+		gap: 4px;
+		grid-template-columns: 1fr;
 
-  }
+	}
 
-  .relationship-option {
-    min-height: 34px;
-    padding: 4px 3px;
-    font-size: 0.64rem;
-  }
+	.relationship-option {
+		min-height: 34px;
+		padding: 4px 3px;
+		font-size: 0.64rem;
+	}
 
-  .generated-text {
-    min-height: 36px;
-    padding: 6px;
-    font-size: 0.65rem;
-  }
+	.generated-text {
+		min-height: 36px;
+		padding: 6px;
+		font-size: 0.65rem;
+	}
 
-  .reason-inline {
-    gap: 5px;
-  }
+	.reason-inline {
+		gap: 5px;
+	}
 
-  .reason-inline .cell-helper {
-    font-size: 0.56rem;
-  }
+	.reason-inline .cell-helper {
+		font-size: 0.56rem;
+	}
 
-  .final-prediction {
-    font-size: 0.68rem;
-  }
+	.final-prediction {
+		font-size: 0.68rem;
+	}
 }
 
   </style>
