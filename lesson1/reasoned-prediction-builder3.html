@@ -113,27 +113,33 @@ body {
     The thing I am changing
   </label>
 
-  <select
-    id="changeVariable"
-    class="prediction-select">
+<select
+  id="changeVariable"
+  class="prediction-select">
 
-    <option value="">
-      Choose what you are changing
-    </option>
+  <option value="">
+    Choose what you are changing
+  </option>
 
-    <option value="the amount of water">
-      The amount of water
-    </option>
+  <option value="the angle of the ramp">
+    The angle of the ramp
+  </option>
 
-    <option value="the number of hours of sunlight">
-      The number of hours of sunlight
-    </option>
+  <option value="the colour of the car">
+    The colour of the car
+  </option>
 
-    <option value="the temperature">
-      The temperature
-    </option>
+  <option value="the size of the car">
+    The size of the car
+  </option>
 
-  </select>
+  <option value="the size of the car's wheels">
+    The size of the car's wheels
+  </option>
+
+</select>
+
+
 </div>
 
         <div class="prediction-organiser-cell">
@@ -141,35 +147,21 @@ body {
     The thing I am measuring
   </label>
 
-  <select
-    id="measureVariable"
-    class="prediction-select">
+<select
+  id="measureVariable"
+  class="prediction-select">
 
-    <option value="">
-      Choose what you are measuring
-    </option>
+  <option value="">
+    Choose what you are measuring
+  </option>
 
-    <option value="plant height">
-      Plant height
-    </option>
+  <option value="the distance the car travels">
+    The distance the car travels
+  </option>
 
-    <option value="the number of leaves">
-      Number of leaves
-    </option>
+</select>
 
-    <option value="leaf colour">
-      Leaf colour
-    </option>
 
-    <option value="plant health">
-      Plant health
-    </option>
-
-    <option value="the time taken to germinate">
-      Time taken to germinate
-    </option>
-
-  </select>
 </div>
 
 
@@ -190,10 +182,21 @@ body {
               <option value="condition-comparison">Condition 1 versus condition 2</option>
             </select>
             <div id="causeRelationshipButtons" class="relationship-buttons"></div>
+
             <div id="conditionComparisonInputs" class="condition-comparison-inputs">
-              <input id="conditionOneInput" class="condition-input" type="text" placeholder="Condition 1">
-              <input id="conditionTwoInput" class="condition-input" type="text" placeholder="Condition 2">
-            </div>
+  <input
+    id="conditionOneInput"
+    class="condition-input"
+    type="text"
+    placeholder="Starting condition, e.g. blue">
+
+  <input
+    id="conditionTwoInput"
+    class="condition-input"
+    type="text"
+    placeholder="New condition, e.g. red">
+</div>
+
           </div>
         </div>
         <div class="prediction-organiser-cell">
@@ -282,9 +285,15 @@ body {
         { value: "without", label: "Without" }
       ],
       "condition-comparison": [
-        { value: "condition-one", label: "Use condition 1" },
-        { value: "condition-two", label: "Use condition 2" }
-      ]
+  {
+    value: "condition-one-to-two",
+    label: "Condition 1"
+  },
+  {
+    value: "condition-two-to-one",
+    label: "Condition 2"
+  }
+]
     };
 
     function submitPermanentField(fieldName) {
@@ -401,21 +410,28 @@ body {
       }
 
       const causePhrases = {
-        increase: "If I increase " + change,
-        decrease: "If I decrease " + change,
-        with: "If I conduct the investigation with " + change,
-        without: "If I conduct the investigation without " + change,
-        "condition-one":
-          "If I use " +
-          (conditionOneInput.value.trim() || "condition 1") +
-          " instead of " +
-          (conditionTwoInput.value.trim() || "condition 2"),
-        "condition-two":
-          "If I use " +
-          (conditionTwoInput.value.trim() || "condition 2") +
-          " instead of " +
-          (conditionOneInput.value.trim() || "condition 1")
-      };
+  increase:
+    "If I increase " + change,
+
+  decrease:
+    "If I decrease " + change,
+
+  "condition-one-to-two":
+    "If I change " +
+    change +
+    " from " +
+    (conditionOneInput.value.trim() || "condition 1") +
+    " to " +
+    (conditionTwoInput.value.trim() || "condition 2"),
+
+  "condition-two-to-one":
+    "If I change " +
+    change +
+    " from " +
+    (conditionTwoInput.value.trim() || "condition 2") +
+    " to " +
+    (conditionOneInput.value.trim() || "condition 1")
+};
 
       return causePhrases[selectedCause] || "";
     }
