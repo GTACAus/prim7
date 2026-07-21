@@ -44,7 +44,7 @@
       background: white;
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1000px) {
 
       .flashcard-frame {
         height: 70rem;
@@ -2072,7 +2072,7 @@ if (containsProfanity(answer)) {
   let currentWheelRotation = 0;
   let wheelIsSpinning = false;
   let questionCardCount = 0;
-
+  const usedQuestionStarters = new Set();
 
   /* ----------------------------------------
      Protect student text
@@ -2541,6 +2541,14 @@ function saveQuestionCard(
   );
 
   questionCard.classList.add("saved");
+  
+  usedQuestionStarters.add(questionStructure.word);
+
+  if (questionStructures.length === 0) {
+    spinQuestionWheelButton.disabled = true;
+    wheelResult.textContent =
+      "You have used all four question starters!";
+  }
 }
 
   /* ----------------------------------------
@@ -2550,6 +2558,29 @@ function saveQuestionCard(
   spinQuestionWheelButton.addEventListener(
     "click",
     function() {
+      wheelResult.style.backgroundColor = "var(--soft-purple)";
+
+      // Remove an empty, unsaved question before spinning again
+      const unsavedCards = selectedQuestionTemplate.querySelectorAll(
+        ".wheel-question-card:not(.saved)"
+      );
+
+      unsavedCards.forEach(card => {
+        const inputs = card.querySelectorAll(".question-template-input");
+        const submissions = card.querySelectorAll(".submitted-question-part");
+
+        const hasInputs = Array.from(inputs).some(input =>
+          input.value.trim() !== ""
+        );
+
+        const hasSubmissions = submissions.length > 0;
+
+        if (!hasInputs && !hasSubmissions) {
+          card.remove();
+          questionCardCount--;
+        }
+      });
+      
       if (wheelIsSpinning) {
         return;
       }
@@ -2560,21 +2591,25 @@ function saveQuestionCard(
       wheelResult.textContent =
         "The wheel is spinning...";
 
+      const destinationAngles = [
+        0,
+        90,
+        270,
+        180
+      ];
+
       const selectedIndex =
         Math.floor(
           Math.random() *
           questionStructures.length
         );
 
-      const destinationAngles = [
-        0,    // What
-        90,   // How
-        270,  // Does
-        180   // If
-      ];
+      const selectedQuestionStructure =
+        questionStructures[
+          Math.floor(Math.random() * questionStructures.length)
+        ];
 
-      const selectedDestination =
-        destinationAngles[selectedIndex];
+      const selectedDestination = destinationAngles[selectedIndex];
 
       const currentPosition =
         (
@@ -2609,6 +2644,20 @@ function saveQuestionCard(
         function() {
           const selectedQuestionStructure =
             questionStructures[selectedIndex];
+
+          if (usedQuestionStarters.has(selectedQuestionStructure.word)) {
+            wheelResult.innerHTML = `
+              <strong>${selectedQuestionStructure.word}</strong>
+              has already been used.<br>
+              Spin again to choose a different question starter.
+            `;
+            wheelResult.style.backgroundColor = "var(--orange)";
+
+            spinQuestionWheelButton.disabled = false;
+            wheelIsSpinning = false;
+
+            return;
+          }
 
           wheelResult.innerHTML = `
             You landed on
