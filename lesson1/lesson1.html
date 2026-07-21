@@ -51,6 +51,12 @@
       }
     }
 
+    @media (max-width: 600px) {
+      .reasoned-prediction-iframe, .reasoned-builder {
+        min-height: 1000px;
+      }
+    }
+
  .reasoned-prediction-iframe {
   display: block;
   width: 100%;
@@ -346,7 +352,10 @@
     /* Each row is a horizontal stripe */
     .prediction-organiser-row {
       display: grid;
-      grid-template-columns: 180px 1fr 1fr;
+      grid-template-columns:
+        clamp(80px, 18vw, 180px)
+        minmax(0, 1fr)
+        minmax(0, 1fr);
       border-bottom: 2px solid var(--line);
     }
     .prediction-organiser-row:last-child { border-bottom: none; }
@@ -1360,6 +1369,8 @@ class="flashcard-frame">
     </p>
   </div>
 
+  <!-- <div class="diagram-box diagram-activity"> -->
+
   <div class="prediction-organiser">
 
       <div class="prediction-organiser-row row-header">
@@ -1406,6 +1417,7 @@ class="flashcard-frame">
        </div>
       </div>
     </div>
+    <!-- </div> -->
 
 </section>
 
@@ -1421,12 +1433,12 @@ class="flashcard-frame">
   <div class="diagram-box diagram-activity">
   <p class="activity-instruction">
     Use the organiser below to construct a reasoned prediction
-    for your <strong>investigation</strong>.
+    for your investigation question.
   </p>
 </div>
 
   <iframe
-  src="reasoned-prediction-builder3.html"
+  src="reasoned-prediction-builder2.html"
   title="Reasoned prediction builder"
   class="reasoned-prediction-iframe"
   scrolling="no">
