@@ -1,2701 +1,2418 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
-  <title>Lesson 1 - Questioning and Predicting</title>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
-    rel="stylesheet">
-
-  <link
-    href="../styles/build_style.css"
-    rel="stylesheet"
-    type="text/css">
-
-  <style>
-    /* Lesson 1-specific styles only */
-
-    .flashcard-box {
-      padding: 12px;
-
-      background: var(--soft-blue);
-      border: 3px solid var(--line);
-      border-radius: 22px;
-
-      box-shadow: 0 5px 0 var(--line);
-    }
-
-    .flashcard-frame {
-      display: block;
-
-      width: 100%;
-      height: 600px;
-
-      border: none;
-      border-radius: 16px;
-
-      background: white;
-    }
-
-    @media (max-width: 1000px) {
-
-      .flashcard-frame {
-        height: 70rem;
-      }
-    }
-
- .reasoned-prediction-iframe {
-  display: block;
-  width: 100%;
-  height: 720px;
-
-  margin-top: 0;
-
-  border: none;
-  background: var(--paper);
-  overflow: hidden;
-}
-  </style>
-</head>
-
-<style>
-  /* ---------- Experiment video selection ---------- */
-
-.experiment-video-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-
-  margin-top: 20px;
-}
-
-.experiment-video-card {
-  width: 100%;
-  padding: 12px;
-
-  background: var(--card);
-  border: 3px solid var(--line);
-  border-radius: 20px;
-
-  box-shadow: 0 5px 0 var(--line);
-
-  color: var(--text);
-  font-family: inherit;
-  text-align: left;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
-}
-
-.experiment-video-card:hover {
-  background: var(--soft-yellow);
-
-  transform: translateY(-3px);
-  box-shadow: 0 8px 0 var(--line);
-}
-
-.experiment-video-card.selected {
-  background: var(--soft-green);
-  border-color: var(--purple);
-
-  box-shadow: 0 5px 0 var(--purple);
-}
-
-.experiment-video-preview {
-  position: relative;
-
-  width: 100%;
-  aspect-ratio: 16 / 9;
-
-  overflow: hidden;
-
-  background: var(--soft-blue);
-  border: 2px solid var(--line);
-  border-radius: 14px;
-}
-
-.experiment-video-preview video {
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-.experiment-play-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 54px;
-  height: 54px;
-
-  background: var(--purple);
-  color: white;
-
-  border: 3px solid var(--line);
-  border-radius: 50%;
-
-  box-shadow: 0 4px 0 var(--line);
-
-  font-size: 1.25rem;
-
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.experiment-video-card.selected .experiment-play-icon {
-  background: var(--green);
-}
-
-.experiment-video-title {
-  display: block;
-
-  margin-top: 12px;
-
-  font-size: 1rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-/* ---------- Investigation dropdown menus ---------- */
-
-.investigation-menu-panel {
-  margin-top: 24px;
-  padding: 22px;
-
-  background: var(--soft-purple);
-  border: 3px solid var(--line);
-  border-radius: 20px;
-
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.selected-video-message {
-  margin: 0 0 18px;
-
-  color: var(--text);
-  font-size: 1rem;
-}
-
-.investigation-menu-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.investigation-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.investigation-field label {
-  color: var(--text);
-
-  font-size: 0.92rem;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
-.investigation-field select {
-  width: 100%;
-  min-height: 48px;
-  padding: 10px 36px 10px 12px;
-
-  background: white;
-  color: var(--text);
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
-
-  font-family: inherit;
-  font-size: 0.95rem;
-
-  cursor: pointer;
-}
-
-.investigation-field select:focus {
-  outline: 3px solid rgba(78, 50, 232, 0.2);
-  border-color: var(--purple);
-}
-
-/* ---------- Student investigation questions ---------- */
-
-.investigation-question-area {
-  margin-top: 24px;
-  padding-top: 22px;
-
-  border-top: 2px dashed var(--line);
-}
-
-.investigation-question-area h3 {
-  margin: 0 0 6px;
-
-  color: var(--purple);
-
-  font-size: 1.15rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.investigation-question-instruction {
-  margin: 0 0 18px;
-
-  color: var(--muted);
-
-  line-height: 1.5;
-}
-
-.investigation-question-list {
-  display: grid;
-  gap: 16px;
-}
-
-.investigation-question-item {
-  padding: 16px;
-
-  background: var(--card);
-  border: 2px solid var(--line);
-  border-radius: 16px;
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
-}
-
-.investigation-question-item .final-answer-list {
-  margin-top: 10px;
-}
-
-/* ---------- Responsive experiment section ---------- */
-
-@media (max-width: 800px) {
-  .experiment-video-grid,
-  .investigation-menu-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ---------- Question choice and prediction ---------- */
-
-.chosen-question-box {
-  display: block;
-  margin-top: 18px;
-  background: var(--soft-green);
-}
-
-.chosen-question-box[hidden] {
-  display: none;
-}
-
-.chosen-question-box strong {
-  display: block;
-  margin-bottom: 8px;
-
-  color: var(--purple);
-  font-size: 0.82rem;
-  text-transform: uppercase;
-}
-
-.chosen-question-box p {
-  margin: 0;
-
-  color: var(--text);
-  font-size: 1.1rem;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.prediction-activity {
-  margin-top: 24px;
-  background: var(--soft-yellow);
-}
-
-.prediction-heading {
-  margin: 0 0 8px;
-
-  color: var(--purple);
-  font-size: 1.15rem;
-  text-transform: uppercase;
-}
-
-.prediction-organiser {
-      border: 3px solid var(--line);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 5px 0 var(--line);
-    }
-
-    /* Each row is a horizontal stripe */
-    .prediction-organiser-row {
-      display: grid;
-      grid-template-columns:
-        clamp(80px, 18vw, 180px)
-        minmax(0, 1fr)
-        minmax(0, 1fr);
-      border-bottom: 2px solid var(--line);
-    }
-    .prediction-organiser-row:last-child { border-bottom: none; }
-
-    .prediction-organiser-cell {
-      padding: 14px 18px;
-      font-size: 0.95rem;
-      line-height: 1.55;
-      border-right: 2px solid var(--line);
-    }
-    .prediction-organiser-cell:last-child { border-right: none; }
-
-    /* Row-type colour bands */
-    .row-header   { background: var(--purple); }
-    .row-header   .prediction-organiser-cell { color: #fff; font-weight: 700; font-size: 1rem; }
-
-    .row-question { background: var(--soft-blue); }
-    .row-relationship { background: var(--soft-yellow); }
-    .row-prediction   { background: var(--soft-green); }
-    .row-reason       { background: var(--soft-purple); }
-    .row-full         { background: var(--card); }
-
-    /* Span-2 cell (no right border on the spanning cell) */
-    .prediction-organiser-cell.span-2 {
-      grid-column: span 2;
-      border-right: none;
-    }
-
-    /* Label column — always slightly darker */
-    .cell-label {
-      background: rgba(0,0,0,.04);
-      font-weight: 700;
-            overflow-wrap: break-word;
-
-    }
-
-    /* sub-labels inside cells */
-    .cell-sublabel {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      color: var(--purple);
-      margin-bottom: 4px;
-    }
-    .row-header .cell-sublabel { color: var(--cream); }
-
-    /* italic helper lines */
-    .cell-helper {
-      display: block;
-      font-size: 0.88rem;
-      color: var(--muted);
-      font-style: italic;
-      line-height: 1.5;
-    }
-
-    /* ---- diagram-grid wrapper ---- */
-    .grid-container {}
-
-</style>
-
-<body>
-
-  <div id="top"></div> <!-- Top anchor for scrolling -->
-  
-  <!-- Vocabulary Button -->
-<button class="glossary-button" onclick="openGlossary()">
-  📖 Vocabulary
-</button>
-
-<!-- Vocabulary Modal -->
-<div class="modal" id="glossaryModal">
-  <div class="modal-content">
-
-    <div class="modal-header">
-      <div>
-        <p class="teacher-label">
-  Lesson 1: Questioning and Predicting
-</p>
-        <h2>Glossary Terms</h2>
-      </div>
-
-      <button
-        class="close-button"
-        onclick="closeGlossary()"
-        aria-label="Close glossary">
-        ×
-      </button>
-    </div>
-
-    <div class="vocab-list">
-
-      <div class="vocab-card">
-        <h3>Botanist</h3>
-        <p>
-          A scientist who studies plants.
-        </p>
-      </div>
-
-      <div class="vocab-card">
-        <h3>Diagnose</h3>
-        <p>
-          To identify what is wrong with a living thing by carefully examining
-          it and looking for clues about what physical condition may be missing
-          or out of balance.
-        </p>
-      </div>
-
-      <div class="vocab-card">
-        <h3>Function</h3>
-        <p>
-          The job or role that a part of a plant performs to help it survive.
-        </p>
-      </div>
-
-      <div class="vocab-card">
-        <h3>Germinate</h3>
-        <p>
-          When a seed begins to sprout and grow into a new plant after absorbing
-          water and being exposed to the right temperature and conditions.
-        </p>
-      </div>
-
-      <div class="vocab-card">
-        <h3>Investigate</h3>
-        <p>
-          To carefully examine and gather information about something in order
-          to find an answer or understand it better.
-        </p>
-      </div>
-
-      <div class="vocab-card">
-        <h3>Nutrients</h3>
-        <p>
-          Substances found in soil and water that plants absorb through their
-          roots to grow and stay healthy.
-        </p>
-      </div>
-
-      <div class="vocab-card">
-        <h3>Observe / Observation</h3>
-        <p>
-          Information gathered by using your senses—sight, hearing, touch,
-          smell, or taste—to carefully notice and describe something in the
-          world around you.
-        </p>
-      </div>
-
-      <div class="vocab-card">
-        <h3>Structure</h3>
-        <p>
-          A physical part of a plant, such as the roots, stem, leaves, flower,
-          or fruit, that has a specific job.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<main class="page">
-
-<!-- ---------- Header ---------- --> 
-<header class="lesson-intro">
-  <!-- Lesson 1 heading and summary -->
-  <div class="lesson-heading">
-
-    <span class="lesson-label">
-      Lesson 1
-    </span>
-
-    <h1>
-      Questioning and Predicting
-    </h1>
-
-    <p class="lesson-summary">
-      Asking questions and making predictions like a scientist
-    </p>
-  </div>
-
-  <!-- Introductory Grid (Contains Learning Objectives and See Think Wonder)-->
-    <div class="intro-grid">
-
-    <section class="intro-card objectives-card">
-      
-      <!-- Learning Objective -->
-      <p class="intro-eyebrow">Learning objective</p>
-
-  <p class="learning-objective-text">
-    Learn to ask testable questions and make reasoned predictions for a scientific experiment
-  </p>
-
-  <!-- Success Criteria -->
-  <p class="success-heading">Success criteria</p>
-
-  <ol class="objective-list">
-    <li>
-      I can classify whether a question is testable or untestable
-    </li>
-
-    <li>
-       I can write a testable question
-    </li>
-
-    <li> 
-      I can make predictions and give a reason for my choice
-    </li>
-  </ol>
-</section>
-
-    <section class="intro-card observation-card">
-      <p class="intro-eyebrow">Think like a scientist</p>
-
-      <h2>See, Think, Wonder</h2>
-
-      <p>
-        As scientists we are all curious. We <strong>observe</strong> the world around us and ask questions
-        about how the world works. A way to come up with questions is to use a thinking tool called 
-        <strong><i>See, Think, Wonder</i></strong>. Practice making observations
-         and asking questions by following these steps:
-      </p>
-
-      <div class="stw-explanation">
-        <div>
-          <strong>See</strong>
-          <span>What do you notice?</span>
-        </div>
-
-        <div>
-          <strong>Think</strong>
-          <span>What do you think is happening?</span>
-        </div>
-
-        <div>
-          <strong>Wonder</strong>
-          <span>What questions do you have?</span>
-        </div>
-      </div>
-    </section>
-
-  </div>
-</header> <!-- ---------- End of Header ---------- -->
-
-<!-- ---------- Explicit Teaching: Introduction Image ---------- -->
-
-<section class="section" id="observe-experiment">
-
-  <h2 class="section-title">
-    Observe the Experiment
-  </h2>
-
-  <div class="diagram-box diagram-activity">
-    <p class="activity-instruction">
-      Look at the image below. Practice making observations
-         and asking questions by following <strong><i>See, Think, Wonder</i></strong>.
-    </p>
-  </div>
-
-  <div class="image-box">
-    <img
-      src="images/toycar.png"
-      alt="Toy car example">
-  </div>
-
-</section>
-
-<!-- ---------- Explicit Teaching: What is a Testable Question? ---------- -->
-
-<section class="section" id="testable-question-intro">
-
-  <h2 class="section-title">
-    How can we turn our wonderings into testable questions?
-  </h2>
-
-  <div class="diagram-box diagram-activity">
-
-    <h3>
-      What is a testable question?
-    </h3>
-
-    <p class="activity-instruction">
-      A testable question can be answered by changing one thing and measuring
-      the effect it has on something else. It explores relationships between
-      two different things.
-    </p>
-
-  </div>
-
-  <div class="intro-grid question-comparison-grid">
-
-    <div class="intro-card testable-card">
-
-      <p class="intro-eyebrow">
-        Testable questions
-      </p>
-
-      <ul>
-        <li>Can be answered by doing an experiment.</li>
-
-        <li>
-          Explore the relationship between two things.
-        </li>
-
-        <li>
-          One thing is changed and its effect on another thing is measured.
-        </li>
-
-        <li>
-          Different scientists should reach a similar answer when conducting
-          the same fair test.
-        </li>
-      </ul>
-
-    </div>
-
-    <div class="intro-card untestable-card">
-
-      <p class="intro-eyebrow">
-        Untestable questions
-      </p>
-
-      <ul>
-        <li>
-          May be answered using personal opinions, values or beliefs.
-        </li>
-
-        <li>
-          Do not investigate the effect of changing one thing.
-        </li>
-
-        <li>
-          Cannot be answered using measurable evidence from an experiment.
-        </li>
-
-        <li>
-          Different people may provide different answers.
-        </li>
-      </ul>
-
-    </div>
-
-  </div>
-
-  <div class="diagram-box diagram-activity question-example-intro">
-
-    <p class="activity-instruction">
-      Look at the following examples from our See, Think, Wonder exercise.
-    </p>
-
-  </div>
-
-  <div class="intro-grid question-example-grid">
-
-    <div class="intro-card testable-card">
-
-  <p class="intro-eyebrow">
-    Testable question
-  </p>
-
-  <p class="example-question">
-    Does changing the angle of the ramp affect how far the car travels?
-  </p>
-
-  <div class="question-check-list">
-
-    <div class="question-check-row">
-      <span class="question-check-icon correct">✓</span>
-
-      <div>
-        <strong>Is something being changed?</strong>
-        <p>Yes. The angle of the ramp is changed.</p>
-      </div>
-    </div>
-
-    <div class="question-check-row">
-      <span class="question-check-icon correct">✓</span>
-
-      <div>
-        <strong>Can the effect be measured?</strong>
-        <p>Yes. Measure the distance the car travels.</p>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="intro-card untestable-card">
-
-  <p class="intro-eyebrow">
-    Untestable question
-  </p>
-
-  <p class="example-question">
-    Does changing the angle of the ramp affect how much fun the car has?
-  </p>
-
-  <div class="question-check-list">
-
-    <div class="question-check-row">
-      <span class="question-check-icon correct">✓</span>
-
-      <div>
-        <strong>Is something being changed?</strong>
-        <p>Yes. The angle of the ramp is changed.</p>
-      </div>
-    </div>
-
-    <div class="question-check-row">
-      <span class="question-check-icon incorrect">×</span>
-
-      <div>
-        <strong>Can the effect be measured?</strong>
-        <p>No. Fun is based on personal opinion.</p>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="intro-card testable-card">
-
-  <p class="intro-eyebrow">
-    Testable question
-  </p>
-
-  <p class="example-question">
-    What happens to the distance a car travels if we change the size of
-    the car?
-  </p>
-
-  <div class="question-check-list">
-
-    <div class="question-check-row">
-      <span class="question-check-icon correct">✓</span>
-
-      <div>
-        <strong>Is something being changed?</strong>
-        <p>Yes. The size of the car is changed.</p>
-      </div>
-    </div>
-
-    <div class="question-check-row">
-      <span class="question-check-icon correct">✓</span>
-
-      <div>
-        <strong>Can the effect be measured?</strong>
-        <p>Yes. Measure the distance the car travels.</p>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="intro-card untestable-card">
-
-  <p class="intro-eyebrow">
-    Untestable question
-  </p>
-
-  <p class="example-question">
-    How far does the red car travel?
-  </p>
-
-  <div class="question-check-list">
-
-    <div class="question-check-row">
-      <span class="question-check-icon incorrect">×</span>
-
-      <div>
-        <strong>Is something being changed?</strong>
-        <p>No. Nothing is changed.</p>
-      </div>
-    </div>
-
-    <div class="question-check-row">
-      <span class="question-check-icon correct">✓</span>
-
-      <div>
-        <strong>Can the effect be measured?</strong>
-        <p>
-          Yes. The distance the car travels can be measured.
-        </p>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-  </div>
-
-</section>
-
-<!-- ---------- Flashcards ---------- --> 
-
-<section class="section" id="flashcards">
-<h2 class="section-title">
-Investigable or Non-investigable?
-</h2>
-
-<div class="flashcard-box">
-<iframe
-src="flash-cards.html"
-class="flashcard-frame">
-</iframe>
-</div>
-
-<button
-    id="flashcardsNextButton"
-    class="next-button"
-    onclick="unlockSection('question-builder', 'flashcards')">
-    Next
-</button>
-
-<p class="completed-note">
-    Completed — next activity unlocked.
-</p>
-</section>
-
-
-<!-- Part C: How do we write testable questions? -->
-
-<section class="section" id="testable-questions">
-
-  <h2 class="section-title">
-    How do we write testable questions?
-  </h2>
-
-  <div class="diagram-box diagram-activity">
-    <p class="activity-instruction">
-      A testable question describes what is being changed and what is being measured.
-      Testable questions can begin with words such as
-      <strong>What</strong>, <strong>How</strong>,
-      <strong>Does</strong> and <strong>If</strong>.
-    </p>
-  </div>
-
-  <!-- Example question structures -->
-  <div class="question-structure-card">
-
-    <h3>Question structures</h3>
-
-    <div class="question-example">
-      <span class="question-word what-word">What</span>
-
-      <span>
-        will changing
-        <span class="example-blank"></span>
-        do to
-        <span class="example-blank"></span>?
-      </span>
-    </div>
-
-    <div class="question-example">
-      <span class="question-word how-word">How</span>
-
-      <span>
-        does changing
-        <span class="example-blank"></span>
-        affect
-        <span class="example-blank"></span>?
-      </span>
-    </div>
-
-    <div class="question-example">
-      <span class="question-word does-word">Does</span>
-
-      <span>
-        changing
-        <span class="example-blank"></span>
-        affect
-        <span class="example-blank"></span>?
-      </span>
-    </div>
-
-    <div class="question-example">
-      <span class="question-word if-word">If</span>
-
-      <span>
-        we change
-        <span class="example-blank"></span>,
-        how does it affect
-        <span class="example-blank"></span>?
-      </span>
-    </div>
-
-  </div>
-
-  <!-- Student activity -->
-  <div class="testable-question-activity">
-
-    <div class="activity-heading">
-      <p class="activity-eyebrow">Your turn</p>
-      <h3>Create a testable question</h3>
-
-      <p>
-        Think back to what you were curious about during the
-        <strong>See, Think, Wonder</strong> activity.
-        Spin the wheel to choose a question structure.
-      </p>
-    </div>
-
-    <div class="question-wheel-layout">
-
-      <!-- Wheel side -->
-      <div class="wheel-panel">
-
-        <div class="question-wheel-wrapper">
-
-          <div
-            class="question-wheel"
-            id="questionWheel"
-            aria-label="Question starter wheel">
-
-            <span class="wheel-label wheel-label-what">What</span>
-            <span class="wheel-label wheel-label-how">How</span>
-            <span class="wheel-label wheel-label-does">Does</span>
-            <span class="wheel-label wheel-label-if">If</span>
-
-          </div>
-
-          <div class="wheel-pointer" aria-hidden="true"></div>
-
-        </div>
-
-        <button
-          type="button"
-          class="general-button spin-wheel-button"
-          id="spinQuestionWheel">
-          Spin the wheel
-        </button>
-
-        <p class="wheel-result" id="wheelResult" aria-live="polite">
-          Spin the wheel to receive a question structure.
-        </p>
-
-      </div>
-
-      <!-- Question-writing side -->
-<div class="question-builder-panel">
-
-  <h4>Your question structures</h4>
-
-  <div
-    class="selected-question-template"
-    id="selectedQuestionTemplate"
-    aria-live="polite">
-
-    <p class="template-placeholder">
-      Your question structures will appear here.
-    </p>
-
-  </div>
-
-</div>
-
-    </div>
-
-  </div>
-</section>
-
-
-
-
-
-
-
-<!-- ---------- Question Builder ---------- --> 
-
-<section class="section locked" id="question-builder">
-
-  <h2 class="section-title">
-    Build an investigable question
-  </h2>
-
-  <div class="diagram-box diagram-activity">
-    <p class="activity-instruction">
-      Choose one of the videos below. Then use the dropdown menus to build
-      an investigable question about what you observed.
-    </p>
-  </div>
-
-  <div class="experiment-video-grid">
-
-    <button
-      type="button"
-      class="experiment-video-card"
-      data-video="water"
-      onclick="selectExperimentVideo('water', this)">
-
-      <div class="experiment-video-preview">
-        <video muted loop playsinline>
-          <source src="../videos/water-experiment.mp4" type="video/mp4">
-        </video>
-
-        <span class="experiment-play-icon">▶</span>
-      </div>
-
-      <span class="experiment-video-title">
-        Video 1: Water
-      </span>
-    </button>
-
-    <button
-      type="button"
-      class="experiment-video-card"
-      data-video="light"
-      onclick="selectExperimentVideo('light', this)">
-
-      <div class="experiment-video-preview">
-        <video muted loop playsinline>
-          <source src="../videos/light-experiment.mp4" type="video/mp4">
-        </video>
-
-        <span class="experiment-play-icon">▶</span>
-      </div>
-
-      <span class="experiment-video-title">
-        Video 2: Sunlight
-      </span>
-    </button>
-
-    <button
-      type="button"
-      class="experiment-video-card"
-      data-video="temperature"
-      onclick="selectExperimentVideo('temperature', this)">
-
-      <div class="experiment-video-preview">
-        <video muted loop playsinline>
-          <source src="../videos/temperature-experiment.mp4" type="video/mp4">
-        </video>
-
-        <span class="experiment-play-icon">▶</span>
-      </div>
-
-      <span class="experiment-video-title">
-        Video 3: Temperature
-      </span>
-    </button>
-
-  </div>
-
-  <div
-    id="investigationMenus"
-    class="investigation-menu-panel"
-    hidden>
-
-    <p class="selected-video-message">
-      You selected:
-      <strong id="selectedVideoName"></strong>
-    </p>
-
-    <div class="investigation-menu-grid">
-
-      <div class="investigation-field">
-        <label for="sentenceStarter">
-          1. Pick a sentence starter
-        </label>
-
-        <select id="sentenceStarter">
-          <option value="">Choose an option</option>
-        </select>
-      </div>
-
-      <div class="investigation-field">
-        <label for="measuringVariable">
-          2. What are you measuring?
-        </label>
-
-        <select id="measuringVariable">
-          <option value="">Choose an option</option>
-        </select>
-      </div>
-
-      <div class="investigation-field">
-        <label for="changingVariable">
-          3. What are you changing?
-        </label>
-
-        <select id="changingVariable">
-          <option value="">Choose an option</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="investigation-question-area">
-
-        <h3>Write your questions</h3>
-
-        <p class="investigation-question-instruction">
-          Use the dropdown menus above to help you write three investigable questions.
-        </p>
-
-        <div class="investigation-question-list">
-
-          <div class="investigation-question-item">
-            <div class="final-input-row">
-              <input
-                id="investigationQuestionInput1"
-                type="text"
-                placeholder="Write your first question"
-                onkeydown="submitInvestigationQuestionOnEnter(event, 1)">
-
-              <button
-                type="button"
-                onclick="submitInvestigationQuestion(1)">
-                Add
-              </button>
-            </div>
-
-            <ul
-              id="investigationQuestionList1"
-              class="final-answer-list">
-            </ul>
-          </div>
-
-          <div class="investigation-question-item">
-            <div class="final-input-row">
-              <input
-                id="investigationQuestionInput2"
-                type="text"
-                placeholder="Write your second question"
-                onkeydown="submitInvestigationQuestionOnEnter(event, 2)">
-
-              <button
-                type="button"
-                onclick="submitInvestigationQuestion(2)">
-                Add
-              </button>
-            </div>
-
-            <ul
-              id="investigationQuestionList2"
-              class="final-answer-list">
-            </ul>
-          </div>
-
-          <div class="investigation-question-item">
-            <div class="final-input-row">
-              <input
-                id="investigationQuestionInput3"
-                type="text"
-                placeholder="Write your third question"
-                onkeydown="submitInvestigationQuestionOnEnter(event, 3)">
-
-              <button
-                type="button"
-                onclick="submitInvestigationQuestion(3)">
-                Add
-              </button>
-            </div>
-
-            <ul
-              id="investigationQuestionList3"
-              class="final-answer-list">
-            </ul>
-          </div>
-
-        </div>
-
-            </div>
-
-  </div>
-
-  <button
-  id="questionBuilderNextButton"
-  type="button"
-  class="next-button"
-  onclick="openQuestionChoiceSection()"
-  hidden>
-  Next
-</button>
-
-  <p class="completed-note">
-    Completed — next activity unlocked.
-  </p>
-
-</section>
-
-<section
-  class="section locked"
-  id="question-choice">
-
-  <h2 class="section-title">
-    Choose your investigation question
-  </h2>
-
-  <div class="diagram-box diagram-activity">
-    <p class="activity-instruction">
-      Choose the question you would most like to investigate.
-    </p>
-  </div>
-
-  <div class="diagram-box diagram-activity">
-
-    <div class="investigation-field">
-      <label for="favouriteQuestionSelect">
-        Select one of your questions
-      </label>
-
-      <select
-        id="favouriteQuestionSelect"
-        onchange="showChosenQuestion()">
-
-        <option value="">
-          Choose a question
-        </option>
-      </select>
-    </div>
-
-    <div
-      id="chosenQuestionDisplay"
-      class="function-answer chosen-question-box"
-      hidden>
-
-      <strong>Your investigation question</strong>
-
-      <p id="chosenQuestionText"></p>
-    </div>
-
-  </div>
-
-  <div
-    id="predictionActivity"
-    class="diagram-box diagram-activity prediction-activity"
-    hidden>
-
-    <h3 class="prediction-heading">
-      Now, make your prediction
-    </h3>
-
-    <p class="activity-instruction">
-      Write what you think will happen, then explain your reasoning.
-    </p>
-
-    <div class="investigation-question-item">
-  <label for="predictionInput">
-    I predict that...
-  </label>
-
-  <div class="final-input-row">
-    <input
-      id="predictionInput"
-      type="text"
-      placeholder="Write what you think will happen"
-      onkeydown="submitPredictionOnEnter(event, 'prediction')">
-
-    <button
-      type="button"
-      onclick="submitPredictionAnswer('prediction')">
-      Add
-    </button>
-  </div>
-
-  <ul
-    id="predictionList"
-    class="final-answer-list">
-  </ul>
-</div>
-
-<div class="investigation-question-item">
-  <label for="predictionReasonInput">
-    Because...
-  </label>
-
-  <div class="final-input-row">
-    <input
-      id="predictionReasonInput"
-      type="text"
-      placeholder="Explain why you think this will happen"
-      onkeydown="submitPredictionOnEnter(event, 'reason')">
-
-    <button
-      type="button"
-      onclick="submitPredictionAnswer('reason')">
-      Add
-    </button>
-  </div>
-
-  <ul
-    id="predictionReasonList"
-    class="final-answer-list">
-  </ul>
-</div>
-
-  </div>
-
-</section>
-
-<section
-  class="section"
-  id="reasoned-prediction">
-
-  <h2 class="section-title">
-    Writing a Reasoned Prediction
-  </h2>
-
-  <div class="diagram-box diagram-activity">
-    <p class="activity-instruction">
-      The next step after writing a testable question is to make a prediction of what the result will be and support this with a reason.
-      This is called making a reasoned prediction. 
-    </p>
-    <p class="activity-instruction">
-      In reasoned prediction you make an educated guess that is based on your knowledge about the relationship between two things. 
-    </p>
-    <p class="activity-instruction">
-      You can use a graphic organiser to guide you in writing a reasoned prediction.
-    </p>
-  </div>
-
-  <!-- <div class="diagram-box diagram-activity"> -->
-
-  <div class="prediction-organiser">
-
-      <div class="prediction-organiser-row row-header">
-        <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-tq-label">Testable question:</span></div>
-        <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-change-label">Change this</span>
-        </div>
-       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-measure-label">Measure this</span>
-       </div>
-      </div>
-      
-      <!-- Relationship row -->
-      <div class="prediction-organiser-row row-relationship">
-       <div class="prediction-organiser-cell cell-label">
-        <span class="cell-sublabel" data-template-id="org-row-rel-label">Relationship:</span>
-        <span class="cell-helper" data-template-id="org-row-rel-label">Description here</span>
-       </div>
-       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-cause-label">Cause</span> <span class="cell-helper" data-template-id="org-cause-helper">increase / decrease<br>
-         more / less<br>
-         with / without<br>
-         condition 1 versus condition 2</span>
-       </div>
-       <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-effect-label">Effect (result)</span> <span class="cell-helper" data-template-id="org-effect-helper">increase / decrease / stay the same<br>
-         more / less / no difference</span>
-       </div>
-      </div><!-- Prediction row -->
-      <div class="prediction-organiser-row row-prediction">
-       <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-pred-label">Prediction:</span>
-       </div>
-       <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-if">If I do this</span>
-       </div>
-       <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-then">then this will happen</span>
-       </div>
-      </div><!-- Reason row -->
-      <div class="prediction-organiser-row row-reason">
-       <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-reason-label">Reason:</span>
-       </div>
-       <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-reason-body">This is because…</span>
-       </div>
-      </div><!-- Reasoned prediction row -->
-      <div class="prediction-organiser-row row-full">
-       <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-full-label">Reasoned prediction:</span>
-       </div>
-       <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-full-body">If I do this then this will happen. This is because of this.</span>
-       </div>
-      </div>
-    </div>
-    <!-- </div> -->
-
-</section>
-
-<!-- ---------- Reasoned Prediction Builder ---------- -->
-<section
-  class="section"
-  id="reasoned-builder">
-
-  <h2 class="section-title">
-    Now build your own reasoned prediction
-  </h2>
-
-  <div class="diagram-box diagram-activity">
-  <p class="activity-instruction">
-    Use the organiser below to construct a reasoned prediction
-    for your investigation question.
-  </p>
-</div>
-
-  <iframe
-  src="reasoned-prediction-builder3.html"
-  title="Reasoned prediction builder"
-  class="reasoned-prediction-iframe"
-  scrolling="no">
-</iframe>
-
-</section>
-
-</main>
-
-<script src="../scripts/common_functions.js"></script>
-
-<script>
-  initialiseClassroomLanguageFilter(
-    "../cypher.txt"
-  );
-
-  const experimentVideoOptions = {
-    water: {
-      name: 'the water experiment',
-
-      sentenceStarters: [
-        'How does',
-        'What happens to',
-        'Does changing'
-      ],
-
-      measuring: [
-        'plant height',
-        'number of leaves',
-        'leaf colour',
-        'plant health'
-      ],
-
-      changing: [
-        'the amount of water',
-        'how often the plant is watered',
-        'the volume of water given'
-      ]
-    },
-
-    light: {
-      name: 'the sunlight experiment',
-
-      sentenceStarters: [
-        'How does',
-        'What happens to',
-        'Does changing'
-      ],
-
-      measuring: [
-        'plant height',
-        'direction of growth',
-        'leaf colour',
-        'number of leaves'
-      ],
-
-      changing: [
-        'the amount of sunlight',
-        'the number of hours of light',
-        'the distance from the light'
-      ]
-    },
-
-    temperature: {
-      name: 'the temperature experiment',
-
-      sentenceStarters: [
-        'How does',
-        'What happens to',
-        'Does changing'
-      ],
-
-      measuring: [
-        'plant height',
-        'time taken to germinate',
-        'number of leaves',
-        'plant health'
-      ],
-
-      changing: [
-        'the temperature',
-        'where the plant is kept',
-        'the warmth of the environment'
-      ]
-    }
-  };
-
-  function fillInvestigationSelect(selectId, options) {
-    const select = document.getElementById(selectId);
-
-    select.innerHTML =
-      '<option value="">Choose an option</option>';
-
-    options.forEach(optionText => {
-      const option = document.createElement('option');
-
-      option.value = optionText;
-      option.textContent = optionText;
-
-      select.appendChild(option);
-    });
-  }
-
-  function selectExperimentVideo(videoId, selectedCard) {
-    const selectedVideo =
-      experimentVideoOptions[videoId];
-
-    if (!selectedVideo) {
-      return;
-    }
-
-    document
-      .querySelectorAll('.experiment-video-card')
-      .forEach(card => {
-        card.classList.remove('selected');
-
-        const video = card.querySelector('video');
-
-        if (video) {
-          video.pause();
+   <head>
+      <meta charset="UTF-8">
+      <meta
+         name="viewport"
+         content="width=device-width, initial-scale=1.0">
+      <title>Lesson 1 - Questioning and Predicting</title>
+      <link
+         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+         rel="stylesheet">
+      <link
+         href="../styles/build_style.css"
+         rel="stylesheet"
+         type="text/css">
+      <style>
+         /* Lesson 1-specific styles only */
+         .flashcard-box {
+          padding: 12px;
+          background: var(--soft-blue);
+          border: 3px solid var(--line);
+          border-radius: 22px;
+          box-shadow: 0 5px 0 var(--line);
         }
-      });
-
-    selectedCard.classList.add('selected');
-
-    const selectedVideoElement =
-      selectedCard.querySelector('video');
-
-    if (selectedVideoElement) {
-      selectedVideoElement.play().catch(() => {
-        /*
-          Some browsers may prevent automatic playback.
-          The dropdown menus will still work.
-        */
-      });
-    }
-
-    document.getElementById(
-      'selectedVideoName'
-    ).textContent = selectedVideo.name;
-
-    fillInvestigationSelect(
-      'sentenceStarter',
-      selectedVideo.sentenceStarters
-    );
-
-    fillInvestigationSelect(
-      'measuringVariable',
-      selectedVideo.measuring
-    );
-
-    fillInvestigationSelect(
-      'changingVariable',
-      selectedVideo.changing
-    );
-
-    document.getElementById(
-      'investigationMenus'
-    ).hidden = false;
-  }
-
-  function submitInvestigationQuestionOnEnter(event, questionNumber) {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-
-    submitInvestigationQuestion(questionNumber);
-  }
-}
-
-function updateQuestionBuilderNextButton() {
-  const question1 =
-    document.querySelector(
-      '#investigationQuestionList1 li'
-    );
-
-  const question2 =
-    document.querySelector(
-      '#investigationQuestionList2 li'
-    );
-
-  const question3 =
-    document.querySelector(
-      '#investigationQuestionList3 li'
-    );
-
-  const nextButton = document.getElementById(
-    'questionBuilderNextButton'
-  );
-
-  const allQuestionsCompleted =
-    question1 && question2 && question3;
-
-  nextButton.hidden = !allQuestionsCompleted;
-}
-
-function getInvestigationQuestion(questionNumber) {
-  const answerElement = document.querySelector(
-    '#investigationQuestionList' +
-    questionNumber +
-    ' li span'
-  );
-
-  if (!answerElement) {
-    return '';
-  }
-
-  return answerElement.textContent.trim();
-}
-
-function populateQuestionChoiceDropdown() {
-  const select = document.getElementById(
-    'favouriteQuestionSelect'
-  );
-
-  select.innerHTML =
-    '<option value="">Choose a question</option>';
-
-  for (let questionNumber = 1; questionNumber <= 3; questionNumber++) {
-    const question =
-      getInvestigationQuestion(questionNumber);
-
-    if (question === '') {
-      continue;
-    }
-
-    const option = document.createElement('option');
-
-    option.value = question;
-    option.textContent =
-      'Question ' + questionNumber + ': ' + question;
-
-    select.appendChild(option);
-  }
-
-  /*
-    Reset the selected-question and prediction areas
-    whenever this section is opened.
-  */
-  select.value = '';
-
-  document.getElementById(
-    'chosenQuestionDisplay'
-  ).hidden = true;
-
-  document.getElementById(
-    'predictionActivity'
-  ).hidden = true;
-
-  document.getElementById(
-    'chosenQuestionText'
-  ).textContent = '';
-}
-
-function openQuestionChoiceSection() {
-  populateQuestionChoiceDropdown();
-
-  unlockSection(
-    'question-choice',
-    'question-builder'
-  );
-}
-
-function showChosenQuestion() {
-  const select = document.getElementById(
-    'favouriteQuestionSelect'
-  );
-
-  const chosenQuestionDisplay =
-    document.getElementById(
-      'chosenQuestionDisplay'
-    );
-
-  const chosenQuestionText =
-    document.getElementById(
-      'chosenQuestionText'
-    );
-
-  const predictionActivity =
-    document.getElementById(
-      'predictionActivity'
-    );
-
-  const chosenQuestion = select.value;
-
-  if (chosenQuestion === '') {
-    chosenQuestionDisplay.hidden = true;
-    predictionActivity.hidden = true;
-    chosenQuestionText.textContent = '';
-
-    return;
-  }
-
-  chosenQuestionText.textContent =
-    chosenQuestion;
-
-  chosenQuestionDisplay.hidden = false;
-  predictionActivity.hidden = false;
-}
-
-function submitPredictionOnEnter(event, answerType) {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    submitPredictionAnswer(answerType);
-  }
-}
-
-function submitPredictionAnswer(answerType) {
-  let input;
-  let list;
-
-  if (answerType === 'prediction') {
-    input = document.getElementById('predictionInput');
-    list = document.getElementById('predictionList');
-  } else {
-    input = document.getElementById('predictionReasonInput');
-    list = document.getElementById('predictionReasonList');
-  }
-
-  const answer =
-  input.value.trim();
-
-if (answer === "") {
-  return;
-}
-
-if (containsProfanity(answer)) {
-  input.value = "";
-  input.focus();
-  return;
-}
-
-  list.innerHTML = '';
-
-  const listItem = document.createElement('li');
-
-  const answerText = document.createElement('span');
-  answerText.textContent = answer;
-
-  const deleteButton = document.createElement('button');
-  deleteButton.type = 'button';
-  deleteButton.textContent = '×';
-  deleteButton.className = 'delete-answer';
-
-  deleteButton.onclick = function() {
-    listItem.remove();
-    input.value = '';
-    input.focus();
-  };
-
-  listItem.appendChild(answerText);
-  listItem.appendChild(deleteButton);
-
-  list.appendChild(listItem);
-
-  input.value = '';
-}
-
-function submitInvestigationQuestion(questionNumber) {
-  const input = document.getElementById(
-    'investigationQuestionInput' + questionNumber
-  );
-
-  const list = document.getElementById(
-    'investigationQuestionList' + questionNumber
-  );
-
-  const answer =
-  input.value.trim();
-
-if (answer === "") {
-  return;
-}
-
-if (containsProfanity(answer)) {
-  input.value = "";
-  input.focus();
-  return;
-}
-
-  /*
-    Keep only one submitted answer in each question box.
-    This prevents multiple answers being added to the
-    same numbered question.
-  */
-  list.innerHTML = '';
-
-  const listItem = document.createElement('li');
-
-  const answerText = document.createElement('span');
-  answerText.textContent = answer;
-
-  const deleteButton = document.createElement('button');
-  deleteButton.type = 'button';
-  deleteButton.textContent = '×';
-  deleteButton.className = 'delete-answer';
-  deleteButton.setAttribute(
-    'aria-label',
-    'Delete question ' + questionNumber
-  );
-
-  deleteButton.onclick = function() {
-    listItem.remove();
-    input.value = '';
-    input.focus();
-    updateQuestionBuilderNextButton();
-  };
-
-  listItem.appendChild(answerText);
-  listItem.appendChild(deleteButton);
-
-  list.appendChild(listItem);
-
-  input.value = '';
-
-  updateQuestionBuilderNextButton();
-}
-
-</script>
-
-<!-- Question Wheel Script -->
-
-<script>
-  const questionWheel =
-    document.getElementById("questionWheel");
-
-  const spinQuestionWheelButton =
-    document.getElementById("spinQuestionWheel");
-
-  const wheelResult =
-    document.getElementById("wheelResult");
-
-  const selectedQuestionTemplate =
-    document.getElementById("selectedQuestionTemplate");
-
-
-  /* ----------------------------------------
-     Question structures
-     ---------------------------------------- */
-
-  const questionStructures = [
-    {
-      word: "What",
-      starterClass: "starter-what",
-
-      buildEditableSentence: function() {
-        return `
-          <span class="sentence-starter starter-what">
-            What
-          </span>
-
-          <span>will changing</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="changed"
-            placeholder="what you will change">
-
-          <span>do to</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="measured"
-            placeholder="what you will measure">
-
-          <span>?</span>
-        `;
-      },
-
-      buildSavedSentence: function(changed, measured) {
-        return `
-          <span class="sentence-starter starter-what">
-            What
-          </span>
-
-          <span>
-            will changing
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(changed)}
-            </span>
-            do to
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(measured)}
-            </span>?
-          </span>
-        `;
-      }
-    },
-
-    {
-      word: "How",
-      starterClass: "starter-how",
-
-      buildEditableSentence: function() {
-        return `
-          <span class="sentence-starter starter-how">
-            How
-          </span>
-
-          <span>does changing</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="changed"
-            placeholder="what you will change">
-
-          <span>affect</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="measured"
-            placeholder="what you will measure">
-
-          <span>?</span>
-        `;
-      },
-
-      buildSavedSentence: function(changed, measured) {
-        return `
-          <span class="sentence-starter starter-how">
-            How
-          </span>
-
-          <span>
-            does changing
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(changed)}
-            </span>
-            affect
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(measured)}
-            </span>?
-          </span>
-        `;
-      }
-    },
-
-    {
-      word: "Does",
-      starterClass: "starter-does",
-
-      buildEditableSentence: function() {
-        return `
-          <span class="sentence-starter starter-does">
-            Does
-          </span>
-
-          <span>changing</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="changed"
-            placeholder="what you will change">
-
-          <span>affect</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="measured"
-            placeholder="what you will measure">
-
-          <span>?</span>
-        `;
-      },
-
-      buildSavedSentence: function(changed, measured) {
-        return `
-          <span class="sentence-starter starter-does">
-            Does
-          </span>
-
-          <span>
-            changing
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(changed)}
-            </span>
-            affect
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(measured)}
-            </span>?
-          </span>
-        `;
-      }
-    },
-
-    {
-      word: "If",
-      starterClass: "starter-if",
-
-      buildEditableSentence: function() {
-        return `
-          <span class="sentence-starter starter-if">
-            If
-          </span>
-
-          <span>we change</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="changed"
-            placeholder="what you will change">
-
-          <span>, how does it affect</span>
-
-          <input
-            type="text"
-            class="question-template-input"
-            data-question-part="measured"
-            placeholder="what you will measure">
-
-          <span>?</span>
-        `;
-      },
-
-      buildSavedSentence: function(changed, measured) {
-        return `
-          <span class="sentence-starter starter-if">
-            If
-          </span>
-
-          <span>
-            we change
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(changed)}
-            </span>,
-            how does it affect
-            <span class="submitted-variable">
-              ${escapeQuestionHTML(measured)}
-            </span>?
-          </span>
-        `;
-      }
-    }
-  ];
-
-
-  /* ----------------------------------------
-     Wheel state
-     ---------------------------------------- */
-
-  let currentWheelRotation = 0;
-  let wheelIsSpinning = false;
-  let questionCardCount = 0;
-  const usedQuestionStarters = new Set();
-
-  /* ----------------------------------------
-     Protect student text
-     ---------------------------------------- */
-
-  function escapeQuestionHTML(text) {
-    const temporaryElement =
-      document.createElement("div");
-
-    temporaryElement.textContent = text;
-
-    return temporaryElement.innerHTML;
-  }
-
-  /* ----------------------------------------
-   Submit one individual sentence blank
-   ---------------------------------------- */
-
-function connectQuestionInput(
-  input,
-  questionCard
-) {
-  input.addEventListener(
-    "keydown",
-    function(event) {
-      if (event.key !== "Enter") {
-        return;
-      }
-
-      event.preventDefault();
-
-      submitQuestionPart(
-        input,
-        questionCard
-      );
-    }
-  );
-}
-
-
-function submitQuestionPart(
-  input,
-  questionCard
-) {
-  const answer =
-    input.value.trim();
-
-  if (answer === "") {
-    input.focus();
-    return;
-  }
-
-  /*
-    Additional safety check in case this function is called
-    without a keyboard event in the future.
-  */
-  if (containsProfanity(answer)) {
-    input.value = "";
-    input.focus();
-    return;
-  }
-
-  const questionPart =
-    input.dataset.questionPart;
-
-  const placeholder =
-    input.getAttribute("placeholder");
-
-  /*
-    Create the permanent-looking answer chip.
-  */
-  const submittedAnswer =
-    document.createElement("span");
-
-  submittedAnswer.className =
-    "submitted-variable submitted-question-part";
-
-  submittedAnswer.dataset.questionPart =
-    questionPart;
-
-  submittedAnswer.dataset.placeholder =
-    placeholder;
-
-  const answerText =
-    document.createElement("span");
-
-  answerText.className =
-    "submitted-question-part-text";
-
-  answerText.textContent = answer;
-
-  const deleteButton =
-    document.createElement("button");
-
-  deleteButton.type = "button";
-  deleteButton.className =
-    "delete-answer submitted-part-delete";
-
-  deleteButton.textContent = "×";
-
-  deleteButton.setAttribute(
-    "aria-label",
-    "Delete " + answer
-  );
-
-  submittedAnswer.appendChild(
-    answerText
-  );
-
-  submittedAnswer.appendChild(
-    deleteButton
-  );
-
-  /*
-    Replace only this input with its submitted answer.
-  */
-  input.replaceWith(submittedAnswer);
-
-  deleteButton.addEventListener(
-    "click",
-    function() {
-      restoreQuestionInput(
-        submittedAnswer,
-        questionCard
-      );
-    }
-  );
-
-  updateWheelQuestionCard(
-    questionCard
-  );
-}
-
-
-/* ----------------------------------------
-   Restore one deleted sentence blank
-   ---------------------------------------- */
-
-function restoreQuestionInput(
-  submittedAnswer,
-  questionCard
-) {
-  const questionPart =
-    submittedAnswer.dataset.questionPart;
-
-  const placeholder =
-    submittedAnswer.dataset.placeholder;
-
-  const restoredInput =
-    document.createElement("input");
-
-  restoredInput.type = "text";
-
-  restoredInput.className =
-    "question-template-input";
-
-  restoredInput.dataset.questionPart =
-    questionPart;
-
-  restoredInput.placeholder =
-    placeholder;
-
-  submittedAnswer.replaceWith(
-    restoredInput
-  );
-
-  connectQuestionInput(
-    restoredInput,
-    questionCard
-  );
-
-  updateWheelQuestionCard(
-    questionCard
-  );
-
-  restoredInput.focus();
-}
-
-
-/* ----------------------------------------
-   Enable Save when both blanks are complete
-   ---------------------------------------- */
-
-function updateWheelQuestionCard(
-  questionCard
-) {
-  const changedAnswer =
-    questionCard.querySelector(
-      '.submitted-question-part[data-question-part="changed"]'
-    );
-
-  const measuredAnswer =
-    questionCard.querySelector(
-      '.submitted-question-part[data-question-part="measured"]'
-    );
-
-  const saveButton =
-    questionCard.querySelector(
-      ".wheel-save-button"
-    );
-
-  const bothAnswersComplete =
-    changedAnswer &&
-    measuredAnswer;
-
-  saveButton.disabled =
-    !bothAnswersComplete;
-
-  /*
-    Remove an old error message once the student
-    has changed one of the answers.
-  */
-  const message =
-    questionCard.querySelector(
-      ".wheel-question-message"
-    );
-
-  message.classList.remove(
-    "visible",
-    "success"
-  );
-
-  message.textContent = "";
-}
-
-
-  /* ----------------------------------------
-     Add one new question card
-     ---------------------------------------- */
-
-  function addQuestionCard(questionStructure) {
-    const placeholder =
-      selectedQuestionTemplate.querySelector(
-        ".template-placeholder"
-      );
-
-    if (placeholder) {
-      placeholder.remove();
-    }
-
-    questionCardCount += 1;
-
-    const questionCard =
-      document.createElement("div");
-
-    questionCard.className = "wheel-question-card";
-
-    questionCard.innerHTML = `
-  <div class="wheel-question-card-header">
-
-    <span class="wheel-question-number">
-      Question ${questionCardCount}
-    </span>
-
-  </div>
-
-      <div class="question-template-sentence">
-        ${questionStructure.buildEditableSentence()}
-      </div>
-
-      <div class="wheel-question-checklist">
-
-        <h5>Check whether your question is testable</h5>
-
-        <label class="check-item">
-          <input
-            type="checkbox"
-            data-check="changed">
-
-          <span>
-            <strong>Is something being changed?</strong>
-            <small>What are you changing?</small>
-          </span>
-        </label>
-
-        <label class="check-item">
-          <input
-            type="checkbox"
-            data-check="measured">
-
-          <span>
-            <strong>Can the effect be measured?</strong>
-            <small>What will you observe or measure?</small>
-          </span>
-        </label>
-
-      </div>
-
-      <p
-        class="wheel-question-message"
-        aria-live="polite">
-      </p>
-
-      <button
-  type="button"
-  class="general-button wheel-save-button"
-  disabled>
-  Save my question
-</button>
-    `;
-
-    selectedQuestionTemplate.appendChild(
-      questionCard
-    );
-
-    const saveButton =
-      questionCard.querySelector(
-        ".wheel-save-button"
-      );
-
-    saveButton.addEventListener(
-      "click",
-      function() {
-        saveQuestionCard(
-          questionCard,
-          questionStructure
-        );
-      }
-    );
-
-    questionCard
-  .querySelectorAll(".question-template-input")
-  .forEach(function(input) {
-    connectQuestionInput(
-      input,
-      questionCard
-    );
-  });
-
-    const firstInput =
-      questionCard.querySelector(
-        ".question-template-input"
-      );
-
-    if (firstInput) {
-      firstInput.focus();
-    }
-
-    questionCard.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
-  }
-
-
- /* ----------------------------------------
-   Save one completed question
-   ---------------------------------------- */
-
-function saveQuestionCard(
-  questionCard,
-  questionStructure
-) {
-  /*
-    After Enter is pressed, the inputs have been replaced
-    by submitted-answer spans. Therefore, we look for those
-    spans instead of looking for input elements.
-  */
-  const changedAnswer =
-    questionCard.querySelector(
-      '.submitted-question-part[data-question-part="changed"]'
-    );
-
-  const measuredAnswer =
-    questionCard.querySelector(
-      '.submitted-question-part[data-question-part="measured"]'
-    );
-
-  const changedCheck =
-    questionCard.querySelector(
-      '[data-check="changed"]'
-    );
-
-  const measuredCheck =
-    questionCard.querySelector(
-      '[data-check="measured"]'
-    );
-
-  const message =
-    questionCard.querySelector(
-      ".wheel-question-message"
-    );
-
-  message.classList.remove("success");
-
-  /*
-    This should normally be prevented by the disabled
-    Save button, but it is useful as a safety check.
-  */
-  if (!changedAnswer || !measuredAnswer) {
-    message.textContent =
-      "Press Enter after completing both sentence blanks.";
-
-    message.classList.add("visible");
-
-    return;
-  }
-
-  /*
-    The student must also complete both checklist items.
-  */
-  if (
-    !changedCheck.checked ||
-    !measuredCheck.checked
-  ) {
-    message.textContent =
-      "Check both boxes before saving your question.";
-
-    message.classList.add("visible");
-
-    return;
-  }
-
-  /*
-    Read only the answer text, without including the ×.
-  */
-  const changedValue =
-    changedAnswer.querySelector(
-      ".submitted-question-part-text"
-    ).textContent.trim();
-
-  const measuredValue =
-    measuredAnswer.querySelector(
-      ".submitted-question-part-text"
-    ).textContent.trim();
-
-  const sentence =
-    questionCard.querySelector(
-      ".question-template-sentence"
-    );
-
-  /*
-    Convert the editable sentence into its final,
-    permanently saved appearance.
-  */
-  sentence.innerHTML =
-    questionStructure.buildSavedSentence(
-      changedValue,
-      measuredValue
-    );
-
-  const checklist =
-    questionCard.querySelector(
-      ".wheel-question-checklist"
-    );
-
-  if (checklist) {
-    checklist.remove();
-  }
-
-  const saveButton =
-    questionCard.querySelector(
-      ".wheel-save-button"
-    );
-
-  if (saveButton) {
-    saveButton.remove();
-  }
-
-  message.textContent =
-    "Question saved.";
-
-  message.classList.add(
-    "visible",
-    "success"
-  );
-
-  questionCard.classList.add("saved");
-  
-  usedQuestionStarters.add(questionStructure.word);
-
-  if (questionStructures.length === 0) {
-    spinQuestionWheelButton.disabled = true;
-    wheelResult.textContent =
-      "You have used all four question starters!";
-  }
-}
-
-  /* ----------------------------------------
-     Spin the wheel
-     ---------------------------------------- */
-
-  spinQuestionWheelButton.addEventListener(
-    "click",
-    function() {
-      wheelResult.style.backgroundColor = "var(--soft-purple)";
-
-      // Remove an empty, unsaved question before spinning again
-      const unsavedCards = selectedQuestionTemplate.querySelectorAll(
-        ".wheel-question-card:not(.saved)"
-      );
-
-      unsavedCards.forEach(card => {
-        const inputs = card.querySelectorAll(".question-template-input");
-        const submissions = card.querySelectorAll(".submitted-question-part");
-
-        const hasInputs = Array.from(inputs).some(input =>
-          input.value.trim() !== ""
-        );
-
-        const hasSubmissions = submissions.length > 0;
-
-        if (!hasInputs && !hasSubmissions) {
-          card.remove();
-          questionCardCount--;
+        .flashcard-frame {
+          display: block;
+          width: 100%;
+          height: 600px;
+          border: none;
+          border-radius: 16px;
+          background: white;
         }
-      });
-      
-      if (wheelIsSpinning) {
-        return;
-      }
-
-      wheelIsSpinning = true;
-      spinQuestionWheelButton.disabled = true;
-
-      wheelResult.textContent =
-        "The wheel is spinning...";
-
-      const destinationAngles = [
-        0,
-        90,
-        270,
-        180
-      ];
-
-      const selectedIndex =
-        Math.floor(
-          Math.random() *
-          questionStructures.length
-        );
-
-      const selectedQuestionStructure =
-        questionStructures[
-          Math.floor(Math.random() * questionStructures.length)
-        ];
-
-      const selectedDestination = destinationAngles[selectedIndex];
-
-      const currentPosition =
-        (
-          (currentWheelRotation % 360) +
-          360
-        ) % 360;
-
-      const rotationToDestination =
-        (
-          selectedDestination -
-          currentPosition +
-          360
-        ) % 360;
-
-      const extraSpins = 5 * 360;
-
-      currentWheelRotation +=
-        extraSpins +
-        rotationToDestination;
-
-      questionWheel.style.transform =
-        `rotate(${currentWheelRotation}deg)`;
-
-      questionWheel
-        .querySelectorAll(".wheel-label")
-        .forEach(function(label) {
-          label.style.transform =
-            `translate(-50%, -50%) rotate(${-currentWheelRotation}deg)`;
-        });
-
-      window.setTimeout(
-        function() {
-          const selectedQuestionStructure =
-            questionStructures[selectedIndex];
-
-          if (usedQuestionStarters.has(selectedQuestionStructure.word)) {
-            wheelResult.innerHTML = `
-              <strong>${selectedQuestionStructure.word}</strong>
-              has already been used.<br>
-              Spin again to choose a different question starter.
-            `;
-            wheelResult.style.backgroundColor = "var(--orange)";
-
-            spinQuestionWheelButton.disabled = false;
-            wheelIsSpinning = false;
-
-            return;
+        @media (max-width: 1000px) {
+          .flashcard-frame {
+            height: 70rem;
           }
+        }
+        .reasoned-prediction-iframe {
+          display: block;
+          width: 100%;
+          height: 720px;
+          margin-top: 0;
+          border: none;
+          background: var(--paper);
+          overflow: hidden;
+        }
+      </style>
+   </head>
+   <style>
+      /* ---------- Experiment video selection ---------- */
+      .experiment-video-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 20px;
+      }
 
-          wheelResult.innerHTML = `
-            You landed on
-            <strong>
-              ${selectedQuestionStructure.word}
-            </strong>.
-          `;
+      .experiment-video-card {
+        width: 100%;
+        padding: 12px;
+        background: var(--card);
+        border: 3px solid var(--line);
+        border-radius: 20px;
+        box-shadow: 0 5px 0 var(--line);
+        color: var(--text);
+        font-family: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          background 0.15s ease;
+      }
 
-          /*
-            Append instead of replacing.
-          */
-          addQuestionCard(
-            selectedQuestionStructure
-          );
+      .experiment-video-card:hover {
+        background: var(--soft-yellow);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 0 var(--line);
+      }
 
-          spinQuestionWheelButton.disabled =
-            false;
+      .experiment-video-card.selected {
+        background: var(--soft-green);
+        border-color: var(--purple);
+        box-shadow: 0 5px 0 var(--purple);
+      }
 
-          wheelIsSpinning = false;
-        },
-        3250
-      );
-    }
-  );
-</script>
+      .experiment-video-preview {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: var(--soft-blue);
+        border: 2px solid var(--line);
+        border-radius: 14px;
+      }
 
-</body>
+      .experiment-video-preview video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
 
+      .experiment-play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        background: var(--purple);
+        color: white;
+        border: 3px solid var(--line);
+        border-radius: 50%;
+        box-shadow: 0 4px 0 var(--line);
+        font-size: 1.25rem;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      .experiment-video-card.selected .experiment-play-icon {
+        background: var(--green);
+      }
+
+      .experiment-video-title {
+        display: block;
+        margin-top: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      /* ---------- Investigation dropdown menus ---------- */
+      .investigation-menu-panel {
+        margin-top: 24px;
+        padding: 22px;
+        background: var(--soft-purple);
+        border: 3px solid var(--line);
+        border-radius: 20px;
+        box-shadow: 0 5px 0 var(--line);
+      }
+
+      .selected-video-message {
+        margin: 0 0 18px;
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .investigation-menu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .investigation-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .investigation-field label {
+        color: var(--text);
+        font-size: 0.92rem;
+        font-weight: 700;
+        line-height: 1.4;
+      }
+
+      .investigation-field select {
+        width: 100%;
+        min-height: 48px;
+        padding: 10px 36px 10px 12px;
+        background: white;
+        color: var(--text);
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+        font-family: inherit;
+        font-size: 0.95rem;
+        cursor: pointer;
+      }
+
+      .investigation-field select:focus {
+        outline: 3px solid rgba(78, 50, 232, 0.2);
+        border-color: var(--purple);
+      }
+
+      /* ---------- Student investigation questions ---------- */
+      .investigation-question-area {
+        margin-top: 24px;
+        padding-top: 22px;
+        border-top: 2px dashed var(--line);
+      }
+
+      .investigation-question-area h3 {
+        margin: 0 0 6px;
+        color: var(--purple);
+        font-size: 1.15rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .investigation-question-instruction {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .investigation-question-list {
+        display: grid;
+        gap: 16px;
+      }
+
+      .investigation-question-item {
+        padding: 16px;
+        background: var(--card);
+        border: 2px solid var(--line);
+        border-radius: 16px;
+        box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+      }
+
+      .investigation-question-item .final-answer-list {
+        margin-top: 10px;
+      }
+
+      /* ---------- Responsive experiment section ---------- */
+      @media (max-width: 800px) {
+
+        .experiment-video-grid,
+        .investigation-menu-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ---------- Question choice and prediction ---------- */
+      .chosen-question-box {
+        display: block;
+        margin-top: 18px;
+        background: var(--soft-green);
+      }
+
+      .chosen-question-box[hidden] {
+        display: none;
+      }
+
+      .chosen-question-box strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--purple);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+      }
+
+      .chosen-question-box p {
+        margin: 0;
+        color: var(--text);
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1.5;
+      }
+
+      .prediction-activity {
+        margin-top: 24px;
+        background: var(--soft-yellow);
+      }
+
+      .prediction-heading {
+        margin: 0 0 8px;
+        color: var(--purple);
+        font-size: 1.15rem;
+        text-transform: uppercase;
+      }
+
+      .prediction-organiser {
+        border: 3px solid var(--line);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 0 var(--line);
+      }
+
+      /* Each row is a horizontal stripe */
+      .prediction-organiser-row {
+        display: grid;
+        grid-template-columns:
+          clamp(80px, 18vw, 180px) minmax(0, 1fr) minmax(0, 1fr);
+        border-bottom: 2px solid var(--line);
+      }
+
+      .prediction-organiser-row:last-child {
+        border-bottom: none;
+      }
+
+      .prediction-organiser-cell {
+        padding: 14px 18px;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        border-right: 2px solid var(--line);
+      }
+
+      .prediction-organiser-cell:last-child {
+        border-right: none;
+      }
+
+      /* Row-type colour bands */
+      .row-header {
+        background: var(--purple);
+      }
+
+      .row-header .prediction-organiser-cell {
+        color: #fff;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .row-question {
+        background: var(--soft-blue);
+      }
+
+      .row-relationship {
+        background: var(--soft-yellow);
+      }
+
+      .row-prediction {
+        background: var(--soft-green);
+      }
+
+      .row-reason {
+        background: var(--soft-purple);
+      }
+
+      .row-full {
+        background: var(--card);
+      }
+
+      /* Span-2 cell (no right border on the spanning cell) */
+      .prediction-organiser-cell.span-2 {
+        grid-column: span 2;
+        border-right: none;
+      }
+
+      /* Label column — always slightly darker */
+      .cell-label {
+        background: rgba(0, 0, 0, .04);
+        font-weight: 700;
+        overflow-wrap: break-word;
+      }
+
+      /* sub-labels inside cells */
+      .cell-sublabel {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: var(--purple);
+        margin-bottom: 4px;
+      }
+
+      .row-header .cell-sublabel {
+        color: var(--cream);
+      }
+
+      /* italic helper lines */
+      .cell-helper {
+        display: block;
+        font-size: 0.88rem;
+        color: var(--muted);
+        font-style: italic;
+        line-height: 1.5;
+      }
+
+      /* ---- diagram-grid wrapper ---- */
+      .grid-container {}
+   </style>
+   <body>
+      <div id="top"></div>
+      <!-- Top anchor for scrolling -->
+      <!-- Vocabulary Button -->
+      <button class="glossary-button" onclick="openGlossary()">
+      📖 Vocabulary
+      </button>
+      <!-- Vocabulary Modal -->
+      <div class="modal" id="glossaryModal">
+         <div class="modal-content">
+            <div class="modal-header">
+               <div>
+                  <p class="teacher-label">
+                     Lesson 1: Questioning and Predicting
+                  </p>
+                  <h2>Glossary Terms</h2>
+               </div>
+               <button
+                  class="close-button"
+                  onclick="closeGlossary()"
+                  aria-label="Close glossary">
+               ×
+               </button>
+            </div>
+            <div class="vocab-list">
+               <div class="vocab-card">
+                  <h3>Botanist</h3>
+                  <p>
+                     A scientist who studies plants.
+                  </p>
+               </div>
+               <div class="vocab-card">
+                  <h3>Diagnose</h3>
+                  <p>
+                     To identify what is wrong with a living thing by carefully examining
+                     it and looking for clues about what physical condition may be missing
+                     or out of balance.
+                  </p>
+               </div>
+               <div class="vocab-card">
+                  <h3>Function</h3>
+                  <p>
+                     The job or role that a part of a plant performs to help it survive.
+                  </p>
+               </div>
+               <div class="vocab-card">
+                  <h3>Germinate</h3>
+                  <p>
+                     When a seed begins to sprout and grow into a new plant after absorbing
+                     water and being exposed to the right temperature and conditions.
+                  </p>
+               </div>
+               <div class="vocab-card">
+                  <h3>Investigate</h3>
+                  <p>
+                     To carefully examine and gather information about something in order
+                     to find an answer or understand it better.
+                  </p>
+               </div>
+               <div class="vocab-card">
+                  <h3>Nutrients</h3>
+                  <p>
+                     Substances found in soil and water that plants absorb through their
+                     roots to grow and stay healthy.
+                  </p>
+               </div>
+               <div class="vocab-card">
+                  <h3>Observe / Observation</h3>
+                  <p>
+                     Information gathered by using your senses—sight, hearing, touch,
+                     smell, or taste—to carefully notice and describe something in the
+                     world around you.
+                  </p>
+               </div>
+               <div class="vocab-card">
+                  <h3>Structure</h3>
+                  <p>
+                     A physical part of a plant, such as the roots, stem, leaves, flower,
+                     or fruit, that has a specific job.
+                  </p>
+               </div>
+            </div>
+         </div>
+      </div>
+      <main class="page">
+         <!-- ---------- Header ---------- --> 
+         <header class="lesson-intro">
+            <!-- Lesson 1 heading and summary -->
+            <div class="lesson-heading">
+               <span class="lesson-label">
+               Lesson 1
+               </span>
+               <h1>
+                  Questioning and Predicting
+               </h1>
+               <p class="lesson-summary">
+                  Asking questions and making predictions like a scientist
+               </p>
+            </div>
+            <!-- Introductory Grid (Contains Learning Objectives and See Think Wonder)-->
+            <div class="intro-grid">
+               <section class="intro-card objectives-card">
+                  <!-- Learning Objective -->
+                  <p class="intro-eyebrow">Learning objective</p>
+                  <p class="learning-objective-text">
+                     Learn to ask testable questions and make reasoned predictions for a scientific experiment
+                  </p>
+                  <!-- Success Criteria -->
+                  <p class="success-heading">Success criteria</p>
+                  <ol class="objective-list">
+                     <li>
+                        I can classify whether a question is testable or untestable
+                     </li>
+                     <li>
+                        I can write a testable question
+                     </li>
+                     <li> 
+                        I can make predictions and give a reason for my choice
+                     </li>
+                  </ol>
+               </section>
+               <section class="intro-card observation-card">
+                  <p class="intro-eyebrow">Think like a scientist</p>
+                  <h2>See, Think, Wonder</h2>
+                  <p>
+                     As scientists we are all curious. We <strong>observe</strong> the world around us and ask questions
+                     about how the world works. A way to come up with questions is to use a thinking tool called 
+                     <strong><i>See, Think, Wonder</i></strong>. Practice making observations
+                     and asking questions by following these steps:
+                  </p>
+                  <div class="stw-explanation">
+                     <div>
+                        <strong>See</strong>
+                        <span>What do you notice?</span>
+                     </div>
+                     <div>
+                        <strong>Think</strong>
+                        <span>What do you think is happening?</span>
+                     </div>
+                     <div>
+                        <strong>Wonder</strong>
+                        <span>What questions do you have?</span>
+                     </div>
+                  </div>
+               </section>
+            </div>
+         </header>
+         <!-- ---------- End of Header ---------- -->
+         <!-- ---------- Explicit Teaching: Introduction Image ---------- -->
+         <section class="section" id="observe-experiment">
+            <h2 class="section-title">
+               Observe the Experiment
+            </h2>
+            <div class="diagram-box diagram-activity">
+               <p class="activity-instruction">
+                  Look at the image below. Practice making observations
+                  and asking questions by following <strong><i>See, Think, Wonder</i></strong>.
+               </p>
+            </div>
+            <div class="image-box">
+               <img
+                  src="images/toycar.png"
+                  alt="Toy car example">
+            </div>
+         </section>
+         <!-- ---------- Explicit Teaching: What is a Testable Question? ---------- -->
+         <section class="section" id="testable-question-intro">
+            <h2 class="section-title">
+               How can we turn our wonderings into testable questions?
+            </h2>
+            <div class="diagram-box diagram-activity">
+               <h3>
+                  What is a testable question?
+               </h3>
+               <p class="activity-instruction">
+                  A testable question can be answered by changing one thing and measuring
+                  the effect it has on something else. It explores relationships between
+                  two different things.
+               </p>
+            </div>
+            <div class="intro-grid question-comparison-grid">
+               <div class="intro-card testable-card">
+                  <p class="intro-eyebrow">
+                     Testable questions
+                  </p>
+                  <ul>
+                     <li>Can be answered by doing an experiment.</li>
+                     <li>
+                        Explore the relationship between two things.
+                     </li>
+                     <li>
+                        One thing is changed and its effect on another thing is measured.
+                     </li>
+                     <li>
+                        Different scientists should reach a similar answer when conducting
+                        the same fair test.
+                     </li>
+                  </ul>
+               </div>
+               <div class="intro-card untestable-card">
+                  <p class="intro-eyebrow">
+                     Untestable questions
+                  </p>
+                  <ul>
+                     <li>
+                        May be answered using personal opinions, values or beliefs.
+                     </li>
+                     <li>
+                        Do not investigate the effect of changing one thing.
+                     </li>
+                     <li>
+                        Cannot be answered using measurable evidence from an experiment.
+                     </li>
+                     <li>
+                        Different people may provide different answers.
+                     </li>
+                  </ul>
+               </div>
+            </div>
+            <div class="diagram-box diagram-activity question-example-intro">
+               <p class="activity-instruction">
+                  Look at the following examples from our See, Think, Wonder exercise.
+               </p>
+            </div>
+            <div class="intro-grid question-example-grid">
+               <div class="intro-card testable-card">
+                  <p class="intro-eyebrow">
+                     Testable question
+                  </p>
+                  <p class="example-question">
+                     Does changing the angle of the ramp affect how far the car travels?
+                  </p>
+                  <div class="question-check-list">
+                     <div class="question-check-row">
+                        <span class="question-check-icon correct">✓</span>
+                        <div>
+                           <strong>Is something being changed?</strong>
+                           <p>Yes. The angle of the ramp is changed.</p>
+                        </div>
+                     </div>
+                     <div class="question-check-row">
+                        <span class="question-check-icon correct">✓</span>
+                        <div>
+                           <strong>Can the effect be measured?</strong>
+                           <p>Yes. Measure the distance the car travels.</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="intro-card untestable-card">
+                  <p class="intro-eyebrow">
+                     Untestable question
+                  </p>
+                  <p class="example-question">
+                     Does changing the angle of the ramp affect how much fun the car has?
+                  </p>
+                  <div class="question-check-list">
+                     <div class="question-check-row">
+                        <span class="question-check-icon correct">✓</span>
+                        <div>
+                           <strong>Is something being changed?</strong>
+                           <p>Yes. The angle of the ramp is changed.</p>
+                        </div>
+                     </div>
+                     <div class="question-check-row">
+                        <span class="question-check-icon incorrect">×</span>
+                        <div>
+                           <strong>Can the effect be measured?</strong>
+                           <p>No. Fun is based on personal opinion.</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="intro-card testable-card">
+                  <p class="intro-eyebrow">
+                     Testable question
+                  </p>
+                  <p class="example-question">
+                     What happens to the distance a car travels if we change the size of
+                     the car?
+                  </p>
+                  <div class="question-check-list">
+                     <div class="question-check-row">
+                        <span class="question-check-icon correct">✓</span>
+                        <div>
+                           <strong>Is something being changed?</strong>
+                           <p>Yes. The size of the car is changed.</p>
+                        </div>
+                     </div>
+                     <div class="question-check-row">
+                        <span class="question-check-icon correct">✓</span>
+                        <div>
+                           <strong>Can the effect be measured?</strong>
+                           <p>Yes. Measure the distance the car travels.</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="intro-card untestable-card">
+                  <p class="intro-eyebrow">
+                     Untestable question
+                  </p>
+                  <p class="example-question">
+                     How far does the red car travel?
+                  </p>
+                  <div class="question-check-list">
+                     <div class="question-check-row">
+                        <span class="question-check-icon incorrect">×</span>
+                        <div>
+                           <strong>Is something being changed?</strong>
+                           <p>No. Nothing is changed.</p>
+                        </div>
+                     </div>
+                     <div class="question-check-row">
+                        <span class="question-check-icon correct">✓</span>
+                        <div>
+                           <strong>Can the effect be measured?</strong>
+                           <p>
+                              Yes. The distance the car travels can be measured.
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- ---------- Flashcards ---------- --> 
+         <section class="section" id="flashcards">
+            <h2 class="section-title">
+               Investigable or Non-investigable?
+            </h2>
+            <div class="flashcard-box">
+               <iframe
+                  src="flash-cards.html"
+                  class="flashcard-frame">
+               </iframe>
+            </div>
+            <button
+               id="flashcardsNextButton"
+               class="next-button"
+               onclick="unlockSection('question-builder', 'flashcards')">
+            Next
+            </button>
+            <p class="completed-note">
+               Completed — next activity unlocked.
+            </p>
+         </section>
+         <!-- Part C: How do we write testable questions? -->
+         <section class="section" id="testable-questions">
+            <h2 class="section-title">
+               How do we write testable questions?
+            </h2>
+            <div class="diagram-box diagram-activity">
+               <p class="activity-instruction">
+                  A testable question describes what is being changed and what is being measured.
+                  Testable questions can begin with words such as
+                  <strong>What</strong>, <strong>How</strong>,
+                  <strong>Does</strong> and <strong>If</strong>.
+               </p>
+            </div>
+            <!-- Example question structures -->
+            <div class="question-structure-card">
+               <h3>Question structures</h3>
+               <div class="question-example">
+                  <span class="question-word what-word">What</span>
+                  <span>
+                  will changing
+                  <span class="example-blank"></span>
+                  do to
+                  <span class="example-blank"></span>?
+                  </span>
+               </div>
+               <div class="question-example">
+                  <span class="question-word how-word">How</span>
+                  <span>
+                  does changing
+                  <span class="example-blank"></span>
+                  affect
+                  <span class="example-blank"></span>?
+                  </span>
+               </div>
+               <div class="question-example">
+                  <span class="question-word does-word">Does</span>
+                  <span>
+                  changing
+                  <span class="example-blank"></span>
+                  affect
+                  <span class="example-blank"></span>?
+                  </span>
+               </div>
+               <div class="question-example">
+                  <span class="question-word if-word">If</span>
+                  <span>
+                  we change
+                  <span class="example-blank"></span>,
+                  how does it affect
+                  <span class="example-blank"></span>?
+                  </span>
+               </div>
+            </div>
+            <!-- Student activity -->
+            <div class="testable-question-activity">
+               <div class="activity-heading">
+                  <p class="activity-eyebrow">Your turn</p>
+                  <h3>Create a testable question</h3>
+                  <p>
+                     Think back to what you were curious about during the
+                     <strong>See, Think, Wonder</strong> activity.
+                     Spin the wheel to choose a question structure.
+                  </p>
+               </div>
+               <div class="question-wheel-layout">
+                  <!-- Wheel side -->
+                  <div class="wheel-panel">
+                     <div class="question-wheel-wrapper">
+                        <div
+                           class="question-wheel"
+                           id="questionWheel"
+                           aria-label="Question starter wheel">
+                           <span class="wheel-label wheel-label-what">What</span>
+                           <span class="wheel-label wheel-label-how">How</span>
+                           <span class="wheel-label wheel-label-does">Does</span>
+                           <span class="wheel-label wheel-label-if">If</span>
+                        </div>
+                        <div class="wheel-pointer" aria-hidden="true"></div>
+                     </div>
+                     <button
+                        type="button"
+                        class="general-button spin-wheel-button"
+                        id="spinQuestionWheel">
+                     Spin the wheel
+                     </button>
+                     <p class="wheel-result" id="wheelResult" aria-live="polite">
+                        Spin the wheel to receive a question structure.
+                     </p>
+                  </div>
+                  <!-- Question-writing side -->
+                  <div class="question-builder-panel">
+                     <h4>Your question structures</h4>
+                     <div
+                        class="selected-question-template"
+                        id="selectedQuestionTemplate"
+                        aria-live="polite">
+                        <p class="template-placeholder">
+                           Your question structures will appear here.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- ---------- Question Builder ---------- --> 
+         <section class="section locked" id="question-builder">
+            <h2 class="section-title">
+               Build an investigable question
+            </h2>
+            <div class="diagram-box diagram-activity">
+               <p class="activity-instruction">
+                  Choose one of the videos below. Then use the dropdown menus to build
+                  an investigable question about what you observed.
+               </p>
+            </div>
+            <div class="experiment-video-grid">
+               <button
+                  type="button"
+                  class="experiment-video-card"
+                  data-video="water"
+                  onclick="selectExperimentVideo('water', this)">
+                  <div class="experiment-video-preview">
+                     <video muted loop playsinline>
+                        <source src="../videos/water-experiment.mp4" type="video/mp4">
+                     </video>
+                     <span class="experiment-play-icon">▶</span>
+                  </div>
+                  <span class="experiment-video-title">
+                  Video 1: Water
+                  </span>
+               </button>
+               <button
+                  type="button"
+                  class="experiment-video-card"
+                  data-video="light"
+                  onclick="selectExperimentVideo('light', this)">
+                  <div class="experiment-video-preview">
+                     <video muted loop playsinline>
+                        <source src="../videos/light-experiment.mp4" type="video/mp4">
+                     </video>
+                     <span class="experiment-play-icon">▶</span>
+                  </div>
+                  <span class="experiment-video-title">
+                  Video 2: Sunlight
+                  </span>
+               </button>
+               <button
+                  type="button"
+                  class="experiment-video-card"
+                  data-video="temperature"
+                  onclick="selectExperimentVideo('temperature', this)">
+                  <div class="experiment-video-preview">
+                     <video muted loop playsinline>
+                        <source src="../videos/temperature-experiment.mp4" type="video/mp4">
+                     </video>
+                     <span class="experiment-play-icon">▶</span>
+                  </div>
+                  <span class="experiment-video-title">
+                  Video 3: Temperature
+                  </span>
+               </button>
+            </div>
+            <div
+               id="investigationMenus"
+               class="investigation-menu-panel"
+               hidden>
+               <p class="selected-video-message">
+                  You selected:
+                  <strong id="selectedVideoName"></strong>
+               </p>
+               <div class="investigation-menu-grid">
+                  <div class="investigation-field">
+                     <label for="sentenceStarter">
+                     1. Pick a sentence starter
+                     </label>
+                     <select id="sentenceStarter">
+                        <option value="">Choose an option</option>
+                     </select>
+                  </div>
+                  <div class="investigation-field">
+                     <label for="measuringVariable">
+                     2. What are you measuring?
+                     </label>
+                     <select id="measuringVariable">
+                        <option value="">Choose an option</option>
+                     </select>
+                  </div>
+                  <div class="investigation-field">
+                     <label for="changingVariable">
+                     3. What are you changing?
+                     </label>
+                     <select id="changingVariable">
+                        <option value="">Choose an option</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="investigation-question-area">
+                  <h3>Write your questions</h3>
+                  <p class="investigation-question-instruction">
+                     Use the dropdown menus above to help you write three investigable questions.
+                  </p>
+                  <div class="investigation-question-list">
+                     <div class="investigation-question-item">
+                        <div class="final-input-row">
+                           <input
+                              id="investigationQuestionInput1"
+                              type="text"
+                              placeholder="Write your first question"
+                              onkeydown="submitInvestigationQuestionOnEnter(event, 1)">
+                           <button
+                              type="button"
+                              onclick="submitInvestigationQuestion(1)">
+                           Add
+                           </button>
+                        </div>
+                        <ul
+                           id="investigationQuestionList1"
+                           class="final-answer-list">
+                        </ul>
+                     </div>
+                     <div class="investigation-question-item">
+                        <div class="final-input-row">
+                           <input
+                              id="investigationQuestionInput2"
+                              type="text"
+                              placeholder="Write your second question"
+                              onkeydown="submitInvestigationQuestionOnEnter(event, 2)">
+                           <button
+                              type="button"
+                              onclick="submitInvestigationQuestion(2)">
+                           Add
+                           </button>
+                        </div>
+                        <ul
+                           id="investigationQuestionList2"
+                           class="final-answer-list">
+                        </ul>
+                     </div>
+                     <div class="investigation-question-item">
+                        <div class="final-input-row">
+                           <input
+                              id="investigationQuestionInput3"
+                              type="text"
+                              placeholder="Write your third question"
+                              onkeydown="submitInvestigationQuestionOnEnter(event, 3)">
+                           <button
+                              type="button"
+                              onclick="submitInvestigationQuestion(3)">
+                           Add
+                           </button>
+                        </div>
+                        <ul
+                           id="investigationQuestionList3"
+                           class="final-answer-list">
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <button
+               id="questionBuilderNextButton"
+               type="button"
+               class="next-button"
+               onclick="openQuestionChoiceSection()"
+               hidden>
+            Next
+            </button>
+            <p class="completed-note">
+               Completed — next activity unlocked.
+            </p>
+         </section>
+         <section
+            class="section locked"
+            id="question-choice">
+            <h2 class="section-title">
+               Choose your investigation question
+            </h2>
+            <div class="diagram-box diagram-activity">
+               <p class="activity-instruction">
+                  Choose the question you would most like to investigate.
+               </p>
+            </div>
+            <div class="diagram-box diagram-activity">
+               <div class="investigation-field">
+                  <label for="favouriteQuestionSelect">
+                  Select one of your questions
+                  </label>
+                  <select
+                     id="favouriteQuestionSelect"
+                     onchange="showChosenQuestion()">
+                     <option value="">
+                        Choose a question
+                     </option>
+                  </select>
+               </div>
+               <div
+                  id="chosenQuestionDisplay"
+                  class="function-answer chosen-question-box"
+                  hidden>
+                  <strong>Your investigation question</strong>
+                  <p id="chosenQuestionText"></p>
+               </div>
+            </div>
+            <div
+               id="predictionActivity"
+               class="diagram-box diagram-activity prediction-activity"
+               hidden>
+               <h3 class="prediction-heading">
+                  Now, make your prediction
+               </h3>
+               <p class="activity-instruction">
+                  Write what you think will happen, then explain your reasoning.
+               </p>
+               <div class="investigation-question-item">
+                  <label for="predictionInput">
+                  I predict that...
+                  </label>
+                  <div class="final-input-row">
+                     <input
+                        id="predictionInput"
+                        type="text"
+                        placeholder="Write what you think will happen"
+                        onkeydown="submitPredictionOnEnter(event, 'prediction')">
+                     <button
+                        type="button"
+                        onclick="submitPredictionAnswer('prediction')">
+                     Add
+                     </button>
+                  </div>
+                  <ul
+                     id="predictionList"
+                     class="final-answer-list">
+                  </ul>
+               </div>
+               <div class="investigation-question-item">
+                  <label for="predictionReasonInput">
+                  Because...
+                  </label>
+                  <div class="final-input-row">
+                     <input
+                        id="predictionReasonInput"
+                        type="text"
+                        placeholder="Explain why you think this will happen"
+                        onkeydown="submitPredictionOnEnter(event, 'reason')">
+                     <button
+                        type="button"
+                        onclick="submitPredictionAnswer('reason')">
+                     Add
+                     </button>
+                  </div>
+                  <ul
+                     id="predictionReasonList"
+                     class="final-answer-list">
+                  </ul>
+               </div>
+            </div>
+         </section>
+         <section
+            class="section"
+            id="reasoned-prediction">
+            <h2 class="section-title">
+               Writing a Reasoned Prediction
+            </h2>
+            <div class="diagram-box diagram-activity">
+               <p class="activity-instruction">
+                  The next step after writing a testable question is to make a prediction of what the result will be and support this with a reason.
+                  This is called making a reasoned prediction. 
+               </p>
+               <p class="activity-instruction">
+                  In reasoned prediction you make an educated guess that is based on your knowledge about the relationship between two things. 
+               </p>
+               <p class="activity-instruction">
+                  You can use a graphic organiser to guide you in writing a reasoned prediction.
+               </p>
+            </div>
+            <!-- <div class="diagram-box diagram-activity"> -->
+            <div class="prediction-organiser">
+               <div class="prediction-organiser-row row-header">
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-tq-label">Testable question:</span></div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-change-label">Change this</span>
+                  </div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-measure-label">Measure this</span>
+                  </div>
+               </div>
+               <!-- Relationship row -->
+               <div class="prediction-organiser-row row-relationship">
+                  <div class="prediction-organiser-cell cell-label">
+                     <span class="cell-sublabel" data-template-id="org-row-rel-label">Relationship:</span>
+                     <span class="cell-helper" data-template-id="org-row-rel-label">Description here</span>
+                  </div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-cause-label">Cause</span> <span class="cell-helper" data-template-id="org-cause-helper">increase / decrease<br>
+                     more / less<br>
+                     with / without<br>
+                     condition 1 versus condition 2</span>
+                  </div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-effect-label">Effect (result)</span> <span class="cell-helper" data-template-id="org-effect-helper">increase / decrease / stay the same<br>
+                     more / less / no difference</span>
+                  </div>
+               </div>
+               <!-- Prediction row -->
+               <div class="prediction-organiser-row row-prediction">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-pred-label">Prediction:</span>
+                  </div>
+                  <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-if">If I do this</span>
+                  </div>
+                  <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-then">then this will happen</span>
+                  </div>
+               </div>
+               <!-- Reason row -->
+               <div class="prediction-organiser-row row-reason">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-reason-label">Reason:</span>
+                  </div>
+                  <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-reason-body">This is because…</span>
+                  </div>
+               </div>
+               <!-- Reasoned prediction row -->
+               <div class="prediction-organiser-row row-full">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-full-label">Reasoned prediction:</span>
+                  </div>
+                  <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-full-body">If I do this then this will happen. This is because of this.</span>
+                  </div>
+               </div>
+            </div>
+            <!-- </div> -->
+         </section>
+         <!-- ---------- Reasoned Prediction Builder ---------- -->
+         <section
+            class="section"
+            id="reasoned-builder">
+            <h2 class="section-title">
+               Now build your own reasoned prediction
+            </h2>
+            <div class="diagram-box diagram-activity">
+               <p class="activity-instruction">
+                  Use the organiser below to construct a reasoned prediction
+                  for your investigation question.
+               </p>
+            </div>
+            <iframe
+               src="reasoned-prediction-builder3.html"
+               title="Reasoned prediction builder"
+               class="reasoned-prediction-iframe"
+               scrolling="no">
+            </iframe>
+         </section>
+      </main>
+      <script src="../scripts/common_functions.js"></script>
+      <script>
+         initialiseClassroomLanguageFilter(
+           "../cypher.txt"
+         );
+         
+         const experimentVideoOptions = {
+           water: {
+             name: 'the water experiment',
+         
+             sentenceStarters: [
+               'How does',
+               'What happens to',
+               'Does changing'
+             ],
+         
+             measuring: [
+               'plant height',
+               'number of leaves',
+               'leaf colour',
+               'plant health'
+             ],
+         
+             changing: [
+               'the amount of water',
+               'how often the plant is watered',
+               'the volume of water given'
+             ]
+           },
+         
+           light: {
+             name: 'the sunlight experiment',
+         
+             sentenceStarters: [
+               'How does',
+               'What happens to',
+               'Does changing'
+             ],
+         
+             measuring: [
+               'plant height',
+               'direction of growth',
+               'leaf colour',
+               'number of leaves'
+             ],
+         
+             changing: [
+               'the amount of sunlight',
+               'the number of hours of light',
+               'the distance from the light'
+             ]
+           },
+         
+           temperature: {
+             name: 'the temperature experiment',
+         
+             sentenceStarters: [
+               'How does',
+               'What happens to',
+               'Does changing'
+             ],
+         
+             measuring: [
+               'plant height',
+               'time taken to germinate',
+               'number of leaves',
+               'plant health'
+             ],
+         
+             changing: [
+               'the temperature',
+               'where the plant is kept',
+               'the warmth of the environment'
+             ]
+           }
+         };
+         
+         function fillInvestigationSelect(selectId, options) {
+           const select = document.getElementById(selectId);
+         
+           select.innerHTML =
+             '<option value="">Choose an option</option>';
+         
+           options.forEach(optionText => {
+             const option = document.createElement('option');
+         
+             option.value = optionText;
+             option.textContent = optionText;
+         
+             select.appendChild(option);
+           });
+         }
+         
+         function selectExperimentVideo(videoId, selectedCard) {
+           const selectedVideo =
+             experimentVideoOptions[videoId];
+         
+           if (!selectedVideo) {
+             return;
+           }
+         
+           document
+             .querySelectorAll('.experiment-video-card')
+             .forEach(card => {
+               card.classList.remove('selected');
+         
+               const video = card.querySelector('video');
+         
+               if (video) {
+                 video.pause();
+               }
+             });
+         
+           selectedCard.classList.add('selected');
+         
+           const selectedVideoElement =
+             selectedCard.querySelector('video');
+         
+           if (selectedVideoElement) {
+             selectedVideoElement.play().catch(() => {
+               /*
+                 Some browsers may prevent automatic playback.
+                 The dropdown menus will still work.
+               */
+             });
+           }
+         
+           document.getElementById(
+             'selectedVideoName'
+           ).textContent = selectedVideo.name;
+         
+           fillInvestigationSelect(
+             'sentenceStarter',
+             selectedVideo.sentenceStarters
+           );
+         
+           fillInvestigationSelect(
+             'measuringVariable',
+             selectedVideo.measuring
+           );
+         
+           fillInvestigationSelect(
+             'changingVariable',
+             selectedVideo.changing
+           );
+         
+           document.getElementById(
+             'investigationMenus'
+           ).hidden = false;
+         }
+         
+         function submitInvestigationQuestionOnEnter(event, questionNumber) {
+         if (event.key === 'Enter') {
+           event.preventDefault();
+         
+           submitInvestigationQuestion(questionNumber);
+         }
+         }
+         
+         function updateQuestionBuilderNextButton() {
+         const question1 =
+           document.querySelector(
+             '#investigationQuestionList1 li'
+           );
+         
+         const question2 =
+           document.querySelector(
+             '#investigationQuestionList2 li'
+           );
+         
+         const question3 =
+           document.querySelector(
+             '#investigationQuestionList3 li'
+           );
+         
+         const nextButton = document.getElementById(
+           'questionBuilderNextButton'
+         );
+         
+         const allQuestionsCompleted =
+           question1 && question2 && question3;
+         
+         nextButton.hidden = !allQuestionsCompleted;
+         }
+         
+         function getInvestigationQuestion(questionNumber) {
+         const answerElement = document.querySelector(
+           '#investigationQuestionList' +
+           questionNumber +
+           ' li span'
+         );
+         
+         if (!answerElement) {
+           return '';
+         }
+         
+         return answerElement.textContent.trim();
+         }
+         
+         function populateQuestionChoiceDropdown() {
+         const select = document.getElementById(
+           'favouriteQuestionSelect'
+         );
+         
+         select.innerHTML =
+           '<option value="">Choose a question</option>';
+         
+         for (let questionNumber = 1; questionNumber <= 3; questionNumber++) {
+           const question =
+             getInvestigationQuestion(questionNumber);
+         
+           if (question === '') {
+             continue;
+           }
+         
+           const option = document.createElement('option');
+         
+           option.value = question;
+           option.textContent =
+             'Question ' + questionNumber + ': ' + question;
+         
+           select.appendChild(option);
+         }
+         
+         /*
+           Reset the selected-question and prediction areas
+           whenever this section is opened.
+         */
+         select.value = '';
+         
+         document.getElementById(
+           'chosenQuestionDisplay'
+         ).hidden = true;
+         
+         document.getElementById(
+           'predictionActivity'
+         ).hidden = true;
+         
+         document.getElementById(
+           'chosenQuestionText'
+         ).textContent = '';
+         }
+         
+         function openQuestionChoiceSection() {
+         populateQuestionChoiceDropdown();
+         
+         unlockSection(
+           'question-choice',
+           'question-builder'
+         );
+         }
+         
+         function showChosenQuestion() {
+         const select = document.getElementById(
+           'favouriteQuestionSelect'
+         );
+         
+         const chosenQuestionDisplay =
+           document.getElementById(
+             'chosenQuestionDisplay'
+           );
+         
+         const chosenQuestionText =
+           document.getElementById(
+             'chosenQuestionText'
+           );
+         
+         const predictionActivity =
+           document.getElementById(
+             'predictionActivity'
+           );
+         
+         const chosenQuestion = select.value;
+         
+         if (chosenQuestion === '') {
+           chosenQuestionDisplay.hidden = true;
+           predictionActivity.hidden = true;
+           chosenQuestionText.textContent = '';
+         
+           return;
+         }
+         
+         chosenQuestionText.textContent =
+           chosenQuestion;
+         
+         chosenQuestionDisplay.hidden = false;
+         predictionActivity.hidden = false;
+         }
+         
+         function submitPredictionOnEnter(event, answerType) {
+         if (event.key === 'Enter') {
+           event.preventDefault();
+           submitPredictionAnswer(answerType);
+         }
+         }
+         
+         function submitPredictionAnswer(answerType) {
+         let input;
+         let list;
+         
+         if (answerType === 'prediction') {
+           input = document.getElementById('predictionInput');
+           list = document.getElementById('predictionList');
+         } else {
+           input = document.getElementById('predictionReasonInput');
+           list = document.getElementById('predictionReasonList');
+         }
+         
+         const answer =
+         input.value.trim();
+         
+         if (answer === "") {
+         return;
+         }
+         
+         if (containsProfanity(answer)) {
+         input.value = "";
+         input.focus();
+         return;
+         }
+         
+         list.innerHTML = '';
+         
+         const listItem = document.createElement('li');
+         
+         const answerText = document.createElement('span');
+         answerText.textContent = answer;
+         
+         const deleteButton = document.createElement('button');
+         deleteButton.type = 'button';
+         deleteButton.textContent = '×';
+         deleteButton.className = 'delete-answer';
+         
+         deleteButton.onclick = function() {
+           listItem.remove();
+           input.value = '';
+           input.focus();
+         };
+         
+         listItem.appendChild(answerText);
+         listItem.appendChild(deleteButton);
+         
+         list.appendChild(listItem);
+         
+         input.value = '';
+         }
+         
+         function submitInvestigationQuestion(questionNumber) {
+         const input = document.getElementById(
+           'investigationQuestionInput' + questionNumber
+         );
+         
+         const list = document.getElementById(
+           'investigationQuestionList' + questionNumber
+         );
+         
+         const answer =
+         input.value.trim();
+         
+         if (answer === "") {
+         return;
+         }
+         
+         if (containsProfanity(answer)) {
+         input.value = "";
+         input.focus();
+         return;
+         }
+         
+         /*
+           Keep only one submitted answer in each question box.
+           This prevents multiple answers being added to the
+           same numbered question.
+         */
+         list.innerHTML = '';
+         
+         const listItem = document.createElement('li');
+         
+         const answerText = document.createElement('span');
+         answerText.textContent = answer;
+         
+         const deleteButton = document.createElement('button');
+         deleteButton.type = 'button';
+         deleteButton.textContent = '×';
+         deleteButton.className = 'delete-answer';
+         deleteButton.setAttribute(
+           'aria-label',
+           'Delete question ' + questionNumber
+         );
+         
+         deleteButton.onclick = function() {
+           listItem.remove();
+           input.value = '';
+           input.focus();
+           updateQuestionBuilderNextButton();
+         };
+         
+         listItem.appendChild(answerText);
+         listItem.appendChild(deleteButton);
+         
+         list.appendChild(listItem);
+         
+         input.value = '';
+         
+         updateQuestionBuilderNextButton();
+         }
+         
+      </script>
+      <!-- Question Wheel Script -->
+      <script>
+         const questionWheel =
+           document.getElementById("questionWheel");
+         
+         const spinQuestionWheelButton =
+           document.getElementById("spinQuestionWheel");
+         
+         const wheelResult =
+           document.getElementById("wheelResult");
+         
+         const selectedQuestionTemplate =
+           document.getElementById("selectedQuestionTemplate");
+         
+         
+         /* ----------------------------------------
+            Question structures
+            ---------------------------------------- */
+         
+         const questionStructures = [
+           {
+             word: "What",
+             starterClass: "starter-what",
+         
+             buildEditableSentence: function() {
+               return `
+                 <span class="sentence-starter starter-what">
+                   What
+                 </span>
+         
+                 <span>will changing</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="changed"
+                   placeholder="what you will change">
+         
+                 <span>do to</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="measured"
+                   placeholder="what you will measure">
+         
+                 <span>?</span>
+               `;
+             },
+         
+             buildSavedSentence: function(changed, measured) {
+               return `
+                 <span class="sentence-starter starter-what">
+                   What
+                 </span>
+         
+                 <span>
+                   will changing
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(changed)}
+                   </span>
+                   do to
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(measured)}
+                   </span>?
+                 </span>
+               `;
+             }
+           },
+         
+           {
+             word: "How",
+             starterClass: "starter-how",
+         
+             buildEditableSentence: function() {
+               return `
+                 <span class="sentence-starter starter-how">
+                   How
+                 </span>
+         
+                 <span>does changing</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="changed"
+                   placeholder="what you will change">
+         
+                 <span>affect</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="measured"
+                   placeholder="what you will measure">
+         
+                 <span>?</span>
+               `;
+             },
+         
+             buildSavedSentence: function(changed, measured) {
+               return `
+                 <span class="sentence-starter starter-how">
+                   How
+                 </span>
+         
+                 <span>
+                   does changing
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(changed)}
+                   </span>
+                   affect
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(measured)}
+                   </span>?
+                 </span>
+               `;
+             }
+           },
+         
+           {
+             word: "Does",
+             starterClass: "starter-does",
+         
+             buildEditableSentence: function() {
+               return `
+                 <span class="sentence-starter starter-does">
+                   Does
+                 </span>
+         
+                 <span>changing</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="changed"
+                   placeholder="what you will change">
+         
+                 <span>affect</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="measured"
+                   placeholder="what you will measure">
+         
+                 <span>?</span>
+               `;
+             },
+         
+             buildSavedSentence: function(changed, measured) {
+               return `
+                 <span class="sentence-starter starter-does">
+                   Does
+                 </span>
+         
+                 <span>
+                   changing
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(changed)}
+                   </span>
+                   affect
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(measured)}
+                   </span>?
+                 </span>
+               `;
+             }
+           },
+         
+           {
+             word: "If",
+             starterClass: "starter-if",
+         
+             buildEditableSentence: function() {
+               return `
+                 <span class="sentence-starter starter-if">
+                   If
+                 </span>
+         
+                 <span>we change</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="changed"
+                   placeholder="what you will change">
+         
+                 <span>, how does it affect</span>
+         
+                 <input
+                   type="text"
+                   class="question-template-input"
+                   data-question-part="measured"
+                   placeholder="what you will measure">
+         
+                 <span>?</span>
+               `;
+             },
+         
+             buildSavedSentence: function(changed, measured) {
+               return `
+                 <span class="sentence-starter starter-if">
+                   If
+                 </span>
+         
+                 <span>
+                   we change
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(changed)}
+                   </span>,
+                   how does it affect
+                   <span class="submitted-variable">
+                     ${escapeQuestionHTML(measured)}
+                   </span>?
+                 </span>
+               `;
+             }
+           }
+         ];
+         
+         
+         /* ----------------------------------------
+            Wheel state
+            ---------------------------------------- */
+         
+         let currentWheelRotation = 0;
+         let wheelIsSpinning = false;
+         let questionCardCount = 0;
+         const usedQuestionStarters = new Set();
+         
+         /* ----------------------------------------
+            Protect student text
+            ---------------------------------------- */
+         
+         function escapeQuestionHTML(text) {
+           const temporaryElement =
+             document.createElement("div");
+         
+           temporaryElement.textContent = text;
+         
+           return temporaryElement.innerHTML;
+         }
+         
+         /* ----------------------------------------
+          Submit one individual sentence blank
+          ---------------------------------------- */
+         
+         function connectQuestionInput(
+         input,
+         questionCard
+         ) {
+         input.addEventListener(
+           "keydown",
+           function(event) {
+             if (event.key !== "Enter") {
+               return;
+             }
+         
+             event.preventDefault();
+         
+             submitQuestionPart(
+               input,
+               questionCard
+             );
+           }
+         );
+         }
+         
+         
+         function submitQuestionPart(
+         input,
+         questionCard
+         ) {
+         const answer =
+           input.value.trim();
+         
+         if (answer === "") {
+           input.focus();
+           return;
+         }
+         
+         /*
+           Additional safety check in case this function is called
+           without a keyboard event in the future.
+         */
+         if (containsProfanity(answer)) {
+           input.value = "";
+           input.focus();
+           return;
+         }
+         
+         const questionPart =
+           input.dataset.questionPart;
+         
+         const placeholder =
+           input.getAttribute("placeholder");
+         
+         /*
+           Create the permanent-looking answer chip.
+         */
+         const submittedAnswer =
+           document.createElement("span");
+         
+         submittedAnswer.className =
+           "submitted-variable submitted-question-part";
+         
+         submittedAnswer.dataset.questionPart =
+           questionPart;
+         
+         submittedAnswer.dataset.placeholder =
+           placeholder;
+         
+         const answerText =
+           document.createElement("span");
+         
+         answerText.className =
+           "submitted-question-part-text";
+         
+         answerText.textContent = answer;
+         
+         const deleteButton =
+           document.createElement("button");
+         
+         deleteButton.type = "button";
+         deleteButton.className =
+           "delete-answer submitted-part-delete";
+         
+         deleteButton.textContent = "×";
+         
+         deleteButton.setAttribute(
+           "aria-label",
+           "Delete " + answer
+         );
+         
+         submittedAnswer.appendChild(
+           answerText
+         );
+         
+         submittedAnswer.appendChild(
+           deleteButton
+         );
+         
+         /*
+           Replace only this input with its submitted answer.
+         */
+         input.replaceWith(submittedAnswer);
+         
+         deleteButton.addEventListener(
+           "click",
+           function() {
+             restoreQuestionInput(
+               submittedAnswer,
+               questionCard
+             );
+           }
+         );
+         
+         updateWheelQuestionCard(
+           questionCard
+         );
+         }
+         
+         
+         /* ----------------------------------------
+          Restore one deleted sentence blank
+          ---------------------------------------- */
+         
+         function restoreQuestionInput(
+         submittedAnswer,
+         questionCard
+         ) {
+         const questionPart =
+           submittedAnswer.dataset.questionPart;
+         
+         const placeholder =
+           submittedAnswer.dataset.placeholder;
+         
+         const restoredInput =
+           document.createElement("input");
+         
+         restoredInput.type = "text";
+         
+         restoredInput.className =
+           "question-template-input";
+         
+         restoredInput.dataset.questionPart =
+           questionPart;
+         
+         restoredInput.placeholder =
+           placeholder;
+         
+         submittedAnswer.replaceWith(
+           restoredInput
+         );
+         
+         connectQuestionInput(
+           restoredInput,
+           questionCard
+         );
+         
+         updateWheelQuestionCard(
+           questionCard
+         );
+         
+         restoredInput.focus();
+         }
+         
+         
+         /* ----------------------------------------
+          Enable Save when both blanks are complete
+          ---------------------------------------- */
+         
+         function updateWheelQuestionCard(
+         questionCard
+         ) {
+         const changedAnswer =
+           questionCard.querySelector(
+             '.submitted-question-part[data-question-part="changed"]'
+           );
+         
+         const measuredAnswer =
+           questionCard.querySelector(
+             '.submitted-question-part[data-question-part="measured"]'
+           );
+         
+         const saveButton =
+           questionCard.querySelector(
+             ".wheel-save-button"
+           );
+         
+         const bothAnswersComplete =
+           changedAnswer &&
+           measuredAnswer;
+         
+         saveButton.disabled =
+           !bothAnswersComplete;
+         
+         /*
+           Remove an old error message once the student
+           has changed one of the answers.
+         */
+         const message =
+           questionCard.querySelector(
+             ".wheel-question-message"
+           );
+         
+         message.classList.remove(
+           "visible",
+           "success"
+         );
+         
+         message.textContent = "";
+         }
+         
+         
+         /* ----------------------------------------
+            Add one new question card
+            ---------------------------------------- */
+         
+         function addQuestionCard(questionStructure) {
+           const placeholder =
+             selectedQuestionTemplate.querySelector(
+               ".template-placeholder"
+             );
+         
+           if (placeholder) {
+             placeholder.remove();
+           }
+         
+           questionCardCount += 1;
+         
+           const questionCard =
+             document.createElement("div");
+         
+           questionCard.className = "wheel-question-card";
+         
+           questionCard.innerHTML = `
+         <div class="wheel-question-card-header">
+         
+           <span class="wheel-question-number">
+             Question ${questionCardCount}
+           </span>
+         
+         </div>
+         
+             <div class="question-template-sentence">
+               ${questionStructure.buildEditableSentence()}
+             </div>
+         
+             <div class="wheel-question-checklist">
+         
+               <h5>Check whether your question is testable</h5>
+         
+               <label class="check-item">
+                 <input
+                   type="checkbox"
+                   data-check="changed">
+         
+                 <span>
+                   <strong>Is something being changed?</strong>
+                   <small>What are you changing?</small>
+                 </span>
+               </label>
+         
+               <label class="check-item">
+                 <input
+                   type="checkbox"
+                   data-check="measured">
+         
+                 <span>
+                   <strong>Can the effect be measured?</strong>
+                   <small>What will you observe or measure?</small>
+                 </span>
+               </label>
+         
+             </div>
+         
+             <p
+               class="wheel-question-message"
+               aria-live="polite">
+             </p>
+         
+             <button
+         type="button"
+         class="general-button wheel-save-button"
+         disabled>
+         Save my question
+         </button>
+           `;
+         
+           selectedQuestionTemplate.appendChild(
+             questionCard
+           );
+         
+           const saveButton =
+             questionCard.querySelector(
+               ".wheel-save-button"
+             );
+         
+           saveButton.addEventListener(
+             "click",
+             function() {
+               saveQuestionCard(
+                 questionCard,
+                 questionStructure
+               );
+             }
+           );
+         
+           questionCard
+         .querySelectorAll(".question-template-input")
+         .forEach(function(input) {
+           connectQuestionInput(
+             input,
+             questionCard
+           );
+         });
+         
+           const firstInput =
+             questionCard.querySelector(
+               ".question-template-input"
+             );
+         
+           if (firstInput) {
+             firstInput.focus();
+           }
+         
+           questionCard.scrollIntoView({
+             behavior: "smooth",
+             block: "nearest"
+           });
+         }
+         
+         
+         /* ----------------------------------------
+          Save one completed question
+          ---------------------------------------- */
+         
+         function saveQuestionCard(
+         questionCard,
+         questionStructure
+         ) {
+         /*
+           After Enter is pressed, the inputs have been replaced
+           by submitted-answer spans. Therefore, we look for those
+           spans instead of looking for input elements.
+         */
+         const changedAnswer =
+           questionCard.querySelector(
+             '.submitted-question-part[data-question-part="changed"]'
+           );
+         
+         const measuredAnswer =
+           questionCard.querySelector(
+             '.submitted-question-part[data-question-part="measured"]'
+           );
+         
+         const changedCheck =
+           questionCard.querySelector(
+             '[data-check="changed"]'
+           );
+         
+         const measuredCheck =
+           questionCard.querySelector(
+             '[data-check="measured"]'
+           );
+         
+         const message =
+           questionCard.querySelector(
+             ".wheel-question-message"
+           );
+         
+         message.classList.remove("success");
+         
+         /*
+           This should normally be prevented by the disabled
+           Save button, but it is useful as a safety check.
+         */
+         if (!changedAnswer || !measuredAnswer) {
+           message.textContent =
+             "Press Enter after completing both sentence blanks.";
+         
+           message.classList.add("visible");
+         
+           return;
+         }
+         
+         /*
+           The student must also complete both checklist items.
+         */
+         if (
+           !changedCheck.checked ||
+           !measuredCheck.checked
+         ) {
+           message.textContent =
+             "Check both boxes before saving your question.";
+         
+           message.classList.add("visible");
+         
+           return;
+         }
+         
+         /*
+           Read only the answer text, without including the ×.
+         */
+         const changedValue =
+           changedAnswer.querySelector(
+             ".submitted-question-part-text"
+           ).textContent.trim();
+         
+         const measuredValue =
+           measuredAnswer.querySelector(
+             ".submitted-question-part-text"
+           ).textContent.trim();
+         
+         const sentence =
+           questionCard.querySelector(
+             ".question-template-sentence"
+           );
+         
+         /*
+           Convert the editable sentence into its final,
+           permanently saved appearance.
+         */
+         sentence.innerHTML =
+           questionStructure.buildSavedSentence(
+             changedValue,
+             measuredValue
+           );
+         
+         const checklist =
+           questionCard.querySelector(
+             ".wheel-question-checklist"
+           );
+         
+         if (checklist) {
+           checklist.remove();
+         }
+         
+         const saveButton =
+           questionCard.querySelector(
+             ".wheel-save-button"
+           );
+         
+         if (saveButton) {
+           saveButton.remove();
+         }
+         
+         message.textContent =
+           "Question saved.";
+         
+         message.classList.add(
+           "visible",
+           "success"
+         );
+         
+         questionCard.classList.add("saved");
+         
+         usedQuestionStarters.add(questionStructure.word);
+         
+         if (questionStructures.length === 0) {
+           spinQuestionWheelButton.disabled = true;
+           wheelResult.textContent =
+             "You have used all four question starters!";
+         }
+         }
+         
+         /* ----------------------------------------
+            Spin the wheel
+            ---------------------------------------- */
+         
+         spinQuestionWheelButton.addEventListener(
+           "click",
+           function() {
+             wheelResult.style.backgroundColor = "var(--soft-purple)";
+         
+             // Remove an empty, unsaved question before spinning again
+             const unsavedCards = selectedQuestionTemplate.querySelectorAll(
+               ".wheel-question-card:not(.saved)"
+             );
+         
+             unsavedCards.forEach(card => {
+               const inputs = card.querySelectorAll(".question-template-input");
+               const submissions = card.querySelectorAll(".submitted-question-part");
+         
+               const hasInputs = Array.from(inputs).some(input =>
+                 input.value.trim() !== ""
+               );
+         
+               const hasSubmissions = submissions.length > 0;
+         
+               if (!hasInputs && !hasSubmissions) {
+                 card.remove();
+                 questionCardCount--;
+               }
+             });
+             
+             if (wheelIsSpinning) {
+               return;
+             }
+         
+             wheelIsSpinning = true;
+             spinQuestionWheelButton.disabled = true;
+         
+             wheelResult.textContent =
+               "The wheel is spinning...";
+         
+             const destinationAngles = [
+               0,
+               90,
+               270,
+               180
+             ];
+         
+             const selectedIndex =
+               Math.floor(
+                 Math.random() *
+                 questionStructures.length
+               );
+         
+             const selectedQuestionStructure =
+               questionStructures[
+                 Math.floor(Math.random() * questionStructures.length)
+               ];
+         
+             const selectedDestination = destinationAngles[selectedIndex];
+         
+             const currentPosition =
+               (
+                 (currentWheelRotation % 360) +
+                 360
+               ) % 360;
+         
+             const rotationToDestination =
+               (
+                 selectedDestination -
+                 currentPosition +
+                 360
+               ) % 360;
+         
+             const extraSpins = 5 * 360;
+         
+             currentWheelRotation +=
+               extraSpins +
+               rotationToDestination;
+         
+             questionWheel.style.transform =
+               `rotate(${currentWheelRotation}deg)`;
+         
+             questionWheel
+               .querySelectorAll(".wheel-label")
+               .forEach(function(label) {
+                 label.style.transform =
+                   `translate(-50%, -50%) rotate(${-currentWheelRotation}deg)`;
+               });
+         
+             window.setTimeout(
+               function() {
+                 const selectedQuestionStructure =
+                   questionStructures[selectedIndex];
+         
+                 if (usedQuestionStarters.has(selectedQuestionStructure.word)) {
+                   wheelResult.innerHTML = `
+                     <strong>${selectedQuestionStructure.word}</strong>
+                     has already been used.<br>
+                     Spin again to choose a different question starter.
+                   `;
+                   wheelResult.style.backgroundColor = "var(--orange)";
+         
+                   spinQuestionWheelButton.disabled = false;
+                   wheelIsSpinning = false;
+         
+                   return;
+                 }
+         
+                 wheelResult.innerHTML = `
+                   You landed on
+                   <strong>
+                     ${selectedQuestionStructure.word}
+                   </strong>.
+                 `;
+         
+                 /*
+                   Append instead of replacing.
+                 */
+                 addQuestionCard(
+                   selectedQuestionStructure
+                 );
+         
+                 spinQuestionWheelButton.disabled =
+                   false;
+         
+                 wheelIsSpinning = false;
+               },
+               3250
+             );
+           }
+         );
+      </script>
+   </body>
 </html>
