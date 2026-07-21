@@ -27,9 +27,10 @@
 .prediction-organiser-row {
 	display: grid;
   grid-template-columns:
-    minmax(80px, 180px)
+    clamp(80px, 18vw, 180px)
     minmax(0, 1fr)
-    minmax(0, 1fr);	border-bottom: 2px solid var(--line);
+    minmax(0, 1fr);
+  border-bottom: 2px solid var(--line);
   }
 
 .prediction-organiser-row:last-child {
@@ -86,6 +87,7 @@
 .cell-label {
 	background: rgba(0, 0, 0, 0.04);
 	font-weight: 700;
+  overflow-wrap: break-word;
 }
 
 .cell-sublabel {
