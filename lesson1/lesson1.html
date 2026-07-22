@@ -325,6 +325,12 @@
       }
       /* ---- diagram-grid wrapper ---- */
       .grid-container {}
+
+      .reset-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 18px;
+      }
    </style>
    <body>
       <div id="top"></div>
@@ -768,7 +774,10 @@
                         </p>
                      </div>
                   </div>
-               </div>
+                </div>
+                <div class="reset-button-container">
+                  <button type="button" class="general-button reset-btn" onclick="resetWheel()">Reset</button>
+                </div>
             </div>
          </section>
          <!-- ---------- Question Builder ---------- --> 
@@ -2195,6 +2204,54 @@
          let wheelIsSpinning = false;
          let questionCardCount = 0;
          const usedQuestionStarters = new Set();
+         let wheelSpinTimeout = null;
+
+         function resetWheel() {
+          if (wheelSpinTimeout !== null) {
+            clearTimeout(wheelSpinTimeout);
+            wheelSpinTimeout = null;
+          }
+
+          wheelIsSpinning = false;
+          questionCardCount = 0;
+          usedQuestionStarters.clear();
+          
+          // Reset the wheel position
+          questionWheel.style.transition = "none";             
+          
+          // questionWheel.style.transform = "rotate(0deg)";
+          
+          questionWheel.querySelectorAll(".wheel-label").forEach(label => {
+            label.style.transition = "none";
+          });
+
+          currentWheelRotation = 0;
+          questionWheel.style.transform = "rotate(0deg)";
+          questionWheel.querySelectorAll(".wheel-label").forEach(label => {
+            label.style.transform = "translate(-50%, -50%)";
+          });
+
+          questionWheel.offsetWidth;
+
+          questionWheel.style.transition = "";
+
+          questionWheel.querySelectorAll(".wheel-label").forEach(label => {
+              label.style.transition = "";
+          });
+
+          // Clear all question cards
+          selectedQuestionTemplate.innerHTML = `
+            <div class="template-placeholder">
+              Spin the wheel to generate a question starter.
+            </div>
+          `;
+
+          wheelResult.textContent = "Spin the wheel to receive a question structure.";
+          wheelResult.style.backgroundColor = "";
+
+          // Enable spinning again
+          spinQuestionWheelButton.disabled = false;
+         }
          
          /* ----------------------------------------
             Protect student text
@@ -2750,8 +2807,10 @@
                    `translate(-50%, -50%) rotate(${-currentWheelRotation}deg)`;
                });
          
-             window.setTimeout(
+             wheelSpinTimeout = window.setTimeout(
                function() {
+                wheelSpinTimeout = null;
+
                  const selectedQuestionStructure =
                    questionStructures[selectedIndex];
          
