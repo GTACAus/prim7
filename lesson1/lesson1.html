@@ -351,62 +351,56 @@
                </button>
             </div>
             <div class="vocab-list">
-               <div class="vocab-card">
-                  <h3>Botanist</h3>
-                  <p>
-                     A scientist who studies plants.
-                  </p>
-               </div>
-               <div class="vocab-card">
-                  <h3>Diagnose</h3>
-                  <p>
-                     To identify what is wrong with a living thing by carefully examining
-                     it and looking for clues about what physical condition may be missing
-                     or out of balance.
-                  </p>
-               </div>
-               <div class="vocab-card">
-                  <h3>Function</h3>
-                  <p>
-                     The job or role that a part of a plant performs to help it survive.
-                  </p>
-               </div>
-               <div class="vocab-card">
-                  <h3>Germinate</h3>
-                  <p>
-                     When a seed begins to sprout and grow into a new plant after absorbing
-                     water and being exposed to the right temperature and conditions.
-                  </p>
-               </div>
-               <div class="vocab-card">
-                  <h3>Investigate</h3>
-                  <p>
-                     To carefully examine and gather information about something in order
-                     to find an answer or understand it better.
-                  </p>
-               </div>
-               <div class="vocab-card">
-                  <h3>Nutrients</h3>
-                  <p>
-                     Substances found in soil and water that plants absorb through their
-                     roots to grow and stay healthy.
-                  </p>
-               </div>
-               <div class="vocab-card">
-                  <h3>Observe / Observation</h3>
-                  <p>
-                     Information gathered by using your senses—sight, hearing, touch,
-                     smell, or taste—to carefully notice and describe something in the
-                     world around you.
-                  </p>
-               </div>
-               <div class="vocab-card">
-                  <h3>Structure</h3>
-                  <p>
-                     A physical part of a plant, such as the roots, stem, leaves, flower,
-                     or fruit, that has a specific job.
-                  </p>
-               </div>
+
+              <div class="vocab-card">
+                <h3>Experiment</h3>
+                <p>
+                  A test scientists carry out to answer a testable question by changing one thing and measuring the effect it has on something else.
+                </p>
+              </div>
+
+              <div class="vocab-card">
+                <h3>Question</h3>
+                <p>
+                  Something you are curious about after making an observation. In science, a good question leads to an investigation.
+                </p>
+              </div>
+
+              <div class="vocab-card">
+                <h3>Prediction</h3>
+                <p>
+                  An educated guess about what the result of an experiment will be, based on your knowledge of the relationship between two things.
+                </p>
+              </div>
+
+              <div class="vocab-card">
+                <h3>Measure</h3>
+                <p>
+                  To observe and record the effect that a change has on something. This is the result you collect during an experiment using a tool or method such as a ruler, stopwatch, or scale.
+                </p>
+              </div>
+
+              <div class="vocab-card">
+                <h3>Change</h3>
+                <p>
+                  To make something different from what it was. In an experiment, this is the one thing you deliberately adjust to see what effect it has on something else.
+                </p>
+              </div>
+
+              <div class="vocab-card">
+                <h3>Testable question</h3>
+                <p>
+                  A question that can be answered by doing an experiment where you change something and measure the effect it has on something else.
+                </p>
+              </div>
+
+              <div class="vocab-card">
+                <h3>Untestable question</h3>
+                <p>
+                  A question that cannot be answered through an experiment, usually because it is based on personal opinion or cannot be measured.
+                </p>
+              </div>
+
             </div>
          </div>
       </div>
@@ -1117,7 +1111,451 @@
                class="reasoned-prediction-iframe"
                scrolling="no">
             </iframe>
+            <button
+              id="reasonedBuilderNextButton"
+              type="button"
+              class="next-button"
+              onclick="unlockSection('testing-predictions', 'reasoned-builder')">
+              Next
+            </button>
+
+          <p class="completed-note">
+            Completed — next activity unlocked.
+          </p>
          </section>
+
+         <!-- ---------- Testing Reasoned Predictions ---------- -->
+        <section
+          class="section locked"
+          id="testing-predictions">
+
+          <h2 class="section-title">
+              Testing our reasoned predictions
+          </h2>
+
+          <div class="diagram-box diagram-activity">
+              <p class="activity-instruction">
+                We test our reasoned predictions by conducting an experiment.
+                You will learn how to design an experiment in the next lesson.
+              </p>
+
+              <p class="activity-instruction">
+                Below are results from experiments using cars and ramps.
+                Examine each set of results and decide whether the evidence
+                <strong>supports</strong> or <strong>does not support</strong>
+                the reasoned prediction.
+              </p>
+          </div>
+
+          <div class="prediction-test-list">
+
+              <!-- Example 1 -->
+              <article
+                class="prediction-test-card"
+                id="predictionTest1">
+
+                <div class="prediction-test-heading">
+                    <span class="prediction-test-number">Example 1</span>
+                    <h3>Changing the ramp angle</h3>
+                </div>
+
+                <div class="prediction-statement-grid">
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Testable question
+                      </span>
+
+                      <p>
+                          Does changing the angle of the ramp affect how far
+                          the car travels?
+                      </p>
+                    </div>
+
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Reasoned prediction
+                      </span>
+
+                      <p>
+                          If I increase the angle of the ramp, then this will
+                          increase how far the car will travel. This is because
+                          the car gains more speed travelling down the ramp.
+                      </p>
+                    </div>
+                </div>
+
+                <div
+                    class="prediction-result-gallery prediction-result-gallery-three"
+                    aria-label="Results showing increasing ramp angles">
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-angle-low.png"
+                          alt="Car released from a low ramp angle and stopping near the beginning of the ruler">
+
+                      <figcaption>
+                          Low angle
+                      </figcaption>
+                    </figure>
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-angle-medium.png"
+                          alt="Car released from a medium ramp angle and travelling further along the ruler">
+
+                      <figcaption>
+                          Medium angle
+                      </figcaption>
+                    </figure>
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-angle-high.png"
+                          alt="Car released from a higher ramp angle and travelling furthest along the ruler">
+
+                      <figcaption>
+                          Higher angle
+                      </figcaption>
+                    </figure>
+                </div>
+
+                <p class="prediction-safety-note">
+                    ⚠️ A very steep ramp may cause the car to crash.
+                </p>
+
+                <div class="prediction-choice-area">
+                    <p class="prediction-choice-question">
+                      Do the results support the reasoned prediction?
+                    </p>
+
+                    <div class="prediction-choice-buttons">
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, true)">
+                          Supported
+                      </button>
+
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, false)">
+                          Not supported
+                      </button>
+                    </div>
+
+                    <div
+                      class="prediction-feedback"
+                      data-correct-answer="true"
+                      data-correct-feedback="It is supported because the results show that increasing the angle of the ramp causes the car to travel further."
+                      data-incorrect-feedback="Try again. The results show that increasing the angle of the ramp causes the car to travel further."
+                      role="status"
+                      aria-live="polite"
+                      hidden>
+                    </div>
+                </div>
+              </article>
+
+              <!-- Example 2 -->
+              <article
+                class="prediction-test-card"
+                id="predictionTest2">
+
+                <div class="prediction-test-heading">
+                    <span class="prediction-test-number">Example 2</span>
+                    <h3>Changing the car colour</h3>
+                </div>
+
+                <div class="prediction-statement-grid">
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Testable question
+                      </span>
+
+                      <p>
+                          Does changing the colour of a car affect how far
+                          the car travels?
+                      </p>
+                    </div>
+
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Reasoned prediction
+                      </span>
+
+                      <p>
+                          If I change the colour of the car from blue to red,
+                          then the distance the car travels will stay the same.
+                          This is because colour does not affect how fast the
+                          car travels down the ramp.
+                      </p>
+                    </div>
+                </div>
+
+                <div
+                    class="prediction-result-gallery"
+                    aria-label="Results comparing blue and red cars">
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-blue-car.png"
+                          alt="Blue car travelling down a ramp and stopping at a marked position">
+
+                      <figcaption>
+                          Blue car
+                      </figcaption>
+                    </figure>
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-red-car.png"
+                          alt="Red car travelling down the same ramp and stopping at approximately the same position">
+
+                      <figcaption>
+                          Red car
+                      </figcaption>
+                    </figure>
+                </div>
+
+                <div class="prediction-choice-area">
+                    <p class="prediction-choice-question">
+                      Do the results support the reasoned prediction?
+                    </p>
+
+                    <div class="prediction-choice-buttons">
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, true)">
+                          Supported
+                      </button>
+
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, false)">
+                          Not supported
+                      </button>
+                    </div>
+
+                    <div
+                      class="prediction-feedback"
+                      data-correct-answer="true"
+                      data-correct-feedback="It is supported because the results show that both cars travel approximately the same distance."
+                      data-incorrect-feedback="Try again. The results show that both cars travel approximately the same distance."
+                      role="status"
+                      aria-live="polite"
+                      hidden>
+                    </div>
+                </div>
+              </article>
+
+              <!-- Example 3 -->
+              <article
+                class="prediction-test-card"
+                id="predictionTest3">
+
+                <div class="prediction-test-heading">
+                    <span class="prediction-test-number">Example 3</span>
+                    <h3>Changing the size of the car</h3>
+                </div>
+
+                <div class="prediction-statement-grid">
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Testable question
+                      </span>
+
+                      <p>
+                          If we change the size of a car, how does this affect
+                          the distance it travels?
+                      </p>
+                    </div>
+
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Reasoned prediction
+                      </span>
+
+                      <p>
+                          If I increase the size of the car, then the distance
+                          the car travels will decrease. This is because bigger
+                          objects stop rolling sooner.
+                      </p>
+                    </div>
+                </div>
+
+                <div
+                    class="prediction-result-gallery"
+                    aria-label="Results comparing small and large cars">
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-small-car.png"
+                          alt="Small car travelling down a ramp and stopping at a marked position">
+
+                      <figcaption>
+                          Smaller car
+                      </figcaption>
+                    </figure>
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-large-car.png"
+                          alt="Larger car travelling down the same ramp and travelling further">
+
+                      <figcaption>
+                          Bigger car
+                      </figcaption>
+                    </figure>
+                </div>
+
+                <div class="prediction-choice-area">
+                    <p class="prediction-choice-question">
+                      Do the results support the reasoned prediction?
+                    </p>
+
+                    <div class="prediction-choice-buttons">
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, true)">
+                          Supported
+                      </button>
+
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, false)">
+                          Not supported
+                      </button>
+                    </div>
+
+                    <div
+                      class="prediction-feedback"
+                      data-correct-answer="false"
+                      data-correct-feedback="It is not supported because the results show that the bigger car travels further than the smaller car."
+                      data-incorrect-feedback="Try again. The results show that the bigger car travels further than the smaller car."
+                      role="status"
+                      aria-live="polite"
+                      hidden>
+                    </div>
+                </div>
+              </article>
+
+              <!-- Example 4 -->
+              <article
+                class="prediction-test-card"
+                id="predictionTest4">
+
+                <div class="prediction-test-heading">
+                    <span class="prediction-test-number">Example 4</span>
+                    <h3>Changing the wheel size</h3>
+                </div>
+
+                <div class="prediction-statement-grid">
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Testable question
+                      </span>
+
+                      <p>
+                          How does changing the size of a car’s wheels affect
+                          the distance it will travel?
+                      </p>
+                    </div>
+
+                    <div class="prediction-statement">
+                      <span class="prediction-statement-label">
+                          Reasoned prediction
+                      </span>
+
+                      <p>
+                          If I increase the size of the car’s wheels, then the
+                          distance the car travels will increase. This is because
+                          bigger wheels will make it travel faster.
+                      </p>
+                    </div>
+                </div>
+
+                <div
+                    class="prediction-result-gallery"
+                    aria-label="Results comparing cars with small and large wheels">
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-small-wheels.png"
+                          alt="Car with smaller wheels travelling further along the ruler">
+
+                      <figcaption>
+                          Smaller wheels
+                      </figcaption>
+                    </figure>
+
+                    <figure class="prediction-result">
+                      <img
+                          src="images/ramp-large-wheels.png"
+                          alt="Car with larger wheels stopping before the car with smaller wheels">
+
+                      <figcaption>
+                          Bigger wheels
+                      </figcaption>
+                    </figure>
+                </div>
+
+                <div class="prediction-choice-area">
+                    <p class="prediction-choice-question">
+                      Do the results support the reasoned prediction?
+                    </p>
+
+                    <div class="prediction-choice-buttons">
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, true)">
+                          Supported
+                      </button>
+
+                      <button
+                          type="button"
+                          class="general-button prediction-choice-button"
+                          onclick="checkReasonedPrediction(this, false)">
+                          Not supported
+                      </button>
+                    </div>
+
+                    <div
+                      class="prediction-feedback"
+                      data-correct-answer="false"
+                      data-correct-feedback="It is not supported because the results show that the car with smaller wheels travels further than the car with bigger wheels."
+                      data-incorrect-feedback="Try again. The results show that the car with smaller wheels travels further than the car with bigger wheels."
+                      role="status"
+                      aria-live="polite"
+                      hidden>
+                    </div>
+                </div>
+              </article>
+
+          </div>
+
+          <div
+              class="prediction-test-completion"
+              id="predictionTestCompletion"
+              hidden>
+
+              <strong>Excellent evidence checking!</strong>
+
+              <p>
+                You have tested all four reasoned predictions against
+                experimental results.
+              </p>
+          </div>
+        </section>
+
+
+
+
+
       </main>
       <script src="../scripts/common_functions.js"></script>
       <script>

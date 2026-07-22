@@ -3636,3 +3636,357 @@ height: 44px;
     height: 2050px;
   }
 }
+
+/* ==================================================
+   TESTING REASONED PREDICTIONS
+   ================================================== */
+
+#testing-predictions .section-title {
+  background: var(--lavender);
+}
+
+
+/* ---------- Example list ---------- */
+
+.prediction-test-list {
+  display: grid;
+  gap: 28px;
+}
+
+
+/* ---------- Individual example card ---------- */
+
+.prediction-test-card {
+  overflow: hidden;
+
+  background: var(--paper);
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow: 0 5px 0 var(--line);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.prediction-test-card.prediction-completed {
+  border-color: var(--green);
+  box-shadow: 0 5px 0 var(--green);
+}
+
+
+/* ---------- Card heading ---------- */
+
+.prediction-test-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 18px 20px;
+
+  background: var(--soft-blue);
+  border-bottom: 3px solid var(--line);
+}
+
+.prediction-test-heading h3 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 1.25rem;
+}
+
+.prediction-test-number {
+  flex: 0 0 auto;
+
+  padding: 7px 11px;
+
+  background: var(--purple);
+  color: white;
+
+  border: 2px solid var(--line);
+  border-radius: 10px;
+
+  box-shadow: 0 2px 0 var(--line);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+
+/* ---------- Question and prediction text ---------- */
+
+.prediction-statement-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  padding: 20px;
+}
+
+.prediction-statement {
+  padding: 17px;
+
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.prediction-statement:first-child {
+  background: var(--soft-yellow);
+}
+
+.prediction-statement:last-child {
+  background: var(--soft-purple);
+}
+
+.prediction-statement-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--purple);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.prediction-statement p {
+  margin: 0;
+
+  color: var(--text);
+
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+
+/* ---------- Experiment result images ---------- */
+
+.prediction-result-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+
+  margin: 0 20px;
+  padding: 18px;
+
+  background: var(--soft-green);
+  border: 2px dashed var(--green);
+  border-radius: 18px;
+}
+
+.prediction-result-gallery-three {
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+}
+
+.prediction-result {
+  overflow: hidden;
+
+  margin: 0;
+
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 15px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.prediction-result img {
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 16 / 10;
+
+  object-fit: contain;
+
+  background: white;
+}
+
+.prediction-result figcaption {
+  padding: 9px 12px;
+
+  background: var(--paper);
+  border-top: 2px solid var(--line);
+
+  color: var(--text);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+
+/* ---------- Safety note ---------- */
+
+.prediction-safety-note {
+  margin: 16px 20px 0;
+  padding: 11px 14px;
+
+  background: var(--soft-orange);
+  border: 2px solid var(--line);
+  border-radius: 13px;
+
+  color: var(--text);
+
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+
+/* ---------- Answer area ---------- */
+
+.prediction-choice-area {
+  margin: 20px;
+  padding: 18px;
+
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+}
+
+.prediction-choice-question {
+  margin: 0 0 14px;
+
+  color: var(--text);
+
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.prediction-choice-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.prediction-choice-button {
+  min-width: 150px;
+
+  border: 2px solid var(--line);
+}
+
+.prediction-choice-button.selected-answer {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.prediction-choice-button.correct-answer {
+  background: var(--green);
+}
+
+.prediction-choice-button.incorrect-answer {
+  background: var(--orange);
+}
+
+
+/* ---------- Feedback ---------- */
+
+.prediction-feedback {
+  margin-top: 16px;
+  padding: 14px 16px;
+
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  color: var(--text);
+
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.prediction-feedback[hidden] {
+  display: none;
+}
+
+.feedback-correct {
+  background: var(--soft-green);
+}
+
+.feedback-correct::before {
+  content: "✓ ";
+  font-weight: 700;
+}
+
+.feedback-incorrect {
+  background: var(--soft-orange);
+}
+
+.feedback-incorrect::before {
+  content: "↻ ";
+  font-weight: 700;
+}
+
+
+/* ---------- Whole-activity completion ---------- */
+
+.prediction-test-completion {
+  margin-top: 28px;
+  padding: 20px;
+
+  background: var(--soft-green);
+  border: 3px solid var(--green);
+  border-radius: 18px;
+
+  box-shadow: 0 4px 0 var(--green);
+
+  color: var(--text);
+
+  text-align: center;
+}
+
+.prediction-test-completion[hidden] {
+  display: none;
+}
+
+.prediction-test-completion strong {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--purple);
+
+  font-size: 1.2rem;
+}
+
+.prediction-test-completion p {
+  margin: 0;
+
+  line-height: 1.55;
+}
+
+
+/* ---------- Responsive layout ---------- */
+
+@media (max-width: 800px) {
+  .prediction-statement-grid,
+  .prediction-result-gallery,
+  .prediction-result-gallery-three {
+    grid-template-columns: 1fr;
+  }
+
+  .prediction-test-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .prediction-choice-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .prediction-choice-button {
+    width: 100%;
+  }
+}
