@@ -471,9 +471,18 @@
                   </div>
                </div>
             </div>
+            <button
+               id="testableQuestionIntroNextButton"
+               class="next-button"
+               onclick="unlockSection('flashcards', 'testable-question-intro')">
+            Next
+            </button>
+            <p class="completed-note">
+               Completed — next activity unlocked.
+            </p>
          </section>
          <!-- ---------- Flashcards ---------- --> 
-         <section class="section" id="flashcards">
+         <section class="section locked" id="flashcards">
             <h2 class="section-title">
                Investigable or Non-investigable?
             </h2>
@@ -494,7 +503,7 @@
             </p>
          </section>
          <!-- Part C: How do we write testable questions? -->
-         <section class="section" id="testable-questions">
+         <section class="section locked" id="testable-questions">
             <h2 class="section-title">
                How do we write testable questions?
             </h2>
@@ -507,45 +516,6 @@
                </p>
             </div>
 
-            <!-- <div class="question-structure-card">
-               <h3>Question structures</h3>
-               <div class="question-example">
-                  <span class="question-word what-word">What</span>
-                  <span>
-                  will changing
-                  <span class="example-blank"></span>
-                  do to
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-               <div class="question-example">
-                  <span class="question-word how-word">How</span>
-                  <span>
-                  does changing
-                  <span class="example-blank"></span>
-                  affect
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-               <div class="question-example">
-                  <span class="question-word does-word">Does</span>
-                  <span>
-                  changing
-                  <span class="example-blank"></span>
-                  affect
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-               <div class="question-example">
-                  <span class="question-word if-word">If</span>
-                  <span>
-                  we change
-                  <span class="example-blank"></span>,
-                  how does it affect
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-            </div> -->
             <!-- Student activity -->
             <div class="testable-question-activity">
                <div class="activity-heading">
@@ -599,10 +569,19 @@
                   <button type="button" class="general-button reset-btn" onclick="resetWheel()">Reset</button>
                 </div>
             </div>
+            <button
+               id="testableQuestionsNextButton"
+               class="next-button"
+               onclick="unlockSection('reasoned-prediction', 'testable-questions')">
+            Next
+            </button>
+            <p class="completed-note">
+               Completed — next activity unlocked.
+            </p>
          </section>
          
          <section
-            class="section"
+            class="section locked"
             id="reasoned-prediction">
             <h2 class="section-title">
                Writing a Reasoned Prediction
@@ -667,11 +646,19 @@
                   </div>
                </div>
             </div>
-            <!-- </div> -->
+            <button
+               id="reasonedPredictionNextButton"
+               class="next-button"
+               onclick="unlockSection('reasoned-builder', 'reasoned-prediction')">
+            Next
+            </button>
+            <p class="completed-note">
+               Completed — next activity unlocked.
+            </p>
          </section>
          <!-- ---------- Reasoned Prediction Builder ---------- -->
          <section
-            class="section"
+            class="section locked"
             id="reasoned-builder">
             <h2 class="section-title">
                Now build your own reasoned prediction
