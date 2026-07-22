@@ -33,7 +33,7 @@ const questionsText = [
 	}
 ];
 
-let questions = [...questionsText]; // Create a copy of the questions array
+let questions = shuffleRandom([...questionsText]); // Create a copy of the questions array
 
 let currentIndex = 0,
 	leftCount = 0,
@@ -67,6 +67,9 @@ function showCard() {
 		progress.textContent = 'All sorted!';
 		document.getElementById('btn-investigable').disabled = true;
 		document.getElementById('btn-uninvestigable').disabled = true;
+		const nextButton = window.parent.document.getElementById("flashcardsNextButton");
+		nextButton.hidden = false;
+
 	}
 }
 
