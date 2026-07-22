@@ -2668,15 +2668,15 @@
          
          usedQuestionStarters.add(questionStructure.word);
          
-         if (questionStructures.length === 0) {
+         if (usedQuestionStarters.size === questionStructures.length) {
            spinQuestionWheelButton.disabled = true;
            wheelResult.textContent =
              "You have used all four question starters!";
          }
          }
          
-         function getUnsavedQuestionCard() {
-         return selectedQuestionTemplate.querySelector(
+         function getUnsavedQuestionCards() {
+         return selectedQuestionTemplate.querySelectorAll(
          ".wheel-question-card:not(.saved)"
          );
          }
@@ -2755,22 +2755,29 @@
                  const selectedQuestionStructure =
                    questionStructures[selectedIndex];
          
-                 const unsavedQuestionCard =
-         getUnsavedQuestionCard();
-         
-         const unsavedStarter =
-         unsavedQuestionCard
-         ? unsavedQuestionCard.dataset.questionStarter
-         : null;
-         
-         const starterAlreadySaved =
-         usedQuestionStarters.has(
-         selectedQuestionStructure.word
-         );
-         
-         const starterAlreadyBeingWritten =
-         unsavedStarter ===
-         selectedQuestionStructure.word;
+        const unsavedQuestionCards = getUnsavedQuestionCards();
+
+        const starterAlreadySaved =
+        usedQuestionStarters.has(
+        selectedQuestionStructure.word
+        );
+
+        const starterAlreadyBeingWritten =
+        Array.from(unsavedQuestionCards).some(card => {
+
+          if (card.dataset.questionStarter !== selectedQuestionStructure.word) {
+            return false;
+          }
+
+          const hasInputs =
+            Array.from(card.querySelectorAll(".question-template-input"))
+              .some(input => input.value.trim() !== "");
+
+          const hasSubmittedAnswers =
+            card.querySelectorAll(".submitted-question-part").length > 0;
+
+          return hasInputs || hasSubmittedAnswers;
+        });
          
          if (
          starterAlreadySaved ||
@@ -2805,10 +2812,21 @@
          including any text that has not been saved,
          before showing the new structure.
          */
-         if (unsavedQuestionCard) {
-         unsavedQuestionCard.remove();
-         questionCardCount--;
-         }
+         unsavedQuestionCards.forEach(card => {
+
+        const hasInputs =
+          Array.from(card.querySelectorAll(".question-template-input"))
+            .some(input => input.value.trim() !== "");
+
+        const hasSubmittedAnswers =
+          card.querySelectorAll(".submitted-question-part").length > 0;
+
+        if (!hasInputs && !hasSubmittedAnswers) {
+          card.remove();
+          questionCardCount--;
+        }
+
+      });
          
          addQuestionCard(
          selectedQuestionStructure
