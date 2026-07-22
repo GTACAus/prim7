@@ -573,7 +573,8 @@
             <button
                id="testableQuestionsNextButton"
                class="next-button"
-               onclick="unlockSection('reasoned-prediction', 'testable-questions')">
+               onclick="unlockSection('reasoned-prediction', 'testable-questions')"
+               hidden>
             Next
             </button>
             <p class="completed-note">
@@ -680,7 +681,8 @@
               id="reasonedBuilderNextButton"
               type="button"
               class="next-button"
-              onclick="unlockSection('testing-predictions', 'reasoned-builder')">
+              onclick="unlockSection('testing-predictions', 'reasoned-builder')"
+              hidden>
               Next
             </button>
 
@@ -1875,6 +1877,11 @@
          
          usedQuestionStarters.add(questionStructure.word);
          
+         if (usedQuestionStarters.size === 2) {
+          const nextButton = document.getElementById("testableQuestionsNextButton");
+          nextButton.hidden = false;
+         }
+
          if (usedQuestionStarters.size === questionStructures.length) {
            spinQuestionWheelButton.disabled = true;
            wheelResult.textContent =
