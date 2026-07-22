@@ -47,191 +47,7 @@
       </style>
    </head>
    <style>
-      /* ---------- Experiment video selection ---------- */
-      .experiment-video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 20px;
-      }
-      .experiment-video-card {
-      width: 100%;
-      padding: 12px;
-      background: var(--card);
-      border: 3px solid var(--line);
-      border-radius: 20px;
-      box-shadow: 0 5px 0 var(--line);
-      color: var(--text);
-      font-family: inherit;
-      text-align: left;
-      cursor: pointer;
-      transition:
-      transform 0.15s ease,
-      box-shadow 0.15s ease,
-      background 0.15s ease;
-      }
-      .experiment-video-card:hover {
-      background: var(--soft-yellow);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 0 var(--line);
-      }
-      .experiment-video-card.selected {
-      background: var(--soft-green);
-      border-color: var(--purple);
-      box-shadow: 0 5px 0 var(--purple);
-      }
-      .experiment-video-preview {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: var(--soft-blue);
-      border: 2px solid var(--line);
-      border-radius: 14px;
-      }
-      .experiment-video-preview video {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      }
-      .experiment-play-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 54px;
-      height: 54px;
-      background: var(--purple);
-      color: white;
-      border: 3px solid var(--line);
-      border-radius: 50%;
-      box-shadow: 0 4px 0 var(--line);
-      font-size: 1.25rem;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      }
-      .experiment-video-card.selected .experiment-play-icon {
-      background: var(--green);
-      }
-      .experiment-video-title {
-      display: block;
-      margin-top: 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      text-align: center;
-      }
-      /* ---------- Investigation dropdown menus ---------- */
-      .investigation-menu-panel {
-      margin-top: 24px;
-      padding: 22px;
-      background: var(--soft-purple);
-      border: 3px solid var(--line);
-      border-radius: 20px;
-      box-shadow: 0 5px 0 var(--line);
-      }
-      .selected-video-message {
-      margin: 0 0 18px;
-      color: var(--text);
-      font-size: 1rem;
-      }
-      .investigation-menu-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      }
-      .investigation-field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      }
-      .investigation-field label {
-      color: var(--text);
-      font-size: 0.92rem;
-      font-weight: 700;
-      line-height: 1.4;
-      }
-      .investigation-field select {
-      width: 100%;
-      min-height: 48px;
-      padding: 10px 36px 10px 12px;
-      background: white;
-      color: var(--text);
-      border: 2px solid var(--line);
-      border-radius: 12px;
-      box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
-      font-family: inherit;
-      font-size: 0.95rem;
-      cursor: pointer;
-      }
-      .investigation-field select:focus {
-      outline: 3px solid rgba(78, 50, 232, 0.2);
-      border-color: var(--purple);
-      }
-      /* ---------- Student investigation questions ---------- */
-      .investigation-question-area {
-      margin-top: 24px;
-      padding-top: 22px;
-      border-top: 2px dashed var(--line);
-      }
-      .investigation-question-area h3 {
-      margin: 0 0 6px;
-      color: var(--purple);
-      font-size: 1.15rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      }
-      .investigation-question-instruction {
-      margin: 0 0 18px;
-      color: var(--muted);
-      line-height: 1.5;
-      }
-      .investigation-question-list {
-      display: grid;
-      gap: 16px;
-      }
-      .investigation-question-item {
-      padding: 16px;
-      background: var(--card);
-      border: 2px solid var(--line);
-      border-radius: 16px;
-      box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
-      }
-      .investigation-question-item .final-answer-list {
-      margin-top: 10px;
-      }
-      /* ---------- Responsive experiment section ---------- */
-      @media (max-width: 800px) {
-      .experiment-video-grid,
-      .investigation-menu-grid {
-      grid-template-columns: 1fr;
-      }
-      }
       /* ---------- Question choice and prediction ---------- */
-      .chosen-question-box {
-      display: block;
-      margin-top: 18px;
-      background: var(--soft-green);
-      }
-      .chosen-question-box[hidden] {
-      display: none;
-      }
-      .chosen-question-box strong {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--purple);
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      }
-      .chosen-question-box p {
-      margin: 0;
-      color: var(--text);
-      font-size: 1.1rem;
-      font-weight: 700;
-      line-height: 1.5;
-      }
       .prediction-activity {
       margin-top: 24px;
       background: var(--soft-yellow);
@@ -336,9 +152,13 @@
       <div id="top"></div>
       <!-- Top anchor for scrolling -->
       <!-- Vocabulary Button -->
-      <button class="glossary-button" onclick="openGlossary()">
-      📖 Vocabulary
-      </button>
+      <header class="page-header">
+        <button class="home-button">
+          <a href="../index.html">🏠 Home</a>
+        </button>
+        <button class="glossary-button" onclick="openGlossary()">📖 Vocabulary</button>
+      </header>
+      
       <!-- Vocabulary Modal -->
       <div class="modal" id="glossaryModal">
          <div class="modal-content">
@@ -651,9 +471,18 @@
                   </div>
                </div>
             </div>
+            <button
+               id="testableQuestionIntroNextButton"
+               class="next-button"
+               onclick="unlockSection('flashcards', 'testable-question-intro')">
+            Next
+            </button>
+            <p class="completed-note">
+               Completed — next activity unlocked.
+            </p>
          </section>
          <!-- ---------- Flashcards ---------- --> 
-         <section class="section" id="flashcards">
+         <section class="section locked" id="flashcards">
             <h2 class="section-title">
                Investigable or Non-investigable?
             </h2>
@@ -666,7 +495,8 @@
             <button
                id="flashcardsNextButton"
                class="next-button"
-               onclick="unlockSection('question-builder', 'flashcards')">
+               onclick="unlockSection('testable-questions', 'flashcards')"
+               hidden>
             Next
             </button>
             <p class="completed-note">
@@ -674,7 +504,7 @@
             </p>
          </section>
          <!-- Part C: How do we write testable questions? -->
-         <section class="section" id="testable-questions">
+         <section class="section locked" id="testable-questions">
             <h2 class="section-title">
                How do we write testable questions?
             </h2>
@@ -686,46 +516,7 @@
                   <strong>Does</strong> and <strong>If</strong>.
                </p>
             </div>
-            <!-- Example question structures -->
-            <div class="question-structure-card">
-               <h3>Question structures</h3>
-               <div class="question-example">
-                  <span class="question-word what-word">What</span>
-                  <span>
-                  will changing
-                  <span class="example-blank"></span>
-                  do to
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-               <div class="question-example">
-                  <span class="question-word how-word">How</span>
-                  <span>
-                  does changing
-                  <span class="example-blank"></span>
-                  affect
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-               <div class="question-example">
-                  <span class="question-word does-word">Does</span>
-                  <span>
-                  changing
-                  <span class="example-blank"></span>
-                  affect
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-               <div class="question-example">
-                  <span class="question-word if-word">If</span>
-                  <span>
-                  we change
-                  <span class="example-blank"></span>,
-                  how does it affect
-                  <span class="example-blank"></span>?
-                  </span>
-               </div>
-            </div>
+
             <!-- Student activity -->
             <div class="testable-question-activity">
                <div class="activity-heading">
@@ -779,262 +570,19 @@
                   <button type="button" class="general-button reset-btn" onclick="resetWheel()">Reset</button>
                 </div>
             </div>
-         </section>
-         <!-- ---------- Question Builder ---------- --> 
-         <section class="section locked" id="question-builder">
-            <h2 class="section-title">
-               Build an investigable question
-            </h2>
-            <div class="diagram-box diagram-activity">
-               <p class="activity-instruction">
-                  Choose one of the videos below. Then use the dropdown menus to build
-                  an investigable question about what you observed.
-               </p>
-            </div>
-            <div class="experiment-video-grid">
-               <button
-                  type="button"
-                  class="experiment-video-card"
-                  data-video="water"
-                  onclick="selectExperimentVideo('water', this)">
-                  <div class="experiment-video-preview">
-                     <video muted loop playsinline>
-                        <source src="../videos/water-experiment.mp4" type="video/mp4">
-                     </video>
-                     <span class="experiment-play-icon">▶</span>
-                  </div>
-                  <span class="experiment-video-title">
-                  Video 1: Water
-                  </span>
-               </button>
-               <button
-                  type="button"
-                  class="experiment-video-card"
-                  data-video="light"
-                  onclick="selectExperimentVideo('light', this)">
-                  <div class="experiment-video-preview">
-                     <video muted loop playsinline>
-                        <source src="../videos/light-experiment.mp4" type="video/mp4">
-                     </video>
-                     <span class="experiment-play-icon">▶</span>
-                  </div>
-                  <span class="experiment-video-title">
-                  Video 2: Sunlight
-                  </span>
-               </button>
-               <button
-                  type="button"
-                  class="experiment-video-card"
-                  data-video="temperature"
-                  onclick="selectExperimentVideo('temperature', this)">
-                  <div class="experiment-video-preview">
-                     <video muted loop playsinline>
-                        <source src="../videos/temperature-experiment.mp4" type="video/mp4">
-                     </video>
-                     <span class="experiment-play-icon">▶</span>
-                  </div>
-                  <span class="experiment-video-title">
-                  Video 3: Temperature
-                  </span>
-               </button>
-            </div>
-            <div
-               id="investigationMenus"
-               class="investigation-menu-panel"
-               hidden>
-               <p class="selected-video-message">
-                  You selected:
-                  <strong id="selectedVideoName"></strong>
-               </p>
-               <div class="investigation-menu-grid">
-                  <div class="investigation-field">
-                     <label for="sentenceStarter">
-                     1. Pick a sentence starter
-                     </label>
-                     <select id="sentenceStarter">
-                        <option value="">Choose an option</option>
-                     </select>
-                  </div>
-                  <div class="investigation-field">
-                     <label for="measuringVariable">
-                     2. What are you measuring?
-                     </label>
-                     <select id="measuringVariable">
-                        <option value="">Choose an option</option>
-                     </select>
-                  </div>
-                  <div class="investigation-field">
-                     <label for="changingVariable">
-                     3. What are you changing?
-                     </label>
-                     <select id="changingVariable">
-                        <option value="">Choose an option</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="investigation-question-area">
-                  <h3>Write your questions</h3>
-                  <p class="investigation-question-instruction">
-                     Use the dropdown menus above to help you write three investigable questions.
-                  </p>
-                  <div class="investigation-question-list">
-                     <div class="investigation-question-item">
-                        <div class="final-input-row">
-                           <input
-                              id="investigationQuestionInput1"
-                              type="text"
-                              placeholder="Write your first question"
-                              onkeydown="submitInvestigationQuestionOnEnter(event, 1)">
-                           <button
-                              type="button"
-                              onclick="submitInvestigationQuestion(1)">
-                           Add
-                           </button>
-                        </div>
-                        <ul
-                           id="investigationQuestionList1"
-                           class="final-answer-list">
-                        </ul>
-                     </div>
-                     <div class="investigation-question-item">
-                        <div class="final-input-row">
-                           <input
-                              id="investigationQuestionInput2"
-                              type="text"
-                              placeholder="Write your second question"
-                              onkeydown="submitInvestigationQuestionOnEnter(event, 2)">
-                           <button
-                              type="button"
-                              onclick="submitInvestigationQuestion(2)">
-                           Add
-                           </button>
-                        </div>
-                        <ul
-                           id="investigationQuestionList2"
-                           class="final-answer-list">
-                        </ul>
-                     </div>
-                     <div class="investigation-question-item">
-                        <div class="final-input-row">
-                           <input
-                              id="investigationQuestionInput3"
-                              type="text"
-                              placeholder="Write your third question"
-                              onkeydown="submitInvestigationQuestionOnEnter(event, 3)">
-                           <button
-                              type="button"
-                              onclick="submitInvestigationQuestion(3)">
-                           Add
-                           </button>
-                        </div>
-                        <ul
-                           id="investigationQuestionList3"
-                           class="final-answer-list">
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-            </div>
             <button
-               id="questionBuilderNextButton"
-               type="button"
+               id="testableQuestionsNextButton"
                class="next-button"
-               onclick="openQuestionChoiceSection()"
-               hidden>
+               onclick="unlockSection('reasoned-prediction', 'testable-questions')">
             Next
             </button>
             <p class="completed-note">
                Completed — next activity unlocked.
             </p>
          </section>
+         
          <section
             class="section locked"
-            id="question-choice">
-            <h2 class="section-title">
-               Choose your investigation question
-            </h2>
-            <div class="diagram-box diagram-activity">
-               <p class="activity-instruction">
-                  Choose the question you would most like to investigate.
-               </p>
-            </div>
-            <div class="diagram-box diagram-activity">
-               <div class="investigation-field">
-                  <label for="favouriteQuestionSelect">
-                  Select one of your questions
-                  </label>
-                  <select
-                     id="favouriteQuestionSelect"
-                     onchange="showChosenQuestion()">
-                     <option value="">
-                        Choose a question
-                     </option>
-                  </select>
-               </div>
-               <div
-                  id="chosenQuestionDisplay"
-                  class="function-answer chosen-question-box"
-                  hidden>
-                  <strong>Your investigation question</strong>
-                  <p id="chosenQuestionText"></p>
-               </div>
-            </div>
-            <div
-               id="predictionActivity"
-               class="diagram-box diagram-activity prediction-activity"
-               hidden>
-               <h3 class="prediction-heading">
-                  Now, make your prediction
-               </h3>
-               <p class="activity-instruction">
-                  Write what you think will happen, then explain your reasoning.
-               </p>
-               <div class="investigation-question-item">
-                  <label for="predictionInput">
-                  I predict that...
-                  </label>
-                  <div class="final-input-row">
-                     <input
-                        id="predictionInput"
-                        type="text"
-                        placeholder="Write what you think will happen"
-                        onkeydown="submitPredictionOnEnter(event, 'prediction')">
-                     <button
-                        type="button"
-                        onclick="submitPredictionAnswer('prediction')">
-                     Add
-                     </button>
-                  </div>
-                  <ul
-                     id="predictionList"
-                     class="final-answer-list">
-                  </ul>
-               </div>
-               <div class="investigation-question-item">
-                  <label for="predictionReasonInput">
-                  Because...
-                  </label>
-                  <div class="final-input-row">
-                     <input
-                        id="predictionReasonInput"
-                        type="text"
-                        placeholder="Explain why you think this will happen"
-                        onkeydown="submitPredictionOnEnter(event, 'reason')">
-                     <button
-                        type="button"
-                        onclick="submitPredictionAnswer('reason')">
-                     Add
-                     </button>
-                  </div>
-                  <ul
-                     id="predictionReasonList"
-                     class="final-answer-list">
-                  </ul>
-               </div>
-            </div>
-         </section>
-         <section
-            class="section"
             id="reasoned-prediction">
             <h2 class="section-title">
                Writing a Reasoned Prediction
@@ -1099,11 +647,19 @@
                   </div>
                </div>
             </div>
-            <!-- </div> -->
+            <button
+               id="reasonedPredictionNextButton"
+               class="next-button"
+               onclick="unlockSection('reasoned-builder', 'reasoned-prediction')">
+            Next
+            </button>
+            <p class="completed-note">
+               Completed — next activity unlocked.
+            </p>
          </section>
          <!-- ---------- Reasoned Prediction Builder ---------- -->
          <section
-            class="section"
+            class="section locked"
             id="reasoned-builder">
             <h2 class="section-title">
                Now build your own reasoned prediction
@@ -1567,413 +1123,7 @@
 
       </main>
       <script src="../scripts/common_functions.js"></script>
-      <script>
-         initialiseClassroomLanguageFilter(
-           "../cypher.txt"
-         );
-         
-         const experimentVideoOptions = {
-           water: {
-             name: 'the water experiment',
-         
-             sentenceStarters: [
-               'How does',
-               'What happens to',
-               'Does changing'
-             ],
-         
-             measuring: [
-               'plant height',
-               'number of leaves',
-               'leaf colour',
-               'plant health'
-             ],
-         
-             changing: [
-               'the amount of water',
-               'how often the plant is watered',
-               'the volume of water given'
-             ]
-           },
-         
-           light: {
-             name: 'the sunlight experiment',
-         
-             sentenceStarters: [
-               'How does',
-               'What happens to',
-               'Does changing'
-             ],
-         
-             measuring: [
-               'plant height',
-               'direction of growth',
-               'leaf colour',
-               'number of leaves'
-             ],
-         
-             changing: [
-               'the amount of sunlight',
-               'the number of hours of light',
-               'the distance from the light'
-             ]
-           },
-         
-           temperature: {
-             name: 'the temperature experiment',
-         
-             sentenceStarters: [
-               'How does',
-               'What happens to',
-               'Does changing'
-             ],
-         
-             measuring: [
-               'plant height',
-               'time taken to germinate',
-               'number of leaves',
-               'plant health'
-             ],
-         
-             changing: [
-               'the temperature',
-               'where the plant is kept',
-               'the warmth of the environment'
-             ]
-           }
-         };
-         
-         function fillInvestigationSelect(selectId, options) {
-           const select = document.getElementById(selectId);
-         
-           select.innerHTML =
-             '<option value="">Choose an option</option>';
-         
-           options.forEach(optionText => {
-             const option = document.createElement('option');
-         
-             option.value = optionText;
-             option.textContent = optionText;
-         
-             select.appendChild(option);
-           });
-         }
-         
-         function selectExperimentVideo(videoId, selectedCard) {
-           const selectedVideo =
-             experimentVideoOptions[videoId];
-         
-           if (!selectedVideo) {
-             return;
-           }
-         
-           document
-             .querySelectorAll('.experiment-video-card')
-             .forEach(card => {
-               card.classList.remove('selected');
-         
-               const video = card.querySelector('video');
-         
-               if (video) {
-                 video.pause();
-               }
-             });
-         
-           selectedCard.classList.add('selected');
-         
-           const selectedVideoElement =
-             selectedCard.querySelector('video');
-         
-           if (selectedVideoElement) {
-             selectedVideoElement.play().catch(() => {
-               /*
-                 Some browsers may prevent automatic playback.
-                 The dropdown menus will still work.
-               */
-             });
-           }
-         
-           document.getElementById(
-             'selectedVideoName'
-           ).textContent = selectedVideo.name;
-         
-           fillInvestigationSelect(
-             'sentenceStarter',
-             selectedVideo.sentenceStarters
-           );
-         
-           fillInvestigationSelect(
-             'measuringVariable',
-             selectedVideo.measuring
-           );
-         
-           fillInvestigationSelect(
-             'changingVariable',
-             selectedVideo.changing
-           );
-         
-           document.getElementById(
-             'investigationMenus'
-           ).hidden = false;
-         }
-         
-         function submitInvestigationQuestionOnEnter(event, questionNumber) {
-         if (event.key === 'Enter') {
-           event.preventDefault();
-         
-           submitInvestigationQuestion(questionNumber);
-         }
-         }
-         
-         function updateQuestionBuilderNextButton() {
-         const question1 =
-           document.querySelector(
-             '#investigationQuestionList1 li'
-           );
-         
-         const question2 =
-           document.querySelector(
-             '#investigationQuestionList2 li'
-           );
-         
-         const question3 =
-           document.querySelector(
-             '#investigationQuestionList3 li'
-           );
-         
-         const nextButton = document.getElementById(
-           'questionBuilderNextButton'
-         );
-         
-         const allQuestionsCompleted =
-           question1 && question2 && question3;
-         
-         nextButton.hidden = !allQuestionsCompleted;
-         }
-         
-         function getInvestigationQuestion(questionNumber) {
-         const answerElement = document.querySelector(
-           '#investigationQuestionList' +
-           questionNumber +
-           ' li span'
-         );
-         
-         if (!answerElement) {
-           return '';
-         }
-         
-         return answerElement.textContent.trim();
-         }
-         
-         function populateQuestionChoiceDropdown() {
-         const select = document.getElementById(
-           'favouriteQuestionSelect'
-         );
-         
-         select.innerHTML =
-           '<option value="">Choose a question</option>';
-         
-         for (let questionNumber = 1; questionNumber <= 3; questionNumber++) {
-           const question =
-             getInvestigationQuestion(questionNumber);
-         
-           if (question === '') {
-             continue;
-           }
-         
-           const option = document.createElement('option');
-         
-           option.value = question;
-           option.textContent =
-             'Question ' + questionNumber + ': ' + question;
-         
-           select.appendChild(option);
-         }
-         
-         /*
-           Reset the selected-question and prediction areas
-           whenever this section is opened.
-         */
-         select.value = '';
-         
-         document.getElementById(
-           'chosenQuestionDisplay'
-         ).hidden = true;
-         
-         document.getElementById(
-           'predictionActivity'
-         ).hidden = true;
-         
-         document.getElementById(
-           'chosenQuestionText'
-         ).textContent = '';
-         }
-         
-         function openQuestionChoiceSection() {
-         populateQuestionChoiceDropdown();
-         
-         unlockSection(
-           'question-choice',
-           'question-builder'
-         );
-         }
-         
-         function showChosenQuestion() {
-         const select = document.getElementById(
-           'favouriteQuestionSelect'
-         );
-         
-         const chosenQuestionDisplay =
-           document.getElementById(
-             'chosenQuestionDisplay'
-           );
-         
-         const chosenQuestionText =
-           document.getElementById(
-             'chosenQuestionText'
-           );
-         
-         const predictionActivity =
-           document.getElementById(
-             'predictionActivity'
-           );
-         
-         const chosenQuestion = select.value;
-         
-         if (chosenQuestion === '') {
-           chosenQuestionDisplay.hidden = true;
-           predictionActivity.hidden = true;
-           chosenQuestionText.textContent = '';
-         
-           return;
-         }
-         
-         chosenQuestionText.textContent =
-           chosenQuestion;
-         
-         chosenQuestionDisplay.hidden = false;
-         predictionActivity.hidden = false;
-         }
-         
-         function submitPredictionOnEnter(event, answerType) {
-         if (event.key === 'Enter') {
-           event.preventDefault();
-           submitPredictionAnswer(answerType);
-         }
-         }
-         
-         function submitPredictionAnswer(answerType) {
-         let input;
-         let list;
-         
-         if (answerType === 'prediction') {
-           input = document.getElementById('predictionInput');
-           list = document.getElementById('predictionList');
-         } else {
-           input = document.getElementById('predictionReasonInput');
-           list = document.getElementById('predictionReasonList');
-         }
-         
-         const answer =
-         input.value.trim();
-         
-         if (answer === "") {
-         return;
-         }
-         
-         if (containsProfanity(answer)) {
-         input.value = "";
-         input.focus();
-         return;
-         }
-         
-         list.innerHTML = '';
-         
-         const listItem = document.createElement('li');
-         
-         const answerText = document.createElement('span');
-         answerText.textContent = answer;
-         
-         const deleteButton = document.createElement('button');
-         deleteButton.type = 'button';
-         deleteButton.textContent = '×';
-         deleteButton.className = 'delete-answer';
-         
-         deleteButton.onclick = function() {
-           listItem.remove();
-           input.value = '';
-           input.focus();
-         };
-         
-         listItem.appendChild(answerText);
-         listItem.appendChild(deleteButton);
-         
-         list.appendChild(listItem);
-         
-         input.value = '';
-         }
-         
-         function submitInvestigationQuestion(questionNumber) {
-         const input = document.getElementById(
-           'investigationQuestionInput' + questionNumber
-         );
-         
-         const list = document.getElementById(
-           'investigationQuestionList' + questionNumber
-         );
-         
-         const answer =
-         input.value.trim();
-         
-         if (answer === "") {
-         return;
-         }
-         
-         if (containsProfanity(answer)) {
-         input.value = "";
-         input.focus();
-         return;
-         }
-         
-         /*
-           Keep only one submitted answer in each question box.
-           This prevents multiple answers being added to the
-           same numbered question.
-         */
-         list.innerHTML = '';
-         
-         const listItem = document.createElement('li');
-         
-         const answerText = document.createElement('span');
-         answerText.textContent = answer;
-         
-         const deleteButton = document.createElement('button');
-         deleteButton.type = 'button';
-         deleteButton.textContent = '×';
-         deleteButton.className = 'delete-answer';
-         deleteButton.setAttribute(
-           'aria-label',
-           'Delete question ' + questionNumber
-         );
-         
-         deleteButton.onclick = function() {
-           listItem.remove();
-           input.value = '';
-           input.focus();
-           updateQuestionBuilderNextButton();
-         };
-         
-         listItem.appendChild(answerText);
-         listItem.appendChild(deleteButton);
-         
-         list.appendChild(listItem);
-         
-         input.value = '';
-         
-         updateQuestionBuilderNextButton();
-         }
-         
-      </script>
+      
       <!-- Question Wheel Script -->
       <script>
          const questionWheel =

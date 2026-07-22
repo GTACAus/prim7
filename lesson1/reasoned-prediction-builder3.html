@@ -743,11 +743,31 @@ body {
       updatePrediction();
     }
 
+    let hasCleared = false;
+    conditionOneInput.addEventListener("input", () => {
+      if (!hasCleared && containsProfanity(conditionOneInput.value.trim())) {
+        conditionOneInput.value = "";
+        hasCleared = true;
+      }
+      if (conditionOneInput.value === "") hasCleared = false;
+    });
+    conditionTwoInput.addEventListener("input", () => {
+      if (!hasCleared && containsProfanity(conditionTwoInput.value.trim())) {
+        conditionTwoInput.value = "";
+        hasCleared = true;
+      }
+      if (conditionTwoInput.value === "") hasCleared = false;
+    });
+
     function getCausePhrase() {
       const change = builderState.change;
       if (change === "" || selectedCause === "") {
         return "";
       }
+
+      
+      const conditionOne = (containsProfanity(conditionOneInput.value.trim())) ? "" : conditionOneInput.value.trim();
+      const conditionTwo = (containsProfanity(conditionTwoInput.value.trim())) ? "" : conditionTwoInput.value.trim();
 
       const causePhrases = {
   increase:
@@ -760,17 +780,17 @@ body {
     "If I change " +
     change +
     " from " +
-    (conditionOneInput.value.trim() || "condition 1") +
+    (conditionOne || "condition 1") +
     " to " +
-    (conditionTwoInput.value.trim() || "condition 2"),
+    (conditionTwo || "condition 2"),
 
   "condition-two-to-one":
     "If I change " +
     change +
     " from " +
-    (conditionTwoInput.value.trim() || "condition 2") +
+    (conditionTwo || "condition 2") +
     " to " +
-    (conditionOneInput.value.trim() || "condition 1")
+    (conditionOne || "condition 1")
 };
 
       return causePhrases[selectedCause] || "";
