@@ -702,3 +702,58 @@ document.addEventListener("keydown", function(event) {
     closeVideoModal();
   }
 });
+
+/* ==================================================
+   SHARED SAVE-AS-PDF FUNCTION
+   ================================================== */
+
+    /* ---------- Download completed lesson as PDF ---------- */
+
+let sectionsLockedBeforePrint = [];
+
+function downloadLessonPDF() {
+  /*
+    Make sure the most recent student answers are saved
+    before opening the print window.
+  */
+  saveLesson1Data();
+
+  /*
+    Remember which sections were still locked so that
+    they can be restored after printing.
+  */
+  sectionsLockedBeforePrint = Array.from(
+    document.querySelectorAll('.section.locked')
+  );
+
+  /*
+    Temporarily show the entire lesson in the PDF.
+  */
+  sectionsLockedBeforePrint.forEach(section => {
+    section.classList.remove('locked');
+  });
+
+  document.body.classList.add('printing-lesson');
+
+  /*
+    Give the browser a moment to redraw the newly
+    revealed sections before opening Print.
+  */
+  setTimeout(function() {
+    window.print();
+  }, 300);
+}
+
+window.addEventListener('afterprint', function() {
+  /*
+    Restore the page to exactly how it looked before
+    the student downloaded it.
+  */
+  sectionsLockedBeforePrint.forEach(section => {
+    section.classList.add('locked');
+  });
+
+  sectionsLockedBeforePrint = [];
+
+  document.body.classList.remove('printing-lesson');
+});
