@@ -645,3 +645,60 @@ function teacherResetView() {
     behavior: "smooth"
   });
 }
+
+/* ==================================================
+   SHARED VIDEO MODAL
+   ================================================== */
+
+function openVideoModal(videoSource, videoTitle) {
+  const modal = document.getElementById("videoModal");
+  const player = document.getElementById("videoModalPlayer");
+  const title = document.getElementById("videoModalTitle");
+
+  if (!modal || !player) {
+    return;
+  }
+
+  player.src = videoSource;
+
+  if (title) {
+    title.textContent = videoTitle || "Video guide";
+  }
+
+  modal.style.display = "block";
+  document.body.style.overflow = "hidden";
+
+  player.load();
+}
+
+
+function closeVideoModal() {
+  const modal = document.getElementById("videoModal");
+  const player = document.getElementById("videoModalPlayer");
+
+  if (!modal || !player) {
+    return;
+  }
+
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+
+  modal.style.display = "none";
+  document.body.style.overflow = "";
+}
+
+window.addEventListener("click", function(event) {
+  const videoModal = document.getElementById("videoModal");
+
+  if (videoModal && event.target === videoModal) {
+    closeVideoModal();
+  }
+});
+
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    closeVideoModal();
+  }
+});

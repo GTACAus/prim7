@@ -770,10 +770,56 @@
                Now build your own reasoned prediction
             </h2>
             <div class="diagram-box diagram-activity">
-               <p class="activity-instruction">
-                  Use the organiser below to construct a reasoned prediction
-                  for your investigation question.
-               </p>
+              <p class="activity-instruction">
+                Use the organiser below to construct a reasoned prediction
+                for your investigation question.
+              </p>
+
+              <div class="video-help-buttons">
+                <button
+                  type="button"
+                  class="general-button"
+                  onclick="openVideoModal('../videos/reasoned-prediction-v2.mp4', 'Video guide 1')">
+                  ▶ Watch video guide 1
+                </button>
+
+                <button
+                  type="button"
+                  class="general-button"
+                  onclick="openVideoModal('../videos/reasoned-prediction-example.mp4', 'Video guide 2')">
+                  ▶ Watch video guide 2
+                </button>
+              </div>
+            </div>
+            <!-- Shared video modal -->
+            <div
+              class="modal video-modal"
+              id="videoModal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="videoModalTitle">
+
+              <div class="modal-content video-modal-content">
+                <div class="modal-header">
+                  <h2 id="videoModalTitle">Video guide</h2>
+
+                  <button
+                    type="button"
+                    class="close-button"
+                    onclick="closeVideoModal()"
+                    aria-label="Close video">
+                    ×
+                  </button>
+                </div>
+
+                <video
+                  id="videoModalPlayer"
+                  class="video-modal-player"
+                  controls
+                  preload="metadata">
+                  Your browser does not support video playback.
+                </video>
+              </div>
             </div>
             <iframe
                src="reasoned-prediction-builder3.html"

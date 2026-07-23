@@ -3982,3 +3982,52 @@ height: 44px;
     width: 100%;
   }
 }
+
+/* ==================================================
+   SHARED VIDEO MODAL
+   ================================================== */
+
+.video-help-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 16px;
+}
+
+.video-modal {
+  overflow-y: auto;
+}
+
+.video-modal-content {
+  width: min(900px, 100%);
+}
+
+.video-modal-player {
+  display: block;
+
+  width: 100%;
+  max-height: 70vh;
+
+  background: #101110;
+
+  border: 3px solid var(--line);
+  border-radius: 16px;
+}
+
+
+@media (max-width: 600px) {
+  .video-help-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .video-help-buttons .general-button {
+    width: 100%;
+  }
+
+  .video-modal-content {
+    margin: 20px auto;
+    padding: 18px;
+  }
+}
