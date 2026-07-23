@@ -787,10 +787,10 @@ if (containsProfanity(answer)) {
 
 /* ---------- Save and restore Lesson 1 answers ---------- */
 
-const LESSON1_SAVE_KEY = 'plantExplorerLesson1Save';
+const PRETASK_SAVE_KEY = 'plantExplorerPretaskSave';
 
-let lesson1IsRestoring = false;
-let lesson1SaveTimer = null;
+let pretaskIsRestoring = false;
+let pretaskSaveTimer = null;
 
 /*
   Read the visible text from an answer that may also
@@ -813,7 +813,7 @@ function getAnswerText(element) {
 /*
   Collect the student's current answers and opened sections.
 */
-function collectLesson1Data() {
+function collectPretaskData() {
   const data = {
     stw: {
       see: [],
@@ -961,16 +961,16 @@ function collectLesson1Data() {
 /*
   Save everything to this browser.
 */
-function saveLesson1Data() {
-  if (lesson1IsRestoring) {
+function saveCurrentPageData() {
+  if (pretaskIsRestoring) {
     return;
   }
 
-  const data = collectLesson1Data();
+  const data = collectPretaskData();
   console.log(data.plantBuilding);
 
   localStorage.setItem(
-    LESSON1_SAVE_KEY,
+    PRETASK_SAVE_KEY,
     JSON.stringify(data)
   );
 
@@ -980,15 +980,15 @@ function saveLesson1Data() {
 /*
   Avoid saving many times during one quick action.
 */
-function scheduleLesson1Save() {
-  if (lesson1IsRestoring) {
+function schedulePretaskSave() {
+  if (pretaskIsRestoring) {
     return;
   }
 
-  clearTimeout(lesson1SaveTimer);
+  clearTimeout(pretaskSaveTimer);
 
-  lesson1SaveTimer = setTimeout(() => {
-    saveLesson1Data();
+  pretaskSaveTimer = setTimeout(() => {
+    saveCurrentPageData();
   }, 150);
 }
 
@@ -1114,9 +1114,9 @@ function restoreFinalBrainstorm(savedFinalBrainstorm) {
 /*
   Restore all saved progress when the page opens.
 */
-function restoreLesson1Data() {
+function restorePretaskData() {
   const savedText = localStorage.getItem(
-    LESSON1_SAVE_KEY
+    PRETASK_SAVE_KEY
   );
 
   if (!savedText) {
@@ -1136,7 +1136,7 @@ function restoreLesson1Data() {
     return;
   }
 
-  lesson1IsRestoring = true;
+  pretaskIsRestoring = true;
 
   /*
     Restore opened sections first so their elements
@@ -1229,7 +1229,7 @@ completedSections.forEach(sectionId => {
     savedData.finalBrainstorm || {}
   );
 
-  lesson1IsRestoring = false;
+  pretaskIsRestoring = false;
 
   console.log('Lesson 1 progress restored.');
 }
@@ -1237,8 +1237,8 @@ completedSections.forEach(sectionId => {
 /*
   Watch answer areas for additions or deletions.
 */
-const lesson1Observer = new MutationObserver(() => {
-  scheduleLesson1Save();
+const pretaskObserver = new MutationObserver(() => {
+  schedulePretaskSave();
 });
 
 /*
@@ -1263,7 +1263,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   areasToWatch.forEach(area => {
     if (area) {
-      lesson1Observer.observe(area, {
+      pretaskObserver.observe(area, {
         childList: true,
         subtree: true,
         attributes: true,
@@ -1272,7 +1272,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  restoreLesson1Data();
+  restorePretaskData();
 });
 
 /*
@@ -1292,7 +1292,7 @@ document.addEventListener('click', function(event) {
   }
 
   setTimeout(function() {
-    saveLesson1Data();
+    saveCurrentPageData();
   }, 250);
 });
 
@@ -1444,57 +1444,6 @@ document.addEventListener('keydown', function(event) {
         }
       }
     )();
-
-    /* ---------- Download completed lesson as PDF ---------- */
-
-let sectionsLockedBeforePrint = [];
-
-function downloadLessonPDF() {
-  /*
-    Make sure the most recent student answers are saved
-    before opening the print window.
-  */
-  saveLesson1Data();
-
-  /*
-    Remember which sections were still locked so that
-    they can be restored after printing.
-  */
-  sectionsLockedBeforePrint = Array.from(
-    document.querySelectorAll('.section.locked')
-  );
-
-  /*
-    Temporarily show the entire lesson in the PDF.
-  */
-  sectionsLockedBeforePrint.forEach(section => {
-    section.classList.remove('locked');
-  });
-
-  document.body.classList.add('printing-lesson');
-
-  /*
-    Give the browser a moment to redraw the newly
-    revealed sections before opening Print.
-  */
-  setTimeout(function() {
-    window.print();
-  }, 300);
-}
-
-window.addEventListener('afterprint', function() {
-  /*
-    Restore the page to exactly how it looked before
-    the student downloaded it.
-  */
-  sectionsLockedBeforePrint.forEach(section => {
-    section.classList.add('locked');
-  });
-
-  sectionsLockedBeforePrint = [];
-
-  document.body.classList.remove('printing-lesson');
-});
   </script>
 
 
