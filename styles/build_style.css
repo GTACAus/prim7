@@ -29,6 +29,9 @@
 
   --shadow-small: 0 4px 0 var(--charcoal);
   --shadow-medium: 0 6px 0 var(--charcoal);
+
+  touch-action: pan-x pan-y;
+  height: 100% 
 }
 
     * {
@@ -945,12 +948,6 @@
       font-weight: 600;
       cursor: pointer;
     }
-
-:root {
-  touch-action: pan-x pan-y;
-  height: 100% 
-}
-
 
     .home-button {
       justify-self: start;
