@@ -69,7 +69,6 @@ function showCard() {
 		document.getElementById('btn-uninvestigable').disabled = true;
 		const nextButton = window.parent.document.getElementById("flashcardsNextButton");
 		nextButton.hidden = false;
-
 	}
 }
 

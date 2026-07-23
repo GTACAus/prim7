@@ -835,6 +835,8 @@ body {
       }
       if (fullPrediction !== "" && reason !== "") {
         fullPrediction += " This is because " + reason + ".";
+        const nextButton = window.parent.document.getElementById("reasonedBuilderNextButton");
+		    nextButton.hidden = false;
       }
 
       setGeneratedText(

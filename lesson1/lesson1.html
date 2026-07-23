@@ -148,13 +148,16 @@
         margin-top: 18px;
       }
    </style>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
    <body>
       <div id="top"></div>
       <!-- Top anchor for scrolling -->
       <!-- Vocabulary Button -->
       <header class="page-header">
-        <button class="home-button">
-          <a href="../index.html">🏠 Home</a>
+        <button class="home-button" onclick="window.location.href='../index.html'">🏠 Home
+          <!-- <a href="../index.html">🏠 Home</a> -->
         </button>
         <button class="glossary-button" onclick="openGlossary()">📖 Vocabulary</button>
       </header>
@@ -692,7 +695,8 @@
             <button
                id="testableQuestionsNextButton"
                class="next-button"
-               onclick="unlockSection('reasoned-prediction', 'testable-questions')">
+               onclick="unlockSection('reasoned-prediction', 'testable-questions')"
+               hidden>
             Next
             </button>
             <p class="completed-note">
@@ -845,7 +849,8 @@
               id="reasonedBuilderNextButton"
               type="button"
               class="next-button"
-              onclick="unlockSection('testing-predictions', 'reasoned-builder')">
+              onclick="unlockSection('testing-predictions', 'reasoned-builder')"
+              hidden>
               Next
             </button>
 
@@ -1992,6 +1997,11 @@
          
          usedQuestionStarters.add(questionStructure.word);
          
+         if (usedQuestionStarters.size === 2) {
+          const nextButton = document.getElementById("testableQuestionsNextButton");
+          nextButton.hidden = false;
+         }
+
          if (usedQuestionStarters.size === questionStructures.length) {
            spinQuestionWheelButton.disabled = true;
            wheelResult.textContent =
