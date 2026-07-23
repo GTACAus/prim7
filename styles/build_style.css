@@ -108,9 +108,9 @@
 }
 
 .save-work-button {
-  position: fixed;
-  top: 80px;
-  right: 20px;
+  position: absolute;
+  top: 140px;
+  right: 30px;
 
   display: inline-flex;
   align-items: center;
@@ -930,7 +930,7 @@
       grid-template-columns: auto 1fr auto;
       align-items: center;
 
-      z-index: 1000;
+      z-index: 2000;
     }
 
     .home-button,
@@ -2704,9 +2704,9 @@ height: 44px;
 }
 
 .worksheet-button {
-  position: fixed;
-  top: 20px;
-  right: 190px;
+  position: absolute;
+  top: 80px;
+  right: 30px;
 
   display: inline-flex;
   align-items: center;
@@ -3560,23 +3560,22 @@ height: 44px;
   }
 
   .page-header {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
+    width: auto;
+    max-width: none;
+
+    left: 14px;
+    right: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .home-button,
   .glossary-button {
-    grid-column: 2;
-    justify-self: end;
-  }
-
-  .home-button {
-    grid-row: 1;
-  }
-
-  .glossary-button {
-    grid-row: 2;
-    margin-top: 0.5rem;
+    margin: 0;
+    white-space: nowrap;
   }
 
   .worksheet-button {
@@ -3781,62 +3780,43 @@ height: 44px;
   line-height: 1.6;
 }
 
+/* ---------- Single experiment result image ---------- */
 
-/* ---------- Experiment result images ---------- */
+.prediction-results-heading {
+  margin: 22px 0 10px;
 
-.prediction-result-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  color: var(--purple);
 
-  margin: 0 20px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.prediction-result-image {
+  width: 100%;
+  margin-bottom: 20px;
   padding: 18px;
 
   background: var(--soft-green);
+
   border: 2px dashed var(--green);
   border-radius: 18px;
 }
 
-.prediction-result-gallery-three {
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-}
-
-.prediction-result {
-  overflow: hidden;
-
-  margin: 0;
-
-  background: white;
-  border: 2px solid var(--line);
-  border-radius: 15px;
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
-}
-
-.prediction-result img {
+.prediction-result-image img {
   display: block;
 
   width: 100%;
-  aspect-ratio: 16 / 10;
+  max-width: 850px;
+  height: auto;
 
-  object-fit: contain;
+  margin: 0 auto;
 
   background: white;
+
+  border: 2px solid var(--line);
+  border-radius: 14px;
 }
 
-.prediction-result figcaption {
-  padding: 9px 12px;
-
-  background: var(--paper);
-  border-top: 2px solid var(--line);
-
-  color: var(--text);
-
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-align: center;
-}
 
 
 /* ---------- Safety note ---------- */
@@ -3983,9 +3963,7 @@ height: 44px;
 /* ---------- Responsive layout ---------- */
 
 @media (max-width: 800px) {
-  .prediction-statement-grid,
-  .prediction-result-gallery,
-  .prediction-result-gallery-three {
+  .prediction-statement-grid{
     grid-template-columns: 1fr;
   }
 
@@ -4001,5 +3979,54 @@ height: 44px;
 
   .prediction-choice-button {
     width: 100%;
+  }
+}
+
+/* ==================================================
+   SHARED VIDEO MODAL
+   ================================================== */
+
+.video-help-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 16px;
+}
+
+.video-modal {
+  overflow-y: auto;
+}
+
+.video-modal-content {
+  width: min(900px, 100%);
+}
+
+.video-modal-player {
+  display: block;
+
+  width: 100%;
+  max-height: 70vh;
+
+  background: #101110;
+
+  border: 3px solid var(--line);
+  border-radius: 16px;
+}
+
+
+@media (max-width: 600px) {
+  .video-help-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .video-help-buttons .general-button {
+    width: 100%;
+  }
+
+  .video-modal-content {
+    margin: 20px auto;
+    padding: 18px;
   }
 }
