@@ -108,9 +108,9 @@
 }
 
 .save-work-button {
-  position: fixed;
-  top: 80px;
-  right: 20px;
+  position: absolute;
+  top: 140px;
+  right: 30px;
 
   display: inline-flex;
   align-items: center;
@@ -930,7 +930,7 @@
       grid-template-columns: auto 1fr auto;
       align-items: center;
 
-      z-index: 1000;
+      z-index: 2000;
     }
 
     .home-button,
@@ -2704,9 +2704,9 @@ height: 44px;
 }
 
 .worksheet-button {
-  position: fixed;
-  top: 20px;
-  right: 190px;
+  position: absolute;
+  top: 80px;
+  right: 30px;
 
   display: inline-flex;
   align-items: center;
@@ -3560,23 +3560,22 @@ height: 44px;
   }
 
   .page-header {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
+    width: auto;
+    max-width: none;
+
+    left: 14px;
+    right: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .home-button,
   .glossary-button {
-    grid-column: 2;
-    justify-self: end;
-  }
-
-  .home-button {
-    grid-row: 1;
-  }
-
-  .glossary-button {
-    grid-row: 2;
-    margin-top: 0.5rem;
+    margin: 0;
+    white-space: nowrap;
   }
 
   .worksheet-button {
@@ -4030,22 +4029,4 @@ height: 44px;
     margin: 20px auto;
     padding: 18px;
   }
-}
-
-/* ---------- Pre-task top buttons only ---------- */
-
-.pretask-page .page-header {
-  z-index: 2000;
-}
-
-.pretask-page .worksheet-button {
-  position: absolute;
-  top: 80px;
-  right: 30px;
-}
-
-.pretask-page .save-work-button {
-  position: absolute;
-  top: 140px;
-  right: 30px;
 }

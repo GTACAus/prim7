@@ -19,13 +19,24 @@
 <body>
   <div id="top"></div>
   
-  <button class="glossary-button" onclick="openGlossary()">
-  📖 Vocabulary
-</button>
+  <header class="page-header">
+
+  <a href="#top" class="home-button">
+    🏠 Return to Top
+  </a>
+
+  <button
+    type="button"
+    class="glossary-button"
+    onclick="openGlossary()">
+    📖 Vocabulary
+  </button>
+
+</header>
 
 <a
   class="worksheet-button"
-  href="worksheets\PRIM7 Lesson 1 What do plants need to survive.pdf"
+  href="worksheets/PRIM7 Lesson 1 What do plants need to survive.pdf"
   download>
   📄 Download worksheet
 </a>
@@ -36,10 +47,6 @@
   onclick="downloadLessonPDF()">
   💾 Save my work
 </button>
-
-<a href="#top" class="home-button">
-  🏠 Return to Top
-</a>
 
   <div class="modal" id="glossaryModal">
   <div class="modal-content">
