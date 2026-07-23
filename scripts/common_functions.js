@@ -450,3 +450,198 @@ function updatePredictionTestCompletion() {
     });
   }
 }
+
+/* ==================================================
+   SHARED TEACHER NAVIGATION
+   ================================================== */
+
+let teacherNavigationSectionIds = [];
+let teacherNavigationFirstSectionId = "";
+
+let teacherClickCount = 0;
+let teacherClickTimer = null;
+
+
+/*
+  Set up the hidden teacher menu for the current page.
+
+  Each lesson supplies:
+  1. The section IDs used on that page.
+  2. The section that should remain open when the
+     student view is reset.
+*/
+function initialiseTeacherMenu(
+  sectionIds,
+  firstSectionId
+) {
+  const teacherTrigger =
+    document.getElementById("teacherTrigger");
+
+  const teacherModal =
+    document.getElementById("teacherModal");
+
+  if (!teacherTrigger || !teacherModal) {
+    return;
+  }
+
+  teacherNavigationSectionIds =
+    Array.isArray(sectionIds)
+      ? sectionIds
+      : [];
+
+  teacherNavigationFirstSectionId =
+    firstSectionId || teacherNavigationSectionIds[0] || "";
+
+  teacherTrigger.addEventListener(
+    "click",
+    function() {
+      teacherClickCount += 1;
+
+      clearTimeout(teacherClickTimer);
+
+      teacherClickTimer =
+        window.setTimeout(
+          function() {
+            teacherClickCount = 0;
+          },
+          1800
+        );
+
+      if (teacherClickCount >= 5) {
+        teacherClickCount = 0;
+
+        clearTimeout(teacherClickTimer);
+
+        openTeacherMenu();
+      }
+    }
+  );
+
+  teacherModal.addEventListener(
+    "click",
+    function(event) {
+      if (event.target === teacherModal) {
+        closeTeacherMenu();
+      }
+    }
+  );
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+      if (event.key === "Escape") {
+        closeTeacherMenu();
+      }
+    }
+  );
+}
+
+
+/*
+  Open the hidden teacher navigation menu.
+*/
+function openTeacherMenu() {
+  const teacherModal =
+    document.getElementById("teacherModal");
+
+  if (teacherModal) {
+    teacherModal.classList.add("open");
+  }
+}
+
+
+/*
+  Close the hidden teacher navigation menu.
+*/
+function closeTeacherMenu() {
+  const teacherModal =
+    document.getElementById("teacherModal");
+
+  if (teacherModal) {
+    teacherModal.classList.remove("open");
+  }
+}
+
+
+/*
+  Open and move to one lesson section without marking
+  earlier activities as completed.
+*/
+function teacherJump(sectionId) {
+  const section =
+    document.getElementById(sectionId);
+
+  if (!section) {
+    return;
+  }
+
+  section.classList.remove("locked");
+
+  closeTeacherMenu();
+
+  window.setTimeout(
+    function() {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    },
+    100
+  );
+}
+
+
+/*
+  Reveal every section listed by the current lesson.
+*/
+function teacherShowAll() {
+  teacherNavigationSectionIds.forEach(
+    function(sectionId) {
+      const section =
+        document.getElementById(sectionId);
+
+      if (section) {
+        section.classList.remove("locked");
+      }
+    }
+  );
+
+  closeTeacherMenu();
+}
+
+
+/*
+  Return the page to its original student-navigation state.
+
+  This changes section visibility and completion markers,
+  but does not remove student answers.
+*/
+function teacherResetView() {
+  teacherNavigationSectionIds.forEach(
+    function(sectionId) {
+      const section =
+        document.getElementById(sectionId);
+
+      if (!section) {
+        return;
+      }
+
+      section.classList.remove("completed");
+
+      if (
+        sectionId === teacherNavigationFirstSectionId
+      ) {
+        section.classList.remove("locked");
+      } else {
+        section.classList.add("locked");
+      }
+    }
+  );
+
+  closeTeacherMenu();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}

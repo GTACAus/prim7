@@ -3781,62 +3781,43 @@ height: 44px;
   line-height: 1.6;
 }
 
+/* ---------- Single experiment result image ---------- */
 
-/* ---------- Experiment result images ---------- */
+.prediction-results-heading {
+  margin: 22px 0 10px;
 
-.prediction-result-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  color: var(--purple);
 
-  margin: 0 20px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.prediction-result-image {
+  width: 100%;
+  margin-bottom: 20px;
   padding: 18px;
 
   background: var(--soft-green);
+
   border: 2px dashed var(--green);
   border-radius: 18px;
 }
 
-.prediction-result-gallery-three {
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-}
-
-.prediction-result {
-  overflow: hidden;
-
-  margin: 0;
-
-  background: white;
-  border: 2px solid var(--line);
-  border-radius: 15px;
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
-}
-
-.prediction-result img {
+.prediction-result-image img {
   display: block;
 
   width: 100%;
-  aspect-ratio: 16 / 10;
+  max-width: 850px;
+  height: auto;
 
-  object-fit: contain;
+  margin: 0 auto;
 
   background: white;
+
+  border: 2px solid var(--line);
+  border-radius: 14px;
 }
 
-.prediction-result figcaption {
-  padding: 9px 12px;
-
-  background: var(--paper);
-  border-top: 2px solid var(--line);
-
-  color: var(--text);
-
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-align: center;
-}
 
 
 /* ---------- Safety note ---------- */
@@ -3983,9 +3964,7 @@ height: 44px;
 /* ---------- Responsive layout ---------- */
 
 @media (max-width: 800px) {
-  .prediction-statement-grid,
-  .prediction-result-gallery,
-  .prediction-result-gallery-three {
+  .prediction-statement-grid{
     grid-template-columns: 1fr;
   }
 

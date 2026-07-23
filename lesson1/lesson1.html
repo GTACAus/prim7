@@ -230,6 +230,109 @@
             </div>
          </div>
       </div>
+
+            <!-- ---------- Hidden Teacher Menu ---------- -->
+
+      <div
+          class="teacher-modal"
+          id="teacherModal">
+
+          <div class="teacher-panel">
+
+              <div class="teacher-panel-header">
+
+                  <div>
+                      <p class="teacher-label">
+                          Teacher tools
+                      </p>
+
+                      <h2>
+                          Jump to an activity
+                      </h2>
+                  </div>
+
+                  <button
+                      type="button"
+                      class="teacher-close"
+                      onclick="closeTeacherMenu()"
+                      aria-label="Close teacher menu">
+                      ×
+                  </button>
+
+              </div>
+
+              <div class="teacher-section-list">
+
+                  <button
+                      type="button"
+                      onclick="teacherJump('observe-experiment')">
+                      1. Observe the experiment
+                  </button>
+
+                  <button
+                      type="button"
+                      onclick="teacherJump('testable-question-intro')">
+                      2. What is a testable question?
+                  </button>
+
+                  <button
+                      type="button"
+                      onclick="teacherJump('flashcards')">
+                      3. Investigable or non-investigable?
+                  </button>
+
+                  <button
+                      type="button"
+                      onclick="teacherJump('testable-questions')">
+                      4. Write testable questions
+                  </button>
+
+                  <button
+                      type="button"
+                      onclick="teacherJump('reasoned-prediction')">
+                      5. Writing a reasoned prediction
+                  </button>
+
+                  <button
+                      type="button"
+                      onclick="teacherJump('reasoned-builder')">
+                      6. Build a reasoned prediction
+                  </button>
+
+                  <button
+                      type="button"
+                      onclick="teacherJump('testing-predictions')">
+                      7. Test reasoned predictions
+                  </button>
+
+              </div>
+
+              <div class="teacher-actions">
+
+                  <button
+                      type="button"
+                      class="teacher-secondary-button"
+                      onclick="teacherShowAll()">
+                      Show all sections
+                  </button>
+
+                  <button
+                      type="button"
+                      class="teacher-secondary-button"
+                      onclick="teacherResetView()">
+                      Reset student view
+                  </button>
+
+              </div>
+
+              <p class="teacher-note">
+                  Teacher mode changes navigation only. Student answers are not deleted.
+              </p>
+
+          </div>
+
+      </div>
+
       <main class="page">
          <!-- ---------- Header ---------- --> 
          <header class="lesson-intro">
@@ -238,9 +341,11 @@
                <span class="lesson-label">
                Lesson 1
                </span>
-               <h1>
+               <h1
+                  id="teacherTrigger"
+                  title="Questioning and Predicting">
                   Questioning and Predicting
-               </h1>
+              </h1>
                <p class="lesson-summary">
                   Asking questions and making predictions like a scientist
                </p>
@@ -307,7 +412,7 @@
             </div>
             <div class="image-box">
                <img
-                  src="images/toycar.png"
+                  src="../images/l1-default.png"
                   alt="Toy car example">
             </div>
          </section>
@@ -749,39 +854,16 @@
                     </div>
                 </div>
 
-                <div
-                    class="prediction-result-gallery prediction-result-gallery-three"
-                    aria-label="Results showing increasing ramp angles">
+                <h4 class="prediction-results-heading">
+                    Experiment results
+                </h4>
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-angle-low.png"
-                          alt="Car released from a low ramp angle and stopping near the beginning of the ruler">
+                <div class="prediction-result-image">
 
-                      <figcaption>
-                          Low angle
-                      </figcaption>
-                    </figure>
+                    <img
+                        src="../images/l1-example1.png"
+                        alt="Experiment results">
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-angle-medium.png"
-                          alt="Car released from a medium ramp angle and travelling further along the ruler">
-
-                      <figcaption>
-                          Medium angle
-                      </figcaption>
-                    </figure>
-
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-angle-high.png"
-                          alt="Car released from a higher ramp angle and travelling furthest along the ruler">
-
-                      <figcaption>
-                          Higher angle
-                      </figcaption>
-                    </figure>
                 </div>
 
                 <p class="prediction-safety-note">
@@ -857,29 +939,16 @@
                     </div>
                 </div>
 
-                <div
-                    class="prediction-result-gallery"
-                    aria-label="Results comparing blue and red cars">
+                <h4 class="prediction-results-heading">
+                    Experiment results
+                </h4>
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-blue-car.png"
-                          alt="Blue car travelling down a ramp and stopping at a marked position">
+                <div class="prediction-result-image">
 
-                      <figcaption>
-                          Blue car
-                      </figcaption>
-                    </figure>
+                    <img
+                        src="../images/l1-example2.png"
+                        alt="Experiment results">
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-red-car.png"
-                          alt="Red car travelling down the same ramp and stopping at approximately the same position">
-
-                      <figcaption>
-                          Red car
-                      </figcaption>
-                    </figure>
                 </div>
 
                 <div class="prediction-choice-area">
@@ -950,29 +1019,16 @@
                     </div>
                 </div>
 
-                <div
-                    class="prediction-result-gallery"
-                    aria-label="Results comparing small and large cars">
+                <h4 class="prediction-results-heading">
+                    Experiment results
+                </h4>
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-small-car.png"
-                          alt="Small car travelling down a ramp and stopping at a marked position">
+                <div class="prediction-result-image">
 
-                      <figcaption>
-                          Smaller car
-                      </figcaption>
-                    </figure>
+                    <img
+                        src="../images/l1-example3.png"
+                        alt="Experiment results">
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-large-car.png"
-                          alt="Larger car travelling down the same ramp and travelling further">
-
-                      <figcaption>
-                          Bigger car
-                      </figcaption>
-                    </figure>
                 </div>
 
                 <div class="prediction-choice-area">
@@ -1043,29 +1099,16 @@
                     </div>
                 </div>
 
-                <div
-                    class="prediction-result-gallery"
-                    aria-label="Results comparing cars with small and large wheels">
+                <h4 class="prediction-results-heading">
+                    Experiment results
+                </h4>
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-small-wheels.png"
-                          alt="Car with smaller wheels travelling further along the ruler">
+                <div class="prediction-result-image">
 
-                      <figcaption>
-                          Smaller wheels
-                      </figcaption>
-                    </figure>
+                    <img
+                        src="../images/l1-example4.png"
+                        alt="Experiment results">
 
-                    <figure class="prediction-result">
-                      <img
-                          src="images/ramp-large-wheels.png"
-                          alt="Car with larger wheels stopping before the car with smaller wheels">
-
-                      <figcaption>
-                          Bigger wheels
-                      </figcaption>
-                    </figure>
                 </div>
 
                 <div class="prediction-choice-area">
@@ -1123,6 +1166,20 @@
 
       </main>
       <script src="../scripts/common_functions.js"></script>
+      <script>
+        initialiseTeacherMenu(
+            [
+                "observe-experiment",
+                "testable-question-intro",
+                "flashcards",
+                "testable-questions",
+                "reasoned-prediction",
+                "reasoned-builder",
+                "testing-predictions"
+            ],
+            "observe-experiment"
+        );
+    </script>
       
       <!-- Question Wheel Script -->
       <script>
