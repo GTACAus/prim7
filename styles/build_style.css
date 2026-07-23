@@ -4031,3 +4031,21 @@ height: 44px;
     padding: 18px;
   }
 }
+
+/* ---------- Pre-task top buttons only ---------- */
+
+.pretask-page .page-header {
+  z-index: 2000;
+}
+
+.pretask-page .worksheet-button {
+  position: absolute;
+  top: 80px;
+  right: 30px;
+}
+
+.pretask-page .save-work-button {
+  position: absolute;
+  top: 140px;
+  right: 30px;
+}
