@@ -111,6 +111,7 @@
 }
 
 .save-work-button {
+  margin-top: 12px;
   justify-self: start;
   align-items: center;
 
