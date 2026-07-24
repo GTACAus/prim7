@@ -707,7 +707,7 @@
                   This is called making a reasoned prediction. 
                </p>
                <p class="activity-instruction">
-                  In reasoned prediction you make an educated guess that is based on your knowledge about the relationship between two things. 
+                  In a reasoned prediction you make an educated guess that is based on your knowledge about the relationship between two things. 
                </p>
                <p class="activity-instruction">
                   You can use a graphic organiser to guide you in writing a reasoned prediction.
@@ -1541,26 +1541,69 @@
           ---------------------------------------- */
          
          function connectQuestionInput(
-         input,
          questionCard
-         ) {
-         input.addEventListener(
-           "keydown",
-           function(event) {
-             if (event.key !== "Enter") {
-               return;
-             }
-         
-             event.preventDefault();
-         
-             submitQuestionPart(
-               input,
-               questionCard
-             );
-           }
-         );
-         }
-         
+            input,
+            questionCard
+          ) {
+            let isSubmitting = false;
+
+            function saveQuestionInput() {
+              /*
+                Do nothing if:
+                - this input is already being submitted;
+                - it has already been replaced by an answer chip;
+                - nothing has been typed.
+              */
+              if (
+                isSubmitting ||
+                !input.isConnected ||
+                input.value.trim() === ""
+              ) {
+                return;
+              }
+
+              isSubmitting = true;
+
+              submitQuestionPart(
+                input,
+                questionCard
+              );
+
+              /*
+                If the input still exists, submission may have been
+                blocked, so allow the student to try again.
+              */
+              if (input.isConnected) {
+                isSubmitting = false;
+              }
+            }
+
+            /*
+              Method 1: Press Enter.
+            */
+            input.addEventListener(
+              "keydown",
+              function(event) {
+                if (event.key !== "Enter") {
+                  return;
+                }
+
+                event.preventDefault();
+
+                saveQuestionInput();
+              }
+            );
+
+            /*
+              Method 2: Click or Tab away from the input.
+            */
+            input.addEventListener(
+              "blur",
+              function() {
+                saveQuestionInput();
+              }
+            );
+          }
          
          function submitQuestionPart(
          input,
