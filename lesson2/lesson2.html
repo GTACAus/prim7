@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 2 - Planning and Conducting a Fair Test</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <link
+    href="../styles/build_style.css"
+    rel="stylesheet"
+    type="text/css">
+
+  <style>
+    /* ==================================================
+       LESSON 2-SPECIFIC SKELETON STYLES
+       Keep shared styles in build_style.css.
+       These can be refined or moved later.
+       ================================================== */
+
+    .fair-test-formula {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .formula-step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+    }
+
+    .formula-step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      font-weight: 700;
+      background: var(--yellow);
+    }
+
+    .formula-step.measure .formula-step-number {
+      background: var(--soft-purple);
+    }
+
+    .formula-step.control .formula-step-number {
+      background: var(--soft-green);
+    }
+
+    .formula-step strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+    }
+
+    .formula-step span {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .hook-image-box {
+      min-height: 500px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--soft-blue);
+      border: 2px dashed var(--line);
+      border-radius: 20px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .hook-image-placeholder {
+      max-width: 360px;
+      line-height: 1.6;
+    }
+
+    .hook-image-placeholder .placeholder-icon {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 4rem;
+    }
+
+    .variable-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .variable-entry-card {
+      min-height: 120px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
+    }
+
+    .variable-entry-card:nth-child(3n + 1) {
+      background: var(--soft-yellow);
+    }
+
+    .variable-entry-card:nth-child(3n + 2) {
+      background: var(--soft-blue);
+    }
+
+    .variable-entry-card:nth-child(3n) {
+      background: var(--soft-green);
+    }
+
+    .variable-entry-card label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .variable-entry-card input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .variable-type-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .variable-type-card {
+      padding: 22px;
+      border: 3px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow-small);
+      background: var(--paper);
+    }
+
+    .variable-type-card h3 {
+      margin: 0 0 8px;
+      color: var(--text);
+      font-size: 1.2rem;
+    }
+
+    .variable-type-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .variable-type-card.independent {
+      border-top: 10px solid var(--yellow);
+      background: var(--soft-yellow);
+    }
+
+    .variable-type-card.dependent {
+      border-top: 10px solid var(--purple);
+      background: var(--soft-purple);
+    }
+
+    .variable-type-card.controlled {
+      border-top: 10px solid var(--green);
+      background: var(--soft-green);
+    }
+
+    .fair-test-rule {
+      margin: 22px 0 0;
+      padding: 16px 18px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .variable-activity {
+      padding: 22px;
+      border: 3px solid var(--line);
+      border-radius: 22px;
+      background: var(--soft-blue);
+      box-shadow: var(--shadow-small);
+    }
+
+    .variable-question {
+      margin: 0 0 18px;
+      padding: 16px 18px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .variable-selection-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .variable-mode-button {
+      padding: 10px 14px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .variable-tile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .variable-tile {
+      min-height: 82px;
+      padding: 14px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .variable-summary-placeholder {
+      margin-top: 18px;
+      padding: 18px;
+      border: 2px dashed var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .question-structure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .question-structure-card {
+      min-height: 110px;
+      padding: 18px;
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 0 4px 0 var(--line);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .question-builder-placeholder,
+    .prediction-placeholder,
+    .diagram-placeholder,
+    .procedure-placeholder {
+      margin-top: 18px;
+      padding: 24px;
+      border: 2px dashed var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .fair-test-diagram-layout {
+      display: grid;
+      grid-template-columns: 1.35fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .diagram-panel,
+    .variable-panel {
+      padding: 20px;
+      border: 2px solid var(--line);
+      border-radius: 20px;
+      background: var(--paper);
+    }
+
+    .diagram-panel {
+      min-height: 430px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--soft-blue);
+    }
+
+    .variable-panel h3 {
+      margin-top: 0;
+      color: var(--text);
+    }
+
+    .variable-panel-block {
+      margin-bottom: 14px;
+      padding: 14px;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .variable-panel-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .variable-panel-block.independent {
+      background: var(--soft-yellow);
+    }
+
+    .variable-panel-block.dependent {
+      background: var(--soft-purple);
+    }
+
+    .variable-panel-block.controlled {
+      background: var(--soft-green);
+    }
+
+    .variable-panel-block label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .variable-panel-block select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .procedure-comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .procedure-card {
+      padding: 22px;
+      border: 3px solid var(--line);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: var(--shadow-small);
+    }
+
+    .procedure-card h3 {
+      margin: 0 0 16px;
+      color: var(--purple);
+    }
+
+    .procedure-step {
+      margin-bottom: 14px;
+      padding: 14px;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .procedure-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .procedure-step.change {
+      background: var(--soft-yellow);
+    }
+
+    .procedure-step.measure {
+      background: var(--soft-purple);
+    }
+
+    .procedure-step.control {
+      background: var(--soft-green);
+    }
+
+    .procedure-step strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--text);
+    }
+
+    .procedure-step textarea {
+      width: 100%;
+      min-height: 95px;
+      padding: 12px;
+      resize: vertical;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      line-height: 1.5;
+    }
+
+    .lesson-finish-box {
+      margin-top: 20px;
+      padding: 22px;
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      background: var(--yellow);
+      text-align: center;
+      box-shadow: var(--shadow-medium);
+    }
+
+    .lesson-finish-box h3 {
+      margin: 0 0 8px;
+      color: var(--purple);
+    }
+
+    .lesson-finish-box p {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 900px) {
+      .variable-grid,
+      .variable-type-grid,
+      .variable-tile-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fair-test-diagram-layout,
+      .procedure-comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .variable-grid,
+      .variable-type-grid,
+      .variable-tile-grid,
+      .question-structure-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .formula-step {
+        grid-template-columns: 44px 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="top"></div>
+
+  <!-- ==================================================
+       FIXED PAGE CONTROLS
+       Update worksheet link later when the PDF exists.
+       ================================================== -->
+  <header class="page-header">
+    <button
+      type="button"
+      class="home-button"
+      onclick="window.location.href='../index.html'">
+      🏠 Home
+    </button>
+
+    <button
+      type="button"
+      class="glossary-button"
+      onclick="openGlossary()">
+      📖 Vocabulary
+    </button>
+
+    <a
+      class="worksheet-button"
+      href="../worksheets/lesson2-worksheet.pdf"
+      download>
+      📄 Download worksheet
+    </a>
+
+    <button
+      type="button"
+      class="save-work-button"
+      onclick="downloadLessonPDF()">
+      💾 Save my work
+    </button>
+  </header>
+
+  <!-- ==================================================
+       VOCABULARY MODAL
+       Placeholder definitions can be refined later.
+       ================================================== -->
+  <div class="modal" id="glossaryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="teacher-label">
+            Lesson 2: Planning and Conducting a Fair Test
+          </p>
+          <h2>Glossary Terms</h2>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          onclick="closeGlossary()"
+          aria-label="Close glossary">
+          ×
+        </button>
+      </div>
+
+      <div class="vocab-list">
+        <div class="vocab-card">
+          <h3>Variable</h3>
+          <p>An aspect of an investigation that can be different or can change.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>Independent variable</h3>
+          <p>The one variable deliberately changed during a fair test.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>Dependent variable</h3>
+          <p>The result that is observed or measured during a fair test.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>Controlled variables</h3>
+          <p>The variables kept the same so the experiment is fair.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>Fair test</h3>
+          <p>An experiment where one variable is changed, one is measured, and all others are kept the same.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================
+       HIDDEN TEACHER MENU
+       Opened by clicking the lesson title five times.
+       ================================================== -->
+  <div class="teacher-modal" id="teacherModal">
+    <div class="teacher-panel">
+      <div class="teacher-panel-header">
+        <div>
+          <p class="teacher-label">Teacher tools</p>
+          <h2>Jump to an activity</h2>
+        </div>
+
+        <button
+          type="button"
+          class="teacher-close"
+          onclick="closeTeacherMenu()"
+          aria-label="Close teacher menu">
+          ×
+        </button>
+      </div>
+
+      <div class="teacher-section-list">
+        <button type="button" onclick="teacherJump('observe-bounce')">
+          1. Observe a bouncing ball
+        </button>
+
+        <button type="button" onclick="teacherJump('discover-variables')">
+          2. Discover possible variables
+        </button>
+
+        <button type="button" onclick="teacherJump('variable-types')">
+          3. Learn the three variable types
+        </button>
+
+        <button type="button" onclick="teacherJump('sort-variables-one')">
+          4. Sort variables: floor surface
+        </button>
+
+        <button type="button" onclick="teacherJump('sort-variables-two')">
+          5. Sort variables: ball size
+        </button>
+
+        <button type="button" onclick="teacherJump('design-question')">
+          6. Design an investigation question
+        </button>
+
+        <button type="button" onclick="teacherJump('reasoned-prediction')">
+          7. Make a reasoned prediction
+        </button>
+
+        <button type="button" onclick="teacherJump('map-fair-test')">
+          8. Map the fair test
+        </button>
+
+        <button type="button" onclick="teacherJump('describe-fair-test')">
+          9. Describe the fair-test procedure
+        </button>
+      </div>
+
+      <div class="teacher-actions">
+        <button
+          type="button"
+          class="teacher-secondary-button"
+          onclick="teacherShowAll()">
+          Show all sections
+        </button>
+
+        <button
+          type="button"
+          class="teacher-secondary-button"
+          onclick="teacherResetView()">
+          Reset student view
+        </button>
+      </div>
+
+      <p class="teacher-note">
+        Teacher mode changes navigation only. Student answers are not deleted.
+      </p>
+    </div>
+  </div>
+
+  <main class="page">
+    <!-- ==================================================
+         LESSON INTRODUCTION
+         ================================================== -->
+    <header class="lesson-intro">
+      <div class="lesson-heading">
+        <span class="lesson-label">Lesson 2</span>
+
+        <h1
+          id="teacherTrigger"
+          title="Planning and Conducting a Fair Test">
+          Planning and Conducting a Fair Test
+        </h1>
+
+        <p class="lesson-summary">
+          Learn how scientists identify variables and plan an experiment that is fair.
+        </p>
+      </div>
+
+      <div class="intro-grid">
+        <section class="intro-card objectives-card">
+          <p class="intro-eyebrow">Learning objective</p>
+
+          <p class="learning-objective-text">
+            Plan a fair test and represent it in a diagram.
+          </p>
+
+          <p class="success-heading">Success criteria</p>
+
+          <ol class="objective-list">
+            <li>I can suggest variables that exist in a scientific scenario.</li>
+            <li>I can identify independent, dependent and controlled variables.</li>
+            <li>I can describe how I will change, measure and control variables.</li>
+          </ol>
+        </section>
+
+        <section class="intro-card observation-card">
+          <p class="intro-eyebrow">Think like a scientist</p>
+          <h2>The fair-test formula</h2>
+
+          <p>
+            A fair test helps us work out whether changing one thing causes a measurable effect.
+          </p>
+
+          <div class="fair-test-formula">
+            <div class="formula-step change">
+              <div class="formula-step-number">1</div>
+              <div>
+                <strong>Change one thing</strong>
+                <span>Choose the independent variable.</span>
+              </div>
+            </div>
+
+            <div class="formula-step measure">
+              <div class="formula-step-number">2</div>
+              <div>
+                <strong>Measure the effect</strong>
+                <span>Record the dependent variable.</span>
+              </div>
+            </div>
+
+            <div class="formula-step control">
+              <div class="formula-step-number">3</div>
+              <div>
+                <strong>Keep everything else the same</strong>
+                <span>Control the remaining variables.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </header>
+
+    <!-- ==================================================
+         1. OBSERVE A BOUNCING BALL
+         ================================================== -->
+    <section class="section" id="observe-bounce">
+      <h2 class="section-title">Observe a bouncing ball</h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Look carefully at the bouncing-ball setup. Use <strong><i>See, Think, Wonder</i></strong>
+          to record observations, ideas and questions.
+        </p>
+      </div>
+
+      <div class="video-row">
+        <div class="hook-image-box">
+          <div class="hook-image-placeholder">
+            <span class="placeholder-icon">🏀</span>
+            <strong>Bouncing-ball diagram goes here</strong>
+            <p>
+              Later, replace this placeholder with the final image showing the ball,
+              drop height, bounce height, floor surface and different ball types.
+            </p>
+          </div>
+        </div>
+
+        <div class="think-box">
+          <div class="stw-column">
+            <h3>See</h3>
+            <p>What do you notice?</p>
+            <div class="stw-input-row">
+              <input id="lesson2SeeInput" type="text" placeholder="Type something you see">
+              <button type="button">Add</button>
+            </div>
+            <ul id="lesson2SeeList" class="stw-list"></ul>
+          </div>
+
+          <div class="stw-column">
+            <h3>Think</h3>
+            <p>What do you think is happening?</p>
+            <div class="stw-input-row">
+              <input id="lesson2ThinkInput" type="text" placeholder="Type what you think">
+              <button type="button">Add</button>
+            </div>
+            <ul id="lesson2ThinkList" class="stw-list"></ul>
+          </div>
+
+          <div class="stw-column">
+            <h3>Wonder</h3>
+            <p>What questions do you have?</p>
+            <div class="stw-input-row">
+              <input id="lesson2WonderInput" type="text" placeholder="Type what you wonder">
+              <button type="button">Add</button>
+            </div>
+            <ul id="lesson2WonderList" class="stw-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('discover-variables', 'observe-bounce')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         2. DISCOVER VARIABLES
+         ================================================== -->
+    <section class="section locked" id="discover-variables">
+      <h2 class="section-title">What could affect the bounce?</h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          A <strong>variable</strong> is something that can be different. Add as many
+          possible variables as you can think of for the bouncing-ball setup.
+        </p>
+      </div>
+
+      <div class="variable-grid">
+        <div class="variable-entry-card">
+          <label for="variable1">Variable 1</label>
+          <input id="variable1" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable2">Variable 2</label>
+          <input id="variable2" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable3">Variable 3</label>
+          <input id="variable3" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable4">Variable 4</label>
+          <input id="variable4" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable5">Variable 5</label>
+          <input id="variable5" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable6">Variable 6</label>
+          <input id="variable6" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable7">Variable 7</label>
+          <input id="variable7" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable8">Variable 8</label>
+          <input id="variable8" type="text" placeholder="Add a variable">
+        </div>
+
+        <div class="variable-entry-card">
+          <label for="variable9">Variable 9</label>
+          <input id="variable9" type="text" placeholder="Add a variable">
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('variable-types', 'discover-variables')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         3. VARIABLE TYPES
+         ================================================== -->
+    <section class="section locked" id="variable-types">
+      <h2 class="section-title">The three types of variables</h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Scientists give different names to the variable they change, the result they
+          measure and the other variables they keep the same.
+        </p>
+      </div>
+
+      <div class="variable-type-grid">
+        <article class="variable-type-card independent">
+          <p class="intro-eyebrow">Change</p>
+          <h3>Independent variable</h3>
+          <p>The one variable that is deliberately changed. This is the possible cause.</p>
+        </article>
+
+        <article class="variable-type-card dependent">
+          <p class="intro-eyebrow">Measure</p>
+          <h3>Dependent variable</h3>
+          <p>The effect or result that is observed and measured.</p>
+        </article>
+
+        <article class="variable-type-card controlled">
+          <p class="intro-eyebrow">Keep the same</p>
+          <h3>Controlled variables</h3>
+          <p>Everything else that must stay the same so the test remains fair.</p>
+        </article>
+      </div>
+
+      <div class="fair-test-rule">
+        A fair test changes one variable, measures one result and keeps all other variables the same.
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('sort-variables-one', 'variable-types')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         4. SORT VARIABLES - FLOOR SURFACE
+         ================================================== -->
+    <section class="section locked" id="sort-variables-one">
+      <h2 class="section-title">Sort the variables</h2>
+
+      <div class="variable-activity">
+        <p class="variable-question">
+          Does changing the floor surface that a ball bounces on affect how high it bounces?
+        </p>
+
+        <div class="variable-selection-toolbar">
+          <button type="button" class="variable-mode-button">Independent: change</button>
+          <button type="button" class="variable-mode-button">Dependent: measure</button>
+          <button type="button" class="variable-mode-button">Controlled: keep the same</button>
+        </div>
+
+        <div class="variable-tile-grid">
+          <button type="button" class="variable-tile">Ball size</button>
+          <button type="button" class="variable-tile">Ball weight</button>
+          <button type="button" class="variable-tile">Drop height</button>
+          <button type="button" class="variable-tile">Floor surface</button>
+          <button type="button" class="variable-tile">Height of bounce</button>
+          <button type="button" class="variable-tile">Ball material</button>
+        </div>
+
+        <div class="variable-summary-placeholder">
+          Interactive colour-coding and automatic variable summary will be added later.
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('sort-variables-two', 'sort-variables-one')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         5. SORT VARIABLES - BALL SIZE
+         ================================================== -->
+    <section class="section locked" id="sort-variables-two">
+      <h2 class="section-title">Try another fair-test question</h2>
+
+      <div class="variable-activity">
+        <p class="variable-question">
+          If I change the size of the ball, how will it affect the height of the first bounce?
+        </p>
+
+        <div class="variable-selection-toolbar">
+          <button type="button" class="variable-mode-button">Independent: change</button>
+          <button type="button" class="variable-mode-button">Dependent: measure</button>
+          <button type="button" class="variable-mode-button">Controlled: keep the same</button>
+        </div>
+
+        <div class="variable-tile-grid">
+          <button type="button" class="variable-tile">Ball size</button>
+          <button type="button" class="variable-tile">Ball weight</button>
+          <button type="button" class="variable-tile">Drop height</button>
+          <button type="button" class="variable-tile">Floor surface</button>
+          <button type="button" class="variable-tile">Height of first bounce</button>
+          <button type="button" class="variable-tile">Ball material</button>
+        </div>
+
+        <div class="variable-summary-placeholder">
+          The completed classification summary will appear here later.
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('design-question', 'sort-variables-two')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         6. DESIGN A QUESTION
+         ================================================== -->
+    <section class="section locked" id="design-question">
+      <h2 class="section-title">Design your investigation question</h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Choose a question structure. Later, the selected structure will expand into
+          a sentence builder for the student's own testable question.
+        </p>
+      </div>
+
+      <div class="question-structure-grid">
+        <button type="button" class="question-structure-card">
+          What happens to ______ when I change ______?
+        </button>
+
+        <button type="button" class="question-structure-card">
+          How does changing ______ affect ______?
+        </button>
+
+        <button type="button" class="question-structure-card">
+          Does changing ______ affect ______?
+        </button>
+
+        <button type="button" class="question-structure-card">
+          If I change ______, what happens to ______?
+        </button>
+      </div>
+
+      <div class="question-builder-placeholder">
+        The selected question structure and fillable sentence builder will appear here.
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('reasoned-prediction', 'design-question')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         7. REASONED PREDICTION
+         ================================================== -->
+    <section class="section locked" id="reasoned-prediction">
+      <h2 class="section-title">Make a reasoned prediction</h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          This section will reuse the reasoned-prediction organiser from Lesson 1.
+          The student's investigation question and selected variables can be carried into it later.
+        </p>
+      </div>
+
+      <div class="prediction-placeholder">
+        <strong>Reasoned prediction organiser placeholder</strong>
+        <br><br>
+        Testable question → relationship → prediction → reason → full reasoned prediction
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('map-fair-test', 'reasoned-prediction')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         8. MAP THE FAIR TEST
+         ================================================== -->
+    <section class="section locked" id="map-fair-test">
+      <h2 class="section-title">Map your fair test</h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Identify the independent, dependent and controlled variables in the experimental setup.
+        </p>
+      </div>
+
+      <div class="fair-test-diagram-layout">
+        <div class="diagram-panel">
+          <div class="diagram-placeholder">
+            The labelled bouncing-ball experiment diagram will appear here.
+          </div>
+        </div>
+
+        <div class="variable-panel">
+          <h3>Identify the variables</h3>
+
+          <div class="variable-panel-block independent">
+            <label for="independentVariable">Independent variable</label>
+            <select id="independentVariable">
+              <option value="">Choose the changed variable</option>
+              <option>Floor surface</option>
+              <option>Ball size</option>
+              <option>Drop height</option>
+            </select>
+          </div>
+
+          <div class="variable-panel-block dependent">
+            <label for="dependentVariable">Dependent variable</label>
+            <select id="dependentVariable">
+              <option value="">Choose the measured variable</option>
+              <option>Height of first bounce</option>
+              <option>Number of bounces</option>
+            </select>
+          </div>
+
+          <div class="variable-panel-block controlled">
+            <label>Controlled variables</label>
+            <p>Selected controlled variables will be listed here later.</p>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        onclick="unlockSection('describe-fair-test', 'map-fair-test')">
+        Next
+      </button>
+
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         9. DESCRIBE THE FAIR TEST
+         ================================================== -->
+    <section class="section locked" id="describe-fair-test">
+      <h2 class="section-title">Describe your fair-test procedure</h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Compare the worked example with your own plan. Describe what you will change,
+          what you will measure and what you will keep the same.
+        </p>
+      </div>
+
+      <div class="procedure-comparison-grid">
+        <article class="procedure-card">
+          <h3>Worked example</h3>
+
+          <div class="procedure-step change">
+            <strong>I will change...</strong>
+            The floor surface. I will compare concrete and carpet.
+          </div>
+
+          <div class="procedure-step measure">
+            <strong>I will measure...</strong>
+            The height of the first bounce using a ruler fixed vertically beside the ball.
+          </div>
+
+          <div class="procedure-step control">
+            <strong>I will keep the same...</strong>
+            The ball, drop height, dropping method and position of the measuring equipment.
+          </div>
+        </article>
+
+        <article class="procedure-card">
+          <h3>Your fair test</h3>
+
+          <div class="procedure-step change">
+            <strong>I will change...</strong>
+            <textarea id="studentChangePlan" placeholder="Describe what you will change"></textarea>
+          </div>
+
+          <div class="procedure-step measure">
+            <strong>I will measure...</strong>
+            <textarea id="studentMeasurePlan" placeholder="Describe what you will measure and how"></textarea>
+          </div>
+
+          <div class="procedure-step control">
+            <strong>I will keep the same...</strong>
+            <textarea id="studentControlPlan" placeholder="Describe the variables you will control"></textarea>
+          </div>
+        </article>
+      </div>
+
+      <div class="lesson-finish-box">
+        <h3>Fair-test plan complete</h3>
+        <p>
+          Later, this area can automatically combine the student's question, prediction,
+          variable choices and procedure into one final investigation plan.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="../scripts/common_functions.js"></script>
+
+  <script>
+    /* ==================================================
+       LESSON 2 PAGE SETUP
+       Activity-specific functionality will be added later.
+       ================================================== */
+
+    const lesson2SectionIds = [
+      "observe-bounce",
+      "discover-variables",
+      "variable-types",
+      "sort-variables-one",
+      "sort-variables-two",
+      "design-question",
+      "reasoned-prediction",
+      "map-fair-test",
+      "describe-fair-test"
+    ];
+
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof initialiseTeacherMenu === "function") {
+        initialiseTeacherMenu(lesson2SectionIds, "observe-bounce");
+      }
+
+      if (typeof initialiseClassroomLanguageFilter === "function") {
+        initialiseClassroomLanguageFilter("../cypher.txt");
+      }
+    });
+
+    /* Placeholder so the shared PDF function can safely call it.
+       Add localStorage saving here when Lesson 2 interactions are built. */
+    function saveCurrentPageData() {
+      console.log("Lesson 2 skeleton: no saved activity data yet.");
+    }
+  </script>
+</body>
+</html>

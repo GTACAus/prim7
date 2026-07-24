@@ -458,9 +458,6 @@
   }
 
   .save-work-button {
-  top: 126px;
-  right: 14px;
-
   padding: 10px 14px;
   font-size: 0.9rem;
 }
@@ -3660,6 +3657,8 @@ height: 44px;
       display: inline-block;
     }
 
+  }
+
     /* ==================================================
    REASONED PREDICTION BUILDER IFRAME
    ================================================== */
@@ -3699,6 +3698,12 @@ height: 44px;
 
 #testing-predictions .section-title {
   background: var(--lavender);
+}
+
+#testing-predictions .save-work-button {
+  display: block;
+  width: fit-content;
+  margin: 28px auto 0;
 }
 
 
