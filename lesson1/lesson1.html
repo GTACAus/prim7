@@ -153,19 +153,15 @@
       <div id="top"></div>
       <!-- Top anchor for scrolling -->
       <!-- Vocabulary Button -->
-      <header class="page-header">
-        <button class="home-button" onclick="window.location.href='../index.html'">🏠 Home
-          <!-- <a href="../index.html">🏠 Home</a> -->
-        </button>
-        <button class="glossary-button" onclick="openGlossary()">📖 Vocabulary</button>
-        
-          <a
-          class="worksheet-button"
-          href="../worksheets/l1-worksheet.pdf"
-          download>
-          📄 Download worksheet
-        </a>
-    </header>
+      <div class="page-header-wrapper">
+        <header class="page-header">
+          <button class="home-button" onclick="window.location.href='../index.html'">🏠 Home
+            <!-- <a href="../index.html">🏠 Home</a> -->
+          </button>
+          <button class="glossary-button" onclick="openGlossary()">📖 Vocabulary</button>
+          
+        </header>
+      </div>
       
       <!-- Vocabulary Modal -->
       <div class="modal" id="glossaryModal">
@@ -354,9 +350,17 @@
                   title="Questioning and Predicting">
                   Questioning and Predicting
               </h1>
+              
                <p class="lesson-summary">
+                
                   Asking questions and making predictions like a scientist
                </p>
+               <a
+                class="worksheet-button"
+                href="../worksheets/l1-worksheet.pdf"
+                download>
+                📄 Download worksheet
+              </a>
             </div>
             <!-- Introductory Grid (Contains Learning Objectives and See Think Wonder)-->
             <div class="intro-grid">
