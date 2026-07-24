@@ -111,34 +111,13 @@
 }
 
 .save-work-button {
-  position: absolute;
-  top: 140px;
-  right: 30px;
-
-  display: inline-flex;
+  justify-self: start;
   align-items: center;
-  gap: 8px;
 
-  padding: 12px 18px;
+  z-index: inherit;
 
   background: var(--purple);
-  color: white;
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-shadow: 0 4px 0 var(--line);
-
-  font-family: inherit;
-  font-weight: 700;
-
-  cursor: pointer;
-  z-index: 1000;
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+  color: var(--paper);
 }
 
 .save-work-button:hover {
@@ -931,6 +910,8 @@
 
       display: grid;
       grid-template-columns: auto 1fr auto;
+      grid-template-rows: auto auto;
+      row-gap: 1rem;
       align-items: center;
 
       z-index: 2000;
@@ -938,12 +919,12 @@
 
     .home-button,
     .next-button,
-    .glossary-button {
+    .glossary-button,
+    .worksheet-button,
+    .save-work-button {
       padding: 12px 20px;
       border: none;
       border-radius: 999px;
-      background: var(--button);
-      color: var(--text);
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
@@ -2598,7 +2579,8 @@ height: 44px;
 .download-button,
 .home-button,
 .glossary-button,
-.worksheet-button {
+.worksheet-button,
+.save-work-button {
   border: 2px solid var(--line);
   border-radius: 12px;
 
@@ -2678,7 +2660,9 @@ height: 44px;
 .next-button:active,
 .download-button:active,
 .home-button:active,
-.glossary-button:active {
+.glossary-button:active,
+.save-work-button:active,
+.worksheet-button:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 var(--line);
 }
@@ -2707,15 +2691,10 @@ height: 44px;
 }
 
 .worksheet-button {
-  position: absolute;
-  top: 80px;
-  right: 30px;
-
-  display: inline-flex;
+  justify-self: end;
   align-items: center;
-  gap: 8px;
-
-  padding: 12px 18px;
+  grid-row: 2;
+  grid-column: 2;
 
   background: var(--yellow);
   color: var(--text);
@@ -2728,12 +2707,7 @@ height: 44px;
   text-decoration: none;
   font-weight: 700;
 
-  z-index: 1000;
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+  z-index: inherit;
 }
 
 .worksheet-button:hover {
@@ -3572,18 +3546,22 @@ height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    
     gap: 12px;
   }
 
   .home-button,
-  .glossary-button {
+  .glossary-button,
+  .worksheet-button,
+  .save-work-button {
     margin: 0;
     white-space: nowrap;
   }
 
+.glossary-button {}
+
   .worksheet-button {
-  top: 72px;
-  right: 14px;
+  flex: 2;
 
   padding: 10px 14px;
   font-size: 0.9rem;
