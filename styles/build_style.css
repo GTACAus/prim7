@@ -29,6 +29,7 @@
 
   --shadow-small: 0 4px 0 var(--charcoal);
   --shadow-medium: 0 6px 0 var(--charcoal);
+  --shadow: rgb(0 0 0 / 0.05);
 
   touch-action: pan-x pan-y;
   height: 100% 
@@ -121,8 +122,8 @@
 
   z-index: inherit;
 
-  background: var(--purple);
-  color: var(--paper);
+  background: var(--purple) !important;
+  color: var(--paper) !important;
 }
 
 .save-work-button:hover {
@@ -277,7 +278,7 @@
 
   min-height: 42px;
   margin-bottom: 12px;
-  padding: 10px 12px 10px 50px;
+  padding: 12px 12px 12px 50px;
 
   background: white;
   border: 2px solid var(--line);
@@ -917,8 +918,6 @@
       align-items: center;
 
       z-index: 2000;
-
-      
     }
 
     .return-to-top {
@@ -926,42 +925,18 @@
       place-items: center;
     }
 
-    .return-to-top-button::before {
-      content: "↑";
-      display: inline-block;
-      margin-right: 10px;
-    }
     .return-to-top-button {
       display: inline-block;
       width: 15rem;
       text-decoration: none;
       text-align: center;
-      color: var(--text);
-      background: var(--paper);
+      color: var(--text) !important;
+      background: var(--paper) !important;
     }
 
     .return-to-top-button:hover {
       background: var(--soft-orange);
       transform: translateY(-2px);
-    }
-
-    .return-to-top-button:hover::before{
-      animation: arrowBounce 0.5s ease;
-    }
-
-    @keyframes arrowBounce {
-      0% {
-        transform: translateY(0);
-      }
-      30% {
-        transform: translateY(-6px);
-      }
-      60% {
-        transform: translateY(2px);
-      }
-      100% {
-        transform: translateY(0);
-      }
     }
 
     .home-button,
@@ -978,16 +953,35 @@
       cursor: pointer;
     }
 
+    .bounce-symbol {
+      display: inline-block;
+      margin: 0px;
+    }
+
+    .general-button:hover .bounce-symbol {
+      animation: hoverSymbolBounce 0.5s ease;
+    }
+
+    @keyframes hoverSymbolBounce {
+      0% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(-6px);
+      }
+      60% {
+        transform: translateY(2px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }       
+
     .home-button {
       justify-self: start;
       align-items: center;
       gap: 8px;
       z-index: inherit;
-    }
-
-    .home-button a {
-      text-decoration: none;
-      color: inherit;
     }
 
 .home-button:hover{
@@ -1007,7 +1001,6 @@
 #diagramNextButton {
   display: inline-block;
 }
-
     .glossary-button {
       justify-self: end;
       align-items: center;
@@ -1018,7 +1011,7 @@
       color: var(--text);
       border: 1px solid var(--line);
       box-shadow: 0 6px 18px rgba(63, 70, 63, 0.12);
-    }
+    }    
 
     .completed-note {
       margin-top: 16px;
@@ -2647,6 +2640,7 @@ height: 44px;
 }
 
 .general-button {
+  position: relative;
   padding: 12px 22px;
 
   background: var(--button);
@@ -2666,6 +2660,20 @@ height: 44px;
     transform 0.15s ease,
     box-shadow 0.15s ease,
     background 0.15s ease;
+}
+
+.general-button p {
+  display: inline-block;
+  margin: 0px;
+}
+
+.general-button a {
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px;
+  color: inherit;
+  width: 100%;
+  height: 100%
 }
 
 .general-button:hover {
@@ -2698,12 +2706,19 @@ height: 44px;
 
 .next-button::after {
   content: "  →";
+  display: inline-block;
+  transition: transform 0.2s ease;
 }
 
-.next-button:hover {
+.next-button:hover * {
   background: var(--purple);
   transform: translateY(-2px);
   box-shadow: 0 6px 0 var(--charcoal);
+  transform: translateX(4px);
+}
+
+.next-button:hover::after {
+  transform: translateX(4px);
 }
 
 .next-button:active,

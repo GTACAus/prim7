@@ -21,12 +21,19 @@
   
   <div class="page-header-wrapper">
     <header class="page-header">
-      <button type="button" class="save-work-button" onclick="downloadLessonPDF()" >💾 Save my work</button>
-      <button class="glossary-button" onclick="openGlossary()">📖 Vocabulary</button>
+      <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 
+        <p class="bounce-symbol">💾</p>
+        <p>Save my work</p>
+      </button>
+      <button class="general-button glossary-button" onclick="openGlossary()">
+        <p class="bounce-symbol">📖</p>
+        <p>Vocabulary</p>
+      </button>
           
     </header>
   </div>
-
+  
+  
   <div class="modal" id="glossaryModal">
   <div class="modal-content">
 
@@ -196,12 +203,15 @@
       Plants are living organisms found growing all around the world.
       Animals rely on plants for food, nutrients and the oxygen they produce.
     </p>
-    <a
-      class="worksheet-button"
-      href="worksheets/PRIM7 Lesson 1 What do plants need to survive.pdf"
-      download>
-      📄 Download worksheet
-    </a>
+    <button
+      type="button"
+      class="worksheet-button
+      general-button"
+      onclick="window.location.href='../worksheets/l1-worksheet.pdf'"
+      download> 
+      <p class="bounce-symbol">📄</p>
+      <p>Download worksheet</p>
+    </button>
   </div>
 
   <div class="botanist-mission">
@@ -716,7 +726,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
   </div>
 </section>
 <div class="return-to-top">
-  <a class="return-to-top-button" href="#top">Return to Top</a>
+  <a class="return-to-top-button general-button" href="#top">
+    <p class="bounce-symbol">↑</p>
+    <p>Return to Top</p>
+  </a>
 </div>
 
   </main>
