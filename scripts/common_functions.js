@@ -716,7 +716,9 @@ function downloadLessonPDF() {
     Make sure the most recent student answers are saved
     before opening the print window.
   */
-  saveLesson1Data();
+  if (typeof saveCurrentPageData === "function") {
+    saveCurrentPageData();
+  }
 
   /*
     Remember which sections were still locked so that
