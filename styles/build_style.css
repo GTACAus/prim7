@@ -3764,7 +3764,7 @@ height: 44px;
 /* ---------- Single experiment result image ---------- */
 
 .prediction-results-heading {
-  margin: 22px 0 10px;
+  margin: 22px 20px 10px;
 
   color: var(--purple);
 
