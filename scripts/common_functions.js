@@ -759,3 +759,35 @@ window.addEventListener('afterprint', function() {
 
   document.body.classList.remove('printing-lesson');
 });
+
+function connectEnterAndBlurSave(input, saveFunction) {
+  let isSubmitting = false;
+
+  function saveInput() {
+    if (
+      isSubmitting ||
+      !input.isConnected ||
+      input.value.trim() === ""
+    ) {
+      return;
+    }
+
+    isSubmitting = true;
+    saveFunction();
+
+    if (input.isConnected) {
+      isSubmitting = false;
+    }
+  }
+
+  input.addEventListener("keydown", function(event) {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    event.preventDefault();
+    saveInput();
+  });
+
+  input.addEventListener("blur", saveInput);
+}

@@ -286,7 +286,7 @@
                   <button
                       type="button"
                       onclick="teacherJump('flashcards')">
-                      3. Investigable or non-investigable?
+                      3. Testable or non-testable?
                   </button>
 
                   <button
@@ -609,7 +609,7 @@
          <!-- ---------- Flashcards ---------- --> 
          <section class="section locked" id="flashcards">
             <h2 class="section-title">
-               Investigable or Non-investigable?
+               Testable or Non-testable?
             </h2>
             <div class="flashcard-box">
                <iframe
@@ -719,7 +719,7 @@
                   This is called making a reasoned prediction. 
                </p>
                <p class="activity-instruction">
-                  In reasoned prediction you make an educated guess that is based on your knowledge about the relationship between two things. 
+                  In a reasoned prediction you make an educated guess that is based on your knowledge about the relationship between two things. 
                </p>
                <p class="activity-instruction">
                   You can use a graphic organiser to guide you in writing a reasoned prediction.
@@ -738,15 +738,15 @@
                <div class="prediction-organiser-row row-relationship">
                   <div class="prediction-organiser-cell cell-label">
                      <span class="cell-sublabel" data-template-id="org-row-rel-label">Relationship:</span>
-                     <span class="cell-helper" data-template-id="org-row-rel-label">Description here</span>
+                     <span class="cell-helper" data-template-id="org-row-rel-label"></span>
                   </div>
                   <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-cause-label">Cause</span> <span class="cell-helper" data-template-id="org-cause-helper">increase / decrease<br>
-                     more / less<br>
+                     
                      with / without<br>
                      condition 1 versus condition 2</span>
                   </div>
                   <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-effect-label">Effect (result)</span> <span class="cell-helper" data-template-id="org-effect-helper">increase / decrease / stay the same<br>
-                     more / less / no difference</span>
+                     
                   </div>
                </div>
                <!-- Prediction row -->
@@ -934,9 +934,7 @@
 
                 </div>
 
-                <p class="prediction-safety-note">
-                    ⚠️ A very steep ramp may cause the car to crash.
-                </p>
+                
 
                 <div class="prediction-choice-area">
                     <p class="prediction-choice-question">
@@ -1043,8 +1041,8 @@
                     <div
                       class="prediction-feedback"
                       data-correct-answer="true"
-                      data-correct-feedback="It is supported because the results show that both cars travel approximately the same distance."
-                      data-incorrect-feedback="Try again. The results show that both cars travel approximately the same distance."
+                      data-correct-feedback="It is supported because the results show that both cars travel the same distance."
+                      data-incorrect-feedback="Try again. The results show that both cars travel the same distance."
                       role="status"
                       aria-live="polite"
                       hidden>
@@ -1554,26 +1552,68 @@
           ---------------------------------------- */
          
          function connectQuestionInput(
-         input,
-         questionCard
-         ) {
-         input.addEventListener(
-           "keydown",
-           function(event) {
-             if (event.key !== "Enter") {
-               return;
-             }
-         
-             event.preventDefault();
-         
-             submitQuestionPart(
-               input,
-               questionCard
-             );
-           }
-         );
-         }
-         
+            input,
+            questionCard
+          ) {
+            let isSubmitting = false;
+
+            function saveQuestionInput() {
+              /*
+                Do nothing if:
+                - this input is already being submitted;
+                - it has already been replaced by an answer chip;
+                - nothing has been typed.
+              */
+              if (
+                isSubmitting ||
+                !input.isConnected ||
+                input.value.trim() === ""
+              ) {
+                return;
+              }
+
+              isSubmitting = true;
+
+              submitQuestionPart(
+                input,
+                questionCard
+              );
+
+              /*
+                If the input still exists, submission may have been
+                blocked, so allow the student to try again.
+              */
+              if (input.isConnected) {
+                isSubmitting = false;
+              }
+            }
+
+            /*
+              Method 1: Press Enter.
+            */
+            input.addEventListener(
+              "keydown",
+              function(event) {
+                if (event.key !== "Enter") {
+                  return;
+                }
+
+                event.preventDefault();
+
+                saveQuestionInput();
+              }
+            );
+
+            /*
+              Method 2: Click or Tab away from the input.
+            */
+            input.addEventListener(
+              "blur",
+              function() {
+                saveQuestionInput();
+              }
+            );
+          }
          
          function submitQuestionPart(
          input,
