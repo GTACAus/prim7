@@ -38,6 +38,9 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
     body {
   margin: 0;
 
@@ -918,11 +921,55 @@
       z-index: 2000;
     }
 
+    .return-to-top {
+      display: grid;
+      place-items: center;
+    }
+
+    .return-to-top-button::before {
+      content: "↑";
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .return-to-top-button {
+      display: inline-block;
+      width: 15rem;
+      text-decoration: none;
+      text-align: center;
+      color: var(--text);
+      background: var(--paper);
+    }
+
+    .return-to-top-button:hover {
+      background: var(--soft-orange);
+      transform: translateY(-2px);
+    }
+
+    .return-to-top-button:hover::before{
+      animation: arrowBounce 0.5s ease;
+    }
+
+    @keyframes arrowBounce {
+      0% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(-6px);
+      }
+      60% {
+        transform: translateY(2px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
     .home-button,
     .next-button,
     .glossary-button,
     .worksheet-button,
-    .save-work-button {
+    .save-work-button,
+    .return-to-top-button {
       padding: 12px 20px;
       border: none;
       border-radius: 999px;
@@ -2581,7 +2628,8 @@ height: 44px;
 .home-button,
 .glossary-button,
 .worksheet-button,
-.save-work-button {
+.save-work-button,
+.return-to-top-button {
   border: 2px solid var(--line);
   border-radius: 12px;
 
@@ -2663,7 +2711,8 @@ height: 44px;
 .home-button:active,
 .glossary-button:active,
 .save-work-button:active,
-.worksheet-button:active {
+.worksheet-button:active,
+.return-to-top-button:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 var(--line);
 }
@@ -3319,7 +3368,8 @@ height: 44px;
   .teacher-actions,
   .tab-button,
   .option-button-container,
-  .completed-note {
+  .completed-note,
+  .return-to-top-button {
     display: none !important;
   }
 
