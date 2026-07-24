@@ -111,6 +111,7 @@
 }
 
 .save-work-button {
+  margin-top: 12px;
   justify-self: start;
   align-items: center;
 
@@ -908,7 +909,7 @@
       display: grid;
       grid-template-columns: auto 1fr auto;
       grid-template-rows: auto auto;
-      row-gap: 1rem;
+      row-gap: 0.6rem;
       align-items: center;
 
       z-index: 2000;
@@ -3574,6 +3575,7 @@ height: 44px;
 .page-header > *:nth-child(2) {
     order: 3;
 
+}
 }
 
     @keyframes bounce-in {
