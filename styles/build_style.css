@@ -906,10 +906,11 @@
       left: 0;
       right: 0;
 
-      width: 80%;
-      max-width: 1000px;
+      width: 90%;
+      max-width: 1500px;
       margin: 0 auto;
-      margin-top: 15px;
+      margin-top: 55px;
+      padding-left: 45px;
 
       display: grid;
       grid-template-columns: auto 1fr auto;
