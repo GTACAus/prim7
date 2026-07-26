@@ -854,6 +854,11 @@ body {
     }
 
     function updatePrediction() {
+      // Keep the JavaScript state synchronised with what is
+      // currently visible in the dropdowns.
+      builderState.change = changeVariable.value;
+      builderState.measure = measureVariable.value;
+
       const causePhrase = getCausePhrase();
       const effectPhrase = getEffectPhrase();
       const reason = builderState.reason;
@@ -867,8 +872,12 @@ body {
       }
       if (fullPrediction !== "" && reason !== "") {
         fullPrediction += " This is because " + reason + ".";
-        const nextButton = window.parent.document.getElementById("reasonedBuilderNextButton");
-		    nextButton.hidden = false;
+        const nextButton =
+          window.parent.document.getElementById("reasonedBuilderNextButton");
+
+        if (nextButton) {
+          nextButton.hidden = false;
+        }
       }
 
       setGeneratedText(
