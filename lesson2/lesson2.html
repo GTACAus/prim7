@@ -1856,11 +1856,148 @@ document.addEventListener("DOMContentLoaded", function() {
   if (typeof initialiseClassroomLanguageFilter === "function") {
     initialiseClassroomLanguageFilter("../cypher.txt");
   }
+
+  initialiseDiscoverVariables();
   initialiseInvestigationQuestion();
 
   initialiseSortVariables(sortVariablesOneStructure);
   initialiseSortVariables(sortVariablesTwoStructure);
 });
+
+/* ==================================================
+   DISCOVER POSSIBLE VARIABLES
+   ================================================== */
+
+function initialiseDiscoverVariables() {
+  const activity =
+    document.getElementById("discover-variables");
+
+  if (!activity) {
+    return;
+  }
+
+  const cards =
+    activity.querySelectorAll(
+      ".variable-entry-card"
+    );
+
+  cards.forEach(function(card) {
+    const input =
+      card.querySelector(
+        'input[type="text"]'
+      );
+
+    const inputRow =
+      card.querySelector(
+        ".variable-entry-input-row"
+      );
+
+    const answerBox =
+      card.querySelector(
+        ".variable-entry-answer"
+      );
+
+    if (
+      !input ||
+      !inputRow ||
+      !answerBox
+    ) {
+      return;
+    }
+
+    function saveVariableAnswer() {
+      const value =
+        input.value.trim();
+
+      if (value === "") {
+        return;
+      }
+
+      if (
+        typeof containsProfanity ===
+          "function" &&
+        containsProfanity(value)
+      ) {
+        input.value = "";
+        input.focus();
+        return;
+      }
+
+      answerBox.innerHTML = "";
+
+      const answerText =
+        document.createElement("span");
+
+      answerText.className =
+        "variable-entry-answer-text";
+
+      answerText.textContent = value;
+
+      const deleteButton =
+        document.createElement("button");
+
+      deleteButton.type = "button";
+      deleteButton.className =
+        "delete-answer";
+
+      deleteButton.textContent = "×";
+
+      deleteButton.setAttribute(
+        "aria-label",
+        "Edit " + value
+      );
+
+      deleteButton.addEventListener(
+        "click",
+        function() {
+          answerBox.classList.remove(
+            "visible"
+          );
+
+          answerBox.innerHTML = "";
+
+          inputRow.style.display =
+            "block";
+
+          input.value = value;
+          input.focus();
+          input.select();
+        }
+      );
+
+      answerBox.appendChild(
+        answerText
+      );
+
+      answerBox.appendChild(
+        deleteButton
+      );
+
+      inputRow.style.display = "none";
+
+      answerBox.classList.add(
+        "visible"
+      );
+
+      input.value = "";
+    }
+
+    /*
+      Reuse common_functions.js:
+      - Enter saves
+      - clicking or tabbing away saves
+    */
+    if (
+      typeof connectEnterAndBlurSave ===
+      "function"
+    ) {
+      connectEnterAndBlurSave(
+        input,
+        saveVariableAnswer
+      );
+    }
+  });
+}
 
 function initialiseSortVariables(variableStructure) {
   variableStructure.activity =
