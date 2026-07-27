@@ -1931,6 +1931,12 @@
 	background: var(--orange) !important;
 }
 
+.reset-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
 
 /* ---------- Wheel ---------- */
 
