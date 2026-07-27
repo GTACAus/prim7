@@ -124,6 +124,10 @@
 
   background: var(--purple) !important;
   color: var(--paper) !important;
+
+  display: block;
+  width: fit-content;
+  margin: 28px auto 0;
 }
 
 .save-work-button:hover {
@@ -3601,11 +3605,7 @@ height: 44px;
   }
 
   .page-header {
-    width: auto;
     max-width: none;
-
-    left: 14px;
-    right: 14px;
     padding-left: 0;
 
     display: flex;
@@ -3711,12 +3711,6 @@ height: 44px;
 
 #testing-predictions .section-title {
   background: var(--lavender);
-}
-
-#testing-predictions .save-work-button {
-  display: block;
-  width: fit-content;
-  margin: 28px auto 0;
 }
 
 
