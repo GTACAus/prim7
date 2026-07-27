@@ -1542,7 +1542,7 @@
         type="button"
         id="sortVariablesTwoNext"
         class="next-button"
-        onclick="unlockSection('sort-variables-two', 'sort-variables-one')"
+        onclick="unlockSection('design-question', 'sort-variables-two')"
         hidden>
         Next
       </button>
@@ -1848,21 +1848,122 @@ let sortVariablesTwoStructure = {
 };
 
 
-document.addEventListener("DOMContentLoaded", function() {  
+document.addEventListener("DOMContentLoaded", function() {
   if (typeof initialiseTeacherMenu === "function") {
-    initialiseTeacherMenu(lesson2SectionIds, "observe-bounce");
+    initialiseTeacherMenu(
+      lesson2SectionIds,
+      "observe-bounce"
+    );
   }
 
-  if (typeof initialiseClassroomLanguageFilter === "function") {
-    initialiseClassroomLanguageFilter("../cypher.txt");
+  if (
+    typeof initialiseClassroomLanguageFilter ===
+    "function"
+  ) {
+    initialiseClassroomLanguageFilter(
+      "../cypher.txt"
+    );
   }
 
+  initialiseSeeThinkWonder();
   initialiseDiscoverVariables();
   initialiseInvestigationQuestion();
 
-  initialiseSortVariables(sortVariablesOneStructure);
-  initialiseSortVariables(sortVariablesTwoStructure);
+  initialiseSortVariables(
+    sortVariablesOneStructure
+  );
+
+  initialiseSortVariables(
+    sortVariablesTwoStructure
+  );
 });
+
+/* ==================================================
+   SEE, THINK, WONDER
+   ================================================== */
+
+function initialiseSeeThinkWonder() {
+  const activity =
+    document.getElementById("observe-bounce");
+
+  if (!activity) {
+    return;
+  }
+
+  const columns =
+    activity.querySelectorAll(".stw-column");
+
+  columns.forEach(function(column) {
+    const input =
+      column.querySelector(
+        '.stw-input-row input[type="text"]'
+      );
+
+    const addButton =
+      column.querySelector(
+        ".stw-input-row button"
+      );
+
+    const answerList =
+      column.querySelector(".stw-list");
+
+    if (!input || !addButton || !answerList) {
+      return;
+    }
+
+    function saveAnswer() {
+      const value =
+        getValidStudentInput(input);
+
+      if (value === null) {
+        return;
+      }
+
+      const listItem =
+        document.createElement("li");
+
+      const answerText =
+        document.createElement("span");
+
+      answerText.textContent = value;
+
+      const deleteButton =
+        createDeleteAnswerButton(
+          "Delete " + value,
+          function() {
+            listItem.remove();
+          }
+        );
+
+      listItem.appendChild(answerText);
+      listItem.appendChild(deleteButton);
+
+      answerList.appendChild(listItem);
+
+      input.value = "";
+    }
+
+    /*
+      Reuse shared Enter + blur functionality.
+    */
+    if (
+      typeof connectEnterAndBlurSave === "function"
+    ) {
+      connectEnterAndBlurSave(
+        input,
+        saveAnswer
+      );
+    }
+
+    /*
+      The Add button still needs its own click event.
+    */
+    addButton.addEventListener(
+      "click",
+      saveAnswer
+    );
+  });
+}
 
 /* ==================================================
    DISCOVER POSSIBLE VARIABLES
@@ -1907,19 +2008,9 @@ function initialiseDiscoverVariables() {
 
     function saveVariableAnswer() {
       const value =
-        input.value.trim();
+        getValidStudentInput(input);
 
-      if (value === "") {
-        return;
-      }
-
-      if (
-        typeof containsProfanity ===
-          "function" &&
-        containsProfanity(value)
-      ) {
-        input.value = "";
-        input.focus();
+      if (value === null) {
         return;
       }
 
@@ -1934,36 +2025,23 @@ function initialiseDiscoverVariables() {
       answerText.textContent = value;
 
       const deleteButton =
-        document.createElement("button");
+        createDeleteAnswerButton(
+          "Edit " + value,
+          function() {
+            answerBox.classList.remove(
+              "visible"
+            );
 
-      deleteButton.type = "button";
-      deleteButton.className =
-        "delete-answer";
+            answerBox.innerHTML = "";
 
-      deleteButton.textContent = "×";
+            inputRow.style.display =
+              "block";
 
-      deleteButton.setAttribute(
-        "aria-label",
-        "Edit " + value
-      );
-
-      deleteButton.addEventListener(
-        "click",
-        function() {
-          answerBox.classList.remove(
-            "visible"
-          );
-
-          answerBox.innerHTML = "";
-
-          inputRow.style.display =
-            "block";
-
-          input.value = value;
-          input.focus();
-          input.select();
-        }
-      );
+            input.value = value;
+            input.focus();
+            input.select();
+          }
+        );
 
       answerBox.appendChild(
         answerText
@@ -2514,19 +2592,10 @@ function resetSortVariables(variableStructure) {
       wrapper.appendChild(answerBox);
 
       function saveAnswer() {
-        const value = input.value.trim();
+        const value =
+          getValidStudentInput(input);
 
-        if (value === "") {
-          return;
-        }
-
-        if (
-          typeof containsProfanity ===
-            "function" &&
-          containsProfanity(value)
-        ) {
-          input.value = "";
-          input.focus();
+        if (value === null) {
           return;
         }
 
