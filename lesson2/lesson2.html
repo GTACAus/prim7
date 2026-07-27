@@ -271,6 +271,128 @@
       text-align: center;
     }
 
+    /* ==================================================
+      SORT VARIABLES — ACTIVITY 1
+      ================================================== */
+
+    #sort-variables-one .variable-mode-button {
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease;
+    }
+
+    #sort-variables-one .variable-mode-button:not(:disabled):hover,
+    #sort-variables-one .variable-mode-button.mode-active {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 var(--line);
+    }
+
+    #sort-variables-one .variable-mode-button.mode-active {
+      outline: 4px solid rgba(48, 51, 47, 0.16);
+    }
+
+    #sort-variables-one .controlled-mode-button:disabled {
+      opacity: 0.72;
+      cursor: default;
+    }
+
+    #sort-variables-one .variable-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+
+      transition:
+        transform 0.18s ease,
+        background 0.18s ease;
+    }
+
+    #sort-variables-one .variable-tile-label {
+      display: block;
+    }
+
+    #sort-variables-one .variable-tile-type {
+      display: block;
+
+      font-size: 0.78rem;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    /* Use the existing Lesson 2 variable colours */
+
+    #sort-variables-one .variable-tile.is-independent {
+      background: var(--soft-yellow);
+    }
+
+    #sort-variables-one .variable-tile.is-dependent {
+      background: var(--soft-purple);
+    }
+
+    #sort-variables-one .variable-tile.is-controlled {
+      background: var(--soft-green);
+    }
+
+    #sort-variables-one .variable-tile.is-classified {
+      cursor: default;
+    }
+
+    #sort-variables-one .variable-feedback {
+      margin-top: 18px;
+      padding: 14px 16px;
+
+      border: 2px dashed var(--line);
+      border-radius: 16px;
+
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--text);
+
+      font-weight: 700;
+      text-align: center;
+    }
+
+    #sort-variables-one .variable-feedback.feedback-success {
+      background: var(--soft-green);
+      border-style: solid;
+    }
+
+    #sort-variables-one .variable-feedback.feedback-try-again {
+      background: var(--soft-orange);
+      border-style: solid;
+    }
+
+    #sortVariablesOneNext:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Incorrect-answer shake */
+
+    @keyframes variableTileBuzz {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-6px);
+      }
+
+      50% {
+        transform: translateX(6px);
+      }
+
+      75% {
+        transform: translateX(-3px);
+      }
+    }
+
+    #sort-variables-one .variable-tile.buzz {
+      animation: variableTileBuzz 0.28s ease;
+    }
+
     .question-structure-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -914,8 +1036,8 @@
     </section>
 
     <!-- ==================================================
-         4. SORT VARIABLES - FLOOR SURFACE
-         ================================================== -->
+     4. SORT VARIABLES - FLOOR SURFACE
+     ================================================== -->
     <section class="section locked" id="sort-variables-one">
       <h2 class="section-title">Sort the variables</h2>
 
@@ -924,34 +1046,100 @@
           Does changing the floor surface that a ball bounces on affect how high it bounces?
         </p>
 
-        <div class="variable-selection-toolbar">
-          <button type="button" class="variable-mode-button independent-mode-button">Independent: change</button>
-          <button type="button" class="variable-mode-button dependent-mode-button">Dependent: measure</button>
-          <button type="button" class="variable-mode-button controlled-mode-button">Controlled: keep the same</button>
+        <div
+          class="variable-selection-toolbar"
+          aria-label="Choose a variable type">
+
+          <button
+            type="button"
+            class="variable-mode-button independent-mode-button"
+            data-variable-mode="independent"
+            aria-pressed="false">
+            Independent: change
+          </button>
+
+          <button
+            type="button"
+            class="variable-mode-button dependent-mode-button"
+            data-variable-mode="dependent"
+            aria-pressed="false">
+            Dependent: measure
+          </button>
+
+          <button
+            type="button"
+            class="variable-mode-button controlled-mode-button"
+            disabled
+            aria-disabled="true">
+            Controlled: keep the same
+          </button>
         </div>
 
         <div class="variable-tile-grid">
-          <button type="button" class="variable-tile">Ball size</button>
-          <button type="button" class="variable-tile">Ball weight</button>
-          <button type="button" class="variable-tile">Drop height</button>
-          <button type="button" class="variable-tile">Floor surface</button>
-          <button type="button" class="variable-tile">Height of bounce</button>
-          <button type="button" class="variable-tile">Ball material</button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-size">
+            <span class="variable-tile-label">Ball size</span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-weight">
+            <span class="variable-tile-label">Ball weight</span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="drop-height">
+            <span class="variable-tile-label">Drop height</span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="floor-surface">
+            <span class="variable-tile-label">Floor surface</span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="height-of-bounce">
+            <span class="variable-tile-label">Height of bounce</span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-material">
+            <span class="variable-tile-label">Ball material</span>
+          </button>
         </div>
 
-        <div class="variable-summary-placeholder">
-          Interactive colour-coding and automatic variable summary will be added later.
+        <div
+          id="sortVariablesOneFeedback"
+          class="variable-feedback"
+          role="status"
+          aria-live="polite">
+          First, select <strong>Independent: change</strong>.
         </div>
       </div>
 
       <button
         type="button"
+        id="sortVariablesOneNext"
         class="next-button"
+        disabled
         onclick="unlockSection('sort-variables-two', 'sort-variables-one')">
         Next
       </button>
 
-      <p class="completed-note">Completed — next activity unlocked.</p>
+      <p class="completed-note">
+        Completed — next activity unlocked.
+      </p>
     </section>
 
     <!-- ==================================================
@@ -1231,7 +1419,290 @@
       if (typeof initialiseClassroomLanguageFilter === "function") {
         initialiseClassroomLanguageFilter("../cypher.txt");
       }
+
+      initialiseSortVariablesOne();
     });
+
+    function initialiseSortVariablesOne() {
+      const activity =
+        document.getElementById("sort-variables-one");
+
+      if (!activity) {
+        return;
+      }
+
+      const modeButtons =
+        activity.querySelectorAll("[data-variable-mode]");
+
+      const variableTiles =
+        activity.querySelectorAll(".variable-tile");
+
+      const feedback =
+        document.getElementById("sortVariablesOneFeedback");
+
+      const nextButton =
+        document.getElementById("sortVariablesOneNext");
+
+      let selectedMode = "";
+      let independentComplete = false;
+      let dependentComplete = false;
+
+      function setMode(mode) {
+        /*
+          Students must identify the independent variable first.
+        */
+        if (
+          mode === "dependent" &&
+          !independentComplete
+        ) {
+          feedback.className =
+            "variable-feedback feedback-try-again";
+
+          feedback.textContent =
+            "Find the independent variable first. What is being changed?";
+
+          return;
+        }
+
+        selectedMode = mode;
+
+        modeButtons.forEach(function(button) {
+          const isActive =
+            button.dataset.variableMode === mode;
+
+          button.classList.toggle(
+            "mode-active",
+            isActive
+          );
+
+          button.setAttribute(
+            "aria-pressed",
+            String(isActive)
+          );
+        });
+
+        feedback.className =
+          "variable-feedback";
+
+        feedback.textContent =
+          mode === "independent"
+            ? "Now choose the variable that is deliberately changed."
+            : "Now choose the result that is measured.";
+      }
+
+      function addVariableType(
+        tile,
+        type,
+        label
+      ) {
+        tile.classList.add(
+          "is-" + type,
+          "is-classified"
+        );
+
+        tile.disabled = true;
+
+        const typeText =
+          document.createElement("span");
+
+        typeText.className =
+          "variable-tile-type";
+
+        typeText.textContent =
+          "(" + label + ")";
+
+        tile.appendChild(typeText);
+      }
+
+      function buzzTile(
+        tile,
+        message
+      ) {
+        /*
+          Removing and adding the class again allows the
+          animation to replay after repeated incorrect answers.
+        */
+        tile.classList.remove("buzz");
+
+        void tile.offsetWidth;
+
+        tile.classList.add("buzz");
+
+        feedback.className =
+          "variable-feedback feedback-try-again";
+
+        feedback.textContent = message;
+      }
+
+      function completeControlledVariables() {
+        variableTiles.forEach(function(tile) {
+          if (
+            !tile.classList.contains("is-classified")
+          ) {
+            addVariableType(
+              tile,
+              "controlled",
+              "Controlled variable"
+            );
+          }
+        });
+
+        selectedMode = "";
+
+        modeButtons.forEach(function(button) {
+          button.classList.remove("mode-active");
+
+          button.setAttribute(
+            "aria-pressed",
+            "false"
+          );
+
+          button.disabled = true;
+        });
+
+        feedback.className =
+          "variable-feedback feedback-success";
+
+        feedback.textContent =
+          "Correct! The remaining variables must be kept the same to make this a fair test.";
+
+        nextButton.disabled = false;
+      }
+
+      modeButtons.forEach(function(button) {
+        button.addEventListener(
+          "click",
+          function() {
+            setMode(
+              button.dataset.variableMode
+            );
+          }
+        );
+      });
+
+      variableTiles.forEach(function(tile) {
+        tile.addEventListener(
+          "click",
+          function() {
+            if (
+              tile.classList.contains("is-classified")
+            ) {
+              return;
+            }
+
+            /*
+              The student clicked a variable without first
+              selecting independent or dependent.
+            */
+            if (selectedMode === "") {
+              buzzTile(
+                tile,
+                independentComplete
+                  ? "Select Dependent: measure, then choose the measured result."
+                  : "Select Independent: change first."
+              );
+
+              return;
+            }
+
+            /*
+              Independent variable:
+              the correct answer is floor surface.
+            */
+            if (selectedMode === "independent") {
+              if (
+                tile.dataset.variable !==
+                "floor-surface"
+              ) {
+                buzzTile(
+                  tile,
+                  "Try again. Which variable is deliberately changed in the question?"
+                );
+
+                return;
+              }
+
+              addVariableType(
+                tile,
+                "independent",
+                "Independent variable"
+              );
+
+              independentComplete = true;
+              selectedMode = "";
+
+              const independentButton =
+                activity.querySelector(
+                  '[data-variable-mode="independent"]'
+                );
+
+              independentButton.classList.remove(
+                "mode-active"
+              );
+
+              independentButton.setAttribute(
+                "aria-pressed",
+                "false"
+              );
+
+              independentButton.disabled = true;
+
+              feedback.className =
+                "variable-feedback feedback-success";
+
+              feedback.textContent =
+                "Correct! Now select Dependent: measure.";
+
+              return;
+            }
+
+            /*
+              Dependent variable:
+              the correct answer is height of bounce.
+            */
+            if (selectedMode === "dependent") {
+              if (
+                tile.dataset.variable !==
+                "height-of-bounce"
+              ) {
+                buzzTile(
+                  tile,
+                  "Try again. Which result is observed or measured?"
+                );
+
+                return;
+              }
+
+              addVariableType(
+                tile,
+                "dependent",
+                "Dependent variable"
+              );
+
+              dependentComplete = true;
+
+              if (
+                independentComplete &&
+                dependentComplete
+              ) {
+                completeControlledVariables();
+              }
+            }
+          }
+        );
+
+        /*
+          Remove the animation class after the buzz finishes,
+          allowing it to work again later.
+        */
+        tile.addEventListener(
+          "animationend",
+          function() {
+            tile.classList.remove("buzz");
+          }
+        );
+      });
+    }
 
     /* Placeholder so the shared PDF function can safely call it.
        Add localStorage saving here when Lesson 2 interactions are built. */
