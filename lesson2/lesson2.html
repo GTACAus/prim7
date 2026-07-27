@@ -1813,12 +1813,6 @@
 
 const feedbackDefaultMessage = "Select either <strong>Independent: change</strong> or <strong>Dependent: measure</strong>.";
 
-      if (typeof initialiseClassroomLanguageFilter === "function") {
-        initialiseClassroomLanguageFilter("../cypher.txt");
-      }
-      initialiseDiscoverVariables();
-      initialiseSortVariablesOne();
-      initialiseInvestigationQuestion();
 let sortVariablesOneStructure = {
   activityID: "sort-variables-one",
   activity: null,
@@ -1854,7 +1848,7 @@ let sortVariablesTwoStructure = {
 };
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {  
   if (typeof initialiseTeacherMenu === "function") {
     initialiseTeacherMenu(lesson2SectionIds, "observe-bounce");
   }
@@ -1862,6 +1856,8 @@ document.addEventListener("DOMContentLoaded", function() {
   if (typeof initialiseClassroomLanguageFilter === "function") {
     initialiseClassroomLanguageFilter("../cypher.txt");
   }
+  initialiseInvestigationQuestion();
+
   initialiseSortVariables(sortVariablesOneStructure);
   initialiseSortVariables(sortVariablesTwoStructure);
 });
