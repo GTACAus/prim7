@@ -230,6 +230,18 @@
       cursor: pointer;
     }
 
+    .independent-mode-button {
+      background: var(--soft-yellow);
+    }
+
+    .dependent-mode-button {
+      background: var(--soft-purple);
+    }
+
+    .controlled-mode-button {
+      background: var(--soft-green);
+    }
+
     .variable-tile-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -473,33 +485,24 @@
 </head>
 
 <body>
-  <div id="top"></div>
-
   <!-- ==================================================
        FIXED PAGE CONTROLS
        Update worksheet link later when the PDF exists.
        ================================================== -->
-  <header class="page-header">
-    <button
-      type="button"
-      class="home-button"
-      onclick="window.location.href='../index.html'">
-      🏠 Home
-    </button>
-
-    <button
-      type="button"
-      class="glossary-button"
-      onclick="openGlossary()">
-      📖 Vocabulary
-    </button>
-
-    <a
-      class="worksheet-button"
-      href="../worksheets/lesson2-worksheet.pdf"
-      download>
-      📄 Download worksheet
-    </a>
+    <div class="page-header-wrapper">
+      <header class="page-header">
+        <button class="general-button home-button" onclick="window.location.href='../index.html'">
+          <p class="bounce-symbol">🏠</p>
+          <p>Home</p>
+        </button>
+        <button class="general-button glossary-button" onclick="openGlossary()">
+          <p class="bounce-symbol">📖</p>
+          <p>Vocabulary</p>
+        </button>
+        
+      </header>
+    </div>
+  <!-- <header class="page-header">
 
     <button
       type="button"
@@ -507,7 +510,8 @@
       onclick="downloadLessonPDF()">
       💾 Save my work
     </button>
-  </header>
+    
+  </header> -->
 
   <!-- ==================================================
        VOCABULARY MODAL
@@ -659,6 +663,15 @@
         <p class="lesson-summary">
           Learn how scientists identify variables and plan an experiment that is fair.
         </p>
+
+        <a
+          class="worksheet-button
+          general-button"
+          href="../worksheets/l2-worksheet.pdf"
+          download> 
+          <p class="bounce-symbol">📄</p>
+          <p>Download worksheet</p>
+        </a>
       </div>
 
       <div class="intro-grid">
@@ -912,9 +925,9 @@
         </p>
 
         <div class="variable-selection-toolbar">
-          <button type="button" class="variable-mode-button">Independent: change</button>
-          <button type="button" class="variable-mode-button">Dependent: measure</button>
-          <button type="button" class="variable-mode-button">Controlled: keep the same</button>
+          <button type="button" class="variable-mode-button independent-mode-button">Independent: change</button>
+          <button type="button" class="variable-mode-button dependent-mode-button">Dependent: measure</button>
+          <button type="button" class="variable-mode-button controlled-mode-button">Controlled: keep the same</button>
         </div>
 
         <div class="variable-tile-grid">
@@ -953,9 +966,9 @@
         </p>
 
         <div class="variable-selection-toolbar">
-          <button type="button" class="variable-mode-button">Independent: change</button>
-          <button type="button" class="variable-mode-button">Dependent: measure</button>
-          <button type="button" class="variable-mode-button">Controlled: keep the same</button>
+          <button type="button" class="variable-mode-button independent-mode-button">Independent: change</button>
+          <button type="button" class="variable-mode-button dependent-mode-button">Dependent: measure</button>
+          <button type="button" class="variable-mode-button controlled-mode-button">Controlled: keep the same</button>
         </div>
 
         <div class="variable-tile-grid">
@@ -1174,7 +1187,20 @@
           variable choices and procedure into one final investigation plan.
         </p>
       </div>
+
+      <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 
+          <p class="bounce-symbol">💾</p>
+          <p>Save my work</p>
+        </button>
+      </section>
     </section>
+
+    <div class="return-to-top">
+      <a class="return-to-top-button general-button" href="#">
+        <p class="bounce-symbol">↑</p>
+        <p>Return to Top</p>
+      </a>
+    </div>        
   </main>
 
   <script src="../scripts/common_functions.js"></script>
@@ -1212,6 +1238,9 @@
     function saveCurrentPageData() {
       console.log("Lesson 2 skeleton: no saved activity data yet.");
     }
+  </script>
+  <script>
+    
   </script>
 </body>
 </html>
