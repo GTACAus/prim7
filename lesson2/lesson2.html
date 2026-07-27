@@ -304,29 +304,29 @@
       SORT VARIABLES — ACTIVITY 1
       ================================================== */
 
-    #sort-variables-one .variable-mode-button {
+    .sort-variables-section .variable-mode-button {
       transition:
         transform 0.18s ease,
         box-shadow 0.18s ease,
         opacity 0.18s ease;
     }
 
-    #sort-variables-one .variable-mode-button:not(:disabled):hover,
-    #sort-variables-one .variable-mode-button.mode-active {
+    .sort-variables-section .variable-mode-button:not(:disabled):hover,
+    .sort-variables-section .variable-mode-button.mode-active {
       transform: translateY(-2px);
       box-shadow: 0 4px 0 var(--line);
     }
 
-    #sort-variables-one .variable-mode-button.mode-active {
+    .sort-variables-section .variable-mode-button.mode-active {
       outline: 4px solid rgba(48, 51, 47, 0.16);
     }
 
-    #sort-variables-one .controlled-mode-button:disabled {
+    .sort-variables-section .controlled-mode-button:disabled {
       opacity: 0.72;
       cursor: default;
     }
 
-    #sort-variables-one .variable-tile {
+    .sort-variables-section .variable-tile {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -338,11 +338,11 @@
         background 0.18s ease;
     }
 
-    #sort-variables-one .variable-tile-label {
+    .sort-variables-section .variable-tile-label {
       display: block;
     }
 
-    #sort-variables-one .variable-tile-type {
+    .sort-variables-section .variable-tile-type {
       display: block;
 
       font-size: 0.78rem;
@@ -352,23 +352,23 @@
 
     /* Use the existing Lesson 2 variable colours */
 
-    #sort-variables-one .variable-tile.is-independent {
+    .sort-variables-section .variable-tile.is-independent {
       background: var(--soft-yellow);
     }
 
-    #sort-variables-one .variable-tile.is-dependent {
+    .sort-variables-section .variable-tile.is-dependent {
       background: var(--soft-purple);
     }
 
-    #sort-variables-one .variable-tile.is-controlled {
+    .sort-variables-section .variable-tile.is-controlled {
       background: var(--soft-green);
     }
 
-    #sort-variables-one .variable-tile.is-classified {
+    .sort-variables-section .variable-tile.is-classified {
       cursor: default;
     }
 
-    #sort-variables-one .variable-feedback {
+    .sort-variables-section .variable-feedback {
       margin-top: 18px;
       padding: 14px 16px;
 
@@ -382,12 +382,12 @@
       text-align: center;
     }
 
-    #sort-variables-one .variable-feedback.feedback-success {
+    .sort-variables-section .variable-feedback.feedback-success {
       background: var(--soft-green);
       border-style: solid;
     }
 
-    #sort-variables-one .variable-feedback.feedback-try-again {
+    .sort-variables-section .variable-feedback.feedback-try-again {
       background: var(--soft-orange);
       border-style: solid;
     }
@@ -418,7 +418,7 @@
       }
     }
 
-    #sort-variables-one .variable-tile.buzz {
+    .sort-variables-section .variable-tile.buzz {
       animation: variableTileBuzz 0.28s ease;
     }
 
@@ -1166,7 +1166,7 @@
     <!-- ==================================================
      4. SORT VARIABLES - FLOOR SURFACE
      ================================================== -->
-    <section class="section locked" id="sort-variables-one">
+    <section class="sort-variables-section section locked" id="sort-variables-one">
       <h2 class="section-title">Sort the variables</h2>
 
       <div class="variable-activity">
@@ -1275,7 +1275,7 @@
     <!-- ==================================================
          5. SORT VARIABLES - BALL SIZE
          ================================================== -->
-    <section class="section locked" id="sort-variables-two">
+    <section class="sort-variables-section section locked" id="sort-variables-two">
       <h2 class="section-title">Try another fair-test question</h2>
 
       <div class="variable-activity">
@@ -1357,20 +1357,22 @@
         </div>
 
         <div
-          id="sortVariablesOneFeedback"
+          id="sortVariablesTwoFeedback"
           class="variable-feedback"
           role="status"
           aria-live="polite">
         </div>
         <div class="reset-button-container">
-          <button type="button" id="sort-variables-reset-1" class="general-button reset-btn">Reset</button>
+          <button type="button" id="sort-variables-reset-2" class="general-button reset-btn">Reset</button>
         </div>
       </div>
 
       <button
         type="button"
+        id="sortVariablesTwoNext"
         class="next-button"
-        onclick="unlockSection('design-question', 'sort-variables-two')">
+        onclick="unlockSection('sort-variables-two', 'sort-variables-one')"
+        hidden>
         Next
       </button>
 
@@ -1604,7 +1606,7 @@
   "describe-fair-test"
 ];
 
-let feedbackDefaultMessage = "Select either <strong>Independent: change</strong> or <strong>Dependent: measure</strong>.";
+const feedbackDefaultMessage = "Select either <strong>Independent: change</strong> or <strong>Dependent: measure</strong>.";
 
 let sortVariablesOneStructure = {
   activityID: "sort-variables-one",
@@ -1668,6 +1670,11 @@ function initialiseSortVariables(variableStructure) {
   variableStructure.variableTiles =
     variableStructure.activity.querySelectorAll(".variable-tile");
 
+  console.log(variableStructure.activityID);
+  console.log(variableStructure.activity);
+  console.log(variableStructure.feedbackId);
+  console.log(variableStructure.activity.innerHTML);
+
   variableStructure.feedback =
     variableStructure.activity.querySelector(variableStructure.feedbackId);
   
@@ -1688,7 +1695,7 @@ function initialiseSortVariables(variableStructure) {
     });
   });
   variableStructure.resetButton = document.getElementById(variableStructure.resetButtonId);
-  variableStructure.resetButton.addEventListener("click", function(event) {resetSortVariables(event, variableStructure)});
+  variableStructure.resetButton.addEventListener("click", function() {resetSortVariables(variableStructure)});
 }
 
 function handleModeButtonClick(event, variableStructure) {
