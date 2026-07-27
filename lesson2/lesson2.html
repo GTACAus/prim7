@@ -443,6 +443,177 @@
       cursor: pointer;
     }
 
+    /* ==================================================
+      DESIGN AN INVESTIGATION QUESTION
+      ================================================== */
+
+    .question-structure-card {
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+    }
+
+    .question-structure-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 var(--line);
+    }
+
+    .question-structure-card.question-structure-what {
+      background: var(--soft-yellow);
+    }
+
+    .question-structure-card.question-structure-how {
+      background: var(--soft-blue);
+    }
+
+    .question-structure-card.question-structure-does {
+      background: var(--soft-green);
+    }
+
+    .question-structure-card.question-structure-if {
+      background: var(--soft-purple);
+    }
+
+    .question-structure-card.selected {
+      color: white;
+      background: var(--purple);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 var(--line);
+    }
+
+    .investigation-question-builder {
+      margin-top: 18px;
+      padding: 24px;
+
+      background: var(--paper);
+      border: 2px dashed var(--line);
+      border-radius: 18px;
+
+      color: var(--text);
+    }
+
+    .investigation-question-builder.builder-active {
+      border-style: solid;
+      background: var(--soft-blue);
+    }
+
+    .question-builder-placeholder {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .question-builder-sentence {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      margin: 0;
+
+      color: var(--text);
+      font-size: 1.08rem;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .question-blank {
+      display: inline-block;
+      min-width: 190px;
+      max-width: 100%;
+      vertical-align: middle;
+    }
+
+    .question-blank-input-row {
+      display: block;
+    }
+
+    .question-blank-input {
+      width: 100%;
+      min-height: 44px;
+      padding: 9px 12px;
+
+      background: white;
+      color: var(--text);
+
+      border: 2px solid var(--line);
+      border-radius: 12px;
+
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .question-blank-input:focus {
+      outline: 3px solid rgba(78, 50, 232, 0.18);
+      border-color: var(--purple);
+    }
+
+    .question-blank-answer {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      width: 100%;
+      min-height: 44px;
+      padding: 9px 11px;
+
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+
+      color: var(--text);
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .question-blank-answer.visible {
+      display: flex;
+    }
+
+    .question-blank-answer-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .completed-investigation-question {
+      margin: 20px 0 0;
+      padding: 16px 18px;
+
+      background: var(--soft-green);
+      border: 2px solid var(--line);
+      border-radius: 16px;
+
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    .completed-investigation-question[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 650px) {
+      .question-builder-sentence {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .question-blank {
+        width: 100%;
+      }
+    }
+
+    .reset-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
     .question-builder-placeholder,
     .prediction-placeholder,
     .diagram-placeholder,
@@ -1324,26 +1495,60 @@
         </p>
       </div>
 
-      <div class="question-structure-grid">
-        <button type="button" class="question-structure-card">
+      <div
+        class="question-structure-grid"
+        id="questionStructureGrid">
+
+        <button
+          type="button"
+          class="question-structure-card question-structure-what"
+          data-question-structure="what"
+          aria-pressed="false">
           What happens to ______ when I change ______?
         </button>
 
-        <button type="button" class="question-structure-card">
+        <button
+          type="button"
+          class="question-structure-card question-structure-how"
+          data-question-structure="how"
+          aria-pressed="false">
           How does changing ______ affect ______?
         </button>
 
-        <button type="button" class="question-structure-card">
+        <button
+          type="button"
+          class="question-structure-card question-structure-does"
+          data-question-structure="does"
+          aria-pressed="false">
           Does changing ______ affect ______?
         </button>
 
-        <button type="button" class="question-structure-card">
+        <button
+          type="button"
+          class="question-structure-card question-structure-if"
+          data-question-structure="if"
+          aria-pressed="false">
           If I change ______, what happens to ______?
         </button>
       </div>
 
-      <div class="question-builder-placeholder">
-        The selected question structure and fillable sentence builder will appear here.
+      <div
+        class="investigation-question-builder"
+        id="investigationQuestionBuilder"
+        aria-live="polite">
+
+        <p class="question-builder-placeholder">
+          Select a question structure above to begin.
+        </p>
+      </div>
+
+      <div class="reset-button-container">
+        <button
+          type="button"
+          class="general-button reset-btn"
+          onclick="resetInvestigationQuestion()">
+          Reset
+        </button>
       </div>
 
       <button
@@ -1548,6 +1753,7 @@
       }
       initialiseDiscoverVariables();
       initialiseSortVariablesOne();
+      initialiseInvestigationQuestion();
     });
 
     function initialiseDiscoverVariables() {
@@ -1973,6 +2179,408 @@
       });
     }
 
+    /* ==================================================
+      DESIGN AN INVESTIGATION QUESTION
+      ================================================== */
+
+    let investigationQuestionState = {
+      structure: "",
+      firstAnswer: "",
+      secondAnswer: ""
+    };
+
+    const investigationQuestionTemplates = {
+      what: {
+        parts: [
+          "What happens to ",
+          " when I change ",
+          "?"
+        ],
+        firstPlaceholder: "What will you measure?",
+        secondPlaceholder: "What will you change?"
+      },
+
+      how: {
+        parts: [
+          "How does changing ",
+          " affect ",
+          "?"
+        ],
+        firstPlaceholder: "What will you change?",
+        secondPlaceholder: "What will you measure?"
+      },
+
+      does: {
+        parts: [
+          "Does changing ",
+          " affect ",
+          "?"
+        ],
+        firstPlaceholder: "What will you change?",
+        secondPlaceholder: "What will you measure?"
+      },
+
+      if: {
+        parts: [
+          "If I change ",
+          ", what happens to ",
+          "?"
+        ],
+        firstPlaceholder: "What will you change?",
+        secondPlaceholder: "What will you measure?"
+      }
+    };
+
+
+    function initialiseInvestigationQuestion() {
+      const activity =
+        document.getElementById("design-question");
+
+      if (!activity) {
+        return;
+      }
+
+      const structureButtons =
+        activity.querySelectorAll(
+          "[data-question-structure]"
+        );
+
+      structureButtons.forEach(function(button) {
+        button.addEventListener(
+          "click",
+          function() {
+            selectInvestigationQuestionStructure(
+              button.dataset.questionStructure
+            );
+          }
+        );
+      });
+    }
+
+
+    function selectInvestigationQuestionStructure(
+      structureName
+    ) {
+      const activity =
+        document.getElementById("design-question");
+
+      const builder =
+        document.getElementById(
+          "investigationQuestionBuilder"
+        );
+
+      const template =
+        investigationQuestionTemplates[
+          structureName
+        ];
+
+      if (!activity || !builder || !template) {
+        return;
+      }
+
+      investigationQuestionState = {
+        structure: structureName,
+        firstAnswer: "",
+        secondAnswer: ""
+      };
+
+      activity
+        .querySelectorAll(
+          "[data-question-structure]"
+        )
+        .forEach(function(button) {
+          const isSelected =
+            button.dataset.questionStructure ===
+            structureName;
+
+          button.classList.toggle(
+            "selected",
+            isSelected
+          );
+
+          button.setAttribute(
+            "aria-pressed",
+            String(isSelected)
+          );
+        });
+
+      builder.classList.add("builder-active");
+      builder.innerHTML = "";
+
+      const sentence =
+        document.createElement("div");
+
+      sentence.className =
+        "question-builder-sentence";
+
+      sentence.appendChild(
+        document.createTextNode(
+          template.parts[0]
+        )
+      );
+
+      sentence.appendChild(
+        createInvestigationQuestionBlank(
+          "firstAnswer",
+          template.firstPlaceholder
+        )
+      );
+
+      sentence.appendChild(
+        document.createTextNode(
+          template.parts[1]
+        )
+      );
+
+      sentence.appendChild(
+        createInvestigationQuestionBlank(
+          "secondAnswer",
+          template.secondPlaceholder
+        )
+      );
+
+      sentence.appendChild(
+        document.createTextNode(
+          template.parts[2]
+        )
+      );
+
+      const completedQuestion =
+        document.createElement("div");
+
+      completedQuestion.id =
+        "completedInvestigationQuestion";
+
+      completedQuestion.className =
+        "completed-investigation-question";
+
+      completedQuestion.hidden = true;
+
+      builder.appendChild(sentence);
+      builder.appendChild(completedQuestion);
+    }
+
+
+    function createInvestigationQuestionBlank(
+      fieldName,
+      placeholderText
+    ) {
+      const wrapper =
+        document.createElement("span");
+
+      wrapper.className = "question-blank";
+
+      const inputRow =
+        document.createElement("span");
+
+      inputRow.className =
+        "question-blank-input-row";
+
+      const input =
+        document.createElement("input");
+
+      input.type = "text";
+      input.className =
+        "question-blank-input";
+
+      input.placeholder = placeholderText;
+
+      input.setAttribute(
+        "aria-label",
+        placeholderText
+      );
+
+      const answerBox =
+        document.createElement("span");
+
+      answerBox.className =
+        "question-blank-answer";
+
+      inputRow.appendChild(input);
+      wrapper.appendChild(inputRow);
+      wrapper.appendChild(answerBox);
+
+      function saveAnswer() {
+        const value = input.value.trim();
+
+        if (value === "") {
+          return;
+        }
+
+        if (
+          typeof containsProfanity ===
+            "function" &&
+          containsProfanity(value)
+        ) {
+          input.value = "";
+          input.focus();
+          return;
+        }
+
+        investigationQuestionState[
+          fieldName
+        ] = value;
+
+        answerBox.innerHTML = "";
+
+        const answerText =
+          document.createElement("span");
+
+        answerText.className =
+          "question-blank-answer-text";
+
+        answerText.textContent = value;
+
+        const deleteButton =
+          document.createElement("button");
+
+        deleteButton.type = "button";
+        deleteButton.className =
+          "delete-answer";
+
+        deleteButton.textContent = "×";
+
+        deleteButton.setAttribute(
+          "aria-label",
+          "Edit " + value
+        );
+
+        deleteButton.addEventListener(
+          "click",
+          function() {
+            investigationQuestionState[
+              fieldName
+            ] = "";
+
+            answerBox.classList.remove(
+              "visible"
+            );
+
+            answerBox.innerHTML = "";
+
+            inputRow.style.display =
+              "block";
+
+            input.value = value;
+            input.focus();
+            input.select();
+
+            updateCompletedInvestigationQuestion();
+          }
+        );
+
+        answerBox.appendChild(answerText);
+        answerBox.appendChild(deleteButton);
+
+        inputRow.style.display = "none";
+        answerBox.classList.add("visible");
+        input.value = "";
+
+        updateCompletedInvestigationQuestion();
+      }
+
+      if (
+        typeof connectEnterAndBlurSave ===
+        "function"
+      ) {
+        connectEnterAndBlurSave(
+          input,
+          saveAnswer
+        );
+      }
+
+      return wrapper;
+    }
+
+
+    function updateCompletedInvestigationQuestion() {
+      const completedQuestion =
+        document.getElementById(
+          "completedInvestigationQuestion"
+        );
+
+      const template =
+        investigationQuestionTemplates[
+          investigationQuestionState.structure
+        ];
+
+      if (!completedQuestion || !template) {
+        return;
+      }
+
+      const firstAnswer =
+        investigationQuestionState.firstAnswer;
+
+      const secondAnswer =
+        investigationQuestionState.secondAnswer;
+
+      if (
+        firstAnswer === "" ||
+        secondAnswer === ""
+      ) {
+        completedQuestion.hidden = true;
+        completedQuestion.textContent = "";
+        return;
+      }
+
+      completedQuestion.textContent =
+        template.parts[0] +
+        firstAnswer +
+        template.parts[1] +
+        secondAnswer +
+        template.parts[2];
+
+      completedQuestion.hidden = false;
+    }
+
+
+    function resetInvestigationQuestion() {
+      const activity =
+        document.getElementById(
+          "design-question"
+        );
+
+      const builder =
+        document.getElementById(
+          "investigationQuestionBuilder"
+        );
+
+      if (!activity || !builder) {
+        return;
+      }
+
+      investigationQuestionState = {
+        structure: "",
+        firstAnswer: "",
+        secondAnswer: ""
+      };
+
+      activity
+        .querySelectorAll(
+          "[data-question-structure]"
+        )
+        .forEach(function(button) {
+          button.classList.remove(
+            "selected"
+          );
+
+          button.setAttribute(
+            "aria-pressed",
+            "false"
+          );
+        });
+
+      builder.classList.remove(
+        "builder-active"
+      );
+
+      builder.innerHTML =
+        '<p class="question-builder-placeholder">' +
+        "Select a question structure above to begin." +
+        "</p>";
+    }
+
+    
     /* Placeholder so the shared PDF function can safely call it.
        Add localStorage saving here when Lesson 2 interactions are built. */
     function saveCurrentPageData() {
