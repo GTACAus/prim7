@@ -109,20 +109,8 @@
       gap: 10px;
       border: 2px solid var(--line);
       border-radius: 18px;
-      background: var(--paper);
-      box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
-    }
-
-    .variable-entry-card:nth-child(3n + 1) {
-      background: var(--soft-yellow);
-    }
-
-    .variable-entry-card:nth-child(3n + 2) {
-      background: var(--soft-blue);
-    }
-
-    .variable-entry-card:nth-child(3n) {
       background: var(--soft-green);
+      box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
     }
 
     .variable-entry-card label {
@@ -1154,9 +1142,9 @@
         </p>
 
         <div class="variable-selection-toolbar">
-          <button type="button" class="variable-mode-button independent-mode-button">Independent: change</button>
-          <button type="button" class="variable-mode-button dependent-mode-button">Dependent: measure</button>
-          <button type="button" class="variable-mode-button controlled-mode-button">Controlled: keep the same</button>
+          <button type="button" id="independent2" class="variable-mode-button independent-mode-button">Independent: change</button>
+          <button type="button" id="dependent2" class="variable-mode-button dependent-mode-button">Dependent: measure</button>
+          <button type="button" id="controlled2" class="variable-mode-button controlled-mode-button">Controlled: keep the same</button>
         </div>
 
         <div class="variable-tile-grid">
@@ -1709,9 +1697,6 @@
     function saveCurrentPageData() {
       console.log("Lesson 2 skeleton: no saved activity data yet.");
     }
-  </script>
-  <script>
-    
   </script>
 </body>
 </html>
