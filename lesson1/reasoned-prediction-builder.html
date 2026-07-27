@@ -802,28 +802,34 @@ body {
       const conditionTwo = (containsProfanity(conditionTwoInput.value.trim())) ? "" : conditionTwoInput.value.trim();
 
       const causePhrases = {
-  increase:
-    "If I increase " + change,
+        increase:
+          "If I increase " + change,
 
-  decrease:
-    "If I decrease " + change,
+        decrease:
+          "If I decrease " + change,
 
-  "condition-one-to-two":
-    "If I change " +
-    change +
-    " from " +
-    (conditionOne || "condition 1") +
-    " to " +
-    (conditionTwo || "condition 2"),
+        with:
+          "If I conduct the experiment with " + change,
 
-  "condition-two-to-one":
-    "If I change " +
-    change +
-    " from " +
-    (conditionTwo || "condition 2") +
-    " to " +
-    (conditionOne || "condition 1")
-};
+        without:
+          "If I conduct the experiment without " + change,
+
+        "condition-one-to-two":
+          "If I change " +
+          change +
+          " from " +
+          (conditionOne || "condition 1") +
+          " to " +
+          (conditionTwo || "condition 2"),
+
+        "condition-two-to-one":
+          "If I change " +
+          change +
+          " from " +
+          (conditionTwo || "condition 2") +
+          " to " +
+          (conditionOne || "condition 1")
+      };
 
       return causePhrases[selectedCause] || "";
     }
