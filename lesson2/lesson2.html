@@ -128,6 +128,47 @@
       font: inherit;
     }
 
+    /* ==================================================
+      DISCOVER VARIABLES — SAVED ANSWERS
+      ================================================== */
+
+    .variable-entry-input-row {
+      display: block;
+    }
+
+    .variable-entry-answer {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 11px;
+
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .variable-entry-answer.visible {
+      display: flex;
+    }
+
+    .variable-entry-answer-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .variable-entry-answer .delete-answer {
+      flex: 0 0 auto;
+    }
+
     .variable-type-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -922,47 +963,146 @@
       <div class="variable-grid">
         <div class="variable-entry-card">
           <label for="variable1">Variable 1</label>
-          <input id="variable1" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable1"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable1Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable2">Variable 2</label>
-          <input id="variable2" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable2"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable2Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable3">Variable 3</label>
-          <input id="variable3" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable3"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable3Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable4">Variable 4</label>
-          <input id="variable4" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable4"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable4Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable5">Variable 5</label>
-          <input id="variable5" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable5"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable5Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable6">Variable 6</label>
-          <input id="variable6" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable6"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable6Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable7">Variable 7</label>
-          <input id="variable7" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable7"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable7Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable8">Variable 8</label>
-          <input id="variable8" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable8"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable8Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
 
         <div class="variable-entry-card">
           <label for="variable9">Variable 9</label>
-          <input id="variable9" type="text" placeholder="Add a variable">
+
+          <div class="variable-entry-input-row">
+            <input
+              id="variable9"
+              type="text"
+              placeholder="Add a variable">
+          </div>
+
+          <div
+            id="variable9Answer"
+            class="variable-entry-answer">
+          </div>
         </div>
       </div>
 
@@ -1368,7 +1508,6 @@
           <p class="bounce-symbol">💾</p>
           <p>Save my work</p>
         </button>
-      </section>
     </section>
 
     <div class="return-to-top">
@@ -1407,9 +1546,151 @@
       if (typeof initialiseClassroomLanguageFilter === "function") {
         initialiseClassroomLanguageFilter("../cypher.txt");
       }
-
+      initialiseDiscoverVariables();
       initialiseSortVariablesOne();
     });
+
+    function initialiseDiscoverVariables() {
+      const activity =
+        document.getElementById(
+          "discover-variables"
+        );
+
+      if (!activity) {
+        return;
+      }
+
+      const cards =
+        activity.querySelectorAll(
+          ".variable-entry-card"
+        );
+
+      cards.forEach(function(card) {
+        const input =
+          card.querySelector(
+            'input[type="text"]'
+          );
+
+        const inputRow =
+          card.querySelector(
+            ".variable-entry-input-row"
+          );
+
+        const answerBox =
+          card.querySelector(
+            ".variable-entry-answer"
+          );
+
+        if (
+          !input ||
+          !inputRow ||
+          !answerBox
+        ) {
+          return;
+        }
+
+        function saveVariableAnswer() {
+          const value =
+            input.value.trim();
+
+          if (value === "") {
+            return;
+          }
+
+          /*
+            Reuse the classroom-language filter that
+            has already been loaded from common_functions.js.
+          */
+          if (
+            typeof containsProfanity ===
+              "function" &&
+            containsProfanity(value)
+          ) {
+            input.value = "";
+            input.focus();
+            return;
+          }
+
+          answerBox.innerHTML = "";
+
+          const answerText =
+            document.createElement("span");
+
+          answerText.className =
+            "variable-entry-answer-text";
+
+          answerText.textContent = value;
+
+          const deleteButton =
+            document.createElement("button");
+
+          deleteButton.type = "button";
+          deleteButton.className =
+            "delete-answer";
+
+          deleteButton.textContent = "×";
+
+          deleteButton.setAttribute(
+            "aria-label",
+            "Edit " + value
+          );
+
+          deleteButton.addEventListener(
+            "click",
+            function() {
+              restoreVariableInput(value);
+            }
+          );
+
+          answerBox.appendChild(
+            answerText
+          );
+
+          answerBox.appendChild(
+            deleteButton
+          );
+
+          inputRow.style.display = "none";
+          answerBox.classList.add("visible");
+
+          /*
+            Clear the hidden input. The saved value is
+            held in the displayed answer.
+          */
+          input.value = "";
+        }
+
+        function restoreVariableInput(
+          previousValue
+        ) {
+          answerBox.classList.remove(
+            "visible"
+          );
+
+          answerBox.innerHTML = "";
+
+          inputRow.style.display = "block";
+          input.value = previousValue;
+          input.focus();
+          input.select();
+        }
+
+        /*
+          Reuse the shared helper:
+          - Enter saves
+          - clicking or tabbing away saves
+        */
+        if (
+          typeof connectEnterAndBlurSave ===
+          "function"
+        ) {
+          connectEnterAndBlurSave(
+            input,
+            saveVariableAnswer
+          );
+        }
+      });
+    }
 
     function initialiseSortVariablesOne() {
       const activity =
