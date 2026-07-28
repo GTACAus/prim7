@@ -38,16 +38,6 @@
         
       </header>
     </div>
-  <!-- <header class="page-header">
-
-    <button
-      type="button"
-      class="save-work-button"
-      onclick="downloadLessonPDF()">
-      💾 Save my work
-    </button>
-    
-  </header> -->
 
   <!-- ==================================================
        VOCABULARY MODAL
@@ -543,6 +533,8 @@
       <div class="fair-test-rule">
         A fair test changes one variable, measures one result and keeps all other variables the same.
       </div>
+
+      
 
       <button
         type="button"
@@ -1182,6 +1174,8 @@
   <script src="../scripts/common_functions.js"></script>
 
   <script>
+    const dev = true;
+    if (dev) addEventListener("DOMContentLoaded", teacherShowAll);
     /* ==================================================
        LESSON 2 PAGE SETUP
        Activity-specific functionality will be added later.
