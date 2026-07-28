@@ -791,3 +791,123 @@ function connectEnterAndBlurSave(input, saveFunction) {
 
   input.addEventListener("blur", saveInput);
 }
+
+/* ==================================================
+   SHARED STUDENT-ANSWER HELPERS
+   ================================================== */
+
+/*
+  Read and validate a student's text input.
+
+  Returns:
+  - the cleaned text when valid;
+  - null when empty or blocked.
+*/
+function getValidStudentInput(input) {
+  if (!input) {
+    return null;
+  }
+
+  const value = input.value.trim();
+
+  if (value === "") {
+    return null;
+  }
+
+  if (
+    typeof containsProfanity === "function" &&
+    containsProfanity(value)
+  ) {
+    input.value = "";
+    input.focus();
+
+    return null;
+  }
+
+  return value;
+}
+
+
+/*
+  Create the standard orange × button used beside
+  submitted student answers.
+*/
+function createDeleteAnswerButton(
+  ariaLabel,
+  deleteFunction
+) {
+  const deleteButton =
+    document.createElement("button");
+
+  deleteButton.type = "button";
+  deleteButton.className = "delete-answer";
+  deleteButton.textContent = "×";
+
+  deleteButton.setAttribute(
+    "aria-label",
+    ariaLabel
+  );
+
+  deleteButton.addEventListener(
+    "click",
+    deleteFunction
+  );
+
+  return deleteButton;
+}
+
+/*
+  Apply a standard success or try-again message
+  to an activity feedback box.
+*/
+function setActivityFeedback(
+  feedbackElement,
+  feedbackType,
+  title,
+  message
+) {
+  if (!feedbackElement) {
+    return;
+  }
+
+  feedbackElement.className =
+    "variable-feedback";
+
+  if (feedbackType === "success") {
+    feedbackElement.classList.add(
+      "feedback-success"
+    );
+  }
+
+  if (feedbackType === "try-again") {
+    feedbackElement.classList.add(
+      "feedback-try-again"
+    );
+  }
+
+  feedbackElement.innerHTML = "";
+
+  const titleElement =
+    document.createElement("strong");
+
+  titleElement.className =
+    "ball-pair-feedback-title";
+
+  titleElement.textContent = title;
+
+  const messageElement =
+    document.createElement("span");
+
+  messageElement.className =
+    "ball-pair-feedback-text";
+
+  messageElement.textContent = message;
+
+  feedbackElement.appendChild(
+    titleElement
+  );
+
+  feedbackElement.appendChild(
+    messageElement
+  );
+}

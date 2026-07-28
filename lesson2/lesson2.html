@@ -14,796 +14,10 @@
     rel="stylesheet"
     type="text/css">
 
-  <style>
-    /* ==================================================
-       LESSON 2-SPECIFIC SKELETON STYLES
-       Keep shared styles in build_style.css.
-       These can be refined or moved later.
-       ================================================== */
-
-    .fair-test-formula {
-      display: grid;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .formula-step {
-      display: grid;
-      grid-template-columns: 52px 1fr;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border: 2px solid var(--line);
-      border-radius: 14px;
-      background: var(--paper);
-    }
-
-    .formula-step-number {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 38px;
-      height: 38px;
-      border: 2px solid var(--line);
-      border-radius: 50%;
-      font-weight: 700;
-      background: var(--yellow);
-    }
-
-    .formula-step.measure .formula-step-number {
-      background: var(--soft-purple);
-    }
-
-    .formula-step.control .formula-step-number {
-      background: var(--soft-green);
-    }
-
-    .formula-step strong {
-      display: block;
-      margin-bottom: 3px;
-      color: var(--text);
-    }
-
-    .formula-step span {
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .hook-image-box {
-      min-height: 500px;
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--soft-blue);
-      border: 2px dashed var(--line);
-      border-radius: 20px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .hook-image-placeholder {
-      max-width: 360px;
-      line-height: 1.6;
-    }
-
-    .hook-image-placeholder .placeholder-icon {
-      display: block;
-      margin-bottom: 12px;
-      font-size: 4rem;
-    }
-
-    .variable-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .variable-entry-card {
-      min-height: 120px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 10px;
-      border: 2px solid var(--line);
-      border-radius: 18px;
-      background: var(--soft-green);
-      box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
-    }
-
-    .variable-entry-card label {
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .variable-entry-card input {
-      width: 100%;
-      padding: 11px 12px;
-      border: 2px solid var(--line);
-      border-radius: 999px;
-      background: white;
-      color: var(--text);
-      font: inherit;
-    }
-
-    /* ==================================================
-      DISCOVER VARIABLES — SAVED ANSWERS
-      ================================================== */
-
-    .variable-entry-input-row {
-      display: block;
-    }
-
-    .variable-entry-answer {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-
-      width: 100%;
-      min-height: 46px;
-      padding: 10px 11px;
-
-      background: white;
-      border: 2px solid var(--line);
-      border-radius: 14px;
-
-      color: var(--text);
-      font-weight: 700;
-      line-height: 1.4;
-      overflow-wrap: anywhere;
-    }
-
-    .variable-entry-answer.visible {
-      display: flex;
-    }
-
-    .variable-entry-answer-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .variable-entry-answer .delete-answer {
-      flex: 0 0 auto;
-    }
-
-    .variable-type-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .variable-type-card {
-      padding: 22px;
-      border: 3px solid var(--line);
-      border-radius: 22px;
-      box-shadow: var(--shadow-small);
-      background: var(--paper);
-    }
-
-    .variable-type-card h3 {
-      margin: 0 0 8px;
-      color: var(--text);
-      font-size: 1.2rem;
-    }
-
-    .variable-type-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .variable-type-card.independent {
-      border-top: 10px solid var(--yellow);
-      background: var(--soft-yellow);
-    }
-
-    .variable-type-card.dependent {
-      border-top: 10px solid var(--purple);
-      background: var(--soft-purple);
-    }
-
-    .variable-type-card.controlled {
-      border-top: 10px solid var(--green);
-      background: var(--soft-green);
-    }
-
-    .fair-test-rule {
-      margin: 22px 0 0;
-      padding: 16px 18px;
-      border: 2px solid var(--line);
-      border-radius: 16px;
-      background: var(--paper);
-      font-weight: 700;
-      text-align: center;
-      color: var(--text);
-    }
-
-    .variable-activity {
-      padding: 22px;
-      border: 3px solid var(--line);
-      border-radius: 22px;
-      background: var(--soft-blue);
-      box-shadow: var(--shadow-small);
-    }
-
-    .variable-question {
-      margin: 0 0 18px;
-      padding: 16px 18px;
-      border: 2px solid var(--line);
-      border-radius: 16px;
-      background: white;
-      color: var(--text);
-      font-weight: 700;
-      line-height: 1.55;
-    }
-
-    .variable-selection-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .variable-mode-button {
-      padding: 10px 14px;
-      border: 2px solid var(--line);
-      border-radius: 999px;
-      background: white;
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .independent-mode-button {
-      background: var(--soft-yellow);
-    }
-
-    .dependent-mode-button {
-      background: var(--soft-purple);
-    }
-
-    .controlled-mode-button {
-      background: var(--soft-green);
-    }
-
-    .variable-tile-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .variable-tile {
-      min-height: 82px;
-      padding: 14px;
-      border: 2px solid var(--line);
-      border-radius: 16px;
-      background: white;
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    .variable-summary-placeholder {
-      margin-top: 18px;
-      padding: 18px;
-      border: 2px dashed var(--line);
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.72);
-      color: var(--muted);
-      text-align: center;
-    }
-
-    /* ==================================================
-      SORT VARIABLES — ACTIVITY 1
-      ================================================== */
-
-    .sort-variables-section .variable-mode-button {
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        opacity 0.18s ease;
-    }
-
-    .sort-variables-section .variable-mode-button:not(:disabled):hover,
-    .sort-variables-section .variable-mode-button.mode-active {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 0 var(--line);
-    }
-
-    .sort-variables-section .variable-mode-button.mode-active {
-      outline: 4px solid rgba(48, 51, 47, 0.16);
-    }
-
-    .sort-variables-section .controlled-mode-button:disabled {
-      opacity: 0.72;
-      cursor: default;
-    }
-
-    .sort-variables-section .variable-tile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-
-      transition:
-        transform 0.18s ease,
-        background 0.18s ease;
-    }
-
-    .sort-variables-section .variable-tile-label {
-      display: block;
-    }
-
-    .sort-variables-section .variable-tile-type {
-      display: block;
-
-      font-size: 0.78rem;
-      font-weight: 600;
-      line-height: 1.25;
-    }
-
-    /* Use the existing Lesson 2 variable colours */
-
-    .sort-variables-section .variable-tile.is-independent {
-      background: var(--soft-yellow);
-    }
-
-    .sort-variables-section .variable-tile.is-dependent {
-      background: var(--soft-purple);
-    }
-
-    .sort-variables-section .variable-tile.is-controlled {
-      background: var(--soft-green);
-    }
-
-    .sort-variables-section .variable-tile.is-classified {
-      cursor: default;
-    }
-
-    .sort-variables-section .variable-feedback {
-      margin-top: 18px;
-      padding: 14px 16px;
-
-      border: 2px dashed var(--line);
-      border-radius: 16px;
-
-      background: rgba(255, 255, 255, 0.72);
-      color: var(--text);
-
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .sort-variables-section .variable-feedback.feedback-success {
-      background: var(--soft-green);
-      border-style: solid;
-    }
-
-    .sort-variables-section .variable-feedback.feedback-try-again {
-      background: var(--soft-orange);
-      border-style: solid;
-    }
-
-    #sortVariablesOneNext:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
-    /* Incorrect-answer shake */
-
-    @keyframes variableTileBuzz {
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-6px);
-      }
-
-      50% {
-        transform: translateX(6px);
-      }
-
-      75% {
-        transform: translateX(-3px);
-      }
-    }
-
-    .sort-variables-section .variable-tile.buzz {
-      animation: variableTileBuzz 0.28s ease;
-    }
-
-    .question-structure-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .question-structure-card {
-      min-height: 110px;
-      padding: 18px;
-      border: 3px solid var(--line);
-      border-radius: 18px;
-      background: var(--paper);
-      box-shadow: 0 4px 0 var(--line);
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      line-height: 1.45;
-      cursor: pointer;
-    }
-
-    /* ==================================================
-      DESIGN AN INVESTIGATION QUESTION
-      ================================================== */
-
-    .question-structure-card {
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.18s ease;
-    }
-
-    .question-structure-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--line);
-    }
-
-    .question-structure-card.question-structure-what {
-      background: var(--soft-yellow);
-    }
-
-    .question-structure-card.question-structure-how {
-      background: var(--soft-blue);
-    }
-
-    .question-structure-card.question-structure-does {
-      background: var(--soft-green);
-    }
-
-    .question-structure-card.question-structure-if {
-      background: var(--soft-purple);
-    }
-
-    .question-structure-card.selected {
-      color: white;
-      background: var(--purple);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--line);
-    }
-
-    .investigation-question-builder {
-      margin-top: 18px;
-      padding: 24px;
-
-      background: var(--paper);
-      border: 2px dashed var(--line);
-      border-radius: 18px;
-
-      color: var(--text);
-    }
-
-    .investigation-question-builder.builder-active {
-      border-style: solid;
-      background: var(--soft-blue);
-    }
-
-    .question-builder-placeholder {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    .question-builder-sentence {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-
-      margin: 0;
-
-      color: var(--text);
-      font-size: 1.08rem;
-      font-weight: 700;
-      line-height: 1.8;
-    }
-
-    .question-blank {
-      display: inline-block;
-      min-width: 190px;
-      max-width: 100%;
-      vertical-align: middle;
-    }
-
-    .question-blank-input-row {
-      display: block;
-    }
-
-    .question-blank-input {
-      width: 100%;
-      min-height: 44px;
-      padding: 9px 12px;
-
-      background: white;
-      color: var(--text);
-
-      border: 2px solid var(--line);
-      border-radius: 12px;
-
-      font: inherit;
-      font-weight: 600;
-    }
-
-    .question-blank-input:focus {
-      outline: 3px solid rgba(78, 50, 232, 0.18);
-      border-color: var(--purple);
-    }
-
-    .question-blank-answer {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-
-      width: 100%;
-      min-height: 44px;
-      padding: 9px 11px;
-
-      background: white;
-      border: 2px solid var(--line);
-      border-radius: 12px;
-
-      color: var(--text);
-      font-weight: 700;
-      overflow-wrap: anywhere;
-    }
-
-    .question-blank-answer.visible {
-      display: flex;
-    }
-
-    .question-blank-answer-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .completed-investigation-question {
-      margin: 20px 0 0;
-      padding: 16px 18px;
-
-      background: var(--soft-green);
-      border: 2px solid var(--line);
-      border-radius: 16px;
-
-      color: var(--text);
-      font-weight: 700;
-      line-height: 1.55;
-      text-align: center;
-    }
-
-    .completed-investigation-question[hidden] {
-      display: none;
-    }
-
-    @media (max-width: 650px) {
-      .question-builder-sentence {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .question-blank {
-        width: 100%;
-      }
-    }
-
-    .reset-button-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .question-builder-placeholder,
-    .prediction-placeholder,
-    .diagram-placeholder,
-    .procedure-placeholder {
-      margin-top: 18px;
-      padding: 24px;
-      border: 2px dashed var(--line);
-      border-radius: 18px;
-      background: var(--paper);
-      color: var(--muted);
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    .fair-test-diagram-layout {
-      display: grid;
-      grid-template-columns: 1.35fr 0.8fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .diagram-panel,
-    .variable-panel {
-      padding: 20px;
-      border: 2px solid var(--line);
-      border-radius: 20px;
-      background: var(--paper);
-    }
-
-    .diagram-panel {
-      min-height: 430px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--soft-blue);
-    }
-
-    .variable-panel h3 {
-      margin-top: 0;
-      color: var(--text);
-    }
-
-    .variable-panel-block {
-      margin-bottom: 14px;
-      padding: 14px;
-      border: 2px solid var(--line);
-      border-radius: 14px;
-    }
-
-    .variable-panel-block:last-child {
-      margin-bottom: 0;
-    }
-
-    .variable-panel-block.independent {
-      background: var(--soft-yellow);
-    }
-
-    .variable-panel-block.dependent {
-      background: var(--soft-purple);
-    }
-
-    .variable-panel-block.controlled {
-      background: var(--soft-green);
-    }
-
-    .variable-panel-block label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .variable-panel-block select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 2px solid var(--line);
-      border-radius: 12px;
-      background: white;
-      color: var(--text);
-      font: inherit;
-    }
-
-    .procedure-comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .procedure-card {
-      padding: 22px;
-      border: 3px solid var(--line);
-      border-radius: 22px;
-      background: var(--paper);
-      box-shadow: var(--shadow-small);
-    }
-
-    .procedure-card h3 {
-      margin: 0 0 16px;
-      color: var(--purple);
-    }
-
-    .procedure-step {
-      margin-bottom: 14px;
-      padding: 14px;
-      border: 2px solid var(--line);
-      border-radius: 14px;
-    }
-
-    .procedure-step:last-child {
-      margin-bottom: 0;
-    }
-
-    .procedure-step.change {
-      background: var(--soft-yellow);
-    }
-
-    .procedure-step.measure {
-      background: var(--soft-purple);
-    }
-
-    .procedure-step.control {
-      background: var(--soft-green);
-    }
-
-    .procedure-step strong {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--text);
-    }
-
-    .procedure-step textarea {
-      width: 100%;
-      min-height: 95px;
-      padding: 12px;
-      resize: vertical;
-      border: 2px solid var(--line);
-      border-radius: 12px;
-      background: white;
-      color: var(--text);
-      font: inherit;
-      line-height: 1.5;
-    }
-
-    .lesson-finish-box {
-      margin-top: 20px;
-      padding: 22px;
-      border: 3px solid var(--line);
-      border-radius: 20px;
-      background: var(--yellow);
-      text-align: center;
-      box-shadow: var(--shadow-medium);
-    }
-
-    .lesson-finish-box h3 {
-      margin: 0 0 8px;
-      color: var(--purple);
-    }
-
-    .lesson-finish-box p {
-      margin: 0;
-      color: var(--text);
-      line-height: 1.55;
-    }
-
-    @media (max-width: 900px) {
-      .variable-grid,
-      .variable-type-grid,
-      .variable-tile-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .fair-test-diagram-layout,
-      .procedure-comparison-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .variable-grid,
-      .variable-type-grid,
-      .variable-tile-grid,
-      .question-structure-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .formula-step {
-        grid-template-columns: 44px 1fr;
-      }
-    }
-  </style>
+  <link
+    href="../styles/lesson2.css"
+    rel="stylesheet"
+    type="text/css">
 </head>
 
 <body>
@@ -929,20 +143,26 @@
           5. Sort variables: ball size
         </button>
 
+        <button
+          type="button"
+          onclick="teacherJump('choose-ball-pair')">
+          6. Choose balls for a fair test
+        </button>
+
         <button type="button" onclick="teacherJump('design-question')">
-          6. Design an investigation question
+          7. Design an investigation question
         </button>
 
         <button type="button" onclick="teacherJump('reasoned-prediction')">
-          7. Make a reasoned prediction
+          8. Make a reasoned prediction
         </button>
 
         <button type="button" onclick="teacherJump('map-fair-test')">
-          8. Map the fair test
+          9. Map the fair test
         </button>
 
         <button type="button" onclick="teacherJump('describe-fair-test')">
-          9. Describe the fair-test procedure
+          10. Describe the fair-test procedure
         </button>
       </div>
 
@@ -1542,12 +762,178 @@
         type="button"
         id="sortVariablesTwoNext"
         class="next-button"
-        onclick="unlockSection('design-question', 'sort-variables-two')"
+        onclick="unlockSection('choose-ball-pair', 'sort-variables-two')"
         hidden>
         Next
       </button>
 
       <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+    6. CHOOSE A FAIR-TEST BALL PAIR
+    ================================================== -->
+    <section
+      class="section locked"
+      id="choose-ball-pair">
+
+      <h2 class="section-title">
+        Choose balls for a fair test
+      </h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Look at the pairs of balls shown below. Which pair could you use
+          to investigate how changing <strong>ball size</strong> affects the
+          <strong>height of the first bounce</strong>?
+        </p>
+
+        <p class="activity-instruction">
+          Select each pair and decide whether it would make a fair test.
+          Remember: only the ball's size should change. Its material and
+          shape should remain the same.
+        </p>
+      </div>
+
+      <div
+        class="ball-pair-grid"
+        id="ballPairGrid">
+
+        <!-- Correct: different size, same material and shape -->
+        <button
+          type="button"
+          class="ball-pair-card"
+          data-ball-pair="basketballs"
+          data-correct="true"
+          data-feedback-title="Yes — this pair can be used"
+          data-feedback="These basketballs are different sizes, but they have the same shape and are made from the same material. Ball size is the only variable changing, so this pair can be used in a fair test."
+          aria-pressed="false">
+
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/ball-pair-basketballs.png"
+              alt="A large basketball beside a small basketball">
+          </span>
+
+          <span class="ball-pair-name">
+            Large basketball versus small basketball
+          </span>
+
+          <span class="ball-pair-details">
+            Different size · Same shape · Same material
+          </span>
+        </button>
+
+        <!-- Incorrect: material also changes -->
+        <button
+          type="button"
+          class="ball-pair-card"
+          data-ball-pair="basketball-tennis"
+          data-correct="false"
+          data-feedback-title="Not a fair test — material also changes"
+          data-feedback="These balls are different sizes, but they are also made from different materials. You would not know whether the bounce height changed because of size or material. Try a pair made from the same material."
+          aria-pressed="false">
+
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/ball-pair-basketball-tennis.png"
+              alt="A basketball beside a tennis ball">
+          </span>
+
+          <span class="ball-pair-name">
+            Basketball versus tennis ball
+          </span>
+
+          <span class="ball-pair-details">
+            Different size · Different material
+          </span>
+        </button>
+
+        <!-- Incorrect: shape also changes -->
+        <button
+          type="button"
+          class="ball-pair-card"
+          data-ball-pair="soccer-football"
+          data-correct="false"
+          data-feedback-title="Not a fair test — shape also changes"
+          data-feedback="These balls are different sizes, but they also have different shapes. Both size and shape could affect the bounce height. Try a pair that has the same shape."
+          aria-pressed="false">
+
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/ball-pair-soccer-football.png"
+              alt="A soccer ball beside an oval football">
+          </span>
+
+          <span class="ball-pair-name">
+            Soccer ball versus football
+          </span>
+
+          <span class="ball-pair-details">
+            Different size · Different shape
+          </span>
+        </button>
+
+        <!-- Incorrect: no size change -->
+        <button
+          type="button"
+          class="ball-pair-card"
+          data-ball-pair="same-size"
+          data-correct="false"
+          data-feedback-title="Not suitable — size does not change"
+          data-feedback="These balls have the same size. This investigation is testing the effect of ball size, so the pair must contain two different sizes while keeping the shape and material the same."
+          aria-pressed="false">
+
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/ball-pair-same-size.png"
+              alt="Two basketballs of the same size">
+          </span>
+
+          <span class="ball-pair-name">
+            Two same-sized basketballs
+          </span>
+
+          <span class="ball-pair-details">
+            Same size · Same shape · Same material
+          </span>
+        </button>
+      </div>
+
+      <div
+        id="ballPairFeedback"
+        class="variable-feedback"
+        role="status"
+        aria-live="polite">
+
+        Select a ball pair to examine whether it would make a fair test.
+      </div>
+
+      <div class="reset-button-container">
+        <button
+          type="button"
+          class="general-button reset-btn"
+          id="ballPairReset">
+          Reset
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="next-button"
+        id="ballPairNext"
+        onclick="unlockSection('design-question', 'choose-ball-pair')"
+        hidden>
+        Next
+      </button>
+
+      <p class="completed-note">
+        Completed — next activity unlocked.
+      </p>
     </section>
 
     <!-- ==================================================
@@ -1800,16 +1186,17 @@
        ================================================== */
 
     const lesson2SectionIds = [
-  "observe-bounce",
-  "discover-variables",
-  "variable-types",
-  "sort-variables-one",
-  "sort-variables-two",
-  "design-question",
-  "reasoned-prediction",
-  "map-fair-test",
-  "describe-fair-test"
-];
+      "observe-bounce",
+      "discover-variables",
+      "variable-types",
+      "sort-variables-one",
+      "sort-variables-two",
+      "choose-ball-pair",
+      "design-question",
+      "reasoned-prediction",
+      "map-fair-test",
+      "describe-fair-test"
+    ];
 
 const feedbackDefaultMessage = "Select either <strong>Independent: change</strong> or <strong>Dependent: measure</strong>.";
 
@@ -1868,6 +1255,7 @@ document.addEventListener("DOMContentLoaded", function() {
   initialiseSeeThinkWonder();
   initialiseDiscoverVariables();
   initialiseInvestigationQuestion();
+  initialiseBallPairActivity();
 
   initialiseSortVariables(
     sortVariablesOneStructure
@@ -2368,6 +1756,166 @@ function resetSortVariables(variableStructure) {
   variableStructure.nextButton.hidden = true;
 
   setMode("", variableStructure);
+}
+
+/* ==================================================
+   CHOOSE A FAIR-TEST BALL PAIR
+   ================================================== */
+
+function initialiseBallPairActivity() {
+  const activity =
+    document.getElementById(
+      "choose-ball-pair"
+    );
+
+  if (!activity) {
+    return;
+  }
+
+  const pairButtons =
+    activity.querySelectorAll(
+      ".ball-pair-card"
+    );
+
+  const feedback =
+    document.getElementById(
+      "ballPairFeedback"
+    );
+
+  const nextButton =
+    document.getElementById(
+      "ballPairNext"
+    );
+
+  const resetButton =
+    document.getElementById(
+      "ballPairReset"
+    );
+
+  if (
+    !feedback ||
+    !nextButton ||
+    !resetButton
+  ) {
+    return;
+  }
+
+  pairButtons.forEach(function(button) {
+    button.addEventListener(
+      "click",
+      function() {
+        selectBallPair(
+          button,
+          pairButtons,
+          feedback,
+          nextButton
+        );
+      }
+    );
+  });
+
+  resetButton.addEventListener(
+    "click",
+    function() {
+      resetBallPairActivity(
+        pairButtons,
+        feedback,
+        nextButton
+      );
+    }
+  );
+}
+
+
+function selectBallPair(
+  selectedButton,
+  pairButtons,
+  feedback,
+  nextButton
+) {
+  const isCorrect =
+    selectedButton.dataset.correct ===
+    "true";
+
+  pairButtons.forEach(function(button) {
+    button.classList.remove(
+      "selected",
+      "correct-selection",
+      "incorrect-selection"
+    );
+
+    button.setAttribute(
+      "aria-pressed",
+      "false"
+    );
+  });
+
+  selectedButton.classList.add(
+    "selected"
+  );
+
+  selectedButton.setAttribute(
+    "aria-pressed",
+    "true"
+  );
+
+  if (isCorrect) {
+    selectedButton.classList.add(
+      "correct-selection"
+    );
+
+    setActivityFeedback(
+      feedback,
+      "success",
+      selectedButton.dataset.feedbackTitle,
+      selectedButton.dataset.feedback
+    );
+
+    nextButton.hidden = false;
+
+    return;
+  }
+
+  selectedButton.classList.add(
+    "incorrect-selection"
+  );
+
+  setActivityFeedback(
+    feedback,
+    "try-again",
+    selectedButton.dataset.feedbackTitle,
+    selectedButton.dataset.feedback
+  );
+
+  nextButton.hidden = true;
+}
+
+
+function resetBallPairActivity(
+  pairButtons,
+  feedback,
+  nextButton
+) {
+  pairButtons.forEach(function(button) {
+    button.classList.remove(
+      "selected",
+      "correct-selection",
+      "incorrect-selection"
+    );
+
+    button.setAttribute(
+      "aria-pressed",
+      "false"
+    );
+  });
+
+  feedback.className =
+    "variable-feedback";
+
+  feedback.textContent =
+    "Select a ball pair to examine whether it would make a fair test.";
+
+  nextButton.hidden = true;
 }
 
     /* ==================================================
