@@ -936,3 +936,14 @@
         grid-template-columns: 44px 1fr;
       }
     }
+
+         /* ==================================================
+            REASONED PREDICTION BUILDER IFRAME
+            ================================================== */
+            .reasoned-prediction-iframe {
+                height: 800px;
+                margin-top: 0;
+                background: var(--paper);
+                overflow: hidden;
+            } /* reasoned-prediction-iframe exists in build_style.css. This
+            override is to make it taller for lesson 2. */
