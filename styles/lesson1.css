@@ -29,28 +29,16 @@
         REASONED PREDICTION BUILDER IFRAME
         ================================================== */
          .reasoned-prediction-iframe {
-         display: block;
-         width: 100%;
-         height: 800px;
-         margin-top: 0;
-         border: none;
-         background: var(--paper);
-         overflow: hidden;
-         }
+            height: 800px;
+            margin-top: 0;
+            background: var(--paper);
+            overflow: hidden;
+        } /* reasoned-prediction-iframe exists in build_style.css. This
+        override is to make it taller for lesson 1. */
 
       /* ==================================================
         REASONED PREDICTION ORGANISER
         ================================================== */
-      .prediction-activity {
-      margin-top: 24px;
-      background: var(--soft-yellow);
-      }
-      .prediction-heading {
-      margin: 0 0 8px;
-      color: var(--purple);
-      font-size: 1.15rem;
-      text-transform: uppercase;
-      }
       .prediction-organiser {
       border: 3px solid var(--line);
       border-radius: 20px;

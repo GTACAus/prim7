@@ -1561,7 +1561,15 @@ function handleVariableTileClick(event, variableStructure) {
     variableStructure.feedback.className =
       "variable-feedback feedback-success";
 
-    variableStructure.feedback.innerHTML = independentCompleteMessage;
+    variableStructure.feedback.innerHTML =
+      independentCompleteMessage;
+
+    if (
+      variableStructure.independentComplete &&
+      variableStructure.dependentComplete
+    ) {
+      completeControlledVariables(variableStructure);
+    }
 
     return;
   }

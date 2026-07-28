@@ -747,12 +747,6 @@
       }
     }
 
-    .reset-button-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
     .question-builder-placeholder,
     .prediction-placeholder,
     .diagram-placeholder,
