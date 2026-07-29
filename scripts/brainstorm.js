@@ -24,9 +24,10 @@ const functionAnswers = {
 function addSTW(type) {
   const input = document.getElementById(type + 'Input');
   const list = document.getElementById(type + 'List');
-  const answer = input.value.trim();
 
-  if (answer === '') {
+  const answer = getValidStudentInput(input);
+
+  if (answer === null) {
     return;
   }
 
@@ -37,20 +38,19 @@ function addSTW(type) {
   const answerText = document.createElement('span');
   answerText.textContent = answer;
 
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = '×';
-  deleteButton.className = 'delete-answer';
+  const deleteButton = createDeleteAnswerButton(
+    'Delete ' + type + ' answer',
+    function() {
+      const index = stwAnswers[type].indexOf(answer);
 
-  deleteButton.onclick = function() {
-    const index = stwAnswers[type].indexOf(answer);
+      if (index > -1) {
+        stwAnswers[type].splice(index, 1);
+      }
 
-    if (index > -1) {
-      stwAnswers[type].splice(index, 1);
+      listItem.remove();
+      checkSTWComplete();
     }
-
-    listItem.remove();
-    checkSTWComplete();
-  };
+  );
 
   listItem.appendChild(answerText);
   listItem.appendChild(deleteButton);
@@ -76,15 +76,25 @@ function checkSTWComplete() {
 }
 
 function submitBrainstorm(event, number) {
-  if (event.key !== 'Enter') {
+  if (event && event.key && event.key !== 'Enter') {
     return;
   }
 
-  const input = document.getElementById('brainstormInput' + number);
-  const answerBox = document.getElementById('brainstormAnswer' + number);
-  const answer = input.value.trim();
+  if (event) {
+    event.preventDefault();
+  }
 
-  if (answer === '') {
+  const input = document.getElementById(
+    'brainstormInput' + number
+  );
+
+  const answerBox = document.getElementById(
+    'brainstormAnswer' + number
+  );
+
+  const answer = getValidStudentInput(input);
+
+  if (answer === null) {
     return;
   }
 
@@ -93,27 +103,28 @@ function submitBrainstorm(event, number) {
   const answerText = document.createElement('span');
   answerText.textContent = answer;
 
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = '×';
-  deleteButton.className = 'delete-answer';
+  const deleteButton = createDeleteAnswerButton(
+    'Delete brainstorm answer',
+    function() {
+      answerBox.innerHTML = '';
+      answerBox.classList.remove('visible');
 
-  deleteButton.onclick = function() {
-  answerBox.innerHTML = '';
-  answerBox.classList.remove('visible');
+      input.value = '';
+      input.style.display = 'block';
 
-  input.value = '';
-  input.style.display = 'block';
+      brainstormAnswers[number] = false;
 
-  brainstormAnswers[number] = false;
-
-  checkBrainstormComplete();
-};
+      checkBrainstormComplete();
+      input.focus();
+    }
+  );
 
   answerBox.appendChild(answerText);
   answerBox.appendChild(deleteButton);
 
   answerBox.classList.add('visible');
 
+  input.value = '';
   input.style.display = 'none';
 
   brainstormAnswers[number] = true;
@@ -133,15 +144,25 @@ function checkBrainstormComplete() {
 }
 
 function submitFunctionAnswer(event, part) {
-  if (event.key !== 'Enter') {
+  if (event && event.key && event.key !== 'Enter') {
     return;
   }
 
-  const input = document.getElementById(part + 'FunctionInput');
-  const answerBox = document.getElementById(part + 'FunctionAnswer');
-  const answer = input.value.trim();
+  if (event) {
+    event.preventDefault();
+  }
 
-  if (answer === '') {
+  const input = document.getElementById(
+    part + 'FunctionInput'
+  );
+
+  const answerBox = document.getElementById(
+    part + 'FunctionAnswer'
+  );
+
+  const answer = getValidStudentInput(input);
+
+  if (answer === null) {
     return;
   }
 
@@ -150,21 +171,21 @@ function submitFunctionAnswer(event, part) {
   const answerText = document.createElement('span');
   answerText.textContent = answer;
 
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = '×';
-  deleteButton.className = 'delete-answer';
+  const deleteButton = createDeleteAnswerButton(
+    'Delete ' + part + ' function answer',
+    function() {
+      answerBox.innerHTML = '';
+      answerBox.style.display = 'none';
 
-  deleteButton.onclick = function() {
-    answerBox.innerHTML = '';
-    answerBox.style.display = 'none';
+      input.value = '';
+      input.style.display = 'block';
 
-    input.value = '';
-    input.style.display = 'block';
+      functionAnswers[part] = false;
 
-    functionAnswers[part] = false;
-
-    checkFunctionAnswersComplete();
-  };
+      checkFunctionAnswersComplete();
+      input.focus();
+    }
+  );
 
   answerBox.appendChild(answerText);
   answerBox.appendChild(deleteButton);
@@ -174,6 +195,7 @@ function submitFunctionAnswer(event, part) {
   answerBox.style.alignItems = 'center';
   answerBox.style.gap = '10px';
 
+  input.value = '';
   input.style.display = 'none';
 
   functionAnswers[part] = true;
@@ -196,18 +218,27 @@ function checkFunctionAnswersComplete() {
 }
 
 document.addEventListener('keydown', function(event) {
-  if (event.key === 'Enter') {
-    if (event.target.id === 'seeInput') {
-      addSTW('see');
-    }
+  if (event.key !== 'Enter') {
+    return;
+  }
 
-    if (event.target.id === 'thinkInput') {
-      addSTW('think');
-    }
+  const inputId = event.target.id;
 
-    if (event.target.id === 'wonderInput') {
-      addSTW('wonder');
-    }
+  if (inputId === 'seeInput') {
+    event.preventDefault();
+    addSTW('see');
+    return;
+  }
+
+  if (inputId === 'thinkInput') {
+    event.preventDefault();
+    addSTW('think');
+    return;
+  }
+
+  if (inputId === 'wonderInput') {
+    event.preventDefault();
+    addSTW('wonder');
   }
 });
 

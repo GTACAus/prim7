@@ -1255,19 +1255,11 @@ document.addEventListener("DOMContentLoaded", function() {
     );
   }
 
-  if (
-    typeof initialiseClassroomLanguageFilter ===
-    "function"
-  ) {
-    initialiseClassroomLanguageFilter(
-      "../cypher.txt"
-    );
-  }
-
   initialiseSeeThinkWonder();
   initialiseDiscoverVariables();
   initialiseInvestigationQuestion();
   initialiseBallPairActivity();
+  initialiseProcedureTextareas();
 
   initialiseSortVariables(
     sortVariablesOneStructure
@@ -1277,6 +1269,47 @@ document.addEventListener("DOMContentLoaded", function() {
     sortVariablesTwoStructure
   );
 });
+
+
+
+function initialiseProcedureTextareas() {
+  const textareaIds = [
+    "studentChangePlan",
+    "studentMeasurePlan",
+    "studentControlPlan"
+  ];
+
+  textareaIds.forEach(function(textareaId) {
+    const textarea =
+      document.getElementById(textareaId);
+
+    if (!textarea) {
+      return;
+    }
+
+    textarea.addEventListener(
+      "blur",
+      function() {
+        const value =
+          textarea.value.trim();
+
+        /*
+          Empty textareas are allowed because the student
+          may simply be moving between fields.
+        */
+        if (value === "") {
+          return;
+        }
+
+        /*
+          getValidStudentInput supports textareas.
+          It clears and blocks inappropriate text.
+        */
+        getValidStudentInput(textarea);
+      }
+    );
+  });
+}
 
 /* ==================================================
    SEE, THINK, WONDER
