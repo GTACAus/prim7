@@ -1038,6 +1038,7 @@
 
       <div class="iframe-box">
           <iframe
+              id="reasonedPredictionFrame"
               class="reasoned-prediction-iframe"
               src="reasoned-prediction-builder.html"
               title="Reasoned Prediction Builder">
@@ -1191,7 +1192,7 @@
 
   <script>
     const dev = true;
-    if (dev) addEventListener("DOMContentLoaded", teacherShowAll);
+    if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
     /* ==================================================
        LESSON 2 PAGE SETUP
        Activity-specific functionality will be added later.
@@ -2204,6 +2205,14 @@ function resetBallPairActivity(
           fieldName
         ] = value;
 
+        saveInvestigationQuestionAnswer();
+        const predictionFrame = document.getElementById("reasonedPredictionFrame");
+
+        if (predictionFrame && predictionFrame.contentWindow) {
+            predictionFrame.contentWindow.loadInvestigationQuestionAnswers();
+            predictionFrame.contentWindow.updatePrediction();
+        }
+
         answerBox.innerHTML = "";
 
         const answerText =
@@ -2275,6 +2284,15 @@ function resetBallPairActivity(
       return wrapper;
     }
 
+    const INVESTIGATION_QUESTION_SAVE_KEY = "investigationQuestionAnswerSave";
+
+    function saveInvestigationQuestionAnswer() {
+      sessionStorage.setItem(
+        INVESTIGATION_QUESTION_SAVE_KEY,
+        JSON.stringify(investigationQuestionState)
+      );
+      console.log(JSON.parse(sessionStorage.getItem(INVESTIGATION_QUESTION_SAVE_KEY)));
+    }
 
     function updateCompletedInvestigationQuestion() {
       const completedQuestion =

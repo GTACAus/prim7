@@ -369,6 +369,16 @@ function getValidStudentInput(input) {
   return value;
 }
 
+function setGeneratedText(element, text, placeholder) {
+  if (text === "") {
+    element.textContent = placeholder;
+    element.classList.add("placeholder");
+    return;
+  }
+  element.textContent = text;
+  element.classList.remove("placeholder");
+}
+
 /*
   Read text that is being used for a live preview.
 

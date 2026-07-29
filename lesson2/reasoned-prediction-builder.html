@@ -453,31 +453,11 @@ body {
     The thing I am changing
   </label>
 
-<select
+<div
   id="changeVariable"
-  class="prediction-select">
-
-  <option value="">
-    Choose what you are changing
-  </option>
-
-  <option value="the angle of the ramp">
-    The angle of the ramp
-  </option>
-
-  <option value="the colour of the car">
-    The colour of the car
-  </option>
-
-  <option value="the size of the car">
-    The size of the car
-  </option>
-
-  <option value="the size of the car's wheels">
-    The size of the car's wheels
-  </option>
-
-</select>
+  class="generated-text placeholder">
+  The thing I am changing
+</div>
 
 
 </div>
@@ -487,20 +467,11 @@ body {
     The thing I am measuring
   </label>
 
-<select
+  <div
   id="measureVariable"
-  class="prediction-select">
-
-  <option value="">
-    Choose what you are measuring
-  </option>
-
-  <option value="the distance the car travels">
-    The distance the car travels
-  </option>
-
-</select>
-
+  class="generated-text placeholder">
+  The thing I am measuring
+</div>
 
 </div>
 
@@ -581,6 +552,15 @@ body {
 
   <script src="../scripts/common_functions.js"></script>
   <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      loadInvestigationQuestionAnswers();
+      updatePrediction();
+    });
+
+    const investigationQuestionAnswers = {
+      changeVariable: "",
+      measureVariable: ""
+    }
 
     const changeVariable = document.getElementById("changeVariable");
     const measureVariable = document.getElementById("measureVariable");
@@ -831,22 +811,47 @@ body {
 
       return effectPhrases[selectedEffect] || "";
     }
+    
+    function loadInvestigationQuestionAnswers() {
+      const INVESTIGATION_QUESTION_SAVE_KEY = "investigationQuestionAnswerSave";
+      const savedText = sessionStorage.getItem(INVESTIGATION_QUESTION_SAVE_KEY);
+      
+      if (!savedText) return;
 
-    function setGeneratedText(element, text, placeholder) {
-      if (text === "") {
-        element.textContent = placeholder;
-        element.classList.add("placeholder");
-        return;
+      try {
+        const savedData = JSON.parse(savedText);
+        investigationQuestionAnswers.changeVariable = savedData.firstAnswer;
+        investigationQuestionAnswers.measureVariable = savedData.secondAnswer;
+
+        // Populate the fields
+        // changeVariable.textContent = investigationQuestionAnswers.changeVariable;
+        // measureVariable.textContent = investigationQuestionAnswers.measureVariable;
+        setGeneratedText(
+          changeVariable,
+          investigationQuestionAnswers.changeVariable,
+          "The thing I am changing"
+        );
+
+        setGeneratedText(
+          measureVariable,
+          investigationQuestionAnswers.measureVariable,
+          "The thing I am measuring"
+        );
+
+        console.log("In reasoned prediction: " + investigationQuestionAnswers);
+      } catch (error) {
+        console.error(
+          'Could not read investigation question answers:',
+          error
+        );
       }
-      element.textContent = text;
-      element.classList.remove("placeholder");
     }
 
     function updatePrediction() {
       // Keep the JavaScript state synchronised with what is
       // currently visible in the dropdowns.
-      builderState.change = changeVariable.value;
-      builderState.measure = measureVariable.value;
+      builderState.change = investigationQuestionAnswers.changeVariable;
+      builderState.measure = investigationQuestionAnswers.measureVariable;
 
       const causePhrase = getCausePhrase();
       const effectPhrase = getEffectPhrase();
