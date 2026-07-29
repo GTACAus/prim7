@@ -829,6 +829,29 @@
       font: inherit;
     }
 
+    .variable-mode-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+
+        min-height: 68px;
+        text-align: center;
+    }
+
+    .variable-mode-title {
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+
+    .variable-mode-subtitle {
+        font-size: 0.8rem;
+        font-weight: 600;
+        opacity: 0.75;
+    }
+
     .procedure-comparison-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;

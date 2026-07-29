@@ -70,7 +70,7 @@
 
         <div class="vocab-card">
           <h3>Independent variable</h3>
-          <p>The one variable deliberately changed during a fair test.</p>
+          <p>The one variable changed during a fair test.</p>
         </div>
 
         <div class="vocab-card">
@@ -510,7 +510,7 @@
         <article class="variable-type-card independent">
           <p class="intro-eyebrow">Change</p>
           <h3>Independent variable</h3>
-          <p>The one variable that is deliberately changed. This is the possible cause.</p>
+          <p>The one variable that is changed. This is the possible cause.</p>
         </article>
 
         <article class="variable-type-card dependent">
@@ -578,7 +578,14 @@
             class="variable-mode-button independent-mode-button"
             data-variable-mode="independent"
             aria-pressed="false">
-            Independent: change
+
+            <span class="variable-mode-title">
+              Independent Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Change
+            </span>
           </button>
 
           <button
@@ -586,15 +593,29 @@
             class="variable-mode-button dependent-mode-button"
             data-variable-mode="dependent"
             aria-pressed="false">
-            Dependent: measure
+
+            <span class="variable-mode-title">
+              Dependent Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Measure
+            </span>
           </button>
 
           <button
             type="button"
             class="variable-mode-button controlled-mode-button"
-            disabled
-            aria-disabled="true">
-            Controlled: keep the same
+            data-variable-mode="controlled"
+            aria-pressed="false">
+
+            <span class="variable-mode-title">
+              Controlled Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Keep the same
+            </span>
           </button>
         </div>
 
@@ -687,7 +708,14 @@
             class="variable-mode-button independent-mode-button"
             data-variable-mode="independent"
             aria-pressed="false">
-            Independent: change
+
+            <span class="variable-mode-title">
+              Independent Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Change
+            </span>
           </button>
 
           <button
@@ -695,15 +723,29 @@
             class="variable-mode-button dependent-mode-button"
             data-variable-mode="dependent"
             aria-pressed="false">
-            Dependent: measure
+
+            <span class="variable-mode-title">
+              Dependent Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Measure
+            </span>
           </button>
 
           <button
             type="button"
             class="variable-mode-button controlled-mode-button"
-            disabled
-            aria-disabled="true">
-            Controlled: keep the same
+            data-variable-mode="controlled"
+            aria-pressed="false">
+
+            <span class="variable-mode-title">
+              Controlled Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Keep the same
+            </span>
           </button>
         </div>
 
@@ -1576,7 +1618,7 @@ function handleVariableTileClick(event, variableStructure) {
     if (tile.dataset.variable !== "floor-surface") {
       buzzTile(
         tile,
-        "Try again. Which variable is deliberately changed in the question?",
+        "Try again. Which variable is changed in the question?",
         variableStructure
       );
       return;
@@ -1690,7 +1732,7 @@ function setMode(mode, variableStructure) {
 
   variableStructure.feedback.innerHTML =
     mode === "independent"
-      ? "Now choose the variable that is deliberately changed."
+      ? "Now choose the variable that is changed."
       : "Now choose the result that is measured.";
 }
 
