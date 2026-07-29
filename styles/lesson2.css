@@ -947,3 +947,12 @@
                 overflow: hidden;
             } /* reasoned-prediction-iframe exists in build_style.css. This
             override is to make it taller for lesson 2. */
+
+            .hook-image {
+              display: block;
+              width: 100%;
+              max-width: 100%;
+              height: auto;
+              max-height: 464px;
+              object-fit: contain;
+            }
