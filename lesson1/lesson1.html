@@ -1118,9 +1118,6 @@
       <script>
         
         
-        if (typeof initialiseClassroomLanguageFilter === "function") {
-      initialiseClassroomLanguageFilter("../cypher.txt");
-    }
         initialiseTeacherMenu(
             [
                 "observe-experiment",
@@ -1500,22 +1497,11 @@
          questionCard
          ) {
          const answer =
-           input.value.trim();
-         
-         if (answer === "") {
-           input.focus();
-           return;
-         }
-         
-         /*
-           Additional safety check in case this function is called
-           without a keyboard event in the future.
-         */
-         if (containsProfanity(answer)) {
-           input.value = "";
-           input.focus();
-           return;
-         }
+          getValidStudentInput(input);
+
+        if (answer === null) {
+          return;
+        }
          
          const questionPart =
            input.dataset.questionPart;

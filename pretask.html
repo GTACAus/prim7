@@ -673,7 +673,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
     <div class="final-branch">
       <h3>Water</h3>
       <div class="final-input-row">
-        <input id="final-water-input" type="text" placeholder="Why do plants need water?" onkeydown="submitFinalAnswerOnEnter(event, 'water')">
+        <input
+    id="final-water-input"
+    type="text"
+    placeholder="Why do plants need water?">
         <button onclick="submitFinalAnswer('water')">Add</button>
       </div>
       <ul id="final-water-list" class="final-answer-list"></ul>
@@ -682,7 +685,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
     <div class="final-branch">
       <h3>Sunlight</h3>
       <div class="final-input-row">
-        <input id="final-sunlight-input" type="text" placeholder="Why do plants need sunlight?" onkeydown="submitFinalAnswerOnEnter(event, 'sunlight')">
+        <input
+    id="final-sunlight-input"
+    type="text"
+    placeholder="Why do plants need sunlight?">
         <button onclick="submitFinalAnswer('sunlight')">Add</button>
       </div>
       <ul id="final-sunlight-list" class="final-answer-list"></ul>
@@ -691,7 +697,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
     <div class="final-branch">
       <h3>Nutrients</h3>
       <div class="final-input-row">
-        <input id="final-nutrients-input" type="text" placeholder="Why do plants need nutrients?" onkeydown="submitFinalAnswerOnEnter(event, 'nutrients')">
+        <input
+    id="final-nutrients-input"
+    type="text"
+    placeholder="Why do plants need nutrients?">
         <button onclick="submitFinalAnswer('nutrients')">Add</button>
       </div>
       <ul id="final-nutrients-list" class="final-answer-list"></ul>
@@ -700,7 +709,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
     <div class="final-branch">
       <h3>Soil</h3>
       <div class="final-input-row">
-        <input id="final-soil-input" type="text" placeholder="Why does soil matter?" onkeydown="submitFinalAnswerOnEnter(event, 'soil')">
+        <input
+    id="final-soil-input"
+    type="text"
+    placeholder="Why does soil matter?">
         <button onclick="submitFinalAnswer('soil')">Add</button>
       </div>
       <ul id="final-soil-list" class="final-answer-list"></ul>
@@ -709,7 +721,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
     <div class="final-branch">
       <h3>Carbon Dioxide</h3>
       <div class="final-input-row">
-        <input id="final-co2-input" type="text" placeholder="Why might plants need carbon dioxide?" onkeydown="submitFinalAnswerOnEnter(event, 'co2')">
+        <input
+    id="final-co2-input"
+    type="text"
+    placeholder="Why might plants need carbon dioxide?">
         <button onclick="submitFinalAnswer('co2')">Add</button>
       </div>
       <ul id="final-co2-list" class="final-answer-list"></ul>
@@ -718,7 +733,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
     <div class="final-branch">
       <h3>Oxygen</h3>
       <div class="final-input-row">
-        <input id="final-oxygen-input" type="text" placeholder="Why might plants need oxygen?" onkeydown="submitFinalAnswerOnEnter(event, 'oxygen')">
+        <input
+    id="final-oxygen-input"
+    type="text"
+    placeholder="Why might plants need oxygen?">
         <button onclick="submitFinalAnswer('oxygen')">Add</button>
       </div>
       <ul id="final-oxygen-list" class="final-answer-list"></ul>
@@ -740,46 +758,75 @@ Use your detective skills to make <strong>observations</strong> and come up with
   <script src="scripts/brainstorm.js"></script>
   <script>
 
-    function submitFinalAnswerOnEnter(event, type) {
-  if (event.key === 'Enter') {
-    submitFinalAnswer(type);
+  function submitFinalAnswer(type) {
+  const input = document.getElementById(
+    'final-' + type + '-input'
+  );
+
+  const list = document.getElementById(
+    'final-' + type + '-list'
+  );
+
+  if (!input || !list) {
+    return;
   }
-}
 
-function submitFinalAnswer(type) {
-  const input = document.getElementById('final-' + type + '-input');
-  const list = document.getElementById('final-' + type + '-list');
-  const answer = input.value.trim();
+  const answer = getValidStudentInput(input);
 
-    if (answer === "") {
-        input.focus();
-        return;
-    }
-
-    if (containsProfanity(answer)) {
-        input.value = "";
-        input.focus();
-        return;
-    }
+  if (answer === null) {
+    return;
+  }
 
   const listItem = document.createElement('li');
 
   const answerText = document.createElement('span');
   answerText.textContent = answer;
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = '×';
-  deleteButton.className = 'delete-answer';
 
-  deleteButton.onclick = function() {
-    listItem.remove();
-  };
+  const deleteButton = createDeleteAnswerButton(
+    'Delete this answer',
+    function() {
+      listItem.remove();
+      schedulePretaskSave();
+    }
+  );
 
   listItem.appendChild(answerText);
   listItem.appendChild(deleteButton);
   list.appendChild(listItem);
 
   input.value = '';
+
+  schedulePretaskSave();
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const answerTypes = [
+    'water',
+    'sunlight',
+    'nutrients',
+    'soil',
+    'co2',
+    'oxygen'
+  ];
+
+  answerTypes.forEach(function(type) {
+    const input = document.getElementById(
+      'final-' + type + '-input'
+    );
+
+    if (!input) {
+      return;
+    }
+
+    connectEnterAndBlurSave(
+      input,
+      function() {
+        submitFinalAnswer(type);
+      }
+    );
+  });
+});
 
 /* ---------- Save and restore Lesson 1 answers ---------- */
 
@@ -1292,120 +1339,18 @@ document.addEventListener('click', function(event) {
   }, 250);
 });
 
-/* ---------- Hidden teacher navigation ---------- */
-
-const teacherTrigger = document.getElementById('teacherTrigger');
-const teacherModal = document.getElementById('teacherModal');
-
-let teacherClickCount = 0;
-let teacherClickTimer = null;
-
-teacherTrigger.addEventListener('click', function() {
-  teacherClickCount++;
-
-  clearTimeout(teacherClickTimer);
-
-  teacherClickTimer = setTimeout(function() {
-    teacherClickCount = 0;
-  }, 1800);
-
-  if (teacherClickCount >= 5) {
-    teacherClickCount = 0;
-    clearTimeout(teacherClickTimer);
-    openTeacherMenu();
-  }
-});
-
-function openTeacherMenu() {
-  teacherModal.classList.add('open');
-}
-
-function closeTeacherMenu() {
-  teacherModal.classList.remove('open');
-}
-
-function teacherJump(sectionId) {
-  const section = document.getElementById(sectionId);
-
-  if (!section) {
-    return;
-  }
-
-  section.classList.remove('locked');
-  closeTeacherMenu();
-
-  setTimeout(function() {
-    section.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }, 100);
-}
-
-function teacherShowAll() {
-  const sectionIds = [
-    'watch',
-    'build',
-    'brainstorm',
-    'diagram',
-    'detective',
-    'final-brainstorm'
-  ];
-
-  sectionIds.forEach(function(sectionId) {
-    const section = document.getElementById(sectionId);
-
-    if (section) {
-      section.classList.remove('locked');
-    }
-  });
-
-  closeTeacherMenu();
-}
-
-function teacherResetView() {
-  const sectionsToLock = [
-    'build',
-    'brainstorm',
-    'diagram',
-    'detective',
-    'final-brainstorm'
-  ];
-
-  sectionsToLock.forEach(function(sectionId) {
-    const section = document.getElementById(sectionId);
-
-    if (section) {
-      section.classList.add('locked');
-      section.classList.remove('completed');
-    }
-  });
-
-  const watchSection = document.getElementById('watch');
-
-  if (watchSection) {
-    watchSection.classList.remove('locked');
-    watchSection.classList.remove('completed');
-  }
-
-  closeTeacherMenu();
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
-
-teacherModal.addEventListener('click', function(event) {
-  if (event.target === teacherModal) {
-    closeTeacherMenu();
-  }
-});
-
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') {
-    closeTeacherMenu();
-  }
+document.addEventListener('DOMContentLoaded', function() {
+  initialiseTeacherMenu(
+    [
+      'watch',
+      'build',
+      'brainstorm',
+      'diagram',
+      'detective',
+      'final-brainstorm'
+    ],
+    'watch'
+  );
 });
 
     (

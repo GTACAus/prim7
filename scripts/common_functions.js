@@ -44,70 +44,38 @@ window.addEventListener('click', function(event) {
 
 let profanityList = [];
 let profanityReady = false;
-let profanityFilterInitialised = false;
+let profanityLoadingPromise = null;
 
 
 /*
-  Load and decode the blocked-language list.
+  Automatically work out where cypher.txt is located.
 
-  Each page supplies the correct path to cypher.txt because
-  pages may be located in different folders.
+  common_functions.js is inside:
+  /scripts/common_functions.js
+
+  cypher.txt is inside:
+  /cypher.txt
+
+  This means pages no longer need to provide "./cypher.txt"
+  or "../cypher.txt".
 */
-async function initialiseClassroomLanguageFilter(
-  profanityFilePath
-) {
-  /*
-    Prevent duplicate event listeners if this function is
-    accidentally called more than once on the same page.
-  */
-  if (profanityFilterInitialised) {
-    return;
+function getClassroomLanguageFilePath() {
+  const commonScript = Array.from(
+    document.querySelectorAll("script[src]")
+  ).find(function(script) {
+    return script.src.includes(
+      "common_functions.js"
+    );
+  });
+
+  if (!commonScript) {
+    return "cypher.txt";
   }
 
-  profanityFilterInitialised = true;
-
-  try {
-    const response =
-      await fetch(profanityFilePath);
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${profanityFilePath}`
-      );
-    }
-
-    const encodedText =
-      await response.text();
-
-    const decodedText =
-      caesarCipher(encodedText, -3);
-
-    profanityList = decodedText
-      .split(/\r?\n/)
-      .map(function(word) {
-        return word.trim().toLowerCase();
-      })
-      .filter(Boolean);
-
-    profanityReady = true;
-
-    console.log(
-      "Classroom language filter loaded."
-    );
-  } catch (error) {
-    /*
-      Do not break the activities if the text file cannot
-      be loaded. The error will appear in the console.
-    */
-    profanityReady = false;
-
-    console.error(
-      "Could not load the classroom language filter:",
-      error
-    );
-  }
-
-  attachClassroomLanguageListeners();
+  return new URL(
+    "../cypher.txt",
+    commonScript.src
+  ).href;
 }
 
 
@@ -122,8 +90,7 @@ function caesarCipher(text, shift) {
         return character;
       }
 
-      const code =
-        character.charCodeAt(0);
+      const code = character.charCodeAt(0);
 
       const base =
         code >= 65 && code <= 90
@@ -144,13 +111,18 @@ function caesarCipher(text, shift) {
 
 
 /*
-  Normalise common character substitutions so entries such
-  as altered spellings can still be checked.
+  Convert common substitutions before checking.
+
+  Examples:
+  @ becomes a
+  3 becomes e
+  1 becomes i
+  0 becomes o
 */
 function normaliseForProfanityCheck(text) {
-  return text
+  return String(text)
     .toLowerCase()
-    .replace(/[@]/g, "a")
+    .replace(/[@4]/g, "a")
     .replace(/[3]/g, "e")
     .replace(/[1!|]/g, "i")
     .replace(/[0]/g, "o")
@@ -163,16 +135,141 @@ function normaliseForProfanityCheck(text) {
 
 
 /*
-  Return true when the submitted text contains a blocked
-  word or blocked phrase.
+  Load the blocked-language list once per page.
+*/
+async function initialiseClassroomLanguageFilter() {
+  if (profanityLoadingPromise) {
+    return profanityLoadingPromise;
+  }
+
+  profanityLoadingPromise = loadClassroomLanguageFilter();
+
+  return profanityLoadingPromise;
+}
+
+
+async function loadClassroomLanguageFilter() {
+  const profanityFilePath =
+    getClassroomLanguageFilePath();
+
+  setStudentTextFieldsLoading(true);
+
+  try {
+    const response =
+      await fetch(profanityFilePath);
+
+    if (!response.ok) {
+      throw new Error(
+        "Could not fetch " +
+        profanityFilePath +
+        ". HTTP status: " +
+        response.status
+      );
+    }
+
+    const encodedText =
+      await response.text();
+
+    const decodedText =
+      caesarCipher(encodedText, -3);
+
+    profanityList = decodedText
+      .split(/\r?\n/)
+      .map(function(entry) {
+        return normaliseForProfanityCheck(
+          entry
+        );
+      })
+      .filter(Boolean);
+
+    profanityReady = true;
+
+    console.log(
+      "Classroom language filter loaded:",
+      profanityList.length,
+      "blocked entries."
+    );
+
+  } catch (error) {
+    profanityReady = false;
+
+    console.error(
+      "Classroom language filter failed to load:",
+      error
+    );
+  } finally {
+    setStudentTextFieldsLoading(false);
+  }
+}
+
+
+/*
+  Temporarily prevent student submissions while the
+  filter file is loading.
+
+  Add data-language-filter="off" to any input or
+  textarea that should not be treated as a student answer.
+*/
+function setStudentTextFieldsLoading(isLoading) {
+  const fields =
+    document.querySelectorAll(
+      [
+        'input[type="text"]:not([data-language-filter="off"])',
+        'textarea:not([data-language-filter="off"])'
+      ].join(",")
+    );
+
+  fields.forEach(function(field) {
+    if (isLoading) {
+      if (!field.disabled) {
+        field.dataset.languageFilterDisabled =
+          "true";
+
+        field.disabled = true;
+      }
+
+      field.setAttribute(
+        "aria-busy",
+        "true"
+      );
+
+      return;
+    }
+
+    if (
+      field.dataset.languageFilterDisabled ===
+      "true"
+    ) {
+      field.disabled = false;
+
+      delete field.dataset
+        .languageFilterDisabled;
+    }
+
+    field.removeAttribute("aria-busy");
+  });
+}
+
+
+/*
+  Return true when student text contains a blocked word
+  or blocked phrase.
 */
 function containsProfanity(text) {
   if (!profanityReady) {
+    console.warn(
+      "Profanity check attempted before the list was ready."
+    );
+
     return false;
   }
 
   const normalisedText =
     normaliseForProfanityCheck(text);
+
+  if (normalisedText === "") {
+    return false;
+  }
 
   const words =
     normalisedText
@@ -181,21 +278,14 @@ function containsProfanity(text) {
 
   return profanityList.some(
     function(blockedEntry) {
-      const normalisedBlockedEntry =
-        normaliseForProfanityCheck(
-          blockedEntry
-        );
-
-      if (
-        normalisedBlockedEntry.includes(" ")
-      ) {
+      if (blockedEntry.includes(" ")) {
         return normalisedText.includes(
-          normalisedBlockedEntry
+          blockedEntry
         );
       }
 
       return words.includes(
-        normalisedBlockedEntry
+        blockedEntry
       );
     }
   );
@@ -203,115 +293,126 @@ function containsProfanity(text) {
 
 
 /*
-  Check one text input before its normal submit function runs.
-
-  Returning true means the answer was blocked.
+  Display standard feedback when an answer is blocked.
 */
-function blockInputIfNeeded(
-  input,
-  event
-) {
-  if (
-    !input ||
-    input.tagName !== "INPUT" ||
-    input.type !== "text"
-  ) {
-    return false;
-  }
-
-  const answer =
-    input.value.trim();
-
-  if (answer === "") {
-    return false;
-  }
-
-  if (!containsProfanity(answer)) {
-    return false;
-  }
-
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-  }
-
+function showBlockedLanguageFeedback(input) {
   input.value = "";
-  input.focus();
 
-  console.log(
-    "Blocked inappropriate classroom language."
+  input.setCustomValidity(
+    "Please use appropriate classroom language."
   );
 
-  return true;
+  input.reportValidity();
+  input.focus();
+
+  window.setTimeout(function() {
+    input.setCustomValidity("");
+  }, 2000);
 }
 
 
 /*
-  Add the shared Enter and button checks.
+  Read and validate a student's text field.
 
-  Capture mode means this filter runs before the individual
-  activity's own keydown or click handler.
+  Supports:
+  - input type="text"
+  - textarea
+
+  Returns:
+  - cleaned student text when valid;
+  - null when empty, unavailable or blocked.
 */
-function attachClassroomLanguageListeners() {
+function getValidStudentInput(input) {
+  if (!input) {
+    return null;
+  }
+
+  const isTextInput =
+    input.matches('input[type="text"]');
+
+  const isTextArea =
+    input.matches("textarea");
+
+  if (!isTextInput && !isTextArea) {
+    console.warn(
+      "getValidStudentInput received an unsupported element:",
+      input
+    );
+
+    return null;
+  }
+
+  if (!profanityReady) {
+    console.warn(
+      "Student input was checked before the language filter finished loading."
+    );
+
+    input.focus();
+
+    return null;
+  }
+
+  const value = input.value.trim();
+
+  if (value === "") {
+    input.focus();
+
+    return null;
+  }
+
+  if (containsProfanity(value)) {
+    showBlockedLanguageFeedback(input);
+
+    return null;
+  }
+
+  return value;
+}
+
+/*
+  Read text that is being used for a live preview.
+
+  Unlike getValidStudentInput(), an empty field is allowed.
+
+  Returns:
+  - the cleaned text when safe;
+  - an empty string when empty or blocked.
+*/
+function getSafeStudentPreviewValue(input) {
+  if (!input) {
+    return "";
+  }
+
+  const value = input.value.trim();
+
+  if (value === "") {
+    return "";
+  }
+
+  if (!profanityReady) {
+    return "";
+  }
+
+  if (containsProfanity(value)) {
+    return "";
+  }
+
+  return value;
+}
+
+
+/*
+  Automatically initialise the filter on every page that
+  loads common_functions.js.
+*/
+if (document.readyState === "loading") {
   document.addEventListener(
-    "keydown",
-    function(event) {
-      if (event.key !== "Enter") {
-        return;
-      }
-
-      if (
-        event.target.matches(
-          'input[type="text"]'
-        )
-      ) {
-        blockInputIfNeeded(
-          event.target,
-          event
-        );
-      }
-    },
-    true
+    "DOMContentLoaded",
+    initialiseClassroomLanguageFilter,
+    { once: true }
   );
-
-  document.addEventListener(
-    "click",
-    function(event) {
-      const button =
-        event.target.closest("button");
-
-      if (!button) {
-        return;
-      }
-
-      /*
-        This covers the established input-row layouts,
-        including See/Think/Wonder, final answers,
-        investigation questions and predictions.
-      */
-      const inputRow =
-        button.closest(
-          ".stw-input-row, " +
-          ".final-input-row"
-        );
-
-      if (!inputRow) {
-        return;
-      }
-
-      const input =
-        inputRow.querySelector(
-          'input[type="text"]'
-        );
-
-      blockInputIfNeeded(
-        input,
-        event
-      );
-    },
-    true
-  );
+} else {
+  initialiseClassroomLanguageFilter();
 }
 
 /* ==================================================
@@ -803,29 +904,6 @@ function connectEnterAndBlurSave(input, saveFunction) {
   - the cleaned text when valid;
   - null when empty or blocked.
 */
-function getValidStudentInput(input) {
-  if (!input) {
-    return null;
-  }
-
-  const value = input.value.trim();
-
-  if (value === "") {
-    return null;
-  }
-
-  if (
-    typeof containsProfanity === "function" &&
-    containsProfanity(value)
-  ) {
-    input.value = "";
-    input.focus();
-
-    return null;
-  }
-
-  return value;
-}
 
 
 /*
