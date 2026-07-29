@@ -740,10 +740,6 @@ Use your detective skills to make <strong>observations</strong> and come up with
   <script src="scripts/brainstorm.js"></script>
   <script>
 
-    initialiseClassroomLanguageFilter(
-  "../cypher.txt"
-);
-
     function submitFinalAnswerOnEnter(event, type) {
   if (event.key === 'Enter') {
     submitFinalAnswer(type);
@@ -753,24 +749,23 @@ Use your detective skills to make <strong>observations</strong> and come up with
 function submitFinalAnswer(type) {
   const input = document.getElementById('final-' + type + '-input');
   const list = document.getElementById('final-' + type + '-list');
-  const answer =
-  input.value.trim();
+  const answer = input.value.trim();
 
-if (answer === '') {
-  return;
-}
+    if (answer === "") {
+        input.focus();
+        return;
+    }
 
-if (containsProfanity(answer)) {
-  input.value = '';
-  input.focus();
-  return;
-}
+    if (containsProfanity(answer)) {
+        input.value = "";
+        input.focus();
+        return;
+    }
 
   const listItem = document.createElement('li');
 
   const answerText = document.createElement('span');
   answerText.textContent = answer;
-
   const deleteButton = document.createElement('button');
   deleteButton.textContent = '×';
   deleteButton.className = 'delete-answer';
