@@ -533,13 +533,29 @@
       <div class="fair-test-rule">
         A fair test changes one variable, measures one result and keeps all other variables the same.
       </div>
-
       
+      <div class="stop-and-check">
+        <div class="stop-and-check-heading">Stop and Think</div>
+        <div class="stop-and-check-content">
+          <p>
+            Why is it important that we change only one <strong>variable</strong> and keep all other <strong>variables</strong> the same in a <strong>fair test</strong>.
+          </p>
+        </div>
+        <div class="stop-and-check-answer" hidden>
+          Only changing one <strong>variable</strong> allows you to know that no other <strong>variable</strong> has affected the results of the <strong>fair test</strong>.
+          Any effect or result you measure in the <strong>dependent variable</strong> is caused by the thing you changed (the <strong>independent variable</strong>).
+        </div>
+        <button class="stop-and-check-button general-button" onclick="showStopAndCheckAnswer(this)">
+          <p hidden>Check Your Answer</p>
+          <p class="bounce-symbol">✅</p>
+        </button>
+      </div>
 
       <button
         type="button"
         class="next-button"
-        onclick="unlockSection('sort-variables-one', 'variable-types')">
+        onclick="unlockSection('sort-variables-one', 'variable-types')"
+        hidden>
         Next
       </button>
 

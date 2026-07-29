@@ -314,6 +314,17 @@ function attachClassroomLanguageListeners() {
   );
 }
 
+function showStopAndCheckAnswer(button) {
+  const stopAndCheck = button.closest(".stop-and-check");
+  const answer = stopAndCheck.querySelector(".stop-and-check-answer");
+  const section = button.closest(".section");
+  const nextButton = section.querySelector(".next-button");
+
+  answer.hidden = false;
+  button.style.display = "none";
+  nextButton.hidden = false;
+}
+
 /* ==================================================
    REASONED PREDICTION EVIDENCE CHECK
    ================================================== */
