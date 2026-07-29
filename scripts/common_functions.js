@@ -176,9 +176,24 @@ async function loadClassroomLanguageFilter() {
     profanityList = decodedText
       .split(/\r?\n/)
       .map(function(entry) {
-        return normaliseForProfanityCheck(
-          entry
-        );
+        const trimmedEntry = entry.trim();
+
+        const hasWildcard =
+          trimmedEntry.endsWith("*");
+
+        const entryWithoutWildcard =
+          hasWildcard
+            ? trimmedEntry.slice(0, -1)
+            : trimmedEntry;
+
+        const cleanedEntry =
+          normaliseForProfanityCheck(
+            entryWithoutWildcard
+          );
+
+        return hasWildcard
+          ? cleanedEntry + "*"
+          : cleanedEntry;
       })
       .filter(Boolean);
 
@@ -276,19 +291,39 @@ function containsProfanity(text) {
       .split(/\s+/)
       .filter(Boolean);
 
-  return profanityList.some(
-    function(blockedEntry) {
-      if (blockedEntry.includes(" ")) {
-        return normalisedText.includes(
-          blockedEntry
-        );
-      }
+  return profanityList.some(function(blockedEntry) {
+    /*
+      A trailing * means:
+      block any word beginning with this text.
 
-      return words.includes(
+      Example:
+      fuck* blocks fuck, fucks, fucking, fuckj, etc.
+    */
+    if (blockedEntry.endsWith("*")) {
+      const blockedStart =
+        blockedEntry.slice(0, -1);
+
+      return words.some(function(word) {
+        return word.startsWith(blockedStart);
+      });
+    }
+
+    /*
+      Multi-word blocked phrases.
+    */
+    if (blockedEntry.includes(" ")) {
+      return normalisedText.includes(
         blockedEntry
       );
     }
-  );
+
+    /*
+      Ordinary exact blocked words.
+    */
+    return words.includes(
+      blockedEntry
+    );
+  });
 }
 
 
