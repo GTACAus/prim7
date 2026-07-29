@@ -1116,6 +1116,11 @@
       </main>
       <script src="../scripts/common_functions.js"></script>
       <script>
+        
+        
+        if (typeof initialiseClassroomLanguageFilter === "function") {
+      initialiseClassroomLanguageFilter("../cypher.txt");
+    }
         initialiseTeacherMenu(
             [
                 "observe-experiment",

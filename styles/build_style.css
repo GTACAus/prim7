@@ -42,7 +42,9 @@
     html {
       scroll-behavior: smooth;
     }
+
     body {
+
   margin: 0;
 
   background: var(--cream);
@@ -3395,6 +3397,12 @@ height: 44px;
   .return-to-top-button {
     display: none !important;
   }
+
+  .reset-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
 
   /* Show all lesson sections */
 
