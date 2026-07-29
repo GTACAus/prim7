@@ -581,9 +581,6 @@ body {
 
   <script src="../scripts/common_functions.js"></script>
   <script>
-    if (typeof initialiseClassroomLanguageFilter === "function") {
-      initialiseClassroomLanguageFilter("../cypher.txt");
-    }
 
     const changeVariable = document.getElementById("changeVariable");
     const measureVariable = document.getElementById("measureVariable");
@@ -637,17 +634,13 @@ body {
     };
 
     function submitPermanentField(fieldName) {
-      const field = permanentFields[fieldName];
-      const value = field.input.value.trim();
+      const field =
+        permanentFields[fieldName];
 
-      if (value === "") {
-        field.input.focus();
-        return;
-      }
+      const value =
+        getValidStudentInput(field.input);
 
-      if (typeof containsProfanity === "function" && containsProfanity(value)) {
-        field.input.value = "";
-        field.input.focus();
+      if (value === null) {
         return;
       }
 
@@ -775,31 +768,21 @@ body {
       updatePrediction();
     }
 
-    let hasCleared = false;
-    conditionOneInput.addEventListener("input", () => {
-      if (!hasCleared && containsProfanity(conditionOneInput.value.trim())) {
-        conditionOneInput.value = "";
-        hasCleared = true;
-      }
-      if (conditionOneInput.value === "") hasCleared = false;
-    });
-    conditionTwoInput.addEventListener("input", () => {
-      if (!hasCleared && containsProfanity(conditionTwoInput.value.trim())) {
-        conditionTwoInput.value = "";
-        hasCleared = true;
-      }
-      if (conditionTwoInput.value === "") hasCleared = false;
-    });
-
     function getCausePhrase() {
       const change = builderState.change;
       if (change === "" || selectedCause === "") {
         return "";
       }
 
-      
-      const conditionOne = (containsProfanity(conditionOneInput.value.trim())) ? "" : conditionOneInput.value.trim();
-      const conditionTwo = (containsProfanity(conditionTwoInput.value.trim())) ? "" : conditionTwoInput.value.trim();
+      const conditionOne =
+        getSafeStudentPreviewValue(
+          conditionOneInput
+        );
+
+      const conditionTwo =
+        getSafeStudentPreviewValue(
+          conditionTwoInput
+        );
 
       const causePhrases = {
         increase:
