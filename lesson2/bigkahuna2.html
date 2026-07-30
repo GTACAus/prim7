@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Kahuna 2 - Investigation Planner Prototypes</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
+  <link href="../styles/lesson2.css" rel="stylesheet" type="text/css">
+
+  <style>
+    body {
+      padding: 24px 0 60px;
+    }
+
+    .bk-page {
+      width: min(1240px, 95%);
+      margin: 0 auto;
+    }
+
+    .bk-intro {
+      margin-bottom: 24px;
+      padding: 24px;
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow-medium);
+    }
+
+    .bk-intro h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+    }
+
+    .bk-intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .bk-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .bk-tab {
+      padding: 11px 16px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--line);
+    }
+
+    .bk-tab[aria-selected="true"] {
+      background: var(--purple);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .bk-concept {
+      display: none;
+    }
+
+    .bk-concept.active {
+      display: block;
+    }
+
+    .bk-concept-header {
+      margin-bottom: 18px;
+      padding: 18px 20px;
+      background: var(--soft-blue);
+      border: 2px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .bk-concept-header h2 {
+      margin: 0 0 6px;
+      color: var(--text);
+    }
+
+    .bk-concept-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .bk-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .bk-panel {
+      padding: 20px;
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .bk-panel h3 {
+      margin: 0 0 14px;
+      color: var(--purple);
+    }
+
+    .bk-diagram-shell {
+      position: sticky;
+      top: 16px;
+    }
+
+    .bk-diagram {
+      width: 100%;
+      min-height: 430px;
+      padding: 12px;
+      background: var(--soft-blue);
+      border: 2px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .bk-diagram svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .diagram-part {
+      opacity: 0.45;
+      transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+      transform-origin: center;
+    }
+
+    .diagram-part.is-active {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(78, 50, 232, 0.55));
+      transform: scale(1.025);
+    }
+
+    .diagram-part.is-secondary {
+      opacity: 0.72;
+    }
+
+    .bk-diagram-note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .bk-card-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .bk-variable-card {
+      padding: 16px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: white;
+    }
+
+    .bk-variable-card.independent { background: var(--soft-yellow); }
+    .bk-variable-card.dependent { background: var(--soft-purple); }
+    .bk-variable-card.controlled { background: var(--soft-green); }
+
+    .bk-variable-card h4 {
+      margin: 0 0 4px;
+      color: var(--text);
+    }
+
+    .bk-helper {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+
+    .bk-field,
+    .bk-select,
+    .bk-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: white;
+      color: var(--text);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      font: inherit;
+    }
+
+    .bk-textarea {
+      min-height: 84px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .bk-followup {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .bk-followup.visible {
+      display: block;
+    }
+
+    .bk-checkbox-grid {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .bk-check {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 9px;
+      align-items: start;
+      padding: 10px 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .bk-check input {
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--green);
+    }
+
+    .bk-control-answer {
+      margin-top: 10px;
+      padding: 12px;
+      background: rgba(255,255,255,0.75);
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+    }
+
+    .bk-control-answer label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 700;
+    }
+
+    .bk-summary {
+      margin-top: 18px;
+      padding: 18px;
+      background: var(--soft-blue);
+      border: 2px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .bk-summary h3,
+    .bk-summary h4 {
+      margin-top: 0;
+    }
+
+    .bk-summary-list {
+      display: grid;
+      gap: 9px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .bk-summary-list li {
+      padding: 10px 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      line-height: 1.45;
+    }
+
+    .bk-empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .bk-quick-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .bk-chip-button {
+      padding: 8px 11px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bk-chip-button.selected {
+      background: var(--purple);
+      color: white;
+    }
+
+    /* Blueprint prototype */
+    .blueprint-layout {
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) minmax(330px, 0.8fr);
+      gap: 20px;
+    }
+
+    .blueprint-object {
+      cursor: pointer;
+    }
+
+    .blueprint-object:focus {
+      outline: 4px solid rgba(78, 50, 232, 0.25);
+      outline-offset: 4px;
+    }
+
+    .blueprint-inspector {
+      min-height: 430px;
+    }
+
+    .inspector-placeholder {
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--muted);
+      text-align: center;
+      border: 2px dashed var(--line);
+      border-radius: 16px;
+    }
+
+    /* Accordion cards */
+    .accordion-card {
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 16px;
+      border: 0;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .accordion-body {
+      display: none;
+      padding: 0 16px 16px;
+    }
+
+    .accordion-card.open .accordion-body {
+      display: block;
+    }
+
+    .accordion-card.complete .accordion-trigger::after {
+      content: "✓";
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      background: var(--green);
+      color: white;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+    }
+
+    /* Canvas */
+    .canvas-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.65fr) minmax(520px, 1.35fr);
+      gap: 18px;
+    }
+
+    .variable-bank {
+      display: grid;
+      gap: 10px;
+    }
+
+    .drag-variable {
+      padding: 12px 14px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 3px 0 var(--line);
+      font-weight: 700;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .drag-variable:active {
+      cursor: grabbing;
+    }
+
+    .drag-variable.placed {
+      opacity: 0.45;
+    }
+
+    .canvas-zones {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .drop-zone-bk {
+      min-height: 320px;
+      padding: 14px;
+      border: 3px dashed var(--line);
+      border-radius: 18px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .drop-zone-bk[data-zone="independent"] { background: var(--soft-yellow); }
+    .drop-zone-bk[data-zone="dependent"] { background: var(--soft-purple); }
+    .drop-zone-bk[data-zone="controlled"] { background: var(--soft-green); }
+
+    .drop-zone-bk.drag-over {
+      transform: translateY(-3px);
+      outline: 4px solid rgba(78,50,232,0.2);
+    }
+
+    .drop-zone-bk h4 {
+      margin: 0 0 5px;
+    }
+
+    .zone-helper {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .zone-items {
+      display: grid;
+      gap: 10px;
+    }
+
+    .zone-item {
+      padding: 11px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .zone-item strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .zone-remove {
+      margin-top: 8px;
+      padding: 6px 9px;
+      background: var(--soft-orange);
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Staged planner */
+    .stage-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stage-pill {
+      padding: 10px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      text-align: center;
+      font-weight: 700;
+      opacity: 0.45;
+    }
+
+    .stage-pill.active,
+    .stage-pill.complete {
+      opacity: 1;
+    }
+
+    .stage-pill.active {
+      background: var(--purple);
+      color: white;
+    }
+
+    .stage-pill.complete {
+      background: var(--soft-green);
+    }
+
+    .staged-step {
+      display: none;
+    }
+
+    .staged-step.active {
+      display: block;
+    }
+
+    .bk-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+
+    .bk-button {
+      padding: 10px 16px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--line);
+    }
+
+    .bk-button.secondary {
+      background: white;
+      color: var(--text);
+    }
+
+    .bk-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 950px) {
+      .bk-layout,
+      .blueprint-layout,
+      .canvas-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .bk-diagram-shell {
+        position: static;
+      }
+
+      .canvas-zones {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .bk-page {
+        width: min(96%, 100%);
+      }
+
+      .bk-intro,
+      .bk-panel {
+        padding: 16px;
+      }
+
+      .stage-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="bk-page">
+    <header class="bk-intro">
+      <h1>Big Kahuna 2</h1>
+      <p>
+        Five working prototypes based on the diagram-and-planner idea. These are intentionally contained in this one file so you can test, compare and discard ideas without changing Lesson 2.
+      </p>
+    </header>
+
+    <nav class="bk-tabs" aria-label="Prototype concepts">
+      <button class="bk-tab" type="button" data-tab="dashboard" aria-selected="true">1. Investigation dashboard</button>
+      <button class="bk-tab" type="button" data-tab="blueprint" aria-selected="false">2. Clickable blueprint</button>
+      <button class="bk-tab" type="button" data-tab="cards" aria-selected="false">3. Collapsible cards</button>
+      <button class="bk-tab" type="button" data-tab="canvas" aria-selected="false">4. Build-it canvas</button>
+      <button class="bk-tab" type="button" data-tab="staged" aria-selected="false">5. Staged hybrid</button>
+    </nav>
+
+    <!-- 1. DASHBOARD -->
+    <section class="bk-concept active" id="dashboard" aria-labelledby="dashboardTitle">
+      <div class="bk-concept-header">
+        <h2 id="dashboardTitle">Investigation dashboard</h2>
+        <p>The safest, clearest version: diagram on the left, complete planner on the right, and a live investigation summary underneath.</p>
+      </div>
+
+      <div class="bk-layout">
+        <aside class="bk-panel bk-diagram-shell">
+          <h3>Experiment diagram</h3>
+          <div class="bk-diagram" data-diagram="dashboard"></div>
+          <p class="bk-diagram-note">Choose or focus on a variable to highlight where it appears in the experiment.</p>
+        </aside>
+
+        <div class="bk-panel">
+          <h3>Investigation planner</h3>
+          <div id="dashboardPlanner" class="bk-card-stack"></div>
+          <div id="dashboardSummary" class="bk-summary" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. BLUEPRINT -->
+    <section class="bk-concept" id="blueprint" aria-labelledby="blueprintTitle">
+      <div class="bk-concept-header">
+        <h2 id="blueprintTitle">Clickable blueprint</h2>
+        <p>The diagram is the entry point. Students click a ball, arrow, ruler or surface, then answer questions in an inspector panel beside it.</p>
+      </div>
+
+      <div class="blueprint-layout">
+        <div class="bk-panel">
+          <h3>Click a part of the experiment</h3>
+          <div class="bk-diagram" data-diagram="blueprint"></div>
+          <p class="bk-diagram-note">This makes the image feel interactive without positioning text boxes over it.</p>
+        </div>
+
+        <div class="bk-panel blueprint-inspector">
+          <h3>Variable inspector</h3>
+          <div id="blueprintInspector" class="inspector-placeholder">
+            Select a part of the diagram to explore the variables connected to it.
+          </div>
+        </div>
+      </div>
+
+      <div id="blueprintSummary" class="bk-summary" aria-live="polite"></div>
+    </section>
+
+    <!-- 3. CARDS -->
+    <section class="bk-concept" id="cards" aria-labelledby="cardsTitle">
+      <div class="bk-concept-header">
+        <h2 id="cardsTitle">Collapsible investigation cards</h2>
+        <p>The diagram stays visible, while completed planner sections collapse into compact summaries. This reduces clutter without hiding the overall plan.</p>
+      </div>
+
+      <div class="bk-layout">
+        <aside class="bk-panel bk-diagram-shell">
+          <h3>Experiment reference</h3>
+          <div class="bk-diagram" data-diagram="cards"></div>
+        </aside>
+
+        <div class="bk-panel">
+          <h3>Build your plan</h3>
+          <div id="accordionPlanner" class="bk-card-stack"></div>
+          <div id="cardsSummary" class="bk-summary" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CANVAS -->
+    <section class="bk-concept" id="canvas" aria-labelledby="canvasTitle">
+      <div class="bk-concept-header">
+        <h2 id="canvasTitle">Build-it investigation canvas</h2>
+        <p>Students physically build the plan by dragging variable cards into Change, Measure and Keep the same. Text fields appear inside the chosen zone.</p>
+      </div>
+
+      <div class="canvas-layout">
+        <aside class="bk-panel">
+          <h3>Variable bank</h3>
+          <p class="bk-helper">Drag each variable into a zone. One item can go in Change, one in Measure, and several in Keep the same.</p>
+          <div id="variableBank" class="variable-bank"></div>
+        </aside>
+
+        <div class="bk-panel">
+          <h3>Your investigation canvas</h3>
+          <div class="canvas-zones">
+            <section class="drop-zone-bk" data-zone="independent">
+              <h4>Change</h4>
+              <p class="zone-helper">Independent variable</p>
+              <div class="zone-items"></div>
+            </section>
+            <section class="drop-zone-bk" data-zone="dependent">
+              <h4>Measure</h4>
+              <p class="zone-helper">Dependent variable</p>
+              <div class="zone-items"></div>
+            </section>
+            <section class="drop-zone-bk" data-zone="controlled">
+              <h4>Keep the same</h4>
+              <p class="zone-helper">Controlled variables</p>
+              <div class="zone-items"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <div class="bk-panel" style="margin-top: 18px;">
+        <h3>Experiment connection</h3>
+        <div class="bk-layout">
+          <div class="bk-diagram" data-diagram="canvas"></div>
+          <div id="canvasSummary" class="bk-summary" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. STAGED -->
+    <section class="bk-concept" id="staged" aria-labelledby="stagedTitle">
+      <div class="bk-concept-header">
+        <h2 id="stagedTitle">Staged diagram + planner hybrid</h2>
+        <p>My strongest recommendation: keep the diagram visible, but unlock the planner in four manageable stages so students never face the full activity at once.</p>
+      </div>
+
+      <div class="stage-strip" id="stageStrip">
+        <div class="stage-pill active" data-stage-pill="0">1. Change</div>
+        <div class="stage-pill" data-stage-pill="1">2. Measure</div>
+        <div class="stage-pill" data-stage-pill="2">3. Control</div>
+        <div class="stage-pill" data-stage-pill="3">4. Review</div>
+      </div>
+
+      <div class="bk-layout">
+        <aside class="bk-panel bk-diagram-shell">
+          <h3>Experiment diagram</h3>
+          <div class="bk-diagram" data-diagram="staged"></div>
+          <p id="stageDiagramMessage" class="bk-diagram-note">Start by deciding what you will change.</p>
+        </aside>
+
+        <div class="bk-panel">
+          <div id="stagedPlanner"></div>
+          <div class="bk-actions">
+            <button id="stageBack" type="button" class="bk-button secondary" disabled>Back</button>
+            <button id="stageNext" type="button" class="bk-button">Next stage</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../scripts/common_functions.js"></script>
+  <script>
+    const variables = {
+      "ball-size": {
+        label: "Ball size",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        quick: ["Small and large", "Small and medium", "Measure diameter"],
+        changePrompt: "How will you change the ball size?",
+        controlPrompt: "How will you keep the ball size the same?"
+      },
+      "ball-weight": {
+        label: "Ball weight",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        quick: ["Light and heavy", "Measure mass in grams", "Use the same ball"],
+        changePrompt: "How will you change the ball weight?",
+        controlPrompt: "How will you keep the ball weight the same?"
+      },
+      "ball-material": {
+        label: "Ball material",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        quick: ["Rubber and plastic", "Leather and rubber", "Use one material"],
+        changePrompt: "How will you change the ball material?",
+        controlPrompt: "How will you keep the ball material the same?"
+      },
+      "ball-squashiness": {
+        label: "Ball squashiness",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        quick: ["Rigid and compressible", "Firm and soft", "Use the same firmness"],
+        changePrompt: "How will you change the ball squashiness?",
+        controlPrompt: "How will you keep the ball squashiness the same?"
+      },
+      "drop-height": {
+        label: "Drop height",
+        group: "drop",
+        roles: ["independent", "controlled"],
+        quick: ["0.5 m and 1 m", "1 m and 2 m", "Always use 1 m"],
+        changePrompt: "How will you change the drop height?",
+        controlPrompt: "How will you keep the drop height the same?"
+      },
+      "bounce-surface": {
+        label: "Bounce surface",
+        group: "surface",
+        roles: ["independent", "controlled"],
+        quick: ["Carpet and concrete", "Hard and soft", "Always use concrete"],
+        changePrompt: "How will you change the bounce surface?",
+        controlPrompt: "How will you keep the bounce surface the same?"
+      },
+      "bounce-height": {
+        label: "Bounce height",
+        group: "bounce",
+        roles: ["dependent"],
+        quick: ["Use a ruler", "Measure in centimetres", "Measure the first bounce"],
+        measurePrompt: "How will you measure the bounce height?"
+      },
+      "number-bounces": {
+        label: "Number of bounces",
+        group: "bounce",
+        roles: ["dependent"],
+        quick: ["Count until the ball stops", "Count the first 10 seconds", "Repeat three times"],
+        measurePrompt: "How will you measure the number of bounces?"
+      }
+    };
+
+    function variableOptions(role, selectedValue) {
+      const options = ['<option value="">Choose a variable</option>'];
+      Object.entries(variables).forEach(function([key, variable]) {
+        if (!variable.roles.includes(role)) return;
+        options.push(
+          '<option value="' + key + '"' +
+          (selectedValue === key ? ' selected' : '') +
+          '>' + variable.label + '</option>'
+        );
+      });
+      return options.join("");
+    }
+
+    function diagramMarkup() {
+      return `
+        <svg viewBox="0 0 520 460" role="img" aria-label="Bouncing ball experiment showing ball, drop height, bounce height and surface">
+          <defs>
+            <marker id="arrowDown" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="currentColor"></path>
+            </marker>
+            <marker id="arrowUp" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="currentColor"></path>
+            </marker>
+          </defs>
+
+          <g class="diagram-part" data-part="drop" tabindex="0" role="button" aria-label="Drop height">
+            <rect x="55" y="52" width="54" height="300" rx="8" fill="#fff" stroke="#30332F" stroke-width="4"></rect>
+            ${Array.from({ length: 11 }, (_, i) => {
+              const y = 72 + i * 26;
+              return `<line x1="76" y1="${y}" x2="${i % 2 === 0 ? 101 : 92}" y2="${y}" stroke="#30332F" stroke-width="3"></line>`;
+            }).join("")}
+            <line x1="145" y1="88" x2="145" y2="290" stroke="#4E32E8" stroke-width="6" marker-end="url(#arrowDown)"></line>
+            <text x="125" y="44" font-size="18" font-weight="700">Drop height</text>
+          </g>
+
+          <g class="diagram-part" data-part="ball" tabindex="0" role="button" aria-label="Ball variables">
+            <circle cx="270" cy="118" r="56" fill="#FFC91C" stroke="#30332F" stroke-width="5"></circle>
+            <path d="M230 88 Q270 120 310 88" fill="none" stroke="#30332F" stroke-width="4"></path>
+            <path d="M230 146 Q270 114 310 146" fill="none" stroke="#30332F" stroke-width="4"></path>
+            <text x="270" y="204" text-anchor="middle" font-size="18" font-weight="700">Ball</text>
+          </g>
+
+          <g class="diagram-part" data-part="bounce" tabindex="0" role="button" aria-label="Bounce height">
+            <path d="M315 340 Q390 250 355 150" fill="none" stroke="#4E32E8" stroke-width="7" marker-end="url(#arrowUp)"></path>
+            <text x="380" y="246" font-size="18" font-weight="700" transform="rotate(-62 380 246)">Bounce height</text>
+          </g>
+
+          <g class="diagram-part" data-part="surface" tabindex="0" role="button" aria-label="Bounce surface">
+            <rect x="145" y="352" width="300" height="46" rx="8" fill="#67E5C1" stroke="#30332F" stroke-width="5"></rect>
+            <line x1="160" y1="414" x2="430" y2="414" stroke="#30332F" stroke-width="5"></line>
+            <text x="295" y="385" text-anchor="middle" font-size="18" font-weight="700">Bounce surface</text>
+          </g>
+        </svg>`;
+    }
+
+    document.querySelectorAll('.bk-diagram').forEach(function(diagram) {
+      diagram.innerHTML = diagramMarkup();
+    });
+
+    function highlightDiagram(diagramName, variableKey) {
+      const diagram = document.querySelector('[data-diagram="' + diagramName + '"]');
+      if (!diagram) return;
+      const group = variableKey && variables[variableKey] ? variables[variableKey].group : "";
+      diagram.querySelectorAll('.diagram-part').forEach(function(part) {
+        part.classList.toggle('is-active', part.dataset.part === group);
+        part.classList.toggle('is-secondary', !group);
+      });
+    }
+
+    function makeQuickButtons(variableKey, textarea) {
+      const variable = variables[variableKey];
+      if (!variable) return document.createElement('div');
+      const wrapper = document.createElement('div');
+      wrapper.className = 'bk-quick-options';
+      variable.quick.forEach(function(text) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'bk-chip-button';
+        button.textContent = text;
+        button.addEventListener('click', function() {
+          textarea.value = text;
+          textarea.dispatchEvent(new Event('input', { bubbles: true }));
+          wrapper.querySelectorAll('.bk-chip-button').forEach(function(other) {
+            other.classList.toggle('selected', other === button);
+          });
+        });
+        wrapper.appendChild(button);
+      });
+      return wrapper;
+    }
+
+    function summaryMarkup(state) {
+      const items = [];
+      if (state.independent) {
+        items.push('<li><strong>Change:</strong> ' + variables[state.independent].label +
+          (state.independentHow ? ' — ' + state.independentHow : '') + '</li>');
+      }
+      if (state.dependent) {
+        items.push('<li><strong>Measure:</strong> ' + variables[state.dependent].label +
+          (state.dependentHow ? ' — ' + state.dependentHow : '') + '</li>');
+      }
+      Object.entries(state.controls || {}).forEach(function([key, answer]) {
+        items.push('<li><strong>Keep the same:</strong> ' + variables[key].label +
+          (answer ? ' — ' + answer : '') + '</li>');
+      });
+      return items.length
+        ? '<h3>Your investigation plan</h3><ul class="bk-summary-list">' + items.join('') + '</ul>'
+        : '<h3>Your investigation plan</h3><p class="bk-empty">Your choices will appear here.</p>';
+    }
+
+    /* DASHBOARD */
+    const dashboardState = {
+      independent: "",
+      independentHow: "",
+      dependent: "",
+      dependentHow: "",
+      controls: {}
+    };
+
+    function renderDashboard() {
+      const root = document.getElementById('dashboardPlanner');
+      root.innerHTML = `
+        <section class="bk-variable-card independent">
+          <h4>Independent variable</h4>
+          <p class="bk-helper">Choose the one thing you will change.</p>
+          <select class="bk-select" id="dashIndependent">${variableOptions('independent', dashboardState.independent)}</select>
+          <div class="bk-followup ${dashboardState.independent ? 'visible' : ''}" id="dashIndependentFollowup"></div>
+        </section>
+        <section class="bk-variable-card dependent">
+          <h4>Dependent variable</h4>
+          <p class="bk-helper">Choose the result you will measure.</p>
+          <select class="bk-select" id="dashDependent">${variableOptions('dependent', dashboardState.dependent)}</select>
+          <div class="bk-followup ${dashboardState.dependent ? 'visible' : ''}" id="dashDependentFollowup"></div>
+        </section>
+        <section class="bk-variable-card controlled">
+          <h4>Controlled variables</h4>
+          <p class="bk-helper">Choose everything else that must remain the same.</p>
+          <div id="dashControls" class="bk-checkbox-grid"></div>
+          <div id="dashControlAnswers"></div>
+        </section>`;
+
+      const independentSelect = document.getElementById('dashIndependent');
+      const dependentSelect = document.getElementById('dashDependent');
+
+      independentSelect.addEventListener('change', function() {
+        dashboardState.independent = independentSelect.value;
+        dashboardState.independentHow = "";
+        if (dashboardState.controls[dashboardState.independent]) delete dashboardState.controls[dashboardState.independent];
+        renderDashboard();
+        highlightDiagram('dashboard', dashboardState.independent);
+      });
+
+      dependentSelect.addEventListener('change', function() {
+        dashboardState.dependent = dependentSelect.value;
+        dashboardState.dependentHow = "";
+        renderDashboard();
+        highlightDiagram('dashboard', dashboardState.dependent);
+      });
+
+      if (dashboardState.independent) {
+        const follow = document.getElementById('dashIndependentFollowup');
+        const variable = variables[dashboardState.independent];
+        follow.innerHTML = '<label for="dashIndependentHow"><strong>' + variable.changePrompt + '</strong></label>';
+        const textarea = document.createElement('textarea');
+        textarea.id = 'dashIndependentHow';
+        textarea.className = 'bk-textarea';
+        textarea.value = dashboardState.independentHow;
+        textarea.placeholder = 'Describe the two conditions or values you will compare.';
+        textarea.addEventListener('focus', function() { highlightDiagram('dashboard', dashboardState.independent); });
+        textarea.addEventListener('input', function() {
+          dashboardState.independentHow = textarea.value;
+          updateDashboardSummary();
+        });
+        follow.appendChild(textarea);
+        follow.appendChild(makeQuickButtons(dashboardState.independent, textarea));
+      }
+
+      if (dashboardState.dependent) {
+        const follow = document.getElementById('dashDependentFollowup');
+        const variable = variables[dashboardState.dependent];
+        follow.innerHTML = '<label for="dashDependentHow"><strong>' + variable.measurePrompt + '</strong></label>';
+        const textarea = document.createElement('textarea');
+        textarea.id = 'dashDependentHow';
+        textarea.className = 'bk-textarea';
+        textarea.value = dashboardState.dependentHow;
+        textarea.placeholder = 'Describe the equipment, units or method you will use.';
+        textarea.addEventListener('focus', function() { highlightDiagram('dashboard', dashboardState.dependent); });
+        textarea.addEventListener('input', function() {
+          dashboardState.dependentHow = textarea.value;
+          updateDashboardSummary();
+        });
+        follow.appendChild(textarea);
+        follow.appendChild(makeQuickButtons(dashboardState.dependent, textarea));
+      }
+
+      const controlsRoot = document.getElementById('dashControls');
+      Object.entries(variables).forEach(function([key, variable]) {
+        if (!variable.roles.includes('controlled')) return;
+        const disabled = key === dashboardState.independent;
+        const label = document.createElement('label');
+        label.className = 'bk-check';
+        label.innerHTML = '<input type="checkbox" value="' + key + '"' +
+          (dashboardState.controls.hasOwnProperty(key) ? ' checked' : '') +
+          (disabled ? ' disabled' : '') + '><span><strong>' + variable.label + '</strong>' +
+          (disabled ? '<small>Already selected as the independent variable.</small>' : '') + '</span>';
+        const checkbox = label.querySelector('input');
+        checkbox.addEventListener('change', function() {
+          if (checkbox.checked) dashboardState.controls[key] = "";
+          else delete dashboardState.controls[key];
+          renderDashboard();
+          highlightDiagram('dashboard', key);
+        });
+        checkbox.addEventListener('focus', function() { highlightDiagram('dashboard', key); });
+        controlsRoot.appendChild(label);
+      });
+
+      const answerRoot = document.getElementById('dashControlAnswers');
+      Object.keys(dashboardState.controls).forEach(function(key) {
+        const variable = variables[key];
+        const wrap = document.createElement('div');
+        wrap.className = 'bk-control-answer';
+        const label = document.createElement('label');
+        label.textContent = variable.controlPrompt;
+        const textarea = document.createElement('textarea');
+        textarea.className = 'bk-textarea';
+        textarea.value = dashboardState.controls[key];
+        textarea.placeholder = 'Describe the exact value, condition or method that will stay the same.';
+        textarea.addEventListener('focus', function() { highlightDiagram('dashboard', key); });
+        textarea.addEventListener('input', function() {
+          dashboardState.controls[key] = textarea.value;
+          updateDashboardSummary();
+        });
+        wrap.appendChild(label);
+        wrap.appendChild(textarea);
+        wrap.appendChild(makeQuickButtons(key, textarea));
+        answerRoot.appendChild(wrap);
+      });
+      updateDashboardSummary();
+    }
+
+    function updateDashboardSummary() {
+      document.getElementById('dashboardSummary').innerHTML = summaryMarkup(dashboardState);
+    }
+
+    renderDashboard();
+
+    /* BLUEPRINT */
+    const blueprintState = { independent: "", independentHow: "", dependent: "", dependentHow: "", controls: {} };
+    const blueprintMap = {
+      ball: ["ball-size", "ball-weight", "ball-material", "ball-squashiness"],
+      drop: ["drop-height"],
+      surface: ["bounce-surface"],
+      bounce: ["bounce-height", "number-bounces"]
+    };
+
+    function renderBlueprintInspector(part) {
+      const inspector = document.getElementById('blueprintInspector');
+      const keys = blueprintMap[part] || [];
+      inspector.className = '';
+      inspector.innerHTML = '<h4>Variables connected to this part</h4><p class="bk-helper">Choose a variable, then decide its role in your investigation.</p>';
+
+      keys.forEach(function(key) {
+        const variable = variables[key];
+        const card = document.createElement('div');
+        card.className = 'bk-variable-card';
+        card.innerHTML = '<h4>' + variable.label + '</h4>';
+
+        const roles = document.createElement('div');
+        roles.className = 'bk-quick-options';
+        variable.roles.forEach(function(role) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'bk-chip-button';
+          button.textContent = role === 'independent' ? 'Change' : role === 'dependent' ? 'Measure' : 'Keep the same';
+          button.addEventListener('click', function() {
+            if (role === 'independent') {
+              if (blueprintState.independent && blueprintState.independent !== key) {
+                delete blueprintState.controls[blueprintState.independent];
+              }
+              blueprintState.independent = key;
+              blueprintState.independentHow = "";
+              delete blueprintState.controls[key];
+            }
+            if (role === 'dependent') {
+              blueprintState.dependent = key;
+              blueprintState.dependentHow = "";
+            }
+            if (role === 'controlled') {
+              if (blueprintState.independent === key) return;
+              blueprintState.controls[key] = blueprintState.controls[key] || "";
+            }
+            renderBlueprintInspector(part);
+            updateBlueprintSummary();
+          });
+          roles.appendChild(button);
+        });
+        card.appendChild(roles);
+
+        let activeRole = "";
+        if (blueprintState.independent === key) activeRole = 'independent';
+        if (blueprintState.dependent === key) activeRole = 'dependent';
+        if (blueprintState.controls.hasOwnProperty(key)) activeRole = 'controlled';
+
+        if (activeRole) {
+          const prompt = activeRole === 'independent' ? variable.changePrompt : activeRole === 'dependent' ? variable.measurePrompt : variable.controlPrompt;
+          const textarea = document.createElement('textarea');
+          textarea.className = 'bk-textarea';
+          textarea.placeholder = prompt;
+          textarea.value = activeRole === 'independent' ? blueprintState.independentHow : activeRole === 'dependent' ? blueprintState.dependentHow : blueprintState.controls[key];
+          textarea.addEventListener('input', function() {
+            if (activeRole === 'independent') blueprintState.independentHow = textarea.value;
+            if (activeRole === 'dependent') blueprintState.dependentHow = textarea.value;
+            if (activeRole === 'controlled') blueprintState.controls[key] = textarea.value;
+            updateBlueprintSummary();
+          });
+          card.appendChild(document.createElement('hr'));
+          const label = document.createElement('p');
+          label.className = 'bk-helper';
+          label.textContent = prompt;
+          card.appendChild(label);
+          card.appendChild(textarea);
+          card.appendChild(makeQuickButtons(key, textarea));
+        }
+
+        inspector.appendChild(card);
+      });
+    }
+
+    document.querySelector('[data-diagram="blueprint"]').querySelectorAll('.diagram-part').forEach(function(part) {
+      const select = function() {
+        highlightDiagram('blueprint', Object.keys(variables).find(function(key) { return variables[key].group === part.dataset.part; }));
+        renderBlueprintInspector(part.dataset.part);
+      };
+      part.addEventListener('click', select);
+      part.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          select();
+        }
+      });
+    });
+
+    function updateBlueprintSummary() {
+      document.getElementById('blueprintSummary').innerHTML = summaryMarkup(blueprintState);
+    }
+    updateBlueprintSummary();
+
+    /* ACCORDION CARDS */
+    const cardsState = { independent: "", independentHow: "", dependent: "", dependentHow: "", controls: {} };
+
+    function renderAccordion() {
+      const root = document.getElementById('accordionPlanner');
+      root.innerHTML = '';
+      const definitions = [
+        { key: 'independent', title: '1. Choose what you will change', role: 'independent', type: 'single' },
+        { key: 'dependent', title: '2. Choose what you will measure', role: 'dependent', type: 'single' },
+        { key: 'controlled', title: '3. Choose what you will keep the same', role: 'controlled', type: 'multiple' }
+      ];
+
+      definitions.forEach(function(definition, index) {
+        const card = document.createElement('section');
+        card.className = 'accordion-card' + (index === 0 ? ' open' : '');
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'accordion-trigger';
+        trigger.textContent = definition.title;
+        trigger.addEventListener('click', function() { card.classList.toggle('open'); });
+        const body = document.createElement('div');
+        body.className = 'accordion-body';
+
+        if (definition.type === 'single') {
+          const select = document.createElement('select');
+          select.className = 'bk-select';
+          select.innerHTML = variableOptions(definition.role, cardsState[definition.key]);
+          select.addEventListener('change', function() {
+            cardsState[definition.key] = select.value;
+            cardsState[definition.key + 'How'] = "";
+            renderAccordion();
+            highlightDiagram('cards', select.value);
+          });
+          body.appendChild(select);
+          if (cardsState[definition.key]) {
+            const variableKey = cardsState[definition.key];
+            const textarea = document.createElement('textarea');
+            textarea.className = 'bk-textarea';
+            textarea.value = cardsState[definition.key + 'How'];
+            textarea.placeholder = definition.role === 'independent' ? variables[variableKey].changePrompt : variables[variableKey].measurePrompt;
+            textarea.addEventListener('focus', function() { highlightDiagram('cards', variableKey); });
+            textarea.addEventListener('input', function() {
+              cardsState[definition.key + 'How'] = textarea.value;
+              updateCardsSummary();
+              card.classList.toggle('complete', textarea.value.trim() !== '');
+            });
+            body.appendChild(textarea);
+            body.appendChild(makeQuickButtons(variableKey, textarea));
+            if (cardsState[definition.key + 'How'].trim()) card.classList.add('complete');
+          }
+        } else {
+          Object.entries(variables).forEach(function([key, variable]) {
+            if (!variable.roles.includes('controlled') || key === cardsState.independent) return;
+            const label = document.createElement('label');
+            label.className = 'bk-check';
+            label.innerHTML = '<input type="checkbox"' + (cardsState.controls.hasOwnProperty(key) ? ' checked' : '') + '><span>' + variable.label + '</span>';
+            const checkbox = label.querySelector('input');
+            checkbox.addEventListener('change', function() {
+              if (checkbox.checked) cardsState.controls[key] = "";
+              else delete cardsState.controls[key];
+              renderAccordion();
+              highlightDiagram('cards', key);
+            });
+            body.appendChild(label);
+            if (cardsState.controls.hasOwnProperty(key)) {
+              const textarea = document.createElement('textarea');
+              textarea.className = 'bk-textarea';
+              textarea.value = cardsState.controls[key];
+              textarea.placeholder = variable.controlPrompt;
+              textarea.addEventListener('focus', function() { highlightDiagram('cards', key); });
+              textarea.addEventListener('input', function() {
+                cardsState.controls[key] = textarea.value;
+                updateCardsSummary();
+              });
+              body.appendChild(textarea);
+            }
+          });
+          if (Object.keys(cardsState.controls).length > 0 && Object.values(cardsState.controls).every(function(value) { return value.trim(); })) card.classList.add('complete');
+        }
+
+        card.appendChild(trigger);
+        card.appendChild(body);
+        root.appendChild(card);
+      });
+      updateCardsSummary();
+    }
+
+    function updateCardsSummary() {
+      document.getElementById('cardsSummary').innerHTML = summaryMarkup(cardsState);
+    }
+    renderAccordion();
+
+    /* CANVAS */
+    const canvasState = { independent: "", independentHow: "", dependent: "", dependentHow: "", controls: {} };
+    let draggedVariable = "";
+
+    function renderVariableBank() {
+      const bank = document.getElementById('variableBank');
+      bank.innerHTML = '';
+      Object.entries(variables).forEach(function([key, variable]) {
+        const item = document.createElement('div');
+        item.className = 'drag-variable';
+        item.draggable = true;
+        item.dataset.variable = key;
+        item.textContent = variable.label;
+        const placed = canvasState.independent === key || canvasState.dependent === key || canvasState.controls.hasOwnProperty(key);
+        item.classList.toggle('placed', placed);
+        item.addEventListener('dragstart', function() { draggedVariable = key; });
+        item.addEventListener('mouseenter', function() { highlightDiagram('canvas', key); });
+        bank.appendChild(item);
+      });
+    }
+
+    function canPlaceCanvas(variableKey, zone) {
+      const variable = variables[variableKey];
+      if (!variable || !variable.roles.includes(zone)) return false;
+      if (zone === 'independent' && canvasState.independent && canvasState.independent !== variableKey) return false;
+      if (zone === 'dependent' && canvasState.dependent && canvasState.dependent !== variableKey) return false;
+      if (zone === 'controlled' && canvasState.independent === variableKey) return false;
+      return true;
+    }
+
+    function placeCanvas(variableKey, zone) {
+      if (!canPlaceCanvas(variableKey, zone)) return;
+      if (zone === 'independent') {
+        canvasState.independent = variableKey;
+        canvasState.independentHow = "";
+        delete canvasState.controls[variableKey];
+      }
+      if (zone === 'dependent') {
+        canvasState.dependent = variableKey;
+        canvasState.dependentHow = "";
+      }
+      if (zone === 'controlled') {
+        canvasState.controls[variableKey] = canvasState.controls[variableKey] || "";
+      }
+      renderCanvas();
+      highlightDiagram('canvas', variableKey);
+    }
+
+    function renderCanvas() {
+      renderVariableBank();
+      document.querySelectorAll('.drop-zone-bk').forEach(function(zone) {
+        const zoneName = zone.dataset.zone;
+        const root = zone.querySelector('.zone-items');
+        root.innerHTML = '';
+        let keys = [];
+        if (zoneName === 'independent' && canvasState.independent) keys = [canvasState.independent];
+        if (zoneName === 'dependent' && canvasState.dependent) keys = [canvasState.dependent];
+        if (zoneName === 'controlled') keys = Object.keys(canvasState.controls);
+
+        keys.forEach(function(key) {
+          const variable = variables[key];
+          const item = document.createElement('div');
+          item.className = 'zone-item';
+          item.innerHTML = '<strong>' + variable.label + '</strong>';
+          const textarea = document.createElement('textarea');
+          textarea.className = 'bk-textarea';
+          textarea.placeholder = zoneName === 'independent' ? variable.changePrompt : zoneName === 'dependent' ? variable.measurePrompt : variable.controlPrompt;
+          textarea.value = zoneName === 'independent' ? canvasState.independentHow : zoneName === 'dependent' ? canvasState.dependentHow : canvasState.controls[key];
+          textarea.addEventListener('focus', function() { highlightDiagram('canvas', key); });
+          textarea.addEventListener('input', function() {
+            if (zoneName === 'independent') canvasState.independentHow = textarea.value;
+            if (zoneName === 'dependent') canvasState.dependentHow = textarea.value;
+            if (zoneName === 'controlled') canvasState.controls[key] = textarea.value;
+            updateCanvasSummary();
+          });
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'zone-remove';
+          remove.textContent = 'Return to variable bank';
+          remove.addEventListener('click', function() {
+            if (zoneName === 'independent') { canvasState.independent = ""; canvasState.independentHow = ""; }
+            if (zoneName === 'dependent') { canvasState.dependent = ""; canvasState.dependentHow = ""; }
+            if (zoneName === 'controlled') delete canvasState.controls[key];
+            renderCanvas();
+          });
+          item.appendChild(textarea);
+          item.appendChild(remove);
+          root.appendChild(item);
+        });
+      });
+      updateCanvasSummary();
+    }
+
+    document.querySelectorAll('.drop-zone-bk').forEach(function(zone) {
+      zone.addEventListener('dragover', function(event) {
+        event.preventDefault();
+        zone.classList.add('drag-over');
+      });
+      zone.addEventListener('dragleave', function() { zone.classList.remove('drag-over'); });
+      zone.addEventListener('drop', function(event) {
+        event.preventDefault();
+        zone.classList.remove('drag-over');
+        placeCanvas(draggedVariable, zone.dataset.zone);
+      });
+    });
+
+    function updateCanvasSummary() {
+      document.getElementById('canvasSummary').innerHTML = summaryMarkup(canvasState);
+    }
+    renderCanvas();
+
+    /* STAGED HYBRID */
+    const stagedState = { stage: 0, independent: "", independentHow: "", dependent: "", dependentHow: "", controls: {} };
+
+    function renderStaged() {
+      const root = document.getElementById('stagedPlanner');
+      const messages = [
+        'Start by deciding what you will change.',
+        'Now decide what result you will measure.',
+        'Choose everything else that must stay the same.',
+        'Review the complete investigation plan.'
+      ];
+      document.getElementById('stageDiagramMessage').textContent = messages[stagedState.stage];
+      document.querySelectorAll('[data-stage-pill]').forEach(function(pill) {
+        const index = Number(pill.dataset.stagePill);
+        pill.classList.toggle('active', index === stagedState.stage);
+        pill.classList.toggle('complete', index < stagedState.stage);
+      });
+
+      root.innerHTML = '';
+      const step = document.createElement('div');
+      step.className = 'staged-step active';
+
+      if (stagedState.stage === 0) {
+        step.innerHTML = '<h3>What will you change?</h3><p class="bk-helper">Choose one independent variable.</p><select id="stageIndependent" class="bk-select">' + variableOptions('independent', stagedState.independent) + '</select><div id="stageIndependentFollow"></div>';
+        root.appendChild(step);
+        const select = document.getElementById('stageIndependent');
+        select.addEventListener('change', function() { stagedState.independent = select.value; stagedState.independentHow = ""; renderStaged(); highlightDiagram('staged', stagedState.independent); });
+        if (stagedState.independent) {
+          const follow = document.getElementById('stageIndependentFollow');
+          const textarea = document.createElement('textarea');
+          textarea.className = 'bk-textarea';
+          textarea.placeholder = variables[stagedState.independent].changePrompt;
+          textarea.value = stagedState.independentHow;
+          textarea.addEventListener('input', function() { stagedState.independentHow = textarea.value; updateStageButtons(); });
+          follow.appendChild(document.createElement('br'));
+          follow.appendChild(textarea);
+          follow.appendChild(makeQuickButtons(stagedState.independent, textarea));
+        }
+        highlightDiagram('staged', stagedState.independent);
+      }
+
+      if (stagedState.stage === 1) {
+        step.innerHTML = '<h3>What will you measure?</h3><p class="bk-helper">Choose one dependent variable.</p><select id="stageDependent" class="bk-select">' + variableOptions('dependent', stagedState.dependent) + '</select><div id="stageDependentFollow"></div>';
+        root.appendChild(step);
+        const select = document.getElementById('stageDependent');
+        select.addEventListener('change', function() { stagedState.dependent = select.value; stagedState.dependentHow = ""; renderStaged(); highlightDiagram('staged', stagedState.dependent); });
+        if (stagedState.dependent) {
+          const follow = document.getElementById('stageDependentFollow');
+          const textarea = document.createElement('textarea');
+          textarea.className = 'bk-textarea';
+          textarea.placeholder = variables[stagedState.dependent].measurePrompt;
+          textarea.value = stagedState.dependentHow;
+          textarea.addEventListener('input', function() { stagedState.dependentHow = textarea.value; updateStageButtons(); });
+          follow.appendChild(document.createElement('br'));
+          follow.appendChild(textarea);
+          follow.appendChild(makeQuickButtons(stagedState.dependent, textarea));
+        }
+        highlightDiagram('staged', stagedState.dependent);
+      }
+
+      if (stagedState.stage === 2) {
+        step.innerHTML = '<h3>What will you keep the same?</h3><p class="bk-helper">Select one or more controlled variables and explain how each will remain constant.</p>';
+        Object.entries(variables).forEach(function([key, variable]) {
+          if (!variable.roles.includes('controlled') || key === stagedState.independent) return;
+          const label = document.createElement('label');
+          label.className = 'bk-check';
+          label.innerHTML = '<input type="checkbox"' + (stagedState.controls.hasOwnProperty(key) ? ' checked' : '') + '><span>' + variable.label + '</span>';
+          const checkbox = label.querySelector('input');
+          checkbox.addEventListener('change', function() {
+            if (checkbox.checked) stagedState.controls[key] = "";
+            else delete stagedState.controls[key];
+            renderStaged();
+            highlightDiagram('staged', key);
+          });
+          step.appendChild(label);
+          if (stagedState.controls.hasOwnProperty(key)) {
+            const textarea = document.createElement('textarea');
+            textarea.className = 'bk-textarea';
+            textarea.placeholder = variable.controlPrompt;
+            textarea.value = stagedState.controls[key];
+            textarea.addEventListener('focus', function() { highlightDiagram('staged', key); });
+            textarea.addEventListener('input', function() { stagedState.controls[key] = textarea.value; updateStageButtons(); });
+            step.appendChild(textarea);
+          }
+        });
+        root.appendChild(step);
+      }
+
+      if (stagedState.stage === 3) {
+        step.innerHTML = summaryMarkup(stagedState);
+        root.appendChild(step);
+        highlightDiagram('staged', '');
+      }
+
+      updateStageButtons();
+    }
+
+    function stageComplete() {
+      if (stagedState.stage === 0) return stagedState.independent && stagedState.independentHow.trim();
+      if (stagedState.stage === 1) return stagedState.dependent && stagedState.dependentHow.trim();
+      if (stagedState.stage === 2) return Object.keys(stagedState.controls).length > 0 && Object.values(stagedState.controls).every(function(value) { return value.trim(); });
+      return true;
+    }
+
+    function updateStageButtons() {
+      const back = document.getElementById('stageBack');
+      const next = document.getElementById('stageNext');
+      back.disabled = stagedState.stage === 0;
+      next.disabled = !stageComplete();
+      next.textContent = stagedState.stage === 3 ? 'Start again' : 'Next stage';
+    }
+
+    document.getElementById('stageBack').addEventListener('click', function() {
+      if (stagedState.stage > 0) stagedState.stage -= 1;
+      renderStaged();
+    });
+
+    document.getElementById('stageNext').addEventListener('click', function() {
+      if (stagedState.stage === 3) {
+        stagedState.stage = 0;
+        stagedState.independent = "";
+        stagedState.independentHow = "";
+        stagedState.dependent = "";
+        stagedState.dependentHow = "";
+        stagedState.controls = {};
+      } else if (stageComplete()) {
+        stagedState.stage += 1;
+      }
+      renderStaged();
+    });
+
+    renderStaged();
+
+    /* TABS */
+    document.querySelectorAll('.bk-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.bk-tab').forEach(function(other) {
+          other.setAttribute('aria-selected', String(other === tab));
+        });
+        document.querySelectorAll('.bk-concept').forEach(function(concept) {
+          concept.classList.toggle('active', concept.id === target);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Kahuna 3 - Build Your Experiment</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
+  <link href="../styles/lesson2.css" rel="stylesheet" type="text/css">
+
+  <style>
+    /* Everything in this style block is local to bigkahuna3.html. */
+
+    body {
+      padding: 24px 0 60px;
+    }
+
+    .bk3-page {
+      width: min(1240px, 95%);
+      margin: 0 auto;
+    }
+
+    .bk3-intro {
+      margin-bottom: 22px;
+      padding: 24px;
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow-medium);
+    }
+
+    .bk3-intro h1 {
+      margin: 0 0 8px;
+      color: var(--text);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+    }
+
+    .bk3-intro p {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .bk3-progress {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .bk3-progress-step {
+      padding: 10px 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 700;
+      text-align: center;
+      opacity: 0.55;
+    }
+
+    .bk3-progress-step.active,
+    .bk3-progress-step.complete {
+      opacity: 1;
+    }
+
+    .bk3-progress-step.active {
+      background: var(--purple);
+      color: white;
+    }
+
+    .bk3-progress-step.complete {
+      background: var(--soft-green);
+      color: var(--text);
+    }
+
+    .bk3-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.88fr) minmax(440px, 1.12fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .bk3-panel {
+      padding: 20px;
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .bk3-panel h2,
+    .bk3-panel h3,
+    .bk3-panel h4 {
+      color: var(--text);
+    }
+
+    .bk3-diagram-panel {
+      position: sticky;
+      top: 16px;
+    }
+
+    .bk3-diagram-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .bk3-diagram-heading h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .bk3-diagram-status {
+      max-width: 180px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 600;
+      line-height: 1.35;
+      text-align: right;
+    }
+
+    .bk3-diagram-wrap {
+      padding: 10px;
+      background: var(--soft-blue);
+      border: 2px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .bk3-diagram {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: white;
+      border-radius: 14px;
+    }
+
+    .bk3-diagram-part {
+      opacity: 0.36;
+      transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+      transform-origin: center;
+    }
+
+    .bk3-diagram-part.active {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(78, 50, 232, 0.48));
+      transform: scale(1.02);
+    }
+
+    .bk3-diagram-part.secondary {
+      opacity: 0.72;
+    }
+
+    .bk3-choice-preview {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .bk3-preview-row {
+      padding: 10px 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      line-height: 1.45;
+    }
+
+    .bk3-preview-row strong {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--purple);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .bk3-placeholder {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .bk3-planner-heading {
+      margin-bottom: 16px;
+    }
+
+    .bk3-planner-heading h2 {
+      margin: 0 0 5px;
+    }
+
+    .bk3-planner-heading p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .bk3-stage-card {
+      padding: 18px;
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 4px 0 var(--line);
+    }
+
+    .bk3-stage-card.independent {
+      background: var(--soft-yellow);
+    }
+
+    .bk3-stage-card.dependent {
+      background: var(--soft-purple);
+    }
+
+    .bk3-stage-card.controlled {
+      background: var(--soft-green);
+    }
+
+    .bk3-stage-card.review {
+      background: var(--soft-blue);
+    }
+
+    .bk3-stage-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .bk3-stage-card-header h3 {
+      margin: 0 0 4px;
+    }
+
+    .bk3-stage-card-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .bk3-stage-number {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      font-weight: 700;
+    }
+
+    .bk3-variable-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .bk3-variable-button {
+      min-height: 82px;
+      padding: 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      line-height: 1.35;
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .bk3-variable-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .bk3-variable-button.selected {
+      background: var(--purple);
+      color: white;
+      outline: 4px solid rgba(78, 50, 232, 0.18);
+    }
+
+    .bk3-variable-button:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .bk3-followup {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 2px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .bk3-followup label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .bk3-textarea,
+    .bk3-other-input {
+      width: 100%;
+      padding: 11px 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .bk3-textarea {
+      min-height: 88px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .bk3-chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .bk3-chip {
+      padding: 8px 11px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bk3-chip.selected {
+      background: var(--green);
+      color: white;
+    }
+
+    .bk3-controls-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bk3-control-item {
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 2px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .bk3-control-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 9px;
+    }
+
+    .bk3-control-item-header strong {
+      color: var(--text);
+    }
+
+    .bk3-remove-control {
+      padding: 6px 9px;
+      background: var(--soft-orange);
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bk3-control-picker {
+      margin-bottom: 16px;
+    }
+
+    .bk3-control-picker h4 {
+      margin: 0 0 9px;
+    }
+
+    .bk3-blueprint {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bk3-blueprint-title {
+      padding: 16px;
+      background: var(--purple);
+      color: white;
+      border: 3px solid var(--line);
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 4px 0 var(--line);
+    }
+
+    .bk3-blueprint-title h3 {
+      margin: 0 0 4px;
+      color: white;
+    }
+
+    .bk3-blueprint-title p {
+      margin: 0;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .bk3-blueprint-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .bk3-blueprint-label {
+      padding: 7px 10px;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .bk3-blueprint-label.change {
+      background: var(--soft-yellow);
+    }
+
+    .bk3-blueprint-label.measure {
+      background: var(--soft-purple);
+    }
+
+    .bk3-blueprint-label.control {
+      background: var(--soft-green);
+    }
+
+    .bk3-blueprint-content strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .bk3-blueprint-content p {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .bk3-ready-banner {
+      padding: 15px;
+      background: var(--yellow);
+      border: 3px solid var(--line);
+      border-radius: 16px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 4px 0 var(--line);
+    }
+
+    .bk3-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .bk3-button {
+      padding: 11px 17px;
+      background: var(--green);
+      color: white;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      box-shadow: 0 4px 0 var(--line);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bk3-button.secondary {
+      background: white;
+      color: var(--text);
+    }
+
+    .bk3-button.reset {
+      background: var(--orange);
+      color: white;
+    }
+
+    .bk3-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .bk3-complete-summary {
+      display: grid;
+      gap: 9px;
+      margin-bottom: 16px;
+    }
+
+    .bk3-complete-chip {
+      padding: 10px 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+
+    .bk3-feedback {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: var(--soft-orange);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .bk3-feedback[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 950px) {
+      .bk3-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .bk3-diagram-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .bk3-page {
+        width: min(96%, 100%);
+      }
+
+      .bk3-intro,
+      .bk3-panel {
+        padding: 16px;
+      }
+
+      .bk3-progress {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bk3-variable-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bk3-blueprint-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* ==================================================
+       REFINED EXPERIMENT ILLUSTRATION
+       ================================================== */
+    .bk3-diagram-wrap {
+      padding: 12px;
+      background: linear-gradient(180deg, var(--soft-blue), #eef9fa);
+    }
+
+    .bk3-diagram {
+      overflow: visible;
+      box-shadow: inset 0 0 0 2px rgba(48, 51, 47, 0.08);
+    }
+
+    .bk3-scene-label {
+      font-family: "DM Sans", Arial, sans-serif;
+      fill: #30332f;
+      font-weight: 700;
+    }
+
+    .bk3-callout-box {
+      fill: #fffdf4;
+      stroke: #30332f;
+      stroke-width: 2.5;
+      rx: 10;
+    }
+
+    .bk3-callout-line {
+      fill: none;
+      stroke: #30332f;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bk3-motion-ghost {
+      opacity: 0.16;
+    }
+
+    .bk3-measure-guide {
+      stroke: #4e32e8;
+      stroke-width: 3;
+      stroke-dasharray: 7 7;
+      opacity: 0.8;
+    }
+
+    .bk3-floor-shadow {
+      fill: rgba(48, 51, 47, 0.14);
+    }
+
+  </style>
+</head>
+<body>
+  <main class="bk3-page">
+    <header class="bk3-intro">
+      <span class="lesson-label">Prototype playground</span>
+      <h1>Build Your Experiment</h1>
+      <p>
+        Choose what you will change, what you will measure, and what you will keep the same.
+        The experiment diagram updates as your investigation plan grows.
+      </p>
+    </header>
+
+    <div class="bk3-progress" aria-label="Investigation progress">
+      <div class="bk3-progress-step active" data-progress-step="0">1. Change</div>
+      <div class="bk3-progress-step" data-progress-step="1">2. Measure</div>
+      <div class="bk3-progress-step" data-progress-step="2">3. Control</div>
+      <div class="bk3-progress-step" data-progress-step="3">4. Blueprint</div>
+    </div>
+
+    <div class="bk3-layout">
+      <aside class="bk3-panel bk3-diagram-panel">
+        <div class="bk3-diagram-heading">
+          <h2>Your experiment</h2>
+          <div class="bk3-diagram-status" id="diagramStatus">Start by choosing what you will change.</div>
+        </div>
+
+        <div class="bk3-diagram-wrap">
+          <svg class="bk3-diagram" viewBox="0 0 620 520" role="img" aria-labelledby="diagramTitle diagramDescription">
+            <title id="diagramTitle">Bouncing ball investigation</title>
+            <desc id="diagramDescription">A polished side-view science illustration showing a ball dropped beside a labelled ruler, its motion path, bounce height, and a changeable testing surface.</desc>
+
+            <defs>
+              <linearGradient id="wallGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#fffdf4"></stop>
+                <stop offset="100%" stop-color="#f5f1df"></stop>
+              </linearGradient>
+              <linearGradient id="ballGradient" x1="0.2" y1="0.1" x2="0.8" y2="0.9">
+                <stop offset="0%" stop-color="#ffe57d"></stop>
+                <stop offset="55%" stop-color="#ffc91c"></stop>
+                <stop offset="100%" stop-color="#e9a900"></stop>
+              </linearGradient>
+              <linearGradient id="surfaceGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8af0d3"></stop>
+                <stop offset="100%" stop-color="#4ed3ad"></stop>
+              </linearGradient>
+              <filter id="softShadow" x="-30%" y="-30%" width="160%" height="180%">
+                <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#30332f" flood-opacity="0.18"></feDropShadow>
+              </filter>
+              <filter id="smallShadow" x="-30%" y="-30%" width="160%" height="180%">
+                <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#30332f" flood-opacity="0.16"></feDropShadow>
+              </filter>
+              <pattern id="concretePattern" width="28" height="22" patternUnits="userSpaceOnUse">
+                <rect width="28" height="22" fill="#c7cbce"></rect>
+                <circle cx="6" cy="7" r="1.5" fill="#9ea4a8"></circle>
+                <circle cx="20" cy="14" r="1.2" fill="#aab0b3"></circle>
+                <path d="M2 18 L10 16 M17 4 L25 6" stroke="#b2b7ba" stroke-width="1"></path>
+              </pattern>
+              <pattern id="carpetPattern" width="12" height="12" patternUnits="userSpaceOnUse">
+                <rect width="12" height="12" fill="#ded7ff"></rect>
+                <path d="M0 3 H12 M0 9 H12" stroke="#b8a4ff" stroke-width="1.3"></path>
+              </pattern>
+              <pattern id="grassPattern" width="18" height="18" patternUnits="userSpaceOnUse">
+                <rect width="18" height="18" fill="#a9e2a3"></rect>
+                <path d="M3 16 L6 7 M8 17 L10 5 M13 17 L15 9" stroke="#5da95f" stroke-width="1.8" stroke-linecap="round"></path>
+              </pattern>
+            </defs>
+
+            <!-- Room and grounded scene -->
+            <rect x="10" y="10" width="600" height="500" rx="26" fill="url(#wallGradient)" stroke="#30332f" stroke-width="3"></rect>
+            <path d="M28 428 H592 V486 Q592 492 586 492 H34 Q28 492 28 486 Z" fill="#e8e1cb"></path>
+            <line x1="28" y1="428" x2="592" y2="428" stroke="#30332f" stroke-width="3"></line>
+            <ellipse class="bk3-floor-shadow" cx="315" cy="444" rx="150" ry="18"></ellipse>
+
+            <!-- Drop-height apparatus -->
+            <g class="bk3-diagram-part" data-part="drop">
+              <rect x="58" y="62" width="70" height="330" rx="10" fill="#fff5bd" stroke="#30332f" stroke-width="4" filter="url(#smallShadow)"></rect>
+              <rect x="67" y="72" width="52" height="310" rx="5" fill="#fffdf4" stroke="#30332f" stroke-width="2"></rect>
+              <g stroke="#30332f" stroke-width="2.4">
+                <line x1="88" y1="92" x2="118" y2="92"></line>
+                <line x1="98" y1="117" x2="118" y2="117"></line>
+                <line x1="88" y1="142" x2="118" y2="142"></line>
+                <line x1="98" y1="167" x2="118" y2="167"></line>
+                <line x1="88" y1="192" x2="118" y2="192"></line>
+                <line x1="98" y1="217" x2="118" y2="217"></line>
+                <line x1="88" y1="242" x2="118" y2="242"></line>
+                <line x1="98" y1="267" x2="118" y2="267"></line>
+                <line x1="88" y1="292" x2="118" y2="292"></line>
+                <line x1="98" y1="317" x2="118" y2="317"></line>
+                <line x1="88" y1="342" x2="118" y2="342"></line>
+                <line x1="98" y1="367" x2="118" y2="367"></line>
+              </g>
+              <g class="bk3-scene-label" font-size="13" text-anchor="end">
+                <text x="84" y="97">150</text>
+                <text x="84" y="147">125</text>
+                <text x="84" y="197">100</text>
+                <text x="84" y="247">75</text>
+                <text x="84" y="297">50</text>
+                <text x="84" y="347">25</text>
+              </g>
+              <text x="93" y="416" text-anchor="middle" class="bk3-scene-label" font-size="14">cm</text>
+
+              <line x1="164" y1="108" x2="164" y2="330" stroke="#4e32e8" stroke-width="7" stroke-linecap="round"></line>
+              <path d="M145 310 L164 338 L183 310" fill="none" stroke="#4e32e8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path>
+              <circle cx="164" cy="96" r="7" fill="#4e32e8"></circle>
+              <text id="dropValueText" x="164" y="365" text-anchor="middle" fill="#4e32e8" font-size="17" font-weight="700"></text>
+
+              <rect class="bk3-callout-box" x="30" y="28" width="142" height="32"></rect>
+              <text x="101" y="50" text-anchor="middle" class="bk3-scene-label" font-size="15">Drop height</text>
+              <path class="bk3-callout-line" d="M101 60 V69"></path>
+            </g>
+
+            <!-- Ball and comparison condition -->
+            <g class="bk3-diagram-part" data-part="ball">
+              <g class="bk3-motion-ghost">
+                <circle cx="286" cy="205" r="44" fill="#ffc91c"></circle>
+                <circle cx="286" cy="290" r="38" fill="#ffc91c"></circle>
+              </g>
+
+              <circle id="mainBall" cx="286" cy="120" r="52" fill="url(#ballGradient)" stroke="#30332f" stroke-width="5" filter="url(#softShadow)"></circle>
+              <ellipse cx="269" cy="102" rx="15" ry="10" fill="#fff" opacity="0.5" transform="rotate(-25 269 102)"></ellipse>
+              <path d="M247 91 Q286 123 325 91" fill="none" stroke="#30332f" stroke-width="3.5"></path>
+              <path d="M247 149 Q286 117 325 149" fill="none" stroke="#30332f" stroke-width="3.5"></path>
+
+              <g id="comparisonBallGroup" hidden>
+                <circle id="comparisonBall" cx="424" cy="122" r="34" fill="url(#ballGradient)" stroke="#30332f" stroke-width="4" filter="url(#smallShadow)"></circle>
+                <ellipse cx="414" cy="113" rx="9" ry="6" fill="#fff" opacity="0.5" transform="rotate(-25 414 113)"></ellipse>
+                <rect class="bk3-callout-box" x="373" y="171" width="102" height="30"></rect>
+                <text x="424" y="191" text-anchor="middle" class="bk3-scene-label" font-size="13">Comparison</text>
+              </g>
+
+              <rect class="bk3-callout-box" x="230" y="28" width="112" height="32"></rect>
+              <text x="286" y="50" text-anchor="middle" class="bk3-scene-label" font-size="15">Test ball</text>
+              <path class="bk3-callout-line" d="M286 60 V68"></path>
+            </g>
+
+            <!-- Straight bounce trajectory and measurement -->
+            <g class="bk3-diagram-part" data-part="bounce">
+
+            <!-- Straight upward bounce arrow -->
+            <line
+                x1="365"
+                y1="411"
+                x2="365"
+                y2="185"
+                stroke="#00a867"
+                stroke-width="9"
+                stroke-linecap="round">
+            </line>
+
+            <!-- Upward arrowhead -->
+            <path
+                d="M345 210 L365 178 L385 210"
+                fill="none"
+                stroke="#00a867"
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+            </path>
+
+            <!-- Straight vertical ghost-ball positions -->
+            <circle
+                class="bk3-motion-ghost"
+                cx="365"
+                cy="350"
+                r="25"
+                fill="#00c77a">
+            </circle>
+
+            <circle
+                class="bk3-motion-ghost"
+                cx="365"
+                cy="285"
+                r="20"
+                fill="#00c77a">
+            </circle>
+
+            <circle
+                class="bk3-motion-ghost"
+                cx="365"
+                cy="225"
+                r="16"
+                fill="#00c77a">
+            </circle>
+
+            <!-- Bounce-height measurement guide -->
+            <line
+                class="bk3-measure-guide"
+                x1="494"
+                y1="181"
+                x2="494"
+                y2="416">
+            </line>
+
+            <line
+                x1="483"
+                y1="181"
+                x2="505"
+                y2="181"
+                stroke="#4e32e8"
+                stroke-width="3">
+            </line>
+
+            <line
+                x1="483"
+                y1="416"
+                x2="505"
+                y2="416"
+                stroke="#4e32e8"
+                stroke-width="3">
+            </line>
+
+            <text
+                id="measureValueText"
+                x="495"
+                y="309"
+                text-anchor="middle"
+                fill="#4e32e8"
+                font-size="15"
+                font-weight="700"
+                transform="rotate(-90 495 309)">
+            </text>
+
+            <!-- Measurement callout -->
+            <rect
+                class="bk3-callout-box"
+                x="425"
+                y="70"
+                width="158"
+                height="34">
+            </rect>
+
+            <text
+                x="504"
+                y="93"
+                text-anchor="middle"
+                class="bk3-scene-label"
+                font-size="15">
+                Measured result
+            </text>
+
+            <path
+                class="bk3-callout-line"
+                d="M504 104 V118 L494 145">
+            </path>
+            </g>
+
+            <!-- Changeable test surface -->
+            <g class="bk3-diagram-part" data-part="surface">
+              <rect id="surfaceRect" x="185" y="416" width="330" height="50" rx="10" fill="url(#surfaceGradient)" stroke="#30332f" stroke-width="5" filter="url(#smallShadow)"></rect>
+              <path d="M205 441 H495" stroke="#30332f" stroke-width="2.4" stroke-dasharray="10 8" opacity="0.55"></path>
+              <text id="surfaceLabel" x="350" y="447" text-anchor="middle" fill="#30332f" font-size="17" font-weight="700">Bounce surface</text>
+              <rect class="bk3-callout-box" x="208" y="474" width="284" height="30"></rect>
+              <text x="350" y="494" text-anchor="middle" class="bk3-scene-label" font-size="14">Keep this surface consistent for every trial</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="bk3-choice-preview" id="choicePreview" aria-live="polite"></div>
+      </aside>
+
+      <section class="bk3-panel">
+        <div class="bk3-planner-heading">
+          <h2>Investigation planner</h2>
+          <p>Complete one part at a time. Your choices stay visible in the experiment diagram.</p>
+        </div>
+
+        <div id="plannerRoot"></div>
+
+        <div class="bk3-feedback" id="plannerFeedback" hidden></div>
+
+        <div class="bk3-actions">
+          <button type="button" class="bk3-button secondary" id="backButton">Back</button>
+          <button type="button" class="bk3-button reset" id="resetButton">Reset</button>
+          <button type="button" class="bk3-button" id="nextButton">Next</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="../scripts/common_functions.js"></script>
+  <script>
+    const variableData = {
+      "ball-size": {
+        label: "Ball size",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        prompt: "How will you change the ball size?",
+        controlPrompt: "How will you keep the ball size the same?",
+        chips: ["Small and large", "Small and medium", "Measure the diameter"]
+      },
+      "ball-weight": {
+        label: "Ball weight",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        prompt: "How will you change the ball weight?",
+        controlPrompt: "How will you keep the ball weight the same?",
+        chips: ["Light and heavy", "Measure mass in grams", "Use the same ball"]
+      },
+      "ball-material": {
+        label: "Ball material",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        prompt: "How will you change the ball material?",
+        controlPrompt: "How will you keep the ball material the same?",
+        chips: ["Rubber and plastic", "Foam and rubber", "Use rubber only"]
+      },
+      "ball-squashiness": {
+        label: "Ball squashiness",
+        group: "ball",
+        roles: ["independent", "controlled"],
+        prompt: "How will you change the ball squashiness?",
+        controlPrompt: "How will you keep the ball squashiness the same?",
+        chips: ["Firm and soft", "Rigid and squashy", "Use the same firmness"]
+      },
+      "drop-height": {
+        label: "Drop height",
+        group: "drop",
+        roles: ["independent", "controlled"],
+        prompt: "How will you change the drop height?",
+        controlPrompt: "How will you keep the drop height the same?",
+        chips: ["50 cm and 1 m", "1 m and 2 m", "Always use 1 m"]
+      },
+      "bounce-surface": {
+        label: "Bounce surface",
+        group: "surface",
+        roles: ["independent", "controlled"],
+        prompt: "How will you change the bounce surface?",
+        controlPrompt: "How will you keep the bounce surface the same?",
+        chips: ["Carpet and concrete", "Hard and soft", "Always use concrete"]
+      },
+      "bounce-height": {
+        label: "Bounce height",
+        group: "bounce",
+        roles: ["dependent"],
+        prompt: "How will you measure the bounce height?",
+        chips: ["Use a ruler", "Measure in centimetres", "Measure the first bounce"]
+      },
+      "number-bounces": {
+        label: "Number of bounces",
+        group: "bounce",
+        roles: ["dependent"],
+        prompt: "How will you measure the number of bounces?",
+        chips: ["Count until it stops", "Count for 10 seconds", "Repeat three times"]
+      },
+      "bounce-time": {
+        label: "Time spent bouncing",
+        group: "bounce",
+        roles: ["dependent"],
+        prompt: "How will you measure the time spent bouncing?",
+        chips: ["Use a stopwatch", "Measure in seconds", "Start timing at release"]
+      }
+    };
+
+    const state = {
+      stage: 0,
+      independent: "",
+      independentHow: "",
+      dependent: "",
+      dependentHow: "",
+      controls: {}
+    };
+
+    const plannerRoot = document.getElementById("plannerRoot");
+    const backButton = document.getElementById("backButton");
+    const nextButton = document.getElementById("nextButton");
+    const resetButton = document.getElementById("resetButton");
+    const plannerFeedback = document.getElementById("plannerFeedback");
+    const diagramStatus = document.getElementById("diagramStatus");
+    const choicePreview = document.getElementById("choicePreview");
+
+    function roleOptions(role) {
+      return Object.entries(variableData)
+        .filter(function(entry) {
+          return entry[1].roles.includes(role);
+        })
+        .map(function(entry) {
+          return entry[0];
+        });
+    }
+
+    function makeVariableButtons(role, selectedValue, onSelect) {
+      const grid = document.createElement("div");
+      grid.className = "bk3-variable-grid";
+
+      roleOptions(role).forEach(function(key) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "bk3-variable-button";
+        button.textContent = variableData[key].label;
+        button.classList.toggle("selected", selectedValue === key);
+
+        if (role === "controlled" && key === state.independent) {
+          button.disabled = true;
+          button.title = "This is already your independent variable.";
+        }
+
+        button.addEventListener("click", function() {
+          onSelect(key);
+        });
+
+        button.addEventListener("focus", function() {
+          highlightDiagram(key);
+        });
+
+        grid.appendChild(button);
+      });
+
+      return grid;
+    }
+
+    function makeQuickChips(variableKey, textarea, onUpdate) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "bk3-chip-group";
+
+      variableData[variableKey].chips.forEach(function(chipText) {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "bk3-chip";
+        chip.textContent = chipText;
+
+        if (textarea.value.trim() === chipText) {
+          chip.classList.add("selected");
+        }
+
+        chip.addEventListener("click", function() {
+          textarea.value = chipText;
+          wrapper.querySelectorAll(".bk3-chip").forEach(function(otherChip) {
+            otherChip.classList.toggle("selected", otherChip === chip);
+          });
+          onUpdate(textarea.value);
+        });
+
+        wrapper.appendChild(chip);
+      });
+
+      const otherChip = document.createElement("button");
+      otherChip.type = "button";
+      otherChip.className = "bk3-chip";
+      otherChip.textContent = "Other";
+      otherChip.addEventListener("click", function() {
+        textarea.focus();
+      });
+      wrapper.appendChild(otherChip);
+
+      return wrapper;
+    }
+
+    function makeFollowup(variableKey, labelText, value, onUpdate) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "bk3-followup";
+
+      const label = document.createElement("label");
+      label.textContent = labelText;
+
+      const textarea = document.createElement("textarea");
+      textarea.className = "bk3-textarea";
+      textarea.value = value;
+      textarea.placeholder = "Choose an idea below or describe your own plan.";
+
+      textarea.addEventListener("focus", function() {
+        highlightDiagram(variableKey);
+      });
+
+      textarea.addEventListener("input", function() {
+        onUpdate(textarea.value);
+      });
+
+      wrapper.appendChild(label);
+      wrapper.appendChild(textarea);
+      wrapper.appendChild(makeQuickChips(variableKey, textarea, onUpdate));
+
+      return wrapper;
+    }
+
+    function renderStage() {
+      plannerRoot.innerHTML = "";
+      plannerFeedback.hidden = true;
+      updateProgress();
+
+      const card = document.createElement("section");
+      card.className = "bk3-stage-card";
+
+      if (state.stage === 0) {
+        card.classList.add("independent");
+        card.innerHTML = stageHeader(
+          "1",
+          "Choose what you will change",
+          "Select one independent variable. This is the one factor you will deliberately change."
+        );
+
+        card.appendChild(
+          makeVariableButtons("independent", state.independent, function(key) {
+            state.independent = key;
+            state.independentHow = "";
+            if (Object.prototype.hasOwnProperty.call(state.controls, key)) {
+              delete state.controls[key];
+            }
+            renderStage();
+            highlightDiagram(key);
+            updateAllPreviews();
+          })
+        );
+
+        if (state.independent) {
+          card.appendChild(
+            makeFollowup(
+              state.independent,
+              variableData[state.independent].prompt,
+              state.independentHow,
+              function(value) {
+                state.independentHow = value;
+                updateButtons();
+                updateAllPreviews();
+              }
+            )
+          );
+        }
+
+        diagramStatus.textContent = state.independent
+          ? variableData[state.independent].label + " is your independent variable."
+          : "Start by choosing what you will change.";
+      }
+
+      if (state.stage === 1) {
+        card.classList.add("dependent");
+        card.innerHTML = stageHeader(
+          "2",
+          "Choose what you will measure",
+          "Select one dependent variable. This is the result you will observe or measure."
+        );
+
+        card.appendChild(
+          makeVariableButtons("dependent", state.dependent, function(key) {
+            state.dependent = key;
+            state.dependentHow = "";
+            renderStage();
+            highlightDiagram(key);
+            updateAllPreviews();
+          })
+        );
+
+        if (state.dependent) {
+          card.appendChild(
+            makeFollowup(
+              state.dependent,
+              variableData[state.dependent].prompt,
+              state.dependentHow,
+              function(value) {
+                state.dependentHow = value;
+                updateButtons();
+                updateAllPreviews();
+              }
+            )
+          );
+        }
+
+        diagramStatus.textContent = state.dependent
+          ? variableData[state.dependent].label + " is your dependent variable."
+          : "Now choose what result you will measure.";
+      }
+
+      if (state.stage === 2) {
+        card.classList.add("controlled");
+        card.innerHTML = stageHeader(
+          "3",
+          "Choose what you will keep the same",
+          "Select one or more controlled variables, then explain exactly how each one will stay constant."
+        );
+
+        const picker = document.createElement("div");
+        picker.className = "bk3-control-picker";
+
+        const pickerHeading = document.createElement("h4");
+        pickerHeading.textContent = "Add controlled variables";
+        picker.appendChild(pickerHeading);
+
+        picker.appendChild(
+          makeVariableButtons("controlled", "", function(key) {
+            if (key === state.independent) {
+              return;
+            }
+
+            if (!Object.prototype.hasOwnProperty.call(state.controls, key)) {
+              state.controls[key] = "";
+            }
+
+            renderStage();
+            highlightDiagram(key);
+            updateAllPreviews();
+          })
+        );
+
+        card.appendChild(picker);
+
+        const controlsList = document.createElement("div");
+        controlsList.className = "bk3-controls-list";
+
+        Object.keys(state.controls).forEach(function(key) {
+          const item = document.createElement("section");
+          item.className = "bk3-control-item";
+
+          const header = document.createElement("div");
+          header.className = "bk3-control-item-header";
+
+          const title = document.createElement("strong");
+          title.textContent = variableData[key].label;
+
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "bk3-remove-control";
+          remove.textContent = "Remove";
+          remove.addEventListener("click", function() {
+            delete state.controls[key];
+            renderStage();
+            updateAllPreviews();
+          });
+
+          header.appendChild(title);
+          header.appendChild(remove);
+          item.appendChild(header);
+
+          const textarea = document.createElement("textarea");
+          textarea.className = "bk3-textarea";
+          textarea.placeholder = variableData[key].controlPrompt;
+          textarea.value = state.controls[key];
+
+          textarea.addEventListener("focus", function() {
+            highlightDiagram(key);
+          });
+
+          textarea.addEventListener("input", function() {
+            state.controls[key] = textarea.value;
+            updateButtons();
+            updateAllPreviews();
+          });
+
+          item.appendChild(textarea);
+          item.appendChild(
+            makeQuickChips(key, textarea, function(value) {
+              state.controls[key] = value;
+              updateButtons();
+              updateAllPreviews();
+            })
+          );
+
+          controlsList.appendChild(item);
+        });
+
+        if (Object.keys(state.controls).length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "bk3-placeholder";
+          empty.textContent = "No controlled variables selected yet.";
+          controlsList.appendChild(empty);
+        }
+
+        card.appendChild(controlsList);
+        diagramStatus.textContent = "Choose the conditions that must stay the same.";
+      }
+
+      if (state.stage === 3) {
+        card.classList.add("review");
+        card.innerHTML = stageHeader(
+          "4",
+          "Your investigation blueprint",
+          "Review the full plan before you continue to the practical investigation."
+        );
+        card.appendChild(makeBlueprint());
+        diagramStatus.textContent = "Your experiment plan is ready to review.";
+      }
+
+      plannerRoot.appendChild(card);
+      updateButtons();
+      updateAllPreviews();
+    }
+
+    function stageHeader(number, title, description) {
+      return (
+        '<div class="bk3-stage-card-header">' +
+          '<div>' +
+            '<h3>' + title + '</h3>' +
+            '<p>' + description + '</p>' +
+          '</div>' +
+          '<span class="bk3-stage-number">' + number + '</span>' +
+        '</div>'
+      );
+    }
+
+    function stageIsComplete(stageNumber) {
+      if (stageNumber === 0) {
+        return Boolean(state.independent && state.independentHow.trim());
+      }
+
+      if (stageNumber === 1) {
+        return Boolean(state.dependent && state.dependentHow.trim());
+      }
+
+      if (stageNumber === 2) {
+        const controlKeys = Object.keys(state.controls);
+        return controlKeys.length > 0 && controlKeys.every(function(key) {
+          return state.controls[key].trim() !== "";
+        });
+      }
+
+      return true;
+    }
+
+    function updateProgress() {
+      document.querySelectorAll("[data-progress-step]").forEach(function(step) {
+        const index = Number(step.dataset.progressStep);
+        step.classList.toggle("active", index === state.stage);
+        step.classList.toggle("complete", index < state.stage);
+      });
+    }
+
+    function updateButtons() {
+      backButton.disabled = state.stage === 0;
+      nextButton.disabled = !stageIsComplete(state.stage);
+      nextButton.textContent = state.stage === 3 ? "Start again" : "Next";
+    }
+
+    function makeBlueprint() {
+      const wrapper = document.createElement("div");
+      wrapper.className = "bk3-blueprint";
+
+      const title = document.createElement("div");
+      title.className = "bk3-blueprint-title";
+      title.innerHTML = "<h3>Your fair-test plan</h3><p>You have designed a complete investigation.</p>";
+      wrapper.appendChild(title);
+
+      wrapper.appendChild(
+        blueprintRow(
+          "change",
+          "Change",
+          variableData[state.independent].label,
+          state.independentHow
+        )
+      );
+
+      wrapper.appendChild(
+        blueprintRow(
+          "measure",
+          "Measure",
+          variableData[state.dependent].label,
+          state.dependentHow
+        )
+      );
+
+      Object.keys(state.controls).forEach(function(key) {
+        wrapper.appendChild(
+          blueprintRow(
+            "control",
+            "Keep the same",
+            variableData[key].label,
+            state.controls[key]
+          )
+        );
+      });
+
+      const ready = document.createElement("div");
+      ready.className = "bk3-ready-banner";
+      ready.textContent = "Ready to test: change one thing, measure one result, and keep everything else the same.";
+      wrapper.appendChild(ready);
+
+      return wrapper;
+    }
+
+    function blueprintRow(type, roleLabel, variableLabel, methodText) {
+      const row = document.createElement("section");
+      row.className = "bk3-blueprint-row";
+
+      const label = document.createElement("div");
+      label.className = "bk3-blueprint-label " + type;
+      label.textContent = roleLabel;
+
+      const content = document.createElement("div");
+      content.className = "bk3-blueprint-content";
+
+      const strong = document.createElement("strong");
+      strong.textContent = variableLabel;
+
+      const paragraph = document.createElement("p");
+      paragraph.textContent = methodText;
+
+      content.appendChild(strong);
+      content.appendChild(paragraph);
+      row.appendChild(label);
+      row.appendChild(content);
+
+      return row;
+    }
+
+    function updateAllPreviews() {
+      updateChoicePreview();
+      updateDiagramDetails();
+    }
+
+    function updateChoicePreview() {
+      choicePreview.innerHTML = "";
+
+      const previewItems = [];
+
+      if (state.independent) {
+        previewItems.push({
+          label: "Change",
+          text: variableData[state.independent].label +
+            (state.independentHow ? " — " + state.independentHow : "")
+        });
+      }
+
+      if (state.dependent) {
+        previewItems.push({
+          label: "Measure",
+          text: variableData[state.dependent].label +
+            (state.dependentHow ? " — " + state.dependentHow : "")
+        });
+      }
+
+      Object.keys(state.controls).forEach(function(key) {
+        previewItems.push({
+          label: "Keep the same",
+          text: variableData[key].label +
+            (state.controls[key] ? " — " + state.controls[key] : "")
+        });
+      });
+
+      if (previewItems.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "bk3-preview-row bk3-placeholder";
+        empty.textContent = "Your investigation choices will appear here.";
+        choicePreview.appendChild(empty);
+        return;
+      }
+
+      previewItems.forEach(function(item) {
+        const row = document.createElement("div");
+        row.className = "bk3-preview-row";
+
+        const label = document.createElement("strong");
+        label.textContent = item.label;
+
+        const text = document.createElement("span");
+        text.textContent = item.text;
+
+        row.appendChild(label);
+        row.appendChild(text);
+        choicePreview.appendChild(row);
+      });
+    }
+
+    function highlightDiagram(variableKey) {
+      const group = variableKey && variableData[variableKey]
+        ? variableData[variableKey].group
+        : "";
+
+      document.querySelectorAll(".bk3-diagram-part").forEach(function(part) {
+        part.classList.toggle("active", part.dataset.part === group);
+        part.classList.toggle("secondary", group !== "" && part.dataset.part !== group);
+      });
+    }
+
+    function updateDiagramDetails() {
+      const mainBall = document.getElementById("mainBall");
+      const comparisonBallGroup = document.getElementById("comparisonBallGroup");
+      const comparisonBall = document.getElementById("comparisonBall");
+      const surfaceRect = document.getElementById("surfaceRect");
+      const surfaceLabel = document.getElementById("surfaceLabel");
+      const dropValueText = document.getElementById("dropValueText");
+      const measureValueText = document.getElementById("measureValueText");
+
+      comparisonBallGroup.hidden = true;
+      mainBall.setAttribute("r", "52");
+      comparisonBall.setAttribute("r", "34");
+      mainBall.setAttribute("fill", "#ffc91c");
+      comparisonBall.setAttribute("fill", "#ffc91c");
+      surfaceRect.setAttribute("fill", "url(#surfaceGradient)");
+      surfaceLabel.textContent = "Bounce surface";
+      dropValueText.textContent = "";
+      measureValueText.textContent = "";
+
+      const independentText = state.independentHow.toLowerCase();
+
+      if (state.independent === "ball-size") {
+        comparisonBallGroup.hidden = false;
+        if (independentText.includes("small") && independentText.includes("large")) {
+          mainBall.setAttribute("r", "60");
+          comparisonBall.setAttribute("r", "30");
+        }
+      }
+
+      if (state.independent === "ball-material") {
+        comparisonBallGroup.hidden = false;
+        mainBall.setAttribute("fill", "#ffc91c");
+        comparisonBall.setAttribute("fill", "#75dde8");
+      }
+
+      if (state.independent === "ball-squashiness") {
+        comparisonBallGroup.hidden = false;
+        comparisonBall.setAttribute("rx", "45");
+      }
+
+      const surfaceText = [
+        state.independent === "bounce-surface" ? state.independentHow : "",
+        state.controls["bounce-surface"] || ""
+      ].join(" ").toLowerCase();
+
+      if (surfaceText.includes("concrete")) {
+        surfaceRect.setAttribute("fill", "url(#concretePattern)");
+        surfaceLabel.textContent = "Concrete";
+      } else if (surfaceText.includes("carpet")) {
+        surfaceRect.setAttribute("fill", "url(#carpetPattern)");
+        surfaceLabel.textContent = "Carpet";
+      } else if (surfaceText.includes("grass")) {
+        surfaceRect.setAttribute("fill", "url(#grassPattern)");
+        surfaceLabel.textContent = "Grass";
+      }
+
+      const dropText = [
+        state.independent === "drop-height" ? state.independentHow : "",
+        state.controls["drop-height"] || ""
+      ].join(" ");
+
+      const dropMatch = dropText.match(/(\d+(?:\.\d+)?)\s*(cm|m|metre|metres)/i);
+      if (dropMatch) {
+        dropValueText.textContent = dropMatch[1] + " " + dropMatch[2];
+      }
+
+      if (state.dependent === "bounce-height") {
+        measureValueText.textContent = "Measure height";
+      }
+
+      if (state.dependent === "number-bounces") {
+        measureValueText.textContent = "Count bounces";
+      }
+
+      if (state.dependent === "bounce-time") {
+        measureValueText.textContent = "Time in seconds";
+      }
+    }
+
+    function showStageFeedback(message) {
+      plannerFeedback.textContent = message;
+      plannerFeedback.hidden = false;
+    }
+
+    backButton.addEventListener("click", function() {
+      if (state.stage > 0) {
+        state.stage -= 1;
+        renderStage();
+        highlightDiagram("");
+      }
+    });
+
+    nextButton.addEventListener("click", function() {
+      if (!stageIsComplete(state.stage)) {
+        showStageFeedback("Complete this part of the investigation before moving on.");
+        return;
+      }
+
+      if (state.stage < 3) {
+        state.stage += 1;
+      } else {
+        resetState();
+      }
+
+      renderStage();
+      highlightDiagram("");
+    });
+
+    resetButton.addEventListener("click", function() {
+      resetState();
+      renderStage();
+      highlightDiagram("");
+    });
+
+    function resetState() {
+      state.stage = 0;
+      state.independent = "";
+      state.independentHow = "";
+      state.dependent = "";
+      state.dependentHow = "";
+      state.controls = {};
+    }
+
+    renderStage();
+    updateAllPreviews();
+  </script>
+</body>
+</html>
