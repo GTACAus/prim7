@@ -304,9 +304,11 @@
       outline: 4px solid rgba(48, 51, 47, 0.16);
     }
 
-    .sort-variables-section .controlled-mode-button:disabled {
-      opacity: 0.72;
-      cursor: default;
+    .sort-variables-section .variable-mode-button:disabled,
+    .sort-variables-section .variable-mode-button:disabled * {
+        cursor: default;
+        opacity: 1;
+        user-select: none;
     }
 
     .sort-variables-section .variable-tile {

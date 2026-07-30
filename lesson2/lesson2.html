@@ -147,12 +147,16 @@
           8. Make a reasoned prediction
         </button>
 
+        <button type="button" onclick="teacherJump('sort-variables-three')">
+          9. Choose variables for your investigation
+        </button>
+
         <button type="button" onclick="teacherJump('map-fair-test')">
-          9. Map the fair test
+          10. Map the fair test
         </button>
 
         <button type="button" onclick="teacherJump('describe-fair-test')">
-          10. Describe the fair-test procedure
+          11. Describe the fair-test procedure
         </button>
       </div>
 
@@ -696,7 +700,7 @@
 
       <div class="variable-activity">
         <p class="variable-question">
-          Does changing the floor surface that a ball bounces on affect how high it bounces?
+          Does changing the size of a ball affect how high it bounces?
         </p>
 
         <div
@@ -1086,11 +1090,178 @@
       <button
         type="button"
         class="next-button"
-        onclick="unlockSection('map-fair-test', 'reasoned-prediction')">
+        onclick="unlockSection('sort-variables-three', 'reasoned-prediction')">
         Next
       </button>
 
       <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+     OPEN VARIABLE SELECTION
+     ================================================== -->
+    <section
+      class="sort-variables-section section locked"
+      id="sort-variables-three">
+
+      <h2 class="section-title">
+        Choose the variables for your investigation
+      </h2>
+
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Use the investigation question you created earlier.
+          Choose one variable to change, one variable to measure,
+          and keep all the remaining variables the same.
+        </p>
+      </div>
+
+      <div class="variable-activity">
+
+        <p class="variable-question">
+          How will you organise the variables in your own fair test?
+        </p>
+
+        <div
+          class="variable-selection-toolbar"
+          aria-label="Choose a variable type">
+
+          <button
+            type="button"
+            class="variable-mode-button independent-mode-button"
+            data-variable-mode="independent"
+            aria-pressed="false">
+
+            <span class="variable-mode-title">
+              Independent Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Change
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-mode-button dependent-mode-button"
+            data-variable-mode="dependent"
+            aria-pressed="false">
+
+            <span class="variable-mode-title">
+              Dependent Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Measure
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-mode-button controlled-mode-button"
+            data-variable-mode="controlled"
+            aria-pressed="false">
+
+            <span class="variable-mode-title">
+              Controlled Variable
+            </span>
+
+            <span class="variable-mode-subtitle">
+              Keep the same
+            </span>
+          </button>
+
+        </div>
+
+        <div class="variable-tile-grid">
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-size">
+            <span class="variable-tile-label">
+              Ball size
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-weight">
+            <span class="variable-tile-label">
+              Ball weight
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="drop-height">
+            <span class="variable-tile-label">
+              Drop height
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="floor-surface">
+            <span class="variable-tile-label">
+              Floor surface
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="height-of-bounce">
+            <span class="variable-tile-label">
+              Height of bounce
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-material">
+            <span class="variable-tile-label">
+              Ball material
+            </span>
+          </button>
+
+        </div>
+
+        <div
+          id="sortVariablesThreeFeedback"
+          class="variable-feedback"
+          role="status"
+          aria-live="polite">
+        </div>
+
+        <div class="reset-button-container">
+          <button
+            type="button"
+            id="sort-variables-reset-3"
+            class="general-button reset-btn">
+            Reset
+          </button>
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        id="sortVariablesThreeNext"
+        class="next-button"
+        onclick="unlockSection('map-fair-test', 'sort-variables-three')"
+        hidden>
+        Next
+      </button>
+
+      <p class="completed-note">
+        Completed — next activity unlocked.
+      </p>
+
     </section>
 
     <!-- ==================================================
@@ -1245,11 +1416,13 @@
       "choose-ball-pair",
       "design-question",
       "reasoned-prediction",
+      "sort-variables-three",
       "map-fair-test",
       "describe-fair-test"
     ];
 
-const feedbackDefaultMessage = "Select either <strong>Independent: change</strong> or <strong>Dependent: measure</strong>.";
+const feedbackDefaultMessage =
+  "Choose a variable type, then select the matching variable.";
 
 let sortVariablesOneStructure = {
   activityID: "sort-variables-one",
@@ -1263,10 +1436,24 @@ let sortVariablesOneStructure = {
   resetButton: null,
   resetButtonId: "sort-variables-reset-1",
 
+  answerMode: "fixed",
+
+  answers: {
+    independent: "floor-surface",
+    dependent: "height-of-bounce",
+    controlled: [
+      "ball-size",
+      "ball-weight",
+      "drop-height",
+      "ball-material"
+    ]
+  },
+
   selectedMode: "",
   independentComplete: false,
-  dependentComplete: false,
+  dependentComplete: false
 };
+
 
 let sortVariablesTwoStructure = {
   activityID: "sort-variables-two",
@@ -1280,9 +1467,42 @@ let sortVariablesTwoStructure = {
   resetButton: null,
   resetButtonId: "sort-variables-reset-2",
 
+  answerMode: "fixed",
+
+  answers: {
+    independent: "ball-size",
+    dependent: "height-of-bounce",
+    controlled: [
+      "ball-weight",
+      "drop-height",
+      "floor-surface",
+      "ball-material"
+    ]
+  },
+
   selectedMode: "",
   independentComplete: false,
-  dependentComplete: false,
+  dependentComplete: false
+};
+
+let sortVariablesThreeStructure = {
+  activityID: "sort-variables-three",
+  activity: null,
+  modeButtons: null,
+  variableTiles: null,
+  feedback: null,
+  feedbackId: "#sortVariablesThreeFeedback",
+  nextButton: null,
+  nextButtonId: "#sortVariablesThreeNext",
+  resetButton: null,
+  resetButtonId: "sort-variables-reset-3",
+
+  answerMode: "open",
+  answers: null,
+
+  selectedMode: "",
+  independentComplete: false,
+  dependentComplete: false
 };
 
 
@@ -1306,6 +1526,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   initialiseSortVariables(
     sortVariablesTwoStructure
+  );
+
+  initialiseSortVariables(
+    sortVariablesThreeStructure
   );
 });
 
@@ -1596,31 +1820,66 @@ function handleModeButtonClick(event, variableStructure) {
   setMode(event.currentTarget.dataset.variableMode, variableStructure);
 }
 
-function handleVariableTileClick(event, variableStructure) {
+function handleVariableTileClick(
+  event,
+  variableStructure
+) {
   const tile = event.currentTarget;
-  const independentCompleteMessage = "Correct! Now select Dependent: measure."
-  const dependentCompleteMessage = "Correct! Now select Independent: change."
 
-  if (tile.classList.contains("is-classified")) {
+  const selectedVariable =
+    tile.dataset.variable;
+
+  const selectedMode =
+    variableStructure.selectedMode;
+
+  const isFixedActivity =
+    variableStructure.answerMode === "fixed";
+
+  /*
+    Do nothing if this tile has already been classified.
+  */
+  if (
+    tile.classList.contains("is-classified")
+  ) {
     return;
   }
 
-  if (variableStructure.selectedMode === "") {
+  /*
+    Students must choose a variable type first.
+  */
+  if (selectedMode === "") {
     buzzTile(
       tile,
-      "Select one of the options first!",
+      "Choose Independent Variable, Dependent Variable or Controlled Variable first.",
       variableStructure
     );
+
     return;
   }
 
-  if (variableStructure.selectedMode === "independent") {
-    if (tile.dataset.variable !== "floor-surface") {
+  /* ==================================================
+     INDEPENDENT VARIABLE
+     ================================================== */
+
+  if (selectedMode === "independent") {
+
+    /*
+      Fixed activities check against the answer key.
+
+      Open activities skip this check, so any available
+      tile can become the independent variable.
+    */
+    if (
+      isFixedActivity &&
+      selectedVariable !==
+        variableStructure.answers.independent
+    ) {
       buzzTile(
         tile,
-        "Try again. Which variable is changed in the question?",
+        "Try again. Which variable is deliberately changed in the question?",
         variableStructure
       );
+
       return;
     }
 
@@ -1631,40 +1890,47 @@ function handleVariableTileClick(event, variableStructure) {
     );
 
     variableStructure.independentComplete = true;
-    variableStructure.selectedMode = "";
 
-    const independentButton =
-      variableStructure.activity.querySelector(
-        '[data-variable-mode="independent"]'
-      );
-
-    independentButton.classList.remove("mode-active");
-    independentButton.setAttribute("aria-pressed", "false");
-    independentButton.disabled = true;
+    finishVariableSelection(
+      "independent",
+      variableStructure
+    );
 
     variableStructure.feedback.className =
       "variable-feedback feedback-success";
 
     variableStructure.feedback.innerHTML =
-      independentCompleteMessage;
+      "Independent variable selected.";
 
-    if (
-      variableStructure.independentComplete &&
-      variableStructure.dependentComplete
-    ) {
-      completeControlledVariables(variableStructure);
-    }
+    checkSortVariablesComplete(
+      variableStructure
+    );
 
     return;
   }
 
-  if (variableStructure.selectedMode === "dependent") {
-    if (tile.dataset.variable !== "height-of-bounce") {
+  /* ==================================================
+     DEPENDENT VARIABLE
+     ================================================== */
+
+  if (selectedMode === "dependent") {
+
+    /*
+      Fixed activities check against the answer key.
+
+      Open activities allow any remaining tile.
+    */
+    if (
+      isFixedActivity &&
+      selectedVariable !==
+        variableStructure.answers.dependent
+    ) {
       buzzTile(
         tile,
         "Try again. Which result is observed or measured?",
         variableStructure
       );
+
       return;
     }
 
@@ -1676,22 +1942,142 @@ function handleVariableTileClick(event, variableStructure) {
 
     variableStructure.dependentComplete = true;
 
-    const dependentButton =
-      variableStructure.activity.querySelector(
-        '[data-variable-mode="dependent"]'
-      );
-
-    dependentButton.classList.remove("mode-active");
-    dependentButton.setAttribute("aria-pressed", "false");
-    dependentButton.disabled = true;
+    finishVariableSelection(
+      "dependent",
+      variableStructure
+    );
 
     variableStructure.feedback.className =
       "variable-feedback feedback-success";
 
-    variableStructure.feedback.innerHTML = dependentCompleteMessage;
+    variableStructure.feedback.innerHTML =
+      "Dependent variable selected.";
+
+    checkSortVariablesComplete(
+      variableStructure
+    );
+
+    return;
   }
-  if (variableStructure.independentComplete && variableStructure.dependentComplete) {
-      completeControlledVariables(variableStructure);
+
+  /* ==================================================
+     CONTROLLED VARIABLES
+     ================================================== */
+
+  if (selectedMode === "controlled") {
+
+    /*
+      In a fixed activity, controlled variables must
+      match the answer key.
+
+      In an open activity, every remaining tile can be
+      classified as controlled.
+    */
+    if (
+      isFixedActivity &&
+      !variableStructure.answers.controlled.includes(
+        selectedVariable
+      )
+    ) {
+      buzzTile(
+        tile,
+        "Try again. That variable is not controlled in this investigation.",
+        variableStructure
+      );
+
+      return;
+    }
+
+    addVariableType(
+      tile,
+      "controlled",
+      "Controlled variable"
+    );
+
+    /*
+      Count all unclassified tiles.
+
+      Once only the already-selected independent and
+      dependent variables remain classified and every
+      other tile is controlled, there will be no
+      unclassified tiles left.
+    */
+    const remainingTiles =
+      Array.from(
+        variableStructure.variableTiles
+      ).filter(function(variableTile) {
+        return !variableTile.classList.contains(
+          "is-classified"
+        );
+      });
+
+    if (remainingTiles.length === 0) {
+      const controlledButton =
+        variableStructure.activity.querySelector(
+          '[data-variable-mode="controlled"]'
+        );
+
+      controlledButton.classList.remove(
+        "mode-active"
+      );
+
+      controlledButton.setAttribute(
+        "aria-pressed",
+        "false"
+      );
+
+      controlledButton.disabled = true;
+
+      variableStructure.selectedMode = "";
+
+      variableStructure.feedback.innerHTML =
+        "All controlled variables have been selected.";
+    } else {
+      variableStructure.feedback.innerHTML =
+        "Controlled variable selected. Choose any other variables that must be kept the same.";
+    }
+
+    variableStructure.feedback.className =
+      "variable-feedback feedback-success";
+
+    checkSortVariablesComplete(
+      variableStructure
+    );
+  }
+}
+
+function finishVariableSelection(
+  mode,
+  variableStructure
+) {
+  variableStructure.selectedMode = "";
+
+  const modeButton =
+    variableStructure.activity.querySelector(
+      '[data-variable-mode="' + mode + '"]'
+    );
+
+  if (!modeButton) {
+    return;
+  }
+
+  modeButton.classList.remove("mode-active");
+
+  modeButton.setAttribute(
+    "aria-pressed",
+    "false"
+  );
+
+  /*
+    Independent and dependent can only be selected once.
+    Controlled remains available because students must
+    select several controlled variables.
+  */
+  if (
+    mode === "independent" ||
+    mode === "dependent"
+  ) {
+    modeButton.disabled = true;
   }
 }
 
@@ -1730,10 +2116,20 @@ function setMode(mode, variableStructure) {
   variableStructure.feedback.className =
     "variable-feedback";
 
-  variableStructure.feedback.innerHTML =
-    mode === "independent"
-      ? "Now choose the variable that is changed."
-      : "Now choose the result that is measured.";
+  if (mode === "independent") {
+    variableStructure.feedback.innerHTML =
+      "Choose the variable that is changed.";
+  }
+
+  if (mode === "dependent") {
+    variableStructure.feedback.innerHTML =
+      "Choose the variable that is measured.";
+  }
+
+  if (mode === "controlled") {
+    variableStructure.feedback.innerHTML =
+      "Choose all the variables that must be kept the same.";
+  }
 }
 
 function addVariableType(
@@ -1777,37 +2173,40 @@ function buzzTile(
   variableStructure.feedback.innerHTML = message;
 }
 
-function completeControlledVariables(variableStructure) {
-  variableStructure.variableTiles.forEach(function(tile) {
-    if (
-      !tile.classList.contains("is-classified")
-    ) {
-      addVariableType(
-        tile,
-        "controlled",
-        "Controlled variable"
-      );
-    }
-  });
+function checkSortVariablesComplete(variableStructure) {
+  const classifiedTiles =
+    variableStructure.activity.querySelectorAll(
+      ".variable-tile.is-classified"
+    );
+
+  const allTilesComplete =
+    classifiedTiles.length ===
+    variableStructure.variableTiles.length;
+
+  if (!allTilesComplete) {
+    return;
+  }
 
   variableStructure.selectedMode = "";
 
-  variableStructure.modeButtons.forEach(function(button) {
-    button.classList.remove("mode-active");
+  variableStructure.modeButtons.forEach(
+    function(button) {
+      button.classList.remove("mode-active");
 
-    button.setAttribute(
-      "aria-pressed",
-      "false"
-    );
+      button.setAttribute(
+        "aria-pressed",
+        "false"
+      );
 
-    button.disabled = true;
-  });
+      button.disabled = true;
+    }
+  );
 
   variableStructure.feedback.className =
     "variable-feedback feedback-success";
 
   variableStructure.feedback.innerHTML =
-    "Correct! The remaining variables must be kept the same to make this a fair test.";
+    "You identified the independent, dependent and controlled variables.";
 
   variableStructure.nextButton.hidden = false;
 }

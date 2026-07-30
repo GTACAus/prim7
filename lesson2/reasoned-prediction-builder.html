@@ -820,8 +820,30 @@ body {
 
       try {
         const savedData = JSON.parse(savedText);
-        investigationQuestionAnswers.changeVariable = savedData.firstAnswer;
-        investigationQuestionAnswers.measureVariable = savedData.secondAnswer;
+        if (savedData.structure === "what") {
+        /*
+          "What happens to ___ when I change ___?"
+
+          First answer = measured variable
+          Second answer = changed variable
+        */
+        investigationQuestionAnswers.changeVariable =
+          savedData.secondAnswer;
+
+        investigationQuestionAnswers.measureVariable =
+          savedData.firstAnswer;
+      } else {
+        /*
+          All the other question structures put
+          the changed variable first and the
+          measured variable second.
+        */
+        investigationQuestionAnswers.changeVariable =
+          savedData.firstAnswer;
+
+        investigationQuestionAnswers.measureVariable =
+          savedData.secondAnswer;
+      }
 
         // Populate the fields
         // changeVariable.textContent = investigationQuestionAnswers.changeVariable;
@@ -881,40 +903,77 @@ body {
       );
     }
 
-    function resetBuilder() {
-      Object.keys(permanentFields).forEach(function(fieldName) {
-        const field = permanentFields[fieldName];
-        builderState[fieldName] = "";
-        field.input.value = "";
-        field.inputRow.style.display = "block";
-        field.answer.classList.remove("visible");
-        field.answer.innerHTML = "";
-      });
+function resetBuilder() {
+  /*
+    Clear submitted permanent fields,
+    such as the student's reason.
+  */
+  Object.keys(permanentFields).forEach(function(fieldName) {
+    const field = permanentFields[fieldName];
 
-      builderState.change = "";
-      builderState.measure = "";
+    builderState[fieldName] = "";
 
-      changeVariable.selectedIndex = 0;
-      measureVariable.selectedIndex = 0;
+    field.input.value = "";
+    field.inputRow.style.display = "block";
 
-      causeRelationshipType.selectedIndex = 0;
-      conditionOneInput.value = "";
-      conditionTwoInput.value = "";
-      selectedCause = "";
-      selectedEffect = "";
-      causeRelationshipButtons.innerHTML = "";
-      conditionComparisonInputs.classList.remove("visible");
+    field.answer.classList.remove("visible");
+    field.answer.innerHTML = "";
+  });
 
-      effectRelationshipButtons
-        .querySelectorAll(".relationship-option")
-        .forEach(function(button) {
-          button.classList.remove("selected");
-        });
+  /*
+    Clear the investigation-question variables
+    inside this reasoned-prediction builder.
+  */
+  investigationQuestionAnswers.changeVariable = "";
+  investigationQuestionAnswers.measureVariable = "";
 
-      updatePrediction();
-      changeVariable.focus();
-    }
+  builderState.change = "";
+  builderState.measure = "";
 
+  /*
+    Restore the placeholder text in the two
+    generated variable boxes.
+  */
+  setGeneratedText(
+    changeVariable,
+    "",
+    "The thing I am changing"
+  );
+
+  setGeneratedText(
+    measureVariable,
+    "",
+    "The thing I am measuring"
+  );
+
+  /*
+    Reset the relationship controls.
+  */
+  causeRelationshipType.selectedIndex = 0;
+
+  conditionOneInput.value = "";
+  conditionTwoInput.value = "";
+
+  selectedCause = "";
+  selectedEffect = "";
+
+  causeRelationshipButtons.innerHTML = "";
+
+  conditionComparisonInputs.classList.remove(
+    "visible"
+  );
+
+  effectRelationshipButtons
+    .querySelectorAll(".relationship-option")
+    .forEach(function(button) {
+      button.classList.remove("selected");
+    });
+
+  /*
+    Rebuild the prediction using the cleared state.
+  */
+  updatePrediction();
+}
     connectPermanentField("reason");
 
 changeVariable.addEventListener(
