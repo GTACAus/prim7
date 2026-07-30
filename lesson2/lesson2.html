@@ -139,24 +139,22 @@
           6. Choose balls for a fair test
         </button>
 
-        <button type="button" onclick="teacherJump('design-question')">
-          7. Design an investigation question
-        </button>
-
-        <button type="button" onclick="teacherJump('reasoned-prediction')">
-          8. Make a reasoned prediction
+        <button
+          type="button"
+          onclick="teacherJump('design-question')">
+          7. Design a question and make a prediction
         </button>
 
         <button type="button" onclick="teacherJump('sort-variables-three')">
-          9. Choose variables for your investigation
+          8. Choose variables for your investigation
         </button>
 
         <button type="button" onclick="teacherJump('map-fair-test')">
-          10. Map the fair test
+          9. Map the fair test
         </button>
 
         <button type="button" onclick="teacherJump('describe-fair-test')">
-          11. Describe the fair-test procedure
+          10. Describe the fair-test procedure
         </button>
       </div>
 
@@ -986,116 +984,117 @@
       </p>
     </section>
 
-    <!-- ==================================================
-         6. DESIGN A QUESTION
-         ================================================== -->
-    <section class="section locked" id="design-question">
-      <h2 class="section-title">Design your investigation question</h2>
+<!-- ==================================================
+     DESIGN A QUESTION AND MAKE A PREDICTION
+     ================================================== -->
+<section class="section locked" id="design-question">
 
-      <div class="diagram-box diagram-activity">
-        <p class="activity-instruction">
-          Choose a question structure. Later, the selected structure will expand into
-          a sentence builder for the student's own testable question.
-        </p>
-      </div>
+  <h2 class="section-title">
+    Design your investigation and make a prediction
+  </h2>
 
-      <div
-        class="question-structure-grid"
-        id="questionStructureGrid">
+  <!-- ================================
+       PART 1: INVESTIGATION QUESTION
+       ================================ -->
 
-        <button
-          type="button"
-          class="question-structure-card question-structure-what"
-          data-question-structure="what"
-          aria-pressed="false">
-          What happens to ______ when I change ______?
-        </button>
+  <div class="diagram-box diagram-activity">
+    <p class="activity-instruction">
+      First, create a testable investigation question by choosing a
+      question structure and completing the missing information.
+    </p>
+  </div>
 
-        <button
-          type="button"
-          class="question-structure-card question-structure-how"
-          data-question-structure="how"
-          aria-pressed="false">
-          How does changing ______ affect ______?
-        </button>
+  <div
+    class="question-structure-grid"
+    id="questionStructureGrid">
 
-        <button
-          type="button"
-          class="question-structure-card question-structure-does"
-          data-question-structure="does"
-          aria-pressed="false">
-          Does changing ______ affect ______?
-        </button>
+    <button
+      type="button"
+      class="question-structure-card question-structure-what"
+      data-question-structure="what"
+      aria-pressed="false">
+      What happens to ______ when I change ______?
+    </button>
 
-        <button
-          type="button"
-          class="question-structure-card question-structure-if"
-          data-question-structure="if"
-          aria-pressed="false">
-          If I change ______, what happens to ______?
-        </button>
-      </div>
+    <button
+      type="button"
+      class="question-structure-card question-structure-how"
+      data-question-structure="how"
+      aria-pressed="false">
+      How does changing ______ affect ______?
+    </button>
 
-      <div
-        class="investigation-question-builder"
-        id="investigationQuestionBuilder"
-        aria-live="polite">
+    <button
+      type="button"
+      class="question-structure-card question-structure-does"
+      data-question-structure="does"
+      aria-pressed="false">
+      Does changing ______ affect ______?
+    </button>
 
-        <p class="question-builder-placeholder">
-          Select a question structure above to begin.
-        </p>
-      </div>
+    <button
+      type="button"
+      class="question-structure-card question-structure-if"
+      data-question-structure="if"
+      aria-pressed="false">
+      If I change ______, what happens to ______?
+    </button>
 
-      <div class="reset-button-container">
-        <button
-          type="button"
-          class="general-button reset-btn"
-          onclick="resetInvestigationQuestion()">
-          Reset
-        </button>
-      </div>
+  </div>
 
-      <button
-        type="button"
-        class="next-button"
-        onclick="unlockSection('reasoned-prediction', 'design-question')">
-        Next
-      </button>
+  <div
+    class="investigation-question-builder"
+    id="investigationQuestionBuilder"
+    aria-live="polite">
 
-      <p class="completed-note">Completed — next activity unlocked.</p>
-    </section>
+    <p class="question-builder-placeholder">
+      Select a question structure above to begin.
+    </p>
 
-    <!-- ==================================================
-         7. REASONED PREDICTION
-         ================================================== -->
-    <section class="section locked" id="reasoned-prediction">
-      <h2 class="section-title">Make a reasoned prediction</h2>
+  </div>
 
-      <div class="diagram-box diagram-activity">
-        <p class="activity-instruction">
-          This section will reuse the reasoned-prediction organiser from Lesson 1.
-          The student's investigation question and selected variables can be carried into it later.
-        </p>
-      </div>
+  <!-- ================================
+       PART 2: REASONED PREDICTION
+       ================================ -->
 
-      <div class="iframe-box">
-          <iframe
-              id="reasonedPredictionFrame"
-              class="reasoned-prediction-iframe"
-              src="reasoned-prediction-builder.html"
-              title="Reasoned Prediction Builder">
-          </iframe>
-      </div>
+  <div class="diagram-box diagram-activity">
+    <p class="activity-instruction">
+      Now use your investigation question to make a prediction.
+      Explain what you think will happen and give a scientific reason.
+    </p>
+  </div>
 
-      <button
-        type="button"
-        class="next-button"
-        onclick="unlockSection('sort-variables-three', 'reasoned-prediction')">
-        Next
-      </button>
+  <div class="iframe-box">
+    <iframe
+      id="reasonedPredictionFrame"
+      class="reasoned-prediction-iframe"
+      src="reasoned-prediction-builder.html"
+      title="Reasoned Prediction Builder">
+    </iframe>
+  </div>
 
-      <p class="completed-note">Completed — next activity unlocked.</p>
-    </section>
+  <!-- One reset button for both activities -->
+  <div class="reset-button-container">
+    <button
+      type="button"
+      class="general-button reset-btn"
+      onclick="resetQuestionAndPrediction()">
+      Reset
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="next-button"
+    onclick="unlockSection('sort-variables-three', 'design-question')">
+    Next
+  </button>
+
+  <p class="completed-note">
+    Completed — next activity unlocked.
+  </p>
+
+</section>
 
     <!-- ==================================================
      OPEN VARIABLE SELECTION
@@ -1415,7 +1414,6 @@
       "sort-variables-two",
       "choose-ball-pair",
       "design-question",
-      "reasoned-prediction",
       "sort-variables-three",
       "map-fair-test",
       "describe-fair-test"
@@ -2816,9 +2814,57 @@ function resetBallPairActivity(
         '<p class="question-builder-placeholder">' +
         "Select a question structure above to begin." +
         "</p>";
+
+      sessionStorage.removeItem(
+        INVESTIGATION_QUESTION_SAVE_KEY
+);
     }
 
-    
+    function resetQuestionAndPrediction() {
+      /*
+        Clear the investigation-question cards,
+        answers and displayed completed question.
+      */
+      resetInvestigationQuestion();
+
+      /*
+        Delete the saved question information.
+
+        Without this line, the iframe may load the old
+        question variables again when it refreshes.
+      */
+      sessionStorage.removeItem(
+        INVESTIGATION_QUESTION_SAVE_KEY
+      );
+
+      /*
+        Find the prediction-builder iframe.
+      */
+      const predictionFrame =
+        document.getElementById(
+          "reasonedPredictionFrame"
+        );
+
+      if (
+        !predictionFrame ||
+        !predictionFrame.contentWindow
+      ) {
+        return;
+      }
+
+      /*
+        Call the existing resetBuilder() function
+        inside reasoned-prediction-builder.html.
+      */
+      if (
+        typeof predictionFrame.contentWindow
+          .resetBuilder === "function"
+      ) {
+        predictionFrame.contentWindow
+          .resetBuilder();
+      }
+    }
+
     /* Placeholder so the shared PDF function can safely call it.
        Add localStorage saving here when Lesson 2 interactions are built. */
     function saveCurrentPageData() {

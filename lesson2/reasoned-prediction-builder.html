@@ -269,7 +269,7 @@ body {
 
 .final-prediction {
 	background: var(--soft-green);
-	font-size: 1.02rem;
+	font-size: inherit;
 }
 
 .reset-button-container {
@@ -544,10 +544,6 @@ body {
         </div>
       </div>
     </div>
-
-    <div class="reset-button-container">
-      <button type="button" class="reset-btn general-button" onclick="resetBuilder()">Reset</button>
-    </div>
   </main>
 
   <script src="../scripts/common_functions.js"></script>
@@ -813,10 +809,39 @@ body {
     }
     
     function loadInvestigationQuestionAnswers() {
-      const INVESTIGATION_QUESTION_SAVE_KEY = "investigationQuestionAnswerSave";
-      const savedText = sessionStorage.getItem(INVESTIGATION_QUESTION_SAVE_KEY);
-      
-      if (!savedText) return;
+      const INVESTIGATION_QUESTION_SAVE_KEY =
+        "investigationQuestionAnswerSave";
+
+      /*
+        Clear any old values first.
+      */
+      investigationQuestionAnswers.changeVariable = "";
+      investigationQuestionAnswers.measureVariable = "";
+
+      const savedText =
+        sessionStorage.getItem(
+          INVESTIGATION_QUESTION_SAVE_KEY
+        );
+
+      /*
+        If there is no saved question, restore the placeholders.
+      */
+      if (!savedText) {
+        setGeneratedText(
+          changeVariable,
+          "",
+          "The thing I am changing"
+        );
+
+        setGeneratedText(
+          measureVariable,
+          "",
+          "The thing I am measuring"
+        );
+
+        updatePrediction();
+        return;
+      }
 
       try {
         const savedData = JSON.parse(savedText);
