@@ -113,48 +113,45 @@
       </div>
 
       <div class="teacher-section-list">
-        <button type="button" onclick="teacherJump('observe-bounce')">
-          1. Observe a bouncing ball
-        </button>
 
         <button type="button" onclick="teacherJump('discover-variables')">
-          2. Discover possible variables
+          1. Discover possible variables
         </button>
 
         <button type="button" onclick="teacherJump('variable-types')">
-          3. Learn the three variable types
+          2. Learn the three variable types
         </button>
 
         <button type="button" onclick="teacherJump('sort-variables-one')">
-          4. Sort variables: floor surface
+          3. Sort variables: floor surface
         </button>
 
         <button type="button" onclick="teacherJump('sort-variables-two')">
-          5. Sort variables: ball size
+          4. Sort variables: ball size
         </button>
 
         <button
           type="button"
           onclick="teacherJump('choose-ball-pair')">
-          6. Choose balls for a fair test
+          5. Choose balls for a fair test
         </button>
 
         <button
           type="button"
           onclick="teacherJump('design-question')">
-          7. Design a question and make a prediction
+          6. Design a question and make a prediction
         </button>
 
         <button type="button" onclick="teacherJump('sort-variables-three')">
-          8. Choose variables for your investigation
+          7. Choose variables for your investigation
         </button>
 
         <button type="button" onclick="teacherJump('map-fair-test')">
-          9. Map the fair test
+          8. Map the fair test
         </button>
 
         <button type="button" onclick="teacherJump('describe-fair-test')">
-          10. Describe the fair-test procedure
+          9. Describe the fair-test procedure
         </button>
       </div>
 
@@ -263,70 +260,6 @@
     </header>
 
     <!-- ==================================================
-         1. OBSERVE A BOUNCING BALL
-         ================================================== -->
-    <section class="section" id="observe-bounce">
-      <h2 class="section-title">Observe a bouncing ball</h2>
-
-      <div class="diagram-box diagram-activity">
-        <p class="activity-instruction">
-          Look carefully at the bouncing-ball setup. Use <strong><i>See, Think, Wonder</i></strong>
-          to record observations, ideas and questions.
-        </p>
-      </div>
-
-      <div class="video-row">
-        <div class="hook-image-box">
-            <img
-                src="../images/l2-stw.png"
-                alt="Bouncing ball investigation"
-                class="hook-image">
-        </div>
-
-        <div class="think-box">
-          <div class="stw-column">
-            <h3>See</h3>
-            <p>What do you notice?</p>
-            <div class="stw-input-row">
-              <input id="lesson2SeeInput" type="text" placeholder="Type something you see">
-              <button type="button">Add</button>
-            </div>
-            <ul id="lesson2SeeList" class="stw-list"></ul>
-          </div>
-
-          <div class="stw-column">
-            <h3>Think</h3>
-            <p>What do you think is happening?</p>
-            <div class="stw-input-row">
-              <input id="lesson2ThinkInput" type="text" placeholder="Type what you think">
-              <button type="button">Add</button>
-            </div>
-            <ul id="lesson2ThinkList" class="stw-list"></ul>
-          </div>
-
-          <div class="stw-column">
-            <h3>Wonder</h3>
-            <p>What questions do you have?</p>
-            <div class="stw-input-row">
-              <input id="lesson2WonderInput" type="text" placeholder="Type what you wonder">
-              <button type="button">Add</button>
-            </div>
-            <ul id="lesson2WonderList" class="stw-list"></ul>
-          </div>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        class="next-button"
-        onclick="unlockSection('discover-variables', 'observe-bounce')">
-        Next
-      </button>
-
-      <p class="completed-note">Completed — next activity unlocked.</p>
-    </section>
-
-    <!-- ==================================================
          2. DISCOVER VARIABLES
          ================================================== -->
     <section class="section locked" id="discover-variables">
@@ -338,6 +271,114 @@
           possible variables as you can think of for the bouncing-ball setup.
         </p>
       </div>
+
+      <div class="hook-image-box variable-image-box">
+
+      <div class="variable-image-stage">
+
+        <img
+          src="../images/l2-stw.png"
+          alt="Bouncing ball investigation showing possible variables"
+          class="hook-image variable-background-image">
+
+        <div class="variable-overlay-entry variable-overlay-1">
+          <div class="variable-entry-input-row">
+            <input
+              id="imageVariable1"
+              type="text"
+              maxlength="24"
+              placeholder="Add a variable"
+              aria-label="Add image variable 1">
+          </div>
+
+          <div
+            id="imageVariable1Answer"
+            class="variable-entry-answer">
+          </div>
+        </div>
+
+        <div class="variable-overlay-entry variable-overlay-2">
+          <div class="variable-entry-input-row">
+            <input
+              id="imageVariable2"
+              type="text"
+              maxlength="24"
+              placeholder="Add a variable"
+              aria-label="Add image variable 2">
+          </div>
+
+          <div
+            id="imageVariable2Answer"
+            class="variable-entry-answer">
+          </div>
+        </div>
+
+        <div class="variable-overlay-entry variable-overlay-3">
+          <div class="variable-entry-input-row">
+            <input
+              id="imageVariable3"
+              type="text"
+              maxlength="24"
+              placeholder="Add a variable"
+              aria-label="Add image variable 3">
+          </div>
+
+          <div
+            id="imageVariable3Answer"
+            class="variable-entry-answer">
+          </div>
+        </div>
+
+        <div class="variable-overlay-entry variable-overlay-4">
+          <div class="variable-entry-input-row">
+            <input
+              id="imageVariable4"
+              type="text"
+              maxlength="24"
+              placeholder="Add a variable"
+              aria-label="Add image variable 4">
+          </div>
+
+          <div
+            id="imageVariable4Answer"
+            class="variable-entry-answer">
+          </div>
+        </div>
+
+        <div class="variable-overlay-entry variable-overlay-5">
+          <div class="variable-entry-input-row">
+            <input
+              id="imageVariable5"
+              type="text"
+              maxlength="24"
+              placeholder="Add a variable"
+              aria-label="Add image variable 5">
+          </div>
+
+          <div
+            id="imageVariable5Answer"
+            class="variable-entry-answer">
+          </div>
+        </div>
+
+        <div class="variable-overlay-entry variable-overlay-6">
+          <div class="variable-entry-input-row">
+            <input
+              id="imageVariable6"
+              type="text"
+              maxlength="24"
+              placeholder="Add a variable"
+              aria-label="Add image variable 6">
+          </div>
+
+          <div
+            id="imageVariable6Answer"
+            class="variable-entry-answer">
+          </div>
+        </div>
+
+      </div>
+    </div>
 
       <div class="variable-grid">
         <div class="variable-entry-card">
@@ -1407,7 +1448,6 @@
        ================================================== */
 
     const lesson2SectionIds = [
-      "observe-bounce",
       "discover-variables",
       "variable-types",
       "sort-variables-one",
@@ -1508,11 +1548,10 @@ document.addEventListener("DOMContentLoaded", function() {
   if (typeof initialiseTeacherMenu === "function") {
     initialiseTeacherMenu(
       lesson2SectionIds,
-      "observe-bounce"
+      "discover-variables"
     );
   }
 
-  initialiseSeeThinkWonder();
   initialiseDiscoverVariables();
   initialiseInvestigationQuestion();
   initialiseBallPairActivity();
@@ -1573,93 +1612,6 @@ function initialiseProcedureTextareas() {
 }
 
 /* ==================================================
-   SEE, THINK, WONDER
-   ================================================== */
-
-function initialiseSeeThinkWonder() {
-  const activity =
-    document.getElementById("observe-bounce");
-
-  if (!activity) {
-    return;
-  }
-
-  const columns =
-    activity.querySelectorAll(".stw-column");
-
-  columns.forEach(function(column) {
-    const input =
-      column.querySelector(
-        '.stw-input-row input[type="text"]'
-      );
-
-    const addButton =
-      column.querySelector(
-        ".stw-input-row button"
-      );
-
-    const answerList =
-      column.querySelector(".stw-list");
-
-    if (!input || !addButton || !answerList) {
-      return;
-    }
-
-    function saveAnswer() {
-      const value =
-        getValidStudentInput(input);
-
-      if (value === null) {
-        return;
-      }
-
-      const listItem =
-        document.createElement("li");
-
-      const answerText =
-        document.createElement("span");
-
-      answerText.textContent = value;
-
-      const deleteButton =
-        createDeleteAnswerButton(
-          "Delete " + value,
-          function() {
-            listItem.remove();
-          }
-        );
-
-      listItem.appendChild(answerText);
-      listItem.appendChild(deleteButton);
-
-      answerList.appendChild(listItem);
-
-      input.value = "";
-    }
-
-    /*
-      Reuse shared Enter + blur functionality.
-    */
-    if (
-      typeof connectEnterAndBlurSave === "function"
-    ) {
-      connectEnterAndBlurSave(
-        input,
-        saveAnswer
-      );
-    }
-
-    /*
-      The Add button still needs its own click event.
-    */
-    addButton.addEventListener(
-      "click",
-      saveAnswer
-    );
-  });
-}
-
-/* ==================================================
    DISCOVER POSSIBLE VARIABLES
    ================================================== */
 
@@ -1672,9 +1624,9 @@ function initialiseDiscoverVariables() {
   }
 
   const cards =
-    activity.querySelectorAll(
-      ".variable-entry-card"
-    );
+  activity.querySelectorAll(
+    ".variable-entry-card, .variable-overlay-entry"
+  );
 
   cards.forEach(function(card) {
     const input =
