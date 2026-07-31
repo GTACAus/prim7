@@ -59,6 +59,36 @@
   padding: 38px 0 60px;
 }
 
+/* ---------- Scrollbar ----------*/
+::-webkit-scrollbar {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  width: 5px;
+  scrollbar-color: var(--line) transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--button-hover);
+  width: 8px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
     /* ---------- Lesson introduction ---------- */
 
 .lesson-intro {

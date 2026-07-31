@@ -160,6 +160,12 @@
       display: grid;
       gap: 9px;
       margin-top: 14px;
+      padding-right: 5px;
+
+      max-height: 20vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable;
     }
 
     .bk3-preview-row {
@@ -352,6 +358,7 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-gutter: stable;
+      padding-right: 5px;
     }
 
     .bk3-control-item {
@@ -563,6 +570,11 @@
 
       .bk3-variable-grid {
         grid-template-columns: 1fr;
+        max-height: 25vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-gutter: stable;
+        padding-right: 5px;
       }
 
       .bk3-blueprint-row {
@@ -1024,7 +1036,7 @@
         button.addEventListener("focus", function() {
           highlightDiagram(key);
         });
-
+        
         grid.appendChild(button);
       });
 
