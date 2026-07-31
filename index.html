@@ -410,9 +410,7 @@
 
           const stages = document.querySelectorAll("[data-stage]");
           const hero = document.querySelector(".hero");
-
-          // Read from localStorage
-          let showAll = localStorage.getItem("showAllLessons");
+          let showAll = false;
 
           function updateVisibility() {
               stages.forEach(item => {
@@ -440,7 +438,6 @@
 
               if (heroClicks >= 5) {
                   showAll = true;
-                  localStorage.setItem("showAllLessons", "true");
                   updateVisibility();
               }
           });
