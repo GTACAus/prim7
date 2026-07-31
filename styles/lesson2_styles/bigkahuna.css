@@ -1,0 +1,566 @@
+.bk-page {
+      width: min(1240px, 94%);
+      margin: 0 auto;
+      padding: 40px 0 72px;
+    }
+
+    .bk-intro {
+      margin-bottom: 24px;
+      padding: 24px;
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow-medium);
+    }
+
+    .bk-intro h1 {
+      margin: 0 0 10px;
+      color: var(--text);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.1;
+    }
+
+    .bk-intro p {
+      max-width: 850px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .bk-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .bk-tab {
+      padding: 11px 16px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bk-tab[aria-selected="true"] {
+      background: var(--purple);
+      color: white;
+      box-shadow: 0 4px 0 var(--line);
+      transform: translateY(-2px);
+    }
+
+    .bk-concept[hidden] {
+      display: none;
+    }
+
+    .bk-concept {
+      padding: 26px;
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow-medium);
+    }
+
+    .bk-concept-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .bk-concept-heading h2 {
+      margin: 0 0 6px;
+      color: var(--text);
+    }
+
+    .bk-concept-heading p {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .bk-recommendation {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 11px;
+      background: var(--soft-green);
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* -----------------------------------------------
+       Shared schematic diagram
+       ----------------------------------------------- */
+
+    .bk-diagram-card {
+      padding: 18px;
+      background: var(--soft-blue);
+      border: 3px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .bk-diagram-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .bk-diagram-note {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 500;
+    }
+
+    .bk-diagram {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .bk-part {
+      transition: opacity 0.2s ease, filter 0.2s ease, stroke-width 0.2s ease;
+    }
+
+    .bk-part.is-muted {
+      opacity: 0.28;
+    }
+
+    .bk-part.is-highlighted {
+      filter: drop-shadow(0 0 7px rgba(78, 50, 232, 0.55));
+      stroke: var(--purple);
+      stroke-width: 6;
+    }
+
+    .bk-placeholder-message {
+      margin: 12px 0 0;
+      padding: 11px 13px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    /* -----------------------------------------------
+       Concept 1: literal map
+       ----------------------------------------------- */
+
+    .bk-map-layout {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .bk-map-column {
+      min-width: 0;
+      padding: 16px;
+      border: 3px solid var(--line);
+      border-radius: 20px;
+    }
+
+    .bk-map-column.independent { background: var(--soft-yellow); }
+    .bk-map-column.dependent { background: var(--soft-purple); }
+    .bk-map-column.controlled { background: var(--soft-green); }
+
+    .bk-map-column h3 {
+      margin: 0 0 4px;
+      color: var(--text);
+    }
+
+    .bk-map-column > p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .bk-map-variable {
+      margin-top: 10px;
+      padding: 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .bk-map-variable strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .bk-map-variable input {
+      width: 100%;
+      padding: 9px 10px;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    /* -----------------------------------------------
+       Concept 2: split planner
+       ----------------------------------------------- */
+
+    .bk-split-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.85fr) minmax(380px, 1.15fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .bk-planner {
+      display: grid;
+      gap: 16px;
+    }
+
+    .bk-role-card {
+      padding: 18px;
+      border: 3px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .bk-role-card.independent { background: var(--soft-yellow); }
+    .bk-role-card.dependent { background: var(--soft-purple); }
+    .bk-role-card.controlled { background: var(--soft-green); }
+
+    .bk-role-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .bk-role-header h3 {
+      margin: 0 0 3px;
+      color: var(--text);
+      font-size: 1.06rem;
+    }
+
+    .bk-role-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .bk-role-number {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      font-weight: 700;
+    }
+
+    .bk-field {
+      display: grid;
+      gap: 6px;
+      margin-top: 11px;
+    }
+
+    .bk-field label,
+    .bk-field legend {
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .bk-field select,
+    .bk-field input,
+    .bk-field textarea {
+      width: 100%;
+      padding: 10px 11px;
+      border: 2px solid var(--line);
+      border-radius: 11px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .bk-field textarea {
+      min-height: 82px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .bk-controlled-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bk-controlled-row {
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 2px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .bk-controlled-row[hidden] {
+      display: none;
+    }
+
+    .bk-controlled-row strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--text);
+    }
+
+    .bk-checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .bk-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    .bk-check input {
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      accent-color: var(--green);
+    }
+
+    .bk-check span {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .bk-summary {
+      margin-top: 18px;
+      padding: 18px;
+      background: var(--paper);
+      border: 3px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .bk-summary h3 {
+      margin: 0 0 12px;
+      color: var(--purple);
+    }
+
+    .bk-summary-list {
+      display: grid;
+      gap: 9px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .bk-summary-list li {
+      padding: 10px 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      line-height: 1.45;
+    }
+
+    .bk-summary-empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .bk-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .bk-button {
+      padding: 11px 16px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: var(--green);
+      color: white;
+      box-shadow: 0 4px 0 var(--line);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bk-button.secondary {
+      background: var(--orange);
+    }
+
+    .bk-button:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--line);
+    }
+
+    /* -----------------------------------------------
+       Concept 3: step-by-step wizard
+       ----------------------------------------------- */
+
+    .bk-wizard {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .bk-progress {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin-bottom: 18px;
+    }
+
+    .bk-progress-step {
+      padding: 9px 6px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .bk-progress-step.is-current {
+      background: var(--purple);
+      color: white;
+    }
+
+    .bk-progress-step.is-complete {
+      background: var(--soft-green);
+      color: var(--text);
+    }
+
+    .bk-wizard-panel {
+      min-height: 360px;
+      padding: 22px;
+      background: var(--soft-blue);
+      border: 3px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .bk-wizard-panel h3 {
+      margin: 0 0 7px;
+      color: var(--text);
+    }
+
+    .bk-wizard-panel > p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .bk-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .bk-choice {
+      min-height: 76px;
+      padding: 12px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bk-choice.is-selected {
+      background: var(--soft-yellow);
+      outline: 4px solid rgba(78, 50, 232, 0.18);
+    }
+
+    .bk-wizard-prompt {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 16px;
+      background: white;
+      border: 2px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .bk-wizard-prompt[hidden] {
+      display: none;
+    }
+
+    .bk-wizard-prompt label {
+      font-weight: 700;
+    }
+
+    .bk-wizard-prompt textarea {
+      width: 100%;
+      min-height: 90px;
+      padding: 11px;
+      border: 2px solid var(--line);
+      border-radius: 11px;
+      font: inherit;
+      resize: vertical;
+    }
+
+    .bk-wizard-controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .bk-wizard-controls button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    @media (max-width: 900px) {
+      .bk-map-layout,
+      .bk-split-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .bk-diagram-card {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .bk-concept,
+      .bk-intro {
+        padding: 18px;
+      }
+
+      .bk-checkbox-grid,
+      .bk-choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bk-progress {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
