@@ -62,8 +62,7 @@
 /* ---------- Scrollbar ----------*/
 ::-webkit-scrollbar {
   overflow-y: auto;
-  scrollbar-width: thin;
-  width: 5px;
+  width: 8px;
   scrollbar-color: var(--line) transparent;
 }
 
@@ -74,9 +73,12 @@
 ::-webkit-scrollbar-thumb {
   background: var(--line);
   border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  border: 0px solid transparent;
   background: var(--button-hover);
   width: 8px;
 }
