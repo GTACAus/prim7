@@ -347,6 +347,11 @@
     .bk3-controls-list {
       display: grid;
       gap: 12px;
+
+      max-height: 35vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable;
     }
 
     .bk3-control-item {
@@ -539,6 +544,7 @@
       .bk3-diagram-panel {
         position: static;
       }
+
     }
 
     @media (max-width: 650px) {
