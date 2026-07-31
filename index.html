@@ -235,6 +235,18 @@
                 width: 79%;
                 margin-bottom: 22px;
             }
+
+            .locked {
+              opacity: 0.5; 
+              pointer-events: none;
+            }
+
+            .locked:hover {
+              transform: none;
+              box-shadow: 0 5px 0 rgba(39, 42, 36, 0.4);
+              filter: brightness(1.0);
+            }
+
             @media (max-width: 820px) {
                 .overview-wrap {
                     padding: 12px 8px 24px;
@@ -417,9 +429,9 @@
                   const stage = Number(item.dataset.stage);
 
                   if (showAll || stage <= availableLesson) {
-                      item.style.display = "";
+                      item.classList.remove("locked");
                   } else {
-                      item.style.display = "none";
+                      item.classList.add("locked");
                   }
               });
           }
