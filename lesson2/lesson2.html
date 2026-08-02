@@ -148,12 +148,8 @@
           7. Choose variables for your investigation
         </button>
 
-        <button type="button" onclick="teacherJump('map-fair-test')">
-          8. Map the fair test
-        </button>
-
         <button type="button" onclick="teacherJump('build-experiment')">
-          9. Describe the fair-test procedure
+          8. Describe the fair-test procedure
         </button>
       </div>
 
@@ -615,9 +611,22 @@
     <section class="sort-variables-section section locked" id="sort-variables-one">
       <h2 class="section-title">Sort the variables</h2>
 
+    <div class="diagram-box diagram-activity">
+      <p class="activity-instruction">
+        You are investigating how changing the
+        <strong>floor surface</strong> affects the
+        <strong>height of a ball’s bounce</strong>.
+        Choose a variable type first, then choose the matching variable.
+        Sort all six variables into:
+        <strong>change</strong>,
+        <strong>measure</strong>, or
+        <strong>keep the same</strong>.
+      </p>
+    </div>
+
       <div class="variable-activity">
         <p class="variable-question">
-          Does changing the floor surface that a ball bounces on affect how high it bounces?
+          How does changing the floor surface affect the height of a ball’s bounce?
         </p>
 
         <div
@@ -745,9 +754,18 @@
     <section class="sort-variables-section section locked" id="sort-variables-two">
       <h2 class="section-title">Try another fair-test question</h2>
 
+      <div class="diagram-box diagram-activity">
+        <p class="activity-instruction">
+          Now apply what you have learned to a different investigation.
+          Identify the <strong>independent</strong>,
+          <strong>dependent</strong> and
+          <strong>controlled variables</strong> for this fair-test question.
+        </p>
+      </div>
+
       <div class="variable-activity">
         <p class="variable-question">
-          Does changing the size of a ball affect how high it bounces?
+          How does changing the size of a ball affect the height of its bounce?
         </p>
 
         <div
@@ -1310,64 +1328,6 @@
         Completed — next activity unlocked.
       </p>
 
-    </section>
-
-    <!-- ==================================================
-         8. MAP THE FAIR TEST
-         ================================================== -->
-    <section class="section locked" id="map-fair-test">
-      <h2 class="section-title">Map your fair test</h2>
-
-      <div class="diagram-box diagram-activity">
-        <p class="activity-instruction">
-          Identify the independent, dependent and controlled variables in the experimental setup.
-        </p>
-      </div>
-
-      <div class="fair-test-diagram-layout">
-        <div class="diagram-panel">
-          <div class="diagram-placeholder">
-            The labelled bouncing-ball experiment diagram will appear here.
-          </div>
-        </div>
-
-        <div class="variable-panel">
-          <h3>Identify the variables</h3>
-
-          <div class="variable-panel-block independent">
-            <label for="independentVariable">Independent variable</label>
-            <select id="independentVariable">
-              <option value="">Choose the changed variable</option>
-              <option>Floor surface</option>
-              <option>Ball size</option>
-              <option>Drop height</option>
-            </select>
-          </div>
-
-          <div class="variable-panel-block dependent">
-            <label for="dependentVariable">Dependent variable</label>
-            <select id="dependentVariable">
-              <option value="">Choose the measured variable</option>
-              <option>Height of first bounce</option>
-              <option>Number of bounces</option>
-            </select>
-          </div>
-
-          <div class="variable-panel-block controlled">
-            <label>Controlled variables</label>
-            <p>Selected controlled variables will be listed here later.</p>
-          </div>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        class="next-button"
-        onclick="unlockSection('build-experiment', 'map-fair-test')">
-        Next
-      </button>
-
-      <p class="completed-note">Completed — next activity unlocked.</p>
     </section>
 
     <!-- ==================================================
