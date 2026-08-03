@@ -34,11 +34,18 @@
     }
 
     .formula-step.measure .formula-step-number {
-      background: var(--soft-purple);
+      background: var(--lavender);
     }
 
     .formula-step.control .formula-step-number {
-      background: var(--soft-green);
+      background: var(--mint);
+    }
+
+    /* Colour the complete fair-test formula rows */
+    .formula-step.change,
+    .formula-step.measure,
+    .formula-step.control {
+        background: white;
     }
 
     .formula-step strong {
@@ -199,7 +206,7 @@
       padding: 16px 18px;
       border: 2px solid var(--line);
       border-radius: 16px;
-      background: var(--paper);
+      background: var(--soft-yellow);
       box-shadow: var(--shadow-small);
       font-weight: 500;
       text-align: center;
@@ -303,6 +310,23 @@
 
     .sort-variables-section .variable-mode-button.mode-active {
       outline: 4px solid rgba(48, 51, 47, 0.16);
+    }
+
+    /* Stronger GTAC colours only for the currently selected variable type */
+
+    .sort-variables-section
+    .independent-mode-button.mode-active {
+      background: var(--yellow);
+    }
+
+    .sort-variables-section
+    .dependent-mode-button.mode-active {
+      background: var(--lavender);
+    }
+
+    .sort-variables-section
+    .controlled-mode-button.mode-active {
+      background: var(--mint);
     }
 
     .sort-variables-section .variable-mode-button:disabled,
@@ -415,8 +439,9 @@
       margin-top: 18px;
     }
 
-    .question-structure-card {
+    #design-question .question-structure-card {
       min-height: 110px;
+      margin-bottom: 0;
       padding: 18px;
       border: 3px solid var(--line);
       border-radius: 18px;
@@ -498,7 +523,7 @@
 
       overflow: hidden;
 
-      background: white;
+      background:var(--paper);
 
       border: 2px solid var(--line);
       border-radius: 16px;
@@ -518,23 +543,6 @@
 
       font-size: 1.05rem;
       font-weight: 700;
-      line-height: 1.4;
-      text-align: center;
-    }
-
-    .ball-pair-details {
-      margin-top: auto;
-      padding: 9px 11px;
-
-      background: var(--soft-blue);
-
-      border: 2px solid var(--line);
-      border-radius: 12px;
-
-      color: var(--text);
-
-      font-size: 0.88rem;
-      font-weight: 600;
       line-height: 1.4;
       text-align: center;
     }
@@ -715,40 +723,41 @@
       DESIGN AN INVESTIGATION QUESTION
       ================================================== */
 
-    .question-structure-card {
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.18s ease;
-    }
+  #design-question .question-structure-card {
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease,
+      background 0.18s ease;
+  }
 
-    .question-structure-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--line);
-    }
+  #design-question .question-structure-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--line);
+  }
 
-    .question-structure-card.question-structure-what {
-      background: var(--soft-yellow);
-    }
+  #design-question .question-structure-card.question-structure-what {
+    background: var(--soft-yellow);
+  }
 
-    .question-structure-card.question-structure-how {
-      background: var(--soft-blue);
-    }
+  #design-question .question-structure-card.question-structure-how {
+    background: var(--soft-blue);
+  }
 
-    .question-structure-card.question-structure-does {
-      background: var(--soft-green);
-    }
+  #design-question .question-structure-card.question-structure-does {
+    background: var(--soft-green);
+  }
 
-    .question-structure-card.question-structure-if {
-      background: var(--soft-purple);
-    }
+  #design-question .question-structure-card.question-structure-if {
+    background: var(--soft-purple);
+  }
 
-    .question-structure-card.selected {
-      color: white;
-      background: var(--purple);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--line);
-    }
+  #design-question .question-structure-card.selected {
+    color: var(--text);
+    background: var(--lavender);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--line);
+    outline: 4px solid rgba(78, 50, 232, 0.18);
+  }
 
     .investigation-question-builder {
       margin: 18px 0 24px;
@@ -763,7 +772,7 @@
 
     .investigation-question-builder.builder-active {
       border-style: solid;
-      background: var(--soft-blue);
+      background:var(--soft-blue);
     }
 
     .question-builder-placeholder {
