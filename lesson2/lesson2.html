@@ -225,14 +225,14 @@
           <h2>The fair-test formula</h2>
 
           <p>
-            A fair test helps us work out whether changing one thing causes a measurable effect.
+            A fair test helps us to find out if changing one thing causes a measureable effect in another thing.
           </p>
 
           <div class="fair-test-formula">
             <div class="formula-step change">
               <div class="formula-step-number">1</div>
               <div>
-                <strong>Change one thing</strong>
+                <strong>Change one factor</strong>
                 <span>Choose the independent variable.</span>
               </div>
             </div>
@@ -240,8 +240,8 @@
             <div class="formula-step measure">
               <div class="formula-step-number">2</div>
               <div>
-                <strong>Measure the effect</strong>
-                <span>Record the dependent variable.</span>
+                <strong>Measure the effect this causes</strong>
+                <span>Measure the dependent variable.</span>
               </div>
             </div>
 
@@ -249,7 +249,7 @@
               <div class="formula-step-number">3</div>
               <div>
                 <strong>Keep everything else the same</strong>
-                <span>Control the remaining variables.</span>
+                <span>Control all other variables.</span>
               </div>
             </div>
           </div>
@@ -623,8 +623,7 @@
       </div>
 
       <div class="fair-test-rule">
-        In a fair test, only one variable is changed, only one variable is
-        measured, and all other variables are kept the same.
+        In a <strong>fair test</strong> experiment, one <strong>variable</strong> is changed, one is measured, and all other <strong>variables</strong> must remain the same.
       </div>
 
       <div class="stop-and-check">
@@ -655,20 +654,9 @@
           <strong>dependent variable</strong> is caused by the thing you changed
           (the <strong>independent variable</strong>).
         </div>
-
-        <button
-          type="button"
-          class="stop-and-check-button general-button"
-          onclick="showStopAndCheckAnswer(this)">
-
-          <p hidden>
-            Check Your Answer
-          </p>
-
-          <p class="bounce-symbol">
-            ✅
-          </p>
-
+        <button class="stop-and-check-button general-button" onclick="reconfirmStopAndCheckAnswer(this)">
+          <p id="description" hidden>Check Your Answer</p>
+          <p class="bounce-symbol">✅</p>
         </button>
 
       </div>
@@ -1410,7 +1398,7 @@
         type="button"
         id="sortVariablesThreeNext"
         class="next-button"
-        onclick="unlockSection('map-fair-test', 'sort-variables-three')"
+        onclick="unlockSection('build-experiment', 'sort-variables-three')"
         hidden>
         Next
       </button>
@@ -1433,14 +1421,7 @@
           The experiment diagram updates as your investigation plan grows.
         </p>
       </div>
-      <!-- <div class="iframe-box">
-        <iframe
-          id="buildExperimentFrame"
-          class="build-experiment-iframe"
-          src="bigkahuna3.html"
-          title="Build Your Experiment">
-        </iframe>
-      </div> -->
+      
       <div class="bk-area">
       <main class="bk3-page">
     <div class="bk3-progress" aria-label="Investigation progress">
