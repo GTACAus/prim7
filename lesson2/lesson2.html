@@ -269,7 +269,7 @@
 
       <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
-          A <strong>variable</strong> is anything in a fair test that could be different.
+          A <strong>variable</strong> is anything in a <strong>fair test</strong> that could be different.
           Observe the <strong>variables</strong> listed in the mind map image below.
           Complete the image by clicking in the boxes and writing how each <strong>variable</strong> can vary (be different).
         </p>
@@ -553,8 +553,7 @@
 
       <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
-          Scientists give different names to the variable they change, the result they
-          measure and the other variables they keep the same.
+          Scientists identify three different types of <strong>variables</strong> in an experiment.
         </p>
       </div>
 
@@ -568,7 +567,10 @@
         <article class="variable-type-card dependent">
           <p class="intro-eyebrow">Measure</p>
           <h3>Dependent variable</h3>
-          <p>The effect or result that is observed and measured.</p>
+          <p>
+            The one variable that is measured.
+            This is the observed effect.
+          </p>
         </article>
 
         <article class="variable-type-card controlled">
@@ -579,7 +581,7 @@
       </div>
 
       <div class="fair-test-rule">
-        A fair test changes one variable, measures one result and keeps all other variables the same.
+        In a <strong>fair test</strong> experiment, one <strong>variable</strong> is changed, one is measured, and all other <strong>variables</strong> must remain the same.
       </div>
       
       <div class="stop-and-check">
@@ -593,8 +595,8 @@
           Only changing one <strong>variable</strong> allows you to know that no other <strong>variable</strong> has affected the results of the <strong>fair test</strong>.
           Any effect or result you measure in the <strong>dependent variable</strong> is caused by the thing you changed (the <strong>independent variable</strong>).
         </div>
-        <button class="stop-and-check-button general-button" onclick="showStopAndCheckAnswer(this)">
-          <p hidden>Check Your Answer</p>
+        <button class="stop-and-check-button general-button" onclick="reconfirmStopAndCheckAnswer(this)">
+          <p id="description" hidden>Check Your Answer</p>
           <p class="bounce-symbol">✅</p>
         </button>
       </div>
@@ -1302,7 +1304,7 @@
         type="button"
         id="sortVariablesThreeNext"
         class="next-button"
-        onclick="unlockSection('map-fair-test', 'sort-variables-three')"
+        onclick="unlockSection('build-experiment', 'sort-variables-three')"
         hidden>
         Next
       </button>
@@ -1311,64 +1313,6 @@
         Completed — next activity unlocked.
       </p>
 
-    </section>
-
-    <!-- ==================================================
-         8. MAP THE FAIR TEST
-         ================================================== -->
-    <section class="section locked" id="map-fair-test">
-      <h2 class="section-title">Map your fair test</h2>
-
-      <div class="diagram-box diagram-activity">
-        <p class="activity-instruction">
-          Identify the independent, dependent and controlled variables in the experimental setup.
-        </p>
-      </div>
-
-      <div class="fair-test-diagram-layout">
-        <div class="diagram-panel">
-          <div class="diagram-placeholder">
-            The labelled bouncing-ball experiment diagram will appear here.
-          </div>
-        </div>
-
-        <div class="variable-panel">
-          <h3>Identify the variables</h3>
-
-          <div class="variable-panel-block independent">
-            <label for="independentVariable">Independent variable</label>
-            <select id="independentVariable">
-              <option value="">Choose the changed variable</option>
-              <option>Floor surface</option>
-              <option>Ball size</option>
-              <option>Drop height</option>
-            </select>
-          </div>
-
-          <div class="variable-panel-block dependent">
-            <label for="dependentVariable">Dependent variable</label>
-            <select id="dependentVariable">
-              <option value="">Choose the measured variable</option>
-              <option>Height of first bounce</option>
-              <option>Number of bounces</option>
-            </select>
-          </div>
-
-          <div class="variable-panel-block controlled">
-            <label>Controlled variables</label>
-            <p>Selected controlled variables will be listed here later.</p>
-          </div>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        class="next-button"
-        onclick="unlockSection('build-experiment', 'map-fair-test')">
-        Next
-      </button>
-
-      <p class="completed-note">Completed — next activity unlocked.</p>
     </section>
 
     <!-- ==================================================
@@ -1383,14 +1327,7 @@
           The experiment diagram updates as your investigation plan grows.
         </p>
       </div>
-      <!-- <div class="iframe-box">
-        <iframe
-          id="buildExperimentFrame"
-          class="build-experiment-iframe"
-          src="bigkahuna3.html"
-          title="Build Your Experiment">
-        </iframe>
-      </div> -->
+      
       <div class="bk-area">
       <main class="bk3-page">
     <div class="bk3-progress" aria-label="Investigation progress">

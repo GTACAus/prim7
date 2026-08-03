@@ -471,6 +471,20 @@ function showStopAndCheckAnswer(button) {
   nextButton.hidden = false;
 }
 
+function reconfirmStopAndCheckAnswer(button) {
+  const stopAndCheck = button.closest(".stop-and-check");
+  const answer = stopAndCheck.querySelector(".stop-and-check-answer");
+  const section = button.closest(".section");
+  const nextButton = section.querySelector(".next-button");
+  const bounceSymbol = button.querySelector(".bounce-symbol");
+
+  button.textContent = "Did you think about your answer?";
+  button.appendChild(bounceSymbol);
+  button.onclick = function() {
+    showStopAndCheckAnswer(button);
+  }
+}
+
 /* ==================================================
    REASONED PREDICTION EVIDENCE CHECK
    ================================================== */
