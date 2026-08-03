@@ -655,7 +655,7 @@
           (the <strong>independent variable</strong>).
         </div>
         <button class="stop-and-check-button general-button" onclick="reconfirmStopAndCheckAnswer(this)">
-          <p id="description" hidden>Check Your Answer</p>
+          <p id="stopAndCheckDescription" hidden>Check Your Answer</p>
           <p class="bounce-symbol">✅</p>
         </button>
 
@@ -824,7 +824,7 @@
          5. SORT VARIABLES - BALL SIZE
          ================================================== -->
     <section class="sort-variables-section section locked" id="sort-variables-two">
-      <h2 class="section-title">Try another fair-test question</h2>
+      <h2 class="section-title">Try another testable question</h2>
 
       <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
@@ -999,8 +999,10 @@
           class="ball-pair-card"
           data-ball-pair="basketballs"
           data-correct="true"
-          data-feedback-title="These balls can be used"
-          data-feedback="These two are different sizes. They are the same shape and are made of the same material, so they can be used in your fair test."
+          data-feedback-title="Yes — this pair can be used for a fair test experiment"
+          data-feedback="
+            These basketballs are different sizes, but they have the same shape and are made from the same material.
+            Ball size is the only variable changed, so this pair can be used in a <strong>fair test</strong>."
           aria-pressed="false">
 
           <span class="ball-pair-images">
@@ -1013,10 +1015,6 @@
           <span class="ball-pair-name">
             Large basketball versus small basketball
           </span>
-
-          <span class="ball-pair-details">
-            Different size · Same shape · Same material
-          </span>
         </button>
 
         <!-- Incorrect: material also changes -->
@@ -1025,8 +1023,11 @@
           class="ball-pair-card"
           data-ball-pair="basketball-tennis"
           data-correct="false"
-          data-feedback-title="These balls cannot be used"
-          data-feedback="These two are different sizes, but they are made of different materials. You won't know if the change in bounce height is caused by the difference in size or the difference in the materials they are made out of. It won’t be a fair test. Try again and select two balls made of the same material."
+          data-feedback-title="Not a fair test experiment - two variables are changed"
+          data-feedback="
+            These balls are different sizes, but they are also made of different materials.
+            You could not know whether the height of the bounce changes because of size or material.
+            Try again."
           aria-pressed="false">
 
           <span class="ball-pair-images">
@@ -1039,10 +1040,6 @@
           <span class="ball-pair-name">
             Basketball versus tennis ball
           </span>
-
-          <span class="ball-pair-details">
-            Different size · Different material
-          </span>
         </button>
 
         <!-- Incorrect: shape also changes -->
@@ -1051,8 +1048,11 @@
           class="ball-pair-card"
           data-ball-pair="soccer-football"
           data-correct="false"
-          data-feedback-title="Different sizes and different shapes"
-          data-feedback="These two are different sizes, but they also have different shapes. You have two variables that could affect the bounce height. Try again and select two balls that are the same shape."
+          data-feedback-title="Not a fair test experiment - three variables are changed"
+          data-feedback="
+          These balls are different sizes, but they are also made of different materials and have different shapes.
+          The size, shape, and the material could all affect the bounce height.
+          Try again."
           aria-pressed="false">
 
           <span class="ball-pair-images">
@@ -1065,10 +1065,6 @@
           <span class="ball-pair-name">
             Soccer ball versus football
           </span>
-
-          <span class="ball-pair-details">
-            Different size · Different shape
-          </span>
         </button>
 
         <!-- Incorrect: no size change -->
@@ -1077,8 +1073,11 @@
           class="ball-pair-card"
           data-ball-pair="same-size"
           data-correct="false"
-          data-feedback-title="The ball size does not change"
-          data-feedback="These are the same size. You are testing the effect of ball size on bounce height, so you need to select balls that are different sizes and made out of the same material. Try again."
+          data-feedback-title="Not a fair test experiment - no variables are changed"
+          data-feedback="
+          These balls have the same size, shape, and they are made of the same material.
+          This investigation is testing the effect of ball size, so the balls must be different sizes.
+          Try again."
           aria-pressed="false">
 
           <span class="ball-pair-images">
@@ -1090,10 +1089,6 @@
 
           <span class="ball-pair-name">
             Two same-sized basketballs
-          </span>
-
-          <span class="ball-pair-details">
-            Same size · Same shape · Same material
           </span>
         </button>
       </div>
@@ -1136,7 +1131,7 @@
 <section class="section locked" id="design-question">
 
   <h2 class="section-title">
-    Design your investigation and make a prediction
+    Your investigation: Ask a testable question and make a reasoned prediction
   </h2>
 
   <!-- ================================
@@ -1145,8 +1140,8 @@
 
   <div class="diagram-box diagram-activity">
     <p class="activity-instruction">
-      First, create a testable investigation question by choosing a
-      question structure and completing the missing information.
+      Consider the ball-bouncing experiment in part A.
+      Create a testable question by choosing a question structure, and complete it by entering the <strong>variables</strong>.
     </p>
   </div>
 
@@ -1159,7 +1154,7 @@
       class="question-structure-card question-structure-what"
       data-question-structure="what"
       aria-pressed="false">
-      What happens to ______ when I change ______?
+      When I change ______, what happens to ______?
     </button>
 
     <button
@@ -1205,8 +1200,7 @@
 
   <div class="diagram-box diagram-activity">
     <p class="activity-instruction">
-      Now use your investigation question to make a prediction.
-      Explain what you think will happen and give a scientific reason.
+      Now use your testable question to make a reasoned prediction.
     </p>
   </div>
 
@@ -2643,12 +2637,12 @@ function resetBallPairActivity(
     const investigationQuestionTemplates = {
       what: {
         parts: [
-          "What happens to ",
-          " when I change ",
+          "When I change ",
+          " what happens to ",
           "?"
         ],
-        firstPlaceholder: "What will you measure?",
-        secondPlaceholder: "What will you change?"
+        firstPlaceholder: "What will you change?",
+        secondPlaceholder: "What will you measure?"
       },
 
       how: {

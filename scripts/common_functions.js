@@ -1049,7 +1049,7 @@ function setActivityFeedback(
   messageElement.className =
     "ball-pair-feedback-text";
 
-  messageElement.textContent = message;
+  messageElement.innerHTML = message;
 
   feedbackElement.appendChild(
     titleElement
