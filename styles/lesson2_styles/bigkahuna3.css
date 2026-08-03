@@ -526,12 +526,18 @@
       }
 
       .bk3-variable-grid {
-        grid-template-columns: 1fr;
-        max-height: 28vh;
+        /* grid-template-columns: 1fr; */
+        /* max-height: 28vh; */
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-gutter: stable;
         padding-right: 5px;
+      }
+
+      .bk3-variable-button {
+        min-height: 82px;
+        padding: 12px;
+        font-size: 3vw;
       }
 
       .bk3-blueprint-row {

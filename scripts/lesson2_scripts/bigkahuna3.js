@@ -214,6 +214,7 @@ const variableData = {
             if (Object.prototype.hasOwnProperty.call(state.controls, key)) {
               delete state.controls[key];
             }
+            
             renderStage();
             highlightDiagram(key);
             updateAllPreviews();

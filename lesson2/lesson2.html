@@ -1154,7 +1154,7 @@
       class="question-structure-card question-structure-what"
       data-question-structure="what"
       aria-pressed="false">
-      When I change ______, what happens to ______?
+      When I change the ______, what happens to the ______?
     </button>
 
     <button
@@ -1162,7 +1162,7 @@
       class="question-structure-card question-structure-how"
       data-question-structure="how"
       aria-pressed="false">
-      How does changing ______ affect ______?
+      How does changing the ______ affect the ______?
     </button>
 
     <button
@@ -1170,7 +1170,7 @@
       class="question-structure-card question-structure-does"
       data-question-structure="does"
       aria-pressed="false">
-      Does changing ______ affect ______?
+      Does changing the ______ affect the ______?
     </button>
 
     <button
@@ -1178,7 +1178,7 @@
       class="question-structure-card question-structure-if"
       data-question-structure="if"
       aria-pressed="false">
-      If I change ______, what happens to ______?
+      If I change the ______, what happens to the ______?
     </button>
 
   </div>
@@ -1947,10 +1947,6 @@ function initialiseDiscoverVariables() {
 
             inputRow.style.display =
               "block";
-
-            input.value = value;
-            input.focus();
-            input.select();
           }
         );
 
@@ -2006,7 +2002,6 @@ function initialiseSortVariables(variableStructure) {
   console.log(variableStructure.activityID);
   console.log(variableStructure.activity);
   console.log(variableStructure.feedbackId);
-  console.log(variableStructure.activity.innerHTML);
 
   variableStructure.feedback =
     variableStructure.activity.querySelector(variableStructure.feedbackId);
@@ -2637,8 +2632,8 @@ function resetBallPairActivity(
     const investigationQuestionTemplates = {
       what: {
         parts: [
-          "When I change ",
-          " what happens to ",
+          "When I change the ",
+          ", what happens to the ",
           "?"
         ],
         firstPlaceholder: "What will you change?",
@@ -2647,8 +2642,8 @@ function resetBallPairActivity(
 
       how: {
         parts: [
-          "How does changing ",
-          " affect ",
+          "How does changing the ",
+          " affect the ",
           "?"
         ],
         firstPlaceholder: "What will you change?",
@@ -2657,8 +2652,8 @@ function resetBallPairActivity(
 
       does: {
         parts: [
-          "Does changing ",
-          " affect ",
+          "Does changing the ",
+          " affect the ",
           "?"
         ],
         firstPlaceholder: "What will you change?",
@@ -2667,8 +2662,8 @@ function resetBallPairActivity(
 
       if: {
         parts: [
-          "If I change ",
-          ", what happens to ",
+          "If I change the ",
+          ", what happens to the ",
           "?"
         ],
         firstPlaceholder: "What will you change?",
@@ -2807,12 +2802,12 @@ function resetBallPairActivity(
 
 
     const dropdownAnswers = [
-       "Ball Size",
-       "Ball Weight",
-       "Drop Height",
-       "Floor Surface",
-       "Height of Bounce",
-       "Ball Material"
+       "ball size",
+       "ball weight",
+       "drop height",
+       "floor surface",
+       "height of the bounce",
+       "ball material"
     ];
 
     function createInvestigationQuestionBlank(
@@ -2849,12 +2844,10 @@ function resetBallPairActivity(
         selectedAnswer = input.value;
       });
 
-      // input.type = "text";
       input.className =
         "question-blank-input";
       input.name = fieldName;
 
-      // input.placeholder = placeholderText;
       inputLabel.setAttribute("for", input.name);
       inputLabel.textContent = placeholderText;
 
