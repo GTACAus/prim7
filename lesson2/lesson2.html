@@ -2806,6 +2806,15 @@ function resetBallPairActivity(
     }
 
 
+    const dropdownAnswers = [
+       "Ball Size",
+       "Ball Weight",
+       "Drop Height",
+       "Floor Surface",
+       "Height of Bounce",
+       "Ball Material"
+    ];
+
     function createInvestigationQuestionBlank(
       fieldName,
       placeholderText
@@ -2821,14 +2830,33 @@ function resetBallPairActivity(
       inputRow.className =
         "question-blank-input-row";
 
-      const input =
-        document.createElement("input");
+      // const input =
+      //   document.createElement("input");
+      const input = document.createElement("select");
+      const inputLabel = document.createElement("option");
+      inputLabel.value = "";
+      const inputOptions = [inputLabel].concat(
+        dropdownAnswers.map(function(answer) {
+          const option = document.createElement("option");
+          option.value = answer;
+          option.textContent = answer;
+          return option;
+        })
+      );
 
-      input.type = "text";
+      let selectedAnswer;
+      input.addEventListener("change", function() {
+        selectedAnswer = input.value;
+      });
+
+      // input.type = "text";
       input.className =
         "question-blank-input";
+      input.name = fieldName;
 
-      input.placeholder = placeholderText;
+      // input.placeholder = placeholderText;
+      inputLabel.setAttribute("for", input.name);
+      inputLabel.textContent = placeholderText;
 
       input.setAttribute(
         "aria-label",
@@ -2842,16 +2870,15 @@ function resetBallPairActivity(
         "question-blank-answer";
 
       inputRow.appendChild(input);
+      inputOptions.forEach(function(option) {
+        input.appendChild(option);
+      });
       wrapper.appendChild(inputRow);
       wrapper.appendChild(answerBox);
 
       function saveAnswer() {
         const value =
-          getValidStudentInput(input);
-
-        if (value === null) {
-          return;
-        }
+          selectedAnswer;
 
         investigationQuestionState[
           fieldName
@@ -2905,9 +2932,9 @@ function resetBallPairActivity(
             inputRow.style.display =
               "block";
 
-            input.value = value;
             input.focus();
-            input.select();
+            input.value = "";
+            input.dispatchEvent(new Event("change"));
 
             updateCompletedInvestigationQuestion();
           }

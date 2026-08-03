@@ -796,11 +796,14 @@
     }
 
     .question-blank-input-row {
-      display: block;
+      display: inline-block;
+      position: relative;
+      width: fit-content;
     }
 
     .question-blank-input {
-      width: 100%;
+      width: auto;
+      min-width: 225px;
       min-height: 44px;
       padding: 9px 12px;
 
@@ -815,8 +818,23 @@
     }
 
     .question-blank-input:focus {
-      outline: 3px solid rgba(78, 50, 232, 0.18);
+      border: 3px solid rgba(78, 50, 232, 0.18);
       border-color: var(--purple);
+    }
+
+    .question-blank-input-row select {
+      box-sizing: border-box;
+    }
+
+    .question-blank-input-row label {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      justify-content: center;
+      align-items: center;
+      
+      pointer-events: none;
+
     }
 
     .question-blank-answer {
