@@ -596,7 +596,7 @@
           Any effect or result you measure in the <strong>dependent variable</strong> is caused by the thing you changed (the <strong>independent variable</strong>).
         </div>
         <button class="stop-and-check-button general-button" onclick="reconfirmStopAndCheckAnswer(this)">
-          <p id="description" hidden>Check Your Answer</p>
+          <p id="stopAndCheckDescription" hidden>Check Your Answer</p>
           <p class="bounce-symbol">✅</p>
         </button>
       </div>
@@ -746,7 +746,7 @@
          5. SORT VARIABLES - BALL SIZE
          ================================================== -->
     <section class="sort-variables-section section locked" id="sort-variables-two">
-      <h2 class="section-title">Try another fair-test question</h2>
+      <h2 class="section-title">Try another testable question</h2>
 
       <div class="variable-activity">
         <p class="variable-question">
@@ -883,15 +883,12 @@
 
       <div class="diagram-box diagram-activity">
         <p class="activity-instruction">
-          Look at the pairs of balls shown below. Which pair could you use
-          to investigate how changing <strong>ball size</strong> affects the
-          <strong>height of the first bounce</strong>?
+          Look at the pairs of balls shown below.
         </p>
 
         <p class="activity-instruction">
-          Select each pair and decide whether it would make a fair test.
-          Remember: only the ball's size should change. Its material and
-          shape should remain the same.
+          Select which pair you could use in a <strong>fair test</strong> experiment to investigate how changing
+          <strong>the size of the ball</strong> affects <strong>how high the ball bounces</strong>.
         </p>
       </div>
 
@@ -905,8 +902,10 @@
           class="ball-pair-card"
           data-ball-pair="basketballs"
           data-correct="true"
-          data-feedback-title="Yes — this pair can be used"
-          data-feedback="These basketballs are different sizes, but they have the same shape and are made from the same material. Ball size is the only variable changing, so this pair can be used in a fair test."
+          data-feedback-title="Yes — this pair can be used for a fair test experiment"
+          data-feedback="
+            These basketballs are different sizes, but they have the same shape and are made from the same material.
+            Ball size is the only variable changed, so this pair can be used in a <strong>fair test</strong>."
           aria-pressed="false">
 
           <span class="ball-pair-images">
@@ -918,10 +917,6 @@
 
           <span class="ball-pair-name">
             Large basketball versus small basketball
-          </span>
-
-          <span class="ball-pair-details">
-            Different size · Same shape · Same material
           </span>
         </button>
 
@@ -945,10 +940,6 @@
           <span class="ball-pair-name">
             Basketball versus tennis ball
           </span>
-
-          <span class="ball-pair-details">
-            Different size · Different material
-          </span>
         </button>
 
         <!-- Incorrect: shape also changes -->
@@ -971,10 +962,6 @@
           <span class="ball-pair-name">
             Soccer ball versus football
           </span>
-
-          <span class="ball-pair-details">
-            Different size · Different shape
-          </span>
         </button>
 
         <!-- Incorrect: no size change -->
@@ -996,10 +983,6 @@
 
           <span class="ball-pair-name">
             Two same-sized basketballs
-          </span>
-
-          <span class="ball-pair-details">
-            Same size · Same shape · Same material
           </span>
         </button>
       </div>
