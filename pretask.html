@@ -21,7 +21,7 @@
   
   <div class="page-header-wrapper">
     <header class="page-header">
-      <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 
+      <button type="button" class="save-work-button general-button" style="margin-top: 0;" onclick="downloadLessonPDF()" > 
         <p class="bounce-symbol">💾</p>
         <p>Save my work</p>
       </button>
@@ -355,7 +355,7 @@
         </div>
       </div>
 
-      <button id="watchNextButton" class="next-button" onclick="unlockSection('build', 'watch')">
+      <button id="watchNextButton" class="next-button general-button" onclick="unlockSection('build', 'watch')">
         Next
       </button>
 
@@ -466,7 +466,7 @@
         </div>
       </div>
 
-      <button id="buildNextButton" class="next-button" onclick="unlockSection('brainstorm', 'build')">
+      <button id="buildNextButton" class="next-button general-button" onclick="unlockSection('brainstorm', 'build')">
         Next
       </button>
 
@@ -568,7 +568,7 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
 
   <button
     id="brainstormNextButton"
-    class="next-button"
+    class="next-button general-button"
     onclick="unlockSection('diagram', 'brainstorm')">
     Next
   </button>
@@ -631,7 +631,7 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
 
       </div>
 
-      <button id="diagramNextButton" class="next-button" onclick="unlockSection('detective', 'diagram')">
+      <button id="diagramNextButton" class="next-button general-button" onclick="unlockSection('detective', 'diagram')">
         Next
       </button>
 
@@ -655,7 +655,7 @@ Use your detective skills to make <strong>observations</strong> and come up with
       class="detective-iframe">
     </iframe>
   </div>
-  <button class="next-button" onclick="unlockSection('final-brainstorm', 'detective')">
+  <button class="next-button general-button" onclick="unlockSection('final-brainstorm', 'detective')">
   Next
 </button>
 <p class="completed-note">Completed — next activity unlocked.</p>

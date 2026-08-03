@@ -1007,6 +1007,24 @@
       z-index: 2000;
     }
 
+    .home-button,
+    .glossary-button {
+      background: var(--card) !important;
+      color: var(--text) !important;
+    }
+
+    .home-button:hover {
+      background: var(--yellow) !important;
+    }
+
+    .glossary-button:hover {
+      background: var(--soft-purple) !important;
+    }
+
+    .glossary-button {
+      justify-self: end;
+    }   
+
     .return-to-top {
       display: grid;
       place-items: center;
@@ -1024,20 +1042,6 @@
     .return-to-top-button:hover {
       background: var(--soft-orange);
       transform: translateY(-2px);
-    }
-
-    .home-button,
-    .next-button,
-    .glossary-button,
-    .worksheet-button,
-    .save-work-button,
-    .return-to-top-button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
     }
 
     .bounce-symbol {
@@ -1062,24 +1066,6 @@
       100% {
         transform: translateY(0);
       }
-    }       
-
-    .home-button {
-      justify-self: start;
-      align-items: center;
-      gap: 8px;
-      z-index: inherit;
-    }
-
-.home-button:hover{
-    background: var(--soft-blue);
-    transform: translateY(-2px);
-}
-
-    .next-button:hover,
-    .glossary-button:hover {
-      background: var(--button-hover);
-      transform: translateY(-2px);
     }
 
     #watchNextButton,
@@ -1087,18 +1073,7 @@
 #brainstormNextButton,
 #diagramNextButton {
   display: inline-block;
-}
-    .glossary-button {
-      justify-self: end;
-      align-items: center;
-      gap: 8px;
-      z-index: inherit;
-
-      background: #ffffff;
-      color: var(--text);
-      border: 1px solid var(--line);
-      box-shadow: 0 6px 18px rgba(63, 70, 63, 0.12);
-    }    
+} 
 
     .completed-note {
       margin-top: 16px;
@@ -2709,29 +2684,6 @@ height: 44px;
 
 /* ---------- Download and navigation buttons ---------- */
 
-.next-button,
-.download-button,
-.home-button,
-.glossary-button,
-.worksheet-button,
-.save-work-button,
-.return-to-top-button {
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-shadow: 0 4px 0 var(--line);
-
-  font-family: inherit;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
-}
-
 .general-button {
   position: relative;
   padding: 12px 22px;
@@ -2772,6 +2724,7 @@ height: 44px;
 .general-button:hover {
   background: var(--button-hover);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-medium)
 }
 
 .general-button:active {
@@ -2789,12 +2742,9 @@ height: 44px;
   border: 2px solid var(--charcoal);
   border-radius: 12px;
 
-  box-shadow: 0 4px 0 var(--charcoal);
-
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 700;
-  cursor: pointer;
 }
 
 .next-button::after {
@@ -2803,26 +2753,8 @@ height: 44px;
   transition: transform 0.2s ease;
 }
 
-.next-button:hover * {
-  background: var(--purple);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--charcoal);
-  transform: translateX(4px);
-}
-
 .next-button:hover::after {
   transform: translateX(4px);
-}
-
-.next-button:active,
-.download-button:active,
-.home-button:active,
-.glossary-button:active,
-.save-work-button:active,
-.worksheet-button:active,
-.return-to-top-button:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 var(--line);
 }
 
 .download-button {
@@ -2832,20 +2764,6 @@ height: 44px;
 
 .download-button:hover {
   background: var(--mint);
-}
-
-.home-button,
-.glossary-button {
-  background: var(--card);
-  color: var(--text);
-}
-
-.home-button:hover {
-  background: var(--yellow);
-}
-
-.glossary-button:hover {
-  background: var(--soft-purple);
 }
 
 .worksheet-button {
