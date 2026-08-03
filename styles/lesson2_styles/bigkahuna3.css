@@ -455,6 +455,20 @@
       font: inherit;
       font-weight: 700;
       cursor: pointer;
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+    }
+
+    .bk3-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 0 var(--line);
+    }
+
+    .bk3-button:active {
+      transform: translateY(0);
+      box-shadow: 0 0px 0 var(--line);
     }
 
     .bk3-button.secondary {
@@ -471,6 +485,7 @@
       opacity: 0.4;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     .bk3-complete-summary {
