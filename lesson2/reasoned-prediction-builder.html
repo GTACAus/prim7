@@ -845,30 +845,12 @@ body {
 
       try {
         const savedData = JSON.parse(savedText);
-        if (savedData.structure === "what") {
-        /*
-          "What happens to ___ when I change ___?"
-
-          First answer = measured variable
-          Second answer = changed variable
-        */
-        investigationQuestionAnswers.changeVariable =
-          savedData.secondAnswer;
-
-        investigationQuestionAnswers.measureVariable =
-          savedData.firstAnswer;
-      } else {
-        /*
-          All the other question structures put
-          the changed variable first and the
-          measured variable second.
-        */
+  
         investigationQuestionAnswers.changeVariable =
           savedData.firstAnswer;
 
         investigationQuestionAnswers.measureVariable =
           savedData.secondAnswer;
-      }
 
         // Populate the fields
         // changeVariable.textContent = investigationQuestionAnswers.changeVariable;

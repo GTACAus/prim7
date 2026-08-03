@@ -1131,7 +1131,7 @@
 <section class="section locked" id="design-question">
 
   <h2 class="section-title">
-    Design your investigation and make a prediction
+    Your investigation: Ask a testable question and make a reasoned prediction
   </h2>
 
   <!-- ================================
@@ -1140,8 +1140,8 @@
 
   <div class="diagram-box diagram-activity">
     <p class="activity-instruction">
-      First, create a testable investigation question by choosing a
-      question structure and completing the missing information.
+      Consider the ball-bouncing experiment in part A.
+      Create a testable question by choosing a question structure, and complete it by entering the <strong>variables</strong>.
     </p>
   </div>
 
@@ -1154,7 +1154,7 @@
       class="question-structure-card question-structure-what"
       data-question-structure="what"
       aria-pressed="false">
-      What happens to ______ when I change ______?
+      When I change ______, what happens to ______?
     </button>
 
     <button
@@ -1200,8 +1200,7 @@
 
   <div class="diagram-box diagram-activity">
     <p class="activity-instruction">
-      Now use your investigation question to make a prediction.
-      Explain what you think will happen and give a scientific reason.
+      Now use your testable question to make a reasoned prediction.
     </p>
   </div>
 
@@ -2638,12 +2637,12 @@ function resetBallPairActivity(
     const investigationQuestionTemplates = {
       what: {
         parts: [
-          "What happens to ",
-          " when I change ",
+          "When I change ",
+          " what happens to ",
           "?"
         ],
-        firstPlaceholder: "What will you measure?",
-        secondPlaceholder: "What will you change?"
+        firstPlaceholder: "What will you change?",
+        secondPlaceholder: "What will you measure?"
       },
 
       how: {
