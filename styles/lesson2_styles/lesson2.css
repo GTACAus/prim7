@@ -30,7 +30,7 @@
       border: 2px solid var(--line);
       border-radius: 50%;
       font-weight: 700;
-      background: var(--yellow);
+      background: var(--soft-yellow);
     }
 
     .formula-step.measure .formula-step-number {
@@ -58,8 +58,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--soft-blue);
-      border: 2px dashed var(--line);
+      
+      
       border-radius: 20px;
       color: var(--muted);
       text-align: center;
@@ -90,10 +90,10 @@
       flex-direction: column;
       justify-content: center;
       gap: 10px;
-      border: 2px solid var(--line);
+      
       border-radius: 18px;
-      background: var(--soft-green);
-      box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
+      
+      
     }
 
     .variable-entry-card label {
@@ -104,9 +104,9 @@
     .variable-entry-card input {
       width: 100%;
       padding: 11px 12px;
-      border: 2px solid var(--line);
+      
       border-radius: 999px;
-      background: white;
+      
       color: var(--text);
       font: inherit;
     }
@@ -163,8 +163,8 @@
       padding: 22px;
       border: 3px solid var(--line);
       border-radius: 22px;
-      box-shadow: var(--shadow-small);
-      background: var(--paper);
+      
+      
     }
 
     .variable-type-card h3 {
@@ -179,47 +179,37 @@
       line-height: 1.55;
     }
 
-    .variable-type-card.independent {
-      border-top: 10px solid var(--yellow);
-      background: var(--soft-yellow);
-    }
+    
 
-    .variable-type-card.dependent {
-      border-top: 10px solid var(--purple);
-      background: var(--soft-purple);
-    }
+    
 
-    .variable-type-card.controlled {
-      border-top: 10px solid var(--green);
-      background: var(--soft-green);
-    }
+    
 
     .fair-test-rule {
       margin: 22px 0 0;
       padding: 16px 18px;
-      border: 2px solid var(--line);
+      
       border-radius: 16px;
-      background: var(--paper);
-      box-shadow: var(--shadow-small);
-      font-weight: 500;
+      
+      
       text-align: center;
       color: var(--text);
     }
 
     .variable-activity {
       padding: 22px;
-      border: 3px solid var(--line);
+      
       border-radius: 22px;
-      background: var(--soft-blue);
-      box-shadow: var(--shadow-small);
+      
+      
     }
 
     .variable-question {
       margin: 0 0 18px;
       padding: 16px 18px;
-      border: 2px solid var(--line);
+      
       border-radius: 16px;
-      background: white;
+      
       color: var(--text);
       font-weight: 700;
       line-height: 1.55;
@@ -234,25 +224,13 @@
 
     .variable-mode-button {
       padding: 10px 14px;
-      border: 2px solid var(--line);
-      border-radius: 999px;
-      background: white;
+      
+      
+      
       color: var(--text);
       font: inherit;
       font-weight: 700;
       cursor: pointer;
-    }
-
-    .independent-mode-button {
-      background: var(--soft-yellow);
-    }
-
-    .dependent-mode-button {
-      background: var(--soft-purple);
-    }
-
-    .controlled-mode-button {
-      background: var(--soft-green);
     }
 
     .variable-tile-grid {
@@ -264,9 +242,9 @@
     .variable-tile {
       min-height: 82px;
       padding: 14px;
-      border: 2px solid var(--line);
+      
       border-radius: 16px;
-      background: white;
+      
       color: var(--text);
       font: inherit;
       font-weight: 700;
@@ -338,17 +316,11 @@
 
     /* Use the existing Lesson 2 variable colours */
 
-    .sort-variables-section .variable-tile.is-independent {
-      background: var(--soft-yellow);
-    }
+    
 
-    .sort-variables-section .variable-tile.is-dependent {
-      background: var(--soft-purple);
-    }
+    
 
-    .sort-variables-section .variable-tile.is-controlled {
-      background: var(--soft-green);
-    }
+    
 
     .sort-variables-section .variable-tile.is-classified {
       cursor: default;
@@ -418,10 +390,10 @@
     .question-structure-card {
       min-height: 110px;
       padding: 18px;
-      border: 3px solid var(--line);
+      
       border-radius: 18px;
       background: var(--paper);
-      box-shadow: 0 4px 0 var(--line);
+      
       color: var(--text);
       font: inherit;
       font-weight: 700;
@@ -454,10 +426,10 @@
       background: var(--paper);
       color: var(--text);
 
-      border: 3px solid var(--line);
+      
       border-radius: 20px;
 
-      box-shadow: var(--shadow-small);
+      
 
       font: inherit;
       text-align: left;
@@ -470,22 +442,15 @@
         background 0.18s ease;
     }
 
-    .ball-pair-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 7px 0 var(--line);
-    }
+    
 
     .ball-pair-card.selected {
       outline: 5px solid rgba(78, 50, 232, 0.18);
     }
 
-    .ball-pair-card.correct-selection {
-      background: var(--soft-green);
-    }
+    
 
-    .ball-pair-card.incorrect-selection {
-      background: var(--soft-orange);
-    }
+    
 
     .ball-pair-images {
       display: flex;
@@ -526,9 +491,9 @@
       margin-top: auto;
       padding: 9px 11px;
 
-      background: var(--soft-blue);
+      
 
-      border: 2px solid var(--line);
+      
       border-radius: 12px;
 
       color: var(--text);
@@ -722,30 +687,19 @@
         background 0.18s ease;
     }
 
-    .question-structure-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--line);
-    }
+    
 
-    .question-structure-card.question-structure-what {
-      background: var(--soft-yellow);
-    }
+    
 
-    .question-structure-card.question-structure-how {
-      background: var(--soft-blue);
-    }
+    
 
-    .question-structure-card.question-structure-does {
-      background: var(--soft-green);
-    }
+    
 
-    .question-structure-card.question-structure-if {
-      background: var(--soft-purple);
-    }
+    
 
     .question-structure-card.selected {
-      color: white;
-      background: var(--purple);
+      
+      
       transform: translateY(-2px);
       box-shadow: 0 6px 0 var(--line);
     }
@@ -754,17 +708,14 @@
       margin: 18px 0 24px;
       padding: 24px;
 
-      background: var(--paper);
-      border: 2px dashed var(--line);
+      
+      
       border-radius: 18px;
 
       color: var(--text);
     }
 
-    .investigation-question-builder.builder-active {
-      border-style: solid;
-      background: var(--soft-blue);
-    }
+    
 
     .question-builder-placeholder {
       margin: 0;
@@ -1141,3 +1092,831 @@
    .bk-area {
     margin-bottom: 10px;
    }
+
+   /* ==================================================
+   LESSON 2 — STRONGER GTAC COLOUR TREATMENT
+   Keep this at the bottom so it overrides earlier rules.
+   ================================================== */
+
+
+/* ----------------------------------
+   Main lesson sections
+   ---------------------------------- */
+
+
+/* ----------------------------------
+   Section heading pills
+   ---------------------------------- */
+
+
+/* ----------------------------------
+   Instruction boxes
+   ---------------------------------- */
+
+.diagram-box.diagram-activity {
+  background: white;
+
+  border: 2px solid var(--line);
+  border-left: 10px solid var(--yellow);
+
+  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
+}
+
+/* Do not leave extra space after the final paragraph */
+.diagram-box.diagram-activity
+.activity-instruction:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ----------------------------------
+   Discover-variables brainstorm cards
+   ---------------------------------- */
+
+.variable-entry-card {
+  background: var(--soft-green);
+  border: 3px solid var(--line);
+  border-top: 9px solid var(--green);
+  box-shadow: var(--shadow-small);
+}
+
+.variable-entry-card input {
+  border: 2px solid var(--line);
+  background: white;
+}
+
+.variable-entry-card input:focus {
+  outline: 4px solid rgba(78, 50, 232, 0.2);
+  border-color: var(--purple);
+}
+
+
+/* ----------------------------------
+   Variable definition cards
+   ---------------------------------- */
+
+.variable-type-card {
+  border-width: 3px;
+  
+}
+
+.variable-type-card.independent {
+  
+  border-top: 12px solid var(--yellow);
+}
+
+.variable-type-card.dependent {
+  
+  border-top: 12px solid var(--purple);
+}
+
+.variable-type-card.controlled {
+  
+  border-top: 12px solid var(--green);
+}
+
+
+/* Make the labels on these cards stronger */
+.variable-type-card .intro-eyebrow {
+  display: inline-block;
+
+  width: fit-content;
+  padding: 5px 10px;
+
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  box-shadow: 0 2px 0 var(--line);
+}
+
+
+/* ----------------------------------
+   Fair-test rule
+   ---------------------------------- */
+
+.fair-test-rule {
+  
+
+  border: 3px solid var(--line);
+  box-shadow: var(--shadow-small);
+
+  font-weight: 700;
+}
+
+
+/* ----------------------------------
+   Sort-variable activity container
+   ---------------------------------- */
+
+
+/* Question displayed inside activity */
+.variable-question {
+  
+
+  
+  
+
+  font-size: 1.03rem;
+}
+
+
+/* ----------------------------------
+   Variable-type selector buttons
+   ---------------------------------- */
+
+
+.sort-variables-section
+.variable-mode-button:not(:disabled):hover,
+.sort-variables-section
+.variable-mode-button.mode-active {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+
+/* ----------------------------------
+   Variable tiles
+   ---------------------------------- */
+
+
+.sort-variables-section
+.variable-tile:not(.is-classified):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 0 var(--line);
+}
+
+
+/* Stronger classified states */
+.sort-variables-section
+.variable-tile.is-independent {
+  background: var(--soft-yellow);
+  color: var(--text);
+  border-top: 8px solid var(--yellow);
+}
+
+.sort-variables-section
+.variable-tile.is-dependent {
+  background: var(--soft-purple);
+  color: var(--text);
+  border-top: 8px solid var(--purple);
+}
+
+.sort-variables-section
+.variable-tile.is-controlled {
+  background: var(--soft-green);
+  color: var(--text);
+  border-top: 8px solid var(--green);
+}
+
+/* ----------------------------------
+   Feedback boxes
+   ---------------------------------- */
+
+.sort-variables-section
+.variable-feedback {
+  border: 3px dashed var(--line);
+  background: white;
+}
+
+.sort-variables-section
+.variable-feedback.feedback-success {
+  background: var(--green);
+  border: 3px solid var(--line);
+  box-shadow: var(--shadow-small);
+}
+
+.sort-variables-section
+.variable-feedback.feedback-try-again {
+  background: var(--orange);
+  border: 3px solid var(--line);
+  box-shadow: var(--shadow-small);
+}
+
+
+/* ----------------------------------
+   Ball-pair activity cards
+   ---------------------------------- */
+
+.ball-pair-card {
+  border: 3px solid var(--line);
+  box-shadow: var(--shadow-medium);
+}
+
+.ball-pair-card:nth-child(1) {
+  background: var(--soft-yellow);
+}
+
+.ball-pair-card:nth-child(2) {
+  background: var(--soft-blue);
+}
+
+.ball-pair-card:nth-child(3) {
+  background: var(--soft-green);
+}
+
+.ball-pair-card:nth-child(4) {
+  background: var(--soft-purple);
+}
+
+.ball-pair-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 0 var(--line);
+}
+
+
+/* Labels below each ball image */
+.ball-pair-details {
+  background: white;
+  border: 2px solid var(--line);
+}
+
+
+/* ----------------------------------
+   Question structure cards
+   ---------------------------------- */
+
+.question-structure-card {
+  border: 3px solid var(--line);
+  box-shadow: var(--shadow-small);
+}
+
+.question-structure-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 var(--line);
+}
+
+
+/* ----------------------------------
+   Investigation-question builder
+   ---------------------------------- */
+
+
+/* ----------------------------------
+   Stop and Think
+   ---------------------------------- */
+
+
+.stop-and-check-heading {
+  
+
+  border: 2px solid var(--line);
+  box-shadow: 0 2px 0 var(--line);
+}
+
+
+/* ----------------------------------
+   Navigation buttons
+   ---------------------------------- */
+
+
+/* ==================================================
+   LESSON 2 — GTAC / PRE-TASK VISUAL HARMONISATION
+   Added 3 August 2026.
+
+   Design principle:
+   - strong GTAC colours identify sections and actions;
+   - soft palette colours support activities;
+   - large reading surfaces remain paper/white;
+   - each section has one dominant accent to avoid clashes.
+   ================================================== */
+
+/* ---------- Intro: match the confident, friendly pre-task feel ---------- */
+.lesson-intro {
+  margin-bottom: 38px;
+}
+
+.lesson-heading h1 {
+  text-wrap: balance;
+}
+
+.lesson-summary {
+  max-width: 760px;
+}
+
+.worksheet-button {
+  background: var(--yellow) !important;
+  color: var(--text) !important;
+  border: 2px solid var(--line) !important;
+  box-shadow: 0 4px 0 var(--line) !important;
+}
+
+.worksheet-button:hover {
+  background: var(--green) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--line) !important;
+}
+
+.objectives-card {
+  background: var(--paper);
+  border-top: 10px solid var(--orange);
+}
+
+.observation-card {
+  background: var(--paper);
+  border-top: 10px solid var(--purple);
+}
+
+.fair-test-formula .formula-step {
+  border-width: 2px;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
+}
+
+.fair-test-formula .formula-step.change {
+  background: var(--soft-yellow);
+}
+
+.fair-test-formula .formula-step.measure {
+  background: var(--soft-purple);
+}
+
+.fair-test-formula .formula-step.control {
+  background: var(--soft-green);
+}
+
+/* ---------- Section cards: spacious, neutral canvas ---------- */
+.section {
+  position: relative;
+  padding: clamp(22px, 3vw, 32px);
+  margin-bottom: 30px;
+  background: var(--paper);
+  border: 3px solid var(--line);
+  border-radius: 26px;
+  box-shadow: var(--shadow-medium);
+  overflow: hidden;
+}
+
+/* A small accent rail gives each activity identity without flooding it. */
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 9px;
+  background: var(--section-accent, var(--green));
+}
+
+#discover-variables { --section-accent: var(--green); }
+#variable-types { --section-accent: var(--purple); }
+#sort-variables-one { --section-accent: var(--orange); }
+#sort-variables-two { --section-accent: var(--blue); }
+#choose-ball-pair { --section-accent: var(--yellow); }
+#design-question { --section-accent: var(--purple); }
+#sort-variables-three { --section-accent: var(--green); }
+#build-experiment { --section-accent: var(--orange); }
+
+/* ---------- Different GTAC heading colours, as in the pre-task ---------- */
+.section-title {
+  max-width: 100%;
+  margin: 0 0 20px;
+  padding: 9px 16px;
+  background: var(--section-accent, var(--green));
+  color: var(--text);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 3px 0 var(--line);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Purple needs white text for comfortable contrast. */
+#variable-types .section-title,
+#design-question .section-title {
+  color: white;
+}
+
+/* ---------- Instruction panels: light, consistent, section-aware ---------- */
+.section > .diagram-box.diagram-activity {
+  background: white;
+  border: 2px solid var(--line);
+  border-left: 10px solid var(--section-accent, var(--yellow));
+  border-radius: 18px;
+  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.16);
+}
+
+.activity-instruction {
+  line-height: 1.65;
+}
+
+/* ---------- Discover variables ---------- */
+.hook-image-box {
+  background: var(--soft-blue);
+  border: 2px dashed var(--blue);
+}
+
+.variable-grid .variable-entry-card {
+  
+  border: 2px solid var(--line);
+  
+  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
+}
+
+/* ---------- Variable concepts: retain semantic colour coding ---------- */
+.variable-type-card {
+  box-shadow: var(--shadow-small);
+}
+
+.variable-type-card.independent {
+  background: var(--soft-yellow);
+  
+}
+
+.variable-type-card.dependent {
+  background: var(--soft-purple);
+  
+}
+
+.variable-type-card.controlled {
+  background: var(--soft-green);
+  
+}
+
+
+/* ---------- Sort activities: remove competing full-strength colours ---------- */
+.variable-activity {
+  
+  border: 3px solid var(--line);
+  border-top: 10px solid var(--section-accent, var(--blue));
+  box-shadow: var(--shadow-small);
+}
+
+.variable-question {
+  
+  border: 2px solid var(--line);
+  border-left: 9px solid var(--yellow);
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.variable-mode-button {
+  background: white;
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  box-shadow: 0 2px 0 rgba(48, 51, 47, 0.18);
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease,
+    filter .15s ease;
+}
+
+.variable-tile {
+  background: white;
+  border: 2px solid var(--line);
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+}
+
+/* ---------- Ball choices: colourful rhythm, soft saturation ---------- */
+.ball-pair-card:nth-child(4n + 1) { background: var(--soft-yellow); }
+.ball-pair-card:nth-child(4n + 2) { background: var(--soft-blue); }
+.ball-pair-card:nth-child(4n + 3) { background: var(--soft-green); }
+.ball-pair-card:nth-child(4n) { background: var(--soft-purple); }
+
+
+/* ---------- Question design ---------- */
+.question-structure-card.question-structure-what { background: var(--soft-yellow); }
+.question-structure-card.question-structure-how { background: var(--soft-blue); }
+.question-structure-card.question-structure-does { background: var(--soft-green); }
+.question-structure-card.question-structure-if { background: var(--soft-purple); }
+
+
+.investigation-question-builder {
+  background: var(--paper);
+  border: 2px dashed var(--line);
+  border-left: 10px solid var(--purple);
+  box-shadow: none;
+}
+
+.investigation-question-builder.builder-active {
+  background: var(--soft-purple);
+  border-style: solid;
+}
+
+/* ---------- Stop-and-think: orange is the single callout colour ---------- */
+.stop-and-check {
+  background: var(--soft-orange);
+  border: 2px dashed var(--orange);
+  box-shadow: none;
+}
+
+.stop-and-check-heading {
+  background: var(--orange);
+  color: var(--text);
+}
+
+.stop-and-check-answer {
+  background: var(--soft-green);
+  border: 2px solid var(--green);
+  box-shadow: none;
+}
+
+/* ---------- Feedback and completion ---------- */
+.variable-feedback {
+  background: white;
+}
+
+.variable-feedback.feedback-success {
+  background: var(--soft-green) !important;
+  border-color: var(--green) !important;
+}
+
+.variable-feedback.feedback-try-again {
+  background: var(--soft-orange) !important;
+  border-color: var(--orange) !important;
+}
+
+.completed-note {
+  
+  font-weight: 700;
+}
+
+/* ---------- Buttons: consistent pre-task interaction language ---------- */
+.next-button {
+  background: var(--green);
+  color: var(--text);
+  border: 2px solid var(--line);
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.next-button:hover {
+  background: var(--purple);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+/* ---------- Embedded experiment panel ---------- */
+#build-experiment .bk3-page,
+#build-experiment .bk3-panel {
+  --bk3-accent: var(--orange);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 650px) {
+  .section {
+    padding: 20px 18px 22px 24px;
+    border-radius: 22px;
+  }
+
+  .section-title {
+    border-radius: 16px;
+  }
+
+  .section > .diagram-box.diagram-activity {
+    border-left-width: 7px;
+  }
+}
+/* ==================================================
+   LESSON 2 — VIVID GTAC ACCESSIBILITY PASS
+   Added after review feedback about muted/puce colours
+   and low distinction between soft blue and soft green.
+
+   Principles:
+   - use full-strength GTAC colours for small, important areas;
+   - keep large reading surfaces white/paper;
+   - avoid placing soft blue and soft green in equivalent roles;
+   - pair colour with borders, labels and position, not colour alone.
+   Keep this block at the very end of lesson2.css.
+   ================================================== */
+
+/* Intro formula: strong colour is concentrated in the numbered marker. */
+.fair-test-formula .formula-step {
+  background: white;
+}
+
+.fair-test-formula .formula-step.change {
+  border-left: 10px solid var(--yellow);
+}
+
+.fair-test-formula .formula-step.measure {
+  border-left: 10px solid var(--purple);
+}
+
+.fair-test-formula .formula-step.control {
+  border-left: 10px solid var(--green);
+}
+
+.fair-test-formula .formula-step.change .formula-step-number {
+  background: var(--yellow);
+  color: var(--text);
+}
+
+.fair-test-formula .formula-step.measure .formula-step-number {
+  background: var(--purple);
+  color: white;
+}
+
+.fair-test-formula .formula-step.control .formula-step-number {
+  background: var(--green);
+  color: var(--text);
+}
+
+/* Discover variables: all cards remain one colour, but use the vivid green. */
+.variable-grid .variable-entry-card {
+  background: white;
+  border-top: 10px solid var(--green);
+}
+
+/* Variable concepts: use vivid title bands instead of three similar pale fills. */
+.variable-type-card {
+  position: relative;
+  overflow: hidden;
+  padding-top: 28px;
+  background: white !important;
+  border-top-width: 12px;
+}
+
+.variable-type-card.independent {
+  border-top-color: var(--yellow);
+}
+
+.variable-type-card.dependent {
+  border-top-color: var(--purple);
+}
+
+.variable-type-card.controlled {
+  border-top-color: var(--green);
+}
+
+.variable-type-card.independent .intro-eyebrow {
+  background: var(--yellow);
+  color: var(--text) !important;
+}
+
+.variable-type-card.dependent .intro-eyebrow {
+  background: var(--purple);
+  color: white !important;
+}
+
+.variable-type-card.controlled .intro-eyebrow {
+  background: var(--green);
+  color: var(--text) !important;
+}
+
+/* The rule is a key takeaway, so let it use a primary colour. */
+.fair-test-rule {
+  background: var(--yellow);
+  border-left: 10px solid var(--orange);
+}
+
+/* Sort activities: white canvas with an unmistakable section-colour band. */
+.variable-activity {
+  background: white;
+  border-top-color: var(--section-accent, var(--blue));
+}
+
+#sort-variables-one .variable-activity {
+  border-top-color: var(--orange);
+}
+
+#sort-variables-two .variable-activity {
+  border-top-color: var(--blue);
+}
+
+.variable-question {
+  background: var(--yellow);
+  border-left-color: var(--orange);
+}
+
+/* Variable selectors use full-strength semantic colours. */
+.independent-mode-button {
+  background: var(--yellow);
+  color: var(--text);
+}
+
+.dependent-mode-button {
+  background: var(--purple);
+  color: white;
+}
+
+.controlled-mode-button {
+  background: var(--green);
+  color: var(--text);
+}
+
+.variable-mode-button.mode-active {
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 8px rgba(0,0,0,.18);
+
+  filter: brightness(.96);
+
+  outline: none !important;
+}
+
+/* Classified tiles use a strong top band plus a light body.
+   This keeps text readable while making categories clearly distinct. */
+.sort-variables-section .variable-tile.is-independent {
+  background: white;
+  border-top: 10px solid var(--yellow);
+}
+
+.sort-variables-section .variable-tile.is-dependent {
+  background: white;
+  border-top: 10px solid var(--purple);
+}
+
+.sort-variables-section .variable-tile.is-controlled {
+  background: white;
+  border-top: 10px solid var(--green);
+}
+
+.sort-variables-section .variable-tile.is-independent .variable-tile-type {
+  color: #7a5a00;
+}
+
+.sort-variables-section .variable-tile.is-dependent .variable-tile-type {
+  color: var(--purple);
+}
+
+.sort-variables-section .variable-tile.is-controlled .variable-tile-type {
+  color: #007a4a;
+}
+
+/* Ball choices: replace the similar pale blue/green pair with four vivid bands.
+   Card bodies stay white so the options remain easy to scan. */
+.ball-pair-card:nth-child(4n + 1),
+.ball-pair-card:nth-child(4n + 2),
+.ball-pair-card:nth-child(4n + 3),
+.ball-pair-card:nth-child(4n) {
+  background: white;
+}
+
+.ball-pair-card:nth-child(4n + 1) { border-top: 12px solid var(--yellow); }
+.ball-pair-card:nth-child(4n + 2) { border-top: 12px solid var(--purple); }
+.ball-pair-card:nth-child(4n + 3) { border-top: 12px solid var(--orange); }
+.ball-pair-card:nth-child(4n)     { border-top: 12px solid var(--green); }
+
+.ball-pair-card.correct-selection {
+  background: var(--green);
+  outline: 5px solid var(--line);
+}
+
+.ball-pair-card.incorrect-selection {
+  background: var(--orange);
+  outline: 5px solid var(--line);
+}
+
+/* Question stems: use primary colour bands rather than four muted card fills. */
+.question-structure-card.question-structure-what,
+.question-structure-card.question-structure-how,
+.question-structure-card.question-structure-does,
+.question-structure-card.question-structure-if {
+  background: white;
+}
+
+.question-structure-card.question-structure-what { border-top: 10px solid var(--yellow); }
+.question-structure-card.question-structure-how  { border-top: 10px solid var(--blue); }
+.question-structure-card.question-structure-does { border-top: 10px solid var(--green); }
+.question-structure-card.question-structure-if   { border-top: 10px solid var(--purple); }
+
+.question-structure-card.selected {
+  background: var(--purple);
+  color: white;
+  border-top-color: var(--purple);
+}
+
+/* Active builder: vivid purple edge and a neutral interior. */
+.investigation-question-builder,
+.investigation-question-builder.builder-active {
+  background: white;
+  border-left: 12px solid var(--purple);
+}
+
+/* Make feedback unmistakable and not dependent on pale green/orange fills. */
+.variable-feedback.feedback-success,
+.sort-variables-section .variable-feedback.feedback-success,
+#choose-ball-pair .variable-feedback.feedback-success {
+  background: var(--green) !important;
+  color: var(--text) !important;
+  border: 3px solid var(--line) !important;
+}
+
+.variable-feedback.feedback-try-again,
+.sort-variables-section .variable-feedback.feedback-try-again,
+#choose-ball-pair .variable-feedback.feedback-try-again {
+  background: var(--orange) !important;
+  color: var(--text) !important;
+  border: 3px solid var(--line) !important;
+}
+
+/* Completion note uses a dark colour for readability, with green as an accent. */
+.completed-note {
+  color: var(--text);
+  padding-left: 10px;
+  border-left: 6px solid var(--green);
+}
+
+/* Reset buttons intentionally inherit their shared build_style.css appearance. */
+
+@media (max-width: 650px) {
+  .fair-test-formula .formula-step {
+    border-left-width: 7px;
+  }
+
+  .ball-pair-card,
+  .question-structure-card {
+    border-top-width: 9px;
+  }
+}
