@@ -451,7 +451,7 @@
       color: white;
       border: 2px solid var(--line);
       border-radius: 999px;
-      box-shadow: 0 4px 0 var(--line);
+      box-shadow: 0 3px 0 var(--line);
       font: inherit;
       font-weight: 700;
       cursor: pointer;
@@ -462,8 +462,8 @@
     }
 
     .bk3-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 0 var(--line);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 var(--line);
     }
 
     .bk3-button:active {

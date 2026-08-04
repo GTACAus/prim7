@@ -347,8 +347,8 @@
 
     .sort-variables-section
     .variable-mode-button:not(:disabled):not(.mode-active):hover {
-      transform: translateY(-2px);
-      box-shadow: 0 3px 0 rgba(48, 51, 47, 0.35);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-small);
     }
 
     .sort-variables-section .variable-mode-button.mode-active {
@@ -845,27 +845,26 @@
   }
 
   #design-question .question-structure-card.question-structure-what {
-    background: var(--soft-yellow);
+    border-top: 4px solid var(--yellow);
   }
 
   #design-question .question-structure-card.question-structure-how {
-    background: var(--soft-blue);
+    border-top: 4px solid var(--blue);
   }
 
   #design-question .question-structure-card.question-structure-does {
-    background: var(--soft-green);
+    border-top: 4px solid var(--green);
   }
 
   #design-question .question-structure-card.question-structure-if {
-    background: var(--soft-purple);
+    border-top: 4px solid var(--purple);
   }
 
   #design-question .question-structure-card.selected {
     color: var(--text);
-    background: var(--lavender);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 var(--line);
-    outline: 4px solid rgba(78, 50, 232, 0.18);
+    background: var(--soft-green);
+    transform: translateY(0);
+    box-shadow: 0 0px 0 var(--line);
   }
 
     .investigation-question-builder {
