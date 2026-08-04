@@ -229,19 +229,46 @@
     }
 
     .variable-question {
-      margin: 0 0 12px;
-      padding: 14px 18px;
+      position: relative;
+
+      margin: 10px 0 18px;
+      padding: 28px 20px 16px;
+
       border: 2px solid var(--line);
+      border-top: 4px solid var(--blue);
       border-radius: 16px;
+
       background: var(--paper);
       color: var(--text);
+
       font-weight: 700;
       line-height: 1.55;
+    }
+
+    .variable-question::before {
+      content: "INVESTIGATION QUESTION";
+
+      position: absolute;
+      top: -16px;
+      left: 18px;
+
+      padding: 4px 12px;
+
+      background: var(--blue);
+      border: 2px solid var(--line);
+      border-radius: 999px;
+
+      color: var(--text);
+
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
     }
 
     .variable-selection-toolbar {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
       margin-top: 12px;
       margin-bottom: 14px;
@@ -409,17 +436,17 @@
     /* Use the existing Lesson 2 variable colours */
 
     .sort-variables-section .variable-tile.is-independent {
-      background: white;
+      background: var(--soft-yellow);
       border-top: 6px solid var(--yellow);
     }
 
     .sort-variables-section .variable-tile.is-dependent {
-      background: white;
+      background: var(--soft-purple);
       border-top: 6px solid var(--purple);
     }
 
     .sort-variables-section .variable-tile.is-controlled {
-      background: white;
+      background: var(--soft-green);
       border-top: 6px solid var(--green);
     }
 
