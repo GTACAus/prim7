@@ -639,7 +639,7 @@
       border-style: solid;
     }
 
-    #choose-ball-pair .content-box {7
+    #choose-ball-pair .content-box {
       padding: 14px 18px;
     }
 
@@ -660,14 +660,14 @@
    ================================================== */
 
 .variable-image-box {
-  padding: 12px;
+  padding: 4px;
   margin-bottom: 20px;
 }
 
 .variable-image-stage {
   position: relative;
 
-  width: min(100%, 1154px);
+  width: min(100%, 1450px);
   aspect-ratio: 1648 / 928;
 
   margin: 0 auto;
@@ -687,8 +687,8 @@
   position: absolute;
   z-index: 2;
 
-  width: 11.7%;
-  height: 7.4%;
+  width: 12.3%;
+  height: 5.3%;
 }
 
 .variable-overlay-entry .variable-entry-input-row {
@@ -752,33 +752,53 @@
 }
 
 .variable-overlay-1 {
-  top: 9.8%;
-  left: 84.95%;
+  top: 10.2%;
+  left: 84.2%;
 }
 
 .variable-overlay-2 {
-  top: 21.1%;
-  left: 84.95%;
+  top: 19%;
+  left: 84.2%;
 }
 
 .variable-overlay-3 {
-  top: 29.5%;
-  left: 84.95%;
+  top: 25.7%;
+  left: 84.2%;
 }
 
 .variable-overlay-4 {
-  top: 40.8%;
-  left: 84.95%;
+  top: 34.4%;
+  left: 84.2%;
 }
 
 .variable-overlay-5 {
-  top: 74.7%;
-  left: 84.95%;
+  top: 41.2%;
+  left: 84.2%;
 }
 
 .variable-overlay-6 {
-  top: 86.1%;
-  left: 84.95%;
+  top: 50%;
+  left: 84.2%;
+}
+
+.variable-overlay-7 {
+  top: 56.8%;
+  left: 84.2%;
+}
+
+.variable-overlay-8 {
+  top: 65.6%;
+  left: 84.2%;
+}
+
+.variable-overlay-9 {
+  top: 77.8%;
+  left: 84.2%;
+}
+
+.variable-overlay-10 {
+  top: 86.6%;
+  left: 84.2%;
 }
 
     /* ==================================================
