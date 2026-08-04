@@ -2204,6 +2204,15 @@ function handleVariableTileClick(
       "Controlled variable"
     );
 
+    const controlledButton =
+      variableStructure.activity.querySelector(
+        '[data-variable-mode="controlled"]'
+      );
+
+    if (controlledButton) {
+      controlledButton.classList.add("mode-complete");
+    }
+
     /*
       Count all unclassified tiles.
 
@@ -2272,6 +2281,7 @@ function finishVariableSelection(
   }
 
   modeButton.classList.remove("mode-active");
+  modeButton.classList.add("mode-complete");
 
   modeButton.setAttribute(
     "aria-pressed",
@@ -2428,7 +2438,10 @@ function resetSortVariables(variableStructure) {
 
   variableStructure.modeButtons.forEach(function(button) {
     button.disabled = false;
-    button.classList.remove("mode-active");
+    button.classList.remove(
+      "mode-active",
+      "mode-complete"
+    );
     button.setAttribute("aria-pressed", "false");
   });
 

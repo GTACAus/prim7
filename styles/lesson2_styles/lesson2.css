@@ -186,19 +186,19 @@
       line-height: 1.55;
     }
 
-    .variable-type-card.independent {
-      border-top: 10px solid var(--yellow);
-      background: var(--soft-yellow);
+    .variable-type-card.independent{
+        border-top:10px solid var(--yellow);
+        background:white;
     }
 
-    .variable-type-card.dependent {
-      border-top: 10px solid var(--purple);
-      background: var(--soft-purple);
+    .variable-type-card.dependent{
+        border-top:10px solid var(--purple);
+        background:white;
     }
 
-    .variable-type-card.controlled {
-      border-top: 10px solid var(--green);
-      background: var(--soft-green);
+    .variable-type-card.controlled{
+        border-top:10px solid var(--green);
+        background:white;
     }
 
     .fair-test-rule {
@@ -214,19 +214,26 @@
     }
 
     .variable-activity {
-      padding: 22px;
-      border: 3px solid var(--line);
-      border-radius: 22px;
-      background: var(--soft-blue);
-      box-shadow: var(--shadow-small);
+        padding: 28px;
+        border: 3px solid var(--line);
+        border-radius: 22px;
+        background:
+        linear-gradient(
+            to bottom,
+            white,
+            rgba(117,221,232,.18)
+        );
+        box-shadow:
+            inset 0 2px 0 rgba(255,255,255,0.9),
+            var(--shadow-small);
     }
 
     .variable-question {
-      margin: 0 0 18px;
-      padding: 16px 18px;
+      margin: 0 0 12px;
+      padding: 14px 18px;
       border: 2px solid var(--line);
       border-radius: 16px;
-      background: white;
+      background: var(--paper);
       color: var(--text);
       font-weight: 700;
       line-height: 1.55;
@@ -236,7 +243,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 18px;
+      margin-top: 12px;
+      margin-bottom: 14px;
     }
 
     .variable-mode-button {
@@ -250,16 +258,22 @@
       cursor: pointer;
     }
 
+    .independent-mode-button,
+    .dependent-mode-button,
+    .controlled-mode-button {
+      background: white;
+    }
+
     .independent-mode-button {
-      background: var(--soft-yellow);
+      border-top: 6px solid var(--yellow);
     }
 
     .dependent-mode-button {
-      background: var(--soft-purple);
+      border-top: 6px solid var(--purple);
     }
 
     .controlled-mode-button {
-      background: var(--soft-green);
+      border-top: 6px solid var(--green);
     }
 
     .variable-tile-grid {
@@ -299,34 +313,65 @@
       transition:
         transform 0.18s ease,
         box-shadow 0.18s ease,
+        background-color 0.22s ease,
+        border-color 0.22s ease,
         opacity 0.18s ease;
     }
 
-    .sort-variables-section .variable-mode-button:not(:disabled):hover,
-    .sort-variables-section .variable-mode-button.mode-active {
+    .sort-variables-section
+    .variable-mode-button:not(:disabled):not(.mode-active):hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 0 var(--line);
+      box-shadow: 0 3px 0 rgba(48, 51, 47, 0.35);
     }
 
     .sort-variables-section .variable-mode-button.mode-active {
-      outline: 4px solid rgba(48, 51, 47, 0.16);
+      transform: translateY(0);
+      box-shadow: none;
+      outline: none;
     }
 
     /* Stronger GTAC colours only for the currently selected variable type */
 
     .sort-variables-section
     .independent-mode-button.mode-active {
-      background: var(--yellow);
+      background: var(--soft-yellow);
+      border-color: var(--line);
+      border-top-color: var(--yellow);
     }
 
     .sort-variables-section
     .dependent-mode-button.mode-active {
-      background: var(--lavender);
+      background: var(--soft-purple);
+      border-color: var(--line);
+      border-top-color: var(--purple);
     }
 
     .sort-variables-section
     .controlled-mode-button.mode-active {
-      background: var(--mint);
+      background: var(--soft-green);
+      border-color: var(--line);
+      border-top-color: var(--green);
+    }
+
+    .sort-variables-section
+    .independent-mode-button.mode-complete {
+      background: var(--soft-yellow);
+      border-color: var(--line);
+      border-top-color: var(--yellow);
+    }
+
+    .sort-variables-section
+    .dependent-mode-button.mode-complete {
+      background: var(--soft-purple);
+      border-color: var(--line);
+      border-top-color: var(--purple);
+    }
+
+    .sort-variables-section
+    .controlled-mode-button.mode-complete {
+      background: var(--soft-green);
+      border-color: var(--line);
+      border-top-color: var(--green);
     }
 
     .sort-variables-section .variable-mode-button:disabled,
@@ -345,7 +390,8 @@
 
       transition:
         transform 0.18s ease,
-        background 0.18s ease;
+        background-color 0.18s ease,
+        border-color 0.18s ease;
     }
 
     .sort-variables-section .variable-tile-label {
@@ -363,15 +409,18 @@
     /* Use the existing Lesson 2 variable colours */
 
     .sort-variables-section .variable-tile.is-independent {
-      background: var(--soft-yellow);
+      background: white;
+      border-top: 6px solid var(--yellow);
     }
 
     .sort-variables-section .variable-tile.is-dependent {
-      background: var(--soft-purple);
+      background: white;
+      border-top: 6px solid var(--purple);
     }
 
     .sort-variables-section .variable-tile.is-controlled {
-      background: var(--soft-green);
+      background: white;
+      border-top: 6px solid var(--green);
     }
 
     .sort-variables-section .variable-tile.is-classified {
@@ -462,8 +511,7 @@
       display: grid;
       grid-template-columns:
         repeat(2, minmax(0, 1fr));
-      gap: 18px;
-
+      gap: 22px;
       margin-top: 20px;
     }
 
@@ -473,8 +521,8 @@
       align-items: stretch;
       gap: 12px;
 
-      min-height: 260px;
-      padding: 20px;
+      min-height: 240px;
+      padding: 16px;
 
       background: var(--paper);
       color: var(--text);
@@ -495,13 +543,15 @@
         background 0.18s ease;
     }
 
-    .ball-pair-card:hover {
+    .ball-pair-card:not(.selected):hover {
       transform: translateY(-3px);
       box-shadow: 0 7px 0 var(--line);
     }
 
     .ball-pair-card.selected {
-      outline: 5px solid rgba(78, 50, 232, 0.18);
+      outline: none;
+      transform: translateY(0);
+      box-shadow: 0 3px 0 var(--line);
     }
 
     .ball-pair-card.correct-selection {
@@ -519,7 +569,7 @@
 
       width: 100%;
       min-height: 180px;
-      padding: 12px;
+      padding: 8px;
 
       overflow: hidden;
 
@@ -528,6 +578,8 @@
       border: 2px solid var(--line);
       border-radius: 16px;
     }
+
+    
 
     .ball-pair-image {
       display: block;
@@ -563,16 +615,16 @@
     }
 
     #choose-ball-pair .variable-feedback {
-      margin-top: 18px;
-      padding: 14px 16px;
+      margin-top: 20px;
+      padding: 12px 16px;
 
       background: rgba(255, 255, 255, 0.72);
-      color: var(--text);
+      color: var(--muted);
 
-      border: 2px dashed var(--line);
-      border-radius: 16px;
+      border: 2px dashed rgba(48, 51, 47, 0.72);
+      border-radius: 14px;
 
-      font-weight: 700;
+      font-weight: 600;
       line-height: 1.5;
       text-align: center;
     }
@@ -585,6 +637,16 @@
     #choose-ball-pair .variable-feedback.feedback-try-again {
       background: var(--soft-orange);
       border-style: solid;
+    }
+
+    #choose-ball-pair .content-box {7
+      padding: 14px 18px;
+    }
+
+    #choose-ball-pair .variable-feedback.feedback-success,
+    #choose-ball-pair .variable-feedback.feedback-try-again {
+      color: var(--text);
+      font-weight: 700;
     }
 
     @media (max-width: 760px) {
@@ -1002,9 +1064,9 @@
     }
 
     .variable-mode-subtitle {
-        font-size: 0.8rem;
+        font-size: 0.82rem;
         font-weight: 600;
-        opacity: 0.75;
+        opacity: 0.9;
     }
 
     .procedure-comparison-grid {
@@ -1150,3 +1212,40 @@
    .bk-area {
     margin-bottom: 10px;
    }
+
+   /* Lesson 2 section heading colours — add gradually */
+
+#discover-variables .section-title {
+  background: var(--green);
+  color: var(--charcoal);
+}
+
+#variable-types .section-title {
+  background: var(--purple);
+  color: white;
+}
+
+#sort-variables-one .section-title{
+    background: var(--blue);
+    color: var(--charcoal);
+}
+
+#choose-ball-pair .section-title{
+    background: var(--orange);
+    color:white;
+}
+
+#design-question .section-title{
+    background: var(--yellow);
+    color: var(--charcoal);
+}
+
+#sort-variables-three .section-title{
+    background: var(--green);
+    color: var(--charcoal);
+}
+
+#build-experiment .section-title{
+    background: var(--purple);
+    color:white;
+}
