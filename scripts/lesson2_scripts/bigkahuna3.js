@@ -5,7 +5,10 @@ const variableData = {
         roles: ["independent", "controlled"],
         prompt: "How will you change the ball size?",
         controlPrompt: "How will you keep the ball size the same?",
-        chips: ["Small and large", "Small and medium", "Measure the diameter"]
+        chips: ["Small and large", "Small and medium", "Measure the diameter"],
+        chipFunctions: [
+
+        ]
       },
       "ball-weight": {
         label: "Ball weight",
@@ -13,7 +16,10 @@ const variableData = {
         roles: ["independent", "controlled"],
         prompt: "How will you change the ball weight?",
         controlPrompt: "How will you keep the ball weight the same?",
-        chips: ["Light and heavy", "Measure mass in grams", "Use the same ball"]
+        chips: ["Light and heavy", "Measure mass in grams", "Use the same ball"],
+        chipFunctions: [
+          
+        ]
       },
       "ball-material": {
         label: "Ball material",
@@ -21,7 +27,10 @@ const variableData = {
         roles: ["independent", "controlled"],
         prompt: "How will you change the ball material?",
         controlPrompt: "How will you keep the ball material the same?",
-        chips: ["Rubber and plastic", "Foam and rubber", "Use rubber only"]
+        chips: ["Rubber and plastic", "Foam and rubber", "Use rubber only"],
+        chipFunctions: [
+          
+        ]
       },
       "ball-squashiness": {
         label: "Ball squashiness",
@@ -29,7 +38,10 @@ const variableData = {
         roles: ["independent", "controlled"],
         prompt: "How will you change the ball squashiness?",
         controlPrompt: "How will you keep the ball squashiness the same?",
-        chips: ["Firm and soft", "Rigid and squashy", "Use the same firmness"]
+        chips: ["Firm and soft", "Rigid and squashy", "Use the same firmness"],
+        chipFunctions: [
+          
+        ]
       },
       "drop-height": {
         label: "Drop height",
@@ -37,7 +49,10 @@ const variableData = {
         roles: ["independent", "controlled"],
         prompt: "How will you change the drop height?",
         controlPrompt: "How will you keep the drop height the same?",
-        chips: ["50 cm and 1 m", "1 m and 2 m", "Always use 1 m"]
+        chips: ["50 cm and 1 m", "1 m and 2 m", "Always use 1 m"],
+        chipFunctions: [
+          
+        ]
       },
       "bounce-surface": {
         label: "Bounce surface",
@@ -45,28 +60,40 @@ const variableData = {
         roles: ["independent", "controlled"],
         prompt: "How will you change the bounce surface?",
         controlPrompt: "How will you keep the bounce surface the same?",
-        chips: ["Carpet and concrete", "Hard and soft", "Always use concrete"]
+        chips: ["Carpet and concrete", "Hard and soft", "Always use concrete"],
+        chipFunctions: [
+          
+        ]
       },
       "bounce-height": {
         label: "Bounce height",
         group: "bounce",
         roles: ["dependent"],
         prompt: "How will you measure the bounce height?",
-        chips: ["Use a ruler", "Measure in centimetres", "Measure the first bounce"]
+        chips: ["Use a ruler", "Measure in centimetres", "Measure the first bounce"],
+        chipFunctions: [
+          
+        ]
       },
       "number-bounces": {
         label: "Number of bounces",
         group: "bounce",
         roles: ["dependent"],
         prompt: "How will you measure the number of bounces?",
-        chips: ["Count until it stops", "Count for 10 seconds", "Repeat three times"]
+        chips: ["Count until it stops", "Count for 10 seconds", "Repeat three times"],
+        chipFunctions: [
+          
+        ]
       },
       "bounce-time": {
         label: "Time spent bouncing",
         group: "bounce",
         roles: ["dependent"],
         prompt: "How will you measure the time spent bouncing?",
-        chips: ["Use a stopwatch", "Measure in seconds", "Start timing at release"]
+        chips: ["Use a stopwatch", "Measure in seconds", "Start timing at release"],
+        chipFunctions: [
+          
+        ]
       }
     };
 
@@ -127,11 +154,23 @@ const variableData = {
       return grid;
     }
 
+    function getVariableResponse(variableKey) {
+      if (state.independent === variableKey) {
+        return state.independentHow.toLowerCase();
+      }
+
+      if (state.dependent === variableKey) {
+        return state.dependentHow.toLowerCase();
+      }
+
+      return (state.controls[variableKey] || "").toLowerCase();
+    }
+
     function makeQuickChips(variableKey, textarea, onUpdate) {
       const wrapper = document.createElement("div");
       wrapper.className = "bk3-chip-group";
 
-      variableData[variableKey].chips.forEach(function(chipText) {
+      variableData[variableKey].chips.forEach(function(chipText, index) {
         const chip = document.createElement("button");
         chip.type = "button";
         chip.className = "bk3-chip";
@@ -577,21 +616,66 @@ const variableData = {
         part.classList.toggle("secondary", group !== "" && part.dataset.part !== group);
       });
     }
+    function resizeBall(ball, cx, cy, radius) {
+      ball.setAttribute("x", cx - radius);
+      ball.setAttribute("y", cy - radius);
+      ball.setAttribute("width", radius * 2);
+      ball.setAttribute("height", radius * 2);
+    }
+
+    function setBall(ball, options) {
+      const {
+        cx,
+        cy,
+        radius,
+        image
+      } = options;
+
+      ball.setAttribute("href", image);
+      // resizeBall(ball, cx, cy, radius);
+      ball.setAttribute("x", cx - radius);
+      ball.setAttribute("y", cy - radius);
+      ball.setAttribute("width", radius * 2);
+      ball.setAttribute("height", radius * 2);
+    }
 
     function updateDiagramDetails() {
+      const ballScaleShrink = 0.8;
+      const ballScaleGrow = 1.2;
+
       const mainBall = document.getElementById("mainBall");
+      const mainBallCX = 286;
+      const mainBallCY = 120;
+      const mainBallRadius = 52;
+
+      setBall(mainBall, {
+        cx: mainBallCX,
+        cy: mainBallCY,
+        radius: mainBallRadius,
+        image: "../images/bigkahuna/basketball.png"
+      });
+
       const comparisonBallGroup = document.getElementById("comparisonBallGroup");
       const comparisonBall = document.getElementById("comparisonBall");
+      const comparisonBallCX = 424;
+      const comparisonBallCY = 122;
+      const comparisonBallRadius = 34;
+      setBall(comparisonBall, {
+        cx: comparisonBallCX,
+        cy: comparisonBallCY,
+        radius: comparisonBallRadius,
+        image: "../images/bigkahuna/basketball.png"
+      });
+
       const surfaceRect = document.getElementById("surfaceRect");
       const surfaceLabel = document.getElementById("surfaceLabel");
       const dropValueText = document.getElementById("dropValueText");
       const measureValueText = document.getElementById("measureValueText");
 
       comparisonBallGroup.hidden = true;
-      mainBall.setAttribute("r", "52");
-      comparisonBall.setAttribute("r", "34");
-      mainBall.setAttribute("fill", "#ffc91c");
-      comparisonBall.setAttribute("fill", "#ffc91c");
+      resizeBall(mainBall, mainBallCX, mainBallCY, mainBallRadius);
+      resizeBall(comparisonBall, comparisonBallCX, comparisonBallCY, comparisonBallRadius);
+
       surfaceRect.setAttribute("fill", "url(#surfaceGradient)");
       surfaceLabel.textContent = "Bounce surface";
       dropValueText.textContent = "";
@@ -599,23 +683,35 @@ const variableData = {
 
       const independentText = state.independentHow.toLowerCase();
 
+      const ballSizeText = getVariableResponse("ball-size");
+
       if (state.independent === "ball-size") {
-        comparisonBallGroup.hidden = false;
+        // comparisonBallGroup.hidden = false;
         if (independentText.includes("small") && independentText.includes("large")) {
-          mainBall.setAttribute("r", "60");
-          comparisonBall.setAttribute("r", "30");
+          resizeBall(
+            mainBall,
+            mainBallCX,
+            mainBallCY,
+            mainBallRadius * ballScaleShrink
+          );
+          resizeBall(
+            comparisonBall,
+            comparisonBallCX,
+            comparisonBallCY,
+            comparisonBallRadius * ballScaleGrow
+          );
         }
       }
 
       if (state.independent === "ball-material") {
         comparisonBallGroup.hidden = false;
-        mainBall.setAttribute("fill", "#ffc91c");
-        comparisonBall.setAttribute("fill", "#75dde8");
+        mainBall.setAttribute("fill", "#ffc91c"); // change image here to change material
+        comparisonBall.setAttribute("fill", "#75dde8"); // change image here to change material
       }
 
       if (state.independent === "ball-squashiness") {
         comparisonBallGroup.hidden = false;
-        comparisonBall.setAttribute("rx", "45");
+        resizeBall(comparisonBall, comparisonBallCX, comparisonBallCY, 45);
       }
 
       const surfaceText = [
