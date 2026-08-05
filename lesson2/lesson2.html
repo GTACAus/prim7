@@ -1482,53 +1482,58 @@
       
       <div class="bk-area">
         <main class="bk3-page">
-          <nav class="bk3-progress" aria-label="Investigation sections">
-            <button type="button" class="bk3-progress-step active" data-stage="change">1. Change</button>
-            <button type="button" class="bk3-progress-step" data-stage="measure">2. Measure</button>
-            <button type="button" class="bk3-progress-step" data-stage="control">3. Control</button>
-          </nav>
+    <nav class="bk3-progress" aria-label="Investigation sections">
+      <button type="button" class="bk3-progress-step active" data-stage="change">1. Change</button>
+      <button type="button" class="bk3-progress-step" data-stage="measure">2. Measure</button>
+      <button type="button" class="bk3-progress-step" data-stage="control">3. Control</button>
+    </nav>
 
-          <section class="bk3-top-controls" aria-label="Experiment choices">
-            <div id="controlsRoot"></div>
-          </section>
+    <section class="bk3-top-controls" aria-label="Experiment choices">
+      <div id="controlsRoot"></div>
+    </section>
 
-          <section class="bk3-main-card">
-            <div class="bk3-heading-row">
-              <div>
-                <h1>Your experiment</h1>
-                <p id="stagePrompt">Choose the one variable that will be different.</p>
-              </div>
-              <p class="bk3-status" id="diagramStatus">Change one variable while keeping the others the same.</p>
-            </div>
+    <section class="bk3-main-card">
+      <div class="bk3-heading-row">
+        <div>
+          <h1>Your experiment</h1>
+          <p id="stagePrompt">Choose the one variable that will be different.</p>
+        </div>
+        <p class="bk3-status" id="diagramStatus">Change one variable while keeping the others the same.</p>
+      </div>
 
-            <div class="bk3-canvas" aria-label="Visual experiment builder">
-              <div class="ruler" aria-hidden="true"></div>
-              <div class="lane-label a">Experiment A</div>
-              <div class="lane-label b">Experiment B</div>
-              <div class="drop-line a"></div>
-              <div class="drop-line b"></div>
-              <div class="ball a basketball" id="ballA"></div>
-              <div class="ball b basketball" id="ballB"></div>
-              <div class="surface a hard-floor" id="surfaceA"><span>Hard floor</span></div>
-              <div class="surface b hard-floor" id="surfaceB"><span>Hard floor</span></div>
-              <div class="measurement-note" id="measurementNote">Choose what you will measure.</div>
-            </div>
-          </section>
+      <div class="bk3-canvas" aria-label="Visual experiment builder">
+        <div class="ruler" aria-hidden="true"></div>
+        <div class="lane-label a">Experiment A</div>
+        <div class="lane-label b">Experiment B</div>
+        <div class="drop-line a"></div>
+        <div class="drop-line b"></div>
+        <div class="ball a basketball" id="ballA"></div>
+        <div class="ball b basketball" id="ballB"></div>
+        <div class="surface a hard-surface" id="surfaceA">
+          <span>Hard surface</span>
+        </div>
 
-          <section class="bk3-blueprint">
-            <h2>Updating blueprint</h2>
-            <div class="blueprint-grid">
-              <article class="blueprint-card"><strong>Change</strong><span id="blueprintChange">Not selected yet</span></article>
-              <article class="blueprint-card"><strong>Measure</strong><span id="blueprintMeasure">Not selected yet</span></article>
-              <article class="blueprint-card"><strong>Control</strong><span id="blueprintControl">Choose settings for the variables that stay the same.</span></article>
-            </div>
-            <div id="blueprintWarning" class="diagram-box diagram-activity" hidden></div>
-            <div class="bk3-actions">
-              <button type="button" id="resetButton">Reset</button>
-              <button type="button" class="primary" id="finishButton">Check blueprint</button>
-            </div>
-          </section>
-        </main>
+        <div class="surface b hard-surface" id="surfaceB">
+          <span>Hard surface</span>
+        </div>
+        <div class="measurement-note" id="measurementNote">Choose what you will measure.</div>
+      </div>
+    </section>
+
+    <section class="bk3-blueprint">
+      <h2>Updating blueprint</h2>
+      <div class="blueprint-grid">
+        <article class="blueprint-card"><strong>Change</strong><span id="blueprintChange">Not selected yet</span></article>
+        <article class="blueprint-card"><strong>Measure</strong><span id="blueprintMeasure">Not selected yet</span></article>
+        <article class="blueprint-card"><strong>Control</strong><span id="blueprintControl">Choose settings for the variables that stay the same.</span></article>
+      </div>
+      <div id="blueprintWarning" class="diagram-box diagram-activity" hidden></div>
+      <div class="bk3-actions">
+        <button type="button" id="bk4ResetButton">Reset</button>
+        <button type="button" class="primary" id="finishButton">Check blueprint</button>
+      </div>
+    </section>
+  </main>
       </div>
 
       <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 

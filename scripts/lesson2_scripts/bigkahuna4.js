@@ -39,14 +39,20 @@ const variableConfig = {
       surface: {
         label: "Bounce surface",
         changeOptions: [
-          { value: "hard-concrete", label: "Hard floor vs concrete", pair: ["hard-floor", "concrete"] },
-          { value: "concrete-carpet", label: "Concrete vs carpet", pair: ["concrete", "carpet"] },
-          { value: "hard-carpet", label: "Hard floor vs carpet", pair: ["hard-floor", "carpet"] }
+          {
+            value: "hard-soft",
+            label: "Hard surface vs soft surface",
+            pair: ["hard-surface", "soft-surface"]
+          },
+          {
+            value: "soft-hard",
+            label: "Soft surface vs hard surface",
+            pair: ["soft-surface", "hard-surface"]
+          }
         ],
         controlOptions: [
-          { value: "hard-floor", label: "Hard floor" },
-          { value: "concrete", label: "Concrete" },
-          { value: "carpet", label: "Carpet" }
+          { value: "hard-surface", label: "Hard surface" },
+          { value: "soft-surface", label: "Soft surface" }
         ]
       }
     };
@@ -72,7 +78,13 @@ const variableConfig = {
       measureOutcome: null,
       measureTool: null,
       selectedControlVariable: null,
-      controls: { size: "large", material: "basketball", height: "1.5", firmness: "firm", surface: "hard-floor" }
+     controls: {
+      size: "large",
+      material: "basketball",
+      height: "1.5",
+      firmness: "firm",
+      surface: "hard-surface"
+    }
     };
 
     const getOptionLabel = (options, value) => options.find(option => option.value === value)?.label || "Not selected";
@@ -262,23 +274,59 @@ const variableConfig = {
     function setStage(stage) {
       state.stage = stage;
       document.querySelectorAll(".bk3-progress-step").forEach(button => button.classList.toggle("active", button.dataset.stage === stage));
-      renderControls();
-      updateStageCopy();
-      renderVisuals();
-      updateBlueprint();
+      renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint();
     }
 
-    function renderAll() {
-        renderControls();
-        updateStageCopy();
-        renderVisuals();
-        updateBlueprint();
+    function renderAll() { renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint(); }
+
+        function resetBigKahuna() {
+      /*
+        Return the Big Kahuna activity to its original state
+        without refreshing the rest of Lesson 2.
+      */
+
+      state.stage = "change";
+
+      state.changeVariable = null;
+      state.changeSelections = {};
+
+      state.measureOutcome = null;
+      state.measureTool = null;
+
+      state.selectedControlVariable = null;
+
+      state.controls = {
+        size: "large",
+        material: "basketball",
+        height: "1.5",
+        firmness: "firm",
+        surface: "hard-surface"
+      };
+
+      /*
+        Return the navigation buttons to the Change section.
+      */
+      document
+        .querySelectorAll(".bk3-progress-step")
+        .forEach(function(button) {
+          button.classList.toggle(
+            "active",
+            button.dataset.stage === "change"
+          );
+        });
+
+      /*
+        Rebuild the controls, picture and blueprint
+        using the reset state.
+      */
+      renderAll();
     }
 
     document.querySelectorAll(".bk3-progress-step").forEach(button => button.addEventListener("click", () => setStage(button.dataset.stage)));
-    document.getElementById("resetButton").addEventListener("click", () => location.reload());
+    document
+      .getElementById("bk4ResetButton")
+      ?.addEventListener("click", resetBigKahuna);
     document.getElementById("finishButton").addEventListener("click", () => {
-        document.getElementById("finishButton").addEventListener("click", () => {
 
         const missing = [];
 
@@ -317,7 +365,6 @@ const variableConfig = {
                 </ul>
             `;
         }
-    });
     });
 
     renderAll();
