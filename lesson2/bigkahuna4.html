@@ -81,12 +81,50 @@
       border-radius: 18px; background: linear-gradient(to bottom, #fffdf4 0 82%, #eee7d6 82% 100%);
     }
     .ruler {
-      position: absolute; left: 4.5%; top: 8%; width: 78px; height: 70%; border: 4px solid var(--ink);
-      border-radius: 10px; background: repeating-linear-gradient(to bottom, transparent 0 23px, var(--ink) 23px 25px), #fff8c9;
+      position: absolute;
+      left: 4.5%;
+      top: 8%;
+      width: 78px;
+      height: 70%;
+
+      border: 4px solid var(--ink);
+      border-radius: 10px;
+      background: #fff8c9;
     }
-    .ruler::before, .ruler::after { position: absolute; left: 84px; width: 72px; color: var(--purple); font-weight: 700; }
-    .ruler::before { content: "1.5 m"; top: -8px; }
-    .ruler::after { content: "1 m"; top: 31%; }
+
+    /* Horizontal height markers */
+    .ruler::before,
+    .ruler::after {
+      position: absolute;
+      left: 88px;
+      width: 72px;
+
+      color: var(--purple);
+      font-weight: 700;
+      font-size: 1rem;
+
+      /* Put the line above the number */
+      padding-top: 7px;
+      border-top: 3px solid var(--purple);
+    }
+
+    /*
+      The ball at 1.5 m has top: 21%.
+      Put its marker lower than the bottom of the ball.
+    */
+    .ruler::before {
+      content: "1.5 m";
+      top: 32%;
+    }
+
+    /*
+      The ball at 1 m has top: 39%.
+      Put its marker lower than the bottom of the ball.
+    */
+    .ruler::after {
+      content: "1 m";
+      top: 58%;
+    }
     .lane-label {
       position: absolute; top: 18px; transform: translateX(-50%); padding: 6px 12px;
       border: 2px solid var(--ink); border-radius: 999px; background: #fff; font-weight: 700;
