@@ -1490,7 +1490,7 @@
     </div>
 
     <div class="bk3-layout">
-      <aside class="bk3-panel bk3-diagram-panel">
+      <section class="bk3-panel bk3-diagram-panel">
         <div class="bk3-diagram-heading">
           <h2>Your experiment</h2>
           <div class="bk3-diagram-status" id="diagramStatus">Start by choosing what you will change.</div>
@@ -1588,13 +1588,10 @@
                 <circle cx="286" cy="290" r="38" fill="#ffc91c"></circle>
               </g>
 
-              <circle id="mainBall" cx="286" cy="120" r="52" fill="url(#ballGradient)" stroke="#30332f" stroke-width="5" filter="url(#softShadow)"></circle>
-              <ellipse cx="269" cy="102" rx="15" ry="10" fill="#fff" opacity="0.5" transform="rotate(-25 269 102)"></ellipse>
-              <path d="M247 91 Q286 123 325 91" fill="none" stroke="#30332f" stroke-width="3.5"></path>
-              <path d="M247 149 Q286 117 325 149" fill="none" stroke="#30332f" stroke-width="3.5"></path>
+              <image id="mainBall" href="../images/bigkahuna/basketball.png" x="234" y="68" width="104" height="104" preserveAspectRatio="xMidYMid meet"></image>                
 
               <g id="comparisonBallGroup" hidden>
-                <circle id="comparisonBall" cx="424" cy="122" r="34" fill="url(#ballGradient)" stroke="#30332f" stroke-width="4" filter="url(#smallShadow)"></circle>
+                <image id="comparisonBall" href="../images/bigkahuna/ping_pong_ball.png" x="373" y="68" width="104" height="104" preserveAspectRatio="xMidYMid meet"></image>                
                 <ellipse cx="414" cy="113" rx="9" ry="6" fill="#fff" opacity="0.5" transform="rotate(-25 414 113)"></ellipse>
                 <rect class="bk3-callout-box" x="373" y="171" width="102" height="30"></rect>
                 <text x="424" y="191" text-anchor="middle" class="bk3-scene-label" font-size="13">Comparison</text>
@@ -1728,8 +1725,7 @@
         </div>
 
         <div class="bk3-choice-preview" id="choicePreview" aria-live="polite"></div>
-      </aside>
-
+      </section>
       <section class="bk3-panel">
         <div class="bk3-planner-heading">
           <h2>Investigation planner</h2>
