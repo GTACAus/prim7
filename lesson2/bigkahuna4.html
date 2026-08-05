@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Big Kahuna 3 - Experiment Builder Prototype</title>
+  <title>Big Kahuna 3 - Experiment Builder Prototype V2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -11,355 +11,173 @@
     :root {
       --ink: #30332f;
       --purple: #4e32e8;
+      --purple-soft: #eeeaff;
       --green: #00a867;
       --cream: #fffdf4;
       --panel: #ffffff;
       --muted: #6f746f;
       --line: #d9ded8;
       --soft: #f4f6f3;
-      --yellow: #ffc91c;
     }
 
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "DM Sans", sans-serif;
-      color: var(--ink);
-      background: #eef1ed;
-    }
-
+    body { margin: 0; font-family: "DM Sans", sans-serif; color: var(--ink); background: #eef1ed; }
     button, select { font: inherit; }
+    button { color: inherit; }
+    [hidden] { display: none !important; }
 
-    .bk3-page {
-      width: min(1440px, calc(100% - 32px));
-      margin: 24px auto;
-    }
+    .bk3-page { width: min(1440px, calc(100% - 32px)); margin: 24px auto; }
 
-    .bk3-progress {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
+    .bk3-progress { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
     .bk3-progress-step {
-      padding: 12px 16px;
-      border: 2px solid var(--ink);
-      border-radius: 14px;
-      background: #fff;
-      text-align: center;
-      font-weight: 700;
-      cursor: pointer;
+      padding: 12px 16px; border: 2px solid var(--ink); border-radius: 14px; background: #fff;
+      text-align: center; font-weight: 700; cursor: pointer;
     }
-
-    .bk3-progress-step.active {
-      color: #fff;
-      background: var(--purple);
-      border-color: var(--purple);
-    }
+    .bk3-progress-step.active { color: #fff; background: var(--purple); border-color: var(--purple); }
 
     .bk3-top-controls {
-      background: var(--panel);
-      border: 2px solid var(--ink);
-      border-radius: 18px;
-      padding: 14px;
-      margin-bottom: 14px;
-      box-shadow: 0 6px 0 rgba(48, 51, 47, 0.12);
+      background: var(--panel); border: 2px solid var(--ink); border-radius: 18px; padding: 14px;
+      margin-bottom: 14px; box-shadow: 0 6px 0 rgba(48, 51, 47, 0.12);
     }
-
-    .bk3-controls-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 10px;
-      align-items: end;
+    .control-instruction { margin: 0 0 10px; font-weight: 700; }
+    .choice-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+    .choice-button {
+      min-height: 42px; padding: 8px 13px; border: 2px solid var(--ink); border-radius: 11px;
+      background: #fff; font-weight: 700; cursor: pointer;
     }
+    .choice-button:hover:not(:disabled) { background: var(--purple-soft); }
+    .choice-button.selected { color: #fff; background: var(--purple); border-color: var(--purple); }
+    .choice-button:disabled { cursor: not-allowed; opacity: .42; background: #e8ebe7; }
 
-    .bk3-control {
-      display: grid;
-      gap: 5px;
-      min-width: 0;
+    .revealed-menu {
+      display: grid; grid-template-columns: minmax(170px, 260px) minmax(240px, 440px); gap: 12px;
+      align-items: end; margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--line);
     }
-
-    .bk3-control label {
-      font-size: 0.82rem;
-      font-weight: 700;
-    }
-
+    .revealed-copy strong { display: block; margin-bottom: 3px; }
+    .revealed-copy span { color: var(--muted); font-size: .9rem; }
+    .bk3-control { display: grid; gap: 5px; }
+    .bk3-control label { font-size: .82rem; font-weight: 700; }
     .bk3-control select {
-      width: 100%;
-      min-height: 40px;
-      padding: 8px 34px 8px 10px;
-      border: 2px solid var(--ink);
-      border-radius: 10px;
-      background: #fff;
-      color: var(--ink);
+      width: 100%; min-height: 42px; padding: 8px 34px 8px 10px; border: 2px solid var(--ink);
+      border-radius: 10px; background: #fff; color: var(--ink);
     }
 
-    .bk3-main-card,
-    .bk3-blueprint {
-      background: var(--panel);
-      border: 2px solid var(--ink);
-      border-radius: 20px;
+    .control-editor { margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--line); }
+    .control-editor-empty { color: var(--muted); }
+
+    .bk3-main-card, .bk3-blueprint {
+      background: var(--panel); border: 2px solid var(--ink); border-radius: 20px;
       box-shadow: 0 7px 0 rgba(48, 51, 47, 0.12);
     }
-
     .bk3-main-card { padding: 16px; }
-
-    .bk3-heading-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 18px;
-      margin-bottom: 12px;
-    }
-
+    .bk3-heading-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin-bottom: 12px; }
     h1, h2, p { margin: 0; }
     h1 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
     h2 { font-size: 1.15rem; }
-
-    .bk3-status {
-      max-width: 520px;
-      color: var(--muted);
-      text-align: right;
-    }
+    .bk3-status { max-width: 560px; color: var(--muted); text-align: right; }
 
     .bk3-canvas {
-      position: relative;
-      min-height: 560px;
-      overflow: hidden;
-      border: 2px solid var(--ink);
-      border-radius: 18px;
-      background:
-        linear-gradient(to bottom, #fffdf4 0 82%, #eee7d6 82% 100%);
+      position: relative; min-height: 560px; overflow: hidden; border: 2px solid var(--ink);
+      border-radius: 18px; background: linear-gradient(to bottom, #fffdf4 0 82%, #eee7d6 82% 100%);
     }
-
     .ruler {
-      position: absolute;
-      left: 4.5%;
-      top: 8%;
-      width: 78px;
-      height: 70%;
-      border: 4px solid var(--ink);
-      border-radius: 10px;
-      background:
-        repeating-linear-gradient(to bottom,
-          transparent 0 23px,
-          var(--ink) 23px 25px),
-        #fff8c9;
+      position: absolute; left: 4.5%; top: 8%; width: 78px; height: 70%; border: 4px solid var(--ink);
+      border-radius: 10px; background: repeating-linear-gradient(to bottom, transparent 0 23px, var(--ink) 23px 25px), #fff8c9;
     }
-
-    .ruler::before,
-    .ruler::after {
-      position: absolute;
-      left: 84px;
-      width: 72px;
-      color: var(--purple);
-      font-weight: 700;
-    }
-
+    .ruler::before, .ruler::after { position: absolute; left: 84px; width: 72px; color: var(--purple); font-weight: 700; }
     .ruler::before { content: "1.5 m"; top: -8px; }
     .ruler::after { content: "1 m"; top: 31%; }
-
     .lane-label {
-      position: absolute;
-      top: 18px;
-      transform: translateX(-50%);
-      padding: 6px 12px;
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      background: #fff;
-      font-weight: 700;
+      position: absolute; top: 18px; transform: translateX(-50%); padding: 6px 12px;
+      border: 2px solid var(--ink); border-radius: 999px; background: #fff; font-weight: 700;
     }
-
     .lane-label.a { left: 43%; }
     .lane-label.b { left: 72%; }
-
-    .drop-line {
-      position: absolute;
-      top: 17%;
-      bottom: 18%;
-      border-left: 3px dashed #888;
-      opacity: 0.65;
-    }
-
+    .drop-line { position: absolute; top: 17%; bottom: 18%; border-left: 3px dashed #888; opacity: .65; }
     .drop-line.a { left: 43%; }
     .drop-line.b { left: 72%; }
 
     .ball {
-      --size: 110px;
-      position: absolute;
-      z-index: 3;
-      width: var(--size);
-      height: var(--size);
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      border: 4px solid var(--ink);
-      box-shadow: 0 8px 0 rgba(48, 51, 47, 0.14);
+      --size: 110px; position: absolute; z-index: 3; width: var(--size); height: var(--size);
+      transform: translate(-50%, -50%); border-radius: 50%; border: 4px solid var(--ink);
+      box-shadow: 0 8px 0 rgba(48, 51, 47, .14);
       transition: width .25s, height .25s, top .25s, background .25s, border-radius .25s, transform .25s;
     }
-
     .ball.a { left: 43%; }
     .ball.b { left: 72%; }
-
     .ball.basketball {
-      background:
-        linear-gradient(90deg, transparent 46%, var(--ink) 47% 53%, transparent 54%),
-        linear-gradient(0deg, transparent 46%, var(--ink) 47% 53%, transparent 54%),
-        #e88d25;
+      background: linear-gradient(90deg, transparent 46%, var(--ink) 47% 53%, transparent 54%),
+                  linear-gradient(0deg, transparent 46%, var(--ink) 47% 53%, transparent 54%), #e88d25;
     }
-
     .ball.tennis {
-      background:
-        radial-gradient(circle at 50% -5%, transparent 54%, #fff 55% 59%, transparent 60%),
-        radial-gradient(circle at 50% 105%, transparent 54%, #fff 55% 59%, transparent 60%),
-        #cbe934;
+      background: radial-gradient(circle at 50% -5%, transparent 54%, #fff 55% 59%, transparent 60%),
+                  radial-gradient(circle at 50% 105%, transparent 54%, #fff 55% 59%, transparent 60%), #cbe934;
     }
-
-    .ball.pingpong {
-      background: radial-gradient(circle at 32% 28%, #fff 0 12%, #f2f2f2 13% 100%);
-    }
-
-    .ball.soft {
-      border-radius: 48% 52% 45% 55% / 56% 44% 58% 42%;
-      transform: translate(-50%, -50%) scaleY(0.88);
-    }
+    .ball.pingpong { background: radial-gradient(circle at 32% 28%, #fff 0 12%, #f2f2f2 13% 100%); }
+    .ball.soft { border-radius: 48% 52% 45% 55% / 56% 44% 58% 42%; transform: translate(-50%, -50%) scaleY(.82); }
 
     .surface {
-      position: absolute;
-      bottom: 8%;
-      width: 28%;
-      height: 58px;
-      border: 4px solid var(--ink);
-      border-radius: 10px 10px 4px 4px;
-      display: grid;
-      place-items: center;
-      font-weight: 700;
+      position: absolute; bottom: 8%; width: 28%; height: 58px; border: 4px solid var(--ink);
+      border-radius: 10px 10px 4px 4px; display: grid; place-items: center; font-weight: 700;
       transition: background .25s;
     }
-
     .surface.a { left: 29%; }
     .surface.b { left: 58%; }
-
-    .surface.hard-floor {
-      background: repeating-linear-gradient(90deg, #d5a56e 0 42px, #c08d55 42px 45px);
-    }
-
+    .surface.hard-floor { background: repeating-linear-gradient(90deg, #d5a56e 0 42px, #c08d55 42px 45px); }
     .surface.concrete {
-      background:
-        radial-gradient(circle at 20% 30%, #9fa4a5 0 2px, transparent 3px),
-        radial-gradient(circle at 75% 65%, #a9adae 0 2px, transparent 3px),
-        #c8cccd;
+      background: radial-gradient(circle at 20% 30%, #9fa4a5 0 2px, transparent 3px),
+                  radial-gradient(circle at 75% 65%, #a9adae 0 2px, transparent 3px), #c8cccd;
     }
-
-    .surface.carpet {
-      background: repeating-linear-gradient(0deg, #ded7ff 0 7px, #c7b9fa 7px 9px);
-    }
-
+    .surface.carpet { background: repeating-linear-gradient(0deg, #ded7ff 0 7px, #c7b9fa 7px 9px); }
     .measurement-note {
-      position: absolute;
-      right: 3%;
-      top: 42%;
-      width: 170px;
-      padding: 10px;
-      border: 2px dashed var(--purple);
-      border-radius: 12px;
-      background: rgba(255,255,255,.92);
-      color: var(--purple);
-      font-weight: 700;
-      text-align: center;
+      position: absolute; right: 3%; top: 42%; width: 180px; padding: 10px; border: 2px dashed var(--purple);
+      border-radius: 12px; background: rgba(255,255,255,.92); color: var(--purple); font-weight: 700; text-align: center;
+      white-space: pre-line;
     }
 
-    .bk3-blueprint {
-      margin-top: 14px;
-      padding: 16px;
-    }
+    .bk3-blueprint { margin-top: 14px; padding: 16px; }
+    .blueprint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+    .blueprint-card { min-height: 108px; padding: 12px; border: 2px solid var(--line); border-radius: 14px; background: var(--soft); }
+    .blueprint-card strong { display: block; margin-bottom: 6px; }
+    .bk3-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 14px; }
+    .bk3-actions button { padding: 10px 18px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; font-weight: 700; cursor: pointer; }
+    .bk3-actions .primary { margin-left: auto; color: #fff; background: var(--purple); border-color: var(--purple); }
 
-    .blueprint-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .blueprint-card {
-      min-height: 108px;
-      padding: 12px;
-      border: 2px solid var(--line);
-      border-radius: 14px;
-      background: var(--soft);
-    }
-
-    .blueprint-card strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .bk3-actions {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .bk3-actions button {
-      padding: 10px 18px;
-      border: 2px solid var(--ink);
-      border-radius: 10px;
-      background: #fff;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .bk3-actions .primary {
-      margin-left: auto;
-      color: #fff;
-      background: var(--purple);
-      border-color: var(--purple);
-    }
-
-    [hidden] { display: none !important; }
-
-    @media (max-width: 980px) {
-      .bk3-controls-grid { grid-template-columns: repeat(2, 1fr); }
-      .bk3-canvas { min-height: 500px; }
-      .measurement-note { display: none; }
-    }
-
-    @media (max-width: 620px) {
+    @media (max-width: 760px) {
       .bk3-page { width: min(100% - 18px, 1440px); }
       .bk3-progress { grid-template-columns: 1fr; }
-      .bk3-controls-grid { grid-template-columns: 1fr; }
+      .revealed-menu { grid-template-columns: 1fr; }
       .bk3-heading-row { display: grid; }
       .bk3-status { text-align: left; }
       .blueprint-grid { grid-template-columns: 1fr; }
-      .ruler { left: 2%; transform: scale(.82); transform-origin: top left; }
+      .measurement-note { display: none; }
+      .ruler { left: 1%; transform: scale(.82); transform-origin: top left; }
       .lane-label.a, .drop-line.a, .ball.a { left: 45%; }
-      .lane-label.b, .drop-line.b, .ball.b { left: 75%; }
-      .surface.a { left: 31%; width: 28%; }
-      .surface.b { left: 61%; width: 28%; }
+      .lane-label.b, .drop-line.b, .ball.b { left: 76%; }
+      .surface.a { left: 31%; }
+      .surface.b { left: 62%; }
     }
   </style>
 </head>
 <body>
   <main class="bk3-page">
-    <nav class="bk3-progress" aria-label="Investigation progress">
-      <button type="button" class="bk3-progress-step active" data-step="change">1. Change</button>
-      <button type="button" class="bk3-progress-step" data-step="measure">2. Measure</button>
-      <button type="button" class="bk3-progress-step" data-step="control">3. Control</button>
+    <nav class="bk3-progress" aria-label="Investigation sections">
+      <button type="button" class="bk3-progress-step active" data-stage="change">1. Change</button>
+      <button type="button" class="bk3-progress-step" data-stage="measure">2. Measure</button>
+      <button type="button" class="bk3-progress-step" data-stage="control">3. Control</button>
     </nav>
 
     <section class="bk3-top-controls" aria-label="Experiment choices">
-      <div class="bk3-controls-grid" id="controlsRoot"></div>
+      <div id="controlsRoot"></div>
     </section>
 
     <section class="bk3-main-card">
       <div class="bk3-heading-row">
         <div>
           <h1>Your experiment</h1>
-          <p id="stagePrompt">Choose one thing to change between Experiment A and Experiment B.</p>
+          <p id="stagePrompt">Choose the one variable that will be different.</p>
         </div>
-        <p class="bk3-status" id="diagramStatus">The diagram updates as students choose from the menus.</p>
+        <p class="bk3-status" id="diagramStatus">Change one variable while keeping the others the same.</p>
       </div>
 
       <div class="bk3-canvas" aria-label="Visual experiment builder">
@@ -369,346 +187,308 @@
         <div class="drop-line a"></div>
         <div class="drop-line b"></div>
         <div class="ball a basketball" id="ballA"></div>
-        <div class="ball b pingpong" id="ballB"></div>
+        <div class="ball b basketball" id="ballB"></div>
         <div class="surface a hard-floor" id="surfaceA"><span>Hard floor</span></div>
-        <div class="surface b concrete" id="surfaceB"><span>Concrete</span></div>
-        <div class="measurement-note" id="measurementNote">Measurement method will appear here.</div>
+        <div class="surface b hard-floor" id="surfaceB"><span>Hard floor</span></div>
+        <div class="measurement-note" id="measurementNote">Choose what you will measure.</div>
       </div>
     </section>
 
     <section class="bk3-blueprint">
       <h2>Updating blueprint</h2>
       <div class="blueprint-grid">
-        <article class="blueprint-card">
-          <strong>Change</strong>
-          <span id="blueprintChange">Ball material: basketball vs ping pong ball</span>
-        </article>
-        <article class="blueprint-card">
-          <strong>Measure</strong>
-          <span id="blueprintMeasure">Not selected yet</span>
-        </article>
-        <article class="blueprint-card">
-          <strong>Control</strong>
-          <span id="blueprintControl">Not selected yet</span>
-        </article>
+        <article class="blueprint-card"><strong>Change</strong><span id="blueprintChange">Not selected yet</span></article>
+        <article class="blueprint-card"><strong>Measure</strong><span id="blueprintMeasure">Not selected yet</span></article>
+        <article class="blueprint-card"><strong>Control</strong><span id="blueprintControl">Choose settings for the variables that stay the same.</span></article>
       </div>
       <div class="bk3-actions">
         <button type="button" id="resetButton">Reset</button>
-        <button type="button" class="primary" id="nextButton">Next: Measure</button>
+        <button type="button" class="primary" id="finishButton">Check blueprint</button>
       </div>
     </section>
   </main>
 
   <script>
-    const state = {
-      stage: "change",
-      changeVariable: "material",
-      measureOutcome: "bounceHeight",
-      measureTool: "measuringTape",
-      controls: {
-        size: "large",
-        material: "basketball",
-        height: "1.5",
-        firmness: "firm",
-        surface: "hard-floor"
-      }
-    };
-
-    const changeOptions = {
+    const variableConfig = {
       size: {
         label: "Ball size",
-        values: [
-          ["small-large", "Small ball vs large ball"],
-          ["large-small", "Large ball vs small ball"]
-        ]
+        changeOptions: [
+          { value: "small-large", label: "Small ball vs large ball", pair: ["small", "large"] },
+          { value: "large-small", label: "Large ball vs small ball", pair: ["large", "small"] }
+        ],
+        controlOptions: [{ value: "large", label: "Large ball" }, { value: "small", label: "Small ball" }]
       },
       material: {
         label: "Ball material",
-        values: [
-          ["basketball-pingpong", "Basketball vs ping pong ball"],
-          ["basketball-tennis", "Basketball vs tennis ball"],
-          ["tennis-pingpong", "Tennis ball vs ping pong ball"]
+        changeOptions: [
+          { value: "basketball-pingpong", label: "Basketball vs ping pong ball", pair: ["basketball", "pingpong"] },
+          { value: "basketball-tennis", label: "Basketball vs tennis ball", pair: ["basketball", "tennis"] },
+          { value: "tennis-pingpong", label: "Tennis ball vs ping pong ball", pair: ["tennis", "pingpong"] }
+        ],
+        controlOptions: [
+          { value: "basketball", label: "Basketball" },
+          { value: "pingpong", label: "Ping pong ball" },
+          { value: "tennis", label: "Tennis ball" }
         ]
       },
       height: {
         label: "Drop height",
-        values: [
-          ["1-1.5", "1 m vs 1.5 m"],
-          ["1.5-1", "1.5 m vs 1 m"]
-        ]
+        changeOptions: [
+          { value: "1-1.5", label: "1 m vs 1.5 m", pair: ["1", "1.5"] },
+          { value: "1.5-1", label: "1.5 m vs 1 m", pair: ["1.5", "1"] }
+        ],
+        controlOptions: [{ value: "1", label: "1 m" }, { value: "1.5", label: "1.5 m" }]
       },
       firmness: {
         label: "Ball firmness",
-        values: [
-          ["firm-soft", "Firm ball vs soft ball"],
-          ["soft-firm", "Soft ball vs firm ball"]
-        ]
+        changeOptions: [
+          { value: "firm-soft", label: "Firm ball vs soft ball", pair: ["firm", "soft"] },
+          { value: "soft-firm", label: "Soft ball vs firm ball", pair: ["soft", "firm"] }
+        ],
+        controlOptions: [{ value: "firm", label: "Firm ball" }, { value: "soft", label: "Soft ball" }]
       },
       surface: {
         label: "Bounce surface",
-        values: [
-          ["hard-floor-concrete", "Hard floor vs concrete"],
-          ["concrete-carpet", "Concrete vs carpet"],
-          ["hard-floor-carpet", "Hard floor vs carpet"]
+        changeOptions: [
+          { value: "hard-concrete", label: "Hard floor vs concrete", pair: ["hard-floor", "concrete"] },
+          { value: "concrete-carpet", label: "Concrete vs carpet", pair: ["concrete", "carpet"] },
+          { value: "hard-carpet", label: "Hard floor vs carpet", pair: ["hard-floor", "carpet"] }
+        ],
+        controlOptions: [
+          { value: "hard-floor", label: "Hard floor" },
+          { value: "concrete", label: "Concrete" },
+          { value: "carpet", label: "Carpet" }
         ]
       }
     };
 
     const measureOutcomes = [
-      ["bounceHeight", "Bounce height"],
-      ["bounceCount", "Number of bounces"],
-      ["bounceTime", "Time spent bouncing"]
+      { value: "bounceHeight", label: "Bounce height" },
+      { value: "bounceCount", label: "Number of bounces" },
+      { value: "bounceTime", label: "Time spent bouncing" }
     ];
-
     const measureTools = [
-      ["measuringTape", "Use measuring tape"],
-      ["ruler", "Use ruler"],
-      ["stopwatch", "Use stopwatch"],
-      ["count", "Count the bounces"],
-      ["video", "Record a video"],
-      ["estimate", "Estimate by eye"]
+      { value: "measuringTape", label: "Use measuring tape" },
+      { value: "ruler", label: "Use ruler" },
+      { value: "stopwatch", label: "Use stopwatch" },
+      { value: "count", label: "Count the bounces" },
+      { value: "video", label: "Record a video" },
+      { value: "estimate", label: "Estimate by eye" }
     ];
 
-    const controlOptions = {
-      size: [
-        ["large", "Large ball"],
-        ["small", "Small ball"]
-      ],
-      material: [
-        ["basketball", "Basketball"],
-        ["pingpong", "Ping pong ball"],
-        ["tennis", "Tennis ball"]
-      ],
-      height: [
-        ["1", "1 m"],
-        ["1.5", "1.5 m"]
-      ],
-      firmness: [
-        ["firm", "Firm ball"],
-        ["soft", "Soft ball"]
-      ],
-      surface: [
-        ["hard-floor", "Hard floor"],
-        ["concrete", "Concrete"],
-        ["carpet", "Carpet"]
-      ]
+    const state = {
+      stage: "change",
+      changeVariable: null,
+      changeSelections: {},
+      measureOutcome: null,
+      measureTool: null,
+      selectedControlVariable: null,
+      controls: { size: "large", material: "basketball", height: "1.5", firmness: "firm", surface: "hard-floor" }
     };
 
-    const labels = {
-      size: "Ball size",
-      material: "Ball material",
-      height: "Drop height",
-      firmness: "Ball firmness",
-      surface: "Bounce surface"
-    };
+    const getOptionLabel = (options, value) => options.find(option => option.value === value)?.label || "Not selected";
 
-    const human = value => value
-      .replace("pingpong", "ping pong ball")
-      .replace("basketball", "basketball")
-      .replace("tennis", "tennis ball")
-      .replace("hard-floor", "hard floor")
-      .replace("firm", "firm ball")
-      .replace("soft", "soft ball");
+    function buttonGroup(items, selectedValue, onClickName, disabledValue = null) {
+      return `<div class="choice-buttons">${items.map(item => `
+        <button type="button" class="choice-button ${selectedValue === item.value ? "selected" : ""}"
+          data-action="${onClickName}" data-value="${item.value}" ${disabledValue === item.value ? "disabled" : ""}>
+          ${item.label}
+        </button>`).join("")}</div>`;
+    }
 
-    function selectMarkup(id, label, options, selected) {
-      return `
-        <div class="bk3-control">
-          <label for="${id}">${label}</label>
-          <select id="${id}">
-            ${options.map(([value, text]) => `<option value="${value}" ${value === selected ? "selected" : ""}>${text}</option>`).join("")}
-          </select>
-        </div>`;
+    function selectControl(id, label, options, selectedValue) {
+      return `<div class="bk3-control">
+        <label for="${id}">${label}</label>
+        <select id="${id}">${options.map(option => `<option value="${option.value}" ${option.value === selectedValue ? "selected" : ""}>${option.label}</option>`).join("")}</select>
+      </div>`;
     }
 
     function renderControls() {
       const root = document.getElementById("controlsRoot");
-      if (state.stage === "change") {
-        root.innerHTML = Object.entries(changeOptions).map(([key, config]) =>
-          selectMarkup(`change-${key}`, config.label, config.values, key === state.changeVariable ? config.values[0][0] : "")
-        ).join("");
 
-        Object.keys(changeOptions).forEach(key => {
-          const select = document.getElementById(`change-${key}`);
-          select.disabled = key !== state.changeVariable;
-          select.addEventListener("focus", () => activateChangeVariable(key));
-          select.addEventListener("change", () => {
-            state.changeVariable = key;
-            applyChangePair(key, select.value);
-            renderControls();
-            updateBlueprint();
-          });
-        });
+      if (state.stage === "change") {
+        const variables = Object.entries(variableConfig).map(([value, config]) => ({ value, label: config.label }));
+        let revealed = "";
+        if (state.changeVariable) {
+          const config = variableConfig[state.changeVariable];
+          const selected = state.changeSelections[state.changeVariable] || config.changeOptions[0].value;
+          revealed = `<div class="revealed-menu">
+            <div class="revealed-copy"><strong>${config.label}</strong><span>Choose how Experiment A and Experiment B will differ.</span></div>
+            ${selectControl("changePairSelect", "Comparison", config.changeOptions, selected)}
+          </div>`;
+        }
+        root.innerHTML = `<p class="control-instruction">What will you change?</p>
+          ${buttonGroup(variables, state.changeVariable, "choose-change")}${revealed}`;
       }
 
       if (state.stage === "measure") {
-        root.innerHTML = [
-          selectMarkup("measure-outcome", "What will you measure?", measureOutcomes, state.measureOutcome),
-          selectMarkup("measure-tool", "How will you measure it?", measureTools, state.measureTool)
-        ].join("");
-        document.getElementById("measure-outcome").addEventListener("change", e => {
-          state.measureOutcome = e.target.value;
-          updateBlueprint();
-        });
-        document.getElementById("measure-tool").addEventListener("change", e => {
-          state.measureTool = e.target.value;
-          updateBlueprint();
-        });
+        let revealed = "";
+        if (state.measureOutcome) {
+          revealed = `<div class="revealed-menu">
+            <div class="revealed-copy"><strong>${getOptionLabel(measureOutcomes, state.measureOutcome)}</strong><span>Choose how students will measure it.</span></div>
+            ${selectControl("measureToolSelect", "Measurement method", measureTools, state.measureTool || measureTools[0].value)}
+          </div>`;
+        }
+        root.innerHTML = `<p class="control-instruction">What will you measure?</p>
+          ${buttonGroup(measureOutcomes, state.measureOutcome, "choose-measure")}${revealed}`;
       }
 
       if (state.stage === "control") {
-        root.innerHTML = Object.entries(controlOptions).map(([key, options]) =>
-          selectMarkup(`control-${key}`, labels[key], options, state.controls[key])
-        ).join("");
-        Object.keys(controlOptions).forEach(key => {
-          document.getElementById(`control-${key}`).addEventListener("change", e => {
-            state.controls[key] = e.target.value;
-            applyControlVisuals();
-            updateBlueprint();
-          });
-        });
+        const variables = Object.entries(variableConfig).map(([value, config]) => ({ value, label: config.label }));
+        let editor = `<div class="control-editor control-editor-empty">Select a controlled variable to choose the value that both experiments will share.</div>`;
+        if (state.selectedControlVariable && state.selectedControlVariable !== state.changeVariable) {
+          const config = variableConfig[state.selectedControlVariable];
+          editor = `<div class="revealed-menu control-editor">
+            <div class="revealed-copy"><strong>${config.label}</strong><span>This setting will apply to both Experiment A and Experiment B.</span></div>
+            ${selectControl("controlValueSelect", "Shared value", config.controlOptions, state.controls[state.selectedControlVariable])}
+          </div>`;
+        }
+        root.innerHTML = `<p class="control-instruction">What will you keep the same?</p>
+          ${buttonGroup(variables, state.selectedControlVariable, "choose-control", state.changeVariable)}
+          ${state.changeVariable ? `<p style="margin-top:9px;color:var(--muted);font-size:.9rem;">${variableConfig[state.changeVariable].label} is unavailable here because it is the variable being changed.</p>` : ""}
+          ${editor}`;
       }
+
+      wireControlEvents();
     }
 
-    function activateChangeVariable(key) {
-      if (state.changeVariable === key) return;
-      state.changeVariable = key;
-      const first = changeOptions[key].values[0][0];
-      applyChangePair(key, first);
-      renderControls();
-      updateBlueprint();
-      document.getElementById(`change-${key}`).focus();
+    function wireControlEvents() {
+      document.querySelectorAll('[data-action="choose-change"]').forEach(button => {
+        button.addEventListener("click", () => {
+          state.changeVariable = button.dataset.value;
+          state.selectedControlVariable = null;
+          if (!state.changeSelections[state.changeVariable]) {
+            state.changeSelections[state.changeVariable] = variableConfig[state.changeVariable].changeOptions[0].value;
+          }
+          renderAll();
+        });
+      });
+
+      document.querySelectorAll('[data-action="choose-measure"]').forEach(button => {
+        button.addEventListener("click", () => {
+          state.measureOutcome = button.dataset.value;
+          if (!state.measureTool) state.measureTool = measureTools[0].value;
+          renderAll();
+        });
+      });
+
+      document.querySelectorAll('[data-action="choose-control"]').forEach(button => {
+        button.addEventListener("click", () => {
+          state.selectedControlVariable = button.dataset.value;
+          renderControls();
+        });
+      });
+
+      document.getElementById("changePairSelect")?.addEventListener("change", event => {
+        state.changeSelections[state.changeVariable] = event.target.value;
+        renderVisuals();
+        updateBlueprint();
+      });
+
+      document.getElementById("measureToolSelect")?.addEventListener("change", event => {
+        state.measureTool = event.target.value;
+        updateBlueprint();
+      });
+
+      document.getElementById("controlValueSelect")?.addEventListener("change", event => {
+        state.controls[state.selectedControlVariable] = event.target.value;
+        renderVisuals();
+        updateBlueprint();
+      });
     }
 
     function setBallMaterial(ball, material) {
       ball.classList.remove("basketball", "pingpong", "tennis");
       ball.classList.add(material);
     }
-
-    function setBallSize(ball, size) {
-      ball.style.setProperty("--size", size === "small" ? "82px" : "120px");
+    function setBallSize(ball, size) { ball.style.setProperty("--size", size === "small" ? "82px" : "120px"); }
+    function setBallFirmness(ball, firmness) { ball.classList.toggle("soft", firmness === "soft"); }
+    function setHeight(ball, height) { ball.style.top = height === "1" ? "39%" : "21%"; }
+    function setSurface(element, type) {
+      element.className = `surface ${element.id === "surfaceA" ? "a" : "b"} ${type}`;
+      element.querySelector("span").textContent = getOptionLabel(variableConfig.surface.controlOptions, type);
     }
 
-    function setBallFirmness(ball, firmness) {
-      ball.classList.toggle("soft", firmness === "soft");
-    }
+    function renderVisuals() {
+      const valuesA = { ...state.controls };
+      const valuesB = { ...state.controls };
 
-    function setHeight(ball, height) {
-      ball.style.top = height === "1" ? "39%" : "21%";
-    }
+      if (state.changeVariable) {
+        const config = variableConfig[state.changeVariable];
+        const selectionValue = state.changeSelections[state.changeVariable] || config.changeOptions[0].value;
+        const pair = config.changeOptions.find(option => option.value === selectionValue).pair;
+        valuesA[state.changeVariable] = pair[0];
+        valuesB[state.changeVariable] = pair[1];
+      }
 
-    function setSurface(el, type) {
-      el.className = `surface ${el.id === "surfaceA" ? "a" : "b"} ${type}`;
-      el.querySelector("span").textContent = human(type).replace(/^./, c => c.toUpperCase());
-    }
-
-    function applyChangePair(key, pairValue) {
-      const [a, b] = pairValue.split("-");
       const ballA = document.getElementById("ballA");
       const ballB = document.getElementById("ballB");
-
-      applyControlVisuals();
-
-      if (key === "size") {
-        setBallSize(ballA, a);
-        setBallSize(ballB, b);
-      }
-      if (key === "material") {
-        const materials = pairValue.includes("basketball-pingpong") ? ["basketball", "pingpong"]
-          : pairValue.includes("basketball-tennis") ? ["basketball", "tennis"]
-          : ["tennis", "pingpong"];
-        setBallMaterial(ballA, materials[0]);
-        setBallMaterial(ballB, materials[1]);
-      }
-      if (key === "height") {
-        setHeight(ballA, a);
-        setHeight(ballB, b);
-      }
-      if (key === "firmness") {
-        setBallFirmness(ballA, a);
-        setBallFirmness(ballB, b);
-      }
-      if (key === "surface") {
-        const surfaces = pairValue === "hard-floor-concrete" ? ["hard-floor", "concrete"]
-          : pairValue === "concrete-carpet" ? ["concrete", "carpet"]
-          : ["hard-floor", "carpet"];
-        setSurface(document.getElementById("surfaceA"), surfaces[0]);
-        setSurface(document.getElementById("surfaceB"), surfaces[1]);
-      }
-
-      state.currentPair = pairValue;
-    }
-
-    function applyControlVisuals() {
-      const ballA = document.getElementById("ballA");
-      const ballB = document.getElementById("ballB");
-      [ballA, ballB].forEach(ball => {
-        setBallSize(ball, state.controls.size);
-        setBallMaterial(ball, state.controls.material);
-        setBallFirmness(ball, state.controls.firmness);
-        setHeight(ball, state.controls.height);
-      });
-      setSurface(document.getElementById("surfaceA"), state.controls.surface);
-      setSurface(document.getElementById("surfaceB"), state.controls.surface);
+      setBallSize(ballA, valuesA.size); setBallSize(ballB, valuesB.size);
+      setBallMaterial(ballA, valuesA.material); setBallMaterial(ballB, valuesB.material);
+      setBallFirmness(ballA, valuesA.firmness); setBallFirmness(ballB, valuesB.firmness);
+      setHeight(ballA, valuesA.height); setHeight(ballB, valuesB.height);
+      setSurface(document.getElementById("surfaceA"), valuesA.surface);
+      setSurface(document.getElementById("surfaceB"), valuesB.surface);
     }
 
     function updateBlueprint() {
-      const stagePrompt = document.getElementById("stagePrompt");
+      const changeText = state.changeVariable
+        ? `${variableConfig[state.changeVariable].label}: ${getOptionLabel(variableConfig[state.changeVariable].changeOptions, state.changeSelections[state.changeVariable])}`
+        : "Not selected yet";
+      document.getElementById("blueprintChange").textContent = changeText;
+
+      const measureText = state.measureOutcome
+        ? `${getOptionLabel(measureOutcomes, state.measureOutcome)}: ${getOptionLabel(measureTools, state.measureTool)}`
+        : "Not selected yet";
+      document.getElementById("blueprintMeasure").textContent = measureText;
+
+      const controlledKeys = Object.keys(variableConfig).filter(key => key !== state.changeVariable);
+      document.getElementById("blueprintControl").textContent = controlledKeys
+        .map(key => `${variableConfig[key].label}: ${getOptionLabel(variableConfig[key].controlOptions, state.controls[key])}`)
+        .join("; ");
+
       const note = document.getElementById("measurementNote");
+      note.textContent = state.measureOutcome
+        ? `${getOptionLabel(measureOutcomes, state.measureOutcome)}\n${getOptionLabel(measureTools, state.measureTool)}`
+        : "Choose what you will measure.";
+    }
 
+    function updateStageCopy() {
+      const prompt = document.getElementById("stagePrompt");
+      const status = document.getElementById("diagramStatus");
       if (state.stage === "change") {
-        stagePrompt.textContent = "Choose one thing to change between Experiment A and Experiment B.";
-        const select = document.getElementById(`change-${state.changeVariable}`);
-        const text = select ? select.options[select.selectedIndex].text : labels[state.changeVariable];
-        document.getElementById("blueprintChange").textContent = `${labels[state.changeVariable]}: ${text}`;
-        note.textContent = "Choose Measure next to decide what students will record.";
-      }
-
-      if (state.stage === "measure") {
-        stagePrompt.textContent = "Choose what students will measure and which tool or method they will use.";
-        const outcomeText = measureOutcomes.find(x => x[0] === state.measureOutcome)[1];
-        const toolText = measureTools.find(x => x[0] === state.measureTool)[1];
-        document.getElementById("blueprintMeasure").textContent = `${outcomeText}: ${toolText}`;
-        note.textContent = `${outcomeText}\n${toolText}`;
-      }
-
-      if (state.stage === "control") {
-        stagePrompt.textContent = "Choose one shared value for every variable that must stay the same.";
-        const summary = Object.entries(state.controls).map(([key, value]) => `${labels[key]}: ${human(value)}`).join("; ");
-        document.getElementById("blueprintControl").textContent = summary;
-        note.textContent = "Both experiments now use the same control settings.";
+        prompt.textContent = "Choose the one variable that will be different.";
+        status.textContent = "After choosing a variable, its comparison menu appears underneath.";
+      } else if (state.stage === "measure") {
+        prompt.textContent = "Choose one outcome to measure.";
+        status.textContent = "The same measurement-method menu is available for each outcome.";
+      } else {
+        prompt.textContent = "Choose the settings that both experiments will share.";
+        status.textContent = state.changeVariable
+          ? `${variableConfig[state.changeVariable].label} cannot be controlled because it is being changed.`
+          : "Choose a Change variable first to disable it here.";
       }
     }
 
     function setStage(stage) {
       state.stage = stage;
-      document.querySelectorAll(".bk3-progress-step").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.step === stage);
-      });
-      renderControls();
-      if (stage === "control") applyControlVisuals();
-      if (stage === "change") applyChangePair(state.changeVariable, state.currentPair || changeOptions[state.changeVariable].values[0][0]);
-      updateBlueprint();
-      document.getElementById("nextButton").textContent = stage === "change" ? "Next: Measure" : stage === "measure" ? "Next: Control" : "Finish";
+      document.querySelectorAll(".bk3-progress-step").forEach(button => button.classList.toggle("active", button.dataset.stage === stage));
+      renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint();
     }
 
-    document.querySelectorAll(".bk3-progress-step").forEach(btn => {
-      btn.addEventListener("click", () => setStage(btn.dataset.step));
+    function renderAll() { renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint(); }
+
+    document.querySelectorAll(".bk3-progress-step").forEach(button => button.addEventListener("click", () => setStage(button.dataset.stage)));
+    document.getElementById("resetButton").addEventListener("click", () => location.reload());
+    document.getElementById("finishButton").addEventListener("click", () => {
+      const missing = [];
+      if (!state.changeVariable) missing.push("a variable to change");
+      if (!state.measureOutcome) missing.push("something to measure");
+      if (!state.measureTool) missing.push("a measurement method");
+      alert(missing.length ? `Still choose ${missing.join(" and ")}.` : "The experiment blueprint is ready.");
     });
 
-    document.getElementById("nextButton").addEventListener("click", () => {
-      if (state.stage === "change") setStage("measure");
-      else if (state.stage === "measure") setStage("control");
-      else alert("The experiment blueprint is complete.");
-    });
-
-    document.getElementById("resetButton").addEventListener("click", () => {
-      location.reload();
-    });
-
-    state.currentPair = "basketball-pingpong";
-    renderControls();
-    applyChangePair("material", state.currentPair);
-    updateBlueprint();
+    renderAll();
   </script>
 </body>
 </html>
