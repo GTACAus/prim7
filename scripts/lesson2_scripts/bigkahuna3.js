@@ -685,22 +685,19 @@ const variableData = {
 
       const ballSizeText = getVariableResponse("ball-size");
 
-      if (state.independent === "ball-size") {
-        // comparisonBallGroup.hidden = false;
-        if (independentText.includes("small") && independentText.includes("large")) {
-          resizeBall(
-            mainBall,
-            mainBallCX,
-            mainBallCY,
-            mainBallRadius * ballScaleShrink
-          );
-          resizeBall(
-            comparisonBall,
-            comparisonBallCX,
-            comparisonBallCY,
-            comparisonBallRadius * ballScaleGrow
-          );
-        }
+      if (independentText.includes("small") && independentText.includes("large")) {
+        resizeBall(
+          mainBall,
+          mainBallCX,
+          mainBallCY,
+          mainBallRadius * ballScaleShrink
+        );
+        resizeBall(
+          comparisonBall,
+          comparisonBallCX,
+          comparisonBallCY,
+          comparisonBallRadius * ballScaleGrow
+        );
       }
 
       if (state.independent === "ball-material") {

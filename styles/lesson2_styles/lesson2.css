@@ -557,7 +557,7 @@
       border: 3px solid var(--line);
       border-radius: 20px;
 
-      box-shadow: var(--shadow-small);
+      box-shadow: 0 3px 0 var(--line);
 
       font: inherit;
       text-align: left;
@@ -578,7 +578,7 @@
     .ball-pair-card.selected {
       outline: none;
       transform: translateY(0);
-      box-shadow: 0 3px 0 var(--line);
+      box-shadow: 0 0px 0 var(--line);
     }
 
     .ball-pair-card.correct-selection {
