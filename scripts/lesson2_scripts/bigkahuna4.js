@@ -262,19 +262,62 @@ const variableConfig = {
     function setStage(stage) {
       state.stage = stage;
       document.querySelectorAll(".bk3-progress-step").forEach(button => button.classList.toggle("active", button.dataset.stage === stage));
-      renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint();
+      renderControls();
+      updateStageCopy();
+      renderVisuals();
+      updateBlueprint();
     }
 
-    function renderAll() { renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint(); }
+    function renderAll() {
+        renderControls();
+        updateStageCopy();
+        renderVisuals();
+        updateBlueprint();
+    }
 
     document.querySelectorAll(".bk3-progress-step").forEach(button => button.addEventListener("click", () => setStage(button.dataset.stage)));
     document.getElementById("resetButton").addEventListener("click", () => location.reload());
     document.getElementById("finishButton").addEventListener("click", () => {
-      const missing = [];
-      if (!state.changeVariable) missing.push("a variable to change");
-      if (!state.measureOutcome) missing.push("something to measure");
-      if (!state.measureTool) missing.push("a measurement method");
-      alert(missing.length ? `Still choose ${missing.join(" and ")}.` : "The experiment blueprint is ready.");
+        document.getElementById("finishButton").addEventListener("click", () => {
+
+        const missing = [];
+
+        if (!state.changeVariable) {
+            missing.push("a Change variable");
+        }
+
+        if (!state.measureOutcome) {
+            missing.push("a Measure outcome");
+        }
+
+        if (!state.measureTool) {
+            missing.push("a Measurement tool");
+        }
+
+        if (!state.selectedControlVariable) {
+            missing.push("a Control variable");
+        }
+
+        const warning = document.getElementById("blueprintWarning");
+        warning.hidden = false;
+
+        if (missing.length === 0) {
+            warning.innerHTML = `
+                <p class="success-message">
+                    ✅ You have selected all required options. Your experiment blueprint is complete!
+                </p>
+            `;
+        } else {
+            warning.innerHTML = `
+                <p class="warning-message">
+                    You still need to select:
+                </p>
+                <ul>
+                    ${missing.map(item => `<li>${item}</li>`).join("")}
+                </ul>
+            `;
+        }
+    });
     });
 
     renderAll();
