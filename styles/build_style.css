@@ -1740,7 +1740,7 @@
 }
 
 .section-title {
-  display: inline-flex;
+  display: inline-block;
   align-items: center;
 
   margin: -8px 0 22px;
