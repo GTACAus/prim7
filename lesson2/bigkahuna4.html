@@ -164,12 +164,25 @@
     }
     .surface.a { left: 29%; }
     .surface.b { left: 58%; }
-    .surface.hard-floor { background: repeating-linear-gradient(90deg, #d5a56e 0 42px, #c08d55 42px 45px); }
-    .surface.concrete {
-      background: radial-gradient(circle at 20% 30%, #9fa4a5 0 2px, transparent 3px),
-                  radial-gradient(circle at 75% 65%, #a9adae 0 2px, transparent 3px), #c8cccd;
+    /* Hard testing surface */
+    .surface.hard-surface {
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #d5a56e 0 42px,
+          #c08d55 42px 45px
+        );
     }
-    .surface.carpet { background: repeating-linear-gradient(0deg, #ded7ff 0 7px, #c7b9fa 7px 9px); }
+
+    /* Soft testing surface */
+    .surface.soft-surface {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          #ded7ff 0 7px,
+          #c7b9fa 7px 10px
+        );
+    }
     .measurement-note {
       position: absolute; right: 3%; top: 42%; width: 180px; padding: 10px; border: 2px dashed var(--purple);
       border-radius: 12px; background: rgba(255,255,255,.92); color: var(--purple); font-weight: 700; text-align: center;
@@ -229,8 +242,13 @@
         <div class="drop-line b"></div>
         <div class="ball a basketball" id="ballA"></div>
         <div class="ball b basketball" id="ballB"></div>
-        <div class="surface a hard-floor" id="surfaceA"><span>Hard floor</span></div>
-        <div class="surface b hard-floor" id="surfaceB"><span>Hard floor</span></div>
+        <div class="surface a hard-surface" id="surfaceA">
+          <span>Hard surface</span>
+        </div>
+
+        <div class="surface b hard-surface" id="surfaceB">
+          <span>Hard surface</span>
+        </div>
         <div class="measurement-note" id="measurementNote">Choose what you will measure.</div>
       </div>
     </section>
@@ -243,7 +261,7 @@
         <article class="blueprint-card"><strong>Control</strong><span id="blueprintControl">Choose settings for the variables that stay the same.</span></article>
       </div>
       <div class="bk3-actions">
-        <button type="button" id="resetButton">Reset</button>
+        <button type="button" id="bk4ResetButton">Reset</button>
         <button type="button" class="primary" id="finishButton">Check blueprint</button>
       </div>
     </section>
@@ -291,14 +309,20 @@
       surface: {
         label: "Bounce surface",
         changeOptions: [
-          { value: "hard-concrete", label: "Hard floor vs concrete", pair: ["hard-floor", "concrete"] },
-          { value: "concrete-carpet", label: "Concrete vs carpet", pair: ["concrete", "carpet"] },
-          { value: "hard-carpet", label: "Hard floor vs carpet", pair: ["hard-floor", "carpet"] }
+          {
+            value: "hard-soft",
+            label: "Hard surface vs soft surface",
+            pair: ["hard-surface", "soft-surface"]
+          },
+          {
+            value: "soft-hard",
+            label: "Soft surface vs hard surface",
+            pair: ["soft-surface", "hard-surface"]
+          }
         ],
         controlOptions: [
-          { value: "hard-floor", label: "Hard floor" },
-          { value: "concrete", label: "Concrete" },
-          { value: "carpet", label: "Carpet" }
+          { value: "hard-surface", label: "Hard surface" },
+          { value: "soft-surface", label: "Soft surface" }
         ]
       }
     };
@@ -324,7 +348,13 @@
       measureOutcome: null,
       measureTool: null,
       selectedControlVariable: null,
-      controls: { size: "large", material: "basketball", height: "1.5", firmness: "firm", surface: "hard-floor" }
+     controls: {
+      size: "large",
+      material: "basketball",
+      height: "1.5",
+      firmness: "firm",
+      surface: "hard-surface"
+    }
     };
 
     const getOptionLabel = (options, value) => options.find(option => option.value === value)?.label || "Not selected";
@@ -519,8 +549,53 @@
 
     function renderAll() { renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint(); }
 
+        function resetBigKahuna() {
+      /*
+        Return the Big Kahuna activity to its original state
+        without refreshing the rest of Lesson 2.
+      */
+
+      state.stage = "change";
+
+      state.changeVariable = null;
+      state.changeSelections = {};
+
+      state.measureOutcome = null;
+      state.measureTool = null;
+
+      state.selectedControlVariable = null;
+
+      state.controls = {
+        size: "large",
+        material: "basketball",
+        height: "1.5",
+        firmness: "firm",
+        surface: "hard-surface"
+      };
+
+      /*
+        Return the navigation buttons to the Change section.
+      */
+      document
+        .querySelectorAll(".bk3-progress-step")
+        .forEach(function(button) {
+          button.classList.toggle(
+            "active",
+            button.dataset.stage === "change"
+          );
+        });
+
+      /*
+        Rebuild the controls, picture and blueprint
+        using the reset state.
+      */
+      renderAll();
+    }
+
     document.querySelectorAll(".bk3-progress-step").forEach(button => button.addEventListener("click", () => setStage(button.dataset.stage)));
-    document.getElementById("resetButton").addEventListener("click", () => location.reload());
+    document
+      .getElementById("bk4ResetButton")
+      ?.addEventListener("click", resetBigKahuna);
     document.getElementById("finishButton").addEventListener("click", () => {
       const missing = [];
       if (!state.changeVariable) missing.push("a variable to change");
@@ -530,6 +605,8 @@
     });
 
     renderAll();
+
+
   </script>
 </body>
 </html>
