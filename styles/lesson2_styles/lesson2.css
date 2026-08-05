@@ -860,11 +860,36 @@
     border-top: 4px solid var(--purple);
   }
 
-  #design-question .question-structure-card.selected {
+  #design-question
+  .question-structure-card.question-structure-what.selected {
+    color: var(--text);
+    background: var(--soft-yellow);
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  #design-question
+  .question-structure-card.question-structure-how.selected {
+    color: var(--text);
+    background: var(--soft-blue);
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  #design-question
+  .question-structure-card.question-structure-does.selected {
     color: var(--text);
     background: var(--soft-green);
     transform: translateY(0);
-    box-shadow: 0 0px 0 var(--line);
+    box-shadow: none;
+  }
+
+  #design-question
+  .question-structure-card.question-structure-if.selected {
+    color: var(--text);
+    background: var(--soft-purple);
+    transform: translateY(0);
+    box-shadow: none;
   }
 
     .investigation-question-builder {
