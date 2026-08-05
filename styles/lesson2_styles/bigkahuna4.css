@@ -169,7 +169,7 @@
 
     .bk3-blueprint { margin-top: 14px; padding: 16px; }
     .blueprint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
-    .blueprint-card { min-height: 108px; padding: 12px; border: 2px solid var(--line); border-radius: 14px; background: var(--cream); }
+    .blueprint-card { min-height: 108px; padding: 12px; border: 2px solid var(--line); border-radius: 14px; background: #fff; }
     .blueprint-card strong { display: block; margin-bottom: 6px; }
     .bk3-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 14px; }
     .bk3-actions button { padding: 10px 18px; border: 2px solid var(--charcoal); border-radius: 10px; background: #fff; font-weight: 700; cursor: pointer; }
@@ -193,4 +193,15 @@
     #blueprintWarning {
       margin-top: 10px;
       background-color: var(--soft-orange);
+    }
+
+    .independent-card {
+      border-top: 4px solid var(--yellow);
+    }
+    .dependent-card {
+      border-top: 4px solid var(--purple);
+
+    } 
+    .control-card {
+      border-top: 4px solid var(--green);
     }
