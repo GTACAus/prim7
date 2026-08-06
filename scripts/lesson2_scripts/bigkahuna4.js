@@ -315,6 +315,8 @@ const variableConfig = {
           );
         });
 
+      document.getElementById("blueprintWarning").hidden = true;
+
       /*
         Rebuild the controls, picture and blueprint
         using the reset state.
@@ -348,21 +350,27 @@ const variableConfig = {
 
         const warning = document.getElementById("blueprintWarning");
         warning.hidden = false;
+        warning.classList.remove("blueprint-success", "blueprint-warning");
 
         if (missing.length === 0) {
+            warning.classList.add("blueprint-success");
+            warning.style.background = "var(--soft-green)";
+            warning.style.borderTop = "4px solid var(--green)";
+            
             warning.innerHTML = `
-                <p class="success-message">
-                    ✅ You have selected all required options. Your experiment blueprint is complete!
-                </p>
+            <p class="success-message">
+            You have selected all required options. Your experiment blueprint is complete!
+            </p>
             `;
-        } else {
+          } else {
+            warning.classList.add("blueprint-warning");
+            warning.style.background = "var(--soft-orange)";
+            warning.style.borderTop = "4px solid var(--orange)";
+            
             warning.innerHTML = `
-                <p class="warning-message">
-                    You still need to select:
-                </p>
-                <ul>
-                    ${missing.map(item => `<li>${item}</li>`).join("")}
-                </ul>
+            <ul>
+            ${missing.map(item => `<li>${item}</li>`).join("")}
+            </ul>
             `;
         }
     });
