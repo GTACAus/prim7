@@ -10,14 +10,14 @@ const variableConfig = {
       material: {
         label: "Ball material",
         changeOptions: [
-          { value: "basketball-pingpong", label: "Basketball vs ping pong ball", pair: ["basketball", "pingpong"] },
-          { value: "basketball-tennis", label: "Basketball vs tennis ball", pair: ["basketball", "tennis"] },
-          { value: "tennis-pingpong", label: "Tennis ball vs ping pong ball", pair: ["tennis", "pingpong"] }
+          { value: "basketball-pingpong", label: "Rubber vs plastic", pair: ["basketball", "pingpong"] },
+          { value: "basketball-tennis", label: "Rubber vs furry", pair: ["basketball", "tennis"] },
+          { value: "tennis-pingpong", label: "Furry vs plastic", pair: ["tennis", "pingpong"] }
         ],
         controlOptions: [
-          { value: "basketball", label: "Basketball" },
-          { value: "pingpong", label: "Ping pong ball" },
-          { value: "tennis", label: "Tennis ball" }
+          { value: "basketball", label: "Rubber" },
+          { value: "pingpong", label: "Plastic" },
+          { value: "tennis", label: "Furry" }
         ]
       },
       height: {
@@ -29,7 +29,7 @@ const variableConfig = {
         controlOptions: [{ value: "1", label: "1 m" }, { value: "1.5", label: "1.5 m" }]
       },
       firmness: {
-        label: "Ball firmness",
+        label: "Squashiness",
         changeOptions: [
           { value: "firm-soft", label: "Firm ball vs soft ball", pair: ["firm", "soft"] },
           { value: "soft-firm", label: "Soft ball vs firm ball", pair: ["soft", "firm"] }
