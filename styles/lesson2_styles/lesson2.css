@@ -246,7 +246,7 @@
     }
 
     .variable-question::before {
-      content: "INVESTIGATION QUESTION";
+      content: "TESTABLE QUESTION";
 
       position: absolute;
       top: -16px;
