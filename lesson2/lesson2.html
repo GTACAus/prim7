@@ -208,7 +208,7 @@
           <p class="intro-eyebrow">Learning objective</p>
 
           <p class="learning-objective-text">
-            Plan a fair test and represent it in a diagram.
+            We are learning to plan a fair test experiment and represent it in a diagram.
           </p>
 
           <p class="success-heading">Success criteria</p>
@@ -420,22 +420,6 @@
 
             <div
               id="imageVariable9Answer"
-              class="variable-entry-answer">
-            </div>
-          </div>
-
-          <div class="variable-overlay-entry variable-overlay-10">
-            <div class="variable-entry-input-row">
-              <input
-                id="imageVariable10"
-                type="text"
-                maxlength="24"
-                placeholder="Type here"
-                aria-label="Add image variable 10">
-            </div>
-
-            <div
-              id="imageVariable10Answer"
               class="variable-entry-answer">
             </div>
           </div>
@@ -1069,16 +1053,17 @@
             Ball size is the only variable changed, so this pair can be used in a <strong>fair test</strong>."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq1.png"
-              alt="A large basketball beside a small basketball">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq1.png"
+            alt="A large basketball beside a small basketball">
+        </span>
 
-          <span class="ball-pair-name">
-            Large basketball versus small basketball
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
 
         <!-- Incorrect: material also changes -->
@@ -1094,16 +1079,17 @@
             Try again."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq2.png"
-              alt="A basketball beside a tennis ball">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq2.png"
+            alt="A basketball beside a tennis ball">
+        </span>
 
-          <span class="ball-pair-name">
-            Basketball versus tennis ball
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
 
         <!-- Incorrect: shape also changes -->
@@ -1119,16 +1105,17 @@
           Try again."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq3.png"
-              alt="A soccer ball beside an oval football">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq3.png"
+            alt="A soccer ball beside an oval football">
+        </span>
 
-          <span class="ball-pair-name">
-            Soccer ball versus football
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
 
         <!-- Incorrect: no size change -->
@@ -1144,26 +1131,18 @@
           Try again."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq4.png"
-              alt="Two basketballs of the same size">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq4.png"
+            alt="Two basketballs of the same size">
+        </span>
 
-          <span class="ball-pair-name">
-            Two same-sized basketballs
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
-      </div>
-
-      <div
-        id="ballPairFeedback"
-        class="variable-feedback"
-        role="status"
-        aria-live="polite">
-
-        Select a ball pair to examine whether it would make a fair test.
       </div>
 
       <div class="reset-button-container">
@@ -2341,11 +2320,6 @@ function initialiseBallPairActivity() {
       ".ball-pair-card"
     );
 
-  const feedback =
-    document.getElementById(
-      "ballPairFeedback"
-    );
-
   const nextButton =
     document.getElementById(
       "ballPairNext"
@@ -2357,7 +2331,6 @@ function initialiseBallPairActivity() {
     );
 
   if (
-    !feedback ||
     !nextButton ||
     !resetButton
   ) {
@@ -2368,12 +2341,11 @@ function initialiseBallPairActivity() {
     button.addEventListener(
       "click",
       function() {
-        selectBallPair(
-          button,
-          pairButtons,
-          feedback,
-          nextButton
-        );
+      selectBallPair(
+        button,
+        pairButtons,
+        nextButton
+      );
       }
     );
   });
@@ -2381,11 +2353,10 @@ function initialiseBallPairActivity() {
   resetButton.addEventListener(
     "click",
     function() {
-      resetBallPairActivity(
-        pairButtons,
-        feedback,
-        nextButton
-      );
+    resetBallPairActivity(
+      pairButtons,
+      nextButton
+    );
     }
   );
 }
@@ -2394,13 +2365,14 @@ function initialiseBallPairActivity() {
 function selectBallPair(
   selectedButton,
   pairButtons,
-  feedback,
   nextButton
 ) {
   const isCorrect =
-    selectedButton.dataset.correct ===
-    "true";
+    selectedButton.dataset.correct === "true";
 
+  /*
+    Clear every card before showing the newly selected one.
+  */
   pairButtons.forEach(function(button) {
     button.classList.remove(
       "selected",
@@ -2412,31 +2384,53 @@ function selectBallPair(
       "aria-pressed",
       "false"
     );
+
+    const cardFeedback =
+      button.querySelector(
+        ".ball-pair-card-feedback"
+      );
+
+    if (cardFeedback) {
+      cardFeedback.innerHTML = "";
+      cardFeedback.className =
+        "ball-pair-card-feedback";
+    }
   });
 
-  selectedButton.classList.add(
-    "selected"
-  );
+  selectedButton.classList.add("selected");
 
   selectedButton.setAttribute(
     "aria-pressed",
     "true"
   );
 
+  const selectedFeedback =
+    selectedButton.querySelector(
+      ".ball-pair-card-feedback"
+    );
+
+  if (!selectedFeedback) {
+    return;
+  }
+
+  selectedFeedback.innerHTML =
+    '<strong class="ball-pair-feedback-title">' +
+      selectedButton.dataset.feedbackTitle +
+    '</strong>' +
+    '<span class="ball-pair-feedback-text">' +
+      selectedButton.dataset.feedback +
+    "</span>";
+
   if (isCorrect) {
     selectedButton.classList.add(
       "correct-selection"
     );
 
-    setActivityFeedback(
-      feedback,
-      "success",
-      selectedButton.dataset.feedbackTitle,
-      selectedButton.dataset.feedback
+    selectedFeedback.classList.add(
+      "feedback-success"
     );
 
     nextButton.hidden = false;
-
     return;
   }
 
@@ -2444,20 +2438,15 @@ function selectBallPair(
     "incorrect-selection"
   );
 
-  setActivityFeedback(
-    feedback,
-    "try-again",
-    selectedButton.dataset.feedbackTitle,
-    selectedButton.dataset.feedback
+  selectedFeedback.classList.add(
+    "feedback-try-again"
   );
 
   nextButton.hidden = true;
 }
 
-
 function resetBallPairActivity(
   pairButtons,
-  feedback,
   nextButton
 ) {
   pairButtons.forEach(function(button) {
@@ -2471,13 +2460,18 @@ function resetBallPairActivity(
       "aria-pressed",
       "false"
     );
+
+    const cardFeedback =
+      button.querySelector(
+        ".ball-pair-card-feedback"
+      );
+
+    if (cardFeedback) {
+      cardFeedback.innerHTML = "";
+      cardFeedback.className =
+        "ball-pair-card-feedback";
+    }
   });
-
-  feedback.className =
-    "variable-feedback";
-
-  feedback.textContent =
-    "Select a ball pair to examine whether it would make a fair test.";
 
   nextButton.hidden = true;
 }

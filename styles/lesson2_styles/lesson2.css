@@ -540,6 +540,7 @@
         repeat(2, minmax(0, 1fr));
       gap: 22px;
       margin-top: 20px;
+      align-items: start;
     }
 
     .ball-pair-card {
@@ -548,7 +549,7 @@
       align-items: stretch;
       gap: 12px;
 
-      min-height: 240px;
+      min-height: 0;
       padding: 16px;
 
       background: var(--paper);
@@ -617,13 +618,30 @@
       object-fit: contain;
     }
 
-    .ball-pair-name {
-      color: var(--text);
+    .ball-pair-card-feedback {
+      display: none;
+    }
 
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1.4;
+    .ball-pair-card-feedback.feedback-success,
+    .ball-pair-card-feedback.feedback-try-again {
+      display: block;
+
+      padding: 14px 16px;
+
+      border: 2px solid var(--line);
+      border-radius: 14px;
+
+      color: var(--text);
       text-align: center;
+      line-height: 1.5;
+    }
+
+    .ball-pair-card-feedback.feedback-success {
+      background: var(--soft-green);
+    }
+
+    .ball-pair-card-feedback.feedback-try-again {
+      background: var(--soft-orange);
     }
 
     .ball-pair-feedback-title {
@@ -641,39 +659,8 @@
       line-height: 1.55;
     }
 
-    #choose-ball-pair .variable-feedback {
-      margin-top: 20px;
-      padding: 12px 16px;
-
-      background: rgba(255, 255, 255, 0.72);
-      color: var(--muted);
-
-      border: 2px dashed rgba(48, 51, 47, 0.72);
-      border-radius: 14px;
-
-      font-weight: 600;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    #choose-ball-pair .variable-feedback.feedback-success {
-      background: var(--soft-green);
-      border-style: solid;
-    }
-
-    #choose-ball-pair .variable-feedback.feedback-try-again {
-      background: var(--soft-orange);
-      border-style: solid;
-    }
-
     #choose-ball-pair .content-box {
       padding: 14px 18px;
-    }
-
-    #choose-ball-pair .variable-feedback.feedback-success,
-    #choose-ball-pair .variable-feedback.feedback-try-again {
-      color: var(--text);
-      font-weight: 700;
     }
 
     @media (max-width: 760px) {
@@ -714,8 +701,8 @@
   position: absolute;
   z-index: 2;
 
-  width: 12.3%;
-  height: 5.3%;
+  width: 18.4%;
+  height: 6.2%;
 }
 
 .variable-overlay-entry .variable-entry-input-row {
@@ -733,7 +720,7 @@
   color: var(--text);
 
   border: 2px solid var(--line);
-  border-radius: 16px;
+  border-radius: 14px;
 
   font: inherit;
   font-size: clamp(0.55rem, 1vw, 0.9rem);
@@ -779,58 +766,78 @@
 }
 
 .variable-overlay-1 {
-  top: 10.2%;
-  left: 84.2%;
+  top: 9.9%;
+  left: 78%;
 }
 
 .variable-overlay-2 {
-  top: 19%;
-  left: 84.2%;
+  top: 17.8%;
+  left: 78%;
 }
 
 .variable-overlay-3 {
-  top: 25.7%;
-  left: 84.2%;
+  top: 25.6%;
+  left: 78%;
 }
 
 .variable-overlay-4 {
-  top: 34.4%;
-  left: 84.2%;
+  top: 33.5%;
+  left: 78%;
 }
 
 .variable-overlay-5 {
-  top: 41.2%;
-  left: 84.2%;
+  top: 41.1%;
+  left: 78%;
 }
 
 .variable-overlay-6 {
-  top: 50%;
-  left: 84.2%;
+  top: 48.8%;
+  left: 78%;
 }
 
 .variable-overlay-7 {
-  top: 56.8%;
-  left: 84.2%;
+  top: 56.5%;
+  left: 78%;
 }
 
+/*
+  Skip the two Drop Height boxes.
+  They already contain 1.5m and 1.0m.
+*/
+
 .variable-overlay-8 {
-  top: 65.6%;
-  left: 84.2%;
+  top: 80.4%;
+  left: 78%;
 }
 
 .variable-overlay-9 {
-  top: 77.8%;
-  left: 84.2%;
-}
-
-.variable-overlay-10 {
-  top: 86.6%;
-  left: 84.2%;
+  top: 88.3%;
+  left: 78%;
 }
 
     /* ==================================================
       DESIGN AN INVESTIGATION QUESTION
       ================================================== */
+  .question-blank-answer.visible {
+    display: flex;
+  }
+
+  #design-question
+  .question-blank-answer
+  .delete-answer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 24px;
+    height: 24px;
+    padding: 0;
+
+    line-height: 1;
+    font-size: 0.95rem;
+  }
 
   #design-question .question-structure-card {
     transition:
