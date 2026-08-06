@@ -506,7 +506,7 @@
       cursor: default;
     }
 
-    .sort-variables-section .variable-feedback {
+    .variable-feedback {
       margin-top: 18px;
       padding: 14px 16px;
 
@@ -520,12 +520,12 @@
       text-align: center;
     }
 
-    .sort-variables-section .variable-feedback.feedback-success {
+    .variable-feedback.feedback-success {
       background: var(--soft-green);
       border-style: solid;
     }
 
-    .sort-variables-section .variable-feedback.feedback-try-again {
+    .variable-feedback.feedback-try-again {
       background: var(--soft-orange);
       border-style: solid;
     }
@@ -714,6 +714,8 @@
     #choose-ball-pair .content-box {
       padding: 14px 18px;
     }
+
+    
 
     @media (max-width: 760px) {
       .ball-pair-grid {
