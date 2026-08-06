@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesson 2 - Planning and Conducting a Fair Test Experiment</title>
+  <title>Lesson 2 - Planning a Fair Test Experiment</title>
 
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
@@ -50,7 +50,7 @@
       <div class="modal-header">
         <div>
           <p class="teacher-label">
-            Lesson 2: Planning and Conducting a Fair Test Experiment
+            Lesson 2: Planning a Fair Test Experiment
           </p>
           <h2>Glossary Terms</h2>
         </div>
@@ -185,8 +185,8 @@
 
         <h1
           id="teacherTrigger"
-          title="Planning and Conducting a Fair Test Experiment">
-          Planning and Conducting a <strong>Fair Test</strong> Experiment
+          title="Planning a Fair Test Experiment">
+          Planning a <strong>Fair Test</strong> Experiment
         </h1>
 
         <p class="lesson-summary">
@@ -1465,8 +1465,8 @@
         </p>
       </div>
       
-      <div class="bk-area">
-        <main class="bk3-page">
+<div class="bk-area">
+  <div class="bk3-page">
     <nav class="bk3-progress" aria-label="Investigation sections">
       <button type="button" class="bk3-progress-step active" data-stage="change">1. Change</button>
       <button type="button" class="bk3-progress-step" data-stage="measure">2. Measure</button>
@@ -1518,7 +1518,7 @@
         <button type="button" class="primary" id="finishButton">Check blueprint</button>
       </div>
     </section>
-  </main>
+  </div>
       </div>
 
       <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 
@@ -1555,7 +1555,6 @@
       "choose-ball-pair",
       "design-question",
       "sort-variables-three",
-      "map-fair-test",
       "build-experiment"
     ];
 
@@ -2693,6 +2692,9 @@ function resetBallPairActivity(
       const input = document.createElement("select");
       const inputLabel = document.createElement("option");
       inputLabel.value = "";
+      inputLabel.textContent = placeholderText;
+      inputLabel.disabled = true;
+      inputLabel.selected = true;
       const inputOptions = [inputLabel].concat(
         dropdownAnswers.map(function(answer) {
           const option = document.createElement("option");
@@ -2702,17 +2704,17 @@ function resetBallPairActivity(
         })
       );
 
-      let selectedAnswer;
       input.addEventListener("change", function() {
-        selectedAnswer = input.value;
+        if (input.value === "") {
+          return;
+        }
+
+        saveAnswer();
       });
 
       input.className =
         "question-blank-input";
       input.name = fieldName;
-
-      inputLabel.setAttribute("for", input.name);
-      inputLabel.textContent = placeholderText;
 
       input.setAttribute(
         "aria-label",
@@ -2733,8 +2735,11 @@ function resetBallPairActivity(
       wrapper.appendChild(answerBox);
 
       function saveAnswer() {
-        const value =
-          selectedAnswer;
+        const value = input.value;
+
+        if (value === "") {
+          return;
+        }
 
         investigationQuestionState[
           fieldName
@@ -2804,16 +2809,6 @@ function resetBallPairActivity(
         input.value = "";
 
         updateCompletedInvestigationQuestion();
-      }
-
-      if (
-        typeof connectEnterAndBlurSave ===
-        "function"
-      ) {
-        connectEnterAndBlurSave(
-          input,
-          saveAnswer
-        );
       }
 
       return wrapper;
