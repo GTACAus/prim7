@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesson 2 - Planning and Conducting a Fair Test Experiment</title>
+  <title>Lesson 2 - Planning a Fair Test Experiment</title>
 
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
@@ -50,7 +50,7 @@
       <div class="modal-header">
         <div>
           <p class="teacher-label">
-            Lesson 2: Planning and Conducting a Fair Test Experiment
+            Lesson 2: Planning a Fair Test Experiment
           </p>
           <h2>Glossary Terms</h2>
         </div>
@@ -135,7 +135,7 @@
         <button
           type="button"
           onclick="teacherJump('choose-ball-pair')">
-          5. Choose balls for a <strong>fair test</strong> experiment
+          5. Choose the right pair for a <strong>fair test</strong> experiment
         </button>
 
         <button
@@ -185,8 +185,8 @@
 
         <h1
           id="teacherTrigger"
-          title="Planning and Conducting a Fair Test Experiment">
-          Planning and Conducting a <strong>Fair Test</strong> Experiment
+          title="Planning a Fair Test Experiment">
+          Planning a <strong>Fair Test</strong> Experiment
         </h1>
 
         <p class="lesson-summary">
@@ -208,7 +208,7 @@
           <p class="intro-eyebrow">Learning objective</p>
 
           <p class="learning-objective-text">
-            Plan a <strong>fair test</strong> experiment and represent it in a diagram.
+            We are learning to plan a fair test experiment and represent it in a diagram.
           </p>
 
           <p class="success-heading">Success criteria</p>
@@ -426,22 +426,6 @@
 
             <div
               id="imageVariable9Answer"
-              class="variable-entry-answer">
-            </div>
-          </div>
-
-          <div class="variable-overlay-entry variable-overlay-10">
-            <div class="variable-entry-input-row">
-              <input
-                id="imageVariable10"
-                type="text"
-                maxlength="24"
-                placeholder="Type here"
-                aria-label="Add image variable 10">
-            </div>
-
-            <div
-              id="imageVariable10Answer"
               class="variable-entry-answer">
             </div>
           </div>
@@ -1040,7 +1024,7 @@
       id="choose-ball-pair">
 
       <h2 class="section-title">
-        Choose balls for a <strong>fair test</strong> experiment
+        Choose the right pair for a <strong>fair test</strong> experiment
       </h2>
 
       <div class="diagram-box diagram-activity">
@@ -1075,16 +1059,17 @@
             Ball size is the only variable changed, so this pair can be used in a <strong>fair test</strong>."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq1.png"
-              alt="A large basketball beside a small basketball">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq1.png"
+            alt="A large basketball beside a small basketball">
+        </span>
 
-          <span class="ball-pair-name">
-            Large basketball versus small basketball
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
 
         <!-- Incorrect: material also changes -->
@@ -1100,16 +1085,17 @@
             Try again."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq2.png"
-              alt="A basketball beside a tennis ball">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq2.png"
+            alt="A basketball beside a tennis ball">
+        </span>
 
-          <span class="ball-pair-name">
-            Basketball versus tennis ball
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
 
         <!-- Incorrect: shape also changes -->
@@ -1125,16 +1111,17 @@
           Try again."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq3.png"
-              alt="A soccer ball beside an oval football">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq3.png"
+            alt="A soccer ball beside an oval football">
+        </span>
 
-          <span class="ball-pair-name">
-            Soccer ball versus football
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
 
         <!-- Incorrect: no size change -->
@@ -1150,26 +1137,18 @@
           Try again."
           aria-pressed="false">
 
-          <span class="ball-pair-images">
-            <img
-              class="ball-pair-image"
-              src="../images/l2-mcq4.png"
-              alt="Two basketballs of the same size">
-          </span>
+        <span class="ball-pair-images">
+          <img
+            class="ball-pair-image"
+            src="../images/l2-mcq4.png"
+            alt="Two basketballs of the same size">
+        </span>
 
-          <span class="ball-pair-name">
-            Two same-sized basketballs
-          </span>
+        <span
+          class="ball-pair-card-feedback"
+          role="status"
+          aria-live="polite"></span>
         </button>
-      </div>
-
-      <div
-        id="ballPairFeedback"
-        class="variable-feedback"
-        role="status"
-        aria-live="polite">
-
-        Select a ball pair to examine whether it would make a <strong>fair test</strong> experiment.
       </div>
 
       <div class="reset-button-container">
@@ -1486,8 +1465,8 @@
         </p>
       </div>
       
-      <div class="bk-area">
-        <main class="bk3-page">
+<div class="bk-area">
+  <div class="bk3-page">
     <nav class="bk3-progress" aria-label="Investigation sections">
       <button type="button" class="bk3-progress-step active" data-stage="change">1. Change</button>
       <button type="button" class="bk3-progress-step" data-stage="measure">2. Measure</button>
@@ -1539,7 +1518,7 @@
         <button type="button" class="primary" id="finishButton">Check blueprint</button>
       </div>
     </section>
-  </main>
+  </div>
       </div>
 
       <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 
@@ -1576,7 +1555,6 @@
       "choose-ball-pair",
       "design-question",
       "sort-variables-three",
-      "map-fair-test",
       "build-experiment"
     ];
 
@@ -2347,11 +2325,6 @@ function initialiseBallPairActivity() {
       ".ball-pair-card"
     );
 
-  const feedback =
-    document.getElementById(
-      "ballPairFeedback"
-    );
-
   const nextButton =
     document.getElementById(
       "ballPairNext"
@@ -2363,7 +2336,6 @@ function initialiseBallPairActivity() {
     );
 
   if (
-    !feedback ||
     !nextButton ||
     !resetButton
   ) {
@@ -2374,12 +2346,11 @@ function initialiseBallPairActivity() {
     button.addEventListener(
       "click",
       function() {
-        selectBallPair(
-          button,
-          pairButtons,
-          feedback,
-          nextButton
-        );
+      selectBallPair(
+        button,
+        pairButtons,
+        nextButton
+      );
       }
     );
   });
@@ -2387,11 +2358,10 @@ function initialiseBallPairActivity() {
   resetButton.addEventListener(
     "click",
     function() {
-      resetBallPairActivity(
-        pairButtons,
-        feedback,
-        nextButton
-      );
+    resetBallPairActivity(
+      pairButtons,
+      nextButton
+    );
     }
   );
 }
@@ -2400,13 +2370,14 @@ function initialiseBallPairActivity() {
 function selectBallPair(
   selectedButton,
   pairButtons,
-  feedback,
   nextButton
 ) {
   const isCorrect =
-    selectedButton.dataset.correct ===
-    "true";
+    selectedButton.dataset.correct === "true";
 
+  /*
+    Clear every card before showing the newly selected one.
+  */
   pairButtons.forEach(function(button) {
     button.classList.remove(
       "selected",
@@ -2418,31 +2389,53 @@ function selectBallPair(
       "aria-pressed",
       "false"
     );
+
+    const cardFeedback =
+      button.querySelector(
+        ".ball-pair-card-feedback"
+      );
+
+    if (cardFeedback) {
+      cardFeedback.innerHTML = "";
+      cardFeedback.className =
+        "ball-pair-card-feedback";
+    }
   });
 
-  selectedButton.classList.add(
-    "selected"
-  );
+  selectedButton.classList.add("selected");
 
   selectedButton.setAttribute(
     "aria-pressed",
     "true"
   );
 
+  const selectedFeedback =
+    selectedButton.querySelector(
+      ".ball-pair-card-feedback"
+    );
+
+  if (!selectedFeedback) {
+    return;
+  }
+
+  selectedFeedback.innerHTML =
+    '<strong class="ball-pair-feedback-title">' +
+      selectedButton.dataset.feedbackTitle +
+    '</strong>' +
+    '<span class="ball-pair-feedback-text">' +
+      selectedButton.dataset.feedback +
+    "</span>";
+
   if (isCorrect) {
     selectedButton.classList.add(
       "correct-selection"
     );
 
-    setActivityFeedback(
-      feedback,
-      "success",
-      selectedButton.dataset.feedbackTitle,
-      selectedButton.dataset.feedback
+    selectedFeedback.classList.add(
+      "feedback-success"
     );
 
     nextButton.hidden = false;
-
     return;
   }
 
@@ -2450,20 +2443,15 @@ function selectBallPair(
     "incorrect-selection"
   );
 
-  setActivityFeedback(
-    feedback,
-    "try-again",
-    selectedButton.dataset.feedbackTitle,
-    selectedButton.dataset.feedback
+  selectedFeedback.classList.add(
+    "feedback-try-again"
   );
 
   nextButton.hidden = true;
 }
 
-
 function resetBallPairActivity(
   pairButtons,
-  feedback,
   nextButton
 ) {
   pairButtons.forEach(function(button) {
@@ -2477,13 +2465,18 @@ function resetBallPairActivity(
       "aria-pressed",
       "false"
     );
+
+    const cardFeedback =
+      button.querySelector(
+        ".ball-pair-card-feedback"
+      );
+
+    if (cardFeedback) {
+      cardFeedback.innerHTML = "";
+      cardFeedback.className =
+        "ball-pair-card-feedback";
+    }
   });
-
-  feedback.className =
-    "variable-feedback";
-
-  feedback.innerHTML =
-    "Select a ball pair to examine whether it would make a <strong>fair test</strong> experiment.";
 
   nextButton.hidden = true;
 }
@@ -2699,6 +2692,9 @@ function resetBallPairActivity(
       const input = document.createElement("select");
       const inputLabel = document.createElement("option");
       inputLabel.value = "";
+      inputLabel.textContent = placeholderText;
+      inputLabel.disabled = true;
+      inputLabel.selected = true;
       const inputOptions = [inputLabel].concat(
         dropdownAnswers.map(function(answer) {
           const option = document.createElement("option");
@@ -2708,17 +2704,17 @@ function resetBallPairActivity(
         })
       );
 
-      let selectedAnswer;
       input.addEventListener("change", function() {
-        selectedAnswer = input.value;
+        if (input.value === "") {
+          return;
+        }
+
+        saveAnswer();
       });
 
       input.className =
         "question-blank-input";
       input.name = fieldName;
-
-      inputLabel.setAttribute("for", input.name);
-      inputLabel.textContent = placeholderText;
 
       input.setAttribute(
         "aria-label",
@@ -2739,8 +2735,11 @@ function resetBallPairActivity(
       wrapper.appendChild(answerBox);
 
       function saveAnswer() {
-        const value =
-          selectedAnswer;
+        const value = input.value;
+
+        if (value === "") {
+          return;
+        }
 
         investigationQuestionState[
           fieldName
@@ -2810,16 +2809,6 @@ function resetBallPairActivity(
         input.value = "";
 
         updateCompletedInvestigationQuestion();
-      }
-
-      if (
-        typeof connectEnterAndBlurSave ===
-        "function"
-      ) {
-        connectEnterAndBlurSave(
-          input,
-          saveAnswer
-        );
       }
 
       return wrapper;
