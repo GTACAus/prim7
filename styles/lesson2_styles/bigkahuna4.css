@@ -1,19 +1,9 @@
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: "DM Sans", sans-serif;
-  color: var(--charcoal);
-  background: #eef1ed;
-}
 button,
 select {
   font: inherit;
+  cursor: pointer;
 }
-button {
-  color: inherit;
-}
+
 [hidden] {
   display: none !important;
 }
@@ -229,7 +219,7 @@ h2 {
   overflow: hidden;
   border: 2px solid var(--charcoal);
   border-radius: 18px;
-  background: linear-gradient(to bottom, #fffdf4 0 82%, #eee7d6 82% 100%);
+  background: linear-gradient(to bottom, #fffdf4 0 88%, #eee7d6 88% 100%);
 }
 .ruler {
   position: absolute;
