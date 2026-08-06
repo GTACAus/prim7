@@ -981,81 +981,49 @@
           </button>
         </div>
 
-<div class="variable-tile-grid">
+        <div class="variable-tile-grid">
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-size">
+            <span class="variable-tile-label">Ball size</span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="ball-size">
-    <span class="variable-tile-label">
-      Ball size
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-weight">
+            <span class="variable-tile-label">Ball weight</span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="ball-material">
-    <span class="variable-tile-label">
-      Ball material
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="drop-height">
+            <span class="variable-tile-label">Drop height</span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="drop-height">
-    <span class="variable-tile-label">
-      Drop height
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="floor-surface">
+            <span class="variable-tile-label">Floor surface</span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="ball-squashiness">
-    <span class="variable-tile-label">
-      Ball squashiness
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="height-of-bounce">
+            <span class="variable-tile-label">Height of bounce</span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="bounce-surface">
-    <span class="variable-tile-label">
-      Bounce surface
-    </span>
-  </button>
-
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="bounce-height">
-    <span class="variable-tile-label">
-      Bounce height
-    </span>
-  </button>
-
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="number-of-bounces">
-    <span class="variable-tile-label">
-      Number of bounces
-    </span>
-  </button>
-
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="time-spent-bouncing">
-    <span class="variable-tile-label">
-      Time spent bouncing
-    </span>
-  </button>
-
-</div>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-material">
+            <span class="variable-tile-label">Ball material</span>
+          </button>
+        </div>
 
         <div
           id="sortVariablesTwoFeedback"
@@ -1425,81 +1393,63 @@
 
         </div>
 
-<div class="variable-tile-grid">
+        <div class="variable-tile-grid">
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="ball-size">
-    <span class="variable-tile-label">
-      Ball size
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-size">
+            <span class="variable-tile-label">
+              Ball size
+            </span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="ball-material">
-    <span class="variable-tile-label">
-      Ball material
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-weight">
+            <span class="variable-tile-label">
+              Ball weight
+            </span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="drop-height">
-    <span class="variable-tile-label">
-      Drop height
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="drop-height">
+            <span class="variable-tile-label">
+              Drop height
+            </span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="ball-squashiness">
-    <span class="variable-tile-label">
-      Ball squashiness
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="floor-surface">
+            <span class="variable-tile-label">
+              Floor surface
+            </span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="bounce-surface">
-    <span class="variable-tile-label">
-      Bounce surface
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="height-of-bounce">
+            <span class="variable-tile-label">
+              Height of bounce
+            </span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="bounce-height">
-    <span class="variable-tile-label">
-      Bounce height
-    </span>
-  </button>
+          <button
+            type="button"
+            class="variable-tile"
+            data-variable="ball-material">
+            <span class="variable-tile-label">
+              Ball material
+            </span>
+          </button>
 
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="number-of-bounces">
-    <span class="variable-tile-label">
-      Number of bounces
-    </span>
-  </button>
-
-  <button
-    type="button"
-    class="variable-tile"
-    data-variable="time-spent-bouncing">
-    <span class="variable-tile-label">
-      Time spent bouncing
-    </span>
-  </button>
-
-</div>
+        </div>
 
         <div
           id="sortVariablesThreeFeedback"
@@ -1658,13 +1608,13 @@ let sortVariablesOneStructure = {
   answerMode: "fixed",
 
   answers: {
-    independent: "bounce-surface",
-    dependent: "bounce-height",
+    independent: "floor-surface",
+    dependent: "height-of-bounce",
     controlled: [
       "ball-size",
-      "ball-material",
+      "ball-weight",
       "drop-height",
-      "ball-squashiness"
+      "ball-material"
     ]
   },
 
@@ -1690,12 +1640,12 @@ let sortVariablesTwoStructure = {
 
   answers: {
     independent: "ball-size",
-    dependent: "bounce-height",
+    dependent: "height-of-bounce",
     controlled: [
-      "ball-material",
+      "ball-weight",
       "drop-height",
-      "ball-squashiness",
-      "bounce-surface"
+      "floor-surface",
+      "ball-material"
     ]
   },
 
@@ -2137,42 +2087,16 @@ function handleVariableTileClick(
       other tile is controlled, there will be no
       unclassified tiles left.
     */
-    let controlledSelectionComplete = false;
-
-    if (isFixedActivity) {
-      controlledSelectionComplete =
-        variableStructure.answers.controlled.every(
-          function(variableName) {
-            const controlledTile =
-              variableStructure.activity.querySelector(
-                '[data-variable="' +
-                  variableName +
-                '"]'
-              );
-
-            return (
-              controlledTile &&
-              controlledTile.classList.contains(
-                "is-controlled"
-              )
-            );
-          }
+    const remainingTiles =
+      Array.from(
+        variableStructure.variableTiles
+      ).filter(function(variableTile) {
+        return !variableTile.classList.contains(
+          "is-classified"
         );
-    } else {
-      const remainingTiles =
-        Array.from(
-          variableStructure.variableTiles
-        ).filter(function(variableTile) {
-          return !variableTile.classList.contains(
-            "is-classified"
-          );
-        });
+      });
 
-      controlledSelectionComplete =
-        remainingTiles.length === 0;
-    }
-
-    if (controlledSelectionComplete) {
+    if (remainingTiles.length === 0) {
       const controlledButton =
         variableStructure.activity.querySelector(
           '[data-variable-mode="controlled"]'
@@ -2335,50 +2259,17 @@ function buzzTile(
   variableStructure.feedback.innerHTML = message;
 }
 
-function checkSortVariablesComplete(
-  variableStructure
-) {
-  let activityComplete = false;
+function checkSortVariablesComplete(variableStructure) {
+  const classifiedTiles =
+    variableStructure.activity.querySelectorAll(
+      ".variable-tile.is-classified"
+    );
 
-  if (
-    variableStructure.answerMode === "fixed"
-  ) {
-    const requiredVariableNames = [
-      variableStructure.answers.independent,
-      variableStructure.answers.dependent,
-      ...variableStructure.answers.controlled
-    ];
+  const allTilesComplete =
+    classifiedTiles.length ===
+    variableStructure.variableTiles.length;
 
-    activityComplete =
-      requiredVariableNames.every(
-        function(variableName) {
-          const tile =
-            variableStructure.activity.querySelector(
-              '[data-variable="' +
-                variableName +
-              '"]'
-            );
-
-          return (
-            tile &&
-            tile.classList.contains(
-              "is-classified"
-            )
-          );
-        }
-      );
-  } else {
-    const classifiedTiles =
-      variableStructure.activity.querySelectorAll(
-        ".variable-tile.is-classified"
-      );
-
-    activityComplete =
-      classifiedTiles.length ===
-      variableStructure.variableTiles.length;
-  }
-
-  if (!activityComplete) {
+  if (!allTilesComplete) {
     return;
   }
 
@@ -2386,26 +2277,14 @@ function checkSortVariablesComplete(
 
   variableStructure.modeButtons.forEach(
     function(button) {
-      button.classList.remove(
-        "mode-active"
-      );
+      button.classList.remove("mode-active");
 
       button.setAttribute(
         "aria-pressed",
         "false"
       );
-
+                            
       button.disabled = true;
-    }
-  );
-
-  /*
-    Disable the unused outcome tiles once the fixed
-    activity has been completed.
-  */
-  variableStructure.variableTiles.forEach(
-    function(tile) {
-      tile.disabled = true;
     }
   );
 
