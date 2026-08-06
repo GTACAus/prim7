@@ -234,11 +234,35 @@
     }
 
     .stop-and-check-answer {
+      position: relative;
       margin-top: 15px;
       background-color: var(--soft-green);
       border-radius: 16px;
       padding: 10px 15px;
-      border: 2px solid var(--green);
+      padding-top: 15px;
+      margin-top: 20px;
+      border: 2px solid var(--charcoal);
+      border-top: 4px solid var(--green);
+    }
+
+    .stop-and-check-answer::before {
+      content: "ANSWER";
+
+      position: absolute;
+      top: -16px;
+      left: 18px;
+
+      padding: 4px 12px;
+
+      background: var(--green);
+      border: 2px solid var(--line);
+      border-radius: 999px;
+
+      color: var(--text);
+
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
     }
     
     .stop-and-check-button {
@@ -257,7 +281,7 @@
       margin: 30px 0 0;
       padding: 16px 18px;
       border: 3px solid var(--charcoal);
-      border-top: 3px solid var(--orange);
+      border-top: 6px solid var(--orange);
       background: var(--soft-orange);
       box-shadow: 0 4px 0 var(--charcoal);
       border-radius: 16px;
