@@ -875,20 +875,19 @@ body {
         );
       }
     }
-
     function updatePrediction() {
       // Keep the JavaScript state synchronised with what is
       // currently visible in the dropdowns.
       builderState.change = investigationQuestionAnswers.changeVariable;
       builderState.measure = investigationQuestionAnswers.measureVariable;
-
+      
       const causePhrase = getCausePhrase();
       const effectPhrase = getEffectPhrase();
       const reason = builderState.reason;
-
+      
       setGeneratedText(predictionIf, causePhrase, "Choose a cause relationship.");
       setGeneratedText(predictionThen, effectPhrase, "Choose an effect or result.");
-
+      
       let fullPrediction = "";
       if (causePhrase !== "" && effectPhrase !== "") {
         fullPrediction = causePhrase + ", " + effectPhrase + ".";
@@ -896,7 +895,7 @@ body {
       if (fullPrediction !== "" && reason !== "") {
         fullPrediction += " This is because " + reason + ".";
         const nextButton =
-          window.parent.document.getElementById("reasonedBuilderNextButton");
+          window.parent.document.getElementById("designQuestionNext");
 
         if (nextButton) {
           nextButton.hidden = false;

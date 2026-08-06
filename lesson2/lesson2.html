@@ -266,7 +266,7 @@
     <!-- ==================================================
          2. DISCOVER VARIABLES
          ================================================== -->
-    <section class="section locked" id="discover-variables">
+    <section class="section" id="discover-variables">
       <h2 class="section-title">Making observations, asking questions, and identifying variables</h2>
 
       <div class="diagram-box diagram-activity">
@@ -1340,7 +1340,9 @@
   <button
     type="button"
     class="next-button general-button"
-    onclick="unlockSection('sort-variables-three', 'design-question')">
+    id="designQuestionNext"
+    onclick="unlockSection('sort-variables-three', 'design-question')"
+    hidden>
     Next
   </button>
 
@@ -1372,9 +1374,7 @@
 
       <div class="variable-activity">
 
-        <p class="variable-question">
-          How will you organise the variables in your own <strong>fair test</strong> experiment?
-        </p>
+        <p id="autofillTestableQuestion" class="variable-question"></p>
 
         <div
           class="variable-selection-toolbar"
@@ -1624,7 +1624,7 @@
 
 
   <script>
-    const dev = true;
+    const dev = false;
     if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
     /* ==================================================
        LESSON 2 PAGE SETUP
@@ -2817,14 +2817,20 @@ function resetBallPairActivity(
       builder.appendChild(completedQuestion);
     }
 
+    function autofillTestableQuestion(completedQuestion) {
+      const autofillElement = document.getElementById("autofillTestableQuestion");
+      autofillElement.innerHTML = completedQuestion.textContent;
+    }
 
     const dropdownAnswers = [
-       "ball size",
-       "ball weight",
+      "ball size",
+      "ball material",
        "drop height",
-       "floor surface",
-       "height of the bounce",
-       "ball material"
+       "ball squashiness",
+       "bounce surface",
+       "bounce height",
+       "number of bounces",
+       "time spent bouncing"
     ];
 
     function createInvestigationQuestionBlank(
@@ -3015,6 +3021,8 @@ function resetBallPairActivity(
         template.parts[1] +
         secondAnswer +
         template.parts[2];
+
+      autofillTestableQuestion(completedQuestion);
 
       completedQuestion.hidden = false;
     }
