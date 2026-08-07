@@ -1367,8 +1367,8 @@
         <p class="activity-instruction">
           Identify the variables for your <strong>fair test</strong> experiment.
           Use the investigation question you created earlier shown below.
-          Choose one variable to change, one variable to measure,
-          and keep all the remaining variables the same.
+          Choose one variable to change and one variable to measure.
+          Then identify the other factors that must be kept the same.
         </p>
       </div>
 
@@ -1720,6 +1720,28 @@ let sortVariablesThreeStructure = {
   answerMode: "open",
   answers: null,
 
+  independentOptions: [
+    "ball-size",
+    "ball-material",
+    "drop-height",
+    "ball-squashiness",
+    "bounce-surface"
+  ],
+
+  dependentOptions: [
+    "bounce-height",
+    "number-of-bounces",
+    "time-spent-bouncing"
+  ],
+
+  controlledOptions: [
+    "ball-size",
+    "ball-material",
+    "drop-height",
+    "ball-squashiness",
+    "bounce-surface"
+  ],
+
   selectedMode: "",
   independentComplete: false,
   dependentComplete: false
@@ -1989,7 +2011,20 @@ function handleVariableTileClick(
      ================================================== */
 
   if (selectedMode === "independent") {
+    if (
+      !isFixedActivity &&
+      !variableStructure.independentOptions.includes(
+        selectedVariable
+      )
+    ) {
+      buzzTile(
+        tile,
+        "That is a measurable outcome. Choose a variable that you can deliberately change.",
+        variableStructure
+      );
 
+      return;
+    }
     /*
       Fixed activities check against the answer key.
 
@@ -2041,7 +2076,20 @@ function handleVariableTileClick(
      ================================================== */
 
   if (selectedMode === "dependent") {
+    if (
+      !isFixedActivity &&
+      !variableStructure.dependentOptions.includes(
+        selectedVariable
+      )
+    ) {
+      buzzTile(
+        tile,
+        "That is a variable you can change or keep the same. Choose a measurable result instead.",
+        variableStructure
+      );
 
+      return;
+    }
     /*
       Fixed activities check against the answer key.
 
@@ -2092,7 +2140,36 @@ function handleVariableTileClick(
      ================================================== */
 
   if (selectedMode === "controlled") {
+    if (
+      !isFixedActivity &&
+      (
+        !variableStructure.independentComplete ||
+        !variableStructure.dependentComplete
+      )
+    ) {
+      buzzTile(
+        tile,
+        "Choose one independent variable and one dependent variable before selecting the controlled variables.",
+        variableStructure
+      );
 
+      return;
+    }
+
+    if (
+      !isFixedActivity &&
+      !variableStructure.controlledOptions.includes(
+        selectedVariable
+      )
+    ) {
+      buzzTile(
+        tile,
+        "That is a measurable outcome, not a variable that needs to be kept the same.",
+        variableStructure
+      );
+
+      return;
+    }
     /*
       In a fixed activity, controlled variables must
       match the answer key.
@@ -2160,17 +2237,29 @@ function handleVariableTileClick(
           }
         );
     } else {
-      const remainingTiles =
-        Array.from(
-          variableStructure.variableTiles
-        ).filter(function(variableTile) {
-          return !variableTile.classList.contains(
-            "is-classified"
-          );
-        });
-
       controlledSelectionComplete =
-        remainingTiles.length === 0;
+        variableStructure.controlledOptions.every(
+          function(variableName) {
+            const variableTile =
+              variableStructure.activity.querySelector(
+                '[data-variable="' +
+                  variableName +
+                '"]'
+              );
+
+            return (
+              variableTile &&
+              (
+                variableTile.classList.contains(
+                  "is-independent"
+                ) ||
+                variableTile.classList.contains(
+                  "is-controlled"
+                )
+              )
+            );
+          }
+        );
     }
 
     if (controlledSelectionComplete) {
