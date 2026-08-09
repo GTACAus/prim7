@@ -35,7 +35,7 @@ select {
 }
 .bk3-progress-step:not(.active):hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--charcoal)
+  box-shadow: 0 6px 0 var(--charcoal);
 }
 .bk3-progress-step.active {
   color: #fff;
@@ -170,12 +170,7 @@ select {
 
 .bk3-main-card,
 .bk3-blueprint {
-  background:
-  linear-gradient(
-    to bottom,
-    white,
-    var(--soft-blue)
-  );
+  background: linear-gradient(to bottom, white, var(--soft-blue));
   border: 2px solid var(--charcoal);
   border-radius: 20px;
   box-shadow: 0 7px 0 rgba(48, 51, 47, 0.12);
@@ -512,7 +507,6 @@ h2 {
   font-weight: 700;
   letter-spacing: 0.06em;
 }
-
 
 .independent-card {
   border-top: 4px solid var(--yellow);
