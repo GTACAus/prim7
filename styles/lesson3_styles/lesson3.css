@@ -70,6 +70,8 @@
 
 .data-table-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 28px;
   background: var(--soft-purple);
   border: 3px solid var(--charcoal);
@@ -79,8 +81,14 @@
 
 .custom-table-note {
   margin: 0 0 7px !important;
+  padding: 0 12px;
+  align-self: flex-end;
 
-  color: var(--orange);
+  color: var(--charcoal);
+  background-color: var(--soft-orange);
+  border: 3px dashed var(--orange);
+  border-radius: 12px;
+
 
   font-size: 0.76rem;
   font-weight: 700;
