@@ -589,24 +589,6 @@
 
 
 /* ---------- Draggable labels ---------- */
-.touch-drag-ghost {
-  position: fixed;
-  z-index: 9999;
-
-  pointer-events: none;
-  margin: 0;
-
-  opacity: 0.85;
-
-  transform: scale(1.05);
-
-  /* Prevent the ghost from affecting page layout */
-  width: max-content;
-  max-width: 90vw;
-
-  /* Make sure it doesn't inherit disabled-button styling */
-  cursor: grabbing;
-}
 
 #yeast-labels .drag-label {
   display: inline-flex;
@@ -622,6 +604,9 @@
   border: 2px solid var(--line);
   border-radius: 999px;
 
+  box-shadow: 0 3px 0 var(--line);
+
+  font: inherit;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.25;
@@ -629,6 +614,12 @@
 
   cursor: grab;
   user-select: none;
+
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    background 0.16s ease,
+    opacity 0.16s ease;
 }
 
 
@@ -638,6 +629,7 @@
   transform: translateY(-2px);
   box-shadow: 0 5px 0 var(--line);
 }
+
 
 #yeast-labels .drag-label:active,
 #yeast-labels .drag-label.is-dragging {
@@ -1317,95 +1309,4 @@
 /* Drag/drop targets can also retain slight rounding */
 #yeast-labels .label-drop-zone {
   border-radius: 6px;
-}
-
-/* ==================================================
-   TABLE-LIKE GRID - REFINEMENT EXPERIMENT
-   ================================================== */
-
-/* Lighter internal grid */
-.experiment-table th,
-.experiment-table td {
-  border-width: 1px;
-}
-
-
-/* Stronger outside/structural headings */
-.experiment-table .dependent-heading,
-.experiment-table .independent-axis {
-  border-width: 2px;
-}
-
-
-/* Slightly reduce giant cell height */
-.experiment-table th,
-.experiment-table td {
-  height: 82px;
-}
-
-
-/* Data rows can be a little shorter */
-.experiment-table tbody td,
-.experiment-table tbody .independent-value {
-  height: 76px;
-}
-
-
-/* ==================================================
-   CONVENTIONAL SCIENCE TABLE - REFERENCE EXPERIMENT
-   ================================================== */
-
-/*
-  Independent-variable heading now sits horizontally
-  at the top of the first column.
-*/
-#data-table-template .independent-heading {
-  background: var(--green);
-  color: var(--text);
-
-  font-weight: 700;
-  text-transform: uppercase;
-
-  border: 2px solid var(--charcoal);
-}
-
-
-/*
-  First column contains the actual IV values.
-*/
-#data-table-template .independent-value {
-  width: 180px;
-
-  background: var(--mint);
-
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-
-/*
-  The first-column heading should line up directly
-  with the row labels underneath.
-*/
-#data-table-template .reference-table {
-  table-layout: fixed;
-}
-
-
-/*
-  The blank corner above the independent-variable
-  heading stays visually empty.
-*/
-#data-table-template .corner-space {
-  background: transparent !important;
-  border: none !important;
-}
-
-
-/*
-  The dependent-variable heading spans only
-  the three measurement columns.
-*/
-#data-table-template .dependent-heading {
-  border-width: 2px;
 }
