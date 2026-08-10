@@ -14,33 +14,10 @@
   padding-top: 0;
 }
 
-.lesson3-page-header .save-work-button {
-  margin: 0;
-}
-
 /* ---------- Parent data-table section ---------- */
 
 .data-table-section {
   overflow: hidden;
-}
-
-.lesson3-section-header {
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.lesson3-section-header > div {
-  flex: 0 0 auto;
-}
-
-.lesson3-section-header .intro-eyebrow {
-  margin-bottom: 8px !important;
-}
-
-.lesson3-section-header .section-title {
-  margin: 0;
-  background: var(--lavender);
 }
 
 .table-reference-note {
@@ -158,6 +135,10 @@
   background: var(--soft-yellow);
 }
 
+.drag-label {
+  
+}
+
 /* ---------- Teaching callouts ---------- */
 
 .data-table-callout {
@@ -243,10 +224,6 @@
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
-  .lesson3-section-header {
-    display: block;
-  }
-
   .table-reference-note {
     margin-top: 16px;
   }

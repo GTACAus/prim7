@@ -11,18 +11,113 @@
 </head>
 
 <body>
-  <div id="top"></div>
-
   <div class="page-header-wrapper">
-    <header class="page-header lesson3-page-header">
-      <button
-        type="button"
-        class="save-work-button general-button"
-        onclick="downloadLessonPDF()">
-        <p class="bounce-symbol">💾</p>
-        <p>Save my work</p>
-      </button>
-    </header>
+      <header class="page-header">
+        <button class="general-button home-button" onclick="window.location.href='../index.html'">
+          <p class="bounce-symbol">🏠</p>
+          <p>Home</p>
+        </button>
+        <button class="general-button glossary-button" onclick="openGlossary()">
+          <p class="bounce-symbol">📖</p>
+          <p>Vocabulary</p>
+        </button>
+        
+      </header>
+    </div>
+
+  <!-- ==================================================
+       VOCABULARY MODAL
+       Placeholder definitions can be refined later.
+       ================================================== -->
+  <div class="modal" id="glossaryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="teacher-label">
+            Lesson 3: Tables
+          </p>
+          <h2>Glossary Terms</h2>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          onclick="closeGlossary()"
+          aria-label="Close glossary">
+          ×
+        </button>
+      </div>
+
+      <div class="vocab-list">
+        <div class="vocab-card">
+          <h3>Variable</h3>
+          <p>An aspect of an investigation that can be different or can change.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================
+       HIDDEN TEACHER MENU
+       Opened by clicking the lesson title five times.
+       ================================================== -->
+  <div class="teacher-modal" id="teacherModal">
+    <div class="teacher-panel">
+      <div class="teacher-panel-header">
+        <div>
+          <p class="teacher-label">Teacher tools</p>
+          <h2>Jump to an activity</h2>
+        </div>
+
+        <button
+          type="button"
+          class="teacher-close"
+          onclick="closeTeacherMenu()"
+          aria-label="Close teacher menu">
+          ×
+        </button>
+      </div>
+
+      <div class="teacher-section-list">
+
+        <button type="button" onclick="teacherJump('data-table-template')">
+          1. Data Table Template
+        </button>
+        <button type="button" onclick="teacherJump('yeast-labels')">
+          2. Yeast experiment: add the labels
+        </button>
+        <button type="button" onclick="teacherJump('yeast-average')">
+          3. Yeast experiment: calculate the average
+        </button>
+        <button type="button" onclick="teacherJump('bounce-data-entry')">
+          4. Ball bounce experiment
+        </button>
+        <button type="button" onclick="teacherJump('build-your-own-table')">
+          5. Ball bounce experiment: complete the table
+        </button>
+
+      </div>
+
+      <div class="teacher-actions">
+        <button
+          type="button"
+          class="teacher-secondary-button"
+          onclick="teacherShowAll()">
+          Show all sections
+        </button>
+
+        <button
+          type="button"
+          class="teacher-secondary-button"
+          onclick="teacherResetView()">
+          Reset student view
+        </button>
+      </div>
+
+      <p class="teacher-note">
+        Teacher mode changes navigation only. Student answers are not deleted.
+      </p>
+    </div>
   </div>
 
   <main class="page lesson3-page">
@@ -433,6 +528,17 @@
   <script src="../scripts/common_functions.js"></script>
 
   <script>
+    const dev = false;
+    if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
+
+    const lesson3SectionIds = [
+      "data-table-template",
+      "yeast-labels",
+      "yeast-average",
+      "bounce-data-entry",
+      "build-your-own-table",
+
+    ];
     /* ==================================================
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
@@ -800,6 +906,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initialiseTeacherMenu === "function") {
+        initialiseTeacherMenu(
+          lesson3SectionIds,
+          "data-table-template"
+        );
+      }
       initialiseLesson3DragAndDrop();
       initialiseLesson3PermanentTextEntries();
     });
