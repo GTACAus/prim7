@@ -243,16 +243,17 @@
             
          </header>
          <!-- ---------- End of Header ---------- -->
+          <div class="intro-grid">
           <section class="intro-card objectives-card section">
                   <!-- Learning Objective -->
                   <p class="intro-eyebrow">Learning objective</p>
-                  <p class="learning-objective-text">
+                  <p class="learning-objective-text floating-card">
                      Learn to ask <strong>testable questions</strong> and make reasoned predictions for a scientific <strong>experiment</strong>
                   </p>
                   <!-- Success Criteria -->
                   <p class="success-heading">Success criteria</p>
                   <ol class="objective-list">
-                     <li>
+                     <li class="floating-card">
                         I can classify whether a <strong>question</strong> is testable or untestable
                      </li>
                      <li>
@@ -263,7 +264,7 @@
                      </li>
                   </ol>
                </section>
-               <section class="intro-card observation-card section">
+               <section class="intro-card observation-card section floating-card">
                   <p class="intro-eyebrow">Think like a scientist</p>
                   <h2>See, Think, Wonder</h2>
                   <p>
@@ -287,6 +288,7 @@
                      </div>
                   </div>
                </section>
+               </div>
           <section class="section" id="test-section" style="padding-bottom: 200px">
             asdfasd
           </section>
@@ -295,7 +297,7 @@
       <script>
         const cards = [];
 
-        document.querySelectorAll('.section').forEach(section => {
+        document.querySelectorAll('.floating-card').forEach(section => {
             cards.push({
                 element: section,
 
@@ -325,13 +327,11 @@
 
         // Tuning values
         const MAX_ROTATION = 2;       // degrees
-        const BASE_SCALE = 1.01;       // scale when hovering center
+        const BASE_SCALE = 1.02;       // scale when hovering center
         const EXTRA_SCALE = 0.01;      // additional scale toward corners
-        const SMOOTHING = 0.15;        // 0.08-0.15 feels good
+        const SMOOTHING = 0.25;        // 0.08-0.15 feels good
 
-        const MAX_SHADOW_OFFSET = 10;  // px
-        const BASE_SHADOW_BLUR = 24;   // px
-        const EXTRA_SHADOW_BLUR = 16;  // px
+        const MAX_SHADOW_OFFSET = 5;  // px
 
         cards.forEach(card => {
 
@@ -358,7 +358,7 @@
                 );
 
                 card.targetScale = BASE_SCALE + distance * EXTRA_SCALE;
-                card.targetShadowOpacity = 0.3;
+                card.targetShadowOpacity = 1;
                 card.targetShadowX = -card.dx * MAX_SHADOW_OFFSET;
                 card.targetShadowY = card.dy * MAX_SHADOW_OFFSET;
             });
@@ -396,10 +396,9 @@
                 const shadowX = -card.dx * MAX_SHADOW_OFFSET;
                 const shadowY = card.dy * MAX_SHADOW_OFFSET;
 
-                // const blur = BASE_SHADOW_BLUR + distance * EXTRA_SHADOW_BLUR;
-                const blur = 0;
-                // const opacity = 0.15 + distance * 0.15;
                 card.currentShadowOpacity += (card.targetShadowOpacity - card.currentShadowOpacity) * SMOOTHING;
+
+                const blur = 0;
                 card.currentShadowX +=
                     (card.targetShadowX - card.currentShadowX) * SMOOTHING;
 
@@ -416,11 +415,11 @@
 
                 // Apply shadow
                 card.element.style.boxShadow = `
-                    ${shadowX}px
-                    ${shadowY}px
-                    ${blur}px
-                    rgba(0, 0, 0, ${card.currentShadowOpacity}
-                `;
+                  ${card.currentShadowX}px
+                  ${card.currentShadowY}px
+                  ${blur}px
+                  rgba(0, 0, 0, ${card.currentShadowOpacity})
+              `;
             }
 
             requestAnimationFrame(animate);
