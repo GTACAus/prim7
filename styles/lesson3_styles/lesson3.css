@@ -1,0 +1,326 @@
+/* ==================================================
+   LESSON 4 - DATA TABLES
+   This file deliberately relies on build_style.css
+   for the shared GTAC palette, typography, buttons,
+   page width, lesson headings and section cards.
+   ================================================== */
+
+.lesson3-page {
+  padding-top: 118px;
+}
+
+.lesson3-intro {
+  margin-bottom: 22px;
+  padding-top: 0;
+}
+
+.lesson3-page-header .save-work-button {
+  margin: 0;
+}
+
+/* ---------- Parent data-table section ---------- */
+
+.data-table-section {
+  overflow: hidden;
+}
+
+.lesson3-section-header {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.lesson3-section-header > div {
+  flex: 0 0 auto;
+}
+
+.lesson3-section-header .intro-eyebrow {
+  margin-bottom: 8px !important;
+}
+
+.lesson3-section-header .section-title {
+  margin: 0;
+  background: var(--lavender);
+}
+
+.table-reference-note {
+  max-width: 460px;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.data-table-card {
+  position: relative;
+  padding: 28px;
+  background: var(--soft-purple);
+  border: 3px solid var(--charcoal);
+  border-radius: 24px;
+  box-shadow: var(--shadow-small);
+}
+
+.experiment-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  padding: 4px;
+  scrollbar-width: thin;
+}
+
+/* ---------- Table ---------- */
+
+.experiment-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: separate;
+  border-spacing: 8px;
+  table-layout: fixed;
+  color: var(--text);
+}
+
+.experiment-table th,
+.experiment-table td {
+  height: 92px;
+  padding: 14px 16px;
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.35;
+}
+
+.experiment-table th {
+  font-weight: 700;
+}
+
+.experiment-table td {
+  background: var(--paper);
+  font-weight: 600;
+}
+
+.corner-space {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.dependent-heading {
+  height: 64px !important;
+  background: var(--purple);
+  color: white;
+  font-size: 1.04rem;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 0 var(--charcoal);
+}
+
+.test-heading {
+  background: var(--lavender);
+  color: var(--text);
+  text-transform: uppercase;
+  box-shadow: 0 3px 0 var(--charcoal);
+}
+
+.independent-axis {
+  width: 76px;
+  min-width: 76px;
+  padding: 10px !important;
+  background: var(--green);
+  color: var(--charcoal);
+  box-shadow: 0 3px 0 var(--charcoal);
+}
+
+.independent-axis > span {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-transform: uppercase;
+}
+
+.independent-value {
+  width: 170px;
+  background: var(--mint);
+  text-transform: uppercase;
+}
+
+.table-units {
+  white-space: nowrap;
+  font-size: 0.88em;
+  font-weight: 700;
+}
+
+/* A gentle visual cue for future editable versions. */
+.experiment-table td {
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.experiment-table td:hover {
+  background: var(--soft-yellow);
+}
+
+/* ---------- Teaching callouts ---------- */
+
+.data-table-callout {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  align-items: center;
+  gap: 12px;
+  width: min(610px, 100%);
+  margin: 0 auto 18px;
+  padding: 12px 16px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+}
+
+.callout-bottom {
+  margin-top: 18px;
+  margin-bottom: 0;
+}
+
+.callout-number {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: var(--yellow);
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.data-table-callout p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ---------- Reusable key cards ---------- */
+
+.table-key-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.table-key-card {
+  min-height: 130px;
+  padding: 18px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.table-key-card p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.table-key-label {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.key-dependent .table-key-label {
+  background: var(--lavender);
+}
+
+.key-independent .table-key-label {
+  background: var(--mint);
+}
+
+.key-units .table-key-label {
+  background: var(--yellow);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .lesson3-section-header {
+    display: block;
+  }
+
+  .table-reference-note {
+    margin-top: 16px;
+  }
+
+  .table-key-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .lesson3-page {
+    padding-top: 138px;
+  }
+
+  .data-table-card {
+    padding: 18px 12px;
+  }
+
+  .experiment-table {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 520px) {
+  .lesson3-page {
+    padding-top: 126px;
+  }
+
+  .data-table-section {
+    padding: 18px;
+  }
+
+  .data-table-callout {
+    grid-template-columns: 32px 1fr;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .callout-number {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* ---------- Print ---------- */
+
+@media print {
+  .lesson3-page {
+    padding-top: 0 !important;
+  }
+
+  .data-table-card {
+    padding: 5mm !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  .experiment-table-scroll {
+    overflow: visible !important;
+  }
+
+  .experiment-table {
+    min-width: 0 !important;
+    border-spacing: 3mm !important;
+  }
+
+  .experiment-table th,
+  .experiment-table td {
+    height: 20mm !important;
+    padding: 3mm !important;
+  }
+
+  .data-table-callout,
+  .table-key-card {
+    box-shadow: none !important;
+  }
+}
