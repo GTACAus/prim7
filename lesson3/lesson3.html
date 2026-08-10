@@ -845,16 +845,76 @@
       restoreAverageButtons('#yeast-average', calculateFixedAverage);
     }
 
-    function resetBounceDataEntry() {
-      document.querySelectorAll('#bounce-data-entry .table-number-input').forEach(function(input) {
+function resetBounceDataEntry() {
+  document
+    .querySelectorAll(
+      '#bounce-data-entry .table-entry-control'
+    )
+    .forEach(function(control) {
+
+      const inputRow =
+        control.querySelector(
+          '.table-entry-input-row'
+        );
+
+      const answerBox =
+        control.querySelector(
+          '.table-entry-answer'
+        );
+
+      const input =
+        control.querySelector(
+          '.table-number-input'
+        );
+
+      if (input) {
         input.value = '';
-      });
-    }
+      }
+
+      if (inputRow) {
+        inputRow.style.display = 'block';
+      }
+
+      if (answerBox) {
+        answerBox.classList.remove('visible');
+        answerBox.innerHTML = '';
+      }
+    });
+}
 
     function resetBuildYourOwnTable() {
-      document.querySelectorAll('#build-your-own-table .table-number-input').forEach(function(input) {
-        input.value = '';
-      });
+document.querySelectorAll(
+  '#build-your-own-table .table-number-control'
+).forEach(function(control) {
+
+  const inputRow =
+    control.querySelector(
+      '.table-entry-input-row'
+    );
+
+  const answerBox =
+    control.querySelector(
+      '.table-entry-answer'
+    );
+
+  const input =
+    control.querySelector(
+      '.table-number-input'
+    );
+
+  if (input) {
+    input.value = '';
+  }
+
+  if (inputRow) {
+    inputRow.style.display = 'block';
+  }
+
+  if (answerBox) {
+    answerBox.classList.remove('visible');
+    answerBox.innerHTML = '';
+  }
+});
 
       document.querySelectorAll('#build-your-own-table .table-entry-control').forEach(function(control) {
         const inputRow = control.querySelector('.table-entry-input-row');
@@ -905,16 +965,164 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof initialiseTeacherMenu === "function") {
-        initialiseTeacherMenu(
-          lesson3SectionIds,
-          "data-table-template"
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof initialiseTeacherMenu === "function") {
+    initialiseTeacherMenu(
+      lesson3SectionIds,
+      "data-table-template"
+    );
+  }
+
+  initialiseLesson3DragAndDrop();
+
+  initialiseLesson3PermanentTextEntries();
+
+  initialiseLesson3PermanentNumberEntries();
+});
+
+    /* ==================================================
+   PERMANENT NUMBER ENTRIES
+   Used for experimental data cells.
+   ================================================== */
+
+function initialiseLesson3PermanentNumberEntries() {
+  const inputs = document.querySelectorAll(
+    '#bounce-data-entry .table-number-input, ' +
+    '#build-your-own-table .table-number-input'
+  );
+
+  inputs.forEach(function(input) {
+    if (input.dataset.lesson3PermanentNumberReady === 'true') {
+      return;
+    }
+
+    const originalParent = input.parentElement;
+
+    if (!originalParent) {
+      return;
+    }
+
+    const control = document.createElement('div');
+    control.className = 'table-entry-control table-number-control';
+
+    const inputRow = document.createElement('div');
+    inputRow.className = 'table-entry-input-row';
+
+    const answerBox = document.createElement('div');
+    answerBox.className = 'table-entry-answer table-number-answer';
+    answerBox.setAttribute('aria-live', 'polite');
+
+    originalParent.insertBefore(control, input);
+
+    control.appendChild(inputRow);
+    inputRow.appendChild(input);
+    control.appendChild(answerBox);
+
+    input.dataset.lesson3PermanentNumberReady = 'true';
+
+
+    function saveTableNumberAnswer() {
+      const value = input.value.trim();
+
+      if (value === '') {
+        return;
+      }
+
+      const numericValue = Number(value);
+
+      if (!Number.isFinite(numericValue)) {
+        input.focus();
+        return;
+      }
+
+      answerBox.innerHTML = '';
+
+      const answerText =
+        document.createElement('span');
+
+      answerText.className =
+        'table-entry-answer-text';
+
+      answerText.textContent = value;
+
+
+      let deleteButton = null;
+
+      if (typeof createDeleteAnswerButton === 'function') {
+        deleteButton = createDeleteAnswerButton(
+          'Clear ' + value,
+          function() {
+            answerBox.classList.remove('visible');
+            answerBox.innerHTML = '';
+
+            inputRow.style.display = 'block';
+
+            input.value = '';
+            input.focus();
+          }
+        );
+      } else {
+        deleteButton =
+          document.createElement('button');
+
+        deleteButton.type = 'button';
+        deleteButton.className = 'delete-answer';
+        deleteButton.textContent = '×';
+
+        deleteButton.setAttribute(
+          'aria-label',
+          'Clear ' + value
+        );
+
+        deleteButton.addEventListener(
+          'click',
+          function() {
+            answerBox.classList.remove('visible');
+            answerBox.innerHTML = '';
+
+            inputRow.style.display = 'block';
+
+            input.value = '';
+            input.focus();
+          }
         );
       }
-      initialiseLesson3DragAndDrop();
-      initialiseLesson3PermanentTextEntries();
-    });
+
+      answerBox.appendChild(answerText);
+      answerBox.appendChild(deleteButton);
+
+      inputRow.style.display = 'none';
+
+      answerBox.classList.add('visible');
+
+      /*
+        IMPORTANT:
+        Keep the numeric value on the original input.
+
+        The input is hidden visually, but calculateInputAverage()
+        can still read its value later.
+      */
+    }
+
+
+    input.addEventListener(
+      'keydown',
+      function(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          saveTableNumberAnswer();
+        }
+      }
+    );
+
+    input.addEventListener(
+      'blur',
+      saveTableNumberAnswer
+    );
+  });
+}
+
+
   </script>
 </body>
 </html>
