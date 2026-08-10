@@ -80,8 +80,11 @@
 
       <div class="teacher-section-list">
 
-        <button type="button" onclick="teacherJump('discover-variables')">
-          1. Discover possible variables
+        <button type="button" onclick="teacherJump('data-table-template')">
+          1. Data Table Template
+        </button>
+        <button type="button" onclick="teacherJump('yeast-labels')">
+          2. Yeast experiment: add the labels
         </button>
 
       </div>
@@ -502,6 +505,12 @@
   <script>
     const dev = false;
     if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
+
+    const lesson3SectionIds = [
+      "data-table-template",
+      "yeast-labels",
+      
+    ];
     /* ==================================================
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
@@ -658,6 +667,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initialiseTeacherMenu === "function") {
+        initialiseTeacherMenu(
+          lesson3SectionIds,
+          "data-table-template"
+        );
+      }
       initialiseLesson3DragAndDrop();
 
       document.querySelectorAll('.lesson3-filtered-text').forEach(function(input) {
