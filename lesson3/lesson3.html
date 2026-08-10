@@ -200,6 +200,10 @@
 
       <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
 
+      <div class="reset-button-container lesson3-reset-container">
+        <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">Reset</button>
+      </div>
+
       <button class="next-button general-button" onclick="unlockSection('yeast-average', 'yeast-labels')">
         Next
       </button>
@@ -262,6 +266,10 @@
         </div>
       </div>
 
+      <div class="reset-button-container lesson3-reset-container">
+        <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">Reset</button>
+      </div>
+
       <button class="next-button general-button" onclick="unlockSection('bounce-data-entry', 'yeast-average')">
         Next
       </button>
@@ -313,6 +321,10 @@
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div class="reset-button-container lesson3-reset-container">
+        <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('bounce-data-entry')">Reset</button>
       </div>
 
       <button class="next-button general-button" onclick="unlockSection('build-your-own-table', 'bounce-data-entry')">
@@ -403,6 +415,10 @@
       </div>
 
       <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
+
+      <div class="reset-button-container lesson3-reset-container">
+        <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('build-your-own-table')">Reset</button>
+      </div>
     </section>
 
     <div class="return-to-top">
@@ -557,37 +573,235 @@
       showAverageValue(button, average);
     }
 
-    function validateLesson3TextEntry(input) {
-      if (!input || input.value.trim() === '') {
+    /* ==================================================
+       BUILD-YOUR-OWN TABLE - SAVED TEXT ANSWERS
+       Reuses the same shared helpers as Lesson 2.
+       ================================================== */
+
+    function initialiseLesson3PermanentTextEntries() {
+      const inputs = document.querySelectorAll(
+        '#build-your-own-table .lesson3-filtered-text'
+      );
+
+      inputs.forEach(function(input) {
+        if (input.dataset.lesson3PermanentReady === 'true') {
+          return;
+        }
+
+        const originalParent = input.parentElement;
+
+        if (!originalParent) {
+          return;
+        }
+
+        const control = document.createElement('div');
+        control.className = 'table-entry-control';
+
+        const inputRow = document.createElement('div');
+        inputRow.className = 'table-entry-input-row';
+
+        const answerBox = document.createElement('div');
+        answerBox.className = 'table-entry-answer';
+        answerBox.setAttribute('aria-live', 'polite');
+
+        originalParent.insertBefore(control, input);
+        control.appendChild(inputRow);
+        inputRow.appendChild(input);
+        control.appendChild(answerBox);
+
+        input.dataset.lesson3PermanentReady = 'true';
+
+        function saveTableTextAnswer() {
+          if (typeof getValidStudentInput !== 'function') {
+            return;
+          }
+
+          const value = getValidStudentInput(input);
+
+          if (value === null) {
+            return;
+          }
+
+          answerBox.innerHTML = '';
+
+          const answerText = document.createElement('span');
+          answerText.className = 'table-entry-answer-text';
+          answerText.textContent = value;
+
+          let deleteButton = null;
+
+          if (typeof createDeleteAnswerButton === 'function') {
+            deleteButton = createDeleteAnswerButton(
+              'Clear ' + value,
+              function() {
+                answerBox.classList.remove('visible');
+                answerBox.innerHTML = '';
+                inputRow.style.display = 'block';
+                input.value = '';
+                input.focus();
+              }
+            );
+          } else {
+            deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'delete-answer';
+            deleteButton.textContent = '×';
+            deleteButton.setAttribute('aria-label', 'Clear ' + value);
+            deleteButton.addEventListener('click', function() {
+              answerBox.classList.remove('visible');
+              answerBox.innerHTML = '';
+              inputRow.style.display = 'block';
+              input.value = '';
+              input.focus();
+            });
+          }
+
+          answerBox.appendChild(answerText);
+          answerBox.appendChild(deleteButton);
+
+          inputRow.style.display = 'none';
+          answerBox.classList.add('visible');
+          input.value = '';
+        }
+
+        if (typeof connectEnterAndBlurSave === 'function') {
+          connectEnterAndBlurSave(input, saveTableTextAnswer);
+        } else {
+          input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              saveTableTextAnswer();
+            }
+          });
+
+          input.addEventListener('blur', saveTableTextAnswer);
+        }
+      });
+    }
+
+    /* ==================================================
+       RESET HELPERS
+       ================================================== */
+
+    function restoreAverageButtons(sectionSelector, clickHandler) {
+      document.querySelectorAll(sectionSelector + ' .average-cell').forEach(function(cell) {
+        cell.classList.remove('average-result');
+        cell.innerHTML = '';
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'average-button';
+        button.textContent = 'Calculate';
+        button.addEventListener('click', function() {
+          clickHandler(button);
+        });
+
+        cell.appendChild(button);
+      });
+    }
+
+    function resetYeastLabels() {
+      const placeholderText = {
+        'yeast-dv': 'Drop dependent variable here',
+        'yeast-iv': 'Drop independent variable',
+        'yeast-test-1': 'Drop label',
+        'yeast-test-2': 'Drop label',
+        'yeast-test-3': 'Drop label',
+        'yeast-temp-2': 'Drop temperature',
+        'yeast-temp-22': 'Drop temperature',
+        'yeast-temp-37': 'Drop temperature',
+        'yeast-temp-80': 'Drop temperature'
+      };
+
+      document.querySelectorAll('#yeast-labels .label-drop-zone').forEach(function(zone) {
+        zone.textContent = placeholderText[zone.dataset.accept] || 'Drop label';
+        zone.classList.remove(
+          'drop-complete',
+          'drag-over',
+          'drop-incorrect'
+        );
+      });
+
+      document.querySelectorAll('#yeast-labels .drag-label').forEach(function(label) {
+        label.disabled = false;
+        label.setAttribute('draggable', 'true');
+        label.classList.remove('label-placed', 'is-dragging');
+      });
+
+      const feedback = document.getElementById('yeastLabelFeedback');
+      if (feedback) {
+        feedback.hidden = true;
+        feedback.innerHTML = '';
+      }
+    }
+
+    function resetYeastAverage() {
+      restoreAverageButtons('#yeast-average', calculateFixedAverage);
+    }
+
+    function resetBounceDataEntry() {
+      document.querySelectorAll('#bounce-data-entry .table-number-input').forEach(function(input) {
+        input.value = '';
+      });
+    }
+
+    function resetBuildYourOwnTable() {
+      document.querySelectorAll('#build-your-own-table .table-number-input').forEach(function(input) {
+        input.value = '';
+      });
+
+      document.querySelectorAll('#build-your-own-table .table-entry-control').forEach(function(control) {
+        const inputRow = control.querySelector('.table-entry-input-row');
+        const answerBox = control.querySelector('.table-entry-answer');
+        const input = control.querySelector('.lesson3-filtered-text');
+
+        if (input) {
+          input.value = '';
+        }
+
+        if (inputRow) {
+          inputRow.style.display = 'block';
+        }
+
+        if (answerBox) {
+          answerBox.classList.remove('visible');
+          answerBox.innerHTML = '';
+        }
+      });
+
+      restoreAverageButtons('#build-your-own-table', calculateInputAverage);
+
+      const feedback = document.getElementById('customTableFeedback');
+      if (feedback) {
+        feedback.hidden = true;
+        feedback.innerHTML = '';
+      }
+    }
+
+    function resetLesson3Section(sectionId) {
+      if (sectionId === 'yeast-labels') {
+        resetYeastLabels();
         return;
       }
 
-      /*
-        getValidStudentInput() comes from common_functions.js.
-        It uses the existing cypher.txt classroom-language filter,
-        clears blocked entries and shows the standard browser feedback.
-      */
-      if (typeof getValidStudentInput === 'function') {
-        getValidStudentInput(input);
+      if (sectionId === 'yeast-average') {
+        resetYeastAverage();
+        return;
+      }
+
+      if (sectionId === 'bounce-data-entry') {
+        resetBounceDataEntry();
+        return;
+      }
+
+      if (sectionId === 'build-your-own-table') {
+        resetBuildYourOwnTable();
       }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
       initialiseLesson3DragAndDrop();
-
-      document.querySelectorAll('.lesson3-filtered-text').forEach(function(input) {
-        input.addEventListener('blur', function() {
-          validateLesson3TextEntry(input);
-        });
-
-        input.addEventListener('keydown', function(event) {
-          if (event.key === 'Enter') {
-            event.preventDefault();
-            validateLesson3TextEntry(input);
-            input.blur();
-          }
-        });
-      });
+      initialiseLesson3PermanentTextEntries();
     });
   </script>
 </body>

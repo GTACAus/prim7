@@ -324,3 +324,522 @@
     box-shadow: none !important;
   }
 }
+
+/* ==================================================
+   LESSON 3 - EDITABLE TABLE CONTROLS
+   ================================================== */
+
+/* Keep table controls inside their own cells */
+.experiment-table td,
+.experiment-table th {
+  overflow: hidden;
+}
+
+/* ---------- Number entry cells ---------- */
+
+.table-number-input {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: 52px;
+
+  margin: 0;
+  padding: 10px 12px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+
+  box-sizing: border-box;
+  appearance: textfield;
+}
+
+.table-number-input:focus {
+  outline: 4px solid rgba(78, 50, 232, 0.18);
+  border-color: var(--purple);
+}
+
+/* Hide number spinners */
+.table-number-input::-webkit-inner-spin-button,
+.table-number-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+
+/* ---------- Student heading / label text fields ---------- */
+
+.table-text-input {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 46px;
+
+  margin: 0;
+  padding: 9px 11px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+.table-text-input:focus {
+  outline: 4px solid rgba(78, 50, 232, 0.18);
+  border-color: var(--purple);
+}
+
+.table-text-input::placeholder {
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+
+/* Dependent-variable heading */
+.table-heading-input {
+  max-width: 430px;
+  margin-inline: auto;
+
+  background: var(--paper);
+  color: var(--text);
+}
+
+
+/* ---------- Ball-bounce data cells ---------- */
+
+#bounce-data-entry .experiment-table td,
+#build-your-own-table .experiment-table td {
+  padding: 12px;
+}
+
+#bounce-data-entry .table-number-input,
+#build-your-own-table .table-number-input {
+  height: 54px;
+}
+
+
+/* ---------- Build-your-own table labels ---------- */
+
+#build-your-own-table .independent-value {
+  padding: 10px;
+}
+
+#build-your-own-table .independent-value .table-text-input {
+  height: 52px;
+}
+
+
+/*
+  Don't rotate the actual input box.
+  Keep the green axis cell vertical-looking,
+  but let students type normally.
+*/
+#build-your-own-table .axis-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  writing-mode: horizontal-tb;
+  transform: none;
+}
+
+#build-your-own-table .axis-text-input {
+  width: 125px;
+  min-height: 52px;
+}
+
+
+/* ---------- Average buttons ---------- */
+
+.average-cell {
+  text-align: center;
+}
+
+.average-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 104px;
+  min-height: 44px;
+  padding: 10px 16px;
+
+  background: var(--yellow);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  box-shadow: 0 3px 0 var(--line);
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  appearance: none;
+}
+
+.average-button:hover {
+  background: var(--green);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.average-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.average-result {
+  background: var(--soft-green) !important;
+  font-size: 1.1rem;
+  font-weight: 700 !important;
+}
+
+/* ==================================================
+   LESSON 3 - DRAG AND DROP TABLE ACTIVITY
+   ================================================== */
+
+
+/* ---------- Label bank ---------- */
+
+#yeast-labels .table-label-bank {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  min-height: 0;
+  margin: 0 0 22px;
+  padding: 20px;
+
+  background: var(--paper);
+
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: var(--shadow-small);
+}
+
+
+/* ---------- Draggable labels ---------- */
+
+#yeast-labels .drag-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 48px;
+  padding: 10px 18px;
+
+  background: var(--soft-green);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  box-shadow: 0 3px 0 var(--line);
+
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+
+  cursor: grab;
+  user-select: none;
+
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    background 0.16s ease,
+    opacity 0.16s ease;
+}
+
+
+#yeast-labels .drag-label:hover {
+  background: var(--mint);
+
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 var(--line);
+}
+
+
+#yeast-labels .drag-label:active,
+#yeast-labels .drag-label.is-dragging {
+  cursor: grabbing;
+
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--line);
+
+  opacity: 0.65;
+}
+
+
+/* Label disappears visually once correctly placed */
+
+#yeast-labels .drag-label.label-placed {
+  opacity: 0.28;
+  transform: none;
+  box-shadow: none;
+
+  cursor: default;
+}
+
+
+/* ---------- Drop zones ---------- */
+
+#yeast-labels .label-drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 54px;
+  padding: 8px 10px;
+
+  background: rgba(255, 255, 255, 0.38);
+  color: var(--muted);
+
+  border: 2px dashed var(--charcoal);
+  border-radius: 10px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25;
+
+  text-transform: none;
+
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+
+/* Make the drop target look active */
+
+#yeast-labels .label-drop-zone.drag-over {
+  background: var(--soft-yellow);
+  border-color: var(--purple);
+
+  transform: scale(1.03);
+
+  box-shadow:
+    0 0 0 4px rgba(78, 50, 232, 0.15);
+}
+
+
+/* Correctly completed target */
+
+#yeast-labels .label-drop-zone.drop-complete {
+  background: var(--soft-green);
+  color: var(--text);
+
+  border: 2px solid var(--green);
+
+  font-weight: 700;
+
+  box-shadow: none;
+}
+
+
+/* ---------- Incorrect drop ---------- */
+
+@keyframes lesson3DropBuzz {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+
+#yeast-labels .label-drop-zone.drop-incorrect {
+  background: var(--soft-orange);
+  border-color: var(--orange);
+
+  animation: lesson3DropBuzz 0.28s ease;
+}
+
+
+/* ---------- Dependent-variable drop area ---------- */
+
+#yeast-labels .drop-heading {
+  padding: 10px 14px;
+}
+
+
+#yeast-labels .dependent-heading .label-drop-zone {
+  min-height: 48px;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+
+  border-color: rgba(255, 255, 255, 0.78);
+}
+
+
+#yeast-labels .dependent-heading .label-drop-zone.drag-over {
+  background: var(--soft-yellow);
+  color: var(--text);
+
+  border-color: var(--yellow);
+}
+
+
+#yeast-labels .dependent-heading .label-drop-zone.drop-complete {
+  background: transparent;
+  color: white;
+
+  border-color: transparent;
+
+  text-transform: uppercase;
+}
+
+
+/* ---------- Test-heading drop areas ---------- */
+
+#yeast-labels .test-heading {
+  padding: 10px;
+}
+
+
+#yeast-labels .test-heading .label-drop-zone.drop-complete {
+  background: transparent;
+  border-color: transparent;
+
+  text-transform: uppercase;
+}
+
+
+/* ---------- Temperature row labels ---------- */
+
+#yeast-labels .independent-value {
+  padding: 10px;
+}
+
+
+#yeast-labels .independent-value .label-drop-zone.drop-complete {
+  background: transparent;
+  border-color: transparent;
+
+  text-transform: uppercase;
+}
+
+
+/* ---------- Vertical independent-variable target ---------- */
+
+/*
+  The table axis itself stays vertical.
+
+  During dragging, however, the placeholder remains readable.
+*/
+
+#yeast-labels .vertical-drop-zone {
+  min-width: 52px;
+  min-height: 220px;
+
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+
+  padding: 12px 8px;
+}
+
+
+#yeast-labels .vertical-drop-zone.drop-complete {
+  background: transparent;
+  border-color: transparent;
+
+  color: var(--text);
+
+  text-transform: uppercase;
+}
+
+
+/* ---------- Empty result cells ---------- */
+
+#yeast-labels .yeast-table td {
+  background: var(--paper);
+}
+
+
+/* ---------- Completion feedback ---------- */
+
+#yeast-labels .table-activity-feedback {
+  margin-top: 20px;
+  padding: 16px 18px;
+
+  border: 2px solid var(--line);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+
+#yeast-labels .table-activity-feedback.feedback-success {
+  background: var(--soft-green);
+}
+
+
+#yeast-labels .table-activity-feedback strong,
+#yeast-labels .table-activity-feedback span {
+  display: block;
+}
+
+
+#yeast-labels .table-activity-feedback strong {
+  margin-bottom: 4px;
+  font-size: 1.05rem;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+  #yeast-labels .table-label-bank {
+    padding: 14px;
+    gap: 9px;
+  }
+
+  #yeast-labels .drag-label {
+    padding: 9px 13px;
+    font-size: 0.86rem;
+  }
+}
