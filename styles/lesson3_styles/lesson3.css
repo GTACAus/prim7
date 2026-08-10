@@ -1,5 +1,5 @@
 /* ==================================================
-   LESSON 4 - DATA TABLES
+   LESSON 3 - DATA TABLES
    This file deliberately relies on build_style.css
    for the shared GTAC palette, typography, buttons,
    page width, lesson headings and section cards.
@@ -289,11 +289,26 @@
   }
 
   .data-table-card {
-    padding: 18px 12px;
+    padding: 16px 10px;
   }
 
-  .experiment-table {
-    min-width: 700px;
+  #build-your-own-table .experiment-table th,
+  #build-your-own-table .experiment-table td {
+    height: 82px;
+    padding: 7px;
+  }
+
+  #build-your-own-table .table-text-input,
+  #build-your-own-table .table-number-input,
+  #build-your-own-table .table-entry-answer {
+    font-size: 0.9rem;
+  }
+
+  #build-your-own-table .average-button {
+    min-width: 0;
+    width: 100%;
+    padding: 9px 8px;
+    font-size: 0.86rem;
   }
 }
 
@@ -868,4 +883,208 @@
     padding: 9px 13px;
     font-size: 0.86rem;
   }
+}
+
+/* ---------- Permanent numerical table answers ---------- */
+
+.table-number-control {
+  width: 100%;
+}
+
+.table-number-answer {
+  min-height: 54px;
+  width: 100%;
+
+  align-items: center;
+  justify-content: space-between;
+
+  background: white;
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  font-weight: 700;
+  text-align: center;
+}
+
+.table-number-answer .table-entry-answer-text {
+  flex: 1;
+  text-align: center;
+}
+
+/* ==================================================
+   PERMANENT TABLE ENTRY DISPLAY
+   ================================================== */
+
+/*
+  The saved-answer box exists in the DOM from the start,
+  but should stay hidden until an answer is submitted.
+*/
+.table-entry-answer {
+  display: none;
+}
+
+/* Show it only after JavaScript adds .visible */
+.table-entry-answer.visible {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+/* Make the input wrapper occupy the cell normally */
+.table-entry-input-row {
+  width: 100%;
+}
+
+
+/* ---------- Permanent number answers ---------- */
+
+.table-number-answer {
+  width: 100%;
+  min-height: 54px;
+  padding: 8px 10px;
+
+  background: white;
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-sizing: border-box;
+
+  font-weight: 700;
+  text-align: center;
+}
+
+.table-number-answer .table-entry-answer-text {
+  flex: 1;
+  text-align: center;
+}
+
+
+/* ---------- Permanent text answers ---------- */
+
+.table-entry-answer:not(.table-number-answer) {
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 10px;
+
+  background: white;
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-sizing: border-box;
+}
+
+
+/* Keep the X button compact */
+.table-entry-answer .delete-answer {
+  flex: 0 0 auto;
+
+  width: 26px;
+  height: 26px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--soft-orange);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 50%;
+
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+/* ==================================================
+   RESPONSIVE TABLE SIZING
+   Prefer shrinking before horizontal scrolling.
+   ================================================== */
+
+#data-table-template .experiment-table,
+#build-your-own-table .experiment-table,
+#bounce-data-entry .experiment-table,
+#yeast-average .experiment-table,
+#yeast-labels .experiment-table {
+  min-width: 0;
+  width: 100%;
+}
+
+#data-table-template .reference-table {
+  table-layout: fixed;
+}
+
+#data-table-template .independent-axis {
+  width: 72px;
+  min-width: 72px;
+}
+
+#data-table-template .independent-value {
+  width: 145px;
+}
+
+/* Let columns share the available width */
+#build-your-own-table .experiment-table {
+  table-layout: fixed;
+}
+
+/* Narrower side columns */
+#build-your-own-table .independent-axis {
+  width: 72px;
+  min-width: 72px;
+}
+
+#build-your-own-table .independent-value {
+  width: 125px;
+}
+
+/* Make inner controls shrink with the cell */
+#build-your-own-table .table-entry-control,
+#build-your-own-table .table-entry-input-row,
+#build-your-own-table .table-text-input,
+#build-your-own-table .table-number-input,
+#build-your-own-table .table-entry-answer {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Long headings should wrap rather than force width */
+#build-your-own-table .table-entry-answer-text {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Slightly reduce cell padding */
+#build-your-own-table .experiment-table th,
+#build-your-own-table .experiment-table td {
+  padding: 9px;
+}
+
+/* Let the heading input fill its available space */
+#build-your-own-table .table-heading-input {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* The independent variable entry should not force width */
+#build-your-own-table .axis-text-input {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ==================================================
+   PERMANENT ANSWER TEXT COLOUR FIX
+   ================================================== */
+
+.table-entry-answer,
+.table-entry-answer .table-entry-answer-text {
+  color: var(--text);
 }
