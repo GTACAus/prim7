@@ -110,7 +110,6 @@
 .independent-axis > span {
   display: inline-block;
   writing-mode: vertical-rl;
-  transform: rotate(180deg);
   text-transform: uppercase;
 }
 
@@ -769,7 +768,6 @@
   min-height: 220px;
 
   writing-mode: vertical-rl;
-  transform: rotate(180deg);
 
   padding: 12px 8px;
 }
