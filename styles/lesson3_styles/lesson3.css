@@ -14,6 +14,46 @@
   padding-top: 0;
 }
 
+.formula-card {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.formula-step {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+}
+
+.formula-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  font-weight: 700;
+  background: var(--mint);
+}
+
+.formula-step strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text);
+}
+
+.formula-step span {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 /* ---------- Parent data-table section ---------- */
 
 .data-table-section {
@@ -35,6 +75,17 @@
   border: 3px solid var(--charcoal);
   border-radius: 24px;
   box-shadow: var(--shadow-small);
+}
+
+.custom-table-note {
+  margin: 0 0 7px !important;
+
+  color: var(--orange);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .experiment-table-scroll {
