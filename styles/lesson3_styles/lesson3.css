@@ -589,6 +589,24 @@
 
 
 /* ---------- Draggable labels ---------- */
+.touch-drag-ghost {
+  position: fixed;
+  z-index: 9999;
+
+  pointer-events: none;
+  margin: 0;
+
+  opacity: 0.85;
+
+  transform: scale(1.05);
+
+  /* Prevent the ghost from affecting page layout */
+  width: max-content;
+  max-width: 90vw;
+
+  /* Make sure it doesn't inherit disabled-button styling */
+  cursor: grabbing;
+}
 
 #yeast-labels .drag-label {
   display: inline-flex;
@@ -604,9 +622,6 @@
   border: 2px solid var(--line);
   border-radius: 999px;
 
-  box-shadow: 0 3px 0 var(--line);
-
-  font: inherit;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.25;
@@ -614,12 +629,6 @@
 
   cursor: grab;
   user-select: none;
-
-  transition:
-    transform 0.16s ease,
-    box-shadow 0.16s ease,
-    background 0.16s ease,
-    opacity 0.16s ease;
 }
 
 

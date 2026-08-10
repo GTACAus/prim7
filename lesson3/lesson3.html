@@ -349,15 +349,15 @@
 
       <div class="diagram-activity">
         <div class="label-bank table-label-bank" id="yeastLabelBank" aria-label="Labels to place in the yeast experiment table">
-          <button class="drag-label" draggable="true" data-label-id="yeast-dv">Circumference of balloon (cm)</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-iv">Temperature (°C)</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-test-2">Test 2</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-test-3">Test 3</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-temp-2">2°C</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-temp-22">22°C</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-temp-37">37°C</button>
-          <button class="drag-label" draggable="true" data-label-id="yeast-temp-80">80°C</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-dv">Circumference of balloon (cm)</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-iv">Temperature (°C)</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-test-1">Test 1</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-test-2">Test 2</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-test-3">Test 3</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-2">2°C</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-22">22°C</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-37">37°C</button>
+          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-80">80°C</button>
         </div>
         <div class="data-table-card yeast-table-card">
           <div class="experiment-table-scroll">
@@ -652,63 +652,284 @@
        ================================================== */
 
     let lesson3DraggedLabel = null;
+    let lesson3TouchDragging = false;
+
+    function createLesson3TouchGhost(label) {
+      const ghost = label.cloneNode(true);
+
+      ghost.classList.add('touch-drag-ghost');
+
+      ghost.disabled = false;
+      ghost.removeAttribute('draggable');
+
+      document.body.appendChild(ghost);
+
+      lesson3TouchGhost = ghost;
+
+      return ghost;
+    }
+
+
+    function moveLesson3TouchGhost(touch) {
+      if (!lesson3TouchGhost) {
+        return;
+      }
+
+      lesson3TouchGhost.style.left =
+        (touch.clientX - lesson3TouchGhost.offsetWidth / 2) + 'px';
+
+      lesson3TouchGhost.style.top =
+        (touch.clientY - lesson3TouchGhost.offsetHeight / 2) + 'px';
+    }
+
+
+    function removeLesson3TouchGhost() {
+      if (lesson3TouchGhost) {
+        lesson3TouchGhost.remove();
+        lesson3TouchGhost = null;
+      }
+    }
 
     function initialiseLesson3DragAndDrop() {
       const labels = document.querySelectorAll('.drag-label');
       const dropZones = document.querySelectorAll('.label-drop-zone');
 
+      function handleDrop(zone, draggedLabel) {
+        if (!draggedLabel) {
+          return;
+        }
+
+        const draggedId = draggedLabel.dataset.labelId;
+
+        // Incorrect drop
+        if (zone.dataset.accept !== draggedId) {
+          zone.classList.add('drop-incorrect');
+
+          window.setTimeout(function() {
+            zone.classList.remove('drop-incorrect');
+          }, 500);
+
+          return;
+        }
+
+        // Correct drop
+        zone.textContent = draggedLabel.textContent;
+        zone.classList.add('drop-complete');
+
+        draggedLabel.classList.add('label-placed');
+        draggedLabel.disabled = true;
+        draggedLabel.setAttribute('draggable', 'false');
+
+        updateYeastLabelCompletion();
+      }
+
+
+      /* ==================================================
+        MOUSE DRAG AND DROP
+        ================================================== */
+
       labels.forEach(function(label) {
+
         label.addEventListener('dragstart', function(event) {
           lesson3DraggedLabel = label;
+
           label.classList.add('is-dragging');
-          event.dataTransfer.setData('text/plain', label.dataset.labelId);
+
+          event.dataTransfer.setData(
+            'text/plain',
+            label.dataset.labelId
+          );
+
           event.dataTransfer.effectAllowed = 'move';
+
+          const transparentImage = document.createElement('div');
+
+          transparentImage.style.position = 'absolute';
+          transparentImage.style.width = '1px';
+          transparentImage.style.height = '1px';
+          transparentImage.style.opacity = '0';
+
+          document.body.appendChild(transparentImage);
+
+          event.dataTransfer.setDragImage(
+            transparentImage,
+            0,
+            0
+          );
+
+           // Create custom ghost
+          createLesson3TouchGhost(label);
+
+          // Position it at the cursor
+          moveLesson3TouchGhost(event);
         });
+
 
         label.addEventListener('dragend', function() {
           label.classList.remove('is-dragging');
+
+          removeLesson3TouchGhost();
+
           lesson3DraggedLabel = null;
+
+          dropZones.forEach(function(zone) {
+            zone.classList.remove('drag-over');
+          });
+        });
+
+
+        /* ==================================================
+          TOUCH DRAG AND DROP
+          ================================================== */
+
+        label.addEventListener('touchstart', function(event) {
+          if (label.disabled) {
+            return;
+          }
+
+          lesson3DraggedLabel = label;
+          lesson3TouchDragging = true;
+
+          label.classList.add('is-dragging');
+
+          const touch = event.touches[0];
+
+          // Create the floating copy
+          createLesson3TouchGhost(label);
+
+          // Position it immediately
+          moveLesson3TouchGhost(touch);
+
+          event.preventDefault();
+        }, { passive: false });
+
+
+        label.addEventListener('touchmove', function(event) {
+          if (!lesson3TouchDragging || !lesson3DraggedLabel) {
+            return;
+          }
+
+          event.preventDefault();
+
+          const touch = event.touches[0];
+
+          // Move the ghost with the finger
+          moveLesson3TouchGhost(touch);
+
+          const elementUnderFinger = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY
+          );
+
+          const zone = elementUnderFinger
+            ? elementUnderFinger.closest('.label-drop-zone')
+            : null;
+
+          dropZones.forEach(function(dropZone) {
+            dropZone.classList.remove('drag-over');
+          });
+
+          if (zone && !zone.classList.contains('drop-complete')) {
+            zone.classList.add('drag-over');
+          }
+        }, { passive: false });
+
+
+        label.addEventListener('touchend', function(event) {
+          if (!lesson3TouchDragging || !lesson3DraggedLabel) {
+            return;
+          }
+
+          event.preventDefault();
+
+          const touch = event.changedTouches[0];
+
+          const elementUnderFinger = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY
+          );
+
+          const zone = elementUnderFinger
+            ? elementUnderFinger.closest('.label-drop-zone')
+            : null;
+
+          dropZones.forEach(function(dropZone) {
+            dropZone.classList.remove('drag-over');
+          });
+
+          if (zone && !zone.classList.contains('drop-complete')) {
+            handleDrop(zone, lesson3DraggedLabel);
+          }
+
+          lesson3DraggedLabel.classList.remove('is-dragging');
+
+          removeLesson3TouchGhost();
+
+          lesson3DraggedLabel = null;
+          lesson3TouchDragging = false;
+        }, { passive: false });
+
+
+        label.addEventListener('touchcancel', function() {
+          if (lesson3DraggedLabel) {
+            lesson3DraggedLabel.classList.remove('is-dragging');
+          }
+
+          dropZones.forEach(function(zone) {
+            zone.classList.remove('drag-over');
+          });
+
+          removeLesson3TouchGhost();
+
+          lesson3DraggedLabel = null;
+          lesson3TouchDragging = false;
         });
       });
 
+
+      /* ==================================================
+        MOUSE DROP ZONES
+        ================================================== */
+      
+      // move ghost for drag and drop
+      document.addEventListener('dragover', function(event) {
+        if (!lesson3DraggedLabel) {
+          return;
+        }
+
+        moveLesson3TouchGhost(event);
+      });
       dropZones.forEach(function(zone) {
+
         zone.addEventListener('dragover', function(event) {
           event.preventDefault();
           zone.classList.add('drag-over');
         });
 
+
         zone.addEventListener('dragleave', function() {
           zone.classList.remove('drag-over');
         });
 
+
         zone.addEventListener('drop', function(event) {
           event.preventDefault();
+
           zone.classList.remove('drag-over');
 
-          const draggedId = event.dataTransfer.getData('text/plain');
-          const draggedLabel = document.querySelector(
-            '.drag-label[data-label-id="' + draggedId + '"]'
-          );
+          const draggedId =
+            event.dataTransfer.getData('text/plain');
+
+          const draggedLabel =
+            document.querySelector(
+              '.drag-label[data-label-id="' + draggedId + '"]'
+            );
 
           if (!draggedLabel) {
             return;
           }
 
-          if (zone.dataset.accept !== draggedId) {
-            zone.classList.add('drop-incorrect');
-            window.setTimeout(function() {
-              zone.classList.remove('drop-incorrect');
-            }, 500);
-            return;
-          }
-
-          zone.textContent = draggedLabel.textContent;
-          zone.classList.add('drop-complete');
-          draggedLabel.classList.add('label-placed');
-          draggedLabel.disabled = true;
-          draggedLabel.setAttribute('draggable', 'false');
-
-          updateYeastLabelCompletion();
+          handleDrop(zone, draggedLabel);
         });
       });
     }
