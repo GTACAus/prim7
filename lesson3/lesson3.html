@@ -37,6 +37,9 @@
       </div>
     </header>
 
+    <!-- ==================================================
+         SECTION 1: PARENT / REFERENCE TABLE
+         ================================================== -->
     <section class="section data-table-section" id="data-table-template">
       <div class="section-header lesson3-section-header">
         <div>
@@ -58,7 +61,7 @@
         </div>
 
         <div class="experiment-table-scroll">
-          <table class="experiment-table" aria-label="Example scientific data table">
+          <table class="experiment-table reference-table" aria-label="Example scientific data table">
             <thead>
               <tr>
                 <th class="corner-space" colspan="2" rowspan="2"></th>
@@ -83,14 +86,12 @@
                 <td>Data</td>
                 <td>Data</td>
               </tr>
-
               <tr>
                 <th class="independent-value" scope="row">Independent variable</th>
                 <td>Data</td>
                 <td>Data</td>
                 <td>Data</td>
               </tr>
-
               <tr>
                 <th class="independent-value" scope="row">Independent variable</th>
                 <td>Data</td>
@@ -114,17 +115,294 @@
           <span class="table-key-label">Dependent variable</span>
           <p>What you measure or observe.</p>
         </article>
-
         <article class="table-key-card key-independent">
           <span class="table-key-label">Independent variable</span>
           <p>What you deliberately change.</p>
         </article>
-
         <article class="table-key-card key-units">
           <span class="table-key-label">Units</span>
           <p>The measurement unit belongs in the heading, not repeated in every data cell.</p>
         </article>
       </div>
+
+      <button class="next-button general-button" onclick="unlockSection('yeast-labels', 'data-table-template')">
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         SECTION 2: YEAST EXPERIMENT - DRAG AND DROP LABELS
+         ================================================== -->
+    <section class="section data-table-section locked" id="yeast-labels">
+      <div class="section-header lesson3-section-header">
+        <div>
+          <p class="intro-eyebrow">Build the table</p>
+          <h2 class="section-title">Yeast experiment: add the labels</h2>
+        </div>
+        <p class="table-reference-note">
+          Drag each label into the correct part of the table. Every heading and temperature is missing.
+        </p>
+      </div>
+
+      <div class="label-bank table-label-bank" id="yeastLabelBank" aria-label="Labels to place in the yeast experiment table">
+        <button class="drag-label" draggable="true" data-label-id="yeast-dv">Circumference of balloon (cm)</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-iv">Temperature (°C)</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-test-2">Test 2</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-test-3">Test 3</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-temp-2">2°C</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-temp-22">22°C</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-temp-37">37°C</button>
+        <button class="drag-label" draggable="true" data-label-id="yeast-temp-80">80°C</button>
+      </div>
+
+      <div class="data-table-card yeast-table-card">
+        <div class="experiment-table-scroll">
+          <table class="experiment-table yeast-table" aria-label="Yeast experiment drag and drop data table">
+            <thead>
+              <tr>
+                <th class="corner-space" colspan="2" rowspan="2"></th>
+                <th class="dependent-heading drop-heading" colspan="3">
+                  <span class="label-drop-zone" data-accept="yeast-dv">Drop dependent variable here</span>
+                </th>
+              </tr>
+              <tr>
+                <th class="test-heading"><span class="label-drop-zone" data-accept="yeast-test-1">Drop label</span></th>
+                <th class="test-heading"><span class="label-drop-zone" data-accept="yeast-test-2">Drop label</span></th>
+                <th class="test-heading"><span class="label-drop-zone" data-accept="yeast-test-3">Drop label</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="independent-axis" rowspan="4">
+                  <span class="label-drop-zone vertical-drop-zone" data-accept="yeast-iv">Drop independent variable</span>
+                </th>
+                <th class="independent-value"><span class="label-drop-zone" data-accept="yeast-temp-2">Drop temperature</span></th>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th class="independent-value"><span class="label-drop-zone" data-accept="yeast-temp-22">Drop temperature</span></th>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th class="independent-value"><span class="label-drop-zone" data-accept="yeast-temp-37">Drop temperature</span></th>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th class="independent-value"><span class="label-drop-zone" data-accept="yeast-temp-80">Drop temperature</span></th>
+                <td></td><td></td><td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
+
+      <button class="next-button general-button" onclick="unlockSection('yeast-average', 'yeast-labels')">
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         SECTION 3: YEAST EXPERIMENT - CALCULATE AVERAGES
+         ================================================== -->
+    <section class="section data-table-section locked" id="yeast-average">
+      <div class="section-header lesson3-section-header">
+        <div>
+          <p class="intro-eyebrow">Working with results</p>
+          <h2 class="section-title">Yeast experiment: calculate the average</h2>
+        </div>
+        <p class="table-reference-note">
+          The table is complete. Press each average button to calculate the mean of the three tests.
+        </p>
+      </div>
+
+      <div class="data-table-card yeast-table-card">
+        <div class="experiment-table-scroll">
+          <table class="experiment-table experiment-table-average yeast-table" aria-label="Yeast experiment data table with averages">
+            <thead>
+              <tr>
+                <th class="corner-space" colspan="2" rowspan="2"></th>
+                <th class="dependent-heading" colspan="4">Circumference of balloon (cm)</th>
+              </tr>
+              <tr>
+                <th class="test-heading">Test 1</th>
+                <th class="test-heading">Test 2</th>
+                <th class="test-heading">Test 3</th>
+                <th class="average-heading">Average</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-average-row>
+                <th class="independent-axis" rowspan="4"><span>Temperature (°C)</span></th>
+                <th class="independent-value">2°C</th>
+                <td data-value="4">4</td><td data-value="5">5</td><td data-value="4">4</td>
+                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+              </tr>
+              <tr data-average-row>
+                <th class="independent-value">22°C</th>
+                <td data-value="12">12</td><td data-value="13">13</td><td data-value="11">11</td>
+                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+              </tr>
+              <tr data-average-row>
+                <th class="independent-value">37°C</th>
+                <td data-value="24">24</td><td data-value="25">25</td><td data-value="23">23</td>
+                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+              </tr>
+              <tr data-average-row>
+                <th class="independent-value">80°C</th>
+                <td data-value="2">2</td><td data-value="1">1</td><td data-value="2">2</td>
+                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button class="next-button general-button" onclick="unlockSection('bounce-data-entry', 'yeast-average')">
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         SECTION 4: BALL BOUNCE - STUDENTS ENTER DATA
+         ================================================== -->
+    <section class="section data-table-section locked" id="bounce-data-entry">
+      <div class="section-header lesson3-section-header">
+        <div>
+          <p class="intro-eyebrow">Record your results</p>
+          <h2 class="section-title">Ball bounce experiment</h2>
+        </div>
+        <p class="table-reference-note">
+          The headings are ready for you. Enter the number of bounces recorded in each test.
+        </p>
+      </div>
+
+      <div class="data-table-card bounce-table-card">
+        <div class="experiment-table-scroll">
+          <table class="experiment-table bounce-table" aria-label="Ball bounce experiment data entry table">
+            <thead>
+              <tr>
+                <th class="corner-space" colspan="2" rowspan="2"></th>
+                <th class="dependent-heading bounce-dependent" colspan="3">Number of bounces (bounces)</th>
+              </tr>
+              <tr>
+                <th class="test-heading bounce-heading">Test 1</th>
+                <th class="test-heading bounce-heading">Test 2</th>
+                <th class="test-heading bounce-heading">Test 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="independent-axis bounce-axis" rowspan="2"><span>Bounce surface</span></th>
+                <th class="independent-value bounce-value">Hard</th>
+                <td><input class="table-number-input" type="number" min="0" step="1" inputmode="numeric" aria-label="Hard surface test 1"></td>
+                <td><input class="table-number-input" type="number" min="0" step="1" inputmode="numeric" aria-label="Hard surface test 2"></td>
+                <td><input class="table-number-input" type="number" min="0" step="1" inputmode="numeric" aria-label="Hard surface test 3"></td>
+              </tr>
+              <tr>
+                <th class="independent-value bounce-value">Soft</th>
+                <td><input class="table-number-input" type="number" min="0" step="1" inputmode="numeric" aria-label="Soft surface test 1"></td>
+                <td><input class="table-number-input" type="number" min="0" step="1" inputmode="numeric" aria-label="Soft surface test 2"></td>
+                <td><input class="table-number-input" type="number" min="0" step="1" inputmode="numeric" aria-label="Soft surface test 3"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button class="next-button general-button" onclick="unlockSection('build-your-own-table', 'bounce-data-entry')">
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <!-- ==================================================
+         SECTION 5: BUILD YOUR OWN TABLE + AVERAGES
+         ================================================== -->
+    <section class="section data-table-section locked" id="build-your-own-table">
+      <div class="section-header lesson3-section-header">
+        <div>
+          <p class="intro-eyebrow">Build your own</p>
+          <h2 class="section-title">Ball bounce experiment: complete the table</h2>
+        </div>
+        <p class="table-reference-note">
+          Add your own headings and row labels, enter your results, then calculate the average for each row.
+        </p>
+      </div>
+
+      <div class="custom-table-note">
+        <strong>Text boxes use the classroom language filter.</strong>
+        Number boxes accept numerical data only.
+      </div>
+
+      <div class="data-table-card bounce-table-card">
+        <div class="experiment-table-scroll">
+          <table class="experiment-table experiment-table-average custom-table" aria-label="Student-built experiment table">
+            <thead>
+              <tr>
+                <th class="corner-space" colspan="2" rowspan="2"></th>
+                <th class="dependent-heading bounce-dependent" colspan="4">
+                  <input
+                    class="table-text-input table-heading-input lesson3-filtered-text"
+                    type="text"
+                    maxlength="70"
+                    placeholder="Dependent variable (units)"
+                    aria-label="Dependent variable heading">
+                </th>
+              </tr>
+              <tr>
+                <th class="test-heading bounce-heading">
+                  <input class="table-text-input lesson3-filtered-text" type="text" maxlength="30" placeholder="Test 1" aria-label="First test heading">
+                </th>
+                <th class="test-heading bounce-heading">
+                  <input class="table-text-input lesson3-filtered-text" type="text" maxlength="30" placeholder="Test 2" aria-label="Second test heading">
+                </th>
+                <th class="test-heading bounce-heading">
+                  <input class="table-text-input lesson3-filtered-text" type="text" maxlength="30" placeholder="Test 3" aria-label="Third test heading">
+                </th>
+                <th class="average-heading">Average</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-input-average-row>
+                <th class="independent-axis bounce-axis" rowspan="2">
+                  <span class="axis-input-wrapper">
+                    <input
+                      class="table-text-input axis-text-input lesson3-filtered-text"
+                      type="text"
+                      maxlength="50"
+                      placeholder="Independent variable"
+                      aria-label="Independent variable heading">
+                  </span>
+                </th>
+                <th class="independent-value bounce-value">
+                  <input class="table-text-input lesson3-filtered-text" type="text" maxlength="35" placeholder="Row label" aria-label="First row label">
+                </th>
+                <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 1"></td>
+                <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 2"></td>
+                <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 3"></td>
+                <td class="average-cell"><button class="average-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
+              </tr>
+              <tr data-input-average-row>
+                <th class="independent-value bounce-value">
+                  <input class="table-text-input lesson3-filtered-text" type="text" maxlength="35" placeholder="Row label" aria-label="Second row label">
+                </th>
+                <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 1"></td>
+                <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 2"></td>
+                <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 3"></td>
+                <td class="average-cell"><button class="average-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
     </section>
 
     <div class="return-to-top">
@@ -135,6 +413,182 @@
     </div>
   </main>
 
-  <script src="scripts/common_functions.js"></script>
+  <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
+  <script src="../scripts/common_functions.js"></script>
+
+  <script>
+    /* ==================================================
+       LESSON 3 - TABLE INTERACTIONS
+       ================================================== */
+
+    let lesson3DraggedLabel = null;
+
+    function initialiseLesson3DragAndDrop() {
+      const labels = document.querySelectorAll('.drag-label');
+      const dropZones = document.querySelectorAll('.label-drop-zone');
+
+      labels.forEach(function(label) {
+        label.addEventListener('dragstart', function(event) {
+          lesson3DraggedLabel = label;
+          label.classList.add('is-dragging');
+          event.dataTransfer.setData('text/plain', label.dataset.labelId);
+          event.dataTransfer.effectAllowed = 'move';
+        });
+
+        label.addEventListener('dragend', function() {
+          label.classList.remove('is-dragging');
+          lesson3DraggedLabel = null;
+        });
+      });
+
+      dropZones.forEach(function(zone) {
+        zone.addEventListener('dragover', function(event) {
+          event.preventDefault();
+          zone.classList.add('drag-over');
+        });
+
+        zone.addEventListener('dragleave', function() {
+          zone.classList.remove('drag-over');
+        });
+
+        zone.addEventListener('drop', function(event) {
+          event.preventDefault();
+          zone.classList.remove('drag-over');
+
+          const draggedId = event.dataTransfer.getData('text/plain');
+          const draggedLabel = document.querySelector(
+            '.drag-label[data-label-id="' + draggedId + '"]'
+          );
+
+          if (!draggedLabel) {
+            return;
+          }
+
+          if (zone.dataset.accept !== draggedId) {
+            zone.classList.add('drop-incorrect');
+            window.setTimeout(function() {
+              zone.classList.remove('drop-incorrect');
+            }, 500);
+            return;
+          }
+
+          zone.textContent = draggedLabel.textContent;
+          zone.classList.add('drop-complete');
+          draggedLabel.classList.add('label-placed');
+          draggedLabel.disabled = true;
+          draggedLabel.setAttribute('draggable', 'false');
+
+          updateYeastLabelCompletion();
+        });
+      });
+    }
+
+    function updateYeastLabelCompletion() {
+      const zones = document.querySelectorAll('#yeast-labels .label-drop-zone');
+      const completeZones = document.querySelectorAll('#yeast-labels .label-drop-zone.drop-complete');
+      const feedback = document.getElementById('yeastLabelFeedback');
+
+      if (!feedback || zones.length === 0 || completeZones.length !== zones.length) {
+        return;
+      }
+
+      feedback.hidden = false;
+      feedback.className = 'activity-feedback table-activity-feedback feedback-success';
+      feedback.innerHTML = '<strong>Table complete!</strong><span>You placed every heading and temperature correctly.</span>';
+    }
+
+    function formatAverage(value) {
+      if (Number.isInteger(value)) {
+        return String(value);
+      }
+
+      return value.toFixed(1).replace(/\.0$/, '');
+    }
+
+    function showAverageValue(button, average) {
+      const cell = button.closest('.average-cell');
+      cell.textContent = formatAverage(average);
+      cell.classList.add('average-result');
+    }
+
+    function calculateFixedAverage(button) {
+      const row = button.closest('[data-average-row]');
+      const valueCells = row.querySelectorAll('td[data-value]');
+      const values = Array.from(valueCells).map(function(cell) {
+        return Number(cell.dataset.value);
+      });
+
+      const average = values.reduce(function(total, value) {
+        return total + value;
+      }, 0) / values.length;
+
+      showAverageValue(button, average);
+    }
+
+    function calculateInputAverage(button) {
+      const row = button.closest('[data-input-average-row]');
+      const inputs = row.querySelectorAll('.table-number-input');
+      const feedback = document.getElementById('customTableFeedback');
+      const values = Array.from(inputs).map(function(input) {
+        return input.value.trim() === '' ? NaN : Number(input.value);
+      });
+
+      const hasMissingValue = values.some(function(value) {
+        return Number.isNaN(value);
+      });
+
+      if (hasMissingValue) {
+        if (feedback) {
+          feedback.hidden = false;
+          feedback.className = 'activity-feedback table-activity-feedback feedback-try-again';
+          feedback.innerHTML = '<strong>Add all three results first.</strong><span>The average can be calculated once each test has a number.</span>';
+        }
+        return;
+      }
+
+      if (feedback) {
+        feedback.hidden = true;
+      }
+
+      const average = values.reduce(function(total, value) {
+        return total + value;
+      }, 0) / values.length;
+
+      showAverageValue(button, average);
+    }
+
+    function validateLesson3TextEntry(input) {
+      if (!input || input.value.trim() === '') {
+        return;
+      }
+
+      /*
+        getValidStudentInput() comes from common_functions.js.
+        It uses the existing cypher.txt classroom-language filter,
+        clears blocked entries and shows the standard browser feedback.
+      */
+      if (typeof getValidStudentInput === 'function') {
+        getValidStudentInput(input);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initialiseLesson3DragAndDrop();
+
+      document.querySelectorAll('.lesson3-filtered-text').forEach(function(input) {
+        input.addEventListener('blur', function() {
+          validateLesson3TextEntry(input);
+        });
+
+        input.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            validateLesson3TextEntry(input);
+            input.blur();
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
