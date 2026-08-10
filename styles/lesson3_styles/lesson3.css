@@ -1097,3 +1097,119 @@
 .table-entry-answer .table-entry-answer-text {
   color: var(--text);
 }
+
+/* ==================================================
+   LESSON 3 - ACTIVITY FEEDBACK CARDS
+   ================================================== */
+
+.table-activity-feedback {
+  width: min(620px, 100%);
+  margin: 18px auto 0;
+  padding: 14px 18px;
+
+  background: var(--paper);
+
+  border: 2px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+
+  color: var(--text);
+  text-align: left;
+  line-height: 1.45;
+
+  box-sizing: border-box;
+}
+
+/* Keep hidden feedback completely out of the layout */
+.table-activity-feedback[hidden] {
+  display: none;
+}
+
+/* Main feedback heading */
+.table-activity-feedback strong {
+  display: block;
+  margin-bottom: 3px;
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Supporting text */
+.table-activity-feedback span {
+  display: block;
+
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+
+/* ---------- Try again / warning ---------- */
+
+.table-activity-feedback.feedback-try-again {
+  background: var(--soft-orange);
+  border-color: var(--orange);
+}
+
+
+/* ---------- Success ---------- */
+
+.table-activity-feedback.feedback-success {
+  background: var(--soft-green);
+  border-color: var(--green);
+}
+
+/* ==================================================
+   INDIVIDUAL AVERAGE RESET
+   ================================================== */
+
+.average-result-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  gap: 10px;
+}
+
+.average-result-value {
+  flex: 1;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.average-clear-button {
+  flex: 0 0 auto;
+
+  width: 26px;
+  height: 26px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--soft-orange);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 50%;
+
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.average-clear-button:hover {
+  background: var(--orange);
+  transform: scale(1.08);
+}
+
+.average-clear-button:active {
+  transform: scale(0.95);
+}

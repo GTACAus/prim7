@@ -892,11 +892,67 @@
       return value.toFixed(1).replace(/\.0$/, '');
     }
 
-    function showAverageValue(button, average) {
-      const cell = button.closest('.average-cell');
-      cell.textContent = formatAverage(average);
-      cell.classList.add('average-result');
+function showAverageValue(button, average) {
+  const cell = button.closest('.average-cell');
+
+  if (!cell) {
+    return;
+  }
+
+  /*
+    Remember which calculator this cell uses.
+    This allows the X button to restore the correct Calculate button.
+  */
+  const isCustomTable =
+    cell.closest('#build-your-own-table') !== null;
+
+  cell.innerHTML = '';
+  cell.classList.add('average-result');
+
+  const resultWrapper = document.createElement('div');
+  resultWrapper.className = 'average-result-wrapper';
+
+  const resultText = document.createElement('span');
+  resultText.className = 'average-result-value';
+  resultText.textContent = formatAverage(average);
+
+  const clearButton = document.createElement('button');
+  clearButton.type = 'button';
+  clearButton.className = 'average-clear-button';
+  clearButton.textContent = '×';
+  clearButton.setAttribute(
+    'aria-label',
+    'Clear calculated average'
+  );
+
+  clearButton.addEventListener('click', function() {
+    cell.classList.remove('average-result');
+    cell.innerHTML = '';
+
+    const calculateButton = document.createElement('button');
+
+    calculateButton.type = 'button';
+    calculateButton.className = 'average-button';
+    calculateButton.textContent = 'Calculate';
+
+    if (isCustomTable) {
+      calculateButton.addEventListener('click', function() {
+        calculateInputAverage(calculateButton);
+      });
+    } else {
+      calculateButton.addEventListener('click', function() {
+        calculateFixedAverage(calculateButton);
+      });
     }
+
+    cell.appendChild(calculateButton);
+  });
+
+  resultWrapper.appendChild(resultText);
+  resultWrapper.appendChild(clearButton);
+
+  cell.appendChild(resultWrapper);
+}
 
     function calculateFixedAverage(button) {
       const row = button.closest('[data-average-row]');
