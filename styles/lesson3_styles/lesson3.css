@@ -639,7 +639,6 @@
   box-shadow: 0 5px 0 var(--line);
 }
 
-
 #yeast-labels .drag-label:active,
 #yeast-labels .drag-label.is-dragging {
   cursor: grabbing;
