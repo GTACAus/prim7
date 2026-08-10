@@ -707,11 +707,34 @@
           );
 
           event.dataTransfer.effectAllowed = 'move';
+
+          const transparentImage = document.createElement('div');
+
+          transparentImage.style.position = 'absolute';
+          transparentImage.style.width = '1px';
+          transparentImage.style.height = '1px';
+          transparentImage.style.opacity = '0';
+
+          document.body.appendChild(transparentImage);
+
+          event.dataTransfer.setDragImage(
+            transparentImage,
+            0,
+            0
+          );
+
+           // Create custom ghost
+          createLesson3TouchGhost(label);
+
+          // Position it at the cursor
+          moveLesson3TouchGhost(event);
         });
 
 
         label.addEventListener('dragend', function() {
           label.classList.remove('is-dragging');
+
+          removeLesson3TouchGhost();
 
           lesson3DraggedLabel = null;
 
@@ -833,12 +856,19 @@
       /* ==================================================
         MOUSE DROP ZONES
         ================================================== */
+      
+      // move ghost for drag and drop
+      document.addEventListener('dragover', function(event) {
+        if (!lesson3DraggedLabel) {
+          return;
+        }
 
+        moveLesson3TouchGhost(event);
+      });
       dropZones.forEach(function(zone) {
 
         zone.addEventListener('dragover', function(event) {
           event.preventDefault();
-
           zone.classList.add('drag-over');
         });
 
