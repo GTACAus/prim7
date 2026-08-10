@@ -727,8 +727,9 @@
 
     let lesson3DraggedLabel = null;
     let lesson3TouchDragging = false;
+    let dragGhost = null;
 
-    function createLesson3TouchGhost(label) {
+    function createDragGhost(label) {
       const ghost = label.cloneNode(true);
 
       ghost.classList.add('touch-drag-ghost');
@@ -738,29 +739,29 @@
 
       document.body.appendChild(ghost);
 
-      lesson3TouchGhost = ghost;
+      dragGhost = ghost;
 
       return ghost;
     }
 
 
-    function moveLesson3TouchGhost(touch) {
-      if (!lesson3TouchGhost) {
+    function movedragGhost(touch) {
+      if (!dragGhost) {
         return;
       }
 
-      lesson3TouchGhost.style.left =
-        (touch.clientX - lesson3TouchGhost.offsetWidth / 2) + 'px';
+      dragGhost.style.left =
+        (touch.clientX - dragGhost.offsetWidth / 2) + 'px';
 
-      lesson3TouchGhost.style.top =
-        (touch.clientY - lesson3TouchGhost.offsetHeight / 2) + 'px';
+      dragGhost.style.top =
+        (touch.clientY - dragGhost.offsetHeight / 2) + 'px';
     }
 
 
-    function removeLesson3TouchGhost() {
-      if (lesson3TouchGhost) {
-        lesson3TouchGhost.remove();
-        lesson3TouchGhost = null;
+    function removedragGhost() {
+      if (dragGhost) {
+        dragGhost.remove();
+        dragGhost = null;
       }
     }
 
@@ -832,17 +833,17 @@
           );
 
            // Create custom ghost
-          createLesson3TouchGhost(label);
+          createDragGhost(label);
 
           // Position it at the cursor
-          moveLesson3TouchGhost(event);
+          movedragGhost(event);
         });
 
 
         label.addEventListener('dragend', function() {
           label.classList.remove('is-dragging');
 
-          removeLesson3TouchGhost();
+          removedragGhost();
 
           lesson3DraggedLabel = null;
 
@@ -869,10 +870,10 @@
           const touch = event.touches[0];
 
           // Create the floating copy
-          createLesson3TouchGhost(label);
+          createDragGhost(label);
 
           // Position it immediately
-          moveLesson3TouchGhost(touch);
+          movedragGhost(touch);
 
           event.preventDefault();
         }, { passive: false });
@@ -888,7 +889,7 @@
           const touch = event.touches[0];
 
           // Move the ghost with the finger
-          moveLesson3TouchGhost(touch);
+          movedragGhost(touch);
 
           const elementUnderFinger = document.elementFromPoint(
             touch.clientX,
@@ -937,7 +938,7 @@
 
           lesson3DraggedLabel.classList.remove('is-dragging');
 
-          removeLesson3TouchGhost();
+          removedragGhost();
 
           lesson3DraggedLabel = null;
           lesson3TouchDragging = false;
@@ -953,7 +954,7 @@
             zone.classList.remove('drag-over');
           });
 
-          removeLesson3TouchGhost();
+          removedragGhost();
 
           lesson3DraggedLabel = null;
           lesson3TouchDragging = false;
@@ -971,7 +972,7 @@
           return;
         }
 
-        moveLesson3TouchGhost(event);
+        movedragGhost(event);
       });
       dropZones.forEach(function(zone) {
 
