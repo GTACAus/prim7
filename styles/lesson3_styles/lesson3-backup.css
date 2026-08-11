@@ -70,6 +70,8 @@
 
 .data-table-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 28px;
   background: var(--soft-purple);
   border: 3px solid var(--charcoal);
@@ -79,8 +81,14 @@
 
 .custom-table-note {
   margin: 0 0 7px !important;
+  padding: 0 12px;
+  align-self: flex-end;
 
-  color: var(--orange);
+  color: var(--charcoal);
+  background-color: var(--soft-orange);
+  border: 3px dashed var(--orange);
+  border-radius: 12px;
+
 
   font-size: 0.76rem;
   font-weight: 700;
@@ -99,22 +107,32 @@
 
 .experiment-table {
   width: 100%;
-  min-width: 760px;
-  border-collapse: separate;
-  border-spacing: 8px;
+  min-width: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
   table-layout: fixed;
   color: var(--text);
 }
 
 .experiment-table th,
 .experiment-table td {
-  height: 92px;
-  padding: 14px 16px;
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
+  height: 82px;
+  padding: 12px 14px;
+
+  border: 1px solid var(--charcoal);
+  border-radius: 0;
+
+  box-shadow: none;
+
   text-align: center;
   vertical-align: middle;
   line-height: 1.35;
+}
+
+.experiment-table .dependent-heading,
+.experiment-table .independent-axis,
+.experiment-table .independent-heading {
+  border-width: 2px;
 }
 
 .experiment-table th {
@@ -139,29 +157,22 @@
   font-size: 1.04rem;
   letter-spacing: 0.015em;
   text-transform: uppercase;
-  box-shadow: 0 4px 0 var(--charcoal);
 }
 
 .test-heading {
   background: var(--lavender);
   color: var(--text);
   text-transform: uppercase;
-  box-shadow: 0 3px 0 var(--charcoal);
 }
 
-.independent-axis {
-  width: 76px;
-  min-width: 76px;
-  padding: 10px !important;
+.independent-heading {
   background: var(--green);
-  color: var(--charcoal);
-  box-shadow: 0 3px 0 var(--charcoal);
-}
+  color: var(--text);
 
-.independent-axis > span {
-  display: inline-block;
-  writing-mode: vertical-rl;
+  font-weight: 700;
   text-transform: uppercase;
+
+  border: 2px solid var(--charcoal);
 }
 
 .independent-value {
@@ -174,19 +185,6 @@
   white-space: nowrap;
   font-size: 0.88em;
   font-weight: 700;
-}
-
-/* A gentle visual cue for future editable versions. */
-.experiment-table td {
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.experiment-table td:hover {
-  background: var(--soft-yellow);
-}
-
-.drag-label {
-  
 }
 
 /* ---------- Teaching callouts ---------- */
@@ -394,7 +392,7 @@
   color: var(--text);
 
   border: 2px solid var(--line);
-  border-radius: 12px;
+  border-radius: 6px;
 
   font: inherit;
   font-size: 1rem;
@@ -435,7 +433,7 @@
   color: var(--text);
 
   border: 2px solid var(--line);
-  border-radius: 12px;
+  border-radius: 6px;
 
   font: inherit;
   font-weight: 600;
@@ -589,6 +587,24 @@
 
 
 /* ---------- Draggable labels ---------- */
+.touch-drag-ghost {
+  position: fixed;
+  z-index: 9999;
+
+  pointer-events: none;
+  margin: 0;
+
+  opacity: 0.85;
+
+  transform: scale(1.05);
+
+  /* Prevent the ghost from affecting page layout */
+  width: max-content;
+  max-width: 90vw;
+
+  /* Make sure it doesn't inherit disabled-button styling */
+  cursor: grabbing;
+}
 
 #yeast-labels .drag-label {
   display: inline-flex;
@@ -604,9 +620,6 @@
   border: 2px solid var(--line);
   border-radius: 999px;
 
-  box-shadow: 0 3px 0 var(--line);
-
-  font: inherit;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.25;
@@ -614,12 +627,6 @@
 
   cursor: grab;
   user-select: none;
-
-  transition:
-    transform 0.16s ease,
-    box-shadow 0.16s ease,
-    background 0.16s ease,
-    opacity 0.16s ease;
 }
 
 
@@ -629,7 +636,6 @@
   transform: translateY(-2px);
   box-shadow: 0 5px 0 var(--line);
 }
-
 
 #yeast-labels .drag-label:active,
 #yeast-labels .drag-label.is-dragging {
@@ -668,7 +674,7 @@
   color: var(--muted);
 
   border: 2px dashed var(--charcoal);
-  border-radius: 10px;
+  border-radius: 6px;
 
   font-size: 0.9rem;
   font-weight: 600;
@@ -801,34 +807,6 @@
 #yeast-labels .independent-value .label-drop-zone.drop-complete {
   background: transparent;
   border-color: transparent;
-
-  text-transform: uppercase;
-}
-
-
-/* ---------- Vertical independent-variable target ---------- */
-
-/*
-  The table axis itself stays vertical.
-
-  During dragging, however, the placeholder remains readable.
-*/
-
-#yeast-labels .vertical-drop-zone {
-  min-width: 52px;
-  min-height: 220px;
-
-  writing-mode: vertical-rl;
-
-  padding: 12px 8px;
-}
-
-
-#yeast-labels .vertical-drop-zone.drop-complete {
-  background: transparent;
-  border-color: transparent;
-
-  color: var(--text);
 
   text-transform: uppercase;
 }
@@ -1008,37 +986,17 @@
    Prefer shrinking before horizontal scrolling.
    ================================================== */
 
-#data-table-template .experiment-table,
-#build-your-own-table .experiment-table,
-#bounce-data-entry .experiment-table,
-#yeast-average .experiment-table,
-#yeast-labels .experiment-table {
-  min-width: 0;
-  width: 100%;
-}
-
 #data-table-template .reference-table {
   table-layout: fixed;
 }
 
-#data-table-template .independent-axis {
-  width: 72px;
-  min-width: 72px;
-}
-
 #data-table-template .independent-value {
-  width: 145px;
+  width: 180px;
 }
 
 /* Let columns share the available width */
 #build-your-own-table .experiment-table {
   table-layout: fixed;
-}
-
-/* Narrower side columns */
-#build-your-own-table .independent-axis {
-  width: 72px;
-  min-width: 72px;
 }
 
 #build-your-own-table .independent-value {
@@ -1203,110 +1161,4 @@
 
 .average-clear-button:active {
   transform: scale(0.95);
-}
-
-
-
-
-
-
-
-
-/* ==================================================
-   LESSON 3 - MORE TABLE-LIKE GRID - Override experiment
-   ================================================== */
-
-/*
-  Scientific tables should read as one connected grid,
-  rather than a collection of separate cards.
-*/
-.experiment-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-
-/* Square, connected table cells */
-.experiment-table th,
-.experiment-table td {
-  border: 2px solid var(--charcoal);
-  border-radius: 0;
-
-  box-shadow: none;
-
-  padding: 12px 14px;
-}
-
-
-/* Remove the individual "floating card" shadows */
-.experiment-table .dependent-heading,
-.experiment-table .test-heading,
-.experiment-table .independent-axis,
-.experiment-table .independent-value,
-.experiment-table .average-heading {
-  box-shadow: none;
-}
-
-
-/*
-  The blank top-left area is structural,
-  so don't give it a visible border.
-*/
-.experiment-table .corner-space {
-  border: none !important;
-  background: transparent !important;
-}
-
-
-/* Keep data cells visually simple */
-.experiment-table td {
-  background: var(--paper);
-}
-
-
-/*
-  Retain the GTAC colour hierarchy.
-  Colour differentiates table structure,
-  while square borders make it read as a table.
-*/
-.experiment-table .dependent-heading {
-  background: var(--purple);
-  color: white;
-}
-
-.experiment-table .test-heading {
-  background: var(--lavender);
-}
-
-.experiment-table .independent-axis {
-  background: var(--green);
-}
-
-.experiment-table .independent-value {
-  background: var(--mint);
-}
-
-
-/* Average header belongs visually with the column headers */
-.experiment-table .average-heading {
-  background: var(--soft-purple);
-  color: var(--text);
-}
-
-
-/*
-  Inputs can still look interactive.
-  Slight rounding is useful here because these are controls,
-  not table cells.
-*/
-.experiment-table .table-number-input,
-.experiment-table .table-text-input,
-.experiment-table .table-entry-answer {
-  border-radius: 6px;
-}
-
-
-/* Drag/drop targets can also retain slight rounding */
-#yeast-labels .label-drop-zone {
-  border-radius: 6px;
 }
