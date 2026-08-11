@@ -692,7 +692,7 @@
   min-height: 48px;
   padding: 10px 18px;
 
-  background: var(--paper);
+  background: var(--soft-green);
   color: var(--text);
 
   border: 2px solid var(--line);
@@ -845,6 +845,21 @@
 
   border-color: transparent;
 
+  text-transform: uppercase;
+}
+
+/* ---------- Independent-variable drop area ---------- */
+#yeast-labels .independent-heading .label-drop-zone.drag-over {
+  background: var(--soft-yellow);
+  color: var(--text);
+
+  border-color: var(--yellow);
+}
+
+
+#yeast-labels .independent-heading .label-drop-zone.drop-complete {
+  background: transparent;
+  border-color: transparent;
   text-transform: uppercase;
 }
 
