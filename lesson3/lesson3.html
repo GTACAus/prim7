@@ -392,36 +392,144 @@
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-2"> Drop temperature </span>
                     </th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 2"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 3"
+                      />
+                    </td>
                   </tr>
 
                   <tr>
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-22"> Drop temperature </span>
                     </th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 4"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 5"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 6"
+                      />
+                    </td>
                   </tr>
 
                   <tr>
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-37"> Drop temperature </span>
                     </th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 7"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 8"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 9"
+                      />
+                    </td>
                   </tr>
 
                   <tr>
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-80"> Drop temperature </span>
                     </th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 10"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 11"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Drop Temperature test 12"
+                      />
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -1628,7 +1736,9 @@
 
       function initialiseLesson3PermanentNumberEntries() {
         const inputs = document.querySelectorAll(
-          "#bounce-data-entry .table-number-input, " + "#build-your-own-table .table-number-input"
+          "#yeast-labels .table-number-input, " +
+          "#bounce-data-entry .table-number-input, " +
+          "#build-your-own-table .table-number-input"
         );
 
         function checkNumberEntriesComplete(section) {
@@ -1735,7 +1845,7 @@
 
             answerBox.classList.add("visible");
 
-            const section = input.closest("#bounce-data-entry, #build-your-own-table");
+            const section = input.closest("#bounce-data-entry, #build-your-own-table", "#yeast-labels");
 
             let complete = false;
             if (section) {
