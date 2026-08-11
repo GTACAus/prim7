@@ -74,7 +74,12 @@
   flex-direction: column;
   padding: 28px;
 
-  background: var(--paper);
+  background: linear-gradient(
+  to bottom,
+  var(--paper) 0%,
+  var(--paper) 50%,
+  var(--blue) 300%
+);
 
   border: 3px solid var(--charcoal);
   border-radius: 24px;
@@ -88,8 +93,9 @@
 
   color: var(--charcoal);
   background-color: var(--soft-orange);
-  border: 3px dashed var(--orange);
-  border-radius: 12px;
+  border: 2px solid var(--orange);
+  border-left: 7px solid var(--orange);
+  border-radius: 10px;
 
 
   font-size: 0.76rem;
@@ -171,6 +177,11 @@
   text-transform: uppercase;
 }
 
+.average-heading {
+  background: var(--soft-blue);
+  color: var(--text);
+  font-weight: 700;
+}
 
 /* INDEPENDENT VARIABLE = YELLOW */
 .independent-heading {
@@ -240,6 +251,28 @@
 /* Dependent-variable instruction sits over the result columns */
 .reference-callout-dependent {
   grid-column: 2;
+}
+
+/* Lesson 2-inspired reference callouts */
+
+.reference-callout-independent {
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--yellow);
+}
+
+.reference-callout-dependent {
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--purple);
+}
+
+.reference-callout-independent .callout-number {
+  background: var(--yellow);
+}
+
+.reference-callout-dependent .callout-number {
+  background: var(--lavender);
 }
 
 /* ---------- Teaching callouts ---------- */
@@ -343,18 +376,6 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.key-independent .table-key-label {
-  color: var(--yellow);
-}
-
-.key-dependent .table-key-label {
-  color: var(--purple);
-}
-
-.key-units .table-key-label {
-  color: var(--blue);
 }
 
 /* ---------- Responsive ---------- */
@@ -629,7 +650,12 @@
   margin: 0 0 22px;
   padding: 20px;
 
-  background: var(--paper);
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 55%,
+    var(--soft-blue) 160%
+  );
 
   border: 3px solid var(--line);
   border-radius: 20px;
@@ -666,11 +692,14 @@
   min-height: 48px;
   padding: 10px 18px;
 
-  background: var(--paper);
+  background: white;
   color: var(--text);
 
   border: 2px solid var(--line);
-  border-radius: 999px;
+  border-top: 5px solid var(--blue);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
 
   font-size: 0.95rem;
   font-weight: 700;
