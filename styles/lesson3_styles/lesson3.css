@@ -570,12 +570,10 @@
 
 /* ---------- Ball-bounce data cells ---------- */
 
-#bounce-data-entry .experiment-table td,
 #build-your-own-table .experiment-table td {
   padding: 12px;
 }
 
-#bounce-data-entry .table-number-input,
 #build-your-own-table .table-number-input {
   height: 54px;
 }
@@ -1029,10 +1027,6 @@
 
 #yeast-average .section-title {
   background-color: var(--lavender);
-}
-
-#bounce-data-entry .section-title {
-  background-color: var(--green);
 }
 
 /* ==================================================

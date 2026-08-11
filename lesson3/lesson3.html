@@ -92,9 +92,9 @@
           <button type="button" onclick="teacherJump('yeast-average')">
             3. Yeast experiment: calculate the average
           </button>
-          <button type="button" onclick="teacherJump('bounce-data-entry')">4. Ball bounce experiment</button>
+      
           <button type="button" onclick="teacherJump('build-your-own-table')">
-            5. Ball bounce experiment: complete the table
+            4. Ball bounce experiment: complete the table
           </button>
         </div>
 
@@ -320,9 +320,11 @@
           </div>
         </div>
 
-        <button class="next-button general-button" onclick="unlockSection('yeast-labels', 'data-table-template')">
-          Next
-        </button>
+      <button class="next-button general-button"
+              onclick="unlockSection('build-your-own-table', 'yeast-average')"
+              hidden>
+        Next
+      </button>
         <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
@@ -541,133 +543,6 @@
       </section>
 
       <!-- ==================================================
-         SECTION 4: BALL BOUNCE - STUDENTS ENTER DATA
-         ================================================== -->
-      <section class="section data-table-section locked" id="bounce-data-entry">
-        <h2 class="section-title">Ball bounce experiment</h2>
-        <div class="diagram-activity diagram-box">
-          <p class="activity-instruction">The headings are ready for you.</p>
-          <p class="activity-instruction">Enter the number of bounces recorded in each test.</p>
-        </div>
-
-        <div class="diagram-activity">
-          <div class="data-table-card bounce-table-card">
-            <div class="custom-table-note">
-              <p>Number boxes only accept numbers.</p>
-            </div>
-            <div class="experiment-table-scroll">
-              <table class="experiment-table bounce-table" aria-label="Ball bounce experiment data entry table">
-                <thead>
-                  <tr>
-                    <th class="independent-heading" rowspan="2">Bounce surface</th>
-
-                    <th class="dependent-heading bounce-dependent" colspan="3">Number of bounces (bounces)</th>
-                  </tr>
-
-                  <tr>
-                    <th class="test-heading bounce-heading">Test 1</th>
-                    <th class="test-heading bounce-heading">Test 2</th>
-                    <th class="test-heading bounce-heading">Test 3</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th class="independent-value bounce-value">Hard</th>
-
-                    <td>
-                      <input
-                        class="table-number-input whole-number-input"
-                        type="text"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="off"
-                        aria-label="Hard surface test 1"
-                      />
-                    </td>
-
-                    <td>
-                      <input
-                        class="table-number-input whole-number-input"
-                        type="text"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="off"
-                        aria-label="Hard surface test 2"
-                      />
-                    </td>
-
-                    <td>
-                      <input
-                        class="table-number-input whole-number-input"
-                        type="text"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="off"
-                        aria-label="Hard surface test 3"
-                      />
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <th class="independent-value bounce-value">Soft</th>
-
-                    <td>
-                      <input
-                        class="table-number-input whole-number-input"
-                        type="text"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="off"
-                        aria-label="Soft surface test 1"
-                      />
-                    </td>
-
-                    <td>
-                      <input
-                        class="table-number-input whole-number-input"
-                        type="text"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="off"
-                        aria-label="Soft surface test 2"
-                      />
-                    </td>
-
-                    <td>
-                      <input
-                        class="table-number-input whole-number-input"
-                        type="text"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="off"
-                        aria-label="Soft surface test 3"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="reset-button-container lesson3-reset-container">
-            <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('bounce-data-entry')">
-              Reset
-            </button>
-          </div>
-        </div>
-
-        <button
-          id="bounceDataEntryNext"
-          class="next-button general-button"
-          onclick="unlockSection('build-your-own-table', 'bounce-data-entry')"
-          hidden
-        >
-          Next
-        </button>
-        <p class="completed-note">Completed — next activity unlocked.</p>
-      </section>
-
-      <!-- ==================================================
          SECTION 5: BUILD YOUR OWN TABLE + AVERAGES
          ================================================== -->
       <section class="section data-table-section locked" id="build-your-own-table">
@@ -873,7 +748,6 @@
         "data-table-template",
         "yeast-labels",
         "yeast-average",
-        "bounce-data-entry",
         "build-your-own-table",
       ];
       /* ==================================================
@@ -1464,29 +1338,6 @@
         restoreAverageButtons("#yeast-average", calculateFixedAverage);
       }
 
-      function resetBounceDataEntry() {
-        document.querySelectorAll("#bounce-data-entry .table-entry-control").forEach(function (control) {
-          const inputRow = control.querySelector(".table-entry-input-row");
-
-          const answerBox = control.querySelector(".table-entry-answer");
-
-          const input = control.querySelector(".table-number-input");
-
-          if (input) {
-            input.value = "";
-          }
-
-          if (inputRow) {
-            inputRow.style.display = "block";
-          }
-
-          if (answerBox) {
-            answerBox.classList.remove("visible");
-            answerBox.innerHTML = "";
-          }
-        });
-      }
-
       function resetBuildYourOwnTable() {
         document.querySelectorAll("#build-your-own-table .table-number-control").forEach(function (control) {
           const inputRow = control.querySelector(".table-entry-input-row");
@@ -1551,11 +1402,6 @@
           return;
         }
 
-        if (sectionId === "bounce-data-entry") {
-          resetBounceDataEntry();
-          return;
-        }
-
         if (sectionId === "build-your-own-table") {
           resetBuildYourOwnTable();
         }
@@ -1571,13 +1417,6 @@
         initialiseLesson3PermanentTextEntries();
 
         initialiseLesson3PermanentNumberEntries();
-
-        /* Ball bounce data must contain whole numbers only */
-        document.querySelectorAll(".whole-number-input").forEach(function (input) {
-          input.addEventListener("input", function () {
-            input.value = input.value.replace(/[^0-9]/g, "");
-          });
-        });
       });
 
       /* ==================================================
@@ -1627,9 +1466,9 @@
       }
 
       function initialiseLesson3PermanentNumberEntries() {
-        const inputs = document.querySelectorAll(
-          "#bounce-data-entry .table-number-input, " + "#build-your-own-table .table-number-input"
-        );
+      const inputs = document.querySelectorAll(
+        "#build-your-own-table .table-number-input"
+      );
 
         function checkNumberEntriesComplete(section) {
           const inputs = section.querySelectorAll(".table-number-input");
