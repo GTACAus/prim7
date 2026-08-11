@@ -183,6 +183,36 @@
   font-weight: 700;
 }
 
+/* ---------- Reference table instruction layout ---------- */
+
+.reference-callout-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 18px;
+
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+/*
+  Override the normal centred callout sizing only
+  inside the reference-table instruction row.
+*/
+.reference-callout-row .data-table-callout {
+  width: 100%;
+  margin: 0;
+}
+
+/* Independent-variable instruction aligns with first column */
+.reference-callout-independent {
+  grid-column: 1;
+}
+
+/* Dependent-variable instruction sits over the result columns */
+.reference-callout-dependent {
+  grid-column: 2;
+}
+
 /* ---------- Teaching callouts ---------- */
 
 .data-table-callout {
@@ -274,6 +304,15 @@
 
   .table-key-grid {
     grid-template-columns: 1fr;
+  }
+
+  .reference-callout-row {
+    grid-template-columns: 1fr;
+  }
+
+  .reference-callout-independent,
+  .reference-callout-dependent {
+    grid-column: 1;
   }
 }
 
