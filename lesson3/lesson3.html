@@ -347,17 +347,17 @@
         </div>
       </div>
 
-      <div class="diagram-activity">
+      <div id="yeastActivity" class="diagram-activity">
         <div class="label-bank table-label-bank" id="yeastLabelBank" aria-label="Labels to place in the yeast experiment table">
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-dv">Circumference of balloon (cm)</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-iv">Temperature (°C)</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-test-1">Test 1</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-test-2">Test 2</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-test-3">Test 3</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-2">2°C</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-22">22°C</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-37">37°C</button>
-          <button class="drag-label general-button" draggable="true" data-label-id="yeast-temp-80">80°C</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-dv">Circumference of balloon (cm)</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-iv">Temperature (°C)</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-2">Test 2</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-3">Test 3</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-2">2°C</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-22">22°C</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-37">37°C</button>
+          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-80">80°C</button>
         </div>
         <div class="data-table-card yeast-table-card">
           <div class="experiment-table-scroll">
@@ -793,14 +793,30 @@
     let lesson3TouchDragging = false;
     let dragGhost = null;
 
+    // function createDragGhost(label) {
+    //   const ghost = label.cloneNode(true);
+
+    //   ghost.classList.add('touch-drag-ghost');
+
+    //   ghost.disabled = false;
+    //   ghost.removeAttribute('draggable');
+
+    //   document.body.appendChild(ghost);
+
+    //   dragGhost = ghost;
+
+    //   return ghost;
+    // }
     function createDragGhost(label) {
-      const ghost = label.cloneNode(true);
+      const ghost = document.createElement('div');
+      ghost.className = 'touch-drag-ghost';
 
-      ghost.classList.add('touch-drag-ghost');
+      const clone = label.cloneNode(true);
 
-      ghost.disabled = false;
-      ghost.removeAttribute('draggable');
+      clone.disabled = false;
+      clone.removeAttribute('draggable');
 
+      ghost.appendChild(clone);
       document.body.appendChild(ghost);
 
       dragGhost = ghost;
