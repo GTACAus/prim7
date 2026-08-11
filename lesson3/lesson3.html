@@ -454,10 +454,20 @@
       <section class="section data-table-section locked" id="yeast-average">
         <h2 class="section-title">Yeast experiment: calculate the average</h2>
 
-        <div class="diagram-activity diagram-box">
-          <p class="activity-instruction">The table is now complete.</p>
-          <p class="activity-instruction">Press each average button to calculate the mean of the three tests.</p>
-        </div>
+      <div class="diagram-activity diagram-box">
+        <p class="activity-instruction">
+          Repeating a test gives us several results. An <strong>average</strong> combines those results into one value that is easier to compare.
+        </p>
+
+        <p class="activity-instruction">
+          To calculate the average, add the three test results together and divide the total by 3.
+        </p>
+
+        <p class="activity-instruction">
+          Press each <strong>Calculate</strong> button to find the average for that temperature.
+        </p>
+      </div>
+
 
         <div class="data-table-card yeast-table-card">
           <div class="experiment-table-scroll">
@@ -534,6 +544,32 @@
           <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">
             Reset
           </button>
+        </div>
+
+        <div class="yeast-prediction-check" id="yeastPredictionCheck" hidden>
+          <p class="yeast-prediction-label">Interpret the results</p>
+
+          <h3>Do the results support the reasoned prediction?</h3>
+
+          <p>
+            Look at the averages in the table and decide whether the evidence supports the prediction.
+          </p>
+
+          <div class="yeast-prediction-buttons">
+            <button
+              type="button"
+              class="general-button yeast-prediction-button"
+            >
+              Supported
+            </button>
+
+            <button
+              type="button"
+              class="general-button yeast-prediction-button"
+            >
+              Not supported
+            </button>
+          </div>
         </div>
 
         <button class="next-button general-button" onclick="unlockSection('bounce-data-entry', 'yeast-average')" hidden>
@@ -1113,20 +1149,45 @@
         cell.appendChild(resultWrapper);
       }
 
-      function checkAverageComplete(section) {
-        if (!section) return false;
+    function checkAverageComplete(section) {
+      if (!section) return false;
 
-        const nextButton = section.querySelector(".next-button");
-        const averageButtons = section.querySelectorAll(".average-button");
+      const nextButton = section.querySelector(".next-button");
+      const averageButtons = section.querySelectorAll(".average-button");
 
-        if (averageButtons.length === 0) {
-          if (nextButton) nextButton.hidden = false;
+      if (averageButtons.length === 0) {
+
+        if (section.id === "yeast-average") {
+          const predictionCheck = document.getElementById("yeastPredictionCheck");
+
+          if (predictionCheck) {
+            predictionCheck.hidden = false;
+          }
+
+          /*
+            Don't show Next yet.
+            Students still need to interpret the results.
+          */
+          if (nextButton) {
+            nextButton.hidden = true;
+          }
+
           return true;
         }
 
-        if (nextButton) nextButton.hidden = true;
-        return false;
+        if (nextButton) {
+          nextButton.hidden = false;
+        }
+
+        return true;
       }
+
+      if (nextButton) {
+        nextButton.hidden = true;
+      }
+
+      return false;
+    }
 
       function calculateFixedAverage(button) {
         const row = button.closest("[data-average-row]");

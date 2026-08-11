@@ -1178,3 +1178,60 @@
 .average-clear-button:active {
   transform: scale(0.95);
 }
+
+/* ==================================================
+   YEAST AVERAGE - INTERPRET RESULTS
+   ================================================== */
+
+.yeast-prediction-check {
+  width: min(700px, 100%);
+  margin: 24px auto 0;
+  padding: 22px;
+
+  background: white;
+
+  border: 3px solid var(--charcoal);
+  border-top: 8px solid var(--purple);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-small);
+
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.yeast-prediction-check[hidden] {
+  display: none;
+}
+
+.yeast-prediction-label {
+  margin: 0 0 6px;
+
+  color: var(--purple);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.yeast-prediction-check h3 {
+  margin: 0 0 8px;
+}
+
+.yeast-prediction-check > p:not(.yeast-prediction-label) {
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.yeast-prediction-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.yeast-prediction-button {
+  min-width: 150px;
+}
