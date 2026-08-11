@@ -669,6 +669,8 @@
   margin: 0 0 22px;
   padding: 20px;
 
+  box-sizing: border-box;
+
   background: linear-gradient(
     to bottom,
     var(--paper) 0%,
@@ -765,7 +767,7 @@
   padding: 8px 10px;
 
   background: rgba(255, 255, 255, 0.38);
-  color: var(--muted);
+  color: var(--charcoal);
 
   border: 2px dashed var(--charcoal);
   border-radius: 6px;
