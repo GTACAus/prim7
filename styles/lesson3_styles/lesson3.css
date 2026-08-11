@@ -769,21 +769,6 @@
     0 0 0 4px rgba(78, 50, 232, 0.15);
 }
 
-
-/* Correctly completed target */
-
-#yeast-labels .label-drop-zone.drop-complete {
-  background: var(--soft-green);
-  color: var(--text);
-
-  border: 2px solid var(--green);
-
-  font-weight: 700;
-
-  box-shadow: none;
-}
-
-
 /* ---------- Incorrect drop ---------- */
 
 @keyframes lesson3DropBuzz {
