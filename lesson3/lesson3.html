@@ -1,17 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesson 3 - Tables</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson 3 - Tables</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
-  <link href="../styles/lesson3_styles/lesson3.css" rel="stylesheet" type="text/css">
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/lesson3_styles/lesson3.css" rel="stylesheet" type="text/css" />
+  </head>
 
-<body>
-  <div class="page-header-wrapper">
+  <body>
+    <div class="page-header-wrapper">
       <header class="page-header">
         <button class="general-button home-button" onclick="window.location.href='../index.html'">
           <p class="bounce-symbol">🏠</p>
@@ -21,158 +21,117 @@
           <p class="bounce-symbol">📖</p>
           <p>Vocabulary</p>
         </button>
-        
       </header>
     </div>
 
-  <!-- ==================================================
+    <!-- ==================================================
        VOCABULARY MODAL
        Placeholder definitions can be refined later.
        ================================================== -->
-  <div class="modal" id="glossaryModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div>
-          <p class="teacher-label">
-            Lesson 3: Tables
-          </p>
-          <h2>Glossary Terms</h2>
+    <div class="modal" id="glossaryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="teacher-label">Lesson 3: Tables</p>
+            <h2>Glossary Terms</h2>
+          </div>
+
+          <button type="button" class="close-button" onclick="closeGlossary()" aria-label="Close glossary">×</button>
         </div>
 
-        <button
-          type="button"
-          class="close-button"
-          onclick="closeGlossary()"
-          aria-label="Close glossary">
-          ×
-        </button>
-      </div>
-
-      <div class="vocab-list">
-        <div class="vocab-card">
-          <h3>Data</h3>
-          <p>
-            The observations and measurements you collect during an investigation.
-            Data can be numbers (e.g. temperature, height) or descriptions (e.g. colour, texture).
-          </p>
-        </div>
-        <div class="vocab-card">
-          <h3>Qualitative data</h3>
-          <p>
-            Data that describes what something looks, feels, sounds, smells or tastes like.
-            It uses words rather than numbers (e.g. the bread mould is green and fuzzy).
-          </p>
-        </div>
-        <div class="vocab-card">
-          <h3>Quantitative data</h3>
-          <p>
-            Data that uses numbers to measure something (e.g. the ball bounced 45cm high).
-          </p>
-        </div>
-        <div class="vocab-card">
-          <h3>Repeat trial</h3>
-          <p>
-            Carrying out the same test more than once under exactly the same conditions to check that your results are consistent.
-          </p>
+        <div class="vocab-list">
+          <div class="vocab-card">
+            <h3>Data</h3>
+            <p>
+              The observations and measurements you collect during an investigation. Data can be numbers (e.g.
+              temperature, height) or descriptions (e.g. colour, texture).
+            </p>
+          </div>
+          <div class="vocab-card">
+            <h3>Qualitative data</h3>
+            <p>
+              Data that describes what something looks, feels, sounds, smells or tastes like. It uses words rather than
+              numbers (e.g. the bread mould is green and fuzzy).
+            </p>
+          </div>
+          <div class="vocab-card">
+            <h3>Quantitative data</h3>
+            <p>Data that uses numbers to measure something (e.g. the ball bounced 45cm high).</p>
+          </div>
+          <div class="vocab-card">
+            <h3>Repeat trial</h3>
+            <p>
+              Carrying out the same test more than once under exactly the same conditions to check that your results are
+              consistent.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ==================================================
+    <!-- ==================================================
        HIDDEN TEACHER MENU
        Opened by clicking the lesson title five times.
        ================================================== -->
-  <div class="teacher-modal" id="teacherModal">
-    <div class="teacher-panel">
-      <div class="teacher-panel-header">
-        <div>
-          <p class="teacher-label">Teacher tools</p>
-          <h2>Jump to an activity</h2>
+    <div class="teacher-modal" id="teacherModal">
+      <div class="teacher-panel">
+        <div class="teacher-panel-header">
+          <div>
+            <p class="teacher-label">Teacher tools</p>
+            <h2>Jump to an activity</h2>
+          </div>
+
+          <button type="button" class="teacher-close" onclick="closeTeacherMenu()" aria-label="Close teacher menu">
+            ×
+          </button>
         </div>
 
-        <button
-          type="button"
-          class="teacher-close"
-          onclick="closeTeacherMenu()"
-          aria-label="Close teacher menu">
-          ×
-        </button>
+        <div class="teacher-section-list">
+          <button type="button" onclick="teacherJump('data-table-template')">1. Data Table Template</button>
+          <button type="button" onclick="teacherJump('yeast-labels')">2. Yeast experiment: add the labels</button>
+          <button type="button" onclick="teacherJump('yeast-average')">
+            3. Yeast experiment: calculate the average
+          </button>
+          <button type="button" onclick="teacherJump('bounce-data-entry')">4. Ball bounce experiment</button>
+          <button type="button" onclick="teacherJump('build-your-own-table')">
+            5. Ball bounce experiment: complete the table
+          </button>
+        </div>
+
+        <div class="teacher-actions">
+          <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">Show all sections</button>
+
+          <button type="button" class="teacher-secondary-button" onclick="teacherResetView()">
+            Reset student view
+          </button>
+        </div>
+
+        <p class="teacher-note">Teacher mode changes navigation only. Student answers are not deleted.</p>
       </div>
-
-      <div class="teacher-section-list">
-
-        <button type="button" onclick="teacherJump('data-table-template')">
-          1. Data Table Template
-        </button>
-        <button type="button" onclick="teacherJump('yeast-labels')">
-          2. Yeast experiment: add the labels
-        </button>
-        <button type="button" onclick="teacherJump('yeast-average')">
-          3. Yeast experiment: calculate the average
-        </button>
-        <button type="button" onclick="teacherJump('bounce-data-entry')">
-          4. Ball bounce experiment
-        </button>
-        <button type="button" onclick="teacherJump('build-your-own-table')">
-          5. Ball bounce experiment: complete the table
-        </button>
-
-      </div>
-
-      <div class="teacher-actions">
-        <button
-          type="button"
-          class="teacher-secondary-button"
-          onclick="teacherShowAll()">
-          Show all sections
-        </button>
-
-        <button
-          type="button"
-          class="teacher-secondary-button"
-          onclick="teacherResetView()">
-          Reset student view
-        </button>
-      </div>
-
-      <p class="teacher-note">
-        Teacher mode changes navigation only. Student answers are not deleted.
-      </p>
     </div>
-  </div>
 
-  <main class="page lesson3-page">
-    <header class="lesson-intro lesson3-intro">
-      <div class="lesson-heading">
-        <span class="lesson-label">Lesson 3</span>
-        <h1 id="teacherTrigger">Tables</h1>
-        <p class="lesson-summary">
-          Scientists organise results in data tables so that measurements are clear,
-          consistent and easy to compare.
-        </p>
-      </div>
-    </header>
-    <div class="intro-grid">
+    <main class="page lesson3-page">
+      <header class="lesson-intro lesson3-intro">
+        <div class="lesson-heading">
+          <span class="lesson-label">Lesson 3</span>
+          <h1 id="teacherTrigger">Tables</h1>
+          <p class="lesson-summary">
+            Scientists organise results in data tables so that measurements are clear, consistent and easy to compare.
+          </p>
+        </div>
+      </header>
+      <div class="intro-grid">
         <section class="intro-card objectives-card">
           <p class="intro-eyebrow">Learning objective</p>
 
-          <p class="learning-objective-text">
-            We are learning how to collect and organise data into a table.
-          </p>
+          <p class="learning-objective-text">We are learning how to collect and organise data into a table.</p>
 
           <p class="success-heading">Success criteria</p>
 
           <ol class="objective-list">
-            <li>
-              I can label a table with the variables and units in the correct format.
-            </li>
-            <li>
-              I can collect data and enter it into a table with the correct units.
-            </li>
-            <li>
-              I can summarise the results of an experiment using averages.
-            </li>
+            <li>I can label a table with the variables and units in the correct format.</li>
+            <li>I can collect data and enter it into a table with the correct units.</li>
+            <li>I can summarise the results of an experiment using averages.</li>
           </ol>
         </section>
 
@@ -209,10 +168,10 @@
           </div>
         </section>
       </div>
-    <!-- ==================================================
+      <!-- ==================================================
          SECTION 1: PARENT / REFERENCE TABLE
          ================================================== -->
-    <section class="section data-table-section" id="data-table-template">
+      <section class="section data-table-section" id="data-table-template">
         <h2 class="section-title">Data table template</h2>
 
         <div class="diagram-box diagram-activity">
@@ -220,1562 +179,1546 @@
             Use this template as a guide when you build your own data tables during the lesson.
           </div>
         </div>
-<div class="data-table-card reference-table-card">
-<div class="reference-callout-row" aria-hidden="true">
+        <div class="data-table-card reference-table-card">
+          <div class="table-key-grid" aria-label="Parts of a data table">
+            <article class="table-key-card key-independent">
+              <span class="table-key-label">Change</span>
+              <h3>Independent variable</h3>
+              <p>What you change.</p>
+            </article>
 
-  <div class="data-table-callout reference-callout-independent">
-    <span class="callout-number">1</span>
-    <p>
-      Put the <strong>independent variable and units</strong>
-      in the first column. List each value below.
-    </p>
-  </div>
+            <article class="table-key-card key-dependent">
+              <span class="table-key-label">Measure</span>
+              <h3>Dependent variable</h3>
+              <p>What you measure or observe.</p>
+            </article>
 
-  <div class="data-table-callout reference-callout-dependent">
-    <span class="callout-number">2</span>
-    <p>
-      Put the <strong>dependent variable and units</strong>
-      across the top of the table.
-    </p>
-  </div>
+            <article class="table-key-card key-units">
+              <span class="table-key-label">Record with</span>
+              <h3>Units</h3>
+              <p>The measurement unit belongs in the heading, not repeated in every data cell.</p>
+            </article>
+          </div>
 
-</div>
+          <div class="reference-callout-row" aria-hidden="true">
+            <div class="data-table-callout reference-callout-independent">
+              <span class="callout-number">1</span>
+              <p>
+                Put the <strong>independent variable and units</strong>
+                in the first column. List each value below.
+              </p>
+            </div>
 
-        <div class="experiment-table-scroll">
-<table
-  class="experiment-table reference-table conventional-table"
-  aria-label="Example scientific data table">
+            <div class="data-table-callout reference-callout-dependent">
+              <span class="callout-number">2</span>
+              <p>
+                Put the <strong>dependent variable and units</strong>
+                across the top of the table.
+              </p>
+            </div>
+          </div>
 
-  <thead>
-    <tr>
-      <th class="corner-space"></th>
+          <div class="experiment-table-scroll">
+            <table
+              class="experiment-table reference-table conventional-table"
+              aria-label="Example scientific data table"
+            >
+              <thead>
+                <tr>
+                  <th class="independent-heading" rowspan="2" scope="col">
+                    Independent variable
+                    <span class="table-units">(units)</span>
+                  </th>
 
-      <th
-        class="dependent-heading"
-        colspan="3"
-        scope="colgroup">
-        Dependent variable
-        <span class="table-units">(units)</span>
-      </th>
-    </tr>
+                  <th class="dependent-heading" colspan="3" scope="colgroup">
+                    Dependent variable
+                    <span class="table-units">(units)</span>
+                  </th>
+                </tr>
 
-    <tr>
-      <th
-        class="independent-heading"
-        scope="col">
-        Independent variable
-        <span class="table-units">(units)</span>
-      </th>
+                <tr>
+                  <th class="test-heading" scope="col">Test 1</th>
 
-      <th class="test-heading" scope="col">
-        Test 1
-      </th>
+                  <th class="test-heading" scope="col">Test 2</th>
 
-      <th class="test-heading" scope="col">
-        Test 2
-      </th>
+                  <th class="test-heading" scope="col">Test 3</th>
+                </tr>
+              </thead>
 
-      <th class="test-heading" scope="col">
-        Test 3
-      </th>
-    </tr>
-  </thead>
+              <tbody>
+                <tr>
+                  <th class="independent-value" scope="row">Independent variable</th>
 
-  <tbody>
-    <tr>
-      <th class="independent-value" scope="row">
-        Independent variable
-      </th>
+                  <td>Data</td>
+                  <td>Data</td>
+                  <td>Data</td>
+                </tr>
 
-      <td>Data</td>
-      <td>Data</td>
-      <td>Data</td>
-    </tr>
+                <tr>
+                  <th class="independent-value" scope="row">Independent variable</th>
 
-    <tr>
-      <th class="independent-value" scope="row">
-        Independent variable
-      </th>
+                  <td>Data</td>
+                  <td>Data</td>
+                  <td>Data</td>
+                </tr>
 
-      <td>Data</td>
-      <td>Data</td>
-      <td>Data</td>
-    </tr>
+                <tr>
+                  <th class="independent-value" scope="row">Independent variable</th>
 
-    <tr>
-      <th class="independent-value" scope="row">
-        Independent variable
-      </th>
-
-      <td>Data</td>
-      <td>Data</td>
-      <td>Data</td>
-    </tr>
-  </tbody>
-
-</table>
+                  <td>Data</td>
+                  <td>Data</td>
+                  <td>Data</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-<div class="table-key-grid" aria-label="Parts of a data table">
+        <button class="next-button general-button" onclick="unlockSection('yeast-labels', 'data-table-template')">
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
 
-  <article class="table-key-card key-independent">
-    <span class="table-key-label">Change</span>
-<h3>Independent variable</h3>
-    <p>What you change.</p>
-  </article>
-
-  <article class="table-key-card key-dependent">
-    <span class="table-key-label">Measure</span>
-<h3>Dependent variable</h3>
-    <p>What you measure or observe.</p>
-  </article>
-
-  <article class="table-key-card key-units">
-    <span class="table-key-label">Record with</span>
-<h3>Units</h3>
-    <p>
-      The measurement unit belongs in the heading,
-      not repeated in every data cell.
-    </p>
-  </article>
-
-</div>
-
-      <button class="next-button general-button" onclick="unlockSection('yeast-labels', 'data-table-template')">
-        Next
-      </button>
-      <p class="completed-note">Completed — next activity unlocked.</p>
-    </section>
-
-    <!-- ==================================================
+      <!-- ==================================================
          SECTION 2: YEAST EXPERIMENT - DRAG AND DROP LABELS
          ================================================== -->
-    <section class="section data-table-section locked" id="yeast-labels">
-      <h2 class="section-title">Yeast experiment: add the labels</h2>
+      <section class="section data-table-section locked" id="yeast-labels">
+        <h2 class="section-title">Yeast experiment: add the labels</h2>
 
         <div class="diagram-activity diagram-box">
           <p class="activity-instruction">
             Drag each label into the correct part of the table. Every heading and temperature is missing.
           </p>
         </div>
-      </div>
 
-      <div id="yeastActivity" class="diagram-activity">
-        <div class="label-bank table-label-bank" id="yeastLabelBank" aria-label="Labels to place in the yeast experiment table">
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-dv">Circumference of balloon (cm)</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-iv">Temperature (°C)</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-2">Test 2</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-3">Test 3</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-2">2°C</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-22">22°C</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-37">37°C</button>
-          <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-80">80°C</button>
-        </div>
-        <div class="data-table-card yeast-table-card">
-          <div class="experiment-table-scroll">
-            <table class="experiment-table yeast-table" aria-label="Yeast experiment drag and drop data table">
-              <thead>
-                <tr>
-      <th class="corner-space"></th>
+        <div id="yeastActivity" class="diagram-activity">
+          <div
+            class="label-bank table-label-bank"
+            id="yeastLabelBank"
+            aria-label="Labels to place in the yeast experiment table"
+          >
+            <p id="labelBankHeading">Label Bank</p>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-dv">
+              Circumference of balloon (cm)
+            </button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-iv">
+              Temperature (°C)
+            </button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-2">Test 2</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-3">Test 3</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-2">2°C</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-22">22°C</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-37">37°C</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-80">80°C</button>
+          </div>
+          <div class="data-table-card yeast-table-card">
+            <div class="experiment-table-scroll">
+              <table class="experiment-table yeast-table" aria-label="Yeast experiment drag and drop data table">
+                <thead>
+                  <tr>
+                    <th class="independent-heading" rowspan="2">
+                      <span class="label-drop-zone" data-accept="yeast-iv"> Drop independent variable </span>
+                    </th>
+                    <th class="dependent-heading drop-heading" colspan="3">
+                      <span class="label-drop-zone" data-accept="yeast-dv"> Drop dependent variable here </span>
+                    </th>
+                  </tr>
 
-                  <th class="dependent-heading drop-heading" colspan="3">
-        <span class="label-drop-zone" data-accept="yeast-dv">
-          Drop dependent variable here
-        </span>
-                  </th>
-                </tr>
+                  <tr>
+                    <th class="test-heading">
+                      <span class="label-drop-zone" data-accept="yeast-test-1">Drop label</span>
+                    </th>
 
-                <tr>
-      <th class="independent-heading">
-        <span class="label-drop-zone" data-accept="yeast-iv">
-          Drop independent variable
-        </span>
-      </th>
+                    <th class="test-heading">
+                      <span class="label-drop-zone" data-accept="yeast-test-2">Drop label</span>
+                    </th>
 
-      <th class="test-heading">
-        <span class="label-drop-zone" data-accept="yeast-test-1">Drop label</span>
-      </th>
+                    <th class="test-heading">
+                      <span class="label-drop-zone" data-accept="yeast-test-3">Drop label</span>
+                    </th>
+                  </tr>
+                </thead>
 
-      <th class="test-heading">
-        <span class="label-drop-zone" data-accept="yeast-test-2">Drop label</span>
-      </th>
+                <tbody>
+                  <tr>
+                    <th class="independent-value">
+                      <span class="label-drop-zone" data-accept="yeast-temp-2"> Drop temperature </span>
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
 
-      <th class="test-heading">
-        <span class="label-drop-zone" data-accept="yeast-test-3">Drop label</span>
-      </th>
-                </tr>
-              </thead>
+                  <tr>
+                    <th class="independent-value">
+                      <span class="label-drop-zone" data-accept="yeast-temp-22"> Drop temperature </span>
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
 
-              <tbody>
-                <tr>
-      <th class="independent-value">
-        <span class="label-drop-zone" data-accept="yeast-temp-2">
-          Drop temperature
-        </span>
-                  </th>
-      <td></td>
-      <td></td>
-      <td></td>
-                </tr>
+                  <tr>
+                    <th class="independent-value">
+                      <span class="label-drop-zone" data-accept="yeast-temp-37"> Drop temperature </span>
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
 
-                <tr>
-      <th class="independent-value">
-        <span class="label-drop-zone" data-accept="yeast-temp-22">
-          Drop temperature
-        </span>
-      </th>
-      <td></td>
-      <td></td>
-      <td></td>
-                </tr>
-
-                <tr>
-      <th class="independent-value">
-        <span class="label-drop-zone" data-accept="yeast-temp-37">
-          Drop temperature
-        </span>
-      </th>
-      <td></td>
-      <td></td>
-      <td></td>
-                </tr>
-
-                <tr>
-      <th class="independent-value">
-        <span class="label-drop-zone" data-accept="yeast-temp-80">
-          Drop temperature
-        </span>
-      </th>
-      <td></td>
-      <td></td>
-      <td></td>
-                </tr>
-              </tbody>
-            </table>
+                  <tr>
+                    <th class="independent-value">
+                      <span class="label-drop-zone" data-accept="yeast-temp-80"> Drop temperature </span>
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
+          <div class="reset-button-container lesson3-reset-container">
+            <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">
+              Reset
+            </button>
           </div>
         </div>
-        <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
-        <div class="reset-button-container lesson3-reset-container">
-          <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">Reset</button>
-        </div>
-      </div>
 
-      <button
-        id="yeastAverageNext"
-        class="next-button general-button"
-        onclick="unlockSection('yeast-average', 'yeast-labels')"
-        hidden>
-        Next
-      </button>
-      <p class="completed-note">Completed — next activity unlocked.</p>
-    </section>
+        <button
+          id="yeastAverageNext"
+          class="next-button general-button"
+          onclick="unlockSection('yeast-average', 'yeast-labels')"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
 
-    <!-- ==================================================
+      <!-- ==================================================
          SECTION 3: YEAST EXPERIMENT - CALCULATE AVERAGES
          ================================================== -->
-    <section class="section data-table-section locked" id="yeast-average">
-      <h2 class="section-title">Yeast experiment: calculate the average</h2>
-      
+      <section class="section data-table-section locked" id="yeast-average">
+        <h2 class="section-title">Yeast experiment: calculate the average</h2>
+
         <div class="diagram-activity diagram-box">
-          <p class="activity-instruction">
-            The table is now complete.
-          </p>
-          <p class="activity-instruction">
-            Press each average button to calculate the mean of the three tests.
-          </p>
+          <p class="activity-instruction">The table is now complete.</p>
+          <p class="activity-instruction">Press each average button to calculate the mean of the three tests.</p>
         </div>
 
-      <div class="data-table-card yeast-table-card">
-        <div class="experiment-table-scroll">
-          <table class="experiment-table experiment-table-average yeast-table" aria-label="Yeast experiment data table with averages">
-            <thead>
-              <tr>
-    <th class="corner-space"></th>
-    <th class="dependent-heading" colspan="4">
-      Circumference of balloon (cm)
-    </th>
-              </tr>
-
-              <tr>
-    <th class="independent-heading">
-      Temperature (°C)
-    </th>
-
-                <th class="test-heading">Test 1</th>
-                <th class="test-heading">Test 2</th>
-                <th class="test-heading">Test 3</th>
-                <th class="average-heading">Average</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr data-average-row>
-                <th class="independent-value">2°C</th>
-                <td data-value="4">4</td><td data-value="5">5</td><td data-value="4">4</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
-              </tr>
-              <tr data-average-row>
-                <th class="independent-value">22°C</th>
-                <td data-value="12">12</td><td data-value="13">13</td><td data-value="11">11</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
-              </tr>
-              <tr data-average-row>
-                <th class="independent-value">37°C</th>
-                <td data-value="24">24</td><td data-value="25">25</td><td data-value="23">23</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
-              </tr>
-              <tr data-average-row>
-                <th class="independent-value">80°C</th>
-                <td data-value="2">2</td><td data-value="1">1</td><td data-value="2">2</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="reset-button-container lesson3-reset-container">
-        <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">Reset</button>
-      </div>
-
-      <button
-        class="next-button general-button"
-        onclick="unlockSection('bounce-data-entry', 'yeast-average')"
-        hidden>
-        Next
-      </button>
-      <p class="completed-note">Completed — next activity unlocked.</p>
-    </section>
-
-    <!-- ==================================================
-         SECTION 4: BALL BOUNCE - STUDENTS ENTER DATA
-         ================================================== -->
-    <section class="section data-table-section locked" id="bounce-data-entry">
-      <h2 class="section-title">Ball bounce experiment</h2>
-      <div class="diagram-activity diagram-box">
-        <p class="activity-instruction">
-            The headings are ready for you.
-        </p>
-        <p class="activity-instruction">
-          Enter the number of bounces recorded in each test.
-        </p>
-      </div>
-
-      <div class="diagram-activity">
-        <div class="data-table-card bounce-table-card">
+        <div class="data-table-card yeast-table-card">
           <div class="experiment-table-scroll">
-            <table class="experiment-table bounce-table" aria-label="Ball bounce experiment data entry table">
+            <table
+              class="experiment-table experiment-table-average yeast-table"
+              aria-label="Yeast experiment data table with averages"
+            >
               <thead>
                 <tr>
-    <th class="corner-space"></th>
+                  <th class="independent-heading" rowspan="2">Temperature (°C)</th>
 
-    <th class="dependent-heading bounce-dependent" colspan="3">
-      Number of bounces (bounces)
-    </th>
+                  <th class="dependent-heading" colspan="4">Circumference of balloon (cm)</th>
                 </tr>
 
                 <tr>
-    <th class="independent-heading">
-      Bounce surface
-    </th>
-
-                  <th class="test-heading bounce-heading">Test 1</th>
-                  <th class="test-heading bounce-heading">Test 2</th>
-                  <th class="test-heading bounce-heading">Test 3</th>
-                </tr>
-              </thead>
-              <tbody>
-<tr>
-  <th class="independent-value bounce-value">Hard</th>
-
-  <td>
-    <input
-      class="table-number-input whole-number-input"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      autocomplete="off"
-      aria-label="Hard surface test 1">
-  </td>
-
-  <td>
-    <input
-      class="table-number-input whole-number-input"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      autocomplete="off"
-      aria-label="Hard surface test 2">
-  </td>
-
-  <td>
-    <input
-      class="table-number-input whole-number-input"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      autocomplete="off"
-      aria-label="Hard surface test 3">
-  </td>
-</tr>
-
-<tr>
-  <th class="independent-value bounce-value">Soft</th>
-
-  <td>
-    <input
-      class="table-number-input whole-number-input"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      autocomplete="off"
-      aria-label="Soft surface test 1">
-  </td>
-
-  <td>
-    <input
-      class="table-number-input whole-number-input"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      autocomplete="off"
-      aria-label="Soft surface test 2">
-  </td>
-
-  <td>
-    <input
-      class="table-number-input whole-number-input"
-      type="text"
-      inputmode="numeric"
-      pattern="[0-9]*"
-      autocomplete="off"
-      aria-label="Soft surface test 3">
-  </td>
-</tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        
-        <div class="reset-button-container lesson3-reset-container">
-          <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('bounce-data-entry')">Reset</button>
-        </div>
-      </div>
-
-      <button
-        id="bounceDataEntryNext"
-        class="next-button general-button"
-        onclick="unlockSection('build-your-own-table', 'bounce-data-entry')"
-        hidden>
-        Next
-      </button>
-      <p class="completed-note">Completed — next activity unlocked.</p>
-    </section>
-
-    <!-- ==================================================
-         SECTION 5: BUILD YOUR OWN TABLE + AVERAGES
-         ================================================== -->
-    <section class="section data-table-section locked" id="build-your-own-table">
-      <h2 class="section-title">Ball bounce experiment: complete the table</h2>
-      <div class="diagram-activity diagram-box">
-        <p class="activity-instruction">
-          Add your own headings and row labels, enter your results, then calculate the average for each row.
-        </p>
-      </div>
-
-      
-      <div class="diagram-activity">
-        <div class="data-table-card bounce-table-card">
-          <div class="custom-table-note">
-            <p>Number boxes accept numerical data only.</p>
-          </div>
-          <div class="experiment-table-scroll">
-            <table class="experiment-table experiment-table-average custom-table" aria-label="Student-built experiment table">
-              <thead>
-                <tr>
-    <th class="corner-space"></th>
-
-                  <th class="dependent-heading bounce-dependent" colspan="4">
-                    <input
-                      class="table-text-input table-heading-input lesson3-filtered-text"
-                      type="text"
-                      maxlength="70"
-                      placeholder="Dependent variable (units)"
-                      aria-label="Dependent variable heading">
-                  </th>
-                </tr>
-
-                <tr>
-    <th class="independent-heading">
-      <input
-        class="table-text-input axis-text-input lesson3-filtered-text"
-        type="text"
-        maxlength="50"
-        placeholder="Independent variable (units)"
-        aria-label="Independent variable heading">
-    </th>
-
-                  <th class="test-heading bounce-heading">
-      <input class="table-text-input lesson3-filtered-text"
-             type="text"
-             maxlength="30"
-             placeholder="Test 1"
-             aria-label="First test heading">
-                  </th>
-
-                  <th class="test-heading bounce-heading">
-      <input class="table-text-input lesson3-filtered-text"
-             type="text"
-             maxlength="30"
-             placeholder="Test 2"
-             aria-label="Second test heading">
-                  </th>
-
-                  <th class="test-heading bounce-heading">
-      <input class="table-text-input lesson3-filtered-text"
-             type="text"
-             maxlength="30"
-             placeholder="Test 3"
-             aria-label="Third test heading">
-                  </th>
-
+                  <th class="test-heading">Test 1</th>
+                  <th class="test-heading">Test 2</th>
+                  <th class="test-heading">Test 3</th>
                   <th class="average-heading">Average</th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr data-input-average-row>
-                  <th class="independent-value bounce-value">
-                    <input class="table-text-input lesson3-filtered-text" type="text" maxlength="35" placeholder="Row label" aria-label="First row label">
-                  </th>
-                  <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 1"></td>
-                  <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 2"></td>
-                  <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 3"></td>
-                  <td class="average-cell"><button class="average-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
+                <tr data-average-row>
+                  <th class="independent-value">2°C</th>
+                  <td data-value="4">4</td>
+                  <td data-value="5">5</td>
+                  <td data-value="4">4</td>
+                  <td class="average-cell">
+                    <button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">
+                      Calculate
+                    </button>
+                  </td>
                 </tr>
-                <tr data-input-average-row>
-                  <th class="independent-value bounce-value">
-                    <input class="table-text-input lesson3-filtered-text" type="text" maxlength="35" placeholder="Row label" aria-label="Second row label">
-                  </th>
-                  <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 1"></td>
-                  <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 2"></td>
-                  <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 3"></td>
-                  <td class="average-cell"><button class="average-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
+                <tr data-average-row>
+                  <th class="independent-value">22°C</th>
+                  <td data-value="12">12</td>
+                  <td data-value="13">13</td>
+                  <td data-value="11">11</td>
+                  <td class="average-cell">
+                    <button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">
+                      Calculate
+                    </button>
+                  </td>
+                </tr>
+                <tr data-average-row>
+                  <th class="independent-value">37°C</th>
+                  <td data-value="24">24</td>
+                  <td data-value="25">25</td>
+                  <td data-value="23">23</td>
+                  <td class="average-cell">
+                    <button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">
+                      Calculate
+                    </button>
+                  </td>
+                </tr>
+                <tr data-average-row>
+                  <th class="independent-value">80°C</th>
+                  <td data-value="2">2</td>
+                  <td data-value="1">1</td>
+                  <td data-value="2">2</td>
+                  <td class="average-cell">
+                    <button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">
+                      Calculate
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
-  
+
         <div class="reset-button-container lesson3-reset-container">
-          <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('build-your-own-table')">Reset</button>
+          <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">
+            Reset
+          </button>
         </div>
+
+        <button class="next-button general-button" onclick="unlockSection('bounce-data-entry', 'yeast-average')" hidden>
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
+
+      <!-- ==================================================
+         SECTION 4: BALL BOUNCE - STUDENTS ENTER DATA
+         ================================================== -->
+      <section class="section data-table-section locked" id="bounce-data-entry">
+        <h2 class="section-title">Ball bounce experiment</h2>
+        <div class="diagram-activity diagram-box">
+          <p class="activity-instruction">The headings are ready for you.</p>
+          <p class="activity-instruction">Enter the number of bounces recorded in each test.</p>
+        </div>
+
+        <div class="diagram-activity">
+          <div class="data-table-card bounce-table-card">
+            <div class="custom-table-note">
+              <p>Number boxes only accept numbers.</p>
+            </div>
+            <div class="experiment-table-scroll">
+              <table class="experiment-table bounce-table" aria-label="Ball bounce experiment data entry table">
+                <thead>
+                  <tr>
+                    <th class="independent-heading" rowspan="2">Bounce surface</th>
+
+                    <th class="dependent-heading bounce-dependent" colspan="3">Number of bounces (bounces)</th>
+                  </tr>
+
+                  <tr>
+                    <th class="test-heading bounce-heading">Test 1</th>
+                    <th class="test-heading bounce-heading">Test 2</th>
+                    <th class="test-heading bounce-heading">Test 3</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th class="independent-value bounce-value">Hard</th>
+
+                    <td>
+                      <input
+                        class="table-number-input whole-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Hard surface test 1"
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        class="table-number-input whole-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Hard surface test 2"
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        class="table-number-input whole-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Hard surface test 3"
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th class="independent-value bounce-value">Soft</th>
+
+                    <td>
+                      <input
+                        class="table-number-input whole-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Soft surface test 1"
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        class="table-number-input whole-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Soft surface test 2"
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        class="table-number-input whole-number-input"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="off"
+                        aria-label="Soft surface test 3"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="reset-button-container lesson3-reset-container">
+            <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('bounce-data-entry')">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <button
+          id="bounceDataEntryNext"
+          class="next-button general-button"
+          onclick="unlockSection('build-your-own-table', 'bounce-data-entry')"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
+
+      <!-- ==================================================
+         SECTION 5: BUILD YOUR OWN TABLE + AVERAGES
+         ================================================== -->
+      <section class="section data-table-section locked" id="build-your-own-table">
+        <h2 class="section-title">Ball bounce experiment: complete the table</h2>
+        <div class="diagram-activity diagram-box">
+          <p class="activity-instruction">
+            Add your own headings and row labels, enter your results, then calculate the average for each row.
+          </p>
+        </div>
+
+        <div class="diagram-activity">
+          <div class="data-table-card bounce-table-card">
+            <div class="custom-table-note">
+              <p>Number boxes only accept numbers.</p>
+            </div>
+            <div class="experiment-table-scroll">
+              <table
+                class="experiment-table experiment-table-average custom-table"
+                aria-label="Student-built experiment table"
+              >
+                <thead>
+                  <tr>
+                    <th class="independent-heading" rowspan="2">
+                      <input
+                        class="table-text-input axis-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="50"
+                        placeholder="Independent variable (units)"
+                        aria-label="Independent variable heading"
+                      />
+                    </th>
+
+                    <th class="dependent-heading bounce-dependent" colspan="4">
+                      <input
+                        class="table-text-input table-heading-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="70"
+                        placeholder="Dependent variable (units)"
+                        aria-label="Dependent variable heading"
+                      />
+                    </th>
+                  </tr>
+
+                  <tr>
+                    <th class="test-heading bounce-heading">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="30"
+                        placeholder="Test 1"
+                        aria-label="First test heading"
+                      />
+                    </th>
+
+                    <th class="test-heading bounce-heading">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="30"
+                        placeholder="Test 2"
+                        aria-label="Second test heading"
+                      />
+                    </th>
+
+                    <th class="test-heading bounce-heading">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="30"
+                        placeholder="Test 3"
+                        aria-label="Third test heading"
+                      />
+                    </th>
+
+                    <th class="average-heading">Average</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-input-average-row>
+                    <th class="independent-value bounce-value">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="35"
+                        placeholder="Row label"
+                        aria-label="First row label"
+                      />
+                    </th>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="First row test 1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="First row test 2"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="First row test 3"
+                      />
+                    </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">
+                        Calculate
+                      </button>
+                    </td>
+                  </tr>
+                  <tr data-input-average-row>
+                    <th class="independent-value bounce-value">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="35"
+                        placeholder="Row label"
+                        aria-label="Second row label"
+                      />
+                    </th>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="Second row test 1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="Second row test 2"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="Second row test 3"
+                      />
+                    </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">
+                        Calculate
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
+
+          <div class="reset-button-container lesson3-reset-container">
+            <button
+              type="button"
+              class="general-button reset-btn"
+              onclick="resetLesson3Section('build-your-own-table')"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+        <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()">
+          <p class="bounce-symbol">💾</p>
+          <p>Save my work</p>
+        </button>
+      </section>
+
+      <div class="return-to-top">
+        <a class="return-to-top-button general-button" href="#">
+          <p class="bounce-symbol">↑</p>
+          <p>Return to Top</p>
+        </a>
       </div>
+    </main>
 
-    </section>
+    <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
+    <script src="../scripts/common_functions.js"></script>
 
-    <div class="return-to-top">
-      <a class="return-to-top-button general-button" href="#">
-        <p class="bounce-symbol">↑</p>
-        <p>Return to Top</p>
-      </a>
-    </div>
-  </main>
+    <script>
+      const dev = true;
+      if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
-  <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
-  <script src="../scripts/common_functions.js"></script>
-
-  <script>
-    const dev = true;
-    if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
-
-    const lesson3SectionIds = [
-      "data-table-template",
-      "yeast-labels",
-      "yeast-average",
-      "bounce-data-entry",
-      "build-your-own-table",
-
-    ];
-    /* ==================================================
+      const lesson3SectionIds = [
+        "data-table-template",
+        "yeast-labels",
+        "yeast-average",
+        "bounce-data-entry",
+        "build-your-own-table",
+      ];
+      /* ==================================================
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
 
-    let lesson3DraggedLabel = null;
-    let lesson3TouchDragging = false;
-    let dragGhost = null;
+      let lesson3DraggedLabel = null;
+      let lesson3TouchDragging = false;
+      let dragGhost = null;
 
-    // function createDragGhost(label) {
-    //   const ghost = label.cloneNode(true);
+      // function createDragGhost(label) {
+      //   const ghost = label.cloneNode(true);
 
-    //   ghost.classList.add('touch-drag-ghost');
+      //   ghost.classList.add('touch-drag-ghost');
 
-    //   ghost.disabled = false;
-    //   ghost.removeAttribute('draggable');
+      //   ghost.disabled = false;
+      //   ghost.removeAttribute('draggable');
 
-    //   document.body.appendChild(ghost);
+      //   document.body.appendChild(ghost);
 
-    //   dragGhost = ghost;
+      //   dragGhost = ghost;
 
-    //   return ghost;
-    // }
-    function createDragGhost(label) {
-      const ghost = document.createElement('div');
-      ghost.className = 'touch-drag-ghost';
+      //   return ghost;
+      // }
+      function createDragGhost(label) {
+        const ghost = document.createElement("div");
+        ghost.className = "touch-drag-ghost";
 
-      const clone = label.cloneNode(true);
+        const clone = label.cloneNode(true);
 
-      clone.disabled = false;
-      clone.removeAttribute('draggable');
+        clone.disabled = false;
+        clone.removeAttribute("draggable");
 
-      ghost.appendChild(clone);
-      document.body.appendChild(ghost);
+        ghost.appendChild(clone);
+        document.body.appendChild(ghost);
 
-      dragGhost = ghost;
+        dragGhost = ghost;
 
-      return ghost;
-    }
-
-
-    function movedragGhost(touch) {
-      if (!dragGhost) {
-        return;
+        return ghost;
       }
 
-      dragGhost.style.left =
-        (touch.clientX - dragGhost.offsetWidth / 2) + 'px';
-
-      dragGhost.style.top =
-        (touch.clientY - dragGhost.offsetHeight / 2) + 'px';
-    }
-
-
-    function removedragGhost() {
-      if (dragGhost) {
-        dragGhost.remove();
-        dragGhost = null;
-      }
-    }
-
-    function initialiseLesson3DragAndDrop() {
-      const labels = document.querySelectorAll('.drag-label');
-      const dropZones = document.querySelectorAll('.label-drop-zone');
-
-      function handleDrop(zone, draggedLabel) {
-        if (!draggedLabel) {
+      function movedragGhost(touch) {
+        if (!dragGhost) {
           return;
         }
 
-        const draggedId = draggedLabel.dataset.labelId;
+        dragGhost.style.left = touch.clientX - dragGhost.offsetWidth / 2 + "px";
 
-        // Incorrect drop
-        if (zone.dataset.accept !== draggedId) {
-          zone.classList.add('drop-incorrect');
-
-          window.setTimeout(function() {
-            zone.classList.remove('drop-incorrect');
-          }, 500);
-
-          return;
-        }
-
-        // Correct drop
-        zone.textContent = draggedLabel.textContent;
-        zone.classList.add('drop-complete');
-
-        draggedLabel.classList.add('label-placed');
-        draggedLabel.disabled = true;
-        draggedLabel.setAttribute('draggable', 'false');
-
-        updateYeastLabelCompletion();
+        dragGhost.style.top = touch.clientY - dragGhost.offsetHeight / 2 + "px";
       }
 
-
-      /* ==================================================
-        MOUSE DRAG AND DROP
-        ================================================== */
-
-      labels.forEach(function(label) {
-
-        label.addEventListener('dragstart', function(event) {
-          lesson3DraggedLabel = label;
-
-          label.classList.add('is-dragging');
-
-          event.dataTransfer.setData(
-            'text/plain',
-            label.dataset.labelId
-          );
-
-          event.dataTransfer.effectAllowed = 'move';
-
-          const transparentImage = document.createElement('div');
-
-          transparentImage.style.position = 'absolute';
-          transparentImage.style.width = '1px';
-          transparentImage.style.height = '1px';
-          transparentImage.style.opacity = '0';
-
-          document.body.appendChild(transparentImage);
-
-          event.dataTransfer.setDragImage(
-            transparentImage,
-            0,
-            0
-          );
-
-           // Create custom ghost
-          createDragGhost(label);
-
-          // Position it at the cursor
-          movedragGhost(event);
-        });
-
-
-        label.addEventListener('dragend', function() {
-          label.classList.remove('is-dragging');
-
-          removedragGhost();
-
-          lesson3DraggedLabel = null;
-
-          dropZones.forEach(function(zone) {
-            zone.classList.remove('drag-over');
-          });
-        });
-
-
-        /* ==================================================
-          TOUCH DRAG AND DROP
-          ================================================== */
-
-        label.addEventListener('touchstart', function(event) {
-          if (label.disabled) {
-            return;
-          }
-
-          lesson3DraggedLabel = label;
-          lesson3TouchDragging = true;
-
-          label.classList.add('is-dragging');
-
-          const touch = event.touches[0];
-
-          // Create the floating copy
-          createDragGhost(label);
-
-          // Position it immediately
-          movedragGhost(touch);
-
-          event.preventDefault();
-        }, { passive: false });
-
-
-        label.addEventListener('touchmove', function(event) {
-          if (!lesson3TouchDragging || !lesson3DraggedLabel) {
-            return;
-          }
-
-          event.preventDefault();
-
-          const touch = event.touches[0];
-
-          // Move the ghost with the finger
-          movedragGhost(touch);
-
-          const elementUnderFinger = document.elementFromPoint(
-            touch.clientX,
-            touch.clientY
-          );
-
-          const zone = elementUnderFinger
-            ? elementUnderFinger.closest('.label-drop-zone')
-            : null;
-
-          dropZones.forEach(function(dropZone) {
-            dropZone.classList.remove('drag-over');
-          });
-
-          if (zone && !zone.classList.contains('drop-complete')) {
-            zone.classList.add('drag-over');
-          }
-        }, { passive: false });
-
-
-        label.addEventListener('touchend', function(event) {
-          if (!lesson3TouchDragging || !lesson3DraggedLabel) {
-            return;
-          }
-
-          event.preventDefault();
-
-          const touch = event.changedTouches[0];
-
-          const elementUnderFinger = document.elementFromPoint(
-            touch.clientX,
-            touch.clientY
-          );
-
-          const zone = elementUnderFinger
-            ? elementUnderFinger.closest('.label-drop-zone')
-            : null;
-
-          dropZones.forEach(function(dropZone) {
-            dropZone.classList.remove('drag-over');
-          });
-
-          if (zone && !zone.classList.contains('drop-complete')) {
-            handleDrop(zone, lesson3DraggedLabel);
-          }
-
-          lesson3DraggedLabel.classList.remove('is-dragging');
-
-          removedragGhost();
-
-          lesson3DraggedLabel = null;
-          lesson3TouchDragging = false;
-        }, { passive: false });
-
-
-        label.addEventListener('touchcancel', function() {
-          if (lesson3DraggedLabel) {
-            lesson3DraggedLabel.classList.remove('is-dragging');
-          }
-
-          dropZones.forEach(function(zone) {
-            zone.classList.remove('drag-over');
-          });
-
-          removedragGhost();
-
-          lesson3DraggedLabel = null;
-          lesson3TouchDragging = false;
-        });
-      });
-
-
-      /* ==================================================
-        MOUSE DROP ZONES
-        ================================================== */
-      
-      // move ghost for drag and drop
-      document.addEventListener('dragover', function(event) {
-        if (!lesson3DraggedLabel) {
-          return;
+      function removedragGhost() {
+        if (dragGhost) {
+          dragGhost.remove();
+          dragGhost = null;
         }
+      }
 
-        movedragGhost(event);
-      });
-      dropZones.forEach(function(zone) {
+      function initialiseLesson3DragAndDrop() {
+        const labels = document.querySelectorAll(".drag-label");
+        const dropZones = document.querySelectorAll(".label-drop-zone");
 
-        zone.addEventListener('dragover', function(event) {
-          event.preventDefault();
-          zone.classList.add('drag-over');
-        });
-
-
-        zone.addEventListener('dragleave', function() {
-          zone.classList.remove('drag-over');
-        });
-
-
-        zone.addEventListener('drop', function(event) {
-          event.preventDefault();
-
-          zone.classList.remove('drag-over');
-
-          const draggedId =
-            event.dataTransfer.getData('text/plain');
-
-          const draggedLabel =
-            document.querySelector(
-              '.drag-label[data-label-id="' + draggedId + '"]'
-            );
-
+        function handleDrop(zone, draggedLabel) {
           if (!draggedLabel) {
             return;
           }
 
-          handleDrop(zone, draggedLabel);
+          const draggedId = draggedLabel.dataset.labelId;
+
+          // Incorrect drop
+          if (zone.dataset.accept !== draggedId) {
+            zone.classList.add("drop-incorrect");
+
+            window.setTimeout(function () {
+              zone.classList.remove("drop-incorrect");
+            }, 500);
+
+            return;
+          }
+
+          // Correct drop
+          zone.textContent = draggedLabel.textContent;
+          zone.classList.add("drop-complete");
+
+          draggedLabel.classList.add("label-placed");
+          draggedLabel.disabled = true;
+          draggedLabel.setAttribute("draggable", "false");
+
+          updateYeastLabelCompletion();
+        }
+
+        /* ==================================================
+        MOUSE DRAG AND DROP
+        ================================================== */
+
+        labels.forEach(function (label) {
+          label.addEventListener("dragstart", function (event) {
+            lesson3DraggedLabel = label;
+
+            label.classList.add("is-dragging");
+
+            event.dataTransfer.setData("text/plain", label.dataset.labelId);
+
+            event.dataTransfer.effectAllowed = "move";
+
+            const transparentImage = document.createElement("div");
+
+            transparentImage.style.position = "absolute";
+            transparentImage.style.width = "1px";
+            transparentImage.style.height = "1px";
+            transparentImage.style.opacity = "0";
+
+            document.body.appendChild(transparentImage);
+
+            event.dataTransfer.setDragImage(transparentImage, 0, 0);
+
+            // Create custom ghost
+            createDragGhost(label);
+
+            // Position it at the cursor
+            movedragGhost(event);
+          });
+
+          label.addEventListener("dragend", function () {
+            label.classList.remove("is-dragging");
+
+            removedragGhost();
+
+            lesson3DraggedLabel = null;
+
+            dropZones.forEach(function (zone) {
+              zone.classList.remove("drag-over");
+            });
+          });
+
+          /* ==================================================
+          TOUCH DRAG AND DROP
+          ================================================== */
+
+          label.addEventListener(
+            "touchstart",
+            function (event) {
+              if (label.disabled) {
+                return;
+              }
+
+              lesson3DraggedLabel = label;
+              lesson3TouchDragging = true;
+
+              label.classList.add("is-dragging");
+
+              const touch = event.touches[0];
+
+              // Create the floating copy
+              createDragGhost(label);
+
+              // Position it immediately
+              movedragGhost(touch);
+
+              event.preventDefault();
+            },
+            { passive: false }
+          );
+
+          label.addEventListener(
+            "touchmove",
+            function (event) {
+              if (!lesson3TouchDragging || !lesson3DraggedLabel) {
+                return;
+              }
+
+              event.preventDefault();
+
+              const touch = event.touches[0];
+
+              // Move the ghost with the finger
+              movedragGhost(touch);
+
+              const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
+
+              const zone = elementUnderFinger ? elementUnderFinger.closest(".label-drop-zone") : null;
+
+              dropZones.forEach(function (dropZone) {
+                dropZone.classList.remove("drag-over");
+              });
+
+              if (zone && !zone.classList.contains("drop-complete")) {
+                zone.classList.add("drag-over");
+              }
+            },
+            { passive: false }
+          );
+
+          label.addEventListener(
+            "touchend",
+            function (event) {
+              if (!lesson3TouchDragging || !lesson3DraggedLabel) {
+                return;
+              }
+
+              event.preventDefault();
+
+              const touch = event.changedTouches[0];
+
+              const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
+
+              const zone = elementUnderFinger ? elementUnderFinger.closest(".label-drop-zone") : null;
+
+              dropZones.forEach(function (dropZone) {
+                dropZone.classList.remove("drag-over");
+              });
+
+              if (zone && !zone.classList.contains("drop-complete")) {
+                handleDrop(zone, lesson3DraggedLabel);
+              }
+
+              lesson3DraggedLabel.classList.remove("is-dragging");
+
+              removedragGhost();
+
+              lesson3DraggedLabel = null;
+              lesson3TouchDragging = false;
+            },
+            { passive: false }
+          );
+
+          label.addEventListener("touchcancel", function () {
+            if (lesson3DraggedLabel) {
+              lesson3DraggedLabel.classList.remove("is-dragging");
+            }
+
+            dropZones.forEach(function (zone) {
+              zone.classList.remove("drag-over");
+            });
+
+            removedragGhost();
+
+            lesson3DraggedLabel = null;
+            lesson3TouchDragging = false;
+          });
         });
-      });
-    }
 
-    function updateYeastLabelCompletion() {
-      const zones = document.querySelectorAll('#yeast-labels .label-drop-zone');
-      const completeZones = document.querySelectorAll('#yeast-labels .label-drop-zone.drop-complete');
-      const feedback = document.getElementById('yeastLabelFeedback');
-      const nextButton = document.getElementById('yeastAverageNext');
+        /* ==================================================
+        MOUSE DROP ZONES
+        ================================================== */
 
-      if (!feedback || zones.length === 0 || completeZones.length !== zones.length) {
-        return;
+        // move ghost for drag and drop
+        document.addEventListener("dragover", function (event) {
+          if (!lesson3DraggedLabel) {
+            return;
+          }
+
+          movedragGhost(event);
+        });
+        dropZones.forEach(function (zone) {
+          zone.addEventListener("dragover", function (event) {
+            event.preventDefault();
+            zone.classList.add("drag-over");
+          });
+
+          zone.addEventListener("dragleave", function () {
+            zone.classList.remove("drag-over");
+          });
+
+          zone.addEventListener("drop", function (event) {
+            event.preventDefault();
+
+            zone.classList.remove("drag-over");
+
+            const draggedId = event.dataTransfer.getData("text/plain");
+
+            const draggedLabel = document.querySelector('.drag-label[data-label-id="' + draggedId + '"]');
+
+            if (!draggedLabel) {
+              return;
+            }
+
+            handleDrop(zone, draggedLabel);
+          });
+        });
       }
 
-      nextButton.hidden = false;
-      feedback.hidden = false;
-      feedback.className = 'activity-feedback table-activity-feedback feedback-success';
-      feedback.innerHTML = '<strong>Table complete!</strong><span>You placed every heading and temperature correctly.</span>';
-    }
+      function updateYeastLabelCompletion() {
+        const zones = document.querySelectorAll("#yeast-labels .label-drop-zone");
+        const completeZones = document.querySelectorAll("#yeast-labels .label-drop-zone.drop-complete");
+        const feedback = document.getElementById("yeastLabelFeedback");
+        const nextButton = document.getElementById("yeastAverageNext");
 
-    function formatAverage(value) {
-      if (Number.isInteger(value)) {
-        return String(value);
+        if (!feedback || zones.length === 0 || completeZones.length !== zones.length) {
+          return;
+        }
+
+        nextButton.hidden = false;
+        feedback.hidden = false;
+        feedback.className = "activity-feedback table-activity-feedback feedback-success";
+        feedback.innerHTML =
+          "<strong>Table complete!</strong><span>You placed every heading and temperature correctly.</span>";
       }
 
-      return value.toFixed(1).replace(/\.0$/, '');
-    }
+      function formatAverage(value) {
+        if (Number.isInteger(value)) {
+          return String(value);
+        }
 
-function showAverageValue(button, average) {
-  const cell = button.closest('.average-cell');
+        return value.toFixed(1).replace(/\.0$/, "");
+      }
 
-  if (!cell) {
-    return;
-  }
+      function showAverageValue(button, average) {
+        const cell = button.closest(".average-cell");
 
-  /*
+        if (!cell) {
+          return;
+        }
+
+        /*
     Remember which calculator this cell uses.
     This allows the X button to restore the correct Calculate button.
   */
-  const isCustomTable =
-    cell.closest('#build-your-own-table') !== null;
+        const isCustomTable = cell.closest("#build-your-own-table") !== null;
 
-  cell.innerHTML = '';
-  cell.classList.add('average-result');
+        cell.innerHTML = "";
+        cell.classList.add("average-result");
 
-  const resultWrapper = document.createElement('div');
-  resultWrapper.className = 'average-result-wrapper';
+        const resultWrapper = document.createElement("div");
+        resultWrapper.className = "average-result-wrapper";
 
-  const resultText = document.createElement('span');
-  resultText.className = 'average-result-value';
-  resultText.textContent = formatAverage(average);
+        const resultText = document.createElement("span");
+        resultText.className = "average-result-value";
+        resultText.textContent = formatAverage(average);
 
-  const clearButton = document.createElement('button');
-  clearButton.type = 'button';
-  clearButton.className = 'average-clear-button';
-  clearButton.textContent = '×';
-  clearButton.setAttribute(
-    'aria-label',
-    'Clear calculated average'
-  );
+        const clearButton = document.createElement("button");
+        clearButton.type = "button";
+        clearButton.className = "average-clear-button";
+        clearButton.textContent = "×";
+        clearButton.setAttribute("aria-label", "Clear calculated average");
 
-  clearButton.addEventListener('click', function() {
-    cell.classList.remove('average-result');
-    cell.innerHTML = '';
+        clearButton.addEventListener("click", function () {
+          cell.classList.remove("average-result");
+          cell.innerHTML = "";
 
-    const calculateButton = document.createElement('button');
+          const calculateButton = document.createElement("button");
 
-    calculateButton.type = 'button';
-    calculateButton.className = 'average-button';
-    calculateButton.textContent = 'Calculate';
-    
-    if (isCustomTable) {
-      calculateButton.addEventListener('click', function() {
-        calculateInputAverage(calculateButton);
-      });
-    } else {
-      calculateButton.addEventListener('click', function() {
-        calculateFixedAverage(calculateButton);
-      });
-    }
+          calculateButton.type = "button";
+          calculateButton.className = "average-button";
+          calculateButton.textContent = "Calculate";
 
-    cell.appendChild(calculateButton);
-  });
+          if (isCustomTable) {
+            calculateButton.addEventListener("click", function () {
+              calculateInputAverage(calculateButton);
+            });
+          } else {
+            calculateButton.addEventListener("click", function () {
+              calculateFixedAverage(calculateButton);
+            });
+          }
 
-  resultWrapper.appendChild(resultText);
-  resultWrapper.appendChild(clearButton);
+          cell.appendChild(calculateButton);
+        });
 
-  cell.appendChild(resultWrapper);
-}
+        resultWrapper.appendChild(resultText);
+        resultWrapper.appendChild(clearButton);
 
-function checkAverageComplete(section) {
-  if (!section) return false;
+        cell.appendChild(resultWrapper);
+      }
 
-  const nextButton = section.querySelector(".next-button");
-  const averageButtons = section.querySelectorAll(".average-button");
+      function checkAverageComplete(section) {
+        if (!section) return false;
 
-  if (averageButtons.length === 0) {
-    if (nextButton) nextButton.hidden = false;
-    return true;
-  }
+        const nextButton = section.querySelector(".next-button");
+        const averageButtons = section.querySelectorAll(".average-button");
 
-  if (nextButton) nextButton.hidden = true;
-  return false;
-}
-
-    function calculateFixedAverage(button) {
-      const row = button.closest('[data-average-row]');
-      const valueCells = row.querySelectorAll('td[data-value]');
-      const section = row.closest(".section");
-      const values = Array.from(valueCells).map(function(cell) {
-        return Number(cell.dataset.value);
-      });
-
-      const average = values.reduce(function(total, value) {
-        return total + value;
-      }, 0) / values.length;
-
-      showAverageValue(button, average);
-      checkAverageComplete(section);
-    }
-
-    function calculateInputAverage(button) {
-      const row = button.closest('[data-input-average-row]');
-      const inputs = row.querySelectorAll('.table-number-input');
-      const feedback = document.getElementById('customTableFeedback');
-      const section = row.closest(".section");
-      const values = Array.from(inputs).map(function(input) {
-        return input.value.trim() === '' ? NaN : Number(input.value);
-      });
-
-      const hasMissingValue = values.some(function(value) {
-        return Number.isNaN(value);
-      });
-
-      if (hasMissingValue) {
-        if (feedback) {
-          feedback.hidden = false;
-          feedback.className = 'activity-feedback table-activity-feedback feedback-try-again';
-          feedback.innerHTML = '<strong>Add all three results first.</strong><span>The average can be calculated once each test has a number.</span>';
+        if (averageButtons.length === 0) {
+          if (nextButton) nextButton.hidden = false;
+          return true;
         }
-        return;
+
+        if (nextButton) nextButton.hidden = true;
+        return false;
       }
 
-      if (feedback) {
-        feedback.hidden = true;
+      function calculateFixedAverage(button) {
+        const row = button.closest("[data-average-row]");
+        const valueCells = row.querySelectorAll("td[data-value]");
+        const section = row.closest(".section");
+        const values = Array.from(valueCells).map(function (cell) {
+          return Number(cell.dataset.value);
+        });
+
+        const average =
+          values.reduce(function (total, value) {
+            return total + value;
+          }, 0) / values.length;
+
+        showAverageValue(button, average);
+        checkAverageComplete(section);
       }
 
-      const average = values.reduce(function(total, value) {
-        return total + value;
-      }, 0) / values.length;
+      function calculateInputAverage(button) {
+        const row = button.closest("[data-input-average-row]");
+        const inputs = row.querySelectorAll(".table-number-input");
+        const feedback = document.getElementById("customTableFeedback");
+        const section = row.closest(".section");
+        const values = Array.from(inputs).map(function (input) {
+          return input.value.trim() === "" ? NaN : Number(input.value);
+        });
 
-      showAverageValue(button, average);
-      checkAverageComplete(section);
-    }
+        const hasMissingValue = values.some(function (value) {
+          return Number.isNaN(value);
+        });
 
-    /* ==================================================
+        if (hasMissingValue) {
+          if (feedback) {
+            feedback.hidden = false;
+            feedback.className = "activity-feedback table-activity-feedback feedback-try-again";
+            feedback.innerHTML =
+              "<strong>Add all three results first.</strong><span>The average can be calculated once each test has a number.</span>";
+          }
+          return;
+        }
+
+        if (feedback) {
+          feedback.hidden = true;
+        }
+
+        const average =
+          values.reduce(function (total, value) {
+            return total + value;
+          }, 0) / values.length;
+
+        showAverageValue(button, average);
+        checkAverageComplete(section);
+      }
+
+      /* ==================================================
        BUILD-YOUR-OWN TABLE - SAVED TEXT ANSWERS
        Reuses the same shared helpers as Lesson 2.
        ================================================== */
 
+      function initialiseLesson3PermanentTextEntries() {
+        const inputs = document.querySelectorAll("#build-your-own-table .lesson3-filtered-text");
 
-       
-    function initialiseLesson3PermanentTextEntries() {
-      const inputs = document.querySelectorAll(
-        '#build-your-own-table .lesson3-filtered-text'
-      );
-
-      inputs.forEach(function(input) {
-        if (input.dataset.lesson3PermanentReady === 'true') {
-          return;
-        }
-
-        const originalParent = input.parentElement;
-
-        if (!originalParent) {
-          return;
-        }
-
-        const control = document.createElement('div');
-        control.className = 'table-entry-control';
-
-        const inputRow = document.createElement('div');
-        inputRow.className = 'table-entry-input-row';
-
-        const answerBox = document.createElement('div');
-        answerBox.className = 'table-entry-answer';
-        answerBox.setAttribute('aria-live', 'polite');
-
-        originalParent.insertBefore(control, input);
-        control.appendChild(inputRow);
-        inputRow.appendChild(input);
-        control.appendChild(answerBox);
-
-        input.dataset.lesson3PermanentReady = 'true';
-
-        function saveTableTextAnswer() {
-          if (typeof getValidStudentInput !== 'function') {
+        inputs.forEach(function (input) {
+          if (input.dataset.lesson3PermanentReady === "true") {
             return;
           }
 
-          const value = getValidStudentInput(input);
+          const originalParent = input.parentElement;
 
-          if (value === null) {
+          if (!originalParent) {
             return;
           }
 
-          answerBox.innerHTML = '';
+          const control = document.createElement("div");
+          control.className = "table-entry-control";
 
-          const answerText = document.createElement('span');
-          answerText.className = 'table-entry-answer-text';
-          answerText.textContent = value;
+          const inputRow = document.createElement("div");
+          inputRow.className = "table-entry-input-row";
 
-          let deleteButton = null;
+          const answerBox = document.createElement("div");
+          answerBox.className = "table-entry-answer";
+          answerBox.setAttribute("aria-live", "polite");
 
-          if (typeof createDeleteAnswerButton === 'function') {
-            deleteButton = createDeleteAnswerButton(
-              'Clear ' + value,
-              function() {
-                answerBox.classList.remove('visible');
-                answerBox.innerHTML = '';
-                inputRow.style.display = 'block';
-                input.value = '';
-                input.focus();
-              }
-            );
-          } else {
-            deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.className = 'delete-answer';
-            deleteButton.textContent = '×';
-            deleteButton.setAttribute('aria-label', 'Clear ' + value);
-            deleteButton.addEventListener('click', function() {
-              answerBox.classList.remove('visible');
-              answerBox.innerHTML = '';
-              inputRow.style.display = 'block';
-              input.value = '';
-              input.focus();
-            });
-          }
+          originalParent.insertBefore(control, input);
+          control.appendChild(inputRow);
+          inputRow.appendChild(input);
+          control.appendChild(answerBox);
 
-          answerBox.appendChild(answerText);
-          answerBox.appendChild(deleteButton);
+          input.dataset.lesson3PermanentReady = "true";
 
-          inputRow.style.display = 'none';
-          answerBox.classList.add('visible');
-          input.value = '';
-        }
-
-        if (typeof connectEnterAndBlurSave === 'function') {
-          connectEnterAndBlurSave(input, saveTableTextAnswer);
-        } else {
-          input.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              saveTableTextAnswer();
+          function saveTableTextAnswer() {
+            if (typeof getValidStudentInput !== "function") {
+              return;
             }
-          });
 
-          input.addEventListener('blur', saveTableTextAnswer);
-        }
-      });
-    }
+            const value = getValidStudentInput(input);
 
-    /* ==================================================
+            if (value === null) {
+              return;
+            }
+
+            answerBox.innerHTML = "";
+
+            const answerText = document.createElement("span");
+            answerText.className = "table-entry-answer-text";
+            answerText.textContent = value;
+
+            let deleteButton = null;
+
+            if (typeof createDeleteAnswerButton === "function") {
+              deleteButton = createDeleteAnswerButton("Clear " + value, function () {
+                answerBox.classList.remove("visible");
+                answerBox.innerHTML = "";
+                inputRow.style.display = "block";
+                input.value = "";
+                input.focus();
+              });
+            } else {
+              deleteButton = document.createElement("button");
+              deleteButton.type = "button";
+              deleteButton.className = "delete-answer";
+              deleteButton.textContent = "×";
+              deleteButton.setAttribute("aria-label", "Clear " + value);
+              deleteButton.addEventListener("click", function () {
+                answerBox.classList.remove("visible");
+                answerBox.innerHTML = "";
+                inputRow.style.display = "block";
+                input.value = "";
+                input.focus();
+              });
+            }
+
+            answerBox.appendChild(answerText);
+            answerBox.appendChild(deleteButton);
+
+            inputRow.style.display = "none";
+            answerBox.classList.add("visible");
+            input.value = "";
+          }
+
+          if (typeof connectEnterAndBlurSave === "function") {
+            connectEnterAndBlurSave(input, saveTableTextAnswer);
+          } else {
+            input.addEventListener("keydown", function (event) {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                saveTableTextAnswer();
+              }
+            });
+
+            input.addEventListener("blur", saveTableTextAnswer);
+          }
+        });
+      }
+
+      /* ==================================================
        RESET HELPERS
        ================================================== */
 
-    function restoreAverageButtons(sectionSelector, clickHandler) {
-      document.querySelectorAll(sectionSelector + ' .average-cell').forEach(function(cell) {
-        cell.classList.remove('average-result');
-        cell.innerHTML = '';
+      function restoreAverageButtons(sectionSelector, clickHandler) {
+        document.querySelectorAll(sectionSelector + " .average-cell").forEach(function (cell) {
+          cell.classList.remove("average-result");
+          cell.innerHTML = "";
 
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'average-button';
-        button.textContent = 'Calculate';
-        button.addEventListener('click', function() {
-          clickHandler(button);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "average-button";
+          button.textContent = "Calculate";
+          button.addEventListener("click", function () {
+            clickHandler(button);
+          });
+
+          cell.appendChild(button);
+        });
+      }
+
+      function resetYeastLabels() {
+        const placeholderText = {
+          "yeast-dv": "Drop dependent variable here",
+          "yeast-iv": "Drop independent variable",
+          "yeast-test-1": "Drop label",
+          "yeast-test-2": "Drop label",
+          "yeast-test-3": "Drop label",
+          "yeast-temp-2": "Drop temperature",
+          "yeast-temp-22": "Drop temperature",
+          "yeast-temp-37": "Drop temperature",
+          "yeast-temp-80": "Drop temperature",
+        };
+
+        document.querySelectorAll("#yeast-labels .label-drop-zone").forEach(function (zone) {
+          zone.textContent = placeholderText[zone.dataset.accept] || "Drop label";
+          zone.classList.remove("drop-complete", "drag-over", "drop-incorrect");
         });
 
-        cell.appendChild(button);
-      });
-    }
+        document.querySelectorAll("#yeast-labels .drag-label").forEach(function (label) {
+          label.disabled = false;
+          label.setAttribute("draggable", "true");
+          label.classList.remove("label-placed", "is-dragging");
+        });
 
-    function resetYeastLabels() {
-      const placeholderText = {
-        'yeast-dv': 'Drop dependent variable here',
-        'yeast-iv': 'Drop independent variable',
-        'yeast-test-1': 'Drop label',
-        'yeast-test-2': 'Drop label',
-        'yeast-test-3': 'Drop label',
-        'yeast-temp-2': 'Drop temperature',
-        'yeast-temp-22': 'Drop temperature',
-        'yeast-temp-37': 'Drop temperature',
-        'yeast-temp-80': 'Drop temperature'
-      };
-
-      document.querySelectorAll('#yeast-labels .label-drop-zone').forEach(function(zone) {
-        zone.textContent = placeholderText[zone.dataset.accept] || 'Drop label';
-        zone.classList.remove(
-          'drop-complete',
-          'drag-over',
-          'drop-incorrect'
-        );
-      });
-
-      document.querySelectorAll('#yeast-labels .drag-label').forEach(function(label) {
-        label.disabled = false;
-        label.setAttribute('draggable', 'true');
-        label.classList.remove('label-placed', 'is-dragging');
-      });
-
-      const feedback = document.getElementById('yeastLabelFeedback');
-      if (feedback) {
-        feedback.hidden = true;
-        feedback.innerHTML = '';
-      }
-    }
-
-    function resetYeastAverage() {
-      restoreAverageButtons('#yeast-average', calculateFixedAverage);
-    }
-
-function resetBounceDataEntry() {
-  document
-    .querySelectorAll(
-      '#bounce-data-entry .table-entry-control'
-    )
-    .forEach(function(control) {
-
-      const inputRow =
-        control.querySelector(
-          '.table-entry-input-row'
-        );
-
-      const answerBox =
-        control.querySelector(
-          '.table-entry-answer'
-        );
-
-      const input =
-        control.querySelector(
-          '.table-number-input'
-        );
-
-      if (input) {
-        input.value = '';
+        const feedback = document.getElementById("yeastLabelFeedback");
+        if (feedback) {
+          feedback.hidden = true;
+          feedback.innerHTML = "";
+        }
       }
 
-      if (inputRow) {
-        inputRow.style.display = 'block';
+      function resetYeastAverage() {
+        restoreAverageButtons("#yeast-average", calculateFixedAverage);
       }
 
-      if (answerBox) {
-        answerBox.classList.remove('visible');
-        answerBox.innerHTML = '';
+      function resetBounceDataEntry() {
+        document.querySelectorAll("#bounce-data-entry .table-entry-control").forEach(function (control) {
+          const inputRow = control.querySelector(".table-entry-input-row");
+
+          const answerBox = control.querySelector(".table-entry-answer");
+
+          const input = control.querySelector(".table-number-input");
+
+          if (input) {
+            input.value = "";
+          }
+
+          if (inputRow) {
+            inputRow.style.display = "block";
+          }
+
+          if (answerBox) {
+            answerBox.classList.remove("visible");
+            answerBox.innerHTML = "";
+          }
+        });
       }
-    });
-}
 
-    function resetBuildYourOwnTable() {
-document.querySelectorAll(
-  '#build-your-own-table .table-number-control'
-).forEach(function(control) {
+      function resetBuildYourOwnTable() {
+        document.querySelectorAll("#build-your-own-table .table-number-control").forEach(function (control) {
+          const inputRow = control.querySelector(".table-entry-input-row");
 
-  const inputRow =
-    control.querySelector(
-      '.table-entry-input-row'
-    );
+          const answerBox = control.querySelector(".table-entry-answer");
 
-  const answerBox =
-    control.querySelector(
-      '.table-entry-answer'
-    );
+          const input = control.querySelector(".table-number-input");
 
-  const input =
-    control.querySelector(
-      '.table-number-input'
-    );
+          if (input) {
+            input.value = "";
+          }
 
-  if (input) {
-    input.value = '';
-  }
+          if (inputRow) {
+            inputRow.style.display = "block";
+          }
 
-  if (inputRow) {
-    inputRow.style.display = 'block';
-  }
+          if (answerBox) {
+            answerBox.classList.remove("visible");
+            answerBox.innerHTML = "";
+          }
+        });
 
-  if (answerBox) {
-    answerBox.classList.remove('visible');
-    answerBox.innerHTML = '';
-  }
-});
+        document.querySelectorAll("#build-your-own-table .table-entry-control").forEach(function (control) {
+          const inputRow = control.querySelector(".table-entry-input-row");
+          const answerBox = control.querySelector(".table-entry-answer");
+          const input = control.querySelector(".lesson3-filtered-text");
 
-      document.querySelectorAll('#build-your-own-table .table-entry-control').forEach(function(control) {
-        const inputRow = control.querySelector('.table-entry-input-row');
-        const answerBox = control.querySelector('.table-entry-answer');
-        const input = control.querySelector('.lesson3-filtered-text');
+          if (input) {
+            input.value = "";
+          }
 
-        if (input) {
-          input.value = '';
+          if (inputRow) {
+            inputRow.style.display = "block";
+          }
+
+          if (answerBox) {
+            answerBox.classList.remove("visible");
+            answerBox.innerHTML = "";
+          }
+        });
+
+        restoreAverageButtons("#build-your-own-table", calculateInputAverage);
+
+        const feedback = document.getElementById("customTableFeedback");
+        if (feedback) {
+          feedback.hidden = true;
+          feedback.innerHTML = "";
+        }
+      }
+
+      function resetLesson3Section(sectionId) {
+        const nextButton = document.getElementById(sectionId).querySelector(".next-button");
+        if (nextButton) nextButton.hidden = true;
+
+        if (sectionId === "yeast-labels") {
+          resetYeastLabels();
+          return;
         }
 
-        if (inputRow) {
-          inputRow.style.display = 'block';
+        if (sectionId === "yeast-average") {
+          resetYeastAverage();
+          return;
         }
 
-        if (answerBox) {
-          answerBox.classList.remove('visible');
-          answerBox.innerHTML = '';
+        if (sectionId === "bounce-data-entry") {
+          resetBounceDataEntry();
+          return;
         }
+
+        if (sectionId === "build-your-own-table") {
+          resetBuildYourOwnTable();
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initialiseTeacherMenu === "function") {
+          initialiseTeacherMenu(lesson3SectionIds, "data-table-template");
+        }
+
+        initialiseLesson3DragAndDrop();
+
+        initialiseLesson3PermanentTextEntries();
+
+        initialiseLesson3PermanentNumberEntries();
+
+        /* Ball bounce data must contain whole numbers only */
+        document.querySelectorAll(".whole-number-input").forEach(function (input) {
+          input.addEventListener("input", function () {
+            input.value = input.value.replace(/[^0-9]/g, "");
+          });
+        });
       });
 
-      restoreAverageButtons('#build-your-own-table', calculateInputAverage);
-
-      const feedback = document.getElementById('customTableFeedback');
-      if (feedback) {
-        feedback.hidden = true;
-        feedback.innerHTML = '';
-      }
-    }
-
-    function resetLesson3Section(sectionId) {
-      const nextButton = document.getElementById(sectionId).querySelector('.next-button');
-      if (nextButton) nextButton.hidden = true;
-      
-      if (sectionId === 'yeast-labels') {
-        resetYeastLabels();
-        return;
-      }
-
-      if (sectionId === 'yeast-average') {
-        resetYeastAverage();
-        return;
-      }
-
-      if (sectionId === 'bounce-data-entry') {
-        resetBounceDataEntry();
-        return;
-      }
-
-      if (sectionId === 'build-your-own-table') {
-        resetBuildYourOwnTable();
-      }
-    }
-
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof initialiseTeacherMenu === "function") {
-    initialiseTeacherMenu(
-      lesson3SectionIds,
-      "data-table-template"
-    );
-  }
-
-  initialiseLesson3DragAndDrop();
-
-  initialiseLesson3PermanentTextEntries();
-
-  initialiseLesson3PermanentNumberEntries();
-
-  /* Ball bounce data must contain whole numbers only */
-  document.querySelectorAll('.whole-number-input').forEach(function(input) {
-    input.addEventListener('input', function() {
-      input.value = input.value.replace(/[^0-9]/g, '');
-    });
-  });
-});
-
-    /* ==================================================
+      /* ==================================================
    PERMANENT NUMBER ENTRIES
    Used for experimental data cells.
    ================================================== */
 
-function resetAverageForNumberInput(input) {
-  const row = input.closest('[data-input-average-row]');
+      function resetAverageForNumberInput(input) {
+        const row = input.closest("[data-input-average-row]");
 
-  /*
+        /*
     Only the build-your-own table has editable rows
     connected to averages.
   */
-  if (!row) {
-    return;
-  }
+        if (!row) {
+          return;
+        }
 
-  const cell = row.querySelector('.average-cell');
+        const cell = row.querySelector(".average-cell");
 
-  if (!cell) {
-    return;
-  }
+        if (!cell) {
+          return;
+        }
 
-  /*
+        /*
     If the average has not been calculated yet,
     there is nothing to reset.
   */
-  if (!cell.classList.contains('average-result')) {
-    return;
-  }
+        if (!cell.classList.contains("average-result")) {
+          return;
+        }
 
-  cell.classList.remove('average-result');
-  cell.innerHTML = '';
+        cell.classList.remove("average-result");
+        cell.innerHTML = "";
 
-  const calculateButton = document.createElement('button');
+        const calculateButton = document.createElement("button");
 
-  calculateButton.type = 'button';
-  calculateButton.className = 'average-button';
-  calculateButton.textContent = 'Calculate';
+        calculateButton.type = "button";
+        calculateButton.className = "average-button";
+        calculateButton.textContent = "Calculate";
 
-  calculateButton.addEventListener('click', function() {
-    calculateInputAverage(calculateButton);
-  });
+        calculateButton.addEventListener("click", function () {
+          calculateInputAverage(calculateButton);
+        });
 
-  cell.appendChild(calculateButton);
-}
-
-function initialiseLesson3PermanentNumberEntries() {
-  const inputs = document.querySelectorAll(
-    '#bounce-data-entry .table-number-input, ' +
-    '#build-your-own-table .table-number-input'
-  );
-
-  function checkNumberEntriesComplete(section) {
-    const inputs = section.querySelectorAll('.table-number-input');
-
-    return Array.from(inputs).every(function(input) {
-      return input.value.trim() !== '';
-    });
-  }
-
-  inputs.forEach(function(input) {
-    if (input.dataset.lesson3PermanentNumberReady === 'true') {
-      return;
-    }
-
-    const originalParent = input.parentElement;
-
-    if (!originalParent) {
-      return;
-    }
-
-    const control = document.createElement('div');
-    control.className = 'table-entry-control table-number-control';
-
-    const inputRow = document.createElement('div');
-    inputRow.className = 'table-entry-input-row';
-
-    const answerBox = document.createElement('div');
-    answerBox.className = 'table-entry-answer table-number-answer';
-    answerBox.setAttribute('aria-live', 'polite');
-
-    originalParent.insertBefore(control, input);
-
-    control.appendChild(inputRow);
-    inputRow.appendChild(input);
-    control.appendChild(answerBox);
-
-    input.dataset.lesson3PermanentNumberReady = 'true';
-
-
-    function saveTableNumberAnswer() {
-      const value = input.value.trim();
-
-      if (value === '') {
-        return;
+        cell.appendChild(calculateButton);
       }
 
-      const numericValue = Number(value);
+      function initialiseLesson3PermanentNumberEntries() {
+        const inputs = document.querySelectorAll(
+          "#bounce-data-entry .table-number-input, " + "#build-your-own-table .table-number-input"
+        );
 
-      if (!Number.isFinite(numericValue)) {
-        input.focus();
-        return;
-      }
+        function checkNumberEntriesComplete(section) {
+          const inputs = section.querySelectorAll(".table-number-input");
 
-      answerBox.innerHTML = '';
+          return Array.from(inputs).every(function (input) {
+            return input.value.trim() !== "";
+          });
+        }
 
-      const answerText =
-        document.createElement('span');
-
-      answerText.className =
-        'table-entry-answer-text';
-
-      answerText.textContent = value;
-
-
-      let deleteButton = null;
-
-      if (typeof createDeleteAnswerButton === 'function') {
-        deleteButton = createDeleteAnswerButton(
-          'Clear ' + value,
-          function() {
-            answerBox.classList.remove('visible');
-            answerBox.innerHTML = '';
-
-            inputRow.style.display = 'block';
-
-            input.value = '';
-
-            resetAverageForNumberInput(input);
-
-            input.focus();
+        inputs.forEach(function (input) {
+          if (input.dataset.lesson3PermanentNumberReady === "true") {
+            return;
           }
-        );
-      } else {
-        deleteButton =
-          document.createElement('button');
 
-        deleteButton.type = 'button';
-        deleteButton.className = 'delete-answer';
-        deleteButton.textContent = '×';
+          const originalParent = input.parentElement;
 
-        deleteButton.setAttribute(
-          'aria-label',
-          'Clear ' + value
-        );
-
-        deleteButton.addEventListener(
-          'click',
-          function() {
-            answerBox.classList.remove('visible');
-            answerBox.innerHTML = '';
-
-            inputRow.style.display = 'block';
-
-            input.value = '';
-
-            resetAverageForNumberInput(input);
-
-            input.focus();
+          if (!originalParent) {
+            return;
           }
-        );
-      }
 
-      answerBox.appendChild(answerText);
-      answerBox.appendChild(deleteButton);
+          const control = document.createElement("div");
+          control.className = "table-entry-control table-number-control";
 
-      inputRow.style.display = 'none';
+          const inputRow = document.createElement("div");
+          inputRow.className = "table-entry-input-row";
 
-      answerBox.classList.add('visible');
+          const answerBox = document.createElement("div");
+          answerBox.className = "table-entry-answer table-number-answer";
+          answerBox.setAttribute("aria-live", "polite");
 
-      const section = input.closest('#bounce-data-entry, #build-your-own-table');
+          originalParent.insertBefore(control, input);
 
-      let complete = false;
-      if (section) {
-        complete = checkNumberEntriesComplete(section);
-      }
-      if (complete) {
-        const nextButton = document.getElementById("bounceDataEntryNext");
-        nextButton.hidden = false;
-      }
+          control.appendChild(inputRow);
+          inputRow.appendChild(input);
+          control.appendChild(answerBox);
 
-      /*
+          input.dataset.lesson3PermanentNumberReady = "true";
+
+          function saveTableNumberAnswer() {
+            const value = input.value.trim();
+
+            if (value === "") {
+              return;
+            }
+
+            const numericValue = Number(value);
+
+            if (!Number.isFinite(numericValue)) {
+              input.focus();
+              return;
+            }
+
+            answerBox.innerHTML = "";
+
+            const answerText = document.createElement("span");
+
+            answerText.className = "table-entry-answer-text";
+
+            answerText.textContent = value;
+
+            let deleteButton = null;
+
+            if (typeof createDeleteAnswerButton === "function") {
+              deleteButton = createDeleteAnswerButton("Clear " + value, function () {
+                answerBox.classList.remove("visible");
+                answerBox.innerHTML = "";
+
+                inputRow.style.display = "block";
+
+                input.value = "";
+
+                resetAverageForNumberInput(input);
+
+                input.focus();
+              });
+            } else {
+              deleteButton = document.createElement("button");
+
+              deleteButton.type = "button";
+              deleteButton.className = "delete-answer";
+              deleteButton.textContent = "×";
+
+              deleteButton.setAttribute("aria-label", "Clear " + value);
+
+              deleteButton.addEventListener("click", function () {
+                answerBox.classList.remove("visible");
+                answerBox.innerHTML = "";
+
+                inputRow.style.display = "block";
+
+                input.value = "";
+
+                resetAverageForNumberInput(input);
+
+                input.focus();
+              });
+            }
+
+            answerBox.appendChild(answerText);
+            answerBox.appendChild(deleteButton);
+
+            inputRow.style.display = "none";
+
+            answerBox.classList.add("visible");
+
+            const section = input.closest("#bounce-data-entry, #build-your-own-table");
+
+            let complete = false;
+            if (section) {
+              complete = checkNumberEntriesComplete(section);
+            }
+            if (complete) {
+              const nextButton = document.getElementById("bounceDataEntryNext");
+              nextButton.hidden = false;
+            }
+
+            /*
         IMPORTANT:
         Keep the numeric value on the original input.
 
         The input is hidden visually, but calculateInputAverage()
         can still read its value later.
       */
-    }
+          }
 
+          input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              saveTableNumberAnswer();
+            }
+          });
 
-    input.addEventListener(
-      'keydown',
-      function(event) {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          saveTableNumberAnswer();
-        }
+          input.addEventListener("blur", saveTableNumberAnswer);
+        });
       }
-    );
-
-    input.addEventListener(
-      'blur',
-      saveTableNumberAnswer
-    );
-  });
-}
-
-
-  </script>
-</body>
+    </script>
+  </body>
 </html>

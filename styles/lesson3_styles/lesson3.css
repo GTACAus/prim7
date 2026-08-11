@@ -151,11 +151,6 @@
   font-weight: 600;
 }
 
-.corner-space {
-  border-color: transparent !important;
-  background: transparent !important;
-}
-
 /* ---------- Semantic table colours ---------- */
 
 /* DEPENDENT VARIABLE = PURPLE */
@@ -318,7 +313,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-top: 22px;
+  margin: 22px 0;
 }
 
 .table-key-card {
@@ -601,28 +596,16 @@
   background: var(--yellow);
   color: var(--text);
 
-  border: 2px solid var(--line);
   border-radius: 999px;
-
-  box-shadow: 0 3px 0 var(--line);
 
   font: inherit;
   font-weight: 700;
-
-  cursor: pointer;
 
   appearance: none;
 }
 
 .average-button:hover {
-  background: var(--green);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.average-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--line);
+  background: var(--soft-blue);
 }
 
 .average-result {
@@ -674,7 +657,7 @@
 
   min-height: 0;
   height: 100%;
-  margin: 0;
+  margin: 0 0 22px;
   padding: 20px;
 
   box-sizing: border-box;
@@ -690,6 +673,11 @@
   border-radius: 20px;
 
   box-shadow: var(--shadow-small);
+}
+
+#labelBankHeading {
+  margin: 0 0 0.7rem;
+  font-weight: 800;
 }
 
 
@@ -721,7 +709,7 @@
   min-height: 48px;
   padding: 10px 18px;
 
-  background: white;
+  background: var(--paper);
   color: var(--text);
 
   border: 2px solid var(--line);
@@ -730,7 +718,7 @@
 
   box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
 
-  font-size: clamp(0.1rem, 1.5vw, 0.95rem);
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
   font-weight: 700;
   line-height: 1.25;
   text-align: center;
@@ -738,7 +726,7 @@
 
 
 #yeast-labels .drag-label:hover {
-  background: var(--mint);
+  background: var(--soft-blue);
 }
 
 #yeast-labels .drag-label:active,
@@ -775,7 +763,7 @@
   border: 2px dashed var(--charcoal);
   border-radius: 6px;
 
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
   font-weight: 600;
   line-height: 1.25;
 
@@ -934,7 +922,6 @@
 
   #yeast-labels .drag-label {
     padding: 9px 13px;
-    font-size: 0.86rem;
   }
 }
 
@@ -1020,6 +1007,23 @@
   line-height: 1;
 
   cursor: pointer;
+}
+
+/* Section Headings */
+#data-table-template .section-title {
+  background-color: var(--blue);
+}
+
+#yeast-labels .section-title {
+  background-color: var(--mint);
+}
+
+#yeast-average .section-title {
+  background-color: var(--lavender);
+}
+
+#bounce-data-entry .section-title {
+  background-color: var(--green);
 }
 
 /* ==================================================
