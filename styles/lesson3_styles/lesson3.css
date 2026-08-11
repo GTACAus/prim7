@@ -151,11 +151,6 @@
   font-weight: 600;
 }
 
-.corner-space {
-  border-color: transparent !important;
-  background: transparent !important;
-}
-
 /* ---------- Semantic table colours ---------- */
 
 /* DEPENDENT VARIABLE = PURPLE */
@@ -610,7 +605,7 @@
 }
 
 .average-button:hover {
-  background: var(--green);
+  background: var(--soft-blue);
 }
 
 .average-result {
@@ -1010,6 +1005,23 @@
   line-height: 1;
 
   cursor: pointer;
+}
+
+/* Section Headings */
+#data-table-template .section-title {
+  background-color: var(--blue);
+}
+
+#yeast-labels .section-title {
+  background-color: var(--mint);
+}
+
+#yeast-average .section-title {
+  background-color: var(--lavender);
+}
+
+#bounce-data-entry .section-title {
+  background-color: var(--green);
 }
 
 /* ==================================================
