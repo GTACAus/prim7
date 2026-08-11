@@ -635,14 +635,40 @@
    LESSON 3 - DRAG AND DROP TABLE ACTIVITY
    ================================================== */
 
+#yeastActivity {
+  display: grid;
+  grid-template-columns: clamp(10rem, 15vw, 15rem) 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 10px;
+}
 
+#yeastLabelBank {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.yeast-table-card {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+#yeastLabelFeedback {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.lesson3-reset-container {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
 /* ---------- Label bank ---------- */
 
 #yeast-labels .table-label-bank {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  grid-row: 1;
 
   gap: 12px;
 
@@ -672,7 +698,7 @@
   pointer-events: none;
   margin: 0;
 
-  opacity: 0.85;
+  opacity: 1;
 
   transform: scale(1.05);
 
@@ -684,7 +710,7 @@
   cursor: grabbing;
 }
 
-#yeast-labels .drag-label {
+#yeast-labels .touch-drag-ghost, .drag-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -701,30 +727,19 @@
 
   box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
 
-  font-size: 0.95rem;
+  font-size: clamp(0.1rem, 1.5vw, 0.95rem);
   font-weight: 700;
   line-height: 1.25;
   text-align: center;
-
-  cursor: grab;
-  user-select: none;
 }
 
 
 #yeast-labels .drag-label:hover {
-  background: var(--soft-yellow);
-
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 var(--line);
+  background: var(--mint);
 }
 
 #yeast-labels .drag-label:active,
 #yeast-labels .drag-label.is-dragging {
-  cursor: grabbing;
-
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--line);
-
   opacity: 0.65;
 }
 
@@ -782,21 +797,6 @@
   box-shadow:
     0 0 0 4px rgba(78, 50, 232, 0.15);
 }
-
-
-/* Correctly completed target */
-
-#yeast-labels .label-drop-zone.drop-complete {
-  background: var(--soft-green);
-  color: var(--text);
-
-  border: 2px solid var(--green);
-
-  font-weight: 700;
-
-  box-shadow: none;
-}
-
 
 /* ---------- Incorrect drop ---------- */
 
@@ -859,6 +859,21 @@
 
   border-color: transparent;
 
+  text-transform: uppercase;
+}
+
+/* ---------- Independent-variable drop area ---------- */
+#yeast-labels .independent-heading .label-drop-zone.drag-over {
+  background: var(--soft-yellow);
+  color: var(--text);
+
+  border-color: var(--yellow);
+}
+
+
+#yeast-labels .independent-heading .label-drop-zone.drop-complete {
+  background: transparent;
+  border-color: transparent;
   text-transform: uppercase;
 }
 
