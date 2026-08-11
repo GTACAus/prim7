@@ -459,7 +459,11 @@
         </div>
       </div>
 
-      <button class="next-button general-button" onclick="unlockSection('yeast-average', 'yeast-labels')">
+      <button
+        id="yeastAverageNext"
+        class="next-button general-button"
+        onclick="unlockSection('yeast-average', 'yeast-labels')"
+        hidden>
         Next
       </button>
       <p class="completed-note">Completed — next activity unlocked.</p>
@@ -507,22 +511,22 @@
               <tr data-average-row>
                 <th class="independent-value">2°C</th>
                 <td data-value="4">4</td><td data-value="5">5</td><td data-value="4">4</td>
-                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
               <tr data-average-row>
                 <th class="independent-value">22°C</th>
                 <td data-value="12">12</td><td data-value="13">13</td><td data-value="11">11</td>
-                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
               <tr data-average-row>
                 <th class="independent-value">37°C</th>
                 <td data-value="24">24</td><td data-value="25">25</td><td data-value="23">23</td>
-                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
               <tr data-average-row>
                 <th class="independent-value">80°C</th>
                 <td data-value="2">2</td><td data-value="1">1</td><td data-value="2">2</td>
-                <td class="average-cell"><button class="average-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
             </tbody>
           </table>
@@ -533,7 +537,10 @@
         <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">Reset</button>
       </div>
 
-      <button class="next-button general-button" onclick="unlockSection('bounce-data-entry', 'yeast-average')">
+      <button
+        class="next-button general-button"
+        onclick="unlockSection('bounce-data-entry', 'yeast-average')"
+        hidden>
         Next
       </button>
       <p class="completed-note">Completed — next activity unlocked.</p>
@@ -654,7 +661,11 @@
         </div>
       </div>
 
-      <button class="next-button general-button" onclick="unlockSection('build-your-own-table', 'bounce-data-entry')">
+      <button
+        id="bounceDataEntryNext"
+        class="next-button general-button"
+        onclick="unlockSection('build-your-own-table', 'bounce-data-entry')"
+        hidden>
         Next
       </button>
       <p class="completed-note">Completed — next activity unlocked.</p>
@@ -1077,11 +1088,13 @@
       const zones = document.querySelectorAll('#yeast-labels .label-drop-zone');
       const completeZones = document.querySelectorAll('#yeast-labels .label-drop-zone.drop-complete');
       const feedback = document.getElementById('yeastLabelFeedback');
+      const nextButton = document.getElementById('yeastAverageNext');
 
       if (!feedback || zones.length === 0 || completeZones.length !== zones.length) {
         return;
       }
 
+      nextButton.hidden = false;
       feedback.hidden = false;
       feedback.className = 'activity-feedback table-activity-feedback feedback-success';
       feedback.innerHTML = '<strong>Table complete!</strong><span>You placed every heading and temperature correctly.</span>';
@@ -1137,7 +1150,7 @@ function showAverageValue(button, average) {
     calculateButton.type = 'button';
     calculateButton.className = 'average-button';
     calculateButton.textContent = 'Calculate';
-
+    
     if (isCustomTable) {
       calculateButton.addEventListener('click', function() {
         calculateInputAverage(calculateButton);
@@ -1157,9 +1170,25 @@ function showAverageValue(button, average) {
   cell.appendChild(resultWrapper);
 }
 
+function checkAverageComplete(section) {
+  if (!section) return false;
+
+  const nextButton = section.querySelector(".next-button");
+  const averageButtons = section.querySelectorAll(".average-button");
+
+  if (averageButtons.length === 0) {
+    if (nextButton) nextButton.hidden = false;
+    return true;
+  }
+
+  if (nextButton) nextButton.hidden = true;
+  return false;
+}
+
     function calculateFixedAverage(button) {
       const row = button.closest('[data-average-row]');
       const valueCells = row.querySelectorAll('td[data-value]');
+      const section = row.closest(".section");
       const values = Array.from(valueCells).map(function(cell) {
         return Number(cell.dataset.value);
       });
@@ -1169,12 +1198,14 @@ function showAverageValue(button, average) {
       }, 0) / values.length;
 
       showAverageValue(button, average);
+      checkAverageComplete(section);
     }
 
     function calculateInputAverage(button) {
       const row = button.closest('[data-input-average-row]');
       const inputs = row.querySelectorAll('.table-number-input');
       const feedback = document.getElementById('customTableFeedback');
+      const section = row.closest(".section");
       const values = Array.from(inputs).map(function(input) {
         return input.value.trim() === '' ? NaN : Number(input.value);
       });
@@ -1201,6 +1232,7 @@ function showAverageValue(button, average) {
       }, 0) / values.length;
 
       showAverageValue(button, average);
+      checkAverageComplete(section);
     }
 
     /* ==================================================
@@ -1471,6 +1503,9 @@ document.querySelectorAll(
     }
 
     function resetLesson3Section(sectionId) {
+      const nextButton = document.getElementById(sectionId).querySelector('.next-button');
+      if (nextButton) nextButton.hidden = true;
+      
       if (sectionId === 'yeast-labels') {
         resetYeastLabels();
         return;
@@ -1564,6 +1599,14 @@ function initialiseLesson3PermanentNumberEntries() {
     '#bounce-data-entry .table-number-input, ' +
     '#build-your-own-table .table-number-input'
   );
+
+  function checkNumberEntriesComplete(section) {
+    const inputs = section.querySelectorAll('.table-number-input');
+
+    return Array.from(inputs).every(function(input) {
+      return input.value.trim() !== '';
+    });
+  }
 
   inputs.forEach(function(input) {
     if (input.dataset.lesson3PermanentNumberReady === 'true') {
@@ -1674,6 +1717,17 @@ function initialiseLesson3PermanentNumberEntries() {
       inputRow.style.display = 'none';
 
       answerBox.classList.add('visible');
+
+      const section = input.closest('#bounce-data-entry, #build-your-own-table');
+
+      let complete = false;
+      if (section) {
+        complete = checkNumberEntriesComplete(section);
+      }
+      if (complete) {
+        const nextButton = document.getElementById("bounceDataEntryNext");
+        nextButton.hidden = false;
+      }
 
       /*
         IMPORTANT:
