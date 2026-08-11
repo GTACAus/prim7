@@ -498,6 +498,10 @@
 
 /* ---------- Number entry cells ---------- */
 
+.table-number-input[hidden] {
+  display: none;
+}
+
 .table-number-input,
 .table-text-input {
   display: block;
