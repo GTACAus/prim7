@@ -318,7 +318,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-top: 22px;
+  margin: 22px 0;
 }
 
 .table-key-card {
@@ -601,28 +601,16 @@
   background: var(--yellow);
   color: var(--text);
 
-  border: 2px solid var(--line);
   border-radius: 999px;
-
-  box-shadow: 0 3px 0 var(--line);
 
   font: inherit;
   font-weight: 700;
-
-  cursor: pointer;
 
   appearance: none;
 }
 
 .average-button:hover {
   background: var(--green);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.average-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--line);
 }
 
 .average-result {
@@ -690,6 +678,11 @@
   box-shadow: var(--shadow-small);
 }
 
+#labelBankHeading {
+  margin: 0 0 0.7rem;
+  font-weight: 800;
+}
+
 
 /* ---------- Draggable labels ---------- */
 .touch-drag-ghost {
@@ -719,7 +712,7 @@
   min-height: 48px;
   padding: 10px 18px;
 
-  background: white;
+  background: var(--paper);
   color: var(--text);
 
   border: 2px solid var(--line);
@@ -736,7 +729,7 @@
 
 
 #yeast-labels .drag-label:hover {
-  background: var(--mint);
+  background: var(--soft-blue);
 }
 
 #yeast-labels .drag-label:active,

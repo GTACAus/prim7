@@ -221,8 +221,32 @@
           </div>
         </div>
 <div class="data-table-card reference-table-card">
-<div class="reference-callout-row" aria-hidden="true">
+  <div class="table-key-grid" aria-label="Parts of a data table">
 
+  <article class="table-key-card key-independent floating-card">
+    <span class="table-key-label">Change</span>
+<h3>Independent variable</h3>
+    <p>What you change.</p>
+  </article>
+
+  <article class="table-key-card key-dependent floating-card">
+    <span class="table-key-label">Measure</span>
+<h3>Dependent variable</h3>
+    <p>What you measure or observe.</p>
+  </article>
+
+  <article class="table-key-card key-units floating-card">
+    <span class="table-key-label">Record with</span>
+<h3>Units</h3>
+    <p>
+      The measurement unit belongs in the heading,
+      not repeated in every data cell.
+    </p>
+  </article>
+
+</div>
+
+<div class="reference-callout-row" aria-hidden="true">
   <div class="data-table-callout reference-callout-independent">
     <span class="callout-number">1</span>
     <p>
@@ -317,31 +341,6 @@
         </div>
       </div>
 
-<div class="table-key-grid" aria-label="Parts of a data table">
-
-  <article class="table-key-card key-independent">
-    <span class="table-key-label">Change</span>
-<h3>Independent variable</h3>
-    <p>What you change.</p>
-  </article>
-
-  <article class="table-key-card key-dependent">
-    <span class="table-key-label">Measure</span>
-<h3>Dependent variable</h3>
-    <p>What you measure or observe.</p>
-  </article>
-
-  <article class="table-key-card key-units">
-    <span class="table-key-label">Record with</span>
-<h3>Units</h3>
-    <p>
-      The measurement unit belongs in the heading,
-      not repeated in every data cell.
-    </p>
-  </article>
-
-</div>
-
       <button class="next-button general-button" onclick="unlockSection('yeast-labels', 'data-table-template')">
         Next
       </button>
@@ -363,6 +362,7 @@
 
       <div id="yeastActivity" class="diagram-activity">
         <div class="label-bank table-label-bank" id="yeastLabelBank" aria-label="Labels to place in the yeast experiment table">
+          <p id="labelBankHeading">Label Bank</p>
           <button class="general-button drag-label" draggable="true" data-label-id="yeast-dv">Circumference of balloon (cm)</button>
           <button class="general-button drag-label" draggable="true" data-label-id="yeast-iv">Temperature (°C)</button>
           <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
@@ -514,22 +514,22 @@
               <tr data-average-row>
                 <th class="independent-value">2°C</th>
                 <td data-value="4">4</td><td data-value="5">5</td><td data-value="4">4</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
               <tr data-average-row>
                 <th class="independent-value">22°C</th>
                 <td data-value="12">12</td><td data-value="13">13</td><td data-value="11">11</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
               <tr data-average-row>
                 <th class="independent-value">37°C</th>
                 <td data-value="24">24</td><td data-value="25">25</td><td data-value="23">23</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
               <tr data-average-row>
                 <th class="independent-value">80°C</th>
                 <td data-value="2">2</td><td data-value="1">1</td><td data-value="2">2</td>
-                <td class="average-cell"><button class="average-button yeast-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
+                <td class="average-cell"><button class="average-button general-button" type="button" onclick="calculateFixedAverage(this)">Calculate</button></td>
               </tr>
             </tbody>
           </table>
@@ -752,7 +752,7 @@
                   <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 1"></td>
                   <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 2"></td>
                   <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="First row test 3"></td>
-                  <td class="average-cell"><button class="average-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
+                  <td class="average-cell"><button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
                 </tr>
                 <tr data-input-average-row>
                   <th class="independent-value bounce-value">
@@ -761,7 +761,7 @@
                   <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 1"></td>
                   <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 2"></td>
                   <td><input class="table-number-input" type="number" step="any" inputmode="decimal" aria-label="Second row test 3"></td>
-                  <td class="average-cell"><button class="average-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
+                  <td class="average-cell"><button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">Calculate</button></td>
                 </tr>
               </tbody>
             </table>
@@ -773,6 +773,10 @@
           <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('build-your-own-table')">Reset</button>
         </div>
       </div>
+      <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 
+        <p class="bounce-symbol">💾</p>
+        <p>Save my work</p>
+      </button>
 
     </section>
 
@@ -1774,8 +1778,6 @@ function initialiseLesson3PermanentNumberEntries() {
     );
   });
 }
-
-
   </script>
 </body>
 </html>

@@ -944,6 +944,13 @@ body {
   z-index: 2000;
 }
 
+.home-button {
+  border-top: 5px solid var(--yellow) !important;
+}
+.glossary-button {
+  border-top: 5px solid var(--purple) !important;
+}
+
 .home-button,
 .glossary-button {
   background: var(--card) !important;
@@ -951,7 +958,7 @@ body {
 }
 
 .home-button:hover {
-  background: var(--yellow) !important;
+  background: var(--soft-yellow) !important;
 }
 
 .glossary-button:hover {
