@@ -130,7 +130,6 @@
 }
 
 .experiment-table .dependent-heading,
-.experiment-table .independent-axis,
 .experiment-table .independent-heading {
   border-width: 2px;
 }
@@ -147,7 +146,6 @@
 .corner-space {
   border-color: transparent !important;
   background: transparent !important;
-  box-shadow: none !important;
 }
 
 .dependent-heading {
@@ -171,8 +169,6 @@
 
   font-weight: 700;
   text-transform: uppercase;
-
-  border: 2px solid var(--charcoal);
 }
 
 .independent-value {
@@ -350,7 +346,6 @@
 
   .experiment-table {
     min-width: 0 !important;
-    border-spacing: 3mm !important;
   }
 
   .experiment-table th,
@@ -377,16 +372,15 @@
 
 /* ---------- Number entry cells ---------- */
 
-.table-number-input {
+.table-number-input,
+.table-text-input {
   display: block;
 
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  height: 52px;
 
   margin: 0;
-  padding: 10px 12px;
 
   background: white;
   color: var(--text);
@@ -395,17 +389,19 @@
   border-radius: 6px;
 
   font: inherit;
-  font-size: 1rem;
-  font-weight: 700;
   text-align: center;
 
   box-sizing: border-box;
-  appearance: textfield;
 }
 
-.table-number-input:focus {
-  outline: 4px solid rgba(78, 50, 232, 0.18);
-  border-color: var(--purple);
+.table-number-input {
+  height: 52px;
+  padding: 10px 12px;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  appearance: textfield;
 }
 
 /* Hide number spinners */
@@ -419,29 +415,13 @@
 /* ---------- Student heading / label text fields ---------- */
 
 .table-text-input {
-  display: block;
-
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
   min-height: 46px;
-
-  margin: 0;
   padding: 9px 11px;
 
-  background: white;
-  color: var(--text);
-
-  border: 2px solid var(--line);
-  border-radius: 6px;
-
-  font: inherit;
   font-weight: 600;
-  text-align: center;
-
-  box-sizing: border-box;
 }
 
+.table-number-input:focus,
 .table-text-input:focus {
   outline: 4px solid rgba(78, 50, 232, 0.18);
   border-color: var(--purple);
@@ -459,7 +439,6 @@
   margin-inline: auto;
 
   background: var(--paper);
-  color: var(--text);
 }
 
 
@@ -478,43 +457,15 @@
 
 /* ---------- Build-your-own table labels ---------- */
 
-#build-your-own-table .independent-value {
-  padding: 10px;
-}
-
 #build-your-own-table .independent-value .table-text-input {
   height: 52px;
 }
 
-
-/*
-  Don't rotate the actual input box.
-  Keep the green axis cell vertical-looking,
-  but let students type normally.
-*/
-#build-your-own-table .axis-input-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  writing-mode: horizontal-tb;
-  transform: none;
-}
-
 #build-your-own-table .axis-text-input {
-  width: 125px;
   min-height: 52px;
 }
 
-
 /* ---------- Average buttons ---------- */
-
-.average-cell {
-  text-align: center;
-}
 
 .average-button {
   display: inline-flex;
@@ -811,37 +762,13 @@
   text-transform: uppercase;
 }
 
-
-/* ---------- Empty result cells ---------- */
-
-#yeast-labels .yeast-table td {
-  background: var(--paper);
-}
-
-
 /* ---------- Completion feedback ---------- */
 
 #yeast-labels .table-activity-feedback {
   margin-top: 20px;
   padding: 16px 18px;
-
-  border: 2px solid var(--line);
-  border-radius: 16px;
-
   text-align: center;
 }
-
-
-#yeast-labels .table-activity-feedback.feedback-success {
-  background: var(--soft-green);
-}
-
-
-#yeast-labels .table-activity-feedback strong,
-#yeast-labels .table-activity-feedback span {
-  display: block;
-}
-
 
 #yeast-labels .table-activity-feedback strong {
   margin-bottom: 4px;
@@ -863,33 +790,6 @@
   }
 }
 
-/* ---------- Permanent numerical table answers ---------- */
-
-.table-number-control {
-  width: 100%;
-}
-
-.table-number-answer {
-  min-height: 54px;
-  width: 100%;
-
-  align-items: center;
-  justify-content: space-between;
-
-  background: white;
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  font-weight: 700;
-  text-align: center;
-}
-
-.table-number-answer .table-entry-answer-text {
-  flex: 1;
-  text-align: center;
-}
-
 /* ==================================================
    PERMANENT TABLE ENTRY DISPLAY
    ================================================== */
@@ -900,6 +800,16 @@
 */
 .table-entry-answer {
   display: none;
+
+  width: 100%;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-sizing: border-box;
 }
 
 /* Show it only after JavaScript adds .visible */
@@ -919,16 +829,8 @@
 /* ---------- Permanent number answers ---------- */
 
 .table-number-answer {
-  width: 100%;
   min-height: 54px;
   padding: 8px 10px;
-
-  background: white;
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-sizing: border-box;
 
   font-weight: 700;
   text-align: center;
@@ -943,18 +845,9 @@
 /* ---------- Permanent text answers ---------- */
 
 .table-entry-answer:not(.table-number-answer) {
-  width: 100%;
   min-height: 46px;
   padding: 8px 10px;
-
-  background: white;
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-sizing: border-box;
 }
-
 
 /* Keep the X button compact */
 .table-entry-answer .delete-answer {
@@ -986,17 +879,8 @@
    Prefer shrinking before horizontal scrolling.
    ================================================== */
 
-#data-table-template .reference-table {
-  table-layout: fixed;
-}
-
 #data-table-template .independent-value {
   width: 180px;
-}
-
-/* Let columns share the available width */
-#build-your-own-table .experiment-table {
-  table-layout: fixed;
 }
 
 #build-your-own-table .independent-value {
@@ -1006,8 +890,6 @@
 /* Make inner controls shrink with the cell */
 #build-your-own-table .table-entry-control,
 #build-your-own-table .table-entry-input-row,
-#build-your-own-table .table-text-input,
-#build-your-own-table .table-number-input,
 #build-your-own-table .table-entry-answer {
   width: 100%;
   min-width: 0;
@@ -1024,27 +906,6 @@
 #build-your-own-table .experiment-table th,
 #build-your-own-table .experiment-table td {
   padding: 9px;
-}
-
-/* Let the heading input fill its available space */
-#build-your-own-table .table-heading-input {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* The independent variable entry should not force width */
-#build-your-own-table .axis-text-input {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* ==================================================
-   PERMANENT ANSWER TEXT COLOUR FIX
-   ================================================== */
-
-.table-entry-answer,
-.table-entry-answer .table-entry-answer-text {
-  color: var(--text);
 }
 
 /* ==================================================
