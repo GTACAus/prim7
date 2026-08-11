@@ -271,7 +271,6 @@
 }
 
 /* ---------- Teaching callouts ---------- */
-
 .data-table-callout {
   display: grid;
   grid-template-columns: 38px 1fr;
@@ -280,7 +279,7 @@
   width: min(610px, 100%);
   margin: 0 auto 18px;
   padding: 12px 16px;
-  background: var(--paper);
+  background: white;
   border: 2px solid var(--charcoal);
   border-radius: 16px;
   box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
@@ -371,6 +370,16 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.key-independent:hover {
+  background: var(--soft-yellow);
+}
+.key-dependent:hover {
+  background: var(--soft-purple);
+}
+.key-units:hover {
+  background: var(--soft-blue);
 }
 
 /* ---------- Responsive ---------- */
