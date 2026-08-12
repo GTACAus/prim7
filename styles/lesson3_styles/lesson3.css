@@ -807,13 +807,21 @@
 /* Make the drop target look active */
 
 #yeast-labels .label-drop-zone.drag-over {
-  background: var(--soft-yellow);
-  border-color: var(--purple);
-
   transform: scale(1.03);
-
+  
+  border-color: var(--purple);
   box-shadow:
-    0 0 0 4px rgba(78, 50, 232, 0.15);
+  0 0 0 4px rgba(78, 50, 232, 0.15);
+}
+
+#yeast-labels .independent-heading .label-drop-zone.drag-over,
+#yeast-labels .independent-value .label-drop-zone.drag-over {
+  background: var(--soft-purple) !important;
+}
+
+#yeast-labels .dependent-heading .label-drop-zone.drag-over,
+#yeast-labels .test-heading .label-drop-zone.drag-over {
+  background: var(--soft-yellow);
 }
 
 /* ---------- Incorrect drop ---------- */
