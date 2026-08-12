@@ -616,7 +616,7 @@
                       <button
                         class="general-button watch-video-button"
                         type="button"
-                        onclick="openVideoModal('../videos/lesson3/Yeast Timelapse.mp4', 'Yeast Timelapse')">
+                        onclick="openVideo('../videos/lesson3/Yeast Timelapse.mp4', 'Yeast Timelapse')">
                         <p class="bounce-symbol">▶</p>
                         <p>Watch Video</p>
                       </button>
@@ -649,7 +649,7 @@
               <tbody>
                 <tr data-average-row>
                   <th class="independent-value">2</th>
-                  <td data-value="4">4</td>
+                  <td data-value="4" hidden>4</td>
                   <td data-value="5">5</td>
                   <td data-value="4">4</td>
                   <td class="average-cell">
@@ -741,11 +741,13 @@
          ================================================== -->
       <section class="section data-table-section locked" id="build-your-own-table">
         <h2 class="section-title">Ball bounce experiment: complete the table</h2>
+        <div class="diagram-activity diagram-box">--Videos here maybe--</div>
         <div class="diagram-activity diagram-box">
           <p class="activity-instruction">
             Add your own headings and row labels, enter your results, then calculate the average for each row.
           </p>
         </div>
+        <div class="diagram-activity diagram-box">--Videos here maybe--</div>
 
         <!-- ==================================================
           PLAN THE BALL BOUNCE INVESTIGATION
@@ -1066,6 +1068,12 @@
     <script src="../scripts/common_functions.js"></script>
 
     <script>
+      
+      function openVideo(path, title, className) {
+        document.querySelectorAll(className).hidden = false;
+        openVideoModal(path, title);
+      }
+
       const dev = true;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
