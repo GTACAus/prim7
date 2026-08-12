@@ -87,15 +87,40 @@
         </div>
 
         <div class="teacher-section-list">
-          <button type="button" onclick="teacherJump('data-table-template')">1. Data Table Template</button>
-          <button type="button" onclick="teacherJump('yeast-labels')">2. Yeast experiment: add the labels</button>
-          <button type="button" onclick="teacherJump('yeast-average')">
-            3. Yeast experiment: calculate the average
-          </button>
-      
-          <button type="button" onclick="teacherJump('build-your-own-table')">
-            4. Ball bounce experiment: complete the table
-          </button>
+          <button
+  type="button"
+  onclick="teacherJump('yeast-context')"
+>
+  1. Meet the yeast balloon experiment
+</button>
+
+<button
+  type="button"
+  onclick="teacherJump('data-table-template')"
+>
+  2. Data Table Template
+</button>
+
+<button
+  type="button"
+  onclick="teacherJump('yeast-labels')"
+>
+  3. Yeast experiment: add the labels
+</button>
+
+<button
+  type="button"
+  onclick="teacherJump('yeast-average')"
+>
+  4. Yeast experiment: calculate the average
+</button>
+
+<button
+  type="button"
+  onclick="teacherJump('build-your-own-table')"
+>
+  5. Ball bounce experiment: complete the table
+</button>
         </div>
 
         <div class="teacher-actions">
@@ -171,10 +196,114 @@
           </div>
         </section>
       </div>
+
+      <!-- ==================================================
+   SECTION 1: YEAST EXPERIMENT CONTEXT
+   ================================================== -->
+
+<section
+  class="section yeast-context-section"
+  id="yeast-context"
+>
+  <h2 class="section-title">
+    Meet the yeast balloon experiment
+  </h2>
+
+  <div class="yeast-context-card">
+
+    <div class="yeast-context-intro">
+      <p class="yeast-context-eyebrow">
+        Before we look at the results
+      </p>
+
+      <h3>How does temperature affect yeast activity?</h3>
+
+      <p>
+        Yeast is a tiny living organism that you can only see under a microscope.
+        Even though it is tiny, yeast is alive and needs food to survive.
+      </p>
+
+      <p>
+        When yeast eats sugar, it breaks it down through a process called
+        <strong>fermentation</strong>. This releases carbon dioxide gas.
+      </p>
+    </div>
+
+    <div class="yeast-context-experiment">
+      <h3>What did we do?</h3>
+
+      <p>
+        We mixed yeast, sugar and water in a flask, then stretched a balloon
+        over the top to trap the gas that was produced.
+      </p>
+
+      <p>
+        If the yeast was very active, it produced more gas and the balloon
+        inflated more. We measured the
+        <strong>circumference of the balloon</strong> to compare the results.
+      </p>
+    </div>
+
+    <div class="yeast-temperature-grid">
+
+      <div class="yeast-temperature-card">
+        <span class="yeast-temperature-value">2°C</span>
+        <strong>Cold</strong>
+        <span>Kept in ice</span>
+      </div>
+
+      <div class="yeast-temperature-card">
+        <span class="yeast-temperature-value">22°C</span>
+        <strong>Room temperature</strong>
+        <span>Left at room temperature</span>
+      </div>
+
+      <div class="yeast-temperature-card">
+        <span class="yeast-temperature-value">37°C</span>
+        <strong>Warm</strong>
+        <span>Kept steady using a heat block</span>
+      </div>
+
+      <div class="yeast-temperature-card">
+        <span class="yeast-temperature-value">80°C</span>
+        <strong>Hot</strong>
+        <span>Kept steady using a heat block</span>
+      </div>
+
+    </div>
+
+    <div class="yeast-context-question">
+      <span class="yeast-context-question-label">
+        The investigation
+      </span>
+
+      <p>
+        By comparing the balloons at each temperature, we can see
+        <strong>which temperature made the yeast work best.</strong>
+      </p>
+    </div>
+
+  </div>
+
+  <button
+    class="next-button general-button"
+    onclick="unlockSection('data-table-template', 'yeast-context')"
+  >
+    Next →
+  </button>
+
+  <p class="completed-note">
+    Completed — next activity unlocked.
+  </p>
+</section>
+
       <!-- ==================================================
          SECTION 1: PARENT / REFERENCE TABLE
          ================================================== -->
-      <section class="section data-table-section" id="data-table-template">
+      <section
+  class="section data-table-section locked"
+  id="data-table-template"
+>
         <h2 class="section-title">Data table template</h2>
 
         <div class="diagram-box diagram-activity">
@@ -1070,12 +1199,13 @@
       const dev = true;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
-      const lesson3SectionIds = [
-        "data-table-template",
-        "yeast-labels",
-        "yeast-average",
-        "build-your-own-table",
-      ];
+const lesson3SectionIds = [
+  "yeast-context",
+  "data-table-template",
+  "yeast-labels",
+  "yeast-average",
+  "build-your-own-table",
+];
       /* ==================================================
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
@@ -2270,7 +2400,7 @@ function updateLesson3CompletedQuestion() {
 
       document.addEventListener("DOMContentLoaded", function () {
         if (typeof initialiseTeacherMenu === "function") {
-          initialiseTeacherMenu(lesson3SectionIds, "data-table-template");
+          initialiseTeacherMenu(lesson3SectionIds, "yeast-context");
         }
 
         initialiseLesson3DragAndDrop();

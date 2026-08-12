@@ -1687,3 +1687,204 @@
 .question-blank-answer .delete-answer:hover {
   background: var(--orange);
 }
+
+/* ==================================================
+   YEAST EXPERIMENT CONTEXT
+   ================================================== */
+
+#yeast-context .section-title {
+  background: var(--mint);
+}
+
+.yeast-context-card {
+  display: grid;
+  gap: 20px;
+
+  padding: 28px;
+
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 55%,
+    var(--soft-green) 180%
+  );
+
+  border: 3px solid var(--charcoal);
+  border-radius: 22px;
+
+  box-shadow: var(--shadow-small);
+}
+
+
+/* ---------- Intro ---------- */
+
+.yeast-context-intro {
+  padding: 22px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--green);
+  border-radius: 18px;
+}
+
+.yeast-context-eyebrow {
+  margin: 0 0 6px;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.yeast-context-intro h3,
+.yeast-context-experiment h3 {
+  margin: 0 0 10px;
+}
+
+.yeast-context-intro p,
+.yeast-context-experiment p {
+  margin: 0 0 12px;
+
+  line-height: 1.6;
+}
+
+.yeast-context-intro p:last-child,
+.yeast-context-experiment p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ---------- What happened ---------- */
+
+.yeast-context-experiment {
+  padding: 20px 22px;
+
+  background: var(--soft-blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+}
+
+
+/* ---------- Temperatures ---------- */
+
+.yeast-temperature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.yeast-temperature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 5px;
+
+  min-height: 130px;
+  padding: 18px 12px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.yeast-temperature-card:nth-child(1) {
+  border-top: 7px solid var(--blue);
+}
+
+.yeast-temperature-card:nth-child(2) {
+  border-top: 7px solid var(--green);
+}
+
+.yeast-temperature-card:nth-child(3) {
+  border-top: 7px solid var(--yellow);
+}
+
+.yeast-temperature-card:nth-child(4) {
+  border-top: 7px solid var(--orange);
+}
+
+.yeast-temperature-value {
+  color: var(--purple);
+
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.yeast-temperature-card strong {
+  font-size: 1rem;
+}
+
+.yeast-temperature-card span:last-child {
+  color: var(--muted);
+
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+
+/* ---------- Investigation question ---------- */
+
+.yeast-context-question {
+  position: relative;
+
+  padding: 24px 20px 18px;
+
+  background: var(--soft-yellow);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.yeast-context-question-label {
+  position: absolute;
+  top: -15px;
+  left: 18px;
+
+  padding: 5px 12px;
+
+  background: var(--yellow);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.yeast-context-question p {
+  margin: 0;
+
+  line-height: 1.5;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 800px) {
+  .yeast-temperature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .yeast-context-card {
+    padding: 16px;
+  }
+
+  .yeast-temperature-grid {
+    grid-template-columns: 1fr;
+  }
+}
