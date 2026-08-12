@@ -356,10 +356,10 @@
             <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
             <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-2">Test 2</button>
             <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-3">Test 3</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-2">2°C</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-22">22°C</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-37">37°C</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-80">80°C</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-2">2</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-22">22</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-37">37</button>
+            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-80">80</button>
           </div>
           <div class="data-table-card yeast-table-card">
             <div class="experiment-table-scroll">
@@ -612,7 +612,7 @@
 
               <tbody>
                 <tr data-average-row>
-                  <th class="independent-value">2°C</th>
+                  <th class="independent-value">2</th>
                   <td data-value="4">4</td>
                   <td data-value="5">5</td>
                   <td data-value="4">4</td>
@@ -623,7 +623,7 @@
                   </td>
                 </tr>
                 <tr data-average-row>
-                  <th class="independent-value">22°C</th>
+                  <th class="independent-value">22</th>
                   <td data-value="12">12</td>
                   <td data-value="13">13</td>
                   <td data-value="11">11</td>
@@ -634,7 +634,7 @@
                   </td>
                 </tr>
                 <tr data-average-row>
-                  <th class="independent-value">37°C</th>
+                  <th class="independent-value">37</th>
                   <td data-value="24">24</td>
                   <td data-value="25">25</td>
                   <td data-value="23">23</td>
@@ -645,7 +645,7 @@
                   </td>
                 </tr>
                 <tr data-average-row>
-                  <th class="independent-value">80°C</th>
+                  <th class="independent-value">80</th>
                   <td data-value="2">2</td>
                   <td data-value="1">1</td>
                   <td data-value="2">2</td>
@@ -1650,6 +1650,7 @@ if (averageButtons.length === 0) {
       }
 
       function resetYeastAverage() {
+        document.getElementById("yeastPredictionCheck").hidden = true;
         restoreAverageButtons("#yeast-average", calculateFixedAverage);
       }
 

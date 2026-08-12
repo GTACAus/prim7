@@ -984,8 +984,7 @@ body {
 }
 
 .return-to-top-button:hover {
-  background: var(--soft-orange);
-  transform: translateY(-2px);
+  background: var(--soft-green) !important;
 }
 
 .bounce-symbol {
@@ -3302,6 +3301,7 @@ body {
   .save-work-button,
   .home-button,
   .next-button,
+  .reset-btn,
   .delete-answer,
   .teacher-modal,
   .modal,
