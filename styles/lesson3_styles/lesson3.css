@@ -1900,20 +1900,21 @@
    YEAST AVERAGE - VIDEO RESULT REVEAL
    ================================================== */
 
-
 /*
-  Keep the table structure visible,
-  but hide the numerical results initially.
+  Keep cells in place, but hide their contents initially.
 */
-
 #yeast-average tbody td:nth-of-type(1),
 #yeast-average tbody td:nth-of-type(2),
 #yeast-average tbody td:nth-of-type(3) {
   color: transparent;
 
+  opacity: 0;
+  transform: translateY(6px);
+
   transition:
-    color 0.25s ease,
-    background 0.25s ease;
+    color 0.8s ease,
+    opacity 0.8s ease,
+    transform 0.8s ease;
 }
 
 
@@ -1922,6 +1923,9 @@
 #yeast-average.test-1-revealed
 tbody td:nth-of-type(1) {
   color: var(--text);
+
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
@@ -1930,6 +1934,9 @@ tbody td:nth-of-type(1) {
 #yeast-average.test-2-revealed
 tbody td:nth-of-type(2) {
   color: var(--text);
+
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
@@ -1938,30 +1945,53 @@ tbody td:nth-of-type(2) {
 #yeast-average.test-3-revealed
 tbody td:nth-of-type(3) {
   color: var(--text);
+
+  opacity: 1;
+  transform: translateY(0);
 }
+
 
 /* ---------- Average buttons stay locked ---------- */
 
 #yeast-average .average-button {
   visibility: hidden;
+
   opacity: 0;
+  transform: translateY(5px) scale(0.96);
+
   pointer-events: none;
 
   transition:
-    opacity 0.25s ease;
+    opacity 0.7s ease,
+    transform 0.7s ease;
 }
 
 
 /*
-  All three videos watched:
-  calculators become available.
+  Once all three videos have been watched,
+  gently reveal the Calculate buttons.
 */
 
 #yeast-average.all-tests-revealed
 .average-button {
   visibility: visible;
+
   opacity: 1;
+  transform: translateY(0) scale(1);
+
   pointer-events: auto;
+
+  transition-delay: 0.35s;
+}
+
+
+/* ---------- Watched video button ---------- */
+
+#yeast-average .watch-video-button {
+  transition:
+    background 0.45s ease,
+    border-color 0.45s ease,
+    transform 0.25s ease;
 }
 
 #yeast-average .watch-video-button.video-watched {
