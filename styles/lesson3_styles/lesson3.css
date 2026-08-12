@@ -738,6 +738,20 @@
   cursor: grabbing;
 }
 
+.touch-drag-ghost.is-hovering-drop-zone .drag-label {
+  animation: drag-label-hover 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes drag-label-hover {
+  from {
+    transform: translateY(-2px);
+  }
+
+  to {
+    transform: translateY(2px);
+  }
+}
+
 #yeast-labels .touch-drag-ghost, .drag-label {
   display: inline-flex;
   align-items: center;

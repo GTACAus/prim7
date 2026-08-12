@@ -1105,6 +1105,22 @@
 
               const zone = elementUnderFinger ? elementUnderFinger.closest(".label-drop-zone") : null;
 
+              dropZones.forEach(function(dropZone) {
+                dropZone.classList.remove('drag-over');
+              });
+
+              if (dragGhost) {
+                dragGhost.classList.remove('is-hovering-drop-zone');
+              }
+
+              if (zone && !zone.classList.contains('drop-complete')) {
+                zone.classList.add('drag-over');
+
+                if (dragGhost) {
+                  dragGhost.classList.add('is-hovering-drop-zone');
+                }
+              }
+
               dropZones.forEach(function (dropZone) {
                 dropZone.classList.remove("drag-over");
               });
@@ -1181,10 +1197,16 @@
           zone.addEventListener("dragover", function (event) {
             event.preventDefault();
             zone.classList.add("drag-over");
+            if (dragGhost) {
+              dragGhost.classList.add('is-hovering-drop-zone');
+            }
           });
 
           zone.addEventListener("dragleave", function () {
             zone.classList.remove("drag-over");
+            if (dragGhost) {
+              dragGhost.classList.remove('is-hovering-drop-zone');
+            }
           });
 
           zone.addEventListener("drop", function (event) {
