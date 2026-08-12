@@ -397,8 +397,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 1"
@@ -407,8 +408,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 2"
@@ -417,8 +419,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 3"
@@ -433,8 +436,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 4"
@@ -443,8 +447,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 5"
@@ -453,8 +458,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 6"
@@ -469,8 +475,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 7"
@@ -479,8 +486,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 8"
@@ -489,8 +497,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 9"
@@ -505,8 +514,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 10"
@@ -515,8 +525,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 11"
@@ -525,8 +536,9 @@
                     <td>
                       <input
                         class="table-number-input"
-                        type="text"
-                        inputmode="numeric"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
                         pattern="[0-9]*"
                         autocomplete="off"
                         aria-label="Drop Temperature test 12"
@@ -665,6 +677,7 @@
 
           <div class="yeast-prediction-buttons">
             <button
+              id="yeastPredictionCheckSupported"
               type="button"
               class="general-button yeast-prediction-button"
             >
@@ -672,6 +685,7 @@
             </button>
 
             <button
+              id="yeastPredictionCheckUnsupported"
               type="button"
               class="general-button yeast-prediction-button"
             >
@@ -902,20 +916,6 @@
       let lesson3TouchDragging = false;
       let dragGhost = null;
 
-      // function createDragGhost(label) {
-      //   const ghost = label.cloneNode(true);
-
-      //   ghost.classList.add('touch-drag-ghost');
-
-      //   ghost.disabled = false;
-      //   ghost.removeAttribute('draggable');
-
-      //   document.body.appendChild(ghost);
-
-      //   dragGhost = ghost;
-
-      //   return ghost;
-      // }
       function createDragGhost(label) {
         const ghost = document.createElement("div");
         ghost.className = "touch-drag-ghost";
@@ -980,7 +980,7 @@
           draggedLabel.disabled = true;
           draggedLabel.setAttribute("draggable", "false");
 
-          updateYeastLabelCompletion();
+          updateYeastActivityComplete();
         }
 
         /* ==================================================
@@ -1174,21 +1174,67 @@
         });
       }
 
-      function updateYeastLabelCompletion() {
-        const zones = document.querySelectorAll("#yeast-labels .label-drop-zone");
-        const completeZones = document.querySelectorAll("#yeast-labels .label-drop-zone.drop-complete");
-        const feedback = document.getElementById("yeastLabelFeedback");
-        const nextButton = document.getElementById("yeastAverageNext");
+      function updateYeastActivityComplete() {
+        const section = document.getElementById("yeast-labels");
+        const zones = section.querySelectorAll(".label-drop-zone");
+        const completeZones = section.querySelectorAll(
+          ".label-drop-zone.drop-complete"
+        );
 
-        if (!feedback || zones.length === 0 || completeZones.length !== zones.length) {
+        const allLabelsComplete =
+          zones.length > 0 &&
+          completeZones.length === zones.length;
+
+        if (allLabelsComplete) {
+          section.classList.add("labels-complete");
+        } else {
+          section.classList.remove("labels-complete");
+        }
+
+        checkYeastActivityComplete();
+      }
+
+      function checkYeastActivityComplete() {
+        const section = document.getElementById("yeast-labels");
+        const nextButton = document.getElementById("yeastAverageNext");
+        const feedback = document.getElementById("yeastLabelFeedback");
+
+        if (!section || !nextButton) {
           return;
         }
 
-        nextButton.hidden = false;
-        feedback.hidden = false;
-        feedback.className = "activity-feedback table-activity-feedback feedback-success";
-        feedback.innerHTML =
-          "<strong>Table complete!</strong><span>You placed every heading and temperature correctly.</span>";
+        const zones = section.querySelectorAll(".label-drop-zone");
+        const completedZones = section.querySelectorAll(
+          ".label-drop-zone.drop-complete"
+        );
+
+        const inputs = section.querySelectorAll(".table-number-input");
+
+        const allLabelsComplete =
+          zones.length > 0 &&
+          completedZones.length === zones.length;
+
+        const allNumbersComplete =
+          inputs.length > 0 &&
+          Array.from(inputs).every(function (input) {
+            return input.value.trim() !== "";
+          });
+
+        if (allLabelsComplete && allNumbersComplete) {
+          nextButton.hidden = false;
+
+          if (feedback) {
+            feedback.hidden = false;
+            feedback.className =
+              "activity-feedback table-activity-feedback feedback-success";
+
+            feedback.innerHTML =
+              "<strong>Table complete!</strong>" +
+              "<span>You placed every label and entered all results.</span>";
+          }
+        } else {
+          nextButton.hidden = true;
+        }
       }
 
       function formatAverage(value) {
@@ -1235,7 +1281,7 @@
           const calculateButton = document.createElement("button");
 
           calculateButton.type = "button";
-          calculateButton.className = "average-button";
+          calculateButton.classList.add("average-button", "general-button");
           calculateButton.textContent = "Calculate";
 
           if (isCustomTable) {
@@ -1272,13 +1318,7 @@
             predictionCheck.hidden = false;
           }
 
-          /*
-            Don't show Next yet.
-            Students still need to interpret the results.
-          */
-          if (nextButton) {
-            nextButton.hidden = true;
-          }
+          checkYeastPrediction();
 
           return true;
         }
@@ -1295,6 +1335,21 @@
       }
 
       return false;
+    }
+
+    function checkYeastPrediction() {
+      const supportedButton = document.getElementById("yeastPredictionCheckSupported");      
+      const unsupportedButton = document.getElementById("yeastPredictionCheckUnsupported");
+      const nextButton = document.getElementById("yeast-average").querySelector(".next-button");
+
+      supportedButton.addEventListener("click", () => {
+        nextButton.hidden = false;
+      });
+      
+      unsupportedButton.addEventListener("click", () => {
+        nextButton.hidden = false;
+      });
+
     }
 
       function calculateFixedAverage(button) {
@@ -1462,7 +1517,7 @@
 
           const button = document.createElement("button");
           button.type = "button";
-          button.className = "average-button";
+          button.classList.add("average-button", "general-button");
           button.textContent = "Calculate";
           button.addEventListener("click", function () {
             clickHandler(button);
@@ -1501,6 +1556,33 @@
           feedback.hidden = true;
           feedback.innerHTML = "";
         }
+
+        document
+          .querySelectorAll("#yeast-labels .table-number-control")
+          .forEach(function (control) {
+            const inputRow = control.querySelector(".table-entry-input-row");
+            const answerBox = control.querySelector(".table-entry-answer");
+            const input = control.querySelector(".table-number-input");
+
+            if (input) {
+              input.value = "";
+            }
+
+            if (inputRow) {
+              inputRow.style.display = "block";
+            }
+
+            if (answerBox) {
+              answerBox.classList.remove("visible");
+              answerBox.innerHTML = "";
+            }
+          });
+
+          const section = document.getElementById("yeast-labels");
+
+          if (section) {
+            section.classList.remove("labels-complete");
+          }
       }
 
       function resetYeastAverage() {
@@ -1745,24 +1827,32 @@
 
             answerBox.classList.add("visible");
 
-            const section = input.closest("#bounce-data-entry, #build-your-own-table", "#yeast-labels");
+            const section = input.closest("#bounce-data-entry, #build-your-own-table, #yeast-labels");
 
-            let complete = false;
-            if (section) {
-              complete = checkNumberEntriesComplete(section);
-            }
-            if (complete) {
-              const nextButton = document.getElementById("bounceDataEntryNext");
-              nextButton.hidden = false;
+            if (section && section.id === "yeast-labels") {
+              checkYeastActivityComplete();
+            } else {
+              let complete = false;
+
+              if (section) {
+                complete = checkNumberEntriesComplete(section);
+              }
+
+              if (complete && section.id === "bounce-data-entry") {
+                const nextButton =
+                  document.getElementById("bounceDataEntryNext");
+
+                nextButton.hidden = false;
+              }
             }
 
             /*
-        IMPORTANT:
-        Keep the numeric value on the original input.
+              IMPORTANT:
+              Keep the numeric value on the original input.
 
-        The input is hidden visually, but calculateInputAverage()
-        can still read its value later.
-      */
+              The input is hidden visually, but calculateInputAverage()
+              can still read its value later.
+            */
           }
 
           input.addEventListener("keydown", function (event) {
