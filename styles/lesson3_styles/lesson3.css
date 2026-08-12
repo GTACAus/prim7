@@ -1263,3 +1263,392 @@
 .yeast-prediction-button {
   min-width: 150px;
 }
+
+/* ==================================================
+   LESSON 3 - BALL BOUNCE PLANNING
+   Testable question + reasoned prediction
+   ================================================== */
+
+.lesson3-planning-activity {
+  margin: 24px 0;
+  padding: 26px 26px 18px;
+
+  background: var(--paper);
+
+  border: 3px solid var(--charcoal);
+  border-radius: 22px;
+
+  box-shadow: var(--shadow-small);
+}
+
+
+/* ---------- Step headings ---------- */
+
+.lesson3-planning-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 8px;
+}
+
+.lesson3-planning-heading > span {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  width: 38px;
+  height: 38px;
+
+  background: var(--blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+
+  font-weight: 700;
+}
+
+.lesson3-planning-heading.prediction-heading {
+  margin-top: 38px;
+  margin-bottom: 6px;
+}
+
+.lesson3-planning-heading.prediction-heading
+  + .lesson3-planning-instruction {
+  margin-bottom: 10px;
+}
+
+.lesson3-planning-heading.prediction-heading > span {
+  background: var(--lavender);
+}
+
+.lesson3-planning-eyebrow {
+  margin: 0 0 3px;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lesson3-planning-heading h3 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 1.15rem;
+}
+
+
+/* ---------- Instructions ---------- */
+
+.lesson3-planning-instruction {
+  margin: 0 0 18px 50px;
+
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+
+/* ---------- Testable-question choices ---------- */
+
+.question-structure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.question-structure-card {
+  min-height: 110px;
+  padding: 18px;
+
+  background: var(--paper);
+  color: var(--text);
+
+  border: 3px solid var(--line);
+  border-radius: 18px;
+
+  box-shadow: 0 4px 0 var(--line);
+
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.45;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.question-structure-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+
+/* Same colour coding as Lesson 2 */
+
+.question-structure-card.question-structure-what {
+  border-top: 4px solid var(--yellow);
+}
+
+.question-structure-card.question-structure-how {
+  border-top: 4px solid var(--blue);
+}
+
+.question-structure-card.question-structure-does {
+  border-top: 4px solid var(--green);
+}
+
+.question-structure-card.question-structure-if {
+  border-top: 4px solid var(--purple);
+}
+
+
+/* Selected states */
+
+.question-structure-card.question-structure-what.selected {
+  background: var(--soft-yellow);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.question-structure-card.question-structure-how.selected {
+  background: var(--soft-blue);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.question-structure-card.question-structure-does.selected {
+  background: var(--soft-green);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.question-structure-card.question-structure-if.selected {
+  background: var(--soft-purple);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+
+/* ---------- Question builder ---------- */
+
+.investigation-question-builder {
+  margin: 18px 0 24px;
+  padding: 24px;
+
+  background: var(--paper);
+
+  border: 2px dashed var(--line);
+  border-radius: 18px;
+
+  color: var(--text);
+  text-align: center;
+}
+
+.investigation-question-builder.builder-active {
+  border-style: solid;
+  background: var(--soft-blue);
+}
+
+.question-builder-placeholder {
+  margin: 0;
+}
+
+.question-builder-sentence {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  color: var(--text);
+
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+.question-blank {
+  display: inline-flex;
+}
+
+.lesson3-question-input {
+  width: 210px;
+  max-width: 100%;
+
+  padding: 10px 12px;
+
+  background: var(--paper);
+  color: var(--text);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+.lesson3-question-input:focus {
+  outline: 4px solid rgba(78, 50, 232, 0.18);
+  border-color: var(--purple);
+}
+
+
+/* Completed question */
+
+.completed-investigation-question {
+  margin-top: 16px;
+  padding: 14px 16px;
+
+  background: var(--soft-green);
+
+  border: 2px solid var(--green);
+  border-radius: 12px;
+
+  color: var(--text);
+
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.completed-investigation-question[hidden] {
+  display: none;
+}
+
+
+/* ---------- Reasoned-prediction iframe ---------- */
+
+.lesson3-planning-activity .iframe-box {
+  width: 100%;
+  margin: 8px 0 0;
+  padding: 0;
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  overflow: hidden;
+}
+
+.lesson3-planning-activity .reasoned-prediction-iframe {
+  display: block;
+
+  width: 100%;
+  height: 650px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+  .lesson3-planning-activity {
+    padding: 16px;
+  }
+
+  .question-structure-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson3-planning-instruction {
+    margin-left: 0;
+  }
+
+  .lesson3-question-input {
+    width: 100%;
+  }
+
+  .reasoned-prediction-iframe {
+    height: 700px;
+  }
+}
+
+/* ---------- Saved testable-question answers ---------- */
+
+.question-blank-input-row {
+  display: inline-block;
+}
+
+.question-blank-answer {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-width: 210px;
+  min-height: 48px;
+
+  padding: 8px 10px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-sizing: border-box;
+
+  font-weight: 700;
+}
+
+.question-blank-answer.visible {
+  display: inline-flex;
+}
+
+.question-blank-answer-text {
+  flex: 1;
+  min-width: 0;
+
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.question-blank-answer .delete-answer {
+  flex: 0 0 auto;
+
+  width: 26px;
+  height: 26px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--soft-orange);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 50%;
+
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.question-blank-answer .delete-answer:hover {
+  background: var(--orange);
+}

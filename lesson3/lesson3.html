@@ -711,6 +711,108 @@
           </p>
         </div>
 
+        <!-- ==================================================
+          PLAN THE BALL BOUNCE INVESTIGATION
+          ================================================== -->
+
+      <div class="lesson3-planning-activity">
+
+        <!-- ---------- TESTABLE QUESTION ---------- -->
+
+        <div class="lesson3-planning-heading">
+          <span>1</span>
+
+          <div>
+            <p class="lesson3-planning-eyebrow">Testable question</p>
+            <h3>Create your testable question</h3>
+          </div>
+        </div>
+
+        <p class="lesson3-planning-instruction">
+          Choose a question structure, then enter the
+          <strong>independent variable</strong> and
+          <strong>dependent variable</strong> for your ball-bounce experiment.
+        </p>
+
+        <div
+          class="question-structure-grid"
+          id="questionStructureGrid"
+        >
+          <button
+            type="button"
+            class="question-structure-card question-structure-what"
+            data-question-structure="what"
+            aria-pressed="false"
+          >
+            When I change the ______, what happens to the ______?
+          </button>
+
+          <button
+            type="button"
+            class="question-structure-card question-structure-how"
+            data-question-structure="how"
+            aria-pressed="false"
+          >
+            How does changing the ______ affect the ______?
+          </button>
+
+          <button
+            type="button"
+            class="question-structure-card question-structure-does"
+            data-question-structure="does"
+            aria-pressed="false"
+          >
+            Does changing the ______ affect the ______?
+          </button>
+
+          <button
+            type="button"
+            class="question-structure-card question-structure-if"
+            data-question-structure="if"
+            aria-pressed="false"
+          >
+            If I change the ______, what happens to the ______?
+          </button>
+        </div>
+
+        <div
+          class="investigation-question-builder"
+          id="investigationQuestionBuilder"
+          aria-live="polite"
+        >
+          <p class="question-builder-placeholder">
+            Select a question structure above to begin.
+          </p>
+        </div>
+
+
+        <!-- ---------- REASONED PREDICTION ---------- -->
+
+        <div class="lesson3-planning-heading prediction-heading">
+          <span>2</span>
+
+          <div>
+            <p class="lesson3-planning-eyebrow">Reasoned prediction</p>
+            <h3>Make your reasoned prediction</h3>
+          </div>
+        </div>
+
+        <p class="lesson3-planning-instruction">
+          Use your testable question to predict what you think will happen and explain why.
+        </p>
+
+        <div class="iframe-box">
+          <iframe
+            id="reasonedPredictionFrame"
+            class="reasoned-prediction-iframe"
+            src="../lesson2/reasoned-prediction-builder.html"
+            title="Reasoned Prediction Builder"
+          >
+          </iframe>
+        </div>
+
+
+
         <div class="diagram-activity">
           <div class="data-table-card bounce-table-card">
             <div class="custom-table-note">
@@ -907,8 +1009,10 @@
                 Not supported
               </button>
             </div>
+            
           </div>
         </div>
+  </div>
         <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()">
           <p class="bounce-symbol">💾</p>
           <p>Save my work</p>
@@ -1723,6 +1827,385 @@ if (averageButtons.length === 0) {
         }
       }
 
+      /* ==================================================
+        LESSON 3 - TESTABLE QUESTION BUILDER
+        Adapted from Lesson 2
+        ================================================== */
+
+      let investigationQuestionState = {
+        structure: "",
+        firstAnswer: "",
+        secondAnswer: ""
+      };
+
+      const investigationQuestionTemplates = {
+        what: {
+          parts: [
+            "When I change the ",
+            ", what happens to the ",
+            "?"
+          ],
+          firstPlaceholder: "What will you change?",
+          secondPlaceholder: "What will you measure?"
+        },
+
+        how: {
+          parts: [
+            "How does changing the ",
+            " affect the ",
+            "?"
+          ],
+          firstPlaceholder: "What will you change?",
+          secondPlaceholder: "What will you measure?"
+        },
+
+        does: {
+          parts: [
+            "Does changing the ",
+            " affect the ",
+            "?"
+          ],
+          firstPlaceholder: "What will you change?",
+          secondPlaceholder: "What will you measure?"
+        },
+
+        if: {
+          parts: [
+            "If I change the ",
+            ", what happens to the ",
+            "?"
+          ],
+          firstPlaceholder: "What will you change?",
+          secondPlaceholder: "What will you measure?"
+        }
+      };
+
+      function initialiseInvestigationQuestion() {
+        const activity =
+          document.getElementById("build-your-own-table");
+
+        if (!activity) {
+          return;
+        }
+
+        const structureButtons =
+          activity.querySelectorAll(
+            "[data-question-structure]"
+          );
+
+        structureButtons.forEach(function(button) {
+          button.addEventListener(
+            "click",
+            function() {
+              selectInvestigationQuestionStructure(
+                button.dataset.questionStructure
+              );
+            }
+          );
+        });
+      }
+
+      function selectInvestigationQuestionStructure(structureName) {
+  const activity =
+    document.getElementById("build-your-own-table");
+
+  const builder =
+    document.getElementById(
+      "investigationQuestionBuilder"
+    );
+
+  const template =
+    investigationQuestionTemplates[structureName];
+
+  if (!activity || !builder || !template) {
+    return;
+  }
+
+  investigationQuestionState = {
+    structure: structureName,
+    firstAnswer: "",
+    secondAnswer: ""
+  };
+
+  activity
+    .querySelectorAll("[data-question-structure]")
+    .forEach(function(button) {
+      const isSelected =
+        button.dataset.questionStructure ===
+        structureName;
+
+      button.classList.toggle(
+        "selected",
+        isSelected
+      );
+
+      button.setAttribute(
+        "aria-pressed",
+        String(isSelected)
+      );
+    });
+
+  builder.classList.add("builder-active");
+  builder.innerHTML = "";
+
+  const sentence =
+    document.createElement("div");
+
+  sentence.className =
+    "question-builder-sentence";
+
+  sentence.appendChild(
+    document.createTextNode(
+      template.parts[0]
+    )
+  );
+
+  sentence.appendChild(
+    createLesson3QuestionBlank(
+      "firstAnswer",
+      template.firstPlaceholder
+    )
+  );
+
+  sentence.appendChild(
+    document.createTextNode(
+      template.parts[1]
+    )
+  );
+
+  sentence.appendChild(
+    createLesson3QuestionBlank(
+      "secondAnswer",
+      template.secondPlaceholder
+    )
+  );
+
+  sentence.appendChild(
+    document.createTextNode(
+      template.parts[2]
+    )
+  );
+
+  const completedQuestion =
+    document.createElement("div");
+
+  completedQuestion.id =
+    "completedInvestigationQuestion";
+
+  completedQuestion.className =
+    "completed-investigation-question";
+
+  completedQuestion.hidden = true;
+
+  builder.appendChild(sentence);
+  builder.appendChild(completedQuestion);
+}
+
+function createLesson3QuestionBlank(fieldName, placeholderText) {
+  const wrapper = document.createElement("span");
+  wrapper.className = "question-blank";
+
+  const inputRow = document.createElement("span");
+  inputRow.className = "question-blank-input-row";
+
+  const input = document.createElement("input");
+
+  input.type = "text";
+  input.maxLength = 50;
+  input.placeholder = placeholderText;
+  input.className = "lesson3-question-input";
+  input.setAttribute("aria-label", placeholderText);
+
+  const answerBox = document.createElement("span");
+  answerBox.className = "question-blank-answer";
+
+  inputRow.appendChild(input);
+
+  wrapper.appendChild(inputRow);
+  wrapper.appendChild(answerBox);
+
+
+  function saveAnswer() {
+    const value = input.value.trim();
+
+    if (value === "") {
+      return;
+    }
+
+    investigationQuestionState[fieldName] = value;
+
+    /*
+      Save the variables so the reasoned-prediction iframe
+      can read them.
+    */
+    sessionStorage.setItem(
+      "investigationQuestionAnswerSave",
+      JSON.stringify(investigationQuestionState)
+    );
+
+
+    /* Build the permanent answer */
+    answerBox.innerHTML = "";
+
+    const answerText = document.createElement("span");
+
+    answerText.className =
+      "question-blank-answer-text";
+
+    answerText.textContent = value;
+
+
+    const deleteButton =
+      document.createElement("button");
+
+    deleteButton.type = "button";
+    deleteButton.className = "delete-answer";
+
+    deleteButton.textContent = "×";
+
+    deleteButton.setAttribute(
+      "aria-label",
+      "Edit " + value
+    );
+
+
+    deleteButton.addEventListener(
+      "click",
+      function () {
+
+        investigationQuestionState[fieldName] = "";
+
+        sessionStorage.setItem(
+          "investigationQuestionAnswerSave",
+          JSON.stringify(investigationQuestionState)
+        );
+
+        answerBox.classList.remove("visible");
+        answerBox.innerHTML = "";
+
+        inputRow.style.display = "inline-block";
+
+        input.value = "";
+        input.focus();
+
+        updateLesson3CompletedQuestion();
+        updateLesson3PredictionBuilder();
+      }
+    );
+
+
+    answerBox.appendChild(answerText);
+    answerBox.appendChild(deleteButton);
+
+    inputRow.style.display = "none";
+
+    answerBox.classList.add("visible");
+
+    input.value = "";
+
+    updateLesson3CompletedQuestion();
+    updateLesson3PredictionBuilder();
+  }
+
+
+  /*
+    ENTER = save
+  */
+  input.addEventListener(
+    "keydown",
+    function (event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      event.preventDefault();
+      saveAnswer();
+    }
+  );
+
+
+  /*
+    Clicking or tabbing somewhere else = save
+  */
+  input.addEventListener(
+    "blur",
+    function () {
+      saveAnswer();
+    }
+  );
+
+
+  return wrapper;
+}
+
+function updateLesson3PredictionBuilder() {
+  const predictionFrame =
+    document.getElementById("reasonedPredictionFrame");
+
+  if (
+    !predictionFrame ||
+    !predictionFrame.contentWindow
+  ) {
+    return;
+  }
+
+  if (
+    typeof predictionFrame.contentWindow
+      .loadInvestigationQuestionAnswers === "function"
+  ) {
+    predictionFrame.contentWindow
+      .loadInvestigationQuestionAnswers();
+  }
+
+  if (
+    typeof predictionFrame.contentWindow
+      .updatePrediction === "function"
+  ) {
+    predictionFrame.contentWindow
+      .updatePrediction();
+  }
+}
+
+function updateLesson3CompletedQuestion() {
+  const completedQuestion =
+    document.getElementById(
+      "completedInvestigationQuestion"
+    );
+
+  const template =
+    investigationQuestionTemplates[
+      investigationQuestionState.structure
+    ];
+
+  if (!completedQuestion || !template) {
+    return;
+  }
+
+  const firstAnswer =
+    investigationQuestionState.firstAnswer;
+
+  const secondAnswer =
+    investigationQuestionState.secondAnswer;
+
+  if (
+    firstAnswer === "" ||
+    secondAnswer === ""
+  ) {
+    completedQuestion.hidden = true;
+    completedQuestion.textContent = "";
+    return;
+  }
+
+  completedQuestion.textContent =
+    template.parts[0] +
+    firstAnswer +
+    template.parts[1] +
+    secondAnswer +
+    template.parts[2];
+
+  completedQuestion.hidden = false;
+}
+
       document.addEventListener("DOMContentLoaded", function () {
         if (typeof initialiseTeacherMenu === "function") {
           initialiseTeacherMenu(lesson3SectionIds, "data-table-template");
@@ -1733,6 +2216,9 @@ if (averageButtons.length === 0) {
         initialiseLesson3PermanentTextEntries();
 
         initialiseLesson3PermanentNumberEntries();
+
+        initialiseInvestigationQuestion();
+
       });
 
       /* ==================================================
