@@ -1211,7 +1211,7 @@
    YEAST AVERAGE - INTERPRET RESULTS
    ================================================== */
 
-.yeast-prediction-check {
+.prediction-check {
   width: min(700px, 100%);
   margin: 24px auto 0;
   padding: 22px;
@@ -1228,11 +1228,11 @@
   box-sizing: border-box;
 }
 
-.yeast-prediction-check[hidden] {
+.prediction-check[hidden] {
   display: none;
 }
 
-.yeast-prediction-label {
+.prediction-label {
   margin: 0 0 6px;
 
   color: var(--purple);
@@ -1243,23 +1243,23 @@
   text-transform: uppercase;
 }
 
-.yeast-prediction-check h3 {
+.prediction-check h3 {
   margin: 0 0 8px;
 }
 
-.yeast-prediction-check > p:not(.yeast-prediction-label) {
+.prediction-check > p:not(.prediction-label) {
   margin: 0 0 18px;
   color: var(--muted);
   line-height: 1.5;
 }
 
-.yeast-prediction-buttons {
+.prediction-buttons {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
 }
 
-.yeast-prediction-button {
+.prediction-button {
   min-width: 150px;
 }

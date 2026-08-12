@@ -666,8 +666,8 @@
           </button>
         </div>
 
-        <div class="yeast-prediction-check" id="yeastPredictionCheck" hidden>
-          <p class="yeast-prediction-label">Interpret the results</p>
+        <div class="prediction-check" id="yeastPredictionCheck" hidden>
+          <p class="prediction-label">Interpret the results</p>
 
           <h3>Do the results support the reasoned prediction?</h3>
 
@@ -675,11 +675,11 @@
             Look at the averages in the table and decide whether the evidence supports the prediction.
           </p>
 
-          <div class="yeast-prediction-buttons">
+          <div class="prediction-buttons">
             <button
               id="yeastPredictionCheckSupported"
               type="button"
-              class="general-button yeast-prediction-button"
+              class="general-button prediction-button"
             >
               Supported
             </button>
@@ -687,7 +687,7 @@
             <button
               id="yeastPredictionCheckUnsupported"
               type="button"
-              class="general-button yeast-prediction-button"
+              class="general-button prediction-button"
             >
               Not supported
             </button>
@@ -881,8 +881,8 @@
             </button>
           </div>
 
-          <div class="yeast-prediction-check" id="ballBouncePredictionCheck" hidden>
-            <p class="yeast-prediction-label">Interpret the results</p>
+          <div class="prediction-check" id="ballBouncePredictionCheck" hidden>
+            <p class="prediction-label">Interpret the results</p>
 
             <h3>Do the results support the reasoned prediction?</h3>
 
@@ -890,11 +890,11 @@
               Look at the averages in your table and decide whether the evidence supports the prediction.
             </p>
 
-            <div class="yeast-prediction-buttons">
+            <div class="prediction-buttons">
               <button
                 id="ballBouncePredictionSupported"
                 type="button"
-                class="general-button yeast-prediction-button"
+                class="general-button prediction-button"
               >
                 Supported
               </button>
@@ -902,7 +902,7 @@
               <button
                 id="ballBouncePredictionUnsupported"
                 type="button"
-                class="general-button yeast-prediction-button"
+                class="general-button prediction-button"
               >
                 Not supported
               </button>
@@ -1386,10 +1386,14 @@ if (averageButtons.length === 0) {
 
       supportedButton.addEventListener("click", () => {
         nextButton.hidden = false;
+        supportedButton.classList.add("selected-answer");
+        unsupportedButton.classList.remove("selected-answer");
       });
       
       unsupportedButton.addEventListener("click", () => {
         nextButton.hidden = false;
+        unsupportedButton.classList.add("selected-answer");
+        supportedButton.classList.remove("selected-answer");
       });
 
     }
