@@ -43,6 +43,16 @@
   background: var(--mint);
 }
 
+#formula-step-independent {
+  background: var(--yellow);
+}
+#formula-step-dependent {
+  background: var(--soft-purple);
+}
+#formula-step-units {
+  background: var(--blue);
+}
+
 .formula-step strong {
   display: block;
   margin-bottom: 3px;
