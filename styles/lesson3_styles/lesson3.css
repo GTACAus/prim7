@@ -1895,3 +1895,76 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==================================================
+   YEAST AVERAGE - VIDEO RESULT REVEAL
+   ================================================== */
+
+
+/*
+  Keep the table structure visible,
+  but hide the numerical results initially.
+*/
+
+#yeast-average tbody td:nth-of-type(1),
+#yeast-average tbody td:nth-of-type(2),
+#yeast-average tbody td:nth-of-type(3) {
+  color: transparent;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
+}
+
+
+/* ---------- Test 1 watched ---------- */
+
+#yeast-average.test-1-revealed
+tbody td:nth-of-type(1) {
+  color: var(--text);
+}
+
+
+/* ---------- Test 2 watched ---------- */
+
+#yeast-average.test-2-revealed
+tbody td:nth-of-type(2) {
+  color: var(--text);
+}
+
+
+/* ---------- Test 3 watched ---------- */
+
+#yeast-average.test-3-revealed
+tbody td:nth-of-type(3) {
+  color: var(--text);
+}
+
+/* ---------- Average buttons stay locked ---------- */
+
+#yeast-average .average-button {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity 0.25s ease;
+}
+
+
+/*
+  All three videos watched:
+  calculators become available.
+*/
+
+#yeast-average.all-tests-revealed
+.average-button {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#yeast-average .watch-video-button.video-watched {
+  background: var(--soft-green);
+  border-color: var(--green);
+}
