@@ -497,11 +497,6 @@
 }
 
 /* ---------- Number entry cells ---------- */
-
-.table-number-input[hidden] {
-  display: none;
-}
-
 .table-number-input,
 .table-text-input {
   display: block;
@@ -551,9 +546,18 @@
   font-weight: 600;
 }
 
+.table-number-input,
+.table-text-input {
+  outline: 4px solid transparent;
+
+  transition:
+    outline-color 0.3s ease,
+    border-color 0.2s ease;
+}
+
 .table-number-input:focus,
 .table-text-input:focus {
-  outline: 4px solid rgba(78, 50, 232, 0.18);
+  outline-color: rgba(78, 50, 232, 0.18);
   border-color: var(--purple);
 }
 
@@ -656,6 +660,18 @@
   grid-row: 3;
 }
 /* ---------- Label bank ---------- */
+#yeast-labels .table-number-control {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+#yeast-labels.labels-complete .table-number-control {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
 
 #yeast-labels .table-label-bank {
   display: flex;
