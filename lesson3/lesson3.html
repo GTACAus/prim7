@@ -203,7 +203,7 @@
               </article>
             </button>
 
-            <button
+            <button 
                   type="button"
                   class="table-key-card key-units general-button"
                   onclick="openVideoModal('../videos/units.mp4', 'Video guide 1')">
@@ -694,7 +694,7 @@
           </div>
         </div>
 
-        <button class="next-button general-button" onclick="unlockSection('bounce-data-entry', 'yeast-average')" hidden>
+        <button class="next-button general-button" onclick="unlockSection('build-your-own-table', 'yeast-average')" hidden>
           Next
         </button>
         <p class="completed-note">Completed — next activity unlocked.</p>
@@ -879,6 +879,34 @@
             >
               Reset
             </button>
+          </div>
+
+          <div class="yeast-prediction-check" id="ballBouncePredictionCheck" hidden>
+            <p class="yeast-prediction-label">Interpret the results</p>
+
+            <h3>Do the results support the reasoned prediction?</h3>
+
+            <p>
+              Look at the averages in your table and decide whether the evidence supports the prediction.
+            </p>
+
+            <div class="yeast-prediction-buttons">
+              <button
+                id="ballBouncePredictionSupported"
+                type="button"
+                class="general-button yeast-prediction-button"
+              >
+                Supported
+              </button>
+
+              <button
+                id="ballBouncePredictionUnsupported"
+                type="button"
+                class="general-button yeast-prediction-button"
+              >
+                Not supported
+              </button>
+            </div>
           </div>
         </div>
         <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()">
@@ -1309,26 +1337,40 @@
       const nextButton = section.querySelector(".next-button");
       const averageButtons = section.querySelectorAll(".average-button");
 
-      if (averageButtons.length === 0) {
+if (averageButtons.length === 0) {
 
-        if (section.id === "yeast-average") {
-          const predictionCheck = document.getElementById("yeastPredictionCheck");
+  if (section.id === "yeast-average") {
+    const predictionCheck =
+      document.getElementById("yeastPredictionCheck");
 
-          if (predictionCheck) {
-            predictionCheck.hidden = false;
-          }
+    if (predictionCheck) {
+      predictionCheck.hidden = false;
+    }
 
-          checkYeastPrediction();
+    checkYeastPrediction();
 
-          return true;
-        }
+    return true;
+  }
 
-        if (nextButton) {
-          nextButton.hidden = false;
-        }
+  if (section.id === "build-your-own-table") {
+    const predictionCheck =
+      document.getElementById("ballBouncePredictionCheck");
 
-        return true;
-      }
+    if (predictionCheck) {
+      predictionCheck.hidden = false;
+    }
+
+    checkBallBouncePrediction();
+
+    return true;
+  }
+
+  if (nextButton) {
+    nextButton.hidden = false;
+  }
+
+  return true;
+}
 
       if (nextButton) {
         nextButton.hidden = true;
@@ -1350,6 +1392,28 @@
         nextButton.hidden = false;
       });
 
+    }
+
+    function checkBallBouncePrediction() {
+      const supportedButton =
+        document.getElementById("ballBouncePredictionSupported");
+
+      const unsupportedButton =
+        document.getElementById("ballBouncePredictionUnsupported");
+
+      if (!supportedButton || !unsupportedButton) {
+        return;
+      }
+
+      supportedButton.addEventListener("click", function () {
+        supportedButton.classList.add("selected-answer");
+        unsupportedButton.classList.remove("selected-answer");
+      });
+
+      unsupportedButton.addEventListener("click", function () {
+        unsupportedButton.classList.add("selected-answer");
+        supportedButton.classList.remove("selected-answer");
+      });
     }
 
       function calculateFixedAverage(button) {
@@ -1719,7 +1783,6 @@
       function initialiseLesson3PermanentNumberEntries() {
         const inputs = document.querySelectorAll(
           "#yeast-labels .table-number-input, " +
-          "#bounce-data-entry .table-number-input, " +
           "#build-your-own-table .table-number-input"
         );
 
@@ -1827,7 +1890,9 @@
 
             answerBox.classList.add("visible");
 
-            const section = input.closest("#bounce-data-entry, #build-your-own-table, #yeast-labels");
+            const section = input.closest(
+  "#build-your-own-table, #yeast-labels"
+);
 
             if (section && section.id === "yeast-labels") {
               checkYeastActivityComplete();
@@ -1836,13 +1901,6 @@
 
               if (section) {
                 complete = checkNumberEntriesComplete(section);
-              }
-
-              if (complete && section.id === "bounce-data-entry") {
-                const nextButton =
-                  document.getElementById("bounceDataEntryNext");
-
-                nextButton.hidden = false;
               }
             }
 
