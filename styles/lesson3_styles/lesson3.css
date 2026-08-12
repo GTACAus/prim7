@@ -1998,3 +1998,8 @@ tbody td:nth-of-type(3) {
   background: var(--soft-green);
   border-color: var(--green);
 }
+
+/* Prevent reveal animation from creating a vertical scrollbar */
+#yeast-average .experiment-table-scroll {
+  overflow-y: hidden;
+}
