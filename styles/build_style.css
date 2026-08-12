@@ -2667,6 +2667,23 @@ body {
   cursor: grabbing;
 }
 
+.watch-video-button {
+  color: var(--charcoal);
+  background: var(--soft-green);
+  border-radius: 6px;
+  padding: 5px;
+}
+
+.watch-video-button:hover {
+  background: var(--soft-yellow);
+}
+.watch-video-button:hover {
+  background: var(--soft-purple);
+}
+.watch-video-button:hover{
+  background: var(--soft-blue);
+}
+
 .next-button {
   margin-top: 20px;
   padding: 12px 22px;

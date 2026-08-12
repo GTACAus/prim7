@@ -182,17 +182,6 @@
   text-transform: uppercase;
 }
 
-.test-heading-button {
-  color: var(--charcoal);
-  background: var(--soft-green);
-  border-radius: 6px;
-  padding: 5px;
-}
-
-.test-heading-button:hover {
-  color: var(--paper);
-}
-
 .average-heading {
   background: var(--soft-blue);
   color: var(--text);
@@ -402,23 +391,6 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.table-key-card .bounce-symbol {
-  color: var(--charcoal);
-  background: var(--soft-green);
-  border-radius: 6px;
-  padding: 5px;
-}
-
-.key-independent .bounce-symbol:hover {
-  background: var(--soft-yellow);
-}
-.key-dependent:hover .bounce-symbol:hover {
-  background: var(--soft-purple);
-}
-.key-units:hover .bounce-symbol:hover{
-  background: var(--soft-blue);
 }
 
 /* ---------- Responsive ---------- */
@@ -1315,6 +1287,16 @@
 
 .prediction-button {
   min-width: 150px;
+}
+
+.prediction-button.selected-answer {
+  background: var(--button-hover);
+  box-shadow: none;
+  transform: translateY(3px);
+}
+
+.prediction-button.selected-answer:hover {
+  cursor: default;
 }
 
 /* ==================================================
