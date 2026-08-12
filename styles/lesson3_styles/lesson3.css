@@ -1286,10 +1286,17 @@
 }
 
 .prediction-button {
+  color: var(--charcoal);
+  background: var(--soft-green);
   min-width: 150px;
 }
 
+.prediction-button:hover {
+  background: var(--green);
+}
+
 .prediction-button.selected-answer {
+  color: var(--paper);
   background: var(--button-hover);
   box-shadow: none;
   transform: translateY(3px);

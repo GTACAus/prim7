@@ -825,12 +825,6 @@
           </div>
         </div>
 
-        <div class="reset-button-container lesson3-reset-container">
-          <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">
-            Reset
-          </button>
-        </div>
-
         <div class="prediction-check" id="yeastPredictionCheck" hidden>
           <p class="prediction-label">Interpret the results</p>
 
@@ -857,6 +851,12 @@
               Not supported
             </button>
           </div>
+        </div>
+
+        <div class="reset-button-container lesson3-reset-container">
+          <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">
+            Reset
+          </button>
         </div>
 
         <button class="next-button general-button" onclick="unlockSection('build-your-own-table', 'yeast-average')" hidden>
@@ -1138,16 +1138,6 @@
           </div>
           <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
 
-          <div class="reset-button-container lesson3-reset-container">
-            <button
-              type="button"
-              class="general-button reset-btn"
-              onclick="resetLesson3Section('build-your-own-table')"
-            >
-              Reset
-            </button>
-          </div>
-
           <div class="prediction-check" id="ballBouncePredictionCheck" hidden>
             <p class="prediction-label">Interpret the results</p>
 
@@ -1175,6 +1165,16 @@
               </button>
             </div>
             
+          </div>
+
+          <div class="reset-button-container lesson3-reset-container">
+            <button
+              type="button"
+              class="general-button reset-btn"
+              onclick="resetLesson3Section('build-your-own-table')"
+            >
+              Reset
+            </button>
           </div>
         </div>
   </div>
@@ -1946,11 +1946,16 @@ if (averageButtons.length === 0) {
       }
 
       function resetYeastAverage() {
+        document.getElementById("yeastPredictionCheckSupported").classList.remove("selected-answer");
+        document.getElementById("yeastPredictionCheckUnsupported").classList.remove("selected-answer");
         document.getElementById("yeastPredictionCheck").hidden = true;
         restoreAverageButtons("#yeast-average", calculateFixedAverage);
       }
-
+      
       function resetBuildYourOwnTable() {
+        document.getElementById("ballBouncePredictionSupported").classList.remove("selected-answer");
+        document.getElementById("ballBouncePredictionUnsupported").classList.remove("selected-answer");
+        document.getElementById("ballBouncePredictionCheck").hidden = true;
         document.querySelectorAll("#build-your-own-table .table-number-control").forEach(function (control) {
           const inputRow = control.querySelector(".table-entry-input-row");
 
