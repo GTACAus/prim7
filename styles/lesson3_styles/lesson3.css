@@ -725,6 +725,95 @@
    LESSON 3 - DRAG AND DROP TABLE ACTIVITY
    ================================================== */
 
+/* ---------- Step 2: watch repeat tests ---------- */
+
+.yeast-results-step {
+  display: none;
+
+  margin: 20px 0 24px;
+  padding: 20px 22px;
+
+  background: var(--soft-blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+}
+
+#yeast-labels.labels-complete .yeast-results-step {
+  display: block;
+}
+
+.yeast-results-step-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 8px;
+}
+
+.yeast-results-step-heading > span {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  width: 36px;
+  height: 36px;
+
+  background: var(--blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+
+  font-weight: 700;
+}
+
+.yeast-results-eyebrow {
+  margin: 0 0 2px;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.yeast-results-step h3 {
+  margin: 0;
+}
+
+.yeast-results-instruction {
+  margin: 0 0 16px 48px;
+
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.yeast-results-video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 12px;
+
+  margin-left: 48px;
+}
+
+.yeast-results-video-grid .watch-video-button {
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .yeast-results-video-grid {
+    grid-template-columns: 1fr;
+    margin-left: 0;
+  }
+
+  .yeast-results-instruction {
+    margin-left: 0;
+  }
+}
+
 #yeastActivity {
   display: grid;
   grid-template-columns: clamp(10rem, 15vw, 15rem) 1fr;

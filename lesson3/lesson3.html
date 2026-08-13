@@ -471,13 +471,71 @@
       <section class="section data-table-section locked" id="yeast-labels">
         <h2 class="section-title">Yeast experiment: add the labels</h2>
 
-        <div class="diagram-activity diagram-box">
-          <p class="activity-instruction">
-            Drag each label into the correct part of the table. Every heading and temperature is missing.
-          </p>
-        </div>
+<div class="diagram-activity diagram-box">
+  <p class="activity-instruction">
+    <strong>Step 1:</strong>
+    Build the scientific table by dragging each label into the correct space.
+  </p>
+</div>
 
-        <div id="yeastActivity" class="diagram-activity">
+<div class="yeast-results-step">
+  <div class="yeast-results-step-heading">
+    <span>2</span>
+
+    <div>
+      <p class="yeast-results-eyebrow">Record the results</p>
+      <h3>Watch each repeat test</h3>
+    </div>
+  </div>
+
+  <p class="yeast-results-instruction">
+    Watch each video and enter the balloon circumference measurements
+    into the correct column of your table.
+  </p>
+
+  <div class="yeast-results-video-grid">
+
+    <button
+      type="button"
+      class="general-button watch-video-button"
+      onclick="openVideoModal(
+        '../videos/lesson3/Yeast Timelapse.mp4',
+        'Yeast Experiment - Test 1'
+      )"
+    >
+      <p class="bounce-symbol">▶</p>
+      <p>Test 1</p>
+    </button>
+
+    <button
+      type="button"
+      class="general-button watch-video-button"
+      onclick="openVideoModal(
+        '../videos/lesson3/Yeast Timelapse 2.mp4',
+        'Yeast Experiment - Test 2'
+      )"
+    >
+      <p class="bounce-symbol">▶</p>
+      <p>Test 2</p>
+    </button>
+
+    <button
+      type="button"
+      class="general-button watch-video-button"
+      onclick="openVideoModal(
+        '../videos/lesson3/Yeast Timelapse 3.mp4',
+        'Yeast Experiment - Test 3'
+      )"
+    >
+      <p class="bounce-symbol">▶</p>
+      <p>Test 3</p>
+    </button>
+
+  </div>
+</div>
+
+<div id="yeastActivity" class="diagram-activity">
+  
           <div
             class="label-bank table-label-bank"
             id="yeastLabelBank"
@@ -1285,12 +1343,7 @@
     <script src="../scripts/common_functions.js"></script>
 
     <script>
-      
-/* ==================================================
-   YEAST TEST VIDEOS - REVEAL RESULTS
-   ================================================== */
-
-
+    
       const dev = true;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
