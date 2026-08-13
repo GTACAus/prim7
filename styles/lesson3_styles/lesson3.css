@@ -597,6 +597,79 @@
   height: 54px;
 }
 
+/* ---------- Observe the ball-bounce experiment ---------- */
+
+.lesson3-planning-heading.observation-heading {
+  margin-top: 38px;
+  margin-bottom: 6px;
+}
+
+.lesson3-planning-heading.observation-heading > span {
+  background: var(--soft-green);
+}
+
+.ball-bounce-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin: 16px 0 30px;
+}
+
+.ball-bounce-video-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 22px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+
+  text-align: center;
+}
+
+.ball-bounce-video-card:first-child {
+  border-top: 8px solid var(--yellow);
+}
+
+.ball-bounce-video-card:last-child {
+  border-top: 8px solid var(--purple);
+}
+
+.ball-bounce-video-card h3 {
+  margin: 0;
+}
+
+.ball-bounce-video-card > p:not(.ball-bounce-video-label) {
+  margin: 0 0 8px;
+
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.ball-bounce-video-label {
+  margin: 0;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  .ball-bounce-video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /* ---------- Build-your-own table labels ---------- */
 
