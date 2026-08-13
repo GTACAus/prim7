@@ -1866,6 +1866,13 @@
 }
 
 /* ==================================================
+   YEAST IMAGE-INVESTIGATION
+   ================================================== */
+#yeast-image-investigation .section-title {
+  background: var(--blue);
+}
+
+/* ==================================================
    YEAST EXPERIMENT CONTEXT
    ================================================== */
 
@@ -2488,6 +2495,6 @@
 
 #yeast-variables .stop-and-check-button {
   margin-top: 8px;
-
-  background: var(--green);
+  color: var(--charcoal);
+  background: var(--yellow);
 }

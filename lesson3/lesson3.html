@@ -154,7 +154,7 @@
           <p class="success-heading">Success criteria</p>
 
           <ol class="objective-list">
-            <li>I can label a <strong>table</strong> with the variables and units in the correct format.</li>
+            <li>I can label a <strong>table</strong> with variables and units in the correct format.</li>
             <li>I can collect <strong>data</strong> and enter it into a <strong>table</strong> with the correct units.</li>
             <li>I can summarise the results of an experiment using averages.</li>
           </ol>
@@ -162,11 +162,12 @@
 
         <section class="intro-card observation-card">
           <p class="intro-eyebrow">Think like a scientist</p>
-          <h2>Build a Table</h2>
+          <h2>Recording Data in Scientific Tables</h2>
 
           <p>
-            Scientists use tables to record <strong>data</strong> from their experiments,
-            so that they can easily see how <strong>data</strong> compares across <strong>repeat trials</strong>.
+            Scientists use tables to record <strong>data</strong> when they conduct a fair test.
+            This organises information to help them see patterns, trends, and relationships that tell them if their reasoned prediction
+            is supported or not.
           </p>
 
           <div class="formula-card">
@@ -174,7 +175,10 @@
               <div id="formula-step-independent" class="formula-step-number">1</div>
               <div>
                 <strong>Change the Independent Variable</strong>
-                <span>Write your independent variable values in the left column.</span>
+                <span>
+                  The independent variable and how you are changing.
+                  This goes in the left column.
+                </span>
               </div>
             </div>
 
@@ -182,27 +186,96 @@
               <div id="formula-step-dependent" class="formula-step-number">2</div>
               <div>
                 <strong>Measure the Dependent Variable</strong>
-                <span>Write your dependent variable values along each row under each test.</span>
+                <span>
+                  The dependent variable and your measurements go in the column to the right of the independent variable.
+                </span>
               </div>
             </div>
 
             <div class="formula-step">
               <div id="formula-step-units" class="formula-step-number">3</div>
               <div>
-                <strong>Record with Units</strong>
-                <span>Write the units of your independent and dependent variables in the heading of each.</span>
+                <strong>Set Up Three Repeats for Each Independent Variable Condition</strong>
+                <span>
+                  Repeat your test three times.
+                  Running the same test three times helps you spot errors and get a more reliable result.
+                  Record each repeat as Test 1, Test 2, and Test 3.
+                </span>
               </div>
             </div>
           </div>
         </section>
       </div>
 
+      <section class="section" id="yeast-image-investigation">
+        <h2 class="section-title">The Story of Yeast Y</h2>
+        <div class="diagram-box diagram-activity">
+          Hover over each image to learn more about the activity of yeast and why it is important to produce sourdough bread.
+        </div>
+        <div class="diagram-box diagram-activity yeast-image-activity">
+          <div class="yeast-card">
+              <img src="../images/lesson3/yeast.jpg" alt="Dry yeast">
+              <div class="yeast-overlay">
+                  <h3>1. Yeast</h3>
+                  <p>
+                      Yeast is a living microorganism that feeds on sugars
+                      and produces carbon dioxide during fermentation.
+                  </p>
+              </div>
+          </div>
+
+          <div class="yeast-card">
+              <img src="../images/lesson3/sugar.jpg" alt="Sugar">
+              <div class="yeast-overlay">
+                  <h3>2. Sugar</h3>
+                  <p>
+                      Sugar provides food for the yeast. The yeast breaks
+                      down the sugar during fermentation.
+                  </p>
+              </div>
+          </div>
+
+          <div class="yeast-card">
+              <img src="../images/lesson3/sourdough-starter.jpg" alt="Sourdough starter">
+              <div class="yeast-overlay">
+                  <h3>3. Sourdough starter</h3>
+                  <p>
+                      A sourdough starter contains yeast and bacteria that
+                      ferment flour and water.
+                  </p>
+              </div>
+          </div>
+
+          <div class="yeast-card">
+              <img src="images/bread.jpg" alt="Sourdough bread">
+              <div class="yeast-overlay">
+                  <h3>4. Bread</h3>
+                  <p>
+                      Carbon dioxide produced by yeast becomes trapped in
+                      the dough, helping the bread rise.
+                  </p>
+              </div>
+          </div>
+
+      </div>
+
+        <button
+          class="next-button general-button"
+          onclick="unlockSection('yeast-context', 'yeast-image-investigation')"
+        >
+          Next
+        </button>
+
+          <p class="completed-note">
+            Completed — next activity unlocked.
+          </p>
+      </section>
       <!-- ==================================================
    SECTION 1: YEAST EXPERIMENT CONTEXT
    ================================================== -->
 
 <section
-  class="section yeast-context-section"
+  class="section yeast-context-section locked"
   id="yeast-context"
 >
   <h2 class="section-title">
