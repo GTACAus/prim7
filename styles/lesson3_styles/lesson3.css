@@ -2172,3 +2172,258 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==================================================
+   YEAST VARIABLES ACTIVITY
+   Reuses the Lesson 2 variable-selection design
+   ================================================== */
+
+#yeast-variables .variable-activity {
+  padding: 28px;
+
+  background: linear-gradient(
+    to bottom,
+    white,
+    rgba(117, 221, 232, 0.18)
+  );
+
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.9),
+    var(--shadow-small);
+}
+
+
+/* ---------- Testable question ---------- */
+
+#yeast-variables .variable-question {
+  position: relative;
+
+  margin: 10px 0 18px;
+  padding: 28px 20px 16px;
+
+  background: var(--paper);
+
+  border: 2px solid var(--line);
+  border-top: 4px solid var(--blue);
+  border-radius: 16px;
+
+  color: var(--text);
+
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+#yeast-variables .variable-question::before {
+  content: "TESTABLE QUESTION";
+
+  position: absolute;
+  top: -16px;
+  left: 18px;
+
+  padding: 4px 12px;
+
+  background: var(--blue);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  color: var(--text);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+
+/* ---------- Variable type buttons ---------- */
+
+#yeast-variables .variable-selection-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 12px;
+  margin-bottom: 14px;
+}
+
+#yeast-variables .variable-mode-button {
+  padding: 10px 14px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+#yeast-variables .variable-mode-title,
+#yeast-variables .variable-mode-subtitle {
+  display: block;
+}
+
+#yeast-variables .variable-mode-subtitle {
+  margin-top: 2px;
+
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+#yeast-variables .independent-mode-button {
+  border-top: 6px solid var(--yellow);
+}
+
+#yeast-variables .dependent-mode-button {
+  border-top: 6px solid var(--purple);
+}
+
+#yeast-variables .controlled-mode-button {
+  border-top: 6px solid var(--green);
+}
+
+
+/* ---------- Variable choices ---------- */
+
+#yeast-variables .variable-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+#yeast-variables .variable-tile {
+  min-height: 82px;
+  padding: 14px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 16px;
+
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+#yeast-variables .variable-tile:hover {
+  transform: translateY(-3px);
+}
+
+
+/* ---------- Feedback ---------- */
+
+#yeast-variables .variable-feedback {
+  margin-top: 18px;
+  padding: 14px 16px;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  border: 2px dashed var(--line);
+  border-radius: 16px;
+
+  color: var(--text);
+
+  font-weight: 700;
+  text-align: center;
+}
+
+#yeast-variables .variable-feedback.feedback-success {
+  background: var(--soft-green);
+  border-style: solid;
+}
+
+#yeast-variables .variable-feedback.feedback-try-again {
+  background: var(--soft-orange);
+  border-style: solid;
+}
+
+
+/* ---------- Selected / completed colours ---------- */
+
+#yeast-variables .independent-mode-button.mode-active,
+#yeast-variables .independent-mode-button.mode-complete {
+  background: var(--soft-yellow);
+}
+
+#yeast-variables .dependent-mode-button.mode-active,
+#yeast-variables .dependent-mode-button.mode-complete {
+  background: var(--soft-purple);
+}
+
+#yeast-variables .controlled-mode-button.mode-active,
+#yeast-variables .controlled-mode-button.mode-complete {
+  background: var(--soft-green);
+}
+
+#yeast-variables .variable-tile.is-independent {
+  background: var(--soft-yellow);
+  border-top: 6px solid var(--yellow);
+}
+
+#yeast-variables .variable-tile.is-dependent {
+  background: var(--soft-purple);
+  border-top: 6px solid var(--purple);
+}
+
+#yeast-variables .variable-tile.is-controlled {
+  background: var(--soft-green);
+  border-top: 6px solid var(--green);
+}
+
+
+/* ---------- Incorrect answer animation ---------- */
+
+@keyframes yeastVariableBuzz {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-6px);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+#yeast-variables .variable-tile.buzz {
+  animation: yeastVariableBuzz 0.28s ease;
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+  #yeast-variables .variable-tile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  #yeast-variables .variable-tile-grid {
+    grid-template-columns: 1fr;
+  }
+}

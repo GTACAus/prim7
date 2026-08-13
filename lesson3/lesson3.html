@@ -287,10 +287,198 @@
 
 <button
   class="next-button general-button"
-  onclick="unlockSection('data-table-template', 'yeast-context')"
+  onclick="unlockSection('yeast-variables', 'yeast-context')"
 >
   Next
 </button>
+
+  <p class="completed-note">
+    Completed — next activity unlocked.
+  </p>
+</section>
+
+<!-- ==================================================
+     YEAST FAIR TEST - IDENTIFY VARIABLES
+     ================================================== -->
+
+<section
+  class="section sort-variables-section locked"
+  id="yeast-variables"
+>
+  <h2 class="section-title">
+    Identify the variables in the yeast fair test
+  </h2>
+
+  <div class="diagram-box diagram-activity">
+    <p class="activity-instruction">
+      In this fair test, select the
+      <strong>independent variable</strong> and
+      <strong>dependent variable</strong>.
+      Then select <strong>Controlled Variable</strong>
+      and identify everything that must be kept the same.
+    </p>
+  </div>
+
+  <div class="variable-activity">
+
+    <p class="variable-question">
+      How does changing temperature affect the amount of gas produced by yeast?
+    </p>
+
+    <div
+      class="variable-selection-toolbar"
+      aria-label="Choose a variable type"
+    >
+      <button
+        type="button"
+        class="variable-mode-button independent-mode-button"
+        data-variable-mode="independent"
+        aria-pressed="false"
+      >
+        <span class="variable-mode-title">
+          Independent Variable
+        </span>
+
+        <span class="variable-mode-subtitle">
+          Change
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-mode-button dependent-mode-button"
+        data-variable-mode="dependent"
+        aria-pressed="false"
+      >
+        <span class="variable-mode-title">
+          Dependent Variable
+        </span>
+
+        <span class="variable-mode-subtitle">
+          Measure
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-mode-button controlled-mode-button"
+        data-variable-mode="controlled"
+        aria-pressed="false"
+      >
+        <span class="variable-mode-title">
+          Controlled Variable
+        </span>
+
+        <span class="variable-mode-subtitle">
+          Keep the same
+        </span>
+      </button>
+    </div>
+
+    <div class="variable-tile-grid">
+
+      <button
+        type="button"
+        class="variable-tile"
+        data-variable="temperature"
+      >
+        <span class="variable-tile-label">
+          Temperature
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-tile"
+        data-variable="gas-produced"
+      >
+        <span class="variable-tile-label">
+          Amount of gas produced
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-tile"
+        data-variable="amount-yeast"
+      >
+        <span class="variable-tile-label">
+          Amount of yeast
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-tile"
+        data-variable="amount-sugar"
+      >
+        <span class="variable-tile-label">
+          Amount of sugar
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-tile"
+        data-variable="amount-water"
+      >
+        <span class="variable-tile-label">
+          Amount of water
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-tile"
+        data-variable="flask-size"
+      >
+        <span class="variable-tile-label">
+          Size of flask
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="variable-tile"
+        data-variable="balloon-type"
+      >
+        <span class="variable-tile-label">
+          Type of balloon
+        </span>
+      </button>
+
+    </div>
+
+    <div
+      id="yeastVariablesFeedback"
+      class="variable-feedback"
+      role="status"
+      aria-live="polite"
+    >
+      Choose a variable type, then select the matching variable.
+    </div>
+
+    <div class="reset-button-container">
+      <button
+        type="button"
+        id="yeast-variables-reset"
+        class="general-button reset-btn"
+      >
+        Reset
+      </button>
+    </div>
+
+  </div>
+
+  <button
+    type="button"
+    id="yeastVariablesNext"
+    class="next-button general-button"
+    onclick="unlockSection('data-table-template', 'yeast-variables')"
+    hidden
+  >
+    Next
+  </button>
 
   <p class="completed-note">
     Completed — next activity unlocked.
@@ -495,38 +683,47 @@
 
   <div class="yeast-results-video-grid">
 
-    <button
-      type="button"
-      class="general-button watch-video-button"
-      onclick="openVideoModal(
-        '../videos/lesson3/Yeast Timelapse.mp4',
-        'Yeast Experiment - Test 1'
-      )"
-    >
+<button
+  type="button"
+  class="general-button watch-video-button yeast-test-video-button"
+  data-test-number="1"
+  onclick="openYeastRecordVideo(
+    this,
+    '../videos/lesson3/Yeast Timelapse.mp4',
+    'Yeast Experiment - Test 1',
+    1
+  )"
+>
       <p class="bounce-symbol">▶</p>
       <p>Test 1</p>
     </button>
 
-    <button
-      type="button"
-      class="general-button watch-video-button"
-      onclick="openVideoModal(
-        '../videos/lesson3/Yeast Timelapse 2.mp4',
-        'Yeast Experiment - Test 2'
-      )"
-    >
+<button
+  type="button"
+  class="general-button watch-video-button yeast-test-video-button"
+  data-test-number="2"
+  onclick="openYeastRecordVideo(
+    this,
+    '../videos/lesson3/Yeast Timelapse 2.mp4',
+    'Yeast Experiment - Test 2',
+    2
+  )"
+>
       <p class="bounce-symbol">▶</p>
       <p>Test 2</p>
     </button>
 
-    <button
-      type="button"
-      class="general-button watch-video-button"
-      onclick="openVideoModal(
-        '../videos/lesson3/Yeast Timelapse 3.mp4',
-        'Yeast Experiment - Test 3'
-      )"
-    >
+<button
+  type="button"
+  class="general-button watch-video-button yeast-test-video-button"
+  data-test-number="3"
+  onclick="openYeastRecordVideo(
+    this,
+    '../videos/lesson3/Yeast Timelapse 3.mp4',
+    'Yeast Experiment - Test 3',
+    3
+  )"
+>
       <p class="bounce-symbol">▶</p>
       <p>Test 3</p>
     </button>
@@ -1349,11 +1546,245 @@
 
 const lesson3SectionIds = [
   "yeast-context",
+  "yeast-variables",
   "data-table-template",
   "yeast-labels",
   "yeast-average",
   "build-your-own-table",
 ];
+
+const yeastVariablesStructure = {
+  activityID: "yeast-variables",
+  activity: null,
+  modeButtons: null,
+  variableTiles: null,
+  feedback: null,
+  nextButton: null,
+  resetButton: null,
+
+  selectedMode: "",
+
+  answers: {
+    independent: "temperature",
+
+    dependent: "gas-produced",
+
+    controlled: [
+      "amount-yeast",
+      "amount-sugar",
+      "amount-water",
+      "flask-size",
+      "balloon-type"
+    ]
+  },
+
+  independentComplete: false,
+  dependentComplete: false,
+  controlledComplete: false
+};
+
+function initialiseYeastVariables() {
+  const structure = yeastVariablesStructure;
+
+  structure.activity =
+    document.getElementById(structure.activityID);
+
+  if (!structure.activity) {
+    return;
+  }
+
+  structure.modeButtons =
+    structure.activity.querySelectorAll(
+      ".variable-mode-button"
+    );
+
+  structure.variableTiles =
+    structure.activity.querySelectorAll(
+      ".variable-tile"
+    );
+
+  structure.feedback =
+    document.getElementById("yeastVariablesFeedback");
+
+  structure.nextButton =
+    document.getElementById("yeastVariablesNext");
+
+  structure.resetButton =
+    document.getElementById("yeast-variables-reset");
+
+  structure.modeButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      structure.selectedMode =
+        button.dataset.variableMode;
+
+      structure.modeButtons.forEach(function (otherButton) {
+        otherButton.classList.remove("mode-active");
+        otherButton.setAttribute("aria-pressed", "false");
+      });
+
+      button.classList.add("mode-active");
+      button.setAttribute("aria-pressed", "true");
+
+      structure.feedback.textContent =
+        "Now choose the variable that matches this type.";
+    });
+  });
+
+  structure.variableTiles.forEach(function (tile) {
+    tile.addEventListener("click", function () {
+      checkYeastVariable(tile);
+    });
+  });
+
+  structure.resetButton.addEventListener(
+    "click",
+    resetYeastVariables
+  );
+}
+
+function checkYeastVariable(tile) {
+  const structure = yeastVariablesStructure;
+  const mode = structure.selectedMode;
+
+  if (!mode) {
+    structure.feedback.textContent =
+      "Choose Independent, Dependent or Controlled Variable first.";
+
+    return;
+  }
+
+  const variable = tile.dataset.variable;
+
+  let correct = false;
+
+  if (mode === "independent") {
+    correct =
+      variable === structure.answers.independent;
+  }
+
+  if (mode === "dependent") {
+    correct =
+      variable === structure.answers.dependent;
+  }
+
+  if (mode === "controlled") {
+    correct =
+      structure.answers.controlled.includes(variable);
+  }
+
+  if (!correct) {
+    tile.classList.add("buzz");
+
+    structure.feedback.className =
+      "variable-feedback feedback-try-again";
+
+    structure.feedback.textContent =
+      "Not quite. Try another variable.";
+
+    window.setTimeout(function () {
+      tile.classList.remove("buzz");
+    }, 300);
+
+    return;
+  }
+
+  tile.classList.add("is-classified");
+
+  if (mode === "independent") {
+    tile.classList.add("is-independent");
+    structure.independentComplete = true;
+  }
+
+  if (mode === "dependent") {
+    tile.classList.add("is-dependent");
+    structure.dependentComplete = true;
+  }
+
+  if (mode === "controlled") {
+    tile.classList.add("is-controlled");
+  }
+
+  tile.disabled = true;
+
+  updateYeastVariablesComplete();
+}
+
+function updateYeastVariablesComplete() {
+  const structure = yeastVariablesStructure;
+
+  const controlledComplete =
+    structure.answers.controlled.every(function (variable) {
+      return structure.activity.querySelector(
+        '.variable-tile[data-variable="' +
+          variable +
+          '"].is-controlled'
+      );
+    });
+
+  structure.controlledComplete =
+    controlledComplete;
+
+  if (
+    structure.independentComplete &&
+    structure.dependentComplete &&
+    structure.controlledComplete
+  ) {
+    structure.feedback.className =
+      "variable-feedback feedback-success";
+
+    structure.feedback.textContent =
+      "Correct! You identified the independent, dependent and controlled variables.";
+
+    structure.nextButton.hidden = false;
+
+    return;
+  }
+
+  structure.feedback.className =
+    "variable-feedback";
+
+  structure.feedback.textContent =
+    "Correct. Keep going.";
+}
+
+function resetYeastVariables() {
+  const structure = yeastVariablesStructure;
+
+  structure.selectedMode = "";
+  structure.independentComplete = false;
+  structure.dependentComplete = false;
+  structure.controlledComplete = false;
+
+  structure.modeButtons.forEach(function (button) {
+    button.classList.remove(
+      "mode-active",
+      "mode-complete"
+    );
+
+    button.setAttribute("aria-pressed", "false");
+  });
+
+  structure.variableTiles.forEach(function (tile) {
+    tile.classList.remove(
+      "is-independent",
+      "is-dependent",
+      "is-controlled",
+      "is-classified",
+      "buzz"
+    );
+
+    tile.disabled = false;
+  });
+
+  structure.feedback.className =
+    "variable-feedback";
+
+  structure.feedback.textContent =
+    "Choose a variable type, then select the matching variable.";
+
+  structure.nextButton.hidden = true;
+}
+
       /* ==================================================
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
@@ -1361,6 +1792,45 @@ const lesson3SectionIds = [
       let lesson3DraggedLabel = null;
       let lesson3TouchDragging = false;
       let dragGhost = null;
+
+      let currentYeastRecordTest = null;
+      let currentYeastRecordButton = null;
+
+      function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
+        currentYeastRecordTest = testNumber;
+        currentYeastRecordButton = button;
+
+        openVideoModal(videoPath, videoTitle);
+      }
+
+      const originalLesson3CloseVideoModal = closeVideoModal;
+
+      closeVideoModal = function () {
+        if (currentYeastRecordTest !== null) {
+          const section = document.getElementById("yeast-labels");
+
+          section.classList.add(
+            "test-" + currentYeastRecordTest + "-ready"
+          );
+
+          if (currentYeastRecordButton) {
+            currentYeastRecordButton.classList.add("video-watched");
+
+            const label =
+              currentYeastRecordButton.querySelector("p:last-child");
+
+            if (label) {
+              label.textContent =
+                "Test " + currentYeastRecordTest + " ✓";
+            }
+          }
+
+          currentYeastRecordTest = null;
+          currentYeastRecordButton = null;
+        }
+
+        originalLesson3CloseVideoModal();
+      };
 
       function createDragGhost(label) {
         const ghost = document.createElement("div");
@@ -2575,6 +3045,8 @@ function updateLesson3CompletedQuestion() {
         initialiseLesson3PermanentNumberEntries();
 
         initialiseInvestigationQuestion();
+
+        initialiseYeastVariables();
 
       });
 
