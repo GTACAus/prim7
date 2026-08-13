@@ -635,11 +635,11 @@
 }
 
 .ball-bounce-video-card:first-child {
-  border-top: 8px solid var(--yellow);
+  border-top: 8px solid var(--orange);
 }
 
 .ball-bounce-video-card:last-child {
-  border-top: 8px solid var(--purple);
+  border-top: 8px solid var(--green);
 }
 
 .ball-bounce-video-card h3 {
@@ -1385,15 +1385,15 @@
    ================================================== */
 
 .lesson3-planning-activity {
-  margin: 24px 0;
-  padding: 26px 26px 18px;
+  margin: 30px 0 0;
+  padding: 0;
 
-  background: var(--paper);
+  background: transparent;
 
-  border: 3px solid var(--charcoal);
-  border-radius: 22px;
+  border: 0;
+  border-radius: 0;
 
-  box-shadow: var(--shadow-small);
+  box-shadow: none;
 }
 
 
@@ -2161,11 +2161,11 @@ tbody td:nth-of-type(3) {
 }
 
 .hard-condition {
-  border-top: 7px solid var(--yellow);
+  border-top: 7px solid var(--orange);
 }
 
 .soft-condition {
-  border-top: 7px solid var(--purple);
+  border-top: 7px solid var(--green);
 }
 
 .ball-bounce-context-task {
