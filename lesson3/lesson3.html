@@ -470,6 +470,45 @@
 
   </div>
 
+  <div class="stop-and-check yeast-stop-and-think">
+
+  <div class="stop-and-check-heading">
+    Stop and Think
+  </div>
+
+  <div class="stop-and-check-content">
+    <p>
+      The yeast produces carbon dioxide gas as it becomes more active.
+      <strong>How can we measure the amount of gas produced?</strong>
+    </p>
+
+    <p>
+      Think about the balloon in the experiment, then check your answer.
+    </p>
+  </div>
+
+  <div
+    class="stop-and-check-answer"
+    id="yeastGasAnswer"
+    hidden
+  >
+    The balloon traps the gas produced by the yeast.
+    More active yeast produces more gas, making the balloon bigger.
+    We can measure the <strong>circumference of the balloon</strong>
+    to compare how much gas was produced.
+  </div>
+
+  <button
+    type="button"
+    class="stop-and-check-button general-button"
+    onclick="showYeastGasAnswer(this)"
+  >
+    <p>Check Your Answer</p>
+    <p class="bounce-symbol">✅</p>
+  </button>
+
+</div>
+
   <button
     type="button"
     id="yeastVariablesNext"
@@ -1783,6 +1822,26 @@ function resetYeastVariables() {
     "Choose a variable type, then select the matching variable.";
 
   structure.nextButton.hidden = true;
+}
+
+function showYeastGasAnswer(button) {
+  const answer =
+    document.getElementById("yeastGasAnswer");
+
+  if (!answer) {
+    return;
+  }
+
+  answer.hidden = false;
+
+  button.disabled = true;
+
+  const label =
+    button.querySelector("p:first-child");
+
+  if (label) {
+    label.textContent = "Answer checked ✓";
+  }
 }
 
       /* ==================================================

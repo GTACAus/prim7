@@ -2427,3 +2427,67 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==================================================
+   YEAST STOP AND THINK
+   ================================================== */
+
+#yeast-variables .yeast-stop-and-think {
+  margin-top: 24px;
+  padding: 22px;
+
+  background: var(--paper);
+
+  border: 3px solid var(--charcoal);
+  border-top: 8px solid var(--orange);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-small);
+}
+
+#yeast-variables .stop-and-check-heading {
+  display: inline-block;
+
+  margin-bottom: 14px;
+  padding: 6px 12px;
+
+  background: var(--soft-orange);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+
+  color: var(--text);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#yeast-variables .stop-and-check-content p {
+  margin: 0 0 10px;
+
+  line-height: 1.55;
+}
+
+#yeast-variables .stop-and-check-answer {
+  margin: 16px 0;
+  padding: 16px 18px;
+
+  background: var(--soft-green);
+
+  border: 2px solid var(--green);
+  border-radius: 14px;
+
+  line-height: 1.55;
+}
+
+#yeast-variables .stop-and-check-answer[hidden] {
+  display: none;
+}
+
+#yeast-variables .stop-and-check-button {
+  margin-top: 8px;
+
+  background: var(--green);
+}
