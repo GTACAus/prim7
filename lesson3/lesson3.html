@@ -419,13 +419,12 @@
                   </th>
                 </tr>
 
-                <tr>
-                  <th class="test-heading" scope="col">Test 1</th>
+<tr>
+  <th class="test-heading" scope="col">Test 1</th>
+  <th class="test-heading" scope="col">Test 2</th>
+  <th class="test-heading" scope="col">Test 3</th>
+</tr>
 
-                  <th class="test-heading" scope="col">Test 2</th>
-
-                  <th class="test-heading" scope="col">Test 3</th>
-                </tr>
               </thead>
 
               <tbody>
@@ -752,55 +751,13 @@
                   <th class="dependent-heading" colspan="4">Circumference of balloon (cm)</th>
                 </tr>
 
-                <tr>
-                  <th class="test-heading">
-                      <p>Test 1</p>
-                      <button
-                        class="general-button watch-video-button"
-                        type="button"
-                        onclick="openYeastTestVideo(
-  this,
-  '../videos/lesson3/Yeast Timelapse.mp4',
-  'Yeast Timelapse - Test 1',
-  1
-)"
-                        <p class="bounce-symbol">▶</p>
-                        <p>Watch Video</p>
-                      </button>
-                  </th>
-                  <th class="test-heading">
-                      <p>Test 2</p>
-                      <button
-                        class="general-button watch-video-button"
-                        type="button"
-                        onclick="openYeastTestVideo(
-  this,
-  '../videos/lesson3/Yeast Timelapse 2.mp4',
-  'Yeast Timelapse - Test 2',
-  2
-)"
-                        <p class="bounce-symbol">▶</p>
-                        <p>Watch Video</p>
-                      </button>
-                  </th>
-                  <th class="test-heading">
-                      <p>Test 3</p>
-                      <button
-                        class="general-button watch-video-button"
-                        type="button"
-                        onclick="openYeastTestVideo(
-  this,
-  '../videos/lesson3/Yeast Timelapse 3.mp4',
-  'Yeast Timelapse - Test 3',
-  3
-)"
-                        <p class="bounce-symbol">▶</p>
-                        <p>Watch Video</p>
-                      </button>
-                  </th>
-                  
-                  <th class="average-heading">Average</th>
-                </tr>
+<tr>
+  <th class="test-heading">Test 1</th>
+  <th class="test-heading">Test 2</th>
+  <th class="test-heading">Test 3</th>
+  <th class="average-heading">Average</th>
+</tr>
+
               </thead>
 
               <tbody>
@@ -1333,93 +1290,6 @@
    YEAST TEST VIDEOS - REVEAL RESULTS
    ================================================== */
 
-const watchedYeastTests = new Set();
-
-let currentYeastTestNumber = null;
-let currentYeastVideoButton = null;
-
-
-function openYeastTestVideo(
-  button,
-  videoPath,
-  videoTitle,
-  testNumber
-) {
-  currentYeastTestNumber = testNumber;
-  currentYeastVideoButton = button;
-
-  openVideoModal(
-    videoPath,
-    videoTitle
-  );
-}
-
-
-function revealCurrentYeastTest() {
-  if (currentYeastTestNumber === null) {
-    return;
-  }
-
-  revealYeastTestColumn(
-    currentYeastTestNumber
-  );
-
-  if (currentYeastVideoButton) {
-    currentYeastVideoButton.classList.add(
-      "video-watched"
-    );
-
-    const label =
-      currentYeastVideoButton.querySelector(
-        "p:last-child"
-      );
-
-    if (label) {
-      label.textContent = "Watched ✓";
-    }
-  }
-
-  currentYeastTestNumber = null;
-  currentYeastVideoButton = null;
-}
-
-
-function revealYeastTestColumn(testNumber) {
-  const section =
-    document.getElementById(
-      "yeast-average"
-    );
-
-  if (!section) {
-    return;
-  }
-
-  watchedYeastTests.add(
-    testNumber
-  );
-
-  section.classList.add(
-    "test-" +
-    testNumber +
-    "-revealed"
-  );
-
-  if (watchedYeastTests.size === 3) {
-    section.classList.add(
-      "all-tests-revealed"
-    );
-  }
-}
-
-const originalCloseVideoModal =
-  closeVideoModal;
-
-closeVideoModal = function () {
-
-  revealCurrentYeastTest();
-
-  originalCloseVideoModal();
-};
 
       const dev = true;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
@@ -2171,9 +2041,6 @@ if (averageButtons.length === 0) {
       }
 
 function resetYeastAverage() {
-  const section =
-    document.getElementById("yeast-average");
-
   document
     .getElementById("yeastPredictionCheckSupported")
     .classList.remove("selected-answer");
@@ -2186,52 +2053,12 @@ function resetYeastAverage() {
     .getElementById("yeastPredictionCheck")
     .hidden = true;
 
-
-  /* Restore Calculate buttons */
   restoreAverageButtons(
     "#yeast-average",
     calculateFixedAverage
   );
-
-
-  /* Forget which videos have been watched */
-  watchedYeastTests.clear();
-
-
-  if (section) {
-    section.classList.remove(
-      "test-1-revealed",
-      "test-2-revealed",
-      "test-3-revealed",
-      "all-tests-revealed"
-    );
-  }
-
-
-  /*
-    Restore all video buttons to their
-    original state.
-  */
-  document
-    .querySelectorAll(
-      "#yeast-average .watch-video-button"
-    )
-    .forEach(function(button) {
-
-      button.classList.remove(
-        "video-watched"
-      );
-
-      const label =
-        button.querySelector("p:last-child");
-
-      if (label) {
-        label.textContent =
-          "Watch Video";
-      }
-    });
 }
-      
+
       function resetBuildYourOwnTable() {
         document.getElementById("ballBouncePredictionSupported").classList.remove("selected-answer");
         document.getElementById("ballBouncePredictionUnsupported").classList.remove("selected-answer");

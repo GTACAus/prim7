@@ -43,6 +43,16 @@
   background: var(--mint);
 }
 
+#formula-step-independent {
+  background: var(--yellow);
+}
+#formula-step-dependent {
+  background: var(--soft-purple);
+}
+#formula-step-units {
+  background: var(--blue);
+}
+
 .formula-step strong {
   display: block;
   margin-bottom: 3px;
@@ -73,7 +83,14 @@
   display: flex;
   flex-direction: column;
   padding: 28px;
-  background: var(--soft-purple);
+
+  background: linear-gradient(
+  to bottom,
+  var(--paper) 0%,
+  var(--paper) 50%,
+  var(--blue) 300%
+);
+
   border: 3px solid var(--charcoal);
   border-radius: 24px;
   box-shadow: var(--shadow-small);
@@ -86,8 +103,9 @@
 
   color: var(--charcoal);
   background-color: var(--soft-orange);
-  border: 3px dashed var(--orange);
-  border-radius: 12px;
+  border: 2px solid var(--orange);
+  border-left: 7px solid var(--orange);
+  border-radius: 10px;
 
 
   font-size: 0.76rem;
@@ -130,7 +148,6 @@
 }
 
 .experiment-table .dependent-heading,
-.experiment-table .independent-axis,
 .experiment-table .independent-heading {
   border-width: 2px;
 }
@@ -144,40 +161,47 @@
   font-weight: 600;
 }
 
-.corner-space {
-  border-color: transparent !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
+/* ---------- Semantic table colours ---------- */
 
+/* DEPENDENT VARIABLE = PURPLE */
 .dependent-heading {
   height: 64px !important;
   background: var(--purple);
   color: white;
+
   font-size: 1.04rem;
   letter-spacing: 0.015em;
   text-transform: uppercase;
 }
 
+
+/* TEST / REPEAT TRIAL = NEUTRAL LAVENDER */
 .test-heading {
   background: var(--lavender);
   color: var(--text);
   text-transform: uppercase;
 }
 
+.average-heading {
+  background: var(--soft-blue);
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* INDEPENDENT VARIABLE = YELLOW */
 .independent-heading {
-  background: var(--green);
+  background: var(--yellow);
   color: var(--text);
 
   font-weight: 700;
   text-transform: uppercase;
-
-  border: 2px solid var(--charcoal);
 }
 
+
+/* VALUES OF THE INDEPENDENT VARIABLE = SOFT YELLOW */
 .independent-value {
   width: 170px;
-  background: var(--mint);
+  background: var(--soft-yellow);
   text-transform: uppercase;
 }
 
@@ -187,8 +211,76 @@
   font-weight: 700;
 }
 
-/* ---------- Teaching callouts ---------- */
+/* ---------- Reference table instruction layout ---------- */
 
+.reference-callout-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 10px;
+
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.reference-callout-independent {
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  padding: 12px;
+}
+
+.reference-callout-independent p {
+  font-size: 0.94rem;
+}
+
+/*
+  Override the normal centred callout sizing only
+  inside the reference-table instruction row.
+*/
+.reference-callout-row .data-table-callout {
+  width: 100%;
+  margin: 0;
+}
+
+/* Reference-table instructions should feel attached to the table */
+.reference-callout-row .data-table-callout {
+  padding: 14px 16px;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+/* Independent-variable instruction aligns with first column */
+.reference-callout-independent {
+  grid-column: 1;
+}
+
+/* Dependent-variable instruction sits over the result columns */
+.reference-callout-dependent {
+  grid-column: 2;
+}
+
+/* Lesson 2-inspired reference callouts */
+
+.reference-callout-independent {
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--yellow);
+}
+
+.reference-callout-dependent {
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--purple);
+}
+
+.reference-callout-independent .callout-number {
+  background: var(--yellow);
+}
+
+.reference-callout-dependent .callout-number {
+  background: var(--lavender);
+}
+
+/* ---------- Teaching callouts ---------- */
 .data-table-callout {
   display: grid;
   grid-template-columns: 38px 1fr;
@@ -197,7 +289,7 @@
   width: min(610px, 100%);
   margin: 0 auto 18px;
   padding: 12px 16px;
-  background: var(--paper);
+  background: white;
   border: 2px solid var(--charcoal);
   border-radius: 16px;
   box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
@@ -230,43 +322,83 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-top: 22px;
+  margin: 22px 0;
 }
 
 .table-key-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-items: center;
+  
   min-height: 130px;
-  padding: 18px;
-  background: var(--paper);
-  border: 2px solid var(--charcoal);
+  padding: 20px;
+
+  background: white;
+
+  border: 3px solid var(--charcoal);
   border-radius: 18px;
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+
+  box-shadow: var(--shadow-small);
+
+  transition: 
+    transform 0.2s ease-out;
+}
+
+.table-key-card:hover {
+  transform: scale(1.05);
+}
+
+/* Independent variable */
+.table-key-card.key-independent {
+  border-top: 10px solid var(--yellow);
+}
+
+.table-key-card.key-dependent {
+  border-top: 10px solid var(--purple);
+}
+
+.table-key-card.key-units {
+  border-top: 10px solid var(--blue);
 }
 
 .table-key-card p {
-  margin: 10px 0 0;
+  margin: 0;
   color: var(--muted);
   line-height: 1.5;
+
+  text-align: center;
+}
+
+.table-key-card h3 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 1.15rem;
+  line-height: 1.25;
+
+  text-align: center;
+}
+
+.table-key-card .watch-video-button {
+  margin-top: auto;
 }
 
 .table-key-label {
-  display: inline-block;
-  padding: 6px 10px;
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-  font-size: 0.82rem;
+  display: block;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  color: var(--purple);
+
+  font-size: 0.78rem;
   font-weight: 700;
-}
-
-.key-dependent .table-key-label {
-  background: var(--lavender);
-}
-
-.key-independent .table-key-label {
-  background: var(--mint);
-}
-
-.key-units .table-key-label {
-  background: var(--yellow);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 /* ---------- Responsive ---------- */
@@ -278,6 +410,15 @@
 
   .table-key-grid {
     grid-template-columns: 1fr;
+  }
+
+  .reference-callout-row {
+    grid-template-columns: 1fr;
+  }
+
+  .reference-callout-independent,
+  .reference-callout-dependent {
+    grid-column: 1;
   }
 }
 
@@ -350,7 +491,6 @@
 
   .experiment-table {
     min-width: 0 !important;
-    border-spacing: 3mm !important;
   }
 
   .experiment-table th,
@@ -376,17 +516,15 @@
 }
 
 /* ---------- Number entry cells ---------- */
-
-.table-number-input {
+.table-number-input,
+.table-text-input {
   display: block;
 
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  height: 52px;
 
   margin: 0;
-  padding: 10px 12px;
 
   background: white;
   color: var(--text);
@@ -395,17 +533,19 @@
   border-radius: 6px;
 
   font: inherit;
-  font-size: 1rem;
-  font-weight: 700;
   text-align: center;
 
   box-sizing: border-box;
-  appearance: textfield;
 }
 
-.table-number-input:focus {
-  outline: 4px solid rgba(78, 50, 232, 0.18);
-  border-color: var(--purple);
+.table-number-input {
+  height: 52px;
+  padding: 10px 12px;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  appearance: textfield;
 }
 
 /* Hide number spinners */
@@ -419,31 +559,24 @@
 /* ---------- Student heading / label text fields ---------- */
 
 .table-text-input {
-  display: block;
-
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
   min-height: 46px;
-
-  margin: 0;
   padding: 9px 11px;
 
-  background: white;
-  color: var(--text);
-
-  border: 2px solid var(--line);
-  border-radius: 6px;
-
-  font: inherit;
   font-weight: 600;
-  text-align: center;
-
-  box-sizing: border-box;
 }
 
+.table-number-input,
+.table-text-input {
+  outline: 4px solid transparent;
+
+  transition:
+    outline-color 0.3s ease,
+    border-color 0.2s ease;
+}
+
+.table-number-input:focus,
 .table-text-input:focus {
-  outline: 4px solid rgba(78, 50, 232, 0.18);
+  outline-color: rgba(78, 50, 232, 0.18);
   border-color: var(--purple);
 }
 
@@ -459,62 +592,104 @@
   margin-inline: auto;
 
   background: var(--paper);
-  color: var(--text);
 }
 
 
 /* ---------- Ball-bounce data cells ---------- */
 
-#bounce-data-entry .experiment-table td,
 #build-your-own-table .experiment-table td {
   padding: 12px;
 }
 
-#bounce-data-entry .table-number-input,
 #build-your-own-table .table-number-input {
   height: 54px;
+}
+
+/* ---------- Observe the ball-bounce experiment ---------- */
+
+.lesson3-planning-heading.observation-heading {
+  margin-top: 38px;
+  margin-bottom: 6px;
+}
+
+.lesson3-planning-heading.observation-heading > span {
+  background: var(--soft-green);
+}
+
+.ball-bounce-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin: 16px 0 30px;
+}
+
+.ball-bounce-video-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 22px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+
+  text-align: center;
+}
+
+.ball-bounce-video-card:first-child {
+  border-top: 8px solid var(--orange);
+}
+
+.ball-bounce-video-card:last-child {
+  border-top: 8px solid var(--green);
+}
+
+.ball-bounce-video-card h3 {
+  margin: 0;
+}
+
+.ball-bounce-video-card > p:not(.ball-bounce-video-label) {
+  margin: 0 0 8px;
+
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.ball-bounce-video-label {
+  margin: 0;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  .ball-bounce-video-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 
 /* ---------- Build-your-own table labels ---------- */
 
-#build-your-own-table .independent-value {
-  padding: 10px;
-}
-
 #build-your-own-table .independent-value .table-text-input {
   height: 52px;
 }
 
-
-/*
-  Don't rotate the actual input box.
-  Keep the green axis cell vertical-looking,
-  but let students type normally.
-*/
-#build-your-own-table .axis-input-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  writing-mode: horizontal-tb;
-  transform: none;
-}
-
 #build-your-own-table .axis-text-input {
-  width: 125px;
   min-height: 52px;
 }
 
-
 /* ---------- Average buttons ---------- */
-
-.average-cell {
-  text-align: center;
-}
 
 .average-button {
   display: inline-flex;
@@ -528,28 +703,16 @@
   background: var(--yellow);
   color: var(--text);
 
-  border: 2px solid var(--line);
   border-radius: 999px;
-
-  box-shadow: 0 3px 0 var(--line);
 
   font: inherit;
   font-weight: 700;
-
-  cursor: pointer;
 
   appearance: none;
 }
 
 .average-button:hover {
-  background: var(--green);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.average-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--line);
+  background: var(--soft-blue);
 }
 
 .average-result {
@@ -562,27 +725,78 @@
    LESSON 3 - DRAG AND DROP TABLE ACTIVITY
    ================================================== */
 
+#yeastActivity {
+  display: grid;
+  grid-template-columns: clamp(10rem, 15vw, 15rem) 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 10px;
+}
 
+#yeastLabelBank {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.yeast-table-card {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+#yeastLabelFeedback {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.lesson3-reset-container {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
 /* ---------- Label bank ---------- */
+#yeast-labels .table-number-control {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+#yeast-labels.labels-complete .table-number-control {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
 
 #yeast-labels .table-label-bank {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  grid-row: 1;
 
   gap: 12px;
 
   min-height: 0;
+  height: 100%;
   margin: 0 0 22px;
   padding: 20px;
 
-  background: var(--paper);
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 55%,
+    var(--soft-blue) 160%
+  );
 
   border: 3px solid var(--line);
   border-radius: 20px;
 
   box-shadow: var(--shadow-small);
+}
+
+#labelBankHeading {
+  margin: 0 0 0.7rem;
+  font-weight: 800;
 }
 
 
@@ -594,7 +808,7 @@
   pointer-events: none;
   margin: 0;
 
-  opacity: 0.85;
+  opacity: 1;
 
   transform: scale(1.05);
 
@@ -606,7 +820,21 @@
   cursor: grabbing;
 }
 
-#yeast-labels .drag-label {
+.touch-drag-ghost.is-hovering-drop-zone .drag-label {
+  animation: drag-label-hover 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes drag-label-hover {
+  from {
+    transform: translateY(-2px);
+  }
+
+  to {
+    transform: translateY(2px);
+  }
+}
+
+#yeast-labels .touch-drag-ghost, .drag-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -614,36 +842,28 @@
   min-height: 48px;
   padding: 10px 18px;
 
-  background: var(--soft-green);
+  background: var(--paper);
   color: var(--text);
 
   border: 2px solid var(--line);
-  border-radius: 999px;
+  border-top: 5px solid var(--blue);
+  border-radius: 14px;
 
-  font-size: 0.95rem;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
+
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
   font-weight: 700;
   line-height: 1.25;
   text-align: center;
-
-  cursor: grab;
-  user-select: none;
 }
 
 
 #yeast-labels .drag-label:hover {
-  background: var(--mint);
-
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 var(--line);
+  background: var(--soft-blue);
 }
 
 #yeast-labels .drag-label:active,
 #yeast-labels .drag-label.is-dragging {
-  cursor: grabbing;
-
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--line);
-
   opacity: 0.65;
 }
 
@@ -671,12 +891,12 @@
   padding: 8px 10px;
 
   background: rgba(255, 255, 255, 0.38);
-  color: var(--muted);
+  color: var(--charcoal);
 
   border: 2px dashed var(--charcoal);
   border-radius: 6px;
 
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
   font-weight: 600;
   line-height: 1.25;
 
@@ -693,29 +913,22 @@
 /* Make the drop target look active */
 
 #yeast-labels .label-drop-zone.drag-over {
-  background: var(--soft-yellow);
-  border-color: var(--purple);
-
   transform: scale(1.03);
-
+  
+  border-color: var(--purple);
   box-shadow:
-    0 0 0 4px rgba(78, 50, 232, 0.15);
+  0 0 0 4px rgba(78, 50, 232, 0.15);
 }
 
-
-/* Correctly completed target */
-
-#yeast-labels .label-drop-zone.drop-complete {
-  background: var(--soft-green);
-  color: var(--text);
-
-  border: 2px solid var(--green);
-
-  font-weight: 700;
-
-  box-shadow: none;
+#yeast-labels .independent-heading .label-drop-zone.drag-over,
+#yeast-labels .independent-value .label-drop-zone.drag-over {
+  background: var(--soft-purple) !important;
 }
 
+#yeast-labels .dependent-heading .label-drop-zone.drag-over,
+#yeast-labels .test-heading .label-drop-zone.drag-over {
+  background: var(--soft-yellow);
+}
 
 /* ---------- Incorrect drop ---------- */
 
@@ -781,6 +994,21 @@
   text-transform: uppercase;
 }
 
+/* ---------- Independent-variable drop area ---------- */
+#yeast-labels .independent-heading .label-drop-zone.drag-over {
+  background: var(--soft-yellow);
+  color: var(--text);
+
+  border-color: var(--yellow);
+}
+
+
+#yeast-labels .independent-heading .label-drop-zone.drop-complete {
+  background: transparent;
+  border-color: transparent;
+  text-transform: uppercase;
+}
+
 
 /* ---------- Test-heading drop areas ---------- */
 
@@ -811,37 +1039,13 @@
   text-transform: uppercase;
 }
 
-
-/* ---------- Empty result cells ---------- */
-
-#yeast-labels .yeast-table td {
-  background: var(--paper);
-}
-
-
 /* ---------- Completion feedback ---------- */
 
 #yeast-labels .table-activity-feedback {
   margin-top: 20px;
   padding: 16px 18px;
-
-  border: 2px solid var(--line);
-  border-radius: 16px;
-
   text-align: center;
 }
-
-
-#yeast-labels .table-activity-feedback.feedback-success {
-  background: var(--soft-green);
-}
-
-
-#yeast-labels .table-activity-feedback strong,
-#yeast-labels .table-activity-feedback span {
-  display: block;
-}
-
 
 #yeast-labels .table-activity-feedback strong {
   margin-bottom: 4px;
@@ -859,35 +1063,7 @@
 
   #yeast-labels .drag-label {
     padding: 9px 13px;
-    font-size: 0.86rem;
   }
-}
-
-/* ---------- Permanent numerical table answers ---------- */
-
-.table-number-control {
-  width: 100%;
-}
-
-.table-number-answer {
-  min-height: 54px;
-  width: 100%;
-
-  align-items: center;
-  justify-content: space-between;
-
-  background: white;
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  font-weight: 700;
-  text-align: center;
-}
-
-.table-number-answer .table-entry-answer-text {
-  flex: 1;
-  text-align: center;
 }
 
 /* ==================================================
@@ -900,6 +1076,16 @@
 */
 .table-entry-answer {
   display: none;
+
+  width: 100%;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-sizing: border-box;
 }
 
 /* Show it only after JavaScript adds .visible */
@@ -919,16 +1105,8 @@
 /* ---------- Permanent number answers ---------- */
 
 .table-number-answer {
-  width: 100%;
   min-height: 54px;
   padding: 8px 10px;
-
-  background: white;
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-sizing: border-box;
 
   font-weight: 700;
   text-align: center;
@@ -943,18 +1121,9 @@
 /* ---------- Permanent text answers ---------- */
 
 .table-entry-answer:not(.table-number-answer) {
-  width: 100%;
   min-height: 46px;
   padding: 8px 10px;
-
-  background: white;
-
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-sizing: border-box;
 }
-
 
 /* Keep the X button compact */
 .table-entry-answer .delete-answer {
@@ -981,22 +1150,26 @@
   cursor: pointer;
 }
 
+/* Section Headings */
+#data-table-template .section-title {
+  background-color: var(--blue);
+}
+
+#yeast-labels .section-title {
+  background-color: var(--mint);
+}
+
+#yeast-average .section-title {
+  background-color: var(--lavender);
+}
+
 /* ==================================================
    RESPONSIVE TABLE SIZING
    Prefer shrinking before horizontal scrolling.
    ================================================== */
 
-#data-table-template .reference-table {
-  table-layout: fixed;
-}
-
 #data-table-template .independent-value {
   width: 180px;
-}
-
-/* Let columns share the available width */
-#build-your-own-table .experiment-table {
-  table-layout: fixed;
 }
 
 #build-your-own-table .independent-value {
@@ -1006,8 +1179,6 @@
 /* Make inner controls shrink with the cell */
 #build-your-own-table .table-entry-control,
 #build-your-own-table .table-entry-input-row,
-#build-your-own-table .table-text-input,
-#build-your-own-table .table-number-input,
 #build-your-own-table .table-entry-answer {
   width: 100%;
   min-width: 0;
@@ -1024,27 +1195,6 @@
 #build-your-own-table .experiment-table th,
 #build-your-own-table .experiment-table td {
   padding: 9px;
-}
-
-/* Let the heading input fill its available space */
-#build-your-own-table .table-heading-input {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* The independent variable entry should not force width */
-#build-your-own-table .axis-text-input {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* ==================================================
-   PERMANENT ANSWER TEXT COLOUR FIX
-   ================================================== */
-
-.table-entry-answer,
-.table-entry-answer .table-entry-answer-text {
-  color: var(--text);
 }
 
 /* ==================================================
@@ -1161,4 +1311,883 @@
 
 .average-clear-button:active {
   transform: scale(0.95);
+}
+
+/* ==================================================
+   YEAST AVERAGE - INTERPRET RESULTS
+   ================================================== */
+
+.prediction-check {
+  width: min(700px, 100%);
+  margin: 24px auto 0;
+  padding: 22px;
+
+  background: white;
+
+  border: 3px solid var(--charcoal);
+  border-top: 8px solid var(--purple);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-small);
+
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.prediction-check[hidden] {
+  display: none;
+}
+
+.prediction-label {
+  margin: 0 0 6px;
+
+  color: var(--purple);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prediction-check h3 {
+  margin: 0 0 8px;
+}
+
+.prediction-check > p:not(.prediction-label) {
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.prediction-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.prediction-button {
+  color: var(--charcoal);
+  background: var(--soft-green);
+  min-width: 150px;
+}
+
+.prediction-button:hover {
+  background: var(--green);
+}
+
+.prediction-button.selected-answer {
+  color: var(--paper);
+  background: var(--button-hover);
+  box-shadow: none;
+  transform: translateY(3px);
+}
+
+.prediction-button.selected-answer:hover {
+  cursor: default;
+}
+
+/* ==================================================
+   LESSON 3 - BALL BOUNCE PLANNING
+   Testable question + reasoned prediction
+   ================================================== */
+
+.lesson3-planning-activity {
+  margin: 30px 0 0;
+  padding: 0;
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 0;
+
+  box-shadow: none;
+}
+
+
+/* ---------- Step headings ---------- */
+
+.lesson3-planning-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 8px;
+}
+
+.lesson3-planning-heading > span {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  width: 38px;
+  height: 38px;
+
+  background: var(--blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+
+  font-weight: 700;
+}
+
+.lesson3-planning-heading.prediction-heading {
+  margin-top: 38px;
+  margin-bottom: 6px;
+}
+
+.lesson3-planning-heading.prediction-heading
+  + .lesson3-planning-instruction {
+  margin-bottom: 10px;
+}
+
+.lesson3-planning-heading.prediction-heading > span {
+  background: var(--lavender);
+}
+
+.lesson3-planning-eyebrow {
+  margin: 0 0 3px;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lesson3-planning-heading h3 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 1.15rem;
+}
+
+
+/* ---------- Instructions ---------- */
+
+.lesson3-planning-instruction {
+  margin: 0 0 18px 50px;
+
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+
+/* ---------- Testable-question choices ---------- */
+
+.question-structure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.question-structure-card {
+  min-height: 110px;
+  padding: 18px;
+
+  background: var(--paper);
+  color: var(--text);
+
+  border: 3px solid var(--line);
+  border-radius: 18px;
+
+  box-shadow: 0 4px 0 var(--line);
+
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.45;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.question-structure-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+
+/* Same colour coding as Lesson 2 */
+
+.question-structure-card.question-structure-what {
+  border-top: 4px solid var(--yellow);
+}
+
+.question-structure-card.question-structure-how {
+  border-top: 4px solid var(--blue);
+}
+
+.question-structure-card.question-structure-does {
+  border-top: 4px solid var(--green);
+}
+
+.question-structure-card.question-structure-if {
+  border-top: 4px solid var(--purple);
+}
+
+
+/* Selected states */
+
+.question-structure-card.question-structure-what.selected {
+  background: var(--soft-yellow);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.question-structure-card.question-structure-how.selected {
+  background: var(--soft-blue);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.question-structure-card.question-structure-does.selected {
+  background: var(--soft-green);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.question-structure-card.question-structure-if.selected {
+  background: var(--soft-purple);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+
+/* ---------- Question builder ---------- */
+
+.investigation-question-builder {
+  margin: 18px 0 24px;
+  padding: 24px;
+
+  background: var(--paper);
+
+  border: 2px dashed var(--line);
+  border-radius: 18px;
+
+  color: var(--text);
+  text-align: center;
+}
+
+.investigation-question-builder.builder-active {
+  border-style: solid;
+  background: var(--soft-blue);
+}
+
+.question-builder-placeholder {
+  margin: 0;
+}
+
+.question-builder-sentence {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  color: var(--text);
+
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+.question-blank {
+  display: inline-flex;
+}
+
+.lesson3-question-input {
+  width: 210px;
+  max-width: 100%;
+
+  padding: 10px 12px;
+
+  background: var(--paper);
+  color: var(--text);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+.lesson3-question-input:focus {
+  outline: 4px solid rgba(78, 50, 232, 0.18);
+  border-color: var(--purple);
+}
+
+
+/* Completed question */
+
+.completed-investigation-question {
+  margin-top: 16px;
+  padding: 14px 16px;
+
+  background: var(--soft-green);
+
+  border: 2px solid var(--green);
+  border-radius: 12px;
+
+  color: var(--text);
+
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.completed-investigation-question[hidden] {
+  display: none;
+}
+
+
+/* ---------- Reasoned-prediction iframe ---------- */
+
+.lesson3-planning-activity .iframe-box {
+  width: 100%;
+  margin: 8px 0 0;
+  padding: 0;
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  overflow: hidden;
+}
+
+.lesson3-planning-activity .reasoned-prediction-iframe {
+  display: block;
+
+  width: 100%;
+  height: 650px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+  .lesson3-planning-activity {
+    padding: 16px;
+  }
+
+  .question-structure-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson3-planning-instruction {
+    margin-left: 0;
+  }
+
+  .lesson3-question-input {
+    width: 100%;
+  }
+
+  .reasoned-prediction-iframe {
+    height: 700px;
+  }
+}
+
+/* ---------- Saved testable-question answers ---------- */
+
+.question-blank-input-row {
+  display: inline-block;
+}
+
+.question-blank-answer {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-width: 210px;
+  min-height: 48px;
+
+  padding: 8px 10px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-sizing: border-box;
+
+  font-weight: 700;
+}
+
+.question-blank-answer.visible {
+  display: inline-flex;
+}
+
+.question-blank-answer-text {
+  flex: 1;
+  min-width: 0;
+
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.question-blank-answer .delete-answer {
+  flex: 0 0 auto;
+
+  width: 26px;
+  height: 26px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--soft-orange);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 50%;
+
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.question-blank-answer .delete-answer:hover {
+  background: var(--orange);
+}
+
+/* ==================================================
+   YEAST EXPERIMENT CONTEXT
+   ================================================== */
+
+#yeast-context .section-title {
+  background: var(--mint);
+}
+
+.yeast-context-card {
+  display: grid;
+  gap: 20px;
+
+  padding: 28px;
+
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 55%,
+    var(--soft-green) 180%
+  );
+
+  border: 3px solid var(--charcoal);
+  border-radius: 22px;
+
+  box-shadow: var(--shadow-small);
+}
+
+
+/* ---------- Intro ---------- */
+
+.yeast-context-intro {
+  padding: 22px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--green);
+  border-radius: 18px;
+}
+
+.yeast-context-eyebrow {
+  margin: 0 0 6px;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.yeast-context-intro h3,
+.yeast-context-experiment h3 {
+  margin: 0 0 10px;
+}
+
+.yeast-context-intro p,
+.yeast-context-experiment p {
+  margin: 0 0 12px;
+
+  line-height: 1.6;
+}
+
+.yeast-context-intro p:last-child,
+.yeast-context-experiment p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ---------- What happened ---------- */
+
+.yeast-context-experiment {
+  padding: 20px 22px;
+
+  background: var(--soft-blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+}
+
+
+/* ---------- Temperatures ---------- */
+
+.yeast-temperature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.yeast-temperature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 5px;
+
+  min-height: 130px;
+  padding: 18px 12px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.yeast-temperature-card:nth-child(1) {
+  border-top: 7px solid var(--blue);
+}
+
+.yeast-temperature-card:nth-child(2) {
+  border-top: 7px solid var(--green);
+}
+
+.yeast-temperature-card:nth-child(3) {
+  border-top: 7px solid var(--yellow);
+}
+
+.yeast-temperature-card:nth-child(4) {
+  border-top: 7px solid var(--orange);
+}
+
+.yeast-temperature-value {
+  color: var(--purple);
+
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.yeast-temperature-card strong {
+  font-size: 1rem;
+}
+
+.yeast-temperature-card span:last-child {
+  color: var(--muted);
+
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+
+/* ---------- Investigation question ---------- */
+
+.yeast-context-question {
+  position: relative;
+
+  padding: 24px 20px 18px;
+
+  background: var(--soft-yellow);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.yeast-context-question-label {
+  position: absolute;
+  top: -15px;
+  left: 18px;
+
+  padding: 5px 12px;
+
+  background: var(--yellow);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.yeast-context-question p {
+  margin: 0;
+
+  line-height: 1.5;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 800px) {
+  .yeast-temperature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .yeast-context-card {
+    padding: 16px;
+  }
+
+  .yeast-temperature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================================================
+   YEAST AVERAGE - VIDEO RESULT REVEAL
+   ================================================== */
+
+/*
+  Keep cells in place, but hide their contents initially.
+*/
+#yeast-average tbody td:nth-of-type(1),
+#yeast-average tbody td:nth-of-type(2),
+#yeast-average tbody td:nth-of-type(3) {
+  color: transparent;
+
+  opacity: 0;
+  transform: translateY(6px);
+
+  transition:
+    color 0.8s ease,
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+
+/* ---------- Test 1 watched ---------- */
+
+#yeast-average.test-1-revealed
+tbody td:nth-of-type(1) {
+  color: var(--text);
+
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ---------- Test 2 watched ---------- */
+
+#yeast-average.test-2-revealed
+tbody td:nth-of-type(2) {
+  color: var(--text);
+
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ---------- Test 3 watched ---------- */
+
+#yeast-average.test-3-revealed
+tbody td:nth-of-type(3) {
+  color: var(--text);
+
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ---------- Average buttons stay locked ---------- */
+
+#yeast-average .average-button {
+  visibility: hidden;
+
+  opacity: 0;
+  transform: translateY(5px) scale(0.96);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+
+/*
+  Once all three videos have been watched,
+  gently reveal the Calculate buttons.
+*/
+
+#yeast-average.all-tests-revealed
+.average-button {
+  visibility: visible;
+
+  opacity: 1;
+  transform: translateY(0) scale(1);
+
+  pointer-events: auto;
+
+  transition-delay: 0.35s;
+}
+
+
+/* ---------- Watched video button ---------- */
+
+#yeast-average .watch-video-button {
+  transition:
+    background 0.45s ease,
+    border-color 0.45s ease,
+    transform 0.25s ease;
+}
+
+#yeast-average .watch-video-button.video-watched {
+  background: var(--soft-green);
+  border-color: var(--green);
+}
+
+/* Prevent reveal animation from creating a vertical scrollbar */
+#yeast-average .experiment-table-scroll {
+  overflow-y: hidden;
+}
+
+/* ==================================================
+   BALL BOUNCE EXPERIMENT CONTEXT
+   ================================================== */
+
+.ball-bounce-context {
+  margin-bottom: 24px;
+  padding: 24px;
+
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 60%,
+    var(--soft-blue) 180%
+  );
+
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+
+  box-shadow: var(--shadow-small);
+}
+
+.ball-bounce-context-eyebrow {
+  margin: 0 0 6px;
+
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ball-bounce-context h3 {
+  margin: 0 0 12px;
+
+  font-size: 1.2rem;
+}
+
+.ball-bounce-context > p:not(.ball-bounce-context-eyebrow) {
+  margin: 0 0 12px;
+
+  line-height: 1.55;
+}
+
+.ball-bounce-conditions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin: 20px 0;
+}
+
+.ball-bounce-condition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 18px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.ball-bounce-condition span {
+  color: var(--purple);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.ball-bounce-condition strong {
+  font-size: 1.05rem;
+}
+
+.hard-condition {
+  border-top: 7px solid var(--orange);
+}
+
+.soft-condition {
+  border-top: 7px solid var(--green);
+}
+
+.ball-bounce-context-task {
+  margin-bottom: 0 !important;
+  padding: 14px 16px;
+
+  background: var(--soft-yellow);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+}
+
+@media (max-width: 700px) {
+  .ball-bounce-conditions {
+    grid-template-columns: 1fr;
+  }
 }
