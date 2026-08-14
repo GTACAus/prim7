@@ -1389,33 +1389,172 @@
           </div>
         </div>
 
-        <div class="prediction-check" id="yeastPredictionCheck" hidden>
-          <p class="prediction-label">Interpret the results</p>
+<div class="prediction-check yeast-results-interpretation" id="yeastPredictionCheck" hidden>
 
-          <h3>Do the results support the reasoned prediction?</h3>
+  <p class="prediction-label">
+    Interpret the results
+  </p>
 
-          <p>
-            Look at the averages in the table and decide whether the evidence supports the prediction.
-          </p>
+  <div class="yeast-prediction-reminder">
+    <p class="yeast-prediction-reminder-label">
+      Reasoned prediction
+    </p>
 
-          <div class="prediction-buttons">
-            <button
-              id="yeastPredictionCheckSupported"
-              type="button"
-              class="general-button prediction-button"
-            >
-              Supported
-            </button>
+    <p>
+      As the temperature increases, the amount of gas produced by yeast increases.
+      This is because living things need to be warm to survive.
+    </p>
+  </div>
 
-            <button
-              id="yeastPredictionCheckUnsupported"
-              type="button"
-              class="general-button prediction-button"
-            >
-              Not supported
-            </button>
-          </div>
-        </div>
+  <h3>Use the data to describe the results</h3>
+
+  <div class="yeast-result-question">
+
+    <p>
+      As the temperature increases from
+      <strong>2°C to 37°C</strong>, the amount of gas produced by yeast:
+    </p>
+
+    <div class="prediction-buttons">
+      <button
+        type="button"
+        class="general-button prediction-button"
+        data-yeast-result-question="low-to-37"
+        data-answer="increases"
+      >
+        Increases
+      </button>
+
+      <button
+        type="button"
+        class="general-button prediction-button"
+        data-yeast-result-question="low-to-37"
+        data-answer="decreases"
+      >
+        Decreases
+      </button>
+
+      <button
+        type="button"
+        class="general-button prediction-button"
+        data-yeast-result-question="low-to-37"
+        data-answer="same"
+      >
+        Does not change
+      </button>
+    </div>
+
+  </div>
+
+  <div class="yeast-result-question">
+
+    <p>
+      At <strong>80°C</strong>, the amount of gas produced compared with
+      <strong>37°C</strong>:
+    </p>
+
+    <div class="prediction-buttons">
+      <button
+        type="button"
+        class="general-button prediction-button"
+        data-yeast-result-question="37-to-80"
+        data-answer="increases"
+      >
+        Increases
+      </button>
+
+      <button
+        type="button"
+        class="general-button prediction-button"
+        data-yeast-result-question="37-to-80"
+        data-answer="decreases"
+      >
+        Decreases
+      </button>
+
+      <button
+        type="button"
+        class="general-button prediction-button"
+        data-yeast-result-question="37-to-80"
+        data-answer="same"
+      >
+        Does not change
+      </button>
+    </div>
+
+  </div>
+
+  <div class="yeast-prediction-final" hidden>
+
+    <h3>
+      Do the results support the reasoned prediction?
+    </h3>
+
+    <div class="prediction-buttons">
+
+      <button
+        id="yeastPredictionCheckSupported"
+        type="button"
+        class="general-button prediction-button"
+      >
+        Supported
+      </button>
+
+      <button
+        id="yeastPredictionCheckUnsupported"
+        type="button"
+        class="general-button prediction-button"
+      >
+        Not supported
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="stop-and-check yeast-temperature-stop">
+
+  <div class="stop-and-check-heading">
+    Stop and Think
+  </div>
+
+  <div class="stop-and-check-content">
+
+    <p>
+      From <strong>2°C to 37°C</strong>, yeast activity increased
+      and the balloons became bigger.
+    </p>
+
+    <p>
+      <strong>
+        Why do you think yeast activity was so low in the test at 80°C?
+      </strong>
+    </p>
+
+  </div>
+
+  <div
+    class="stop-and-check-answer"
+    id="yeast80Answer"
+    hidden
+  >
+    Yeast is a living thing. At <strong>80°C</strong>, the temperature
+    is too hot for the yeast to survive, so yeast activity slows down
+    and stops.
+  </div>
+
+  <button
+    type="button"
+    class="stop-and-check-button general-button"
+    onclick="showYeast80Answer(this)"
+  >
+    <p>Check Your Answer</p>
+    <p class="bounce-symbol">✅</p>
+  </button>
+
+</div>
 
         <div class="reset-button-container lesson3-reset-container">
           <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">
@@ -2178,6 +2317,26 @@ function showRepeatTestsAnswer(button) {
   }
 }
 
+function showYeast80Answer(button) {
+  const answer =
+    document.getElementById("yeast80Answer");
+
+  if (!answer) {
+    return;
+  }
+
+  answer.hidden = false;
+
+  button.disabled = true;
+
+  const label =
+    button.querySelector("p:first-child");
+
+  if (label) {
+    label.textContent = "Answer checked ✓";
+  }
+}
+
       /* ==================================================
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
@@ -2681,6 +2840,75 @@ if (averageButtons.length === 0) {
 
       return false;
     }
+
+let yeastResultAnswers = {
+  "low-to-37": false,
+  "37-to-80": false
+};
+
+function initialiseYeastResultQuestions() {
+  const buttons = document.querySelectorAll(
+    "[data-yeast-result-question]"
+  );
+
+  buttons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      const question =
+        button.dataset.yeastResultQuestion;
+
+      const answer =
+        button.dataset.answer;
+
+      let correctAnswer = "";
+
+      if (question === "low-to-37") {
+        correctAnswer = "increases";
+      }
+
+      if (question === "37-to-80") {
+        correctAnswer = "decreases";
+      }
+
+      const questionButtons =
+        document.querySelectorAll(
+          '[data-yeast-result-question="' +
+            question +
+            '"]'
+        );
+
+      questionButtons.forEach(function (otherButton) {
+        otherButton.classList.remove("selected-answer");
+      });
+
+      if (answer !== correctAnswer) {
+        button.classList.add("buzz");
+        setTimeout(function () {
+          button.classList.remove("buzz");
+        }, 300);
+
+        return;
+      }
+
+      button.classList.add("selected-answer");
+
+      yeastResultAnswers[question] = true;
+
+      if (
+        yeastResultAnswers["low-to-37"] &&
+        yeastResultAnswers["37-to-80"]
+      ) {
+        const finalQuestion =
+          document.querySelector(
+            ".yeast-prediction-final"
+          );
+
+        if (finalQuestion) {
+          finalQuestion.hidden = false;
+        }
+      }
+    });
+  });
+}
 
     function checkYeastPrediction() {
       const supportedButton = document.getElementById("yeastPredictionCheckSupported");      
@@ -3440,6 +3668,8 @@ function updateLesson3CompletedQuestion() {
         initialiseInvestigationQuestion();
 
         initialiseYeastVariables();
+
+        initialiseYeastResultQuestions();
 
       });
 
