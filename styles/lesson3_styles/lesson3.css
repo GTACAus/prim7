@@ -690,10 +690,16 @@
 }
 
 /* ---------- Average buttons ---------- */
+.average-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
 
 .average-button {
   display: inline-flex;
-  align-items: center;
+  align-items: center; 
   justify-content: center;
 
   min-width: 104px;
@@ -1415,7 +1421,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  
+
   width: min(700px, 100%);
   margin: 24px auto 0;
   padding: 22px;
@@ -2713,7 +2719,7 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .repeat-tests-card {
     grid-template-columns: 1fr;
   }
