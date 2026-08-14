@@ -2901,3 +2901,77 @@
 
   line-height: 1.55;
 }
+
+/* ---------- Upper-primary fraction notation ---------- */
+
+.average-example-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 18px;
+}
+
+.average-equation {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 54px;
+
+  font-size: 1.05rem;
+}
+
+.average-equation-left {
+  min-width: 92px;
+
+  text-align: right;
+}
+
+.math-fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  min-width: 220px;
+
+  text-align: center;
+  vertical-align: middle;
+}
+
+.math-numerator {
+  padding: 0 10px 5px;
+
+  border-bottom: 2px solid var(--charcoal);
+}
+
+.math-denominator {
+  padding: 5px 10px 0;
+}
+
+.average-equation-result {
+  font-size: 1.15rem;
+}
+
+.average-equation-result strong {
+  padding: 6px 12px;
+
+  background: var(--soft-green);
+
+  border-radius: 8px;
+}
+
+@media (max-width: 520px) {
+  .average-equation {
+    font-size: 0.95rem;
+  }
+
+  .average-equation-left {
+    min-width: 72px;
+  }
+
+  .math-fraction {
+    min-width: 180px;
+  }
+}
