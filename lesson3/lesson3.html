@@ -1188,7 +1188,7 @@
 <button
     type="button"
     class="stop-and-check-button general-button"
-    onclick="reconfirmStopAndCheckAnswer(this)"
+    onclick="stopAndCheckRepeatTests(this)"
   >
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
@@ -1196,7 +1196,7 @@
 
 </div>
 
-<div class="repeat-tests-average-intro">
+<div class="repeat-tests-average-intro" hidden>
 
   <p class="repeat-tests-label">
     Step 3
@@ -1992,7 +1992,11 @@ function initialiseYeastVariables() {
     resetYeastVariables
   );
 }
-
+function stopAndCheckRepeatTests(button) {
+  reconfirmStopAndCheckAnswer(button, function() {
+    document.getElementById("repeat-tests").querySelector(".repeat-tests-average-intro").hidden = false;
+  });
+}
 function checkYeastVariable(tile) {
   const structure = yeastVariablesStructure;
   const mode = structure.selectedMode;

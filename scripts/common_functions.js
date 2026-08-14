@@ -460,7 +460,7 @@ if (document.readyState === "loading") {
   initialiseClassroomLanguageFilter();
 }
 
-function showStopAndCheckAnswer(button) {
+function showStopAndCheckAnswer(button, additionalFunction = function() {}) {
   const stopAndCheck = button.closest(".stop-and-check");
   const answer = stopAndCheck.querySelector(".stop-and-check-answer");
   const section = button.closest(".section");
@@ -469,9 +469,10 @@ function showStopAndCheckAnswer(button) {
   answer.hidden = false;
   button.style.display = "none";
   nextButton.hidden = false;
+  additionalFunction();
 }
 
-function reconfirmStopAndCheckAnswer(button) {
+function reconfirmStopAndCheckAnswer(button, additionalFunction) {
   const stopAndCheck = button.closest(".stop-and-check");
   const answer = stopAndCheck.querySelector(".stop-and-check-answer");
   const section = button.closest(".section");
@@ -481,7 +482,7 @@ function reconfirmStopAndCheckAnswer(button) {
   button.textContent = "Did you think about your answer?";
   button.appendChild(bounceSymbol);
   button.onclick = function() {
-    showStopAndCheckAnswer(button);
+    showStopAndCheckAnswer(button, additionalFunction);
   }
 }
 
