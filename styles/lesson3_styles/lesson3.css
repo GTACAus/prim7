@@ -2836,3 +2836,106 @@
 .average-example-answer {
   font-size: 1.08rem;
 }
+
+/* ---------- Repeat tests: Step 3 averages ---------- */
+
+.repeat-tests-average-intro {
+  margin-top: 24px;
+  padding: 22px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--blue);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-small);
+}
+
+.repeat-tests-average-intro > .repeat-tests-label {
+  margin: 0 0 6px;
+}
+
+.repeat-tests-average-intro > h3 {
+  margin: 0 0 12px;
+}
+
+.repeat-tests-average-intro > p:not(.repeat-tests-label) {
+  margin: 0 0 10px;
+
+  line-height: 1.55;
+}
+
+/* ---------- Upper-primary fraction notation ---------- */
+
+.average-example-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 18px;
+}
+
+.average-equation {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 54px;
+
+  font-size: 1.05rem;
+}
+
+.average-equation-left {
+  min-width: 92px;
+
+  text-align: right;
+}
+
+.math-fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  min-width: 220px;
+
+  text-align: center;
+  vertical-align: middle;
+}
+
+.math-numerator {
+  padding: 0 10px 5px;
+
+  border-bottom: 2px solid var(--charcoal);
+}
+
+.math-denominator {
+  padding: 5px 10px 0;
+}
+
+.average-equation-result {
+  font-size: 1.15rem;
+}
+
+.average-equation-result strong {
+  padding: 6px 12px;
+
+  background: var(--soft-green);
+
+  border-radius: 8px;
+}
+
+@media (max-width: 520px) {
+  .average-equation {
+    font-size: 0.95rem;
+  }
+
+  .average-equation-left {
+    min-width: 72px;
+  }
+
+  .math-fraction {
+    min-width: 180px;
+  }
+}
