@@ -3155,11 +3155,13 @@ function resetYeastAverage() {
 
   const predictionCheck = document.getElementById("yeastPredictionCheck")
   predictionCheck.hidden = true;
+  
+  predictionCheck.querySelectorAll(".prediction-button").forEach(function(button) {
+    button.classList.remove("selected-answer");
+  });
 
   const stopAndCheck = document.getElementById("yeast-average").querySelector(".stop-and-check");
   resetStopAndCheck(stopAndCheck);
-
-  
 
   restoreAverageButtons(
     "#yeast-average",
