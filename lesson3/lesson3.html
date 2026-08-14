@@ -563,7 +563,7 @@
 
   </div>
 
-  <div class="stop-and-check yeast-stop-and-think" hidden>
+  <div class="stop-and-check" hidden>
 
   <div class="stop-and-check-content">
     <p>
@@ -587,16 +587,14 @@
     to compare how much gas was produced.
   </div>
 
-  <div class="stop-and-check-button-container">
-    <button
+  <button
       type="button"
       class="stop-and-check-button general-button"
-      onclick="showYeastGasAnswer(this)"
+      onclick="reconfirmStopAndCheckAnswer(this)"
     >
       <p>Check Your Answer</p>
       <p class="bounce-symbol">✅</p>
     </button>
-  </div>
 
 </div>
 
@@ -1159,10 +1157,6 @@
 
 <div class="stop-and-check repeat-tests-stop">
 
-  <div class="stop-and-check-heading">
-    Stop and Think
-  </div>
-
 <div class="stop-and-check-content">
 
   <p>
@@ -1191,11 +1185,10 @@
     If we only used one result, that result might be unusual or affected
     by an error, so our conclusion could be misleading.
   </div>
-
-  <button
+<button
     type="button"
     class="stop-and-check-button general-button"
-    onclick="showRepeatTestsAnswer(this)"
+    onclick="reconfirmStopAndCheckAnswer(this)"
   >
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
@@ -1206,8 +1199,9 @@
   <button
     type="button"
     class="next-button general-button"
+    id="repeatTestsNext"
     onclick="unlockSection('yeast-average', 'repeat-tests')"
-  >
+    hidden>
     Next
   </button>
 
@@ -2045,7 +2039,7 @@ function updateYeastVariablesComplete() {
       "Correct! You identified the independent, dependent and controlled variables.";
 
     // structure.nextButton.hidden = false;
-    document.querySelector(".yeast-stop-and-think").hidden = false;
+    document.getElementById("yeast-variables").querySelector(".stop-and-check").hidden = false;
 
     return;
   }
@@ -2093,41 +2087,6 @@ function resetYeastVariables() {
     "Choose a variable type, then select the matching variable.";
 
   structure.nextButton.hidden = true;
-}
-
-function showYeastGasAnswer(button) {
-  const answer =
-    document.getElementById("yeastGasAnswer");
-
-  if (!answer) {
-    return;
-  }
-
-  answer.hidden = false;
-
-  button.hidden = true;
-
-  document.getElementById("yeastVariablesNext").hidden = false;
-}
-
-function showRepeatTestsAnswer(button) {
-  const answer =
-    document.getElementById("repeatTestsAnswer");
-
-  if (!answer) {
-    return;
-  }
-
-  answer.hidden = false;
-
-  button.disabled = true;
-
-  const label =
-    button.querySelector("p:first-child");
-
-  if (label) {
-    label.textContent = "Answer checked ✓";
-  }
 }
 
       /* ==================================================

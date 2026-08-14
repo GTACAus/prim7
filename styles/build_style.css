@@ -2616,7 +2616,7 @@ body {
   font-weight: 700;
   cursor: pointer;
 
-  animation: button-pop-in 0.5s ease-out;
+  animation: pop-fade-in 0.5s ease-out;
 
   transition:
     color 0.15s ease,
@@ -2625,7 +2625,7 @@ body {
     background 0.15s ease;
 }
 
-@keyframes button-pop-in {     
+@keyframes pop-fade-in {     
   0% {
       opacity: 0;
       transform: translateY(0) scale(0.5);
@@ -2683,6 +2683,88 @@ body {
 }
 .watch-video-button:hover{
   background: var(--soft-blue);
+}
+
+.stop-and-check::before {
+  content: "STOP AND THINK";
+
+  position: absolute;
+  top: -16px;
+  left: 18px;
+
+  padding: 4px 12px;
+
+  background: var(--orange);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  color: var(--paper);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.stop-and-check-answer {
+  position: relative;
+  margin-top: 15px;
+  background-color: var(--soft-green);
+  border-radius: 16px;
+  padding: 10px 15px;
+  padding-top: 15px;
+  margin-top: 20px;
+  border: 2px solid var(--charcoal);
+  border-top: 4px solid var(--green);
+  animation: pop-fade-in 0.5s ease-out;
+}
+
+.stop-and-check-answer::before {
+  content: "ANSWER";
+
+  position: absolute;
+  top: -16px;
+  left: 18px;
+
+  padding: 4px 12px;
+
+  background: var(--green);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  color: var(--text);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.stop-and-check-button {
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 20px;
+  background: var(--yellow) !important;
+  color: var(--text) !important;
+}
+
+.stop-and-check {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 30px 0 0;
+  padding: 16px 18px;
+  border: 3px solid var(--charcoal);
+  border-top: 6px solid var(--orange);
+  background: var(--soft-orange);
+  box-shadow: 0 4px 0 var(--charcoal);
+  border-radius: 16px;
+  font-weight: 500;
+  color: var(--text);
+  animation: pop-fade-in 0.5s ease-out;
+}
+
+.stop-and-check[hidden] {
+  display: none;
 }
 
 .next-button {
