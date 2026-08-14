@@ -215,7 +215,7 @@
         <div class="diagram-box diagram-activity yeast-image-activity">
           <div id="dryYeastCard" class="yeast-card">
             <span class="yeast-number">1</span>
-            <img src="../images/lesson3/Sourdough Starter.jpg" alt="Dry yeast">
+            <img src="../images/lesson3/Yeast.jpg" alt="Dry yeast">
             <div class="yeast-overlay">
                 <p>
                   Dry yeast is sold in packets.
@@ -241,7 +241,7 @@
           <div class="yeast-card">
               <span class="yeast-number">3</span>
 
-              <img src="../images/lesson3/Sourdough Bread 2.jpg" alt="Sourdough starter">
+              <img src="../images/lesson3/Sourdough Starter.jpg" alt="Sourdough starter">
               <div class="yeast-overlay">
                   <p>
                     When you mix dry yeast and sugar in water it will start to become active.
@@ -278,6 +278,18 @@
             Completed — next activity unlocked.
           </p>
       </section>
+      <!-- Full-screen mobile overlay -->
+      <div class="yeast-mobile-modal" id="yeastModal">
+        <div class="yeast-mobile-modal-box">
+          <button class="yeast-modal-close" type="button" aria-label="Close">
+              &times;
+          </button>
+
+          <div class="yeast-modal-content">
+              <p id="yeastModalText"></p>
+          </div>
+        </div>
+      </div>
       <!-- ==================================================
    SECTION 1: YEAST EXPERIMENT CONTEXT
    ================================================== -->
@@ -1656,7 +1668,38 @@
 
     <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
     <script src="../scripts/common_functions.js"></script>
+    <script>
+      const cards = document.querySelectorAll('.yeast-card');
 
+      const modal = document.getElementById('yeastModal');
+      const modalText = document.getElementById('yeastModalText');
+      const closeButton = modal.querySelector('.yeast-modal-close');
+
+      cards.forEach(card => {
+          card.addEventListener('click', () => {
+
+              // Only use full-screen behaviour on mobile
+              if (window.matchMedia('(max-width: 1000px)').matches) {
+
+                  const text = card.querySelector('.yeast-overlay p').textContent;
+
+                  modalText.textContent = text;
+
+                  modal.classList.add('is-open');
+              }
+          });
+      });
+
+      modal.addEventListener('click', event => {
+        if (event.target === modal) {
+          modal.classList.remove('is-open');
+        }
+      });
+
+      closeButton.addEventListener('click', () => {
+          modal.classList.remove('is-open');
+      });
+    </script>
     <script>
     
       const dev = true;

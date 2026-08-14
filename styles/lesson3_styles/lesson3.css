@@ -1885,6 +1885,8 @@
     border-radius: 8px;
     aspect-ratio: 4 / 3;
     cursor: pointer;
+
+    container-type: inline-size;
 }
 
 .yeast-card img {
@@ -1928,13 +1930,100 @@
     flex-direction: column;
     justify-content: center;
 
-    padding: 24px;
+    padding: clamp(8px, 5cqw, 24px);
 
     background: rgba(0, 0, 0, 0.75);
     color: var(--paper);
 
     opacity: 0;
     transition: opacity 0.25s ease;
+}
+
+.yeast-mobile-modal {
+    display: none;
+}
+
+/* Mobile */
+@media (max-width: 1000px) {
+
+    /* Stop the normal hover overlay appearing */
+    .yeast-card:hover .yeast-overlay {
+        opacity: 0;
+    }
+
+    .yeast-mobile-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      
+      transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+      }
+      
+    .yeast-mobile-modal-box {
+      position: relative;
+      width: 500px;
+      height: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      margin: auto;
+      padding: 40px;
+
+      color: var(--paper);
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 16px;
+        
+    }
+
+    .yeast-mobile-modal.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .yeast-modal-content {
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+    }
+
+    .yeast-modal-content h3 {
+        font-size: clamp(24px, 7vw, 38px);
+        margin: 0 0 20px;
+    }
+
+    .yeast-modal-content p {
+        font-size: clamp(16px, 4.5vw, 22px);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .yeast-modal-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        border: 0;
+        background: transparent;
+        color: white;
+
+        font-size: 48px;
+        line-height: 1;
+
+        cursor: pointer;
+    }
 }
 
 .yeast-card:hover .yeast-overlay {
@@ -1944,7 +2033,7 @@
 .yeast-overlay p {
     margin: 0;
     line-height: 1.5;
-    font-size: clamp();
+    font-size: clamp(11px, 4cqw, 16px);
 }
 
 /* Mobile */
