@@ -551,11 +551,7 @@
 
   </div>
 
-  <div class="stop-and-check yeast-stop-and-think">
-
-  <div class="stop-and-check-heading">
-    Stop and Think
-  </div>
+  <div class="stop-and-check yeast-stop-and-think" hidden>
 
   <div class="stop-and-check-content">
     <p>
@@ -579,14 +575,16 @@
     to compare how much gas was produced.
   </div>
 
-  <button
-    type="button"
-    class="stop-and-check-button general-button"
-    onclick="showYeastGasAnswer(this)"
-  >
-    <p>Check Your Answer</p>
-    <p class="bounce-symbol">✅</p>
-  </button>
+  <div class="stop-and-check-button-container">
+    <button
+      type="button"
+      class="stop-and-check-button general-button"
+      onclick="showYeastGasAnswer(this)"
+    >
+      <p>Check Your Answer</p>
+      <p class="bounce-symbol">✅</p>
+    </button>
+  </div>
 
 </div>
 
@@ -1665,6 +1663,7 @@
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
 const lesson3SectionIds = [
+  "yeast-image-investigation",
   "yeast-context",
   "yeast-variables",
   "data-table-template",
@@ -1855,7 +1854,8 @@ function updateYeastVariablesComplete() {
     structure.feedback.textContent =
       "Correct! You identified the independent, dependent and controlled variables.";
 
-    structure.nextButton.hidden = false;
+    // structure.nextButton.hidden = false;
+    document.querySelector(".yeast-stop-and-think").hidden = false;
 
     return;
   }
@@ -1915,14 +1915,9 @@ function showYeastGasAnswer(button) {
 
   answer.hidden = false;
 
-  button.disabled = true;
+  button.hidden = true;
 
-  const label =
-    button.querySelector("p:first-child");
-
-  if (label) {
-    label.textContent = "Answer checked ✓";
-  }
+  document.getElementById("yeastVariablesNext").hidden = false;
 }
 
       /* ==================================================
