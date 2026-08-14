@@ -2633,11 +2633,11 @@
    YEAST STOP AND THINK
    ================================================== */
 
-#yeast-variables .yeast-stop-and-think {
+/* .stop-and-check {
   margin-top: 24px;
   padding: 22px;
 
-  background: var(--paper);
+  background: var(--soft-orange);
 
   border: 3px solid var(--charcoal);
   border-top: 8px solid var(--orange);
@@ -2646,14 +2646,14 @@
   box-shadow: var(--shadow-small);
 }
 
-#yeast-variables .yeast-stop-and-think::before {
+.stop-and-check::before {
   content: "stop and think";
   display: inline-block;
   position: relative;
   top: -40px;
   padding: 6px 12px;
 
-  background: var(--soft-orange);
+  background: var(--orange);
 
   border: 2px solid var(--charcoal);
   border-radius: 999px;
@@ -2666,13 +2666,13 @@
   text-transform: uppercase;
 }
 
-#yeast-variables .stop-and-check-content p {
+.stop-and-check-content p {
   margin: 0 0 10px;
 
   line-height: 1.55;
 }
 
-#yeast-variables .stop-and-check-answer {
+.stop-and-check-answer {
   margin: 16px 0;
   padding: 16px 18px;
 
@@ -2684,7 +2684,7 @@
   line-height: 1.55;
 }
 
-#yeast-variables .stop-and-check-answer[hidden] {
+.stop-and-check-answer[hidden] {
   display: none;
 }
 .stop-and-check-button-container {
@@ -2692,11 +2692,11 @@
   justify-content: center;
   display: flex;
 }
-#yeast-variables .stop-and-check-button {
+.stop-and-check-button {
   margin-top: 8px;
   color: var(--charcoal);
   background: var(--yellow);
-}
+} */
 
 #yeast-variables .variable-tile-grid .variable-tile:nth-last-child(3) {
   grid-column: 2;
@@ -2712,7 +2712,8 @@
 
 .repeat-tests-card {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)); */
+  grid-template-columns: 1fr 3fr;
   gap: 18px;
 
   margin-top: 20px;
@@ -2770,43 +2771,6 @@
   text-transform: uppercase;
 }
 
-.repeat-tests-stop {
-  margin-top: 22px;
-  padding: 20px;
-
-  background: var(--soft-yellow);
-
-  border: 2px solid var(--charcoal);
-  border-top: 8px solid var(--orange);
-  border-radius: 18px;
-}
-
-.repeat-tests-stop .stop-and-check-heading {
-  display: inline-block;
-
-  margin-bottom: 12px;
-  padding: 6px 12px;
-
-  background: var(--orange);
-
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.repeat-tests-stop .stop-and-check-content p {
-  margin: 0 0 10px;
-  line-height: 1.55;
-}
-
-.repeat-tests-stop .stop-and-check-content p:last-child {
-  margin-bottom: 0;
-}
-
 @media (max-width: 700px) {
   .repeat-tests-card {
     grid-template-columns: 1fr;
@@ -2817,7 +2781,7 @@
   display: block;
 
   width: 100%;
-  max-width: 520px;
+  /* max-width: 1000px; */
 
   margin: 18px auto 0;
 
