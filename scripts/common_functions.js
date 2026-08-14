@@ -467,12 +467,12 @@ function showStopAndCheckAnswer(button, additionalFunction = function() {}) {
   const nextButton = section.querySelector(".next-button");
 
   answer.hidden = false;
-  button.style.display = "none";
+  button.hidden = true;
   nextButton.hidden = false;
   additionalFunction();
 }
 
-function reconfirmStopAndCheckAnswer(button, additionalFunction) {
+function reconfirmStopAndCheckAnswer(button, additionalFunction = function() {}) {
   const stopAndCheck = button.closest(".stop-and-check");
   const answer = stopAndCheck.querySelector(".stop-and-check-answer");
   const section = button.closest(".section");
@@ -484,6 +484,20 @@ function reconfirmStopAndCheckAnswer(button, additionalFunction) {
   button.onclick = function() {
     showStopAndCheckAnswer(button, additionalFunction);
   }
+}
+
+function resetStopAndCheck(stopAndCheck) {
+  stopAndCheck.querySelector(".stop-and-check-answer").hidden = true;
+  const button = stopAndCheck.querySelector(".stop-and-check-button");
+  button.hidden = false;
+  button.onclick = function() { reconfirmStopAndCheckAnswer(button); }
+  button.textContent = "Check your answer";
+  const bounceSymbol = document.createElement("p")
+  bounceSymbol.textContent = "✅";
+  bounceSymbol.classList.add("bounce-symbol");
+  button.appendChild(bounceSymbol);
+  
+  stopAndCheck.hidden = true;
 }
 
 /* ==================================================
