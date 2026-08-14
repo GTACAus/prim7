@@ -1472,6 +1472,18 @@
   gap: 12px;
 }
 
+.prediction-button.buzz {
+  box-shadow: none;
+  background: var(--orange);
+  transform: translateY(3px);
+  animation: yeastVariableBuzz 0.2s ease;
+}
+
+.prediction-button.buzz:hover {
+  background: var(--orange);
+  transform: translateY(3px);
+}
+
 .prediction-button {
   color: var(--charcoal);
   background: var(--soft-green);
