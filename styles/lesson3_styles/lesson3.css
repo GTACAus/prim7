@@ -998,6 +998,10 @@
     box-shadow 0.16s ease;
 }
 
+#yeast-labels .label-drop-zone.drop-complete {
+  animation: pop-fade-in 0.5s ease;
+}
+
 
 /* Make the drop target look active */
 
@@ -1307,6 +1311,7 @@
   line-height: 1.45;
 
   box-sizing: border-box;
+  animation: pop-fade-in 0.5s ease;
 }
 
 /* Keep hidden feedback completely out of the layout */
@@ -1407,6 +1412,10 @@
    ================================================== */
 
 .prediction-check {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
   width: min(700px, 100%);
   margin: 24px auto 0;
   padding: 22px;
@@ -1421,6 +1430,8 @@
 
   text-align: center;
   box-sizing: border-box;
+
+  animation: pop-fade-in 0.5s ease;
 }
 
 .prediction-check[hidden] {

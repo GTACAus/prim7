@@ -524,6 +524,7 @@ body {
   padding: 22px;
   margin-bottom: 24px;
   box-shadow: 0 8px 24px rgba(63, 70, 63, 0.07);
+  animation: pop-fade-in 0.5s ease;
 }
 
 .locked {
@@ -828,6 +829,28 @@ body {
   }
 }
 
+/* Class for making something pop and fade into the screen */
+.pop-in {
+  animation: pop-fade-in 0.5s ease
+}
+
+@keyframes pop-fade-in {     
+  0% {
+      opacity: 0;
+      transform: translateY(0) scale(0.5);
+  }
+  30% {
+      opacity: 1;
+      transform: translateY(-6px);
+  }
+  60% {
+      transform: translateY(2px) scale(1);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .diagram-activity {
   display: block;
   padding: 18px;
@@ -1023,6 +1046,7 @@ body {
   color: var(--muted);
   font-size: 0.95rem;
   display: none;
+  animation: pop-fade-in 0.5s ease;
 }
 
 .section.completed .completed-note {
@@ -2623,23 +2647,6 @@ body {
     transform 0.15s ease,
     box-shadow 0.15s ease,
     background 0.15s ease;
-}
-
-@keyframes pop-fade-in {     
-  0% {
-      opacity: 0;
-      transform: translateY(0) scale(0.5);
-  }
-  30% {
-      opacity: 1;
-      transform: translateY(-6px);
-  }
-  60% {
-      transform: translateY(2px) scale(1);
-  }
-  100% {
-    transform: translateY(0);
-  }
 }
 
 .general-button p {
