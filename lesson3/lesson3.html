@@ -1613,16 +1613,174 @@
 
 </div>
 
+<!-- ==================================================
+     BALL BOUNCE EXPERIMENT SETUP
+     ================================================== -->
+
+<div class="ball-bounce-setup">
+
+  <div class="lesson3-planning-heading">
+    <span>1</span>
+
+    <div>
+      <p class="lesson3-planning-eyebrow">
+        Experiment setup
+      </p>
+
+      <h3>Look at the ball-bounce experiment</h3>
+    </div>
+  </div>
+
+  <p class="lesson3-planning-instruction">
+    A tennis ball is dropped from the same height onto two different
+    surfaces. The number of bounces is counted before the ball stops.
+  </p>
+
+<div class="ball-bounce-setup-image">
+  <img
+    src="../images/lesson3/Ball Bounce.png"
+    alt="Ball bounce experiment setup"
+  />
+</div>
+
+</div>
+
+
+<!-- ==================================================
+     BALL BOUNCE VARIABLES
+     ================================================== -->
+
+<div class="ball-bounce-variables">
+
+  <div class="lesson3-planning-heading">
+    <span>2</span>
+
+    <div>
+      <p class="lesson3-planning-eyebrow">
+        Variables
+      </p>
+
+      <h3>Identify the variables in the fair test</h3>
+    </div>
+  </div>
+
+  <p class="lesson3-planning-instruction">
+    Complete the table to identify what is changed, what is measured,
+    and what needs to stay the same.
+  </p>
+
+  <div class="ball-bounce-variables-table">
+
+    <div class="ball-bounce-variable-row">
+      <div class="ball-bounce-variable-label">
+        <strong>Independent variable</strong>
+        <span>What is changed?</span>
+      </div>
+
+<div class="ball-bounce-variable-answer">
+  <select id="ballBounceIndependent">
+    <option value="">Choose...</option>
+    <option value="surface">Type of surface</option>
+    <option value="bounces">Number of bounces</option>
+    <option value="ball">Type of ball</option>
+  </select>
+</div>
+    </div>
+
+    <div class="ball-bounce-variable-row">
+      <div class="ball-bounce-variable-label">
+        <strong>Dependent variable</strong>
+        <span>What is measured?</span>
+      </div>
+
+<div class="ball-bounce-variable-answer">
+  <select id="ballBounceDependent">
+    <option value="">Choose...</option>
+    <option value="surface">Type of surface</option>
+    <option value="bounces">Number of bounces</option>
+    <option value="height">Drop height</option>
+  </select>
+</div>
+    </div>
+
+    <div class="ball-bounce-variable-row">
+      <div class="ball-bounce-variable-label">
+        <strong>Controlled variables</strong>
+        <span>What must stay the same?</span>
+      </div>
+
+<div class="ball-bounce-variable-answer ball-bounce-controlled-options">
+
+  <label>
+    <input
+      type="checkbox"
+      value="same-ball"
+      data-ball-control="same-ball"
+    />
+    Same tennis ball
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      value="same-height"
+      data-ball-control="same-height"
+    />
+    Same drop height
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      value="same-method"
+      data-ball-control="same-method"
+    />
+    Same dropping method
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      value="same-surface"
+      data-ball-control="same-surface"
+    />
+    Same surface
+  </label>
+
+</div>
+    </div>
+
+  </div>
+<div
+  id="ballBounceVariablesFeedback"
+  class="variable-feedback"
+  role="status"
+  aria-live="polite"
+>
+  Choose the independent variable, dependent variable and controlled variables.
+</div>
+
+<div class="reset-button-container">
+  <button
+    type="button"
+    id="ballBounceVariablesCheck"
+    class="general-button"
+  >
+    Check Answers
+  </button>
+</div>
+</div>
+
         <!-- ==================================================
           PLAN THE BALL BOUNCE INVESTIGATION
           ================================================== -->
 
-      <div class="lesson3-planning-activity">
+      <div class="lesson3-planning-activity" id="ballBouncePlanning" hidden>
 
         <!-- ---------- TESTABLE QUESTION ---------- -->
 
         <div class="lesson3-planning-heading">
-          <span>1</span>
+          <span>3</span>
 
           <div>
             <p class="lesson3-planning-eyebrow">Testable question</p>
@@ -1691,7 +1849,7 @@
         <!-- ---------- REASONED PREDICTION ---------- -->
 
         <div class="lesson3-planning-heading prediction-heading">
-          <span>2</span>
+          <span>4</span>
 
           <div>
             <p class="lesson3-planning-eyebrow">Reasoned prediction</p>
@@ -1711,12 +1869,12 @@
             title="Reasoned Prediction Builder"
           >
           </iframe>
-        </div>
+        </div> 
 
         <!-- ---------- OBSERVE THE EXPERIMENT ---------- -->
 
 <div class="lesson3-planning-heading observation-heading">
-  <span>3</span>
+  <span>5</span>
 
   <div>
     <p class="lesson3-planning-eyebrow">Observe the experiment</p>
@@ -3294,6 +3452,90 @@ function resetYeastAverage() {
         }
       };
 
+function initialiseBallBounceVariables() {
+  const independent =
+    document.getElementById("ballBounceIndependent");
+
+  const dependent =
+    document.getElementById("ballBounceDependent");
+
+  const checkButton =
+    document.getElementById("ballBounceVariablesCheck");
+
+  const feedback =
+    document.getElementById("ballBounceVariablesFeedback");
+
+  const controls =
+    document.querySelectorAll("[data-ball-control]");
+
+  if (
+    !independent ||
+    !dependent ||
+    !checkButton ||
+    !feedback
+  ) {
+    return;
+  }
+
+  checkButton.addEventListener("click", function () {
+    const selectedControls =
+      Array.from(controls)
+        .filter(function (checkbox) {
+          return checkbox.checked;
+        })
+        .map(function (checkbox) {
+          return checkbox.dataset.ballControl;
+        });
+
+    const independentCorrect =
+      independent.value === "surface";
+
+    const dependentCorrect =
+      dependent.value === "bounces";
+
+    const correctControls = [
+      "same-ball",
+      "same-height",
+      "same-method"
+    ];
+
+    const controlsCorrect =
+      correctControls.every(function (control) {
+        return selectedControls.includes(control);
+      }) &&
+      !selectedControls.includes("same-surface");
+
+if (
+  independentCorrect &&
+  dependentCorrect &&
+  controlsCorrect
+) {
+  feedback.className =
+    "variable-feedback feedback-success";
+
+  feedback.textContent =
+    "Correct! You identified the variables in the ball-bounce fair test.";
+
+  const planning =
+    document.getElementById("ballBouncePlanning");
+
+  if (planning) {
+    planning.hidden = false;
+  }
+
+  checkButton.disabled = true;
+
+  return;
+}
+
+    feedback.className =
+      "variable-feedback feedback-try-again";
+
+    feedback.textContent =
+      "Not quite. Check what is changed, what is measured, and what needs to stay the same.";
+  });
+}
+
       function initialiseInvestigationQuestion() {
         const activity =
           document.getElementById("build-your-own-table");
@@ -3634,6 +3876,8 @@ function updateLesson3CompletedQuestion() {
         initialiseInvestigationQuestion();
 
         initialiseYeastVariables();
+
+        initialiseBallBounceVariables();
 
         initialiseYeastResultQuestions();
 

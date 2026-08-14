@@ -2523,14 +2523,18 @@
 
 /* ---------- Variable choices ---------- */
 
-#yeast-variables .variable-tile-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+/* ---------- Variable choices ---------- */
 
+#yeast-variables .variable-tile-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
 }
 
 #yeast-variables .variable-tile {
+  flex: 0 1 calc(25% - 9px);
+
   min-height: 82px;
   padding: 14px;
 
@@ -2647,19 +2651,15 @@
 /* ---------- Mobile ---------- */
 
 @media (max-width: 700px) {
-  #yeast-variables .variable-tile-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  #yeast-variables .variable-tile {
+    flex-basis: calc(50% - 6px);
   }
 }
 
 @media (max-width: 480px) {
-  #yeast-variables .variable-tile-grid {
-    grid-template-columns: 1fr;
+  #yeast-variables .variable-tile {
+    flex-basis: 100%;
   }
-}
-
-#yeast-variables .variable-tile-grid .variable-tile:nth-last-child(3) {
-  grid-column: 2;
 }
 
 /* ==================================================
@@ -2899,3 +2899,198 @@
     min-width: 180px;
   }
 }
+
+/* ==================================================
+   BALL BOUNCE - FINAL ACTIVITY FLOW
+   ================================================== */
+
+#build-your-own-table {
+  display: grid;
+  gap: 24px;
+}
+
+
+/* ---------- Step cards ---------- */
+
+.ball-bounce-setup,
+.ball-bounce-variables,
+#ballBouncePlanning {
+  padding: 24px;
+
+  background: var(--paper);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 20px;
+
+  box-shadow: var(--shadow-small);
+}
+
+
+/* ---------- Setup ---------- */
+
+.ball-bounce-setup {
+  border-top: 8px solid var(--blue);
+}
+
+.ball-bounce-setup-image {
+
+  margin-top: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--soft-blue);
+
+  border: 2px dashed var(--charcoal);
+  border-radius: 16px;
+}
+
+.ball-bounce-setup-image img {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+
+  border-radius: 12px;
+}
+
+
+/* ---------- Variables ---------- */
+
+.ball-bounce-variables {
+  border-top: 8px solid var(--yellow);
+}
+
+.ball-bounce-variables-table {
+  display: grid;
+  gap: 12px;
+
+  margin-top: 18px;
+}
+
+.ball-bounce-variable-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  align-items: center;
+
+  padding: 16px;
+
+  background: white;
+
+  border: 2px solid var(--line);
+  border-radius: 14px;
+}
+
+.ball-bounce-variable-label {
+  display: grid;
+  gap: 3px;
+}
+
+.ball-bounce-variable-label span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.ball-bounce-variable-answer select {
+  width: 100%;
+  min-height: 46px;
+  padding: 9px 12px;
+
+  background: var(--paper);
+  color: var(--text);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+
+  font: inherit;
+}
+
+.ball-bounce-controlled-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ball-bounce-controlled-options label {
+  flex: 0 1 calc(50% - 5px);
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 10px 12px;
+
+  background: var(--soft-yellow);
+
+  border: 2px solid var(--line);
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.ball-bounce-controlled-options input {
+  width: 18px;
+  height: 18px;
+}
+
+
+/* ---------- Variables feedback ---------- */
+
+#ballBounceVariablesFeedback {
+  margin-top: 18px;
+  padding: 14px 16px;
+
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  background: var(--soft-blue);
+}
+
+
+/* ---------- Planning steps 3-5 ---------- */
+
+#ballBouncePlanning {
+  margin-top: 0;
+
+  border-top: 8px solid var(--purple);
+}
+
+
+/* Separate the stages without making more giant cards */
+
+#ballBouncePlanning .prediction-heading,
+#ballBouncePlanning .observation-heading {
+  padding-top: 28px;
+  margin-top: 28px;
+
+  border-top: 2px dashed var(--line);
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+  .ball-bounce-variable-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ball-bounce-controlled-options {
+    grid-template-columns: 1fr;
+  }
+
+  .ball-bounce-setup,
+  .ball-bounce-variables,
+  #ballBouncePlanning {
+    padding: 18px;
+  }
+}
+
+#build-your-own-table .section-title {
+  justify-self: start;
+  background: var(--yellow);
+}
+
