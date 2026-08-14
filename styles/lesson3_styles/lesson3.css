@@ -690,10 +690,16 @@
 }
 
 /* ---------- Average buttons ---------- */
+.average-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
 
 .average-button {
   display: inline-flex;
-  align-items: center;
+  align-items: center; 
   justify-content: center;
 
   min-width: 104px;
@@ -996,6 +1002,10 @@
     border-color 0.16s ease,
     transform 0.16s ease,
     box-shadow 0.16s ease;
+}
+
+#yeast-labels .label-drop-zone.drop-complete {
+  animation: pop-fade-in 0.5s ease;
 }
 
 
@@ -1307,6 +1317,7 @@
   line-height: 1.45;
 
   box-sizing: border-box;
+  animation: pop-fade-in 0.5s ease;
 }
 
 /* Keep hidden feedback completely out of the layout */
@@ -1407,6 +1418,10 @@
    ================================================== */
 
 .prediction-check {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
   width: min(700px, 100%);
   margin: 24px auto 0;
   padding: 22px;
@@ -1421,6 +1436,8 @@
 
   text-align: center;
   box-sizing: border-box;
+
+  animation: pop-fade-in 0.5s ease;
 }
 
 .prediction-check[hidden] {
@@ -2702,7 +2719,7 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .repeat-tests-card {
     grid-template-columns: 1fr;
   }
