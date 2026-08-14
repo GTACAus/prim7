@@ -2872,3 +2872,32 @@
 .average-example-answer {
   font-size: 1.08rem;
 }
+
+/* ---------- Repeat tests: Step 3 averages ---------- */
+
+.repeat-tests-average-intro {
+  margin-top: 24px;
+  padding: 22px;
+
+  background: white;
+
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--blue);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-small);
+}
+
+.repeat-tests-average-intro > .repeat-tests-label {
+  margin: 0 0 6px;
+}
+
+.repeat-tests-average-intro > h3 {
+  margin: 0 0 12px;
+}
+
+.repeat-tests-average-intro > p:not(.repeat-tests-label) {
+  margin: 0 0 10px;
+
+  line-height: 1.55;
+}
