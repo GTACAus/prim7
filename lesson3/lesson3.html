@@ -1508,49 +1508,8 @@
 
 </div>
 
-<div class="stop-and-check yeast-temperature-stop">
 
-  <div class="stop-and-check-heading">
-    Stop and Think
-  </div>
-
-  <div class="stop-and-check-content">
-
-    <p>
-      From <strong>2°C to 37°C</strong>, yeast activity increased
-      and the balloons became bigger.
-    </p>
-
-    <p>
-      <strong>
-        Why do you think yeast activity was so low in the test at 80°C?
-      </strong>
-    </p>
-
-  </div>
-
-  <div
-    class="stop-and-check-answer"
-    id="yeast80Answer"
-    hidden
-  >
-    Yeast is a living thing. At <strong>80°C</strong>, the temperature
-    is too hot for the yeast to survive, so yeast activity slows down
-    and stops.
-  </div>
-
-  <button
-    type="button"
-    class="stop-and-check-button general-button"
-    onclick="showYeast80Answer(this)"
-  >
-    <p>Check Your Answer</p>
-    <p class="bounce-symbol">✅</p>
-  </button>
-
-</div>
-
-<div class="stop-and-check">
+<div class="stop-and-check" hidden>
 
   <div class="stop-and-check-content">
     <p>
@@ -2884,24 +2843,41 @@ function initialiseYeastResultQuestions() {
   });
 }
 
-    function checkYeastPrediction() {
-      const supportedButton = document.getElementById("yeastPredictionCheckSupported");      
-      const unsupportedButton = document.getElementById("yeastPredictionCheckUnsupported");
-      const nextButton = document.getElementById("yeast-average").querySelector(".next-button");
+function checkYeastPrediction() {
+  const supportedButton =
+    document.getElementById("yeastPredictionCheckSupported");
 
-      supportedButton.addEventListener("click", () => {
-        nextButton.hidden = false;
-        supportedButton.classList.add("selected-answer");
-        unsupportedButton.classList.remove("selected-answer");
-      });
-      
-      unsupportedButton.addEventListener("click", () => {
-        nextButton.hidden = false;
-        unsupportedButton.classList.add("selected-answer");
-        supportedButton.classList.remove("selected-answer");
-      });
+  const unsupportedButton =
+    document.getElementById("yeastPredictionCheckUnsupported");
 
-    }
+  const section =
+    document.getElementById("yeast-average");
+
+  const stopAndThink =
+    section.querySelector(".stop-and-check");
+
+  if (!supportedButton || !unsupportedButton || !stopAndThink) {
+    return;
+  }
+
+  supportedButton.addEventListener("click", function () {
+    supportedButton.classList.add("buzz");
+
+    window.setTimeout(function () {
+      supportedButton.classList.remove("buzz");
+    }, 300);
+
+    supportedButton.classList.remove("selected-answer");
+    unsupportedButton.classList.remove("selected-answer");
+  });
+
+  unsupportedButton.addEventListener("click", function () {
+    unsupportedButton.classList.add("selected-answer");
+    supportedButton.classList.remove("selected-answer");
+
+    stopAndThink.hidden = false;
+  });
+}
 
     function checkBallBouncePrediction() {
       const supportedButton =
