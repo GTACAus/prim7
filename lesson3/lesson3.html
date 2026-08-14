@@ -2204,6 +2204,7 @@ const yeastVariablesStructure = {
   feedback: null,
   nextButton: null,
   resetButton: null,
+  stopAndCheck: null,
 
   selectedMode: "",
 
@@ -2254,6 +2255,9 @@ function initialiseYeastVariables() {
 
   structure.resetButton =
     document.getElementById("yeast-variables-reset");
+
+  structure.stopAndCheck =
+    document.getElementById("yeast-variables").querySelector(".stop-and-check");
 
   structure.modeButtons.forEach(function (button) {
     button.addEventListener("click", function () {
@@ -2431,6 +2435,7 @@ function resetYeastVariables() {
     "Choose a variable type, then select the matching variable.";
 
   structure.nextButton.hidden = true;
+  resetStopAndCheck(structure.stopAndCheck);
 }
 
       /* ==================================================
@@ -3306,9 +3311,15 @@ function resetYeastAverage() {
     .getElementById("yeastPredictionCheckUnsupported")
     .classList.remove("selected-answer");
 
-  document
-    .getElementById("yeastPredictionCheck")
-    .hidden = true;
+  const predictionCheck = document.getElementById("yeastPredictionCheck")
+  predictionCheck.hidden = true;
+  
+  predictionCheck.querySelectorAll(".prediction-button").forEach(function(button) {
+    button.classList.remove("selected-answer");
+  });
+
+  const stopAndCheck = document.getElementById("yeast-average").querySelector(".stop-and-check");
+  resetStopAndCheck(stopAndCheck);
 
   restoreAverageButtons(
     "#yeast-average",

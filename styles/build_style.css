@@ -2753,6 +2753,10 @@ body {
   color: var(--text) !important;
 }
 
+.stop-and-check-button[hidden] {
+  display: none;
+}
+
 .stop-and-check {
   position: relative;
   display: flex;
