@@ -1872,6 +1872,87 @@
   background: var(--blue);
 }
 
+.yeast-image-activity {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 0 auto;
+}
+
+.yeast-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+}
+
+.yeast-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Number label */
+.yeast-number {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--paper);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.yeast-card:hover .yeast-number {
+  display: none;
+}
+
+/* Hover information */
+.yeast-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 24px;
+
+    background: rgba(0, 0, 0, 0.75);
+    color: var(--paper);
+
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.yeast-card:hover .yeast-overlay {
+    opacity: 1;
+}
+
+.yeast-overlay p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .yeast-image-activity {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ==================================================
    YEAST EXPERIMENT CONTEXT
    ================================================== */
