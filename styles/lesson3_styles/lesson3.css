@@ -2402,6 +2402,30 @@
     var(--shadow-small);
 }
 
+.fair-test-box {
+  width: fit-content;
+  margin: 10px auto 10px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+  background: var(--blue);
+  font-weight: 800;
+  color: var(--charcoal);
+}
+
+.yeast-balloon-image-box {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.yeast-balloon-image-box img {
+  margin: 0 auto 0;
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+
+}
 
 /* ---------- Testable question ---------- */
 
