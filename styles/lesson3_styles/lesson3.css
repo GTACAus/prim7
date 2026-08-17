@@ -28,7 +28,8 @@
   padding: 12px 14px;
   border: 2px solid var(--line);
   border-radius: 14px;
-  background: var(--paper);
+  background: white;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
 }
 
 .formula-step-number {
@@ -2613,9 +2614,11 @@
 
   font-weight: 700;
   text-align: center;
+
 }
 
 #yeast-variables .variable-feedback.feedback-success {
+  animation: pop-fade-in 0.5s ease-out;
   background: var(--soft-green);
   border-style: solid;
 }
@@ -2924,21 +2927,12 @@
   }
 }
 
-/* ==================================================
-   BALL BOUNCE - FINAL ACTIVITY FLOW
-   ================================================== */
-
-#build-your-own-table {
-  display: grid;
-  gap: 24px;
-}
-
-
 /* ---------- Step cards ---------- */
 
 .ball-bounce-setup,
 .ball-bounce-variables,
 #ballBouncePlanning {
+  margin-bottom: 10px;
   padding: 24px;
 
   background: var(--paper);

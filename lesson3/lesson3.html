@@ -89,37 +89,43 @@
         <div class="teacher-section-list">
           <button
   type="button"
+  onclick="teacherJump('yeast-image-investigation')"
+>
+  1. The story of yeast Y
+</button>
+          <button
+  type="button"
   onclick="teacherJump('yeast-context')"
 >
-  1. Meet the yeast balloon experiment
+  2. Meet the yeast balloon experiment
 </button>
 
 <button
   type="button"
   onclick="teacherJump('data-table-template')"
 >
-  2. Data Table Template
+  3. Data Table Template
 </button>
 
 <button
   type="button"
   onclick="teacherJump('yeast-labels')"
 >
-  3. Yeast experiment: add the labels
+  4. Yeast experiment: add the labels
 </button>
 
 <button
   type="button"
   onclick="teacherJump('yeast-average')"
 >
-  4. Yeast experiment: calculate the average
+  5. Yeast experiment: calculate the average
 </button>
 
 <button
   type="button"
   onclick="teacherJump('build-your-own-table')"
 >
-  5. Ball bounce experiment: complete the table
+  6. Ball bounce experiment: complete the table
 </button>
         </div>
 
@@ -1887,13 +1893,124 @@
         </p>
 
         <div class="iframe-box">
-          <iframe
+          <!-- <iframe
             id="reasonedPredictionFrame"
             class="reasoned-prediction-iframe"
             src="../lesson2/reasoned-prediction-builder.html"
             title="Reasoned Prediction Builder"
           >
-          </iframe>
+          </iframe> -->
+          <div class="reasoned-builder">
+            <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
+              <div class="prediction-organiser-row row-header">
+                <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
+                <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
+                <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
+              </div>
+
+              <div class="prediction-organiser-row row-variables">
+                <div class="prediction-organiser-cell cell-label">
+                  <span class="cell-sublabel">Testable Question</span>
+                  <span class="cell-helper">Identify the two things in your testable question</span>
+                </div>
+
+                <div class="prediction-organiser-cell">
+          <label class="cell-sublabel" for="changeVariable">
+            The thing I am changing
+          </label>
+
+        <div
+          id="changeVariable"
+          class="generated-text placeholder">
+          The thing I am changing
+        </div>
+
+
+        </div>
+
+                <div class="prediction-organiser-cell">
+          <label class="cell-sublabel" for="measureVariable">
+            The thing I am measuring
+          </label>
+
+          <div
+          id="measureVariable"
+          class="generated-text placeholder">
+          The thing I am measuring
+        </div>
+
+        </div>
+
+
+              </div>
+
+              <div class="prediction-organiser-row row-relationship">
+                <div class="prediction-organiser-cell cell-label">
+                  <span class="cell-sublabel">Relationship</span>
+                  <span class="cell-helper">Choose what you will change and what you think will happen</span>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
+                  <div class="relationship-area">
+                    <select id="causeRelationshipType" class="prediction-select">
+                      <option value="">Choose a relationship type</option>
+                      <option value="increase-decrease">Increase / decrease</option>
+                      <option value="with-without">With / without</option>
+                      <option value="condition-comparison">Condition 1 versus condition 2</option>
+                    </select>
+                    <div id="causeRelationshipButtons" class="relationship-buttons"></div>
+
+                    <div id="conditionComparisonInputs" class="condition-comparison-inputs">
+          <input
+            id="conditionOneInput"
+            class="condition-input"
+            type="text"
+            placeholder="Starting condition, e.g. blue">
+
+          <input
+            id="conditionTwoInput"
+            class="condition-input"
+            type="text"
+            placeholder="New condition, e.g. red">
+        </div>
+
+                  </div>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <span class="cell-sublabel">Effect or result</span>
+                  <div id="effectRelationshipButtons" class="relationship-buttons three-options">
+                    <button type="button" class="relationship-option" data-effect="increase">Increase</button>
+                    <button type="button" class="relationship-option" data-effect="decrease">Decrease</button>
+                    <button type="button" class="relationship-option" data-effect="stay-the-same">Stay the same</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-prediction">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
+                <div class="prediction-organiser-cell"><div id="predictionIf" class="generated-text placeholder">Choose a cause relationship.</div></div>
+                <div class="prediction-organiser-cell"><div id="predictionThen" class="generated-text placeholder">Choose an effect or result.</div></div>
+              </div>
+
+              <div class="prediction-organiser-row row-reason">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
+                <div class="prediction-organiser-cell span-2 reason-inline">
+                  <label class="cell-helper" for="reasonInput">This is because...</label>
+                  <div id="reasonInputRow" class="permanent-input-row">
+                    <input id="reasonInput" type="text" class="prediction-input" placeholder="Explain why you expect this result">
+                  </div>
+                  <div id="reasonAnswer" class="submitted-answer"></div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-full">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
+                <div class="prediction-organiser-cell span-2">
+                  <div id="reasonedPrediction" class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div> 
 
         <!-- ---------- OBSERVE THE EXPERIMENT ---------- -->
@@ -2173,6 +2290,7 @@
 
     <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
     <script src="../scripts/common_functions.js"></script>
+    <script src="../scripts/reasoned_prediction_table.js"></script>
     <script>
       const cards = document.querySelectorAll('.yeast-card');
 
@@ -3442,6 +3560,13 @@ function resetYeastAverage() {
             ", what happens to the ",
             "?"
           ],
+
+          predictionParts: [
+            "When I ",
+            ", the ",
+            " will "
+          ],
+
           firstPlaceholder: "What will you change?",
           secondPlaceholder: "What will you measure?"
         },
@@ -3452,6 +3577,13 @@ function resetYeastAverage() {
             " affect the ",
             "?"
           ],
+
+          predictionParts: [
+            "Changing the ",
+            " will cause the ",
+            " to "
+          ],
+
           firstPlaceholder: "What will you change?",
           secondPlaceholder: "What will you measure?"
         },
@@ -3462,6 +3594,13 @@ function resetYeastAverage() {
             " affect the ",
             "?"
           ],
+
+          predictionParts: [
+            "Changing the ",
+            " will affect the ",
+            " by causing it to "
+          ],
+
           firstPlaceholder: "What will you change?",
           secondPlaceholder: "What will you measure?"
         },
@@ -3472,6 +3611,13 @@ function resetYeastAverage() {
             ", what happens to the ",
             "?"
           ],
+
+          predictionParts: [
+            "If I ",
+            ", then the ",
+            " will "
+          ],
+
           firstPlaceholder: "What will you change?",
           secondPlaceholder: "What will you measure?"
         }
@@ -3608,6 +3754,12 @@ if (
     secondAnswer: ""
   };
 
+  if (typeof resetBuilder === "function") {
+    resetBuilder();
+  }
+
+  updateLesson3PredictionBuilder();
+
   activity
     .querySelectorAll("[data-question-structure]")
     .forEach(function(button) {
@@ -3713,16 +3865,6 @@ function createLesson3QuestionBlank(fieldName, placeholderText) {
 
     investigationQuestionState[fieldName] = value;
 
-    /*
-      Save the variables so the reasoned-prediction iframe
-      can read them.
-    */
-    sessionStorage.setItem(
-      "investigationQuestionAnswerSave",
-      JSON.stringify(investigationQuestionState)
-    );
-
-
     /* Build the permanent answer */
     answerBox.innerHTML = "";
 
@@ -3753,11 +3895,6 @@ function createLesson3QuestionBlank(fieldName, placeholderText) {
       function () {
 
         investigationQuestionState[fieldName] = "";
-
-        sessionStorage.setItem(
-          "investigationQuestionAnswerSave",
-          JSON.stringify(investigationQuestionState)
-        );
 
         answerBox.classList.remove("visible");
         answerBox.innerHTML = "";
@@ -3818,31 +3955,17 @@ function createLesson3QuestionBlank(fieldName, placeholderText) {
 }
 
 function updateLesson3PredictionBuilder() {
-  const predictionFrame =
-    document.getElementById("reasonedPredictionFrame");
-
   if (
-    !predictionFrame ||
-    !predictionFrame.contentWindow
+    typeof setInvestigationQuestionAnswers !== "function"
   ) {
     return;
   }
 
-  if (
-    typeof predictionFrame.contentWindow
-      .loadInvestigationQuestionAnswers === "function"
-  ) {
-    predictionFrame.contentWindow
-      .loadInvestigationQuestionAnswers();
-  }
-
-  if (
-    typeof predictionFrame.contentWindow
-      .updatePrediction === "function"
-  ) {
-    predictionFrame.contentWindow
-      .updatePrediction();
-  }
+  setInvestigationQuestionAnswers(
+    investigationQuestionState.structure,
+    investigationQuestionState.firstAnswer,
+    investigationQuestionState.secondAnswer
+  );
 }
 
 function updateLesson3CompletedQuestion() {
@@ -3887,7 +4010,7 @@ function updateLesson3CompletedQuestion() {
 
       document.addEventListener("DOMContentLoaded", function () {
         if (typeof initialiseTeacherMenu === "function") {
-          initialiseTeacherMenu(lesson3SectionIds, "yeast-context");
+          initialiseTeacherMenu(lesson3SectionIds, "yeast-image-investigation");
         }
 
         initialiseLesson3DragAndDrop();
