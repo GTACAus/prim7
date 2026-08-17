@@ -90,6 +90,58 @@ body {
   background: transparent;
 }
 
+/* ---------- Checkbox Inputs ------------*/
+input[type="checkbox"]::before {
+  content: "✓";
+
+  color: var(--charcoal);
+  font-size: 14px;
+  font-weight: bold;
+
+  transform: scale(0);
+  opacity: 0;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+
+  width: 20px;
+  height: 20px;
+
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 4px;
+
+  display: grid;
+  place-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--soft-green);
+}
+
+/* Animate the symbol in */
+input[type="checkbox"]:checked::before {
+  opacity: 1;
+  transform: scale(1);
+  animation: pop-fade-in 0.5s ease-out; 
+}
+
+/* Optional click animation */
+input[type="checkbox"]:active {
+  transform: scale(0.9);
+}
+
 /* ---------- Lesson introduction ---------- */
 
 .lesson-intro {

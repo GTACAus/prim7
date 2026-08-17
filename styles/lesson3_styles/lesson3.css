@@ -3041,7 +3041,7 @@
 .ball-bounce-controlled-options label {
   flex: 0 1 calc(50% - 5px);
   box-sizing: border-box;
-
+  
   display: flex;
   align-items: center;
   gap: 9px;
@@ -3052,14 +3052,10 @@
 
   border: 2px solid var(--line);
   border-radius: 10px;
-
+  
   cursor: pointer;
 }
 
-.ball-bounce-controlled-options input {
-  width: 18px;
-  height: 18px;
-}
 
 
 /* ---------- Variables feedback ---------- */

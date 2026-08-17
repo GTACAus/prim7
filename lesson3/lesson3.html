@@ -1802,7 +1802,7 @@
           PLAN THE BALL BOUNCE INVESTIGATION
           ================================================== -->
 
-      <div class="lesson3-planning-activity" id="ballBouncePlanning" hidden>
+      <div class="lesson3-planning-activity pop-in" id="ballBouncePlanning" hidden>
 
         <!-- ---------- TESTABLE QUESTION ---------- -->
 
@@ -3634,8 +3634,7 @@ if (
   const sentence =
     document.createElement("div");
 
-  sentence.className =
-    "question-builder-sentence";
+  sentence.classList.add("question-builder-sentence", "pop-in");
 
   sentence.appendChild(
     document.createTextNode(
@@ -3675,8 +3674,7 @@ if (
   completedQuestion.id =
     "completedInvestigationQuestion";
 
-  completedQuestion.className =
-    "completed-investigation-question";
+  completedQuestion.classList.add("completed-investigation-question", "pop-in");
 
   completedQuestion.hidden = true;
 
