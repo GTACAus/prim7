@@ -312,10 +312,10 @@ body {
 
 .objective-list li {
   position: relative;
-
+  display: block;
   min-height: 42px;
   margin-bottom: 12px;
-  padding: 12px 12px 12px 50px;
+  padding: 30px 12px 30px 50px;
 
   background: white;
   border: 2px solid var(--line);
@@ -337,7 +337,6 @@ body {
   content: counter(objective);
 
   position: absolute;
-  top: 8px;
   left: 10px;
 
   display: flex;
