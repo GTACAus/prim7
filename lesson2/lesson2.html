@@ -1313,14 +1313,117 @@
     </p>
   </div>
 
-  <div class="iframe-box">
-    <iframe
-      id="reasonedPredictionFrame"
-      class="reasoned-prediction-iframe"
-      src="../lesson2/reasoned-prediction-builder.html"
-      title="Reasoned Prediction Builder">
-    </iframe>
-  </div>
+  <div class="reasoned-builder">
+            <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
+              <div class="prediction-organiser-row row-header">
+                <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
+                <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
+                <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
+              </div>
+
+              <div class="prediction-organiser-row row-variables">
+                <div class="prediction-organiser-cell cell-label">
+                  <span class="cell-sublabel">Testable Question</span>
+                  <span class="cell-helper">Identify the two things in your testable question</span>
+                </div>
+
+                <div class="prediction-organiser-cell">
+          <label class="cell-sublabel" for="changeVariable">
+            The thing I am changing
+          </label>
+
+        <div
+          id="changeVariable"
+          class="generated-text placeholder">
+          The thing I am changing
+        </div>
+
+
+        </div>
+
+                <div class="prediction-organiser-cell">
+          <label class="cell-sublabel" for="measureVariable">
+            The thing I am measuring
+          </label>
+
+          <div
+          id="measureVariable"
+          class="generated-text placeholder">
+          The thing I am measuring
+        </div>
+
+        </div>
+
+
+              </div>
+
+              <div class="prediction-organiser-row row-relationship">
+                <div class="prediction-organiser-cell cell-label">
+                  <span class="cell-sublabel">Relationship</span>
+                  <span class="cell-helper">Choose what you will change and what you think will happen</span>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
+                  <div class="relationship-area">
+                    <select id="causeRelationshipType" class="prediction-select">
+                      <option value="">Choose a relationship type</option>
+                      <option value="increase-decrease">Increase / decrease</option>
+                      <option value="with-without">With / without</option>
+                      <option value="condition-comparison">Condition 1 versus condition 2</option>
+                    </select>
+                    <div id="causeRelationshipButtons" class="relationship-buttons"></div>
+
+                    <div id="conditionComparisonInputs" class="condition-comparison-inputs">
+          <input
+            id="conditionOneInput"
+            class="condition-input"
+            type="text"
+            placeholder="Starting condition, e.g. blue">
+
+          <input
+            id="conditionTwoInput"
+            class="condition-input"
+            type="text"
+            placeholder="New condition, e.g. red">
+        </div>
+
+                  </div>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <span class="cell-sublabel">Effect or result</span>
+                  <div id="effectRelationshipButtons" class="relationship-buttons three-options">
+                    <button type="button" class="relationship-option" data-effect="increase">Increase</button>
+                    <button type="button" class="relationship-option" data-effect="decrease">Decrease</button>
+                    <button type="button" class="relationship-option" data-effect="stay-the-same">Stay the same</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-prediction">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
+                <div class="prediction-organiser-cell"><div id="predictionIf" class="generated-text placeholder">Choose a cause relationship.</div></div>
+                <div class="prediction-organiser-cell"><div id="predictionThen" class="generated-text placeholder">Choose an effect or result.</div></div>
+              </div>
+
+              <div class="prediction-organiser-row row-reason">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
+                <div class="prediction-organiser-cell span-2 reason-inline">
+                  <label class="cell-helper" for="reasonInput">This is because...</label>
+                  <div id="reasonInputRow" class="permanent-input-row">
+                    <input id="reasonInput" type="text" class="prediction-input" placeholder="Explain why you expect this result">
+                  </div>
+                  <div id="reasonAnswer" class="submitted-answer"></div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-full">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
+                <div class="prediction-organiser-cell span-2">
+                  <div id="reasonedPrediction" class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
   <!-- One reset button for both activities -->
   <div class="reset-button-container">
@@ -1615,6 +1718,7 @@
 
   <script src="../scripts/common_functions.js"></script>
   <script src="../scripts/lesson2_scripts/bigkahuna4.js"></script>
+  <script src="../scripts/reasoned_prediction_table.js"></script>
 
 
   <script>
@@ -2916,6 +3020,21 @@ function resetBallPairActivity(
        "time spent bouncing"
     ];
 
+    function updateLesson2PredictionBuilder() {
+      if (
+        typeof setInvestigationQuestionAnswers !==
+        "function"
+      ) {
+        return;
+      }
+
+      setInvestigationQuestionAnswers(
+        investigationQuestionState.structure,
+        investigationQuestionState.firstAnswer,
+        investigationQuestionState.secondAnswer
+      );
+    }
+
     function createInvestigationQuestionBlank(
       fieldName,
       placeholderText
@@ -2989,13 +3108,7 @@ function resetBallPairActivity(
           fieldName
         ] = value;
 
-        saveInvestigationQuestionAnswer();
-        const predictionFrame = document.getElementById("reasonedPredictionFrame");
-
-        if (predictionFrame && predictionFrame.contentWindow) {
-            predictionFrame.contentWindow.loadInvestigationQuestionAnswers();
-            predictionFrame.contentWindow.updatePrediction();
-        }
+        updateLesson2PredictionBuilder();
 
         answerBox.innerHTML = "";
 
@@ -3028,6 +3141,8 @@ function resetBallPairActivity(
               fieldName
             ] = "";
 
+            updateLesson2PredictionBuilder();
+
             answerBox.classList.remove(
               "visible"
             );
@@ -3056,16 +3171,6 @@ function resetBallPairActivity(
       }
 
       return wrapper;
-    }
-
-    const INVESTIGATION_QUESTION_SAVE_KEY = "investigationQuestionAnswerSave";
-
-    function saveInvestigationQuestionAnswer() {
-      sessionStorage.setItem(
-        INVESTIGATION_QUESTION_SAVE_KEY,
-        JSON.stringify(investigationQuestionState)
-      );
-      console.log(JSON.parse(sessionStorage.getItem(INVESTIGATION_QUESTION_SAVE_KEY)));
     }
 
     function updateCompletedInvestigationQuestion() {
@@ -3132,6 +3237,14 @@ function resetBallPairActivity(
         secondAnswer: ""
       };
 
+      if (
+        typeof resetBuilder === "function"
+      ) {
+        resetBuilder();
+      }
+
+      updateLesson2PredictionBuilder();
+
       activity
         .querySelectorAll(
           "[data-question-structure]"
@@ -3156,53 +3269,37 @@ function resetBallPairActivity(
         "Select a question structure above to begin." +
         "</p>";
 
-      sessionStorage.removeItem(
-        INVESTIGATION_QUESTION_SAVE_KEY
-);
+      updateLesson2PredictionBuilder();
     }
 
     function resetQuestionAndPrediction() {
+
       /*
-        Clear the investigation-question cards,
-        answers and displayed completed question.
+        Reset the testable question.
       */
       resetInvestigationQuestion();
 
-      /*
-        Delete the saved question information.
-
-        Without this line, the iframe may load the old
-        question variables again when it refreshes.
-      */
-      sessionStorage.removeItem(
-        INVESTIGATION_QUESTION_SAVE_KEY
-      );
 
       /*
-        Find the prediction-builder iframe.
+        Reset the embedded reasoned-prediction builder.
       */
-      const predictionFrame =
-        document.getElementById(
-          "reasonedPredictionFrame"
-        );
-
       if (
-        !predictionFrame ||
-        !predictionFrame.contentWindow
+        typeof resetBuilder === "function"
       ) {
-        return;
+        resetBuilder();
       }
 
+
       /*
-        Call the existing resetBuilder() function
-        inside reasoned-prediction-builder.html.
+        Hide the Next button again.
       */
-      if (
-        typeof predictionFrame.contentWindow
-          .resetBuilder === "function"
-      ) {
-        predictionFrame.contentWindow
-          .resetBuilder();
+      const nextButton =
+        document.getElementById(
+          "designQuestionNext"
+        );
+
+      if (nextButton) {
+        nextButton.hidden = true;
       }
     }
 

@@ -478,10 +478,9 @@ window.addEventListener("DOMContentLoaded", function() {
       ".";
   }
 
-  if (
-    fullPrediction !== "" &&
-    reason !== ""
-  ) {
+  const predictionComplete = fullPrediction !== "" && reason !== "";
+
+  if (predictionComplete) {
     fullPrediction +=
       " This is because " +
       reason +
@@ -493,6 +492,11 @@ window.addEventListener("DOMContentLoaded", function() {
     fullPrediction,
     "Complete the organiser to build your reasoned prediction."
   );
+
+  const nextButton = reasonedPrediction?.closest(".section")?.querySelector(".next-button");
+  if (nextButton) {
+    nextButton.hidden = !predictionComplete;
+  }
 }
 
 function resetBuilder() {

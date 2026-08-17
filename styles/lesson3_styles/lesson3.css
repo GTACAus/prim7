@@ -1770,23 +1770,6 @@
   display: none;
 }
 
-
-/* ---------- Reasoned-prediction iframe ---------- */
-
-.lesson3-planning-activity .iframe-box {
-  width: 100%;
-  margin: 8px 0 0;
-  padding: 0;
-
-  background: transparent;
-
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-
-  overflow: hidden;
-}
-
 .lesson3-planning-activity .reasoned-prediction-iframe {
   display: block;
 
@@ -2932,7 +2915,7 @@
 .ball-bounce-setup,
 .ball-bounce-variables,
 #ballBouncePlanning {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 24px;
 
   background: var(--paper);
