@@ -1340,6 +1340,52 @@
     </p>
   </div>
 
+  <div class="stop-and-check">
+
+  <div class="stop-and-check-content">
+    <p>
+      <strong>Stop and think.</strong>
+      Look at the data in the table below.
+    </p>
+
+    <p>
+      <strong>
+        Are there any strange or unusual results when you compare
+        Test 1, Test 2 and Test 3?
+      </strong>
+    </p>
+
+    <p>
+      Think about why repeated results might sometimes be different.
+    </p>
+  </div>
+
+  <div
+    class="stop-and-check-answer"
+    id="yeastAverageStrangeResultsAnswer"
+    hidden
+  >
+    Some of the repeated results are quite different from each other.
+
+    At <strong>37°C</strong>, Test 2 is lower than Tests 1 and 3.
+    At <strong>80°C</strong>, the three results vary a lot.
+
+    This could happen because of a mistake when setting up the test,
+    an error when taking a measurement, or another small difference
+    between the repeated tests.
+  </div>
+
+<button
+  type="button"
+  class="stop-and-check-button general-button"
+  onclick="reconfirmStopAndCheckAnswer(this)"
+>
+  <p>Check Your Answer</p>
+  <p class="bounce-symbol">✅</p>
+</button>
+
+</div>
+
 
         <div class="data-table-card yeast-table-card">
           <div class="experiment-table-scroll">
@@ -2457,6 +2503,7 @@ function initialiseYeastVariables() {
     resetYeastVariables
   );
 }
+
 function stopAndCheckRepeatTests(button) {
   reconfirmStopAndCheckAnswer(button, function() {
     document.getElementById("repeat-tests").querySelector(".repeat-tests-average-intro").hidden = false;
