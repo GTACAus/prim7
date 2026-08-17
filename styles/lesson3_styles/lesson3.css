@@ -2402,19 +2402,6 @@
     var(--shadow-small);
 }
 
-.fair-test-box {
-  width: fit-content;
-  margin: 10px auto 10px;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  border: 2px solid var(--charcoal);
-  border-radius: 10px;
-  background: var(--blue);
-  font-weight: 800;
-  color: var(--charcoal);
-}
-
 .yeast-balloon-image-box {
   display: flex;
   margin-bottom: 10px;
@@ -2469,6 +2456,31 @@
   letter-spacing: 0.06em;
 }
 
+.reasoned-prediction-box {
+  position: relative;
+  border-top: 4px solid var(--green);
+}
+
+.reasoned-prediction-box::before {
+  content: "REASONED PREDICTION";
+
+  position: absolute;
+  top: -16px;
+  left: 18px;
+
+  padding: 4px 12px;
+
+  background: var(--green);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  color: var(--text);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
 
 /* ---------- Variable type buttons ---------- */
 
