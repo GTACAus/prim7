@@ -2402,6 +2402,18 @@
     var(--shadow-small);
 }
 
+.yeast-balloon-image-box {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.yeast-balloon-image-box img {
+  margin: 0 auto 0;
+  width: 75%;
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+
+}
 
 /* ---------- Testable question ---------- */
 
@@ -2444,6 +2456,31 @@
   letter-spacing: 0.06em;
 }
 
+.reasoned-prediction-box {
+  position: relative;
+  border-top: 4px solid var(--green);
+}
+
+.reasoned-prediction-box::before {
+  content: "REASONED PREDICTION";
+
+  position: absolute;
+  top: -16px;
+  left: 18px;
+
+  padding: 4px 12px;
+
+  background: var(--green);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  color: var(--text);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
 
 /* ---------- Variable type buttons ---------- */
 
@@ -2753,7 +2790,7 @@
   margin-top: 20px;
   padding: 20px 22px;
 
-  background: var(--soft-blue);
+  background: var(--paper);
 
   border: 2px solid var(--charcoal);
   border-left: 8px solid var(--blue);
@@ -2800,30 +2837,17 @@
 /* ---------- Repeat tests: Step 3 averages ---------- */
 
 .repeat-tests-average-intro {
-  margin-top: 24px;
-  padding: 22px;
+  margin: 20px 0 24px;
+  padding: 20px 22px;
 
-  background: white;
+  background: var(--soft-blue);
 
   border: 2px solid var(--charcoal);
-  border-top: 8px solid var(--blue);
   border-radius: 18px;
-
-  box-shadow: var(--shadow-small);
 }
 
-.repeat-tests-average-intro > .repeat-tests-label {
-  margin: 0 0 6px;
-}
-
-.repeat-tests-average-intro > h3 {
-  margin: 0 0 12px;
-}
-
-.repeat-tests-average-intro > p:not(.repeat-tests-label) {
-  margin: 0 0 10px;
-
-  line-height: 1.55;
+.repeat-tests-average-intro h3 {
+  margin: 0;
 }
 
 /* ---------- Upper-primary fraction notation ---------- */
