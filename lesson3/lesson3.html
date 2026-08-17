@@ -224,7 +224,7 @@
             <div class="yeast-overlay">
                 <p>
                   Dry yeast is sold in packets.
-                  Yeast ia a tiny living organism that you can only see under a microscope!
+                  Yeast is a tiny living organism that you can only see under a microscope!
                   Even though it is tiny, yeast is alive, and just like other living things, it needs food to survive.
                   The yeast in these packets is dormant.
                   To wake it up you need to give it water, sugar and the right temperature to make it active.
@@ -1536,33 +1536,41 @@
 
   </div>
 
-  <div class="yeast-prediction-final" hidden>
+<div class="yeast-prediction-final" hidden>
 
-    <h3>
-      Do the results support the reasoned prediction?
-    </h3>
+  <h3>
+    Do the results support the reasoned prediction?
+  </h3>
 
-    <div class="prediction-buttons">
+  <div class="prediction-buttons">
 
-      <button
-        id="yeastPredictionCheckSupported"
-        type="button"
-        class="general-button prediction-button"
-      >
-        Supported
-      </button>
+    <button
+      id="yeastPredictionCheckSupported"
+      type="button"
+      class="general-button prediction-button"
+    >
+      Supported
+    </button>
 
-      <button
-        id="yeastPredictionCheckUnsupported"
-        type="button"
-        class="general-button prediction-button"
-      >
-        Not supported
-      </button>
+    <button
+      id="yeastPredictionCheckPartlySupported"
+      type="button"
+      class="general-button prediction-button"
+    >
+      For some temperatures
+    </button>
 
-    </div>
+    <button
+      id="yeastPredictionCheckUnsupported"
+      type="button"
+      class="general-button prediction-button"
+    >
+      Not supported
+    </button>
 
   </div>
+
+</div>
 
 </div>
 
@@ -3176,6 +3184,9 @@ function checkYeastPrediction() {
   const supportedButton =
     document.getElementById("yeastPredictionCheckSupported");
 
+  const partlySupportedButton =
+    document.getElementById("yeastPredictionCheckPartlySupported");
+
   const unsupportedButton =
     document.getElementById("yeastPredictionCheckUnsupported");
 
@@ -3185,24 +3196,43 @@ function checkYeastPrediction() {
   const stopAndThink =
     section.querySelector(".stop-and-check");
 
-  if (!supportedButton || !unsupportedButton || !stopAndThink) {
+  if (
+    !supportedButton ||
+    !partlySupportedButton ||
+    !unsupportedButton ||
+    !stopAndThink
+  ) {
     return;
   }
 
-  supportedButton.addEventListener("click", function () {
-    supportedButton.classList.add("buzz");
+  function clearPredictionSelection() {
+    supportedButton.classList.remove("selected-answer");
+    partlySupportedButton.classList.remove("selected-answer");
+    unsupportedButton.classList.remove("selected-answer");
+  }
+
+  function showIncorrect(button) {
+    clearPredictionSelection();
+
+    button.classList.add("buzz");
 
     window.setTimeout(function () {
-      supportedButton.classList.remove("buzz");
+      button.classList.remove("buzz");
     }, 300);
+  }
 
-    supportedButton.classList.remove("selected-answer");
-    unsupportedButton.classList.remove("selected-answer");
+  supportedButton.addEventListener("click", function () {
+    showIncorrect(supportedButton);
   });
 
   unsupportedButton.addEventListener("click", function () {
-    unsupportedButton.classList.add("selected-answer");
-    supportedButton.classList.remove("selected-answer");
+    showIncorrect(unsupportedButton);
+  });
+
+  partlySupportedButton.addEventListener("click", function () {
+    clearPredictionSelection();
+
+    partlySupportedButton.classList.add("selected-answer");
 
     stopAndThink.hidden = false;
   });
@@ -3464,22 +3494,35 @@ function checkYeastPrediction() {
       }
 
 function resetYeastAverage() {
-  document
-    .getElementById("yeastPredictionCheckSupported")
-    .classList.remove("selected-answer");
+  const predictionCheck =
+    document.getElementById("yeastPredictionCheck");
 
-  document
-    .getElementById("yeastPredictionCheckUnsupported")
-    .classList.remove("selected-answer");
-
-  const predictionCheck = document.getElementById("yeastPredictionCheck")
   predictionCheck.hidden = true;
-  
-  predictionCheck.querySelectorAll(".prediction-button").forEach(function(button) {
-    button.classList.remove("selected-answer");
-  });
 
-  const stopAndCheck = document.getElementById("yeast-average").querySelector(".stop-and-check");
+  predictionCheck
+    .querySelectorAll(".prediction-button")
+    .forEach(function (button) {
+      button.classList.remove("selected-answer");
+      button.classList.remove("buzz");
+    });
+
+  const finalQuestion =
+    predictionCheck.querySelector(".yeast-prediction-final");
+
+  if (finalQuestion) {
+    finalQuestion.hidden = true;
+  }
+
+  yeastResultAnswers = {
+    "low-to-37": false,
+    "37-to-80": false
+  };
+
+  const stopAndCheck =
+    document
+      .getElementById("yeast-average")
+      .querySelector(".stop-and-check");
+
   resetStopAndCheck(stopAndCheck);
 
   restoreAverageButtons(
