@@ -1620,7 +1620,11 @@ Select the independent variable and the dependent variable. Then select the cont
 </div>
 
 
-<div class="stop-and-check" hidden>
+<div
+  class="stop-and-check"
+  id="yeastHotStopAndThink"
+  hidden
+>
 
   <div class="stop-and-check-content">
     <p>
@@ -3330,7 +3334,7 @@ function checkYeastPrediction() {
     document.getElementById("yeast-average");
 
   const stopAndThink =
-    section.querySelector(".stop-and-check");
+    document.getElementById("yeastHotStopAndThink");
 
   if (
     !supportedButton ||
