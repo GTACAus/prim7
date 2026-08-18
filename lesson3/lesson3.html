@@ -613,7 +613,7 @@ Select the independent variable and the dependent variable. Then select the cont
   <button
       type="button"
       class="stop-and-check-button general-button"
-      onclick="reconfirmStopAndCheckAnswer(this)"
+      onclick="yeastVariablesStopAndCheck(this)"
     >
       <p>Check Your Answer</p>
       <p class="bounce-symbol">✅</p>
@@ -2554,6 +2554,7 @@ function initialiseYeastVariables() {
 function stopAndCheckRepeatTests(button) {
   reconfirmStopAndCheckAnswer(button, function() {
     document.getElementById("repeat-tests").querySelector(".repeat-tests-average-intro").hidden = false;
+    document.getElementById("repeatTestsNext").hidden = false;
   });
 }
 function checkYeastVariable(tile) {
@@ -2660,6 +2661,10 @@ function updateYeastVariablesComplete() {
 
   structure.feedback.textContent =
     "Correct. Keep going.";
+}
+
+function yeastVariablesStopAndCheck(button) {
+  reconfirmStopAndCheckAnswer(button, () => { yeastVariablesStructure.nextButton.hidden = false; })
 }
 
 function resetYeastVariables() {
@@ -3315,6 +3320,13 @@ function initialiseYeastResultQuestions() {
     });
   });
 }
+function yeastAverageStopAndThink(button) {
+  reconfirmStopAndCheckAnswer(button, () => {
+    const section = button.closest(".section");
+    const table = section.querySelector(".yeast-table-card");
+    table.hidden = false;
+  });
+}
 
 function checkYeastPrediction() {
   const supportedButton =
@@ -3332,11 +3344,15 @@ function checkYeastPrediction() {
   const stopAndThink =
     section.querySelector(".stop-and-check");
 
+  const nextButton = 
+    section.querySelector(".next-button");
+
   if (
     !supportedButton ||
     !partlySupportedButton ||
     !unsupportedButton ||
-    !stopAndThink
+    !stopAndThink ||
+    !nextButton
   ) {
     return;
   }
@@ -3370,7 +3386,7 @@ function checkYeastPrediction() {
 
     partlySupportedButton.classList.add("selected-answer");
 
-    stopAndThink.hidden = false;
+    nextButton.hidden = false;
   });
 }
 
@@ -3654,13 +3670,15 @@ function resetYeastAverage() {
     "37-to-80": false
   };
 
-  const stopAndCheck =
+  const stopAndChecks =
     document
       .getElementById("yeast-average")
-      .querySelector(".stop-and-check");
+      .querySelectorAll(".stop-and-check");
 
-  resetStopAndCheck(stopAndCheck);
-  stopAndCheck.hidden = false;
+  stopAndChecks.forEach((stopAndCheck) => {
+    resetStopAndCheck(stopAndCheck);
+    stopAndCheck.hidden = false;
+  });
 
   restoreAverageButtons(
     "#yeast-average",

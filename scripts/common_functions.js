@@ -468,7 +468,7 @@ function showStopAndCheckAnswer(button, additionalFunction = function() {}) {
 
   answer.hidden = false;
   button.hidden = true;
-  nextButton.hidden = false;
+  // nextButton.hidden = false;
   additionalFunction();
 }
 
