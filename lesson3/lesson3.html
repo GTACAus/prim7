@@ -2113,7 +2113,8 @@
     <button
       type="button"
       class="general-button watch-video-button"
-      onclick="openVideoModal(
+      onclick="openLesson3Video(
+        this,
         '../videos/lesson3/Hard Trial.mp4',
         'Ball Bounce Experiment - Hard Surface'
       )"
@@ -2133,7 +2134,8 @@
     <button
       type="button"
       class="general-button watch-video-button"
-      onclick="openVideoModal(
+      onclick="openLesson3Video(
+        this,
         '../videos/lesson3/Soft Trial.mp4',
         'Ball Bounce Experiment - Soft Surface'
       )"
@@ -2368,6 +2370,35 @@
           <p>Save my work</p>
         </button>
       </section>
+
+<!-- Lesson 3 inline video panel for data-entry videos -->
+<div
+  class="video-dropdown-panel"
+  id="lesson3VideoPanel"
+  hidden
+>
+  <div class="video-dropdown-header">
+    <h2 id="lesson3VideoTitle">Video guide</h2>
+
+    <button
+      type="button"
+      class="close-button"
+      onclick="closeLesson3Video()"
+      aria-label="Close video"
+    >
+      ×
+    </button>
+  </div>
+
+  <video
+    id="lesson3VideoPlayer"
+    class="video-modal-player"
+    controls
+    preload="metadata"
+  >
+    Your browser does not support video playback.
+  </video>
+</div>
 
       <div class="return-to-top">
         <a class="return-to-top-button general-button" href="#">
@@ -2682,41 +2713,83 @@ function resetYeastVariables() {
       let currentYeastRecordTest = null;
       let currentYeastRecordButton = null;
 
-      function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
-        currentYeastRecordTest = testNumber;
-        currentYeastRecordButton = button;
+      function openLesson3Video(button, videoSource, videoTitle) {
+  const panel = document.getElementById("lesson3VideoPanel");
+  const player = document.getElementById("lesson3VideoPlayer");
+  const title = document.getElementById("lesson3VideoTitle");
 
-        openVideoModal(videoPath, videoTitle);
-      }
+  if (!panel || !player || !button) {
+    return;
+  }
 
-      const originalLesson3CloseVideoModal = closeVideoModal;
+  player.pause();
+  player.src = videoSource;
 
-      closeVideoModal = function () {
-        if (currentYeastRecordTest !== null) {
-          const section = document.getElementById("yeast-labels");
+  if (title) {
+    title.textContent = videoTitle || "Video guide";
+  }
 
-          section.classList.add(
-            "test-" + currentYeastRecordTest + "-ready"
-          );
+  const videoGroup = button.closest(
+    ".yeast-results-video-grid, .ball-bounce-video-grid"
+  );
 
-          if (currentYeastRecordButton) {
-            currentYeastRecordButton.classList.add("video-watched");
+  if (videoGroup) {
+    videoGroup.insertAdjacentElement("afterend", panel);
+  } else {
+    button.insertAdjacentElement("afterend", panel);
+  }
 
-            const label =
-              currentYeastRecordButton.querySelector("p:last-child");
+  panel.hidden = false;
+  player.load();
 
-            if (label) {
-              label.textContent =
-                "Test " + currentYeastRecordTest + " ✓";
-            }
-          }
+  panel.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
+}
 
-          currentYeastRecordTest = null;
-          currentYeastRecordButton = null;
-        }
+function closeLesson3Video() {
+  const panel = document.getElementById("lesson3VideoPanel");
+  const player = document.getElementById("lesson3VideoPlayer");
 
-        originalLesson3CloseVideoModal();
-      };
+  if (!panel || !player) {
+    return;
+  }
+
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+
+  panel.hidden = true;
+}
+
+function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
+  currentYeastRecordTest = testNumber;
+  currentYeastRecordButton = button;
+
+  const section = document.getElementById("yeast-labels");
+
+  section.classList.add(
+    "test-" + testNumber + "-ready"
+  );
+
+  button.classList.add("video-watched");
+
+  const label =
+    button.querySelector("p:last-child");
+
+  if (label) {
+    label.textContent =
+      "Test " + testNumber + " ✓";
+  }
+
+  openLesson3Video(
+    button,
+    videoPath,
+    videoTitle
+  );
+}
+
 
       function createDragGhost(label) {
         const ghost = document.createElement("div");

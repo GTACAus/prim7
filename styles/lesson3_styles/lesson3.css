@@ -3091,3 +3091,43 @@
   background: var(--yellow);
 }
 
+/* ==================================================
+   LESSON 3 - INLINE VIDEO PANEL
+   ================================================== */
+
+.video-dropdown-panel {
+  width: 100%;
+  margin: 18px 0 24px;
+  padding: 18px;
+
+  background: var(--soft-blue);
+
+  border: 3px solid var(--charcoal);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-small);
+
+  box-sizing: border-box;
+}
+
+.video-dropdown-panel[hidden] {
+  display: none;
+}
+
+.video-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 14px;
+}
+
+.video-dropdown-header h2 {
+  margin: 0;
+}
+
+.video-dropdown-header .close-button {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
