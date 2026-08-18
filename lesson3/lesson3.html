@@ -1651,7 +1651,7 @@ Select the independent variable and the dependent variable. Then select the cont
   <button
     type="button"
     class="stop-and-check-button general-button"
-    onclick="reconfirmStopAndCheckAnswer(this)"
+    onclick="yeastAverageStopAndCheck(this)"
   >
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
@@ -3390,7 +3390,13 @@ function checkYeastPrediction() {
 
     partlySupportedButton.classList.add("selected-answer");
 
-    nextButton.hidden = false;
+    stopAndThink.hidden = false;
+  });
+}
+
+function yeastAverageStopAndCheck(button) {
+  reconfirmStopAndCheckAnswer(button, () => {
+    document.getElementById("yeast-average").querySelector(".next-button").hidden = false;
   });
 }
 
@@ -3679,10 +3685,12 @@ function resetYeastAverage() {
       .getElementById("yeast-average")
       .querySelectorAll(".stop-and-check");
 
-  stopAndChecks.forEach((stopAndCheck) => {
-    resetStopAndCheck(stopAndCheck);
-    stopAndCheck.hidden = false;
+  resetStopAndCheck(stopAndChecks[0]);
+  resetStopAndCheck(stopAndChecks[1], () => {
+    document.getElementById("yeast-average").querySelector(".next-button").hidden = false;
   });
+  stopAndChecks[0].hidden = false;
+  stopAndChecks[1].hidden = true;
 
   restoreAverageButtons(
     "#yeast-average",
