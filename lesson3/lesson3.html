@@ -1331,7 +1331,7 @@
          SECTION 3: YEAST EXPERIMENT - CALCULATE AVERAGES
          ================================================== -->
 <section class="section data-table-section locked" id="yeast-average">
-  <h2 class="section-title">Yeast experiment: calculate the average</h2>
+  <h2 class="section-title">Calculate the average results</h2>
 
   <div class="diagram-activity diagram-box">
     <p class="activity-instruction">
@@ -1677,9 +1677,9 @@
   id="build-your-own-table"
 >
 
-  <h2 class="section-title">
-    Ball bounce experiment
-  </h2>
+<h2 class="section-title">
+  Record results in a scientific table
+</h2>
 
   <div class="ball-bounce-context">
 
@@ -2306,10 +2306,27 @@
           </div>
           <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
 
-          <div class="prediction-check" id="ballBouncePredictionCheck" hidden>
-            <p class="prediction-label">Interpret the results</p>
+<div class="prediction-check" id="ballBouncePredictionCheck" hidden>
+  <p class="prediction-label">Interpret the results</p>
 
-            <h3>Do the results support the reasoned prediction?</h3>
+  <div class="ball-bounce-results-description">
+    <h3>Use the data to describe the results</h3>
+
+    <p>
+      Look at the averages in your table. Describe what happened
+      to the number of bounces on the two different surfaces.
+    </p>
+
+    <input
+      type="text"
+      class="table-text-input lesson3-filtered-text"
+      maxlength="160"
+      placeholder="Describe the results..."
+      aria-label="Describe the ball-bounce results"
+    />
+  </div>
+
+  <h3>Do the results support the reasoned prediction?</h3>
 
             <p>
               Look at the averages in your table and decide whether the evidence supports the prediction.
@@ -3965,11 +3982,11 @@ function createLesson3QuestionBlank(fieldName, placeholderText) {
 
 
   function saveAnswer() {
-    const value = input.value.trim();
+    const value = getValidStudentInput(input);
 
-    if (value === "") {
-      return;
-    }
+      if (value === null) {
+        return;
+      }
 
     investigationQuestionState[fieldName] = value;
 

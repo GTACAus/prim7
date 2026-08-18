@@ -336,36 +336,19 @@ window.addEventListener("DOMContentLoaded", function() {
           How does changing the _____
           affect the _____?
         */
-        case "how":
-          return {
-            cause:
-              "How does " +
-              causeAction.gerund,
+case "how":
+case "does":
+  return {
+    cause:
+      causeAction.gerund.charAt(0).toUpperCase() +
+      causeAction.gerund.slice(1),
 
-            effect:
-              "cause " +
-              measure + " to " +
-              effectAction +
-              "?"
-          };
-
-
-        /*
-          Does changing the _____
-          affect the _____?
-        */
-        case "does":
-          return {
-            cause:
-              "Does " +
-              causeAction.gerund,
-
-            effect:
-              "cause " +
-              measure + " to " +
-              effectAction +
-              "?"
-          };
+    effect:
+      "will cause " +
+      measure +
+      " to " +
+      effectAction
+  };
 
 
         /*
@@ -471,9 +454,15 @@ window.addEventListener("DOMContentLoaded", function() {
     causePhrase !== "" &&
     effectPhrase !== ""
   ) {
+    const predictionSeparator =
+      investigationQuestionAnswers.structure === "how" ||
+      investigationQuestionAnswers.structure === "does"
+        ? " "
+        : ", ";
+
     fullPrediction =
       causePhrase +
-      ", " +
+      predictionSeparator +
       effectPhrase +
       ".";
   }
