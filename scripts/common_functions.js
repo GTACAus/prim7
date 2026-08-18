@@ -491,10 +491,15 @@ function resetStopAndCheck(stopAndCheck) {
   const button = stopAndCheck.querySelector(".stop-and-check-button");
   button.hidden = false;
   button.onclick = function() { reconfirmStopAndCheckAnswer(button); }
-  button.textContent = "Check your answer";
-  const bounceSymbol = document.createElement("p")
-  bounceSymbol.textContent = "✅";
+
+  button.innerHTML = "";
+  const content = document.createElement("p");
+  content.innerHTML = "Check Your Answer";
+  const bounceSymbol = document.createElement("p");
+  bounceSymbol.innerHTML = "✅";
+
   bounceSymbol.classList.add("bounce-symbol");
+  button.appendChild(content);
   button.appendChild(bounceSymbol);
   
   stopAndCheck.hidden = true;

@@ -2393,7 +2393,7 @@
 
 .yeast-balloon-image-box img {
   margin: 0 auto 0;
-  width: 75%;
+  width: 100%;
   border: 2px solid var(--charcoal);
   border-radius: 12px;
 
@@ -3100,7 +3100,7 @@
   margin: 18px 0 24px;
   padding: 18px;
 
-  background: var(--soft-blue);
+  background: var(--paper);
 
   border: 3px solid var(--charcoal);
   border-radius: 18px;
