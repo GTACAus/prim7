@@ -704,7 +704,7 @@
           <strong>dependent variable</strong> is caused by the thing you changed
           (the <strong>independent variable</strong>).
         </div>
-        <button class="stop-and-check-button general-button" onclick="reconfirmStopAndCheckAnswer(this)">
+        <button class="stop-and-check-button general-button" onclick="reconfirmStopAndCheckAnswer(this, () => { this.closest('.section').querySelector('.next-button').hidden = false; })">
           <p id="stopAndCheckDescription">Check Your Answer</p>
           <p class="bounce-symbol">✅</p>
         </button>
