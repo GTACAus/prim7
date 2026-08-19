@@ -93,12 +93,6 @@
 >
   1. The story of yeast Y
 </button>
-          <button
-  type="button"
-  onclick="teacherJump('yeast-context')"
->
-  2. Meet the yeast balloon experiment
-</button>
 
 <button
   type="button"
@@ -274,7 +268,7 @@
 
         <button
           class="next-button general-button"
-          onclick="unlockSection('yeast-context', 'yeast-image-investigation')"
+         onclick="unlockSection('yeast-variables', 'yeast-image-investigation')"
         >
           Next
         </button>
@@ -295,105 +289,6 @@
           </div>
         </div>
       </div>
-      <!-- ==================================================
-   SECTION 1: YEAST EXPERIMENT CONTEXT
-   ================================================== -->
-
-<section
-  class="section yeast-context-section locked"
-  id="yeast-context"
->
-  <h2 class="section-title">
-    Meet the yeast balloon experiment
-  </h2>
-
-  <div class="yeast-context-card">
-
-    <div class="yeast-context-intro">
-      <p class="yeast-context-eyebrow">
-        Before we look at the results
-      </p>
-
-      <h3>How does temperature affect yeast activity?</h3>
-
-      <p>
-        Yeast is a tiny living organism that you can only see under a microscope.
-        Even though it is tiny, yeast is alive and needs food to survive.
-      </p>
-
-      <p>
-        When yeast eats sugar, it breaks it down through a process called
-        <strong>fermentation</strong>. This releases carbon dioxide gas.
-      </p>
-    </div>
-
-    <div class="yeast-context-experiment">
-      <h3>What did we do?</h3>
-
-      <p>
-        We mixed yeast, sugar and water in a flask, then stretched a balloon
-        over the top to trap the gas that was produced.
-      </p>
-
-      <p>
-        If the yeast was very active, it produced more gas and the balloon
-        inflated more. We measured the
-        <strong>circumference of the balloon</strong> to compare the results.
-      </p>
-    </div>
-
-    <div class="yeast-temperature-grid">
-
-      <div class="yeast-temperature-card">
-        <span class="yeast-temperature-value">2°C</span>
-        <strong>Cold</strong>
-        <span>Kept in ice</span>
-      </div>
-
-      <div class="yeast-temperature-card">
-        <span class="yeast-temperature-value">22°C</span>
-        <strong>Room temperature</strong>
-        <span>Left at room temperature</span>
-      </div>
-
-      <div class="yeast-temperature-card">
-        <span class="yeast-temperature-value">37°C</span>
-        <strong>Warm</strong>
-        <span>Kept steady using a heat block</span>
-      </div>
-
-      <div class="yeast-temperature-card">
-        <span class="yeast-temperature-value">80°C</span>
-        <strong>Hot</strong>
-        <span>Kept steady using a heat block</span>
-      </div>
-
-    </div>
-
-    <div class="yeast-context-question">
-      <span class="yeast-context-question-label">
-        The investigation
-      </span>
-
-      <p>
-        By comparing the balloons at each temperature, we can see
-        <strong>which temperature made the yeast work best.</strong>
-      </p>
-    </div>
-
-  </div>
-
-<button
-  class="next-button general-button"
-  onclick="unlockSection('yeast-variables', 'yeast-context')"
->
-  Next
-</button>
-
-  <p class="completed-note">
-    Completed — next activity unlocked.
-  </p>
-</section>
 
 <!-- ==================================================
      YEAST FAIR TEST - IDENTIFY VARIABLES
@@ -2456,7 +2351,6 @@ Select the independent variable and the dependent variable. Then select the cont
 
 const lesson3SectionIds = [
   "yeast-image-investigation",
-  "yeast-context",
   "yeast-variables",
   "data-table-template",
   "yeast-labels",
