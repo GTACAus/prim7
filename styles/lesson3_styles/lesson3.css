@@ -1418,6 +1418,10 @@
    YEAST AVERAGE - INTERPRET RESULTS
    ================================================== */
 
+#yeast-average [hidden] {
+  display: none !important;
+}
+
 .prediction-check {
   display: flex;
   flex-direction: column;

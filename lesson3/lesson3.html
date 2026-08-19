@@ -1339,7 +1339,10 @@ Select the independent variable and the dependent variable. Then select the cont
     </p>
   </div>
 
-  <div class="stop-and-check">
+<div
+  class="stop-and-check"
+  id="yeastAverageFirstStopAndThink"
+>
 
   <div class="stop-and-check-content">
     <p>
@@ -1377,7 +1380,7 @@ Select the independent variable and the dependent variable. Then select the cont
 <button
   type="button"
   class="stop-and-check-button general-button"
-  onclick="reconfirmStopAndCheckAnswer(this)"
+  onclick="yeastAverageStopAndThink(this)"
 >
   <p>Check Your Answer</p>
   <p class="bounce-symbol">✅</p>
@@ -1386,7 +1389,11 @@ Select the independent variable and the dependent variable. Then select the cont
 </div>
 
 
-        <div class="data-table-card yeast-table-card">
+        <div
+  class="data-table-card yeast-table-card"
+  id="yeastAverageTable"
+  hidden
+>
           <div class="experiment-table-scroll">
             <table
               class="experiment-table experiment-table-average yeast-table"
@@ -1651,7 +1658,7 @@ Select the independent variable and the dependent variable. Then select the cont
   <button
     type="button"
     class="stop-and-check-button general-button"
-    onclick="reconfirmStopAndCheckAnswer(this)"
+    onclick="yeastHotStopAndThink(this)"
   >
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
@@ -3324,11 +3331,46 @@ function initialiseYeastResultQuestions() {
     });
   });
 }
+
+function yeastHotStopAndThink(button) {
+  reconfirmStopAndCheckAnswer(button, function () {
+    const section =
+      document.getElementById("yeast-average");
+
+    const nextButton =
+      section.querySelector(".next-button");
+
+    if (nextButton) {
+      nextButton.hidden = false;
+    }
+  });
+}
+
 function yeastAverageStopAndThink(button) {
-  reconfirmStopAndCheckAnswer(button, () => {
-    const section = button.closest(".section");
-    const table = section.querySelector(".yeast-table-card");
-    table.hidden = false;
+  reconfirmStopAndCheckAnswer(button, function () {
+    const section =
+      document.getElementById("yeast-average");
+
+    const table =
+      document.getElementById("yeastAverageTable");
+
+    const nextButton =
+      section.querySelector(".next-button");
+
+    if (table) {
+      table.hidden = false;
+    }
+
+    /*
+      The shared Stop & Think function normally reveals
+      the section's Next button.
+
+      In this section that is too early, because students
+      still need to calculate and interpret their results.
+    */
+    if (nextButton) {
+      nextButton.hidden = true;
+    }
   });
 }
 
@@ -3385,13 +3427,15 @@ function checkYeastPrediction() {
     showIncorrect(unsupportedButton);
   });
 
-  partlySupportedButton.addEventListener("click", function () {
-    clearPredictionSelection();
+partlySupportedButton.addEventListener("click", function () {
+  clearPredictionSelection();
 
-    partlySupportedButton.classList.add("selected-answer");
+  partlySupportedButton.classList.add("selected-answer");
 
-    nextButton.hidden = false;
-  });
+  stopAndThink.hidden = false;
+
+  nextButton.hidden = true;
+});
 }
 
     function checkBallBouncePrediction() {
@@ -3650,44 +3694,123 @@ function checkYeastPrediction() {
       }
 
 function resetYeastAverage() {
+  const section =
+    document.getElementById("yeast-average");
+
+  const firstStop =
+    document.getElementById(
+      "yeastAverageFirstStopAndThink"
+    );
+
+  const finalStop =
+    document.getElementById(
+      "yeastHotStopAndThink"
+    );
+
+  const table =
+    document.getElementById(
+      "yeastAverageTable"
+    );
+
   const predictionCheck =
-    document.getElementById("yeastPredictionCheck");
+    document.getElementById(
+      "yeastPredictionCheck"
+    );
 
-  predictionCheck.hidden = true;
+  const nextButton =
+    section.querySelector(".next-button");
 
-  predictionCheck
-    .querySelectorAll(".prediction-button")
-    .forEach(function (button) {
-      button.classList.remove("selected-answer");
-      button.classList.remove("buzz");
-    });
 
-  const finalQuestion =
-    predictionCheck.querySelector(".yeast-prediction-final");
+  /* Reset all calculated averages */
 
-  if (finalQuestion) {
-    finalQuestion.hidden = true;
+  restoreAverageButtons(
+    "#yeast-average",
+    calculateFixedAverage
+  );
+
+
+  /* Reset interpretation activity */
+
+  if (predictionCheck) {
+    predictionCheck.hidden = true;
+
+    predictionCheck
+      .querySelectorAll(".prediction-button")
+      .forEach(function (button) {
+        button.classList.remove(
+          "selected-answer",
+          "buzz"
+        );
+      });
+
+    const finalQuestion =
+      predictionCheck.querySelector(
+        ".yeast-prediction-final"
+      );
+
+    if (finalQuestion) {
+      finalQuestion.hidden = true;
+    }
   }
+
 
   yeastResultAnswers = {
     "low-to-37": false,
     "37-to-80": false
   };
 
-  const stopAndChecks =
-    document
-      .getElementById("yeast-average")
-      .querySelectorAll(".stop-and-check");
 
-  stopAndChecks.forEach((stopAndCheck) => {
-    resetStopAndCheck(stopAndCheck);
-    stopAndCheck.hidden = false;
-  });
+  /* Reset first Stop & Think */
 
-  restoreAverageButtons(
-    "#yeast-average",
-    calculateFixedAverage
-  );
+  if (firstStop) {
+    resetStopAndCheck(firstStop);
+
+    firstStop.hidden = false;
+
+    const firstButton =
+      firstStop.querySelector(
+        ".stop-and-check-button"
+      );
+
+    if (firstButton) {
+      firstButton.onclick = function () {
+        yeastAverageStopAndThink(firstButton);
+      };
+    }
+  }
+
+
+  /* Reset and hide final Stop & Think */
+
+if (finalStop) {
+  resetStopAndCheck(finalStop);
+  finalStop.hidden = true;
+
+  const finalButton =
+    finalStop.querySelector(
+      ".stop-and-check-button"
+    );
+
+  if (finalButton) {
+    finalButton.onclick = function () {
+      yeastHotStopAndThink(finalButton);
+    };
+  }
+}
+
+
+  /* Hide table again */
+
+  if (table) {
+    table.hidden = true;
+  }
+
+
+  /* Hide Next again */
+
+  if (nextButton) {
+    nextButton.hidden = true;
+  }
 }
 
       function resetBuildYourOwnTable() {
