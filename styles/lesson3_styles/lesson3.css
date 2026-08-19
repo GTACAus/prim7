@@ -544,6 +544,16 @@
     border-color 0.2s ease;
 }
 
+.table-number-input {
+  height: 52px;
+  padding: 10px 12px;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  appearance: textfield;
+}
+
 /* Hide number spinners */
 .table-number-input::-webkit-inner-spin-button,
 .table-number-input::-webkit-outer-spin-button {
@@ -559,15 +569,6 @@
   padding: 9px 11px;
 
   font-weight: 600;
-}
-
-.table-number-input,
-.table-text-input {
-  outline: 4px solid transparent;
-
-  transition:
-    outline-color 0.3s ease,
-    border-color 0.2s ease;
 }
 
 .table-number-input:focus,
