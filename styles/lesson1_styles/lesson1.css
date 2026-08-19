@@ -11,19 +11,6 @@
   border-radius: 22px;
   box-shadow: 0 5px 0 var(--line);
 }
-.flashcard-frame {
-  display: block;
-  width: 100%;
-  height: 600px;
-  border: none;
-  border-radius: 16px;
-  background: white;
-}
-@media (max-width: 1000px) {
-  .flashcard-frame {
-    height: 70rem;
-  }
-}
 
 /* ==================================================
         REASONED PREDICTION BUILDER IFRAME

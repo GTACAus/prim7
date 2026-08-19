@@ -18,6 +18,10 @@
         href="../styles/lesson1_styles/lesson1.css"
         rel="stylesheet"
         type="text/css">
+      <link
+        href="../styles/lesson1_styles/flashcards.css"
+        rel="stylesheet"
+        type="text/css">
    </head>
    <body>
       <div class="page-header-wrapper">
@@ -485,10 +489,35 @@
                Testable or Non-testable?
             </h2>
             <div class="flashcard-box">
-               <iframe
-                  src="../lesson1/flash-cards.html"
-                  class="flashcard-frame">
-               </iframe>
+               <main class="flashcard-content">
+                <div class="layout">
+                  <div class="pile-section">
+                    <h2 data-template-id="left-label" class="canva-text mb-3"></h2>
+                    <div id="left-pile" class="pile-container"></div>
+                    <p id="left-count">0</p>
+                  </div>
+                  <div class="center-section">
+                    <div id="card-area">
+                      <div id="current-card" class=""></div>
+                      <div id="done-message">
+                        <span>🎉</span>
+                        <p>All Sorted!</p>
+                      </div>
+                    </div>
+                    <p id="progress"></p>
+                    <div class="btn-row">
+                      <button data-template-id="btn-investigable" id="btn-investigable" class="general-button" onclick="sortCard('left')">Testable</button>
+                      <button data-template-id="btn-uninvestigable" id="btn-uninvestigable" class="general-button" onclick="sortCard('right')">Non-Testable</button>
+                    </div>
+                    <button id="reset-btn" data-template-id="btn-reset" class="general-button hidden" onclick="resetCards()">Reset</button>
+                  </div>
+                  <div class="pile-section">
+                    <h2 data-template-id="right-label" class="canva-text mb-3"></h2>
+                    <div id="right-pile" class="pile-container"></div>
+                    <p id="right-count">0</p>
+                  </div>
+                </div>
+              </main>
             </div>
             <button
                id="flashcardsNextButton"
@@ -1115,8 +1144,10 @@
 
       </main>
       <script src="../scripts/common_functions.js"></script>
+      <script src="../scripts/lesson1_scripts/flash_cards.js"></script>
       <script>
-        
+        const dev = true;
+        if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
         
         initialiseTeacherMenu(
             [
