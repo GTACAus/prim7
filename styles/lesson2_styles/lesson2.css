@@ -243,21 +243,7 @@
 .variable-question::before {
   content: "TESTABLE QUESTION";
 
-  position: absolute;
-  top: -16px;
-  left: 18px;
-
-  padding: 4px 12px;
-
   background: var(--blue);
-  border: 2px solid var(--line);
-  border-radius: 999px;
-
-  color: var(--text);
-
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
 }
 
 .variable-selection-toolbar {
