@@ -746,12 +746,150 @@
                 </video>
               </div>
             </div>
-            <iframe
-               src="../lesson1/reasoned-prediction-builder.html"
-               title="Reasoned prediction builder"
-               class="reasoned-prediction-iframe"
-               scrolling="no">
-            </iframe>
+            <div class="reasoned-builder">
+              <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
+                <div class="prediction-organiser-row row-header">
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
+                </div>
+
+                <div class="prediction-organiser-row row-variables">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Testable Question</span>
+                    <span class="cell-helper">Identify the two things in your testable question</span>
+                  </div>
+
+                  <div class="prediction-organiser-cell">
+            <label class="cell-sublabel" for="changeVariable">
+              The thing I am changing
+            </label>
+
+          <select
+            id="changeVariable"
+            class="prediction-select">
+
+            <option value="">
+              Choose what you are changing
+            </option>
+
+            <option value="the angle of the ramp">
+              The angle of the ramp
+            </option>
+
+            <option value="the colour of the car">
+              The colour of the car
+            </option>
+
+            <option value="the size of the car">
+              The size of the car
+            </option>
+
+            <option value="the size of the car's wheels">
+              The size of the car's wheels
+            </option>
+
+          </select>
+
+
+          </div>
+
+                  <div class="prediction-organiser-cell">
+            <label class="cell-sublabel" for="measureVariable">
+              The thing I am measuring
+            </label>
+
+          <select
+            id="measureVariable"
+            class="prediction-select">
+
+            <option value="">
+              Choose what you are measuring
+            </option>
+
+            <option value="the distance the car travels">
+              The distance the car travels
+            </option>
+
+          </select>
+
+
+          </div>
+
+
+                </div>
+
+                <div class="prediction-organiser-row row-relationship">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Relationship</span>
+                    <span class="cell-helper">Choose what you will change and what you think will happen</span>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
+                    <div class="relationship-area">
+                      <select id="causeRelationshipType" class="prediction-select">
+                        <option value="">Choose a relationship type</option>
+                        <option value="increase-decrease">Increase / decrease</option>
+                        <option value="with-without">With / without</option>
+                        <option value="condition-comparison">Condition 1 versus condition 2</option>
+                      </select>
+                      <div id="causeRelationshipButtons" class="relationship-buttons"></div>
+
+                      <div id="conditionComparisonInputs" class="condition-comparison-inputs">
+                        <input
+                          id="conditionOneInput"
+                          class="condition-input"
+                          type="text"
+                          placeholder="Starting condition, e.g. blue">
+
+                        <input
+                          id="conditionTwoInput"
+                          class="condition-input"
+                          type="text"
+                          placeholder="New condition, e.g. red">
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <span class="cell-sublabel">Effect or result</span>
+                    <div id="effectRelationshipButtons" class="relationship-buttons three-options">
+                      <button type="button" class="relationship-option" data-effect="increase">Increase</button>
+                      <button type="button" class="relationship-option" data-effect="decrease">Decrease</button>
+                      <button type="button" class="relationship-option" data-effect="stay-the-same">Stay the same</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="prediction-organiser-row row-prediction">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
+                  <div class="prediction-organiser-cell"><div id="predictionIf" class="generated-text placeholder">Choose a cause relationship.</div></div>
+                  <div class="prediction-organiser-cell"><div id="predictionThen" class="generated-text placeholder">Choose an effect or result.</div></div>
+                </div>
+
+                <div class="prediction-organiser-row row-reason">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
+                  <div class="prediction-organiser-cell span-2 reason-inline">
+                    <label class="cell-helper" for="reasonInput">This is because...</label>
+                    <div id="reasonInputRow" class="permanent-input-row">
+                      <input id="reasonInput" type="text" class="prediction-input" placeholder="Explain why you expect this result">
+                    </div>
+                    <div id="reasonAnswer" class="submitted-answer"></div>
+                  </div>
+                </div>
+
+                <div class="prediction-organiser-row row-full">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
+                  <div class="prediction-organiser-cell span-2">
+                    <div id="reasonedPrediction" class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reset-button-container">
+                <button type="button" class="reset-btn general-button" onclick="resetBuilder()">Reset</button>
+              </div>
+            </div>
             <button
               id="reasonedBuilderNextButton"
               type="button"
@@ -1145,8 +1283,9 @@
       </main>
       <script src="../scripts/common_functions.js"></script>
       <script src="../scripts/lesson1_scripts/flash_cards.js"></script>
+      <script src="../scripts/reasoned_prediction_table.js"></script>
       <script>
-        const dev = false;
+        const dev = true;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
         
         initialiseTeacherMenu(
