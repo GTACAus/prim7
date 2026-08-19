@@ -2671,7 +2671,7 @@ function updateYeastVariablesComplete() {
 }
 
 function yeastVariablesStopAndCheck(button) {
-  reconfirmStopAndCheckAnswer(button, () => { yeastVariablesStructure.nextButton.hidden = false; })
+  reconfirmStopAndCheckAnswer(button, () => { yeastVariablesStructure.nextButton.hidden = false; });
 }
 
 function resetYeastVariables() {
@@ -2710,7 +2710,9 @@ function resetYeastVariables() {
     "Choose a variable type, then select the matching variable.";
 
   structure.nextButton.hidden = true;
-  resetStopAndCheck(structure.stopAndCheck);
+  resetStopAndCheck(structure.stopAndCheck, () => {
+    structure.nextButton.hidden = false;
+  });
 }
 
       /* ==================================================
@@ -3665,7 +3667,7 @@ function resetYeastAverage() {
     
   const table = document.getElementById("yeastAverageTable");
   table.hidden = true;
-  
+
   resetStopAndCheck(stopAndChecks[0], () => {
     table.hidden = false;
   });
