@@ -3,10 +3,10 @@ window.addEventListener("DOMContentLoaded", function() {
     });
 
     const investigationQuestionAnswers = {
-      structure: "",
+      structure: "if",
       changeVariable: "",
       measureVariable: ""
-    }
+    };
 
     const changeVariable = document.getElementById("changeVariable");
     const measureVariable = document.getElementById("measureVariable");
@@ -20,6 +20,10 @@ window.addEventListener("DOMContentLoaded", function() {
     const predictionIf = document.getElementById("predictionIf");
     const predictionThen = document.getElementById("predictionThen");
     const reasonedPrediction = document.getElementById("reasonedPrediction");
+
+    const usesVariableDropdowns =
+      changeVariable?.tagName === "SELECT" &&
+      measureVariable?.tagName === "SELECT";
 
     const builderState = {
       change: "",
@@ -383,7 +387,7 @@ case "does":
       secondAnswer
     ) {
       investigationQuestionAnswers.structure =
-        structure || "";
+        structure || "if";
 
       investigationQuestionAnswers.changeVariable =
         firstAnswer || "";
@@ -391,17 +395,19 @@ case "does":
       investigationQuestionAnswers.measureVariable =
         secondAnswer || "";
 
-      setGeneratedText(
-        changeVariable,
-        investigationQuestionAnswers.changeVariable,
-        "The thing I am changing"
-      );
+      if (!usesVariableDropdowns) {
+        setGeneratedText(
+          changeVariable,
+          investigationQuestionAnswers.changeVariable,
+          "The thing I am changing"
+        );
 
-      setGeneratedText(
-        measureVariable,
-        investigationQuestionAnswers.measureVariable,
-        "The thing I am measuring"
-      );
+        setGeneratedText(
+          measureVariable,
+          investigationQuestionAnswers.measureVariable,
+          "The thing I am measuring"
+        );
+      }
 
       updatePrediction();
     }
@@ -418,11 +424,19 @@ case "does":
     }
 
     function updatePrediction() {
-  builderState.change =
-    investigationQuestionAnswers.changeVariable;
+      if (usesVariableDropdowns) {
+      builderState.change =
+        changeVariable.value;
 
-  builderState.measure =
-    investigationQuestionAnswers.measureVariable;
+      builderState.measure =
+        measureVariable.value;
+    } else {
+      builderState.change =
+        investigationQuestionAnswers.changeVariable;
+
+      builderState.measure =
+        investigationQuestionAnswers.measureVariable;
+    }
 
   const prediction =
     getPredictionPhrases();
@@ -488,6 +502,23 @@ case "does":
   }
 }
 
+if (usesVariableDropdowns) {
+
+  changeVariable.addEventListener(
+    "change",
+    function() {
+      updatePrediction();
+    }
+  );
+
+  measureVariable.addEventListener(
+    "change",
+    function() {
+      updatePrediction();
+    }
+  );
+}
+
 function resetBuilder() {
   /*
     Clear submitted permanent fields,
@@ -505,31 +536,39 @@ function resetBuilder() {
     field.answer.innerHTML = "";
   });
 
-  /*
-    Clear the investigation-question variables
-    inside this reasoned-prediction builder.
-  */
+  investigationQuestionAnswers.structure =
+  usesVariableDropdowns ? "if" : "";
+
   investigationQuestionAnswers.changeVariable = "";
   investigationQuestionAnswers.measureVariable = "";
 
   builderState.change = "";
   builderState.measure = "";
 
-  /*
-    Restore the placeholder text in the two
-    generated variable boxes.
-  */
-  setGeneratedText(
-    changeVariable,
-    "",
-    "The thing I am changing"
-  );
+  if (usesVariableDropdowns) {
+    /*
+      Standalone builder:
+      variables are <select> elements.
+    */
+    changeVariable.selectedIndex = 0;
+    measureVariable.selectedIndex = 0;
+  } else {
+    /*
+      Investigation-question builder:
+      variables are generated text elements.
+    */
+    setGeneratedText(
+      changeVariable,
+      "",
+      "The thing I am changing"
+    );
 
-  setGeneratedText(
-    measureVariable,
-    "",
-    "The thing I am measuring"
-  );
+    setGeneratedText(
+      measureVariable,
+      "",
+      "The thing I am measuring"
+    );
+  }
 
   /*
     Reset the relationship controls.
