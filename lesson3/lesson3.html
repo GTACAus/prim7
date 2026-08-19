@@ -1380,7 +1380,7 @@ Select the independent variable and the dependent variable. Then select the cont
 <button
   type="button"
   class="stop-and-check-button general-button"
-  onclick="yeastAverageStopAndThink(this)"
+  onclick="yeastAverageStopAndCheckFirst(this)"
 >
   <p>Check Your Answer</p>
   <p class="bounce-symbol">✅</p>
@@ -1389,11 +1389,7 @@ Select the independent variable and the dependent variable. Then select the cont
 </div>
 
 
-        <div
-  class="data-table-card yeast-table-card"
-  id="yeastAverageTable"
-  hidden
->
+        <div id="yeastAverageTable" class="data-table-card yeast-table-card pop-in" hidden>
           <div class="experiment-table-scroll">
             <table
               class="experiment-table experiment-table-average yeast-table"
@@ -1658,7 +1654,7 @@ Select the independent variable and the dependent variable. Then select the cont
   <button
     type="button"
     class="stop-and-check-button general-button"
-    onclick="yeastHotStopAndThink(this)"
+    onclick="yeastAverageStopAndCheckFinal(this)"
   >
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
@@ -3331,46 +3327,10 @@ function initialiseYeastResultQuestions() {
     });
   });
 }
-
-function yeastHotStopAndThink(button) {
-  reconfirmStopAndCheckAnswer(button, function () {
-    const section =
-      document.getElementById("yeast-average");
-
-    const nextButton =
-      section.querySelector(".next-button");
-
-    if (nextButton) {
-      nextButton.hidden = false;
-    }
-  });
-}
-
-function yeastAverageStopAndThink(button) {
-  reconfirmStopAndCheckAnswer(button, function () {
-    const section =
-      document.getElementById("yeast-average");
-
-    const table =
-      document.getElementById("yeastAverageTable");
-
-    const nextButton =
-      section.querySelector(".next-button");
-
-    if (table) {
-      table.hidden = false;
-    }
-
-    /*
-      The shared Stop & Think function normally reveals
-      the section's Next button.
-
-      In this section that is too early, because students
-      still need to calculate and interpret their results.
-    */
-    if (nextButton) {
-      nextButton.hidden = true;
-    }
+function yeastAverageStopAndCheckFirst(button) {
+  reconfirmStopAndCheckAnswer(button, () => {
+    const table = document.getElementById("yeastAverageTable");
+    table.hidden = false;
   });
 }
 
@@ -3432,10 +3392,14 @@ partlySupportedButton.addEventListener("click", function () {
 
   partlySupportedButton.classList.add("selected-answer");
 
-  stopAndThink.hidden = false;
+    stopAndThink.hidden = false;
+  });
+}
 
-  nextButton.hidden = true;
-});
+function yeastAverageStopAndCheckFinal(button) {
+  reconfirmStopAndCheckAnswer(button, () => {
+    document.getElementById("yeast-average").querySelector(".next-button").hidden = false;
+  });
 }
 
     function checkBallBouncePrediction() {
@@ -3694,23 +3658,22 @@ partlySupportedButton.addEventListener("click", function () {
       }
 
 function resetYeastAverage() {
-  const section =
-    document.getElementById("yeast-average");
-
-  const firstStop =
-    document.getElementById(
-      "yeastAverageFirstStopAndThink"
-    );
-
-  const finalStop =
-    document.getElementById(
-      "yeastHotStopAndThink"
-    );
-
-  const table =
-    document.getElementById(
-      "yeastAverageTable"
-    );
+  const stopAndChecks =
+    document
+      .getElementById("yeast-average")
+      .querySelectorAll(".stop-and-check");
+    
+  const table = document.getElementById("yeastAverageTable");
+  table.hidden = true;
+  
+  resetStopAndCheck(stopAndChecks[0], () => {
+    table.hidden = false;
+  });
+  resetStopAndCheck(stopAndChecks[1], () => {
+    document.getElementById("yeast-average").querySelector(".next-button").hidden = false;
+  });
+  stopAndChecks[0].hidden = false;
+  stopAndChecks[1].hidden = true;
 
   const predictionCheck =
     document.getElementById(
@@ -3759,8 +3722,7 @@ function resetYeastAverage() {
     "37-to-80": false
   };
 
-
-  /* Reset first Stop & Think */
+  
 
   if (firstStop) {
     resetStopAndCheck(firstStop);

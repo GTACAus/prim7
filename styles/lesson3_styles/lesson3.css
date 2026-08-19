@@ -79,6 +79,10 @@
   line-height: 1.55;
 }
 
+#yeastAverageTable[hidden] {
+  display: none;
+}
+
 .data-table-card {
   position: relative;
   display: flex;

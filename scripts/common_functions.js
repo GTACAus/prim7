@@ -486,11 +486,11 @@ function reconfirmStopAndCheckAnswer(button, additionalFunction = function() {})
   }
 }
 
-function resetStopAndCheck(stopAndCheck) {
+function resetStopAndCheck(stopAndCheck, additionalFunction = function() {}) {
   stopAndCheck.querySelector(".stop-and-check-answer").hidden = true;
   const button = stopAndCheck.querySelector(".stop-and-check-button");
   button.hidden = false;
-  button.onclick = function() { reconfirmStopAndCheckAnswer(button); }
+  button.onclick = function() { reconfirmStopAndCheckAnswer(button, additionalFunction); }
 
   button.innerHTML = "";
   const content = document.createElement("p");
