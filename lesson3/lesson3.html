@@ -3658,27 +3658,21 @@ function yeastAverageStopAndCheckFinal(button) {
       }
 
 function resetYeastAverage() {
+  const section =
+    document.getElementById("yeast-average");
+
+  if (!section) {
+    return;
+  }
+
   const stopAndChecks =
-    document
-      .getElementById("yeast-average")
-      .querySelectorAll(".stop-and-check");
-    
-  const table = document.getElementById("yeastAverageTable");
-  table.hidden = true;
-  
-  resetStopAndCheck(stopAndChecks[0], () => {
-    table.hidden = false;
-  });
-  resetStopAndCheck(stopAndChecks[1], () => {
-    document.getElementById("yeast-average").querySelector(".next-button").hidden = false;
-  });
-  stopAndChecks[0].hidden = false;
-  stopAndChecks[1].hidden = true;
+    section.querySelectorAll(".stop-and-check");
+
+  const table =
+    document.getElementById("yeastAverageTable");
 
   const predictionCheck =
-    document.getElementById(
-      "yeastPredictionCheck"
-    );
+    document.getElementById("yeastPredictionCheck");
 
   const nextButton =
     section.querySelector(".next-button");
@@ -3722,59 +3716,49 @@ function resetYeastAverage() {
     "37-to-80": false
   };
 
-  
 
-  if (firstStop) {
-    resetStopAndCheck(firstStop);
+  /* Reset first Stop & Think */
 
-    firstStop.hidden = false;
-
-    const firstButton =
-      firstStop.querySelector(
-        ".stop-and-check-button"
-      );
-
-    if (firstButton) {
-      firstButton.onclick = function () {
-        yeastAverageStopAndThink(firstButton);
-      };
-    }
-  }
-
-
-  /* Reset and hide final Stop & Think */
-
-if (finalStop) {
-  resetStopAndCheck(finalStop);
-  finalStop.hidden = true;
-
-  const finalButton =
-    finalStop.querySelector(
-      ".stop-and-check-button"
+  if (stopAndChecks[0]) {
+    resetStopAndCheck(
+      stopAndChecks[0],
+      function () {
+        if (table) {
+          table.hidden = false;
+        }
+      }
     );
 
-  if (finalButton) {
-    finalButton.onclick = function () {
-      yeastHotStopAndThink(finalButton);
-    };
+    stopAndChecks[0].hidden = false;
   }
-}
 
 
-  /* Hide table again */
+  /* Reset second Stop & Think */
+
+  if (stopAndChecks[1]) {
+    resetStopAndCheck(
+      stopAndChecks[1],
+      function () {
+        if (nextButton) {
+          nextButton.hidden = false;
+        }
+      }
+    );
+
+    stopAndChecks[1].hidden = true;
+  }
+
+
+  /* Return section to starting state */
 
   if (table) {
     table.hidden = true;
   }
 
-
-  /* Hide Next again */
-
   if (nextButton) {
     nextButton.hidden = true;
   }
 }
-
       function resetBuildYourOwnTable() {
         document.getElementById("ballBouncePredictionSupported").classList.remove("selected-answer");
         document.getElementById("ballBouncePredictionUnsupported").classList.remove("selected-answer");
