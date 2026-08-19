@@ -229,8 +229,13 @@
 
 .reference-callout-independent {
   grid-template-columns: 34px 1fr;
+  grid-column: 1;
   gap: 10px;
   padding: 12px;
+
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-top: 8px solid var(--yellow);
 }
 
 .reference-callout-independent p {
@@ -249,22 +254,9 @@
   box-shadow: none;
 }
 
-/* Independent-variable instruction aligns with first column */
-.reference-callout-independent {
-  grid-column: 1;
-}
-
 /* Dependent-variable instruction sits over the result columns */
 .reference-callout-dependent {
   grid-column: 2;
-}
-
-/* Lesson 2-inspired reference callouts */
-
-.reference-callout-independent {
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-top: 8px solid var(--yellow);
 }
 
 .reference-callout-dependent {
