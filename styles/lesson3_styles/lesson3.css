@@ -547,10 +547,17 @@
 }
 
 /* Hide number spinners */
+/* Chrome, Edge, Safari */
 .table-number-input::-webkit-inner-spin-button,
 .table-number-input::-webkit-outer-spin-button {
   margin: 0;
-  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Firefox */
+.table-number-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 
