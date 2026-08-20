@@ -1259,7 +1259,7 @@
 <div
   class="stop-and-check"
   id="yeastAverageFirstStopAndThink"
->
+  hidden>
 
   <div class="stop-and-check-content">
     <p>
@@ -1306,7 +1306,7 @@
 </div>
 
 
-        <div id="yeastAverageTable" class="data-table-card yeast-table-card pop-in" hidden>
+        <div id="yeastAverageTable" class="data-table-card yeast-table-card pop-in">
           <div class="experiment-table-scroll">
             <table
               class="experiment-table experiment-table-average yeast-table"
@@ -3637,22 +3637,22 @@ function resetYeastAverage() {
 
   /* Reset first Stop & Think */
 
-  if (stopAndChecks[0]) {
-    resetStopAndCheck(
-      stopAndChecks[0],
-      function () {
-        if (table) {
-          table.hidden = false;
-        }
-      }
-    );
+  // if (stopAndChecks[0]) {
+  //   resetStopAndCheck(
+  //     stopAndChecks[0],
+  //     function () {
+  //       if (table) {
+  //         table.hidden = false;
+  //       }
+  //     }
+  //   );
 
-    stopAndChecks[0].hidden = false;
-  }
+  //   stopAndChecks[0].hidden = false;
+  // }
 
 
-  /* Reset second Stop & Think */
-
+  // /* Reset second Stop & Think */
+  console.log(stopAndChecks);
   if (stopAndChecks[1]) {
     resetStopAndCheck(
       stopAndChecks[1],
@@ -3669,9 +3669,9 @@ function resetYeastAverage() {
 
   /* Return section to starting state */
 
-  if (table) {
-    table.hidden = true;
-  }
+  // if (table) {
+  //   table.hidden = true;
+  // }
 
   if (nextButton) {
     nextButton.hidden = true;
