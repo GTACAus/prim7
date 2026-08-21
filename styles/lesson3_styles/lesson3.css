@@ -1254,6 +1254,17 @@
   text-align: center;
 }
 
+/* ---------- Yeast number answer feedback ---------- */
+
+#yeast-labels .table-number-answer.number-correct {
+  background: var(--soft-green);
+  border-color: var(--green);
+}
+
+#yeast-labels .table-number-answer.number-incorrect {
+  background: var(--soft-orange);
+  border-color: var(--orange);
+}
 
 /* ---------- Permanent text answers ---------- */
 

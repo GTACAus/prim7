@@ -2784,14 +2784,6 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         const labels = document.querySelectorAll(".drag-label");
         const dropZones = document.querySelectorAll(".label-drop-zone");
 
-        document
-          .querySelectorAll("#yeast-labels .table-number-input")
-          .forEach(function (input) {
-            input.addEventListener("input", function () {
-              checkYeastActivityComplete();
-            });
-          });
-
         function handleDrop(zone, draggedLabel) {
           if (!draggedLabel) {
             return;
@@ -3064,13 +3056,6 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         if (allLabelsComplete) {
           section.classList.add("labels-complete");
 
-          const stopAndCheck =
-              document.getElementById("yeastLabelsStopAndCheck");
-
-          if (stopAndCheck) {
-            stopAndCheck.hidden = false;
-          }
-
           section.querySelector(".yeast-results-step--initial").scrollIntoView({
             behavior: "smooth",
             block: "nearest"
@@ -3082,46 +3067,99 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         checkYeastActivityComplete();
       }
 
-      function checkYeastActivityComplete() {
-        const section = document.getElementById("yeast-labels");
-        const nextButton = document.getElementById("yeastAverageNext");
-        const feedback = document.getElementById("yeastLabelFeedback");
+function checkYeastActivityComplete() {
+  const section = document.getElementById("yeast-labels");
+  const nextButton = document.getElementById("yeastAverageNext");
+  const feedback = document.getElementById("yeastLabelFeedback");
+  const stopAndCheck =
+    document.getElementById("yeastLabelsStopAndCheck");
 
-        if (!section || !nextButton) {
-          return;
-        }
+  if (!section || !nextButton) {
+    return;
+  }
 
-        const zones = section.querySelectorAll(".label-drop-zone");
-        const completedZones = section.querySelectorAll(
-          ".label-drop-zone.drop-complete"
-        );
+  const zones =
+    section.querySelectorAll(".label-drop-zone");
 
-        const inputs = section.querySelectorAll(".table-number-input");
+  const completedZones =
+    section.querySelectorAll(
+      ".label-drop-zone.drop-complete"
+    );
 
-        const allLabelsComplete =
-          zones.length > 0 &&
-          completedZones.length === zones.length;
+  const inputs =
+    section.querySelectorAll(".table-number-input");
 
-        const allNumbersComplete =
-          inputs.length > 0 &&
-          Array.from(inputs).every(function (input) {
-            return input.value.trim() !== "";
-          });
+  const allLabelsComplete =
+    zones.length > 0 &&
+    completedZones.length === zones.length;
 
-        if (allLabelsComplete && allNumbersComplete) {
-          if (feedback) {
-            feedback.hidden = false;
-            feedback.className =
-              "activity-feedback table-activity-feedback feedback-success";
+  const allNumbersComplete =
+    inputs.length > 0 &&
+    Array.from(inputs).every(function(input) {
+      return input.value.trim() !== "";
+    });
 
-            feedback.innerHTML =
-              "<strong>Results recorded!</strong>" +
-              "<span>You entered all of the repeated measurements.</span>";
-          }
-        } else {
-          nextButton.hidden = true;
-        }
-      }
+  const allNumbersCorrect =
+    inputs.length === yeastCorrectResults.length &&
+    Array.from(inputs).every(function(input, index) {
+      return (
+        input.value.trim() !== "" &&
+        Number(input.value) === yeastCorrectResults[index]
+      );
+    });
+
+  /* Not all measurements have been entered yet */
+  if (!allNumbersComplete) {
+    if (feedback) {
+      feedback.hidden = true;
+      feedback.innerHTML = "";
+    }
+
+    if (stopAndCheck) {
+      stopAndCheck.hidden = true;
+    }
+
+    nextButton.hidden = true;
+    return;
+  }
+
+  /* All measurements entered, but one or more are wrong */
+  if (!allNumbersCorrect) {
+    if (feedback) {
+      feedback.hidden = false;
+      feedback.className =
+        "activity-feedback table-activity-feedback feedback-try-again";
+
+      feedback.innerHTML =
+        "<strong>Check your measurements.</strong>" +
+        "<span>Make sure all your answers are correct before moving on.</span>";
+    }
+
+    if (stopAndCheck) {
+      stopAndCheck.hidden = true;
+    }
+
+    nextButton.hidden = true;
+    return;
+  }
+
+  /* Everything is correct */
+  if (allLabelsComplete && allNumbersCorrect) {
+    if (feedback) {
+      feedback.hidden = false;
+      feedback.className =
+        "activity-feedback table-activity-feedback feedback-success";
+
+      feedback.innerHTML =
+        "<strong>Results recorded!</strong>" +
+        "<span>All of your measurements are correct.</span>";
+    }
+
+    if (stopAndCheck) {
+      stopAndCheck.hidden = false;
+    }
+  }
+}
 
       function formatAverage(value) {
         if (Number.isInteger(value)) {
@@ -4341,6 +4379,18 @@ function updateLesson3CompletedQuestion() {
         cell.appendChild(calculateButton);
       }
 
+
+      /* ==================================================
+        YEAST RESULTS - CORRECT VALUES
+        ================================================== */
+
+      const yeastCorrectResults = [
+        0, 0, 0,
+        15, 16, 17,
+        19, 17, 19,
+        3, 0, 17
+      ];
+
       function initialiseLesson3PermanentNumberEntries() {
         const inputs = document.querySelectorAll(
           "#yeast-labels .table-number-input, " +
@@ -4400,6 +4450,28 @@ function updateLesson3CompletedQuestion() {
 
             answerBox.innerHTML = "";
 
+            if (input.closest("#yeast-labels")) {
+              const yeastInputs = Array.from(
+                document.querySelectorAll(
+                  "#yeast-labels .table-number-input"
+                )
+              );
+
+              const inputIndex = yeastInputs.indexOf(input);
+              const correctValue = yeastCorrectResults[inputIndex];
+
+              answerBox.classList.remove(
+                "number-correct",
+                "number-incorrect"
+              );
+
+              if (numericValue === correctValue) {
+                answerBox.classList.add("number-correct");
+              } else {
+                answerBox.classList.add("number-incorrect");
+              }
+            }
+
             const answerText = document.createElement("span");
 
             answerText.className = "table-entry-answer-text";
@@ -4418,6 +4490,10 @@ function updateLesson3CompletedQuestion() {
                 input.value = "";
 
                 resetAverageForNumberInput(input);
+
+                if (input.closest("#yeast-labels")) {
+                  checkYeastActivityComplete();
+                }
 
                 input.focus();
               });
@@ -4439,6 +4515,10 @@ function updateLesson3CompletedQuestion() {
                 input.value = "";
 
                 resetAverageForNumberInput(input);
+
+                if (input.closest("#yeast-labels")) {
+                  checkYeastActivityComplete();
+                }
 
                 input.focus();
               });
