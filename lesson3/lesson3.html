@@ -3654,10 +3654,9 @@ function ballBounceRepeatStopAndCheck(button) {
           });
 
           const section = document.getElementById("yeast-labels");
+          section.classList.remove("labels-complete");
 
-          if (section) {
-            section.classList.remove("labels-complete");
-          }
+          section.querySelector(".average-cell").classList.remove("average-result");
       }
 
 function resetYeastAverage() {
