@@ -472,25 +472,11 @@ function showStopAndCheckAnswer(button, additionalFunction = function() {}) {
   additionalFunction();
 }
 
-function reconfirmStopAndCheckAnswer(button, additionalFunction = function() {}) {
-  const stopAndCheck = button.closest(".stop-and-check");
-  const answer = stopAndCheck.querySelector(".stop-and-check-answer");
-  const section = button.closest(".section");
-  const nextButton = section.querySelector(".next-button");
-  const bounceSymbol = button.querySelector(".bounce-symbol");
-
-  button.textContent = "Did you think about your answer?";
-  button.appendChild(bounceSymbol);
-  button.onclick = function() {
-    showStopAndCheckAnswer(button, additionalFunction);
-  }
-}
-
 function resetStopAndCheck(stopAndCheck, additionalFunction = function() {}) {
   stopAndCheck.querySelector(".stop-and-check-answer").hidden = true;
   const button = stopAndCheck.querySelector(".stop-and-check-button");
   button.hidden = false;
-  button.onclick = function() { reconfirmStopAndCheckAnswer(button, additionalFunction); }
+  button.onclick = function() { showStopAndCheckAnswer(button, additionalFunction); }
 
   button.innerHTML = "";
   const content = document.createElement("p");
