@@ -187,6 +187,10 @@
   text-transform: uppercase;
 }
 
+#yeast-labels .average-heading {
+  text-transform: uppercase;
+}
+
 .average-heading {
   background: var(--soft-blue);
   color: var(--text);
@@ -691,6 +695,10 @@
   vertical-align: middle;
 }
 
+.average-button[hidden] {
+  display: none;
+}
+
 .average-button {
   display: inline-flex;
   align-items: center; 
@@ -817,7 +825,7 @@
 #yeastActivity {
   display: grid;
   grid-template-columns: clamp(10rem, 15vw, 15rem) 1fr;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   gap: 10px;
 }
 
@@ -836,9 +844,43 @@
   grid-row: 2;
 }
 
-.lesson3-reset-container {
+#labelsCompleteAfterContainer {
+  display: flex;
+  gap: 10px;
   grid-column: 1 / -1;
   grid-row: 3;
+}
+
+#yeastLabelsStopAndCheck {
+  flex: 1;
+
+}
+
+#repeat-tests-average-intro[hidden] {
+  display: none;
+}
+
+#repeat-tests-average-intro {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+
+  margin: 30px 0 24px;
+  padding: 20px 22px;
+
+  background: var(--soft-blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+}
+
+#repeat-tests-average-intro h3 {
+  margin: 0;
+}
+
+.lesson3-reset-container {
+  grid-column: 1 / -1;
+  grid-row: 4;
 }
 /* ---------- Label bank ---------- */
 #yeast-labels .table-number-control {
@@ -2590,22 +2632,6 @@
 
 .average-example-answer {
   font-size: 1.08rem;
-}
-
-/* ---------- Repeat tests: Step 3 averages ---------- */
-
-.repeat-tests-average-intro {
-  margin: 20px 0 24px;
-  padding: 20px 22px;
-
-  background: var(--soft-blue);
-
-  border: 2px solid var(--charcoal);
-  border-radius: 18px;
-}
-
-.repeat-tests-average-intro h3 {
-  margin: 0;
 }
 
 /* ---------- Upper-primary fraction notation ---------- */
