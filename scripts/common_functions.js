@@ -460,6 +460,10 @@ if (document.readyState === "loading") {
   initialiseClassroomLanguageFilter();
 }
 
+/* ==================================================
+STOP AND CHECK FUNCTIONS
+   ================================================== */
+
 function showStopAndCheckAnswer(button, additionalFunction = function() {}) {
   const stopAndCheck = button.closest(".stop-and-check");
   const answer = stopAndCheck.querySelector(".stop-and-check-answer");
