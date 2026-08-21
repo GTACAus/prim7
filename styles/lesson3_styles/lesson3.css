@@ -850,12 +850,11 @@
   display: flex;
   gap: 10px;
   grid-column: 1 / -1;
-  grid-row: 3;
+  grid-row: 4;
 }
 
 #yeastLabelsStopAndCheck {
   flex: 1;
-
 }
 
 #repeat-tests-average-intro[hidden] {
@@ -882,7 +881,7 @@
 
 .lesson3-reset-container {
   grid-column: 1 / -1;
-  grid-row: 4;
+  grid-row: 3;
 }
 /* ---------- Label bank ---------- */
 #yeast-labels .table-number-control {

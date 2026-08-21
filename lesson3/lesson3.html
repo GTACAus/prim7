@@ -1063,6 +1063,11 @@
             </div>
             <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
           </div>
+          <div class="reset-button-container lesson3-reset-container">
+            <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">
+              Reset
+            </button>
+          </div>
           <div id="labelsCompleteAfterContainer">
             <div
               class="stop-and-check"
@@ -1071,8 +1076,7 @@
 
               <div class="stop-and-check-content">
                 <p>
-                  <strong>Stop and think.</strong>
-                  Look at the data in the table below.
+                  Look at the <strong>data</strong> in the table below.
                 </p>
 
                 <p>
@@ -1194,11 +1198,6 @@
               </div>
 
             </div>
-          </div>
-          <div class="reset-button-container lesson3-reset-container">
-            <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">
-              Reset
-            </button>
           </div>
         </div>
 
@@ -3611,6 +3610,9 @@ function ballBounceRepeatStopAndCheck(button) {
           "yeast-temp-80": "Drop label",
         };
 
+        const section = document.getElementById("yeast-labels");
+        section.classList.remove("labels-complete");
+
         document.querySelectorAll("#yeast-labels .label-drop-zone").forEach(function (zone) {
           zone.textContent = placeholderText[zone.dataset.accept] || "Drop label";
           zone.classList.remove("drop-complete", "drag-over", "drop-incorrect");
@@ -3638,6 +3640,12 @@ function ballBounceRepeatStopAndCheck(button) {
             const inputRow = control.querySelector(".table-entry-input-row");
             const answerBox = control.querySelector(".table-entry-answer");
             const input = control.querySelector(".table-number-input");
+            const calculateButtons = section.querySelectorAll(".average-button");
+            console.lo
+            
+            calculateButtons.forEach(function (button) {
+              button.hidden = true;
+            });
 
             if (input) {
               input.value = "";
@@ -3651,13 +3659,10 @@ function ballBounceRepeatStopAndCheck(button) {
               answerBox.classList.remove("visible");
               answerBox.innerHTML = "";
             }
+
+            resetAverageForNumberInput(input);
           });
-
-          const section = document.getElementById("yeast-labels");
-          section.classList.remove("labels-complete");
-
-          section.querySelector(".average-cell").classList.remove("average-result");
-      }
+        }
 
 function resetYeastAverage() {
   const section =
