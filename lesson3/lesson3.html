@@ -734,7 +734,7 @@
 
 <div class="yeast-results-step yeast-results-step--initial">
   <div class="yeast-results-step-heading">
-    <span>1</span>
+    <span>STEP 1</span>
 
     <div>
       <p class="yeast-results-eyebrow">Make a scientific table for the yeast fair test.</p>
@@ -745,7 +745,7 @@
 
 <div class="yeast-results-step pop-in">
   <div class="yeast-results-step-heading">
-    <span>2</span>
+    <span>STEP 2</span>
 
     <div>
       <p class="yeast-results-eyebrow">Record the results</p>
@@ -902,6 +902,11 @@
                         aria-label="Drop Temperature test 3"
                       />
                     </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">
+                        Calculate
+                      </button>
+                    </td>
                   </tr>
 
                   <tr>
@@ -942,6 +947,11 @@
                         autocomplete="off"
                         aria-label="Drop Temperature test 6"
                       />
+                    </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">
+                        Calculate
+                      </button>
                     </td>
                   </tr>
 
@@ -984,6 +994,11 @@
                         aria-label="Drop Temperature test 9"
                       />
                     </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">
+                        Calculate
+                      </button>
+                    </td>
                   </tr>
 
                   <tr>
@@ -1024,6 +1039,11 @@
                         autocomplete="off"
                         aria-label="Drop Temperature test 12"
                       />
+                    </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)">
+                        Calculate
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -3027,6 +3047,10 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
 
         if (allLabelsComplete) {
           section.classList.add("labels-complete");
+          section.querySelector(".yeast-results-step--initial").scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+          });
         } else {
           section.classList.remove("labels-complete");
         }

@@ -732,9 +732,9 @@
 
   margin: 20px 0 24px;
   padding: 20px 22px;
-
+  
   background: var(--soft-blue);
-
+  
   border: 2px solid var(--charcoal);
   border-radius: 18px;
 }
@@ -747,7 +747,7 @@
 .yeast-results-step-heading {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 25px;
 
   margin-bottom: 8px;
 }
@@ -758,13 +758,12 @@
 
   flex: 0 0 auto;
 
-  width: 36px;
-  height: 36px;
+  padding: 8px 15px;
 
   background: var(--blue);
 
   border: 2px solid var(--charcoal);
-  border-radius: 50%;
+  border-radius: 999px;
 
   font-weight: 700;
 }
