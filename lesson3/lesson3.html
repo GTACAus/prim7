@@ -1591,7 +1591,7 @@
   <button
     type="button"
     class="stop-and-check-button general-button"
-    onclick="yeastAverageStopAndCheckFinal(this)"
+    onclick="yeastAverageStopAndCheck(this)"
   >
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
@@ -2597,7 +2597,7 @@ function initialiseYeastVariables() {
 }
 
 function stopAndCheckRepeatTests(button) {
-  reconfirmStopAndCheckAnswer(button, function() {
+  showStopAndCheckAnswer(button, function() {
     document.getElementById("repeatTestsNext").hidden = false;
   });
 }
@@ -2708,7 +2708,7 @@ function updateYeastVariablesComplete() {
 }
 
 function yeastVariablesStopAndCheck(button) {
-  reconfirmStopAndCheckAnswer(button, () => { yeastVariablesStructure.nextButton.hidden = false; });
+  showStopAndCheckAnswer(button, () => { yeastVariablesStructure.nextButton.hidden = false; });
 }
 
 function resetYeastVariables() {
@@ -3122,7 +3122,7 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
       }
 
       function yeastLabelsStopAndCheck(button) {
-        reconfirmStopAndCheckAnswer(button, function () {
+        showStopAndCheckAnswer(button, function () {
           const section = document.getElementById("yeast-labels");
           const averageIntro = document.getElementById("repeat-tests-average-intro");
 
@@ -3393,12 +3393,6 @@ function initialiseYeastResultQuestions() {
     });
   });
 }
-function yeastAverageStopAndCheckFirst(button) {
-  reconfirmStopAndCheckAnswer(button, () => {
-    const table = document.getElementById("yeastAverageTable");
-    table.hidden = false;
-  });
-}
 
 function checkYeastPrediction() {
   const supportedButton =
@@ -3462,8 +3456,8 @@ partlySupportedButton.addEventListener("click", function () {
   });
 }
 
-function yeastAverageStopAndCheckFinal(button) {
-  reconfirmStopAndCheckAnswer(button, () => {
+function yeastAverageStopAndCheck(button) {
+  showStopAndCheckAnswer(button, () => {
     document.getElementById("yeast-average").querySelector(".next-button").hidden = false;
   });
 }
@@ -3474,7 +3468,7 @@ function yeastAverageStopAndCheckFinal(button) {
    ================================================== */
 
 function ballBounceRepeatStopAndCheck(button) {
-  reconfirmStopAndCheckAnswer(button, function() {
+  showStopAndCheckAnswer(button, function() {
     const step2 = document.querySelector(
       "#build-your-own-table .ball-bounce-variables"
     );
