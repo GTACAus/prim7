@@ -94,6 +94,12 @@
   1. The story of yeast Y
 </button>
 
+  type="button"
+  onclick="teacherJump('yeast-variables')"
+>
+  2. Yeast Variables: Select the variables
+</button>
+
 <button
   type="button"
   onclick="teacherJump('data-table-template')"
@@ -1198,7 +1204,7 @@
         <button
           id="yeastAverageNext"
           class="next-button general-button"
-          onclick="unlockSection('repeat-tests', 'yeast-labels')"
+          onclick="unlockSection('yeast-average', 'yeast-labels')"
           hidden
         >
           Next
@@ -1206,115 +1212,8 @@
         <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
-<!-- ==================================================
-     WHY REPEAT EACH TEST?
-     ================================================== -->
-
-<section
-  class="section locked"
-  id="repeat-tests"
->
-  <h2 class="section-title">
-    Why is it important to repeat each test 3 times?
-  </h2>
-
-  <div class="repeat-tests-card">
-
-    <div class="repeat-tests-explanation">
-
-      <p>
-        In a fair test experiment, we repeat each test
-        <strong>3 times</strong> using the same conditions.
-      </p>
-
-      <p>We do this to:</p>
-
-      <ul>
-        <li>Check for mistakes when setting up each test.</li>
-        <li>Check for errors when making measurements.</li>
-        <li>Spot any strange results.</li>
-        <li>Make the results more reliable and trustworthy.</li>
-      </ul>
-
-    </div>
-
-<div class="repeat-tests-example">
-
-  <p class="repeat-tests-label">
-    Example
-  </p>
-
-  <h3>Three tennis-ball bounce tests</h3>
-
-  <p>
-    Look at the results from three repeats of the same tennis-ball test.
-  </p>
-
-  <img
-    class="repeat-tests-image"
-    src="../images/lesson3/Repeat Tests.png"
-    alt="Diagram showing three tennis-ball bounce tests on grass, with one unusual result"
-  />
-
-</div>
-
-  </div>
-
-<div class="stop-and-check repeat-tests-stop">
-
-<div class="stop-and-check-content">
-
-  <p>
-    Look at the diagram above.
-    A fair test was repeated 3 times to see how high a tennis ball bounces on grass.
-  </p>
-
-  <p>
-    <strong>Why is it important to repeat a test 3 times?</strong>
-  </p>
-
-  <p>
-    <strong>What would happen if you only did the first test?</strong>
-  </p>
-
-</div>
-
-  <div
-    class="stop-and-check-answer"
-    id="repeatTestsAnswer"
-    hidden
-  >
-    Repeating a test shows if results match and helps catch mistakes.
-    If you only do the first test in this experiment, the result would be too high.
-  </div>
-<button
-    type="button"
-    class="stop-and-check-button general-button"
-    onclick="stopAndCheckRepeatTests(this)"
-  >
-    <p>Check Your Answer</p>
-    <p class="bounce-symbol">✅</p>
-  </button>
-
-</div>
-
-  <button
-    type="button"
-    class="next-button general-button"
-    id="repeatTestsNext"
-    onclick="unlockSection('yeast-average', 'repeat-tests')"
-    hidden>
-    Next
-  </button>
-
-  <p class="completed-note">
-    Completed — next activity unlocked.
-  </p>
-
-</section>
-
       <!-- ==================================================
-         SECTION 3: YEAST EXPERIMENT - CALCULATE AVERAGES
+         YEAST EXPERIMENT - CALCULATE AVERAGES
          ================================================== -->
 <section class="section data-table-section locked" id="yeast-average">
   <h2 class="section-title">Calculate the average results</h2>
@@ -2498,7 +2397,6 @@ const lesson3SectionIds = [
   "yeast-variables",
   "data-table-template",
   "yeast-labels",
-  "repeat-tests",
   "yeast-average",
   "build-your-own-table",
 ];
@@ -3714,6 +3612,10 @@ function ballBounceRepeatStopAndCheck(button) {
           feedback.hidden = true;
           feedback.innerHTML = "";
         }
+
+        document.querySelectorAll("#yeast-labels .average-button").forEach(function (button) {
+          button.hidden = true;
+        });
 
         document
           .querySelectorAll("#yeast-labels .table-number-control")
