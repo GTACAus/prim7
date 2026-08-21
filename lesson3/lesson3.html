@@ -1060,36 +1060,50 @@
             <div
               class="stop-and-check"
               id="yeastLabelsStopAndCheck"
-              hidden
-            >
+              hidden>
+
               <div class="stop-and-check-content">
                 <p>
-                  You repeated each temperature test three times.
+                  <strong>Stop and think.</strong>
+                  Look at the data in the table below.
                 </p>
+
                 <p>
                   <strong>
-                    Why is it useful to calculate an average from repeated results?
+                    Are there any strange or unusual results when you compare
+                    Test 1, Test 2 and Test 3?
                   </strong>
                 </p>
+
+                <p>
+                  Think about why repeated results might sometimes be different.
+                </p>
               </div>
+
               <div
                 class="stop-and-check-answer"
-                id="yeastLabelsAverageAnswer"
+                id="yeastAverageStrangeResultsAnswer"
                 hidden
               >
-                Calculating an average combines the repeated measurements into one
-                representative value. This makes it easier to compare the results
-                for each temperature.
+                Some of the repeated results are different.
+
+                At <strong>37°C</strong>, Test 2 is lower than Tests 1 and 3.
+                At <strong>80°C</strong>, the results are very different.
+
+                This could be from a setup mistake or a measuring mistake.
               </div>
-              <button
-                type="button"
-                class="stop-and-check-button general-button"
-                onclick="yeastLabelsStopAndCheck(this)"
-              >
-                <p>Check Your Answer</p>
-                <p class="bounce-symbol">✅</p>
-              </button>
+
+            <button
+              type="button"
+              class="stop-and-check-button general-button"
+              onclick="yeastLabelsStopAndCheck(this)"
+            >
+              <p>Check Your Answer</p>
+              <p class="bounce-symbol">✅</p>
+            </button>
+
             </div>
+          
             <div id="repeat-tests-average-intro" class="pop-in" hidden>
               <div class="yeast-results-step-heading">
                 <span>3</span>
@@ -1311,54 +1325,6 @@
       to complete the average column.
     </p>
   </div>
-
-<div
-  class="stop-and-check"
-  id="yeastAverageFirstStopAndThink"
-  hidden>
-
-  <div class="stop-and-check-content">
-    <p>
-      <strong>Stop and think.</strong>
-      Look at the data in the table below.
-    </p>
-
-    <p>
-      <strong>
-        Are there any strange or unusual results when you compare
-        Test 1, Test 2 and Test 3?
-      </strong>
-    </p>
-
-    <p>
-      Think about why repeated results might sometimes be different.
-    </p>
-  </div>
-
-  <div
-    class="stop-and-check-answer"
-    id="yeastAverageStrangeResultsAnswer"
-    hidden
-  >
-    Some of the repeated results are different.
-
-    At <strong>37°C</strong>, Test 2 is lower than Tests 1 and 3.
-    At <strong>80°C</strong>, the results are very different.
-
-    This could be from a setup mistake or a measuring mistake.
-  </div>
-
-<button
-  type="button"
-  class="stop-and-check-button general-button"
-  onclick="yeastAverageStopAndCheckFirst(this)"
->
-  <p>Check Your Answer</p>
-  <p class="bounce-symbol">✅</p>
-</button>
-
-</div>
-
 
         <div id="yeastAverageTable" class="data-table-card yeast-table-card pop-in">
           <div class="experiment-table-scroll">
@@ -3456,8 +3422,8 @@ function yeastAverageStopAndCheckFinal(button) {
       function calculateInputAverage(button) {
         const row = button.closest("[data-input-average-row]");
         const inputs = row.querySelectorAll(".table-number-input");
-        const feedback = document.getElementById("customTableFeedback");
         const section = row.closest(".section");
+        const feedback = section.querySelector(".table-activity-feedback");
         const values = Array.from(inputs).map(function (input) {
           return input.value.trim() === "" ? NaN : Number(input.value);
         });
@@ -3677,8 +3643,8 @@ function resetYeastAverage() {
     return;
   }
 
-  const stopAndChecks =
-    section.querySelectorAll(".stop-and-check");
+  const stopAndCheck =
+    section.querySelector(".stop-and-check");
 
   const table =
     document.getElementById("yeastAverageTable");
@@ -3728,28 +3694,10 @@ function resetYeastAverage() {
     "37-to-80": false
   };
 
-
-  /* Reset first Stop & Think */
-
-  // if (stopAndChecks[0]) {
-  //   resetStopAndCheck(
-  //     stopAndChecks[0],
-  //     function () {
-  //       if (table) {
-  //         table.hidden = false;
-  //       }
-  //     }
-  //   );
-
-  //   stopAndChecks[0].hidden = false;
-  // }
-
-
-  // /* Reset second Stop & Think */
-  console.log(stopAndChecks);
-  if (stopAndChecks[1]) {
+  // /* Reset Stop & Think */
+  if (stopAndCheck) {
     resetStopAndCheck(
-      stopAndChecks[1],
+      stopAndCheck,
       function () {
         if (nextButton) {
           nextButton.hidden = false;
@@ -3757,15 +3705,8 @@ function resetYeastAverage() {
       }
     );
 
-    stopAndChecks[1].hidden = true;
+    stopAndCheck.hidden = true;
   }
-
-
-  /* Return section to starting state */
-
-  // if (table) {
-  //   table.hidden = true;
-  // }
 
   if (nextButton) {
     nextButton.hidden = true;
@@ -3817,7 +3758,7 @@ function resetYeastAverage() {
 
         restoreAverageButtons("#build-your-own-table", calculateInputAverage);
 
-        const feedback = document.getElementById("customTableFeedback");
+        const feedback = document.querySelector("#build-your-own-table .table-activity-feedback");
         if (feedback) {
           feedback.hidden = true;
           feedback.innerHTML = "";
