@@ -1699,12 +1699,100 @@
 
 </div>
 
+<!-- ==================================================
+     WHY REPEAT EACH TEST? - Insertion - initially this was in the yeast section
+     ================================================== -->
+
+<div class="repeat-tests-inline">
+
+  <div class="repeat-tests-card">
+
+    <div class="repeat-tests-explanation">
+      <h3>Why repeat each test 3 times?</h3>
+
+      <p>
+        In a fair test experiment, we repeat each test
+        <strong>3 times</strong> using the same conditions.
+      </p>
+
+      <p>We do this to:</p>
+
+      <ul>
+        <li>Check for mistakes when setting up each test.</li>
+        <li>Check for errors when making measurements.</li>
+        <li>Spot any strange results.</li>
+        <li>Make the results more reliable and trustworthy.</li>
+      </ul>
+    </div>
+
+    <div class="repeat-tests-example">
+
+      <p class="repeat-tests-label">
+        Example
+      </p>
+
+      <h3>Three tennis-ball bounce tests</h3>
+
+      <p>
+        Look at the results from three repeats of the same tennis-ball test.
+      </p>
+
+      <img
+        class="repeat-tests-image"
+        src="../images/lesson3/Repeat Tests.png"
+        alt="Diagram showing three tennis-ball bounce tests on grass, with one unusual result"
+      />
+
+    </div>
+
+  </div>
+
+<div class="stop-and-check repeat-tests-stop">
+
+  <div class="stop-and-check-content">
+    <p>
+      Look at the diagram above. A fair test was repeated 3 times
+      to see how high a tennis ball bounces on grass.
+    </p>
+
+    <p>
+      <strong>Why is it important to repeat a test 3 times?</strong>
+    </p>
+
+    <p>
+      <strong>What would happen if you only did the first test?</strong>
+    </p>
+  </div>
+
+  <div
+    class="stop-and-check-answer"
+    hidden
+  >
+    Repeating a test helps us check whether the results are consistent
+    and makes it easier to spot mistakes or unusual results.
+
+    If we only used one result, that result might be unusual or affected
+    by an error, so our conclusion could be misleading.
+  </div>
+
+  <button
+    type="button"
+    class="stop-and-check-button general-button"
+    onclick="ballBounceRepeatStopAndCheck(this)"
+  >
+    <p>Check Your Answer</p>
+    <p class="bounce-symbol">✅</p>
+  </button>
+
+</div>
+
+</div>
 
 <!-- ==================================================
      BALL BOUNCE VARIABLES
      ================================================== -->
 
-<div class="ball-bounce-variables">
+<div class="ball-bounce-variables" hidden>
 
   <div class="lesson3-planning-heading">
     <span>2</span>
@@ -3379,6 +3467,32 @@ function yeastAverageStopAndCheckFinal(button) {
     document.getElementById("yeast-average").querySelector(".next-button").hidden = false;
   });
 }
+
+/* ==================================================
+   BALL BOUNCE - REPEAT TESTS CHECK
+   Reveals Step 2 after the student checks the answer.
+   ================================================== */
+
+function ballBounceRepeatStopAndCheck(button) {
+  reconfirmStopAndCheckAnswer(button, function() {
+    const step2 = document.querySelector(
+      "#build-your-own-table .ball-bounce-variables"
+    );
+
+    if (step2) {
+      step2.hidden = false;
+
+      step2.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+  });
+}
+
+/* ==================================================
+   BALL BOUNCE - CHECK YOUR PREDICTION
+   ================================================== */
 
     function checkBallBouncePrediction() {
       const supportedButton =
