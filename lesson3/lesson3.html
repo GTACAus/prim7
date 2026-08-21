@@ -734,18 +734,19 @@
 
 <div class="yeast-results-step yeast-results-step--initial">
   <div class="yeast-results-step-heading">
-    <span>1</span>
+    <span>STEP 1</span>
 
     <div>
       <p class="yeast-results-eyebrow">Make a scientific table for the yeast fair test.</p>
-      <h3>Drag and drop the labels into the correct spaces on the table.</h3>
+      <h3>Drag and drop the labels into the correct cells on the table.</h3>
     </div>
+
   </div>
 </div>
 
 <div class="yeast-results-step pop-in">
   <div class="yeast-results-step-heading">
-    <span>2</span>
+    <span>STEP 2</span>
 
     <div>
       <p class="yeast-results-eyebrow">Record the results</p>
@@ -837,13 +838,13 @@
                   <tr>
                     <th class="independent-heading" rowspan="2">
                       <span class="label-drop-zone" data-accept="yeast-iv">
-  Drop label
-</span>
+                        Drop label
+                      </span>
                     </th>
-                    <th class="dependent-heading drop-heading" colspan="3">
+                    <th class="dependent-heading drop-heading" colspan="4">
                       <span class="label-drop-zone" data-accept="yeast-dv">
-  Drop label
-</span>
+                        Drop label
+                      </span>
                     </th>
                   </tr>
 
@@ -859,15 +860,19 @@
                     <th class="test-heading">
                       <span class="label-drop-zone" data-accept="yeast-test-3">Drop label</span>
                     </th>
+
+                    <th class="average-heading">
+                      Average
+                    </th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr>
+                  <tr data-input-average-row>
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-2">
-  Drop label
-</span>
+                        Drop label
+                      </span>
                     </th>
                     <td>
                       <input
@@ -902,9 +907,14 @@
                         aria-label="Drop Temperature test 3"
                       />
                     </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)" hidden>
+                        Calculate
+                      </button>
+                    </td>
                   </tr>
 
-                  <tr>
+                  <tr data-input-average-row>
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-22">
   Drop label
@@ -943,9 +953,14 @@
                         aria-label="Drop Temperature test 6"
                       />
                     </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)" hidden>
+                        Calculate
+                      </button>
+                    </td>
                   </tr>
 
-                  <tr>
+                  <tr data-input-average-row>
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-37">
   Drop label
@@ -984,9 +999,14 @@
                         aria-label="Drop Temperature test 9"
                       />
                     </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)" hidden>
+                        Calculate
+                      </button>
+                    </td>
                   </tr>
 
-                  <tr>
+                  <tr data-input-average-row>
                     <th class="independent-value">
                       <span class="label-drop-zone" data-accept="yeast-temp-80">
   Drop label
@@ -1025,12 +1045,135 @@
                         aria-label="Drop Temperature test 12"
                       />
                     </td>
+                    <td class="average-cell">
+                      <button class="average-button general-button" type="button" onclick="calculateInputAverage(this)" hidden>
+                        Calculate
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
           <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
+          <div id="labelsCompleteAfterContainer">
+            <div
+              class="stop-and-check"
+              id="yeastLabelsStopAndCheck"
+              hidden
+            >
+              <div class="stop-and-check-content">
+                <p>
+                  You repeated each temperature test three times.
+                </p>
+                <p>
+                  <strong>
+                    Why is it useful to calculate an average from repeated results?
+                  </strong>
+                </p>
+              </div>
+              <div
+                class="stop-and-check-answer"
+                id="yeastLabelsAverageAnswer"
+                hidden
+              >
+                Calculating an average combines the repeated measurements into one
+                representative value. This makes it easier to compare the results
+                for each temperature.
+              </div>
+              <button
+                type="button"
+                class="stop-and-check-button general-button"
+                onclick="yeastLabelsStopAndCheck(this)"
+              >
+                <p>Check Your Answer</p>
+                <p class="bounce-symbol">✅</p>
+              </button>
+            </div>
+            <div id="repeat-tests-average-intro" class="pop-in" hidden>
+              <div class="yeast-results-step-heading">
+                <span>3</span>
+
+                <div>
+                  <p class="yeast-results-eyebrow">Calculate the average results</p>
+                  <h3>
+                    Calculate the average results for the three tests of each temperature in the yeast fair test experiment.
+              </h3>
+                </div>
+              </div>
+
+              <p>
+                You can try working out the averages yourself or use the <strong>calculate</strong> button in the table below.
+              </p>
+
+              <div class="average-worked-example">
+
+                <p class="average-example-label">
+                  Worked example — 2°C
+                </p>
+
+                <p>
+                  Calculating the average size of the balloon circumference at 2°C:
+                </p>
+
+            <div class="average-example-steps">
+
+              <div class="average-equation">
+                <span class="average-equation-left">
+                  <strong>Average</strong> =
+                </span>
+
+                <span class="math-fraction">
+                  <span class="math-numerator">
+                    Test 1 + Test 2 + Test 3
+                  </span>
+
+                  <span class="math-denominator">
+                    number of tests
+                  </span>
+                </span>
+              </div>
+
+              <div class="average-equation">
+                <span class="average-equation-left">=</span>
+
+                <span class="math-fraction">
+                  <span class="math-numerator">
+                    4 cm + 5 cm + 4 cm
+                  </span>
+
+                  <span class="math-denominator">
+                    3
+                  </span>
+                </span>
+              </div>
+
+              <div class="average-equation">
+                <span class="average-equation-left">=</span>
+
+                <span class="math-fraction">
+                  <span class="math-numerator">
+                    13 cm
+                  </span>
+
+                  <span class="math-denominator">
+                    3
+                  </span>
+                </span>
+              </div>
+
+              <div class="average-equation average-equation-result">
+                <span class="average-equation-left">=</span>
+
+                <strong>4.3 cm</strong>
+              </div>
+
+            </div>
+
+              </div>
+
+            </div>
+          </div>
           <div class="reset-button-container lesson3-reset-container">
             <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">
               Reset
@@ -1127,11 +1270,8 @@
     id="repeatTestsAnswer"
     hidden
   >
-    Repeating a test helps us check whether the results are consistent
-    and makes it easier to spot mistakes or unusual results.
-
-    If we only used one result, that result might be unusual or affected
-    by an error, so our conclusion could be misleading.
+    Repeating a test shows if results match and helps catch mistakes.
+    If you only do the first test in this experiment, the result would be too high.
   </div>
 <button
     type="button"
@@ -1141,90 +1281,6 @@
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
   </button>
-
-</div>
-
-<div class="repeat-tests-average-intro pop-in" hidden>
-  <div class="yeast-results-step-heading">
-    <span>3</span>
-
-    <div>
-      <p class="yeast-results-eyebrow">Calculate the average results</p>
-      <h3>
-        Calculate the average results for the three tests of each temperature in the yeast fair test experiment.
-  </h3>
-    </div>
-  </div>
-
-  <p>
-    You can try working out the averages yourself or use the <strong>calculate</strong> button in the table below.
-  </p>
-
-  <div class="average-worked-example">
-
-    <p class="average-example-label">
-      Worked example — 2°C
-    </p>
-
-    <p>
-      Calculating the average size of the balloon circumference at 2°C:
-    </p>
-
-<div class="average-example-steps">
-
-  <div class="average-equation">
-    <span class="average-equation-left">
-      <strong>Average</strong> =
-    </span>
-
-    <span class="math-fraction">
-      <span class="math-numerator">
-        Test 1 + Test 2 + Test 3
-      </span>
-
-      <span class="math-denominator">
-        number of tests
-      </span>
-    </span>
-  </div>
-
-  <div class="average-equation">
-    <span class="average-equation-left">=</span>
-
-    <span class="math-fraction">
-      <span class="math-numerator">
-        4 cm + 5 cm + 4 cm
-      </span>
-
-      <span class="math-denominator">
-        3
-      </span>
-    </span>
-  </div>
-
-  <div class="average-equation">
-    <span class="average-equation-left">=</span>
-
-    <span class="math-fraction">
-      <span class="math-numerator">
-        13 cm
-      </span>
-
-      <span class="math-denominator">
-        3
-      </span>
-    </span>
-  </div>
-
-  <div class="average-equation average-equation-result">
-    <span class="average-equation-left">=</span>
-
-    <strong>4.3 cm</strong>
-  </div>
-
-</div>
-
-  </div>
 
 </div>
 
@@ -1259,7 +1315,7 @@
 <div
   class="stop-and-check"
   id="yeastAverageFirstStopAndThink"
->
+  hidden>
 
   <div class="stop-and-check-content">
     <p>
@@ -1284,14 +1340,12 @@
     id="yeastAverageStrangeResultsAnswer"
     hidden
   >
-    Some of the repeated results are quite different from each other.
+    Some of the repeated results are different.
 
     At <strong>37°C</strong>, Test 2 is lower than Tests 1 and 3.
-    At <strong>80°C</strong>, the three results vary a lot.
+    At <strong>80°C</strong>, the results are very different.
 
-    This could happen because of a mistake when setting up the test,
-    an error when taking a measurement, or another small difference
-    between the repeated tests.
+    This could be from a setup mistake or a measuring mistake.
   </div>
 
 <button
@@ -1306,7 +1360,7 @@
 </div>
 
 
-        <div id="yeastAverageTable" class="data-table-card yeast-table-card pop-in" hidden>
+        <div id="yeastAverageTable" class="data-table-card yeast-table-card pop-in">
           <div class="experiment-table-scroll">
             <table
               class="experiment-table experiment-table-average yeast-table"
@@ -1417,7 +1471,7 @@
     </h3>
 
     <p>
-      As the temperature increases, the amount of gas produced by yeast increases.
+      As the temperature increases, the amount of gas made by yeast increases.
       This is because living things need to be warm to survive.
     </p>
   </div>
@@ -1428,7 +1482,7 @@
 
       <p>
         As the temperature increases from
-        <strong>2°C to 37°C</strong>, the amount of gas produced by yeast:
+        <strong>2°C to 37°C</strong>, the amount of gas made by yeast:
       </p>
 
       <div class="prediction-buttons">
@@ -1466,7 +1520,7 @@
   <div class="yeast-result-question">
 
     <p>
-      At <strong>80°C</strong>, the amount of gas produced compared with
+      At <strong>80°C</strong>, the amount of gas made compared with
       <strong>37°C</strong>:
     </p>
 
@@ -2459,6 +2513,20 @@
       const dev = true;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
+      // Disable up and down arrow for number inputs
+      document
+        .querySelectorAll(".table-number-input")
+        .forEach(function(input) {
+          input.addEventListener("keydown", function(event) {
+            if (
+              event.key === "ArrowUp" ||
+              event.key === "ArrowDown"
+            ) {
+              event.preventDefault();
+            }
+          });
+        });
+
 const lesson3SectionIds = [
   "yeast-image-investigation",
   "yeast-variables",
@@ -2564,7 +2632,6 @@ function initialiseYeastVariables() {
 
 function stopAndCheckRepeatTests(button) {
   reconfirmStopAndCheckAnswer(button, function() {
-    document.getElementById("repeat-tests").querySelector(".repeat-tests-average-intro").hidden = false;
     document.getElementById("repeatTestsNext").hidden = false;
   });
 }
@@ -3088,6 +3155,22 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         });
       }
 
+      function yeastLabelsStopAndCheck(button) {
+        reconfirmStopAndCheckAnswer(button, function () {
+          const section = document.getElementById("yeast-labels");
+          const averageIntro = document.getElementById("repeat-tests-average-intro");
+
+          averageIntro.hidden = false;
+
+          const calculateButtons =
+            section.querySelectorAll(".average-button");
+
+          calculateButtons.forEach(function (calculateButton) {
+            calculateButton.hidden = false;
+          });
+        });
+      }
+
       function updateYeastActivityComplete() {
         const section = document.getElementById("yeast-labels");
         const zones = section.querySelectorAll(".label-drop-zone");
@@ -3101,6 +3184,18 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
 
         if (allLabelsComplete) {
           section.classList.add("labels-complete");
+
+          const stopAndCheck =
+              document.getElementById("yeastLabelsStopAndCheck");
+
+          if (stopAndCheck) {
+            stopAndCheck.hidden = false;
+          }
+
+          section.querySelector(".yeast-results-step--initial").scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+          });
         } else {
           section.classList.remove("labels-complete");
         }
@@ -3135,16 +3230,14 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
           });
 
         if (allLabelsComplete && allNumbersComplete) {
-          nextButton.hidden = false;
-
           if (feedback) {
             feedback.hidden = false;
             feedback.className =
               "activity-feedback table-activity-feedback feedback-success";
 
             feedback.innerHTML =
-              "<strong>Table complete!</strong>" +
-              "<span>You placed every label and entered all results.</span>";
+              "<strong>Results recorded!</strong>" +
+              "<span>You entered all of the repeated measurements.</span>";
           }
         } else {
           nextButton.hidden = true;
@@ -3171,6 +3264,7 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
     This allows the X button to restore the correct Calculate button.
   */
         const isCustomTable = cell.closest("#build-your-own-table") !== null;
+        const isDragAndDrop = cell.closest("#yeast-labels") !== null;
 
         cell.innerHTML = "";
         cell.classList.add("average-result");
@@ -3198,7 +3292,7 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
           calculateButton.classList.add("average-button", "general-button");
           calculateButton.textContent = "Calculate";
 
-          if (isCustomTable) {
+          if (isCustomTable || isDragAndDrop) {
             calculateButton.addEventListener("click", function () {
               calculateInputAverage(calculateButton);
             });
@@ -3751,22 +3845,22 @@ function resetYeastAverage() {
 
   /* Reset first Stop & Think */
 
-  if (stopAndChecks[0]) {
-    resetStopAndCheck(
-      stopAndChecks[0],
-      function () {
-        if (table) {
-          table.hidden = false;
-        }
-      }
-    );
+  // if (stopAndChecks[0]) {
+  //   resetStopAndCheck(
+  //     stopAndChecks[0],
+  //     function () {
+  //       if (table) {
+  //         table.hidden = false;
+  //       }
+  //     }
+  //   );
 
-    stopAndChecks[0].hidden = false;
-  }
+  //   stopAndChecks[0].hidden = false;
+  // }
 
 
-  /* Reset second Stop & Think */
-
+  // /* Reset second Stop & Think */
+  console.log(stopAndChecks);
   if (stopAndChecks[1]) {
     resetStopAndCheck(
       stopAndChecks[1],
@@ -3783,9 +3877,9 @@ function resetYeastAverage() {
 
   /* Return section to starting state */
 
-  if (table) {
-    table.hidden = true;
-  }
+  // if (table) {
+  //   table.hidden = true;
+  // }
 
   if (nextButton) {
     nextButton.hidden = true;
@@ -4386,7 +4480,7 @@ function updateLesson3CompletedQuestion() {
         const calculateButton = document.createElement("button");
 
         calculateButton.type = "button";
-        calculateButton.className = "average-button";
+        calculateButton.classList.add("average-button", "general-button");
         calculateButton.textContent = "Calculate";
 
         calculateButton.addEventListener("click", function () {
