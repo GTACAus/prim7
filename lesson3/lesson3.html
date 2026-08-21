@@ -1124,7 +1124,7 @@
               </div>
 
               <p>
-                You can try working out the averages yourself or use the <strong>calculate</strong> button in the table below.
+                You can try working out the averages yourself or use the <strong>calculate</strong> button in the table above.
               </p>
 
               <div class="average-worked-example">
@@ -2092,23 +2092,43 @@
                 <thead>
                   <tr>
                     <th class="independent-heading" rowspan="2">
-                      <input
-                        class="table-text-input axis-text-input lesson3-filtered-text"
-                        type="text"
-                        maxlength="50"
-                        placeholder="Independent variable (units)"
-                        aria-label="Independent variable heading"
-                      />
+                      <div class="table-heading-fields">
+                        <input
+                          class="table-text-input axis-text-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="50"
+                          placeholder="Independent variable"
+                          aria-label="Independent variable"
+                        />
+
+                        <input
+                          class="table-text-input table-units-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="15"
+                          placeholder="Units"
+                          aria-label="Independent variable units"
+                        />
+                      </div>
                     </th>
 
                     <th class="dependent-heading bounce-dependent" colspan="4">
-                      <input
-                        class="table-text-input table-heading-input lesson3-filtered-text"
-                        type="text"
-                        maxlength="70"
-                        placeholder="Dependent variable (units)"
-                        aria-label="Dependent variable heading"
-                      />
+                      <div class="table-heading-fields">
+                        <input
+                          class="table-text-input table-heading-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="70"
+                          placeholder="Dependent variable"
+                          aria-label="Dependent variable"
+                        />
+
+                        <input
+                          class="table-text-input table-units-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="15"
+                          placeholder="Units"
+                          aria-label="Dependent variable units"
+                        />
+                      </div>
                     </th>
                   </tr>
 
@@ -2378,20 +2398,6 @@
     
       const dev = true;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
-
-      // Disable up and down arrow for number inputs
-      document
-        .querySelectorAll(".table-number-input")
-        .forEach(function(input) {
-          input.addEventListener("keydown", function(event) {
-            if (
-              event.key === "ArrowUp" ||
-              event.key === "ArrowDown"
-            ) {
-              event.preventDefault();
-            }
-          });
-        });
 
 const lesson3SectionIds = [
   "yeast-image-investigation",

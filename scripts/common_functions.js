@@ -461,6 +461,37 @@ if (document.readyState === "loading") {
 }
 
 /* ==================================================
+   NUMBER INPUT CONTROLS
+   Prevent scroll changes and negative values.
+   ================================================== */
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".table-number-input").forEach(function(input) {
+    input.min = "0";
+
+    input.addEventListener("wheel", function() {
+      input.blur();
+    });
+
+    input.addEventListener("keydown", function(event) {
+      if (
+        event.key === "-" ||
+        event.key === "ArrowUp" ||
+        event.key === "ArrowDown"
+      ) {
+        event.preventDefault();
+      }
+    });
+
+    input.addEventListener("input", function() {
+      if (input.value !== "" && Number(input.value) < 0) {
+        input.value = 0;
+      }
+    });
+  });
+});
+
+/* ==================================================
 STOP AND CHECK FUNCTIONS
    ================================================== */
 
