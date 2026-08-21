@@ -815,7 +815,137 @@
 
   </div>
 </div>
+<div id="labelsCompleteAfterContainer">
+            <div
+              class="stop-and-check"
+              id="yeastLabelsStopAndCheck"
+              hidden>
 
+              <div class="stop-and-check-content">
+                <p>
+                  Look at the <strong>data</strong> in the table below.
+                </p>
+
+                <p>
+                  <strong>
+                    Are there any strange or unusual results when you compare
+                    Test 1, Test 2 and Test 3?
+                  </strong>
+                </p>
+
+                <p>
+                  Think about why repeated results might sometimes be different.
+                </p>
+              </div>
+
+              <div
+                class="stop-and-check-answer"
+                id="yeastAverageStrangeResultsAnswer"
+                hidden
+              >
+                Some of the repeated results are different.
+
+                At <strong>37°C</strong>, Test 2 is lower than Tests 1 and 3.
+                At <strong>80°C</strong>, the results are very different.
+
+                This could be from a setup mistake or a measuring mistake.
+              </div>
+
+            <button
+              type="button"
+              class="stop-and-check-button general-button"
+              onclick="yeastLabelsStopAndCheck(this)"
+            >
+              <p>Check Your Answer</p>
+              <p class="bounce-symbol">✅</p>
+            </button>
+
+            </div>
+          
+            <div id="repeat-tests-average-intro" class="pop-in" hidden>
+              <div class="yeast-results-step-heading">
+                <span>3</span>
+
+                <div>
+                  <p class="yeast-results-eyebrow">Calculate the average results</p>
+                  <h3>
+                    Calculate the average results for the three tests of each temperature in the yeast fair test experiment.
+              </h3>
+                </div>
+              </div>
+
+              <p>
+                You can try working out the averages yourself or use the <strong>calculate</strong> button in the table above.
+              </p>
+
+              <div class="average-worked-example">
+
+                <p class="average-example-label">
+                  Worked example — 2°C
+                </p>
+
+                <p>
+                  Calculating the average size of the balloon circumference at 2°C:
+                </p>
+
+            <div class="average-example-steps">
+
+              <div class="average-equation">
+                <span class="average-equation-left">
+                  <strong>Average</strong> =
+                </span>
+
+                <span class="math-fraction">
+                  <span class="math-numerator">
+                    Test 1 + Test 2 + Test 3
+                  </span>
+
+                  <span class="math-denominator">
+                    number of tests
+                  </span>
+                </span>
+              </div>
+
+              <div class="average-equation">
+                <span class="average-equation-left">=</span>
+
+                <span class="math-fraction">
+                  <span class="math-numerator">
+                    4 cm + 5 cm + 4 cm
+                  </span>
+
+                  <span class="math-denominator">
+                    3
+                  </span>
+                </span>
+              </div>
+
+              <div class="average-equation">
+                <span class="average-equation-left">=</span>
+
+                <span class="math-fraction">
+                  <span class="math-numerator">
+                    13 cm
+                  </span>
+
+                  <span class="math-denominator">
+                    3
+                  </span>
+                </span>
+              </div>
+
+              <div class="average-equation average-equation-result">
+                <span class="average-equation-left">=</span>
+
+                <strong>4.3 cm</strong>
+              </div>
+
+            </div>
+
+              </div>
+
+            </div>
+          </div>
 <div id="yeastActivity" class="diagram-activity">
   
           <div
@@ -1067,137 +1197,6 @@
             <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">
               Reset
             </button>
-          </div>
-          <div id="labelsCompleteAfterContainer">
-            <div
-              class="stop-and-check"
-              id="yeastLabelsStopAndCheck"
-              hidden>
-
-              <div class="stop-and-check-content">
-                <p>
-                  Look at the <strong>data</strong> in the table below.
-                </p>
-
-                <p>
-                  <strong>
-                    Are there any strange or unusual results when you compare
-                    Test 1, Test 2 and Test 3?
-                  </strong>
-                </p>
-
-                <p>
-                  Think about why repeated results might sometimes be different.
-                </p>
-              </div>
-
-              <div
-                class="stop-and-check-answer"
-                id="yeastAverageStrangeResultsAnswer"
-                hidden
-              >
-                Some of the repeated results are different.
-
-                At <strong>37°C</strong>, Test 2 is lower than Tests 1 and 3.
-                At <strong>80°C</strong>, the results are very different.
-
-                This could be from a setup mistake or a measuring mistake.
-              </div>
-
-            <button
-              type="button"
-              class="stop-and-check-button general-button"
-              onclick="yeastLabelsStopAndCheck(this)"
-            >
-              <p>Check Your Answer</p>
-              <p class="bounce-symbol">✅</p>
-            </button>
-
-            </div>
-          
-            <div id="repeat-tests-average-intro" class="pop-in" hidden>
-              <div class="yeast-results-step-heading">
-                <span>3</span>
-
-                <div>
-                  <p class="yeast-results-eyebrow">Calculate the average results</p>
-                  <h3>
-                    Calculate the average results for the three tests of each temperature in the yeast fair test experiment.
-              </h3>
-                </div>
-              </div>
-
-              <p>
-                You can try working out the averages yourself or use the <strong>calculate</strong> button in the table above.
-              </p>
-
-              <div class="average-worked-example">
-
-                <p class="average-example-label">
-                  Worked example — 2°C
-                </p>
-
-                <p>
-                  Calculating the average size of the balloon circumference at 2°C:
-                </p>
-
-            <div class="average-example-steps">
-
-              <div class="average-equation">
-                <span class="average-equation-left">
-                  <strong>Average</strong> =
-                </span>
-
-                <span class="math-fraction">
-                  <span class="math-numerator">
-                    Test 1 + Test 2 + Test 3
-                  </span>
-
-                  <span class="math-denominator">
-                    number of tests
-                  </span>
-                </span>
-              </div>
-
-              <div class="average-equation">
-                <span class="average-equation-left">=</span>
-
-                <span class="math-fraction">
-                  <span class="math-numerator">
-                    4 cm + 5 cm + 4 cm
-                  </span>
-
-                  <span class="math-denominator">
-                    3
-                  </span>
-                </span>
-              </div>
-
-              <div class="average-equation">
-                <span class="average-equation-left">=</span>
-
-                <span class="math-fraction">
-                  <span class="math-numerator">
-                    13 cm
-                  </span>
-
-                  <span class="math-denominator">
-                    3
-                  </span>
-                </span>
-              </div>
-
-              <div class="average-equation average-equation-result">
-                <span class="average-equation-left">=</span>
-
-                <strong>4.3 cm</strong>
-              </div>
-
-            </div>
-
-              </div>
-
-            </div>
           </div>
         </div>
 
@@ -3157,6 +3156,11 @@ function checkYeastActivityComplete() {
     if (stopAndCheck) {
       stopAndCheck.hidden = false;
     }
+
+    document.getElementById("labelsCompleteAfterContainer").scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+          });
   }
 }
 
