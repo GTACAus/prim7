@@ -1061,8 +1061,8 @@
                 </tbody>
               </table>
             </div>
+            <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
           </div>
-          <div class="activity-feedback table-activity-feedback" id="yeastLabelFeedback" hidden></div>
           <div id="labelsCompleteAfterContainer">
             <div
               class="stop-and-check"
@@ -2784,6 +2784,14 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         const labels = document.querySelectorAll(".drag-label");
         const dropZones = document.querySelectorAll(".label-drop-zone");
 
+        document
+          .querySelectorAll("#yeast-labels .table-number-input")
+          .forEach(function (input) {
+            input.addEventListener("input", function () {
+              checkYeastActivityComplete();
+            });
+          });
+
         function handleDrop(zone, draggedLabel) {
           if (!draggedLabel) {
             return;
@@ -3455,7 +3463,7 @@ function ballBounceRepeatStopAndCheck(button) {
           return;
         }
 
-        if (feedback) {
+        if (feedback && feedback.classList.contains("feedback-try-again")) {
           feedback.hidden = true;
         }
 
