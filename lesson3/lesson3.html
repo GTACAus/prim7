@@ -2479,20 +2479,6 @@
       const dev = true;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
-      // Disable up and down arrow for number inputs
-      document
-        .querySelectorAll(".table-number-input")
-        .forEach(function(input) {
-          input.addEventListener("keydown", function(event) {
-            if (
-              event.key === "ArrowUp" ||
-              event.key === "ArrowDown"
-            ) {
-              event.preventDefault();
-            }
-          });
-        });
-
 const lesson3SectionIds = [
   "yeast-image-investigation",
   "yeast-variables",
