@@ -2790,6 +2790,35 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         }
       }
 
+      function initialiseYeastLabelsStopAndChecks() {
+        const section = document.getElementById("yeast-labels");
+        if (!section) return;
+
+        const averageIntro = document.getElementById("repeat-tests-average-intro");
+        const labelsStopAndCheck = document.getElementById("yeastLabelsStopAndCheck");
+        const hotStopAndThink = document.getElementById("yeastHotStopAndThink");
+
+        if (labelsStopAndCheck) {
+          resetStopAndCheck(labelsStopAndCheck, function () {
+            if (averageIntro) {
+              averageIntro.hidden = false;
+            }
+            section.querySelectorAll(".average-button").forEach(function (calculateButton) {
+              calculateButton.hidden = false;
+            });
+          });
+        }
+
+        if (hotStopAndThink) {
+          resetStopAndCheck(hotStopAndThink, function () {
+            const nextButton = document.getElementById("yeastAverageNext");
+            if (nextButton) {
+              nextButton.hidden = false;
+            }
+          });
+        }
+      }
+
       function initialiseLesson3DragAndDrop() {
         const labels = document.querySelectorAll(".drag-label");
         const dropZones = document.querySelectorAll(".label-drop-zone");
@@ -3650,71 +3679,127 @@ function ballBounceRepeatStopAndCheck(button) {
       }
 
       function resetYeastLabels() {
-        const placeholderText = {
-          "yeast-dv": "Drop label",
-          "yeast-iv": "Drop label",
-          "yeast-test-1": "Drop label",
-          "yeast-test-2": "Drop label",
-          "yeast-test-3": "Drop label",
-          "yeast-temp-2": "Drop label",
-          "yeast-temp-22": "Drop label",
-          "yeast-temp-37": "Drop label",
-          "yeast-temp-80": "Drop label",
-        };
+  const placeholderText = {
+    "yeast-dv": "Drop label",
+    "yeast-iv": "Drop label",
+    "yeast-test-1": "Drop label",
+    "yeast-test-2": "Drop label",
+    "yeast-test-3": "Drop label",
+    "yeast-temp-2": "Drop label",
+    "yeast-temp-22": "Drop label",
+    "yeast-temp-37": "Drop label",
+    "yeast-temp-80": "Drop label",
+  };
 
-        const section = document.getElementById("yeast-labels");
-        section.classList.remove("labels-complete");
+  const section = document.getElementById("yeast-labels");
+  section.classList.remove("labels-complete");
 
-        document.querySelectorAll("#yeast-labels .label-drop-zone").forEach(function (zone) {
-          zone.textContent = placeholderText[zone.dataset.accept] || "Drop label";
-          zone.classList.remove("drop-complete", "drag-over", "drop-incorrect");
-        });
+  document.querySelectorAll("#yeast-labels .label-drop-zone").forEach(function (zone) {
+    zone.textContent = placeholderText[zone.dataset.accept] || "Drop label";
+    zone.classList.remove("drop-complete", "drag-over", "drop-incorrect");
+  });
 
-        document.querySelectorAll("#yeast-labels .drag-label").forEach(function (label) {
-          label.disabled = false;
-          label.setAttribute("draggable", "true");
-          label.classList.remove("label-placed", "is-dragging");
-        });
+  document.querySelectorAll("#yeast-labels .drag-label").forEach(function (label) {
+    label.disabled = false;
+    label.setAttribute("draggable", "true");
+    label.classList.remove("label-placed", "is-dragging");
+  });
 
-        const feedback = document.getElementById("yeastLabelFeedback");
-        if (feedback) {
-          feedback.hidden = true;
-          feedback.innerHTML = "";
-        }
+  const feedback = document.getElementById("yeastLabelFeedback");
+  if (feedback) {
+    feedback.hidden = true;
+    feedback.innerHTML = "";
+  }
 
-        document.querySelectorAll("#yeast-labels .average-button").forEach(function (button) {
-          button.hidden = true;
-        });
+  // Clear the saved number entries back to editable, empty inputs
+  document.querySelectorAll("#yeast-labels .table-number-control").forEach(function (control) {
+    const inputRow = control.querySelector(".table-entry-input-row");
+    const answerBox = control.querySelector(".table-entry-answer");
+    const input = control.querySelector(".table-number-input");
 
-        document
-          .querySelectorAll("#yeast-labels .table-number-control")
-          .forEach(function (control) {
-            const inputRow = control.querySelector(".table-entry-input-row");
-            const answerBox = control.querySelector(".table-entry-answer");
-            const input = control.querySelector(".table-number-input");
-            const calculateButtons = section.querySelectorAll(".average-button");
-            console.lo
-            
-            calculateButtons.forEach(function (button) {
-              button.hidden = true;
-            });
+    if (input) {
+      input.value = "";
+    }
 
-            if (input) {
-              input.value = "";
-            }
+    if (inputRow) {
+      inputRow.style.display = "block";
+    }
 
-            if (inputRow) {
-              inputRow.style.display = "block";
-            }
+    if (answerBox) {
+      answerBox.classList.remove("visible", "number-correct", "number-incorrect");
+      answerBox.innerHTML = "";
+    }
+  });
 
-            if (answerBox) {
-              answerBox.classList.remove("visible");
-              answerBox.innerHTML = "";
-            }
+  // Rebuild every average cell back to a fresh, HIDDEN Calculate button —
+  // this matches the page-load state, whether or not that cell had
+  // already been calculated.
+  document.querySelectorAll("#yeast-labels .average-cell").forEach(function (cell) {
+    cell.classList.remove("average-result");
+    cell.innerHTML = "";
 
-            resetAverageForNumberInput(input);
-          });
-        }
+    const button = document.createElement("button");
+    button.type = "button";
+    button.classList.add("average-button", "general-button");
+    button.textContent = "Calculate";
+    button.hidden = true;
+    button.addEventListener("click", function () {
+      calculateInputAverage(button);
+    });
+
+    cell.appendChild(button);
+  });
+
+  // --- Reset "strange results" stop-and-check and everything it unlocks ---
+  const averageIntro = document.getElementById("repeat-tests-average-intro");
+  if (averageIntro) {
+    averageIntro.hidden = true;
+  }
+
+  const labelsStopAndCheck = document.getElementById("yeastLabelsStopAndCheck");
+  if (labelsStopAndCheck) {
+    labelsStopAndCheck.hidden = true;
+    resetStopAndCheck(labelsStopAndCheck, function () {
+      if (averageIntro) {
+        averageIntro.hidden = false;
+      }
+      section.querySelectorAll(".average-button").forEach(function (calculateButton) {
+        calculateButton.hidden = false;
+      });
+    });
+  }
+
+  // --- Reset the "interpret the results" panel ---
+  const predictionCheck = document.getElementById("yeastPredictionCheck");
+  if (predictionCheck) {
+    predictionCheck.hidden = true;
+    predictionCheck.querySelectorAll(".prediction-button").forEach(function (button) {
+      button.classList.remove("selected-answer", "buzz");
+    });
+
+    const finalQuestion = predictionCheck.querySelector(".yeast-prediction-final");
+    if (finalQuestion) {
+      finalQuestion.hidden = true;
+    }
+  }
+
+  yeastResultAnswers = {
+    "low-to-37": false,
+    "37-to-80": false
+  };
+
+  // --- Reset "why was activity so low at 80°C" stop-and-check, which reveals Next ---
+  const hotStopAndThink = document.getElementById("yeastHotStopAndThink");
+  if (hotStopAndThink) {
+    hotStopAndThink.hidden = true;
+    resetStopAndCheck(hotStopAndThink, function () {
+      const nextButton = document.getElementById("yeastAverageNext");
+      if (nextButton) {
+        nextButton.hidden = false;
+      }
+    });
+  }
+}
 
 function resetYeastAverage() {
   const section =
@@ -4337,6 +4422,8 @@ function updateLesson3CompletedQuestion() {
         }
 
         initialiseLesson3DragAndDrop();
+
+        initialiseYeastLabelsStopAndChecks();
 
         initialiseLesson3PermanentTextEntries();
 
