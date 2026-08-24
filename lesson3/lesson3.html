@@ -615,14 +615,67 @@
                   <p>Watch Video</p>
               </button>
 
-              <a
+              <button
+                type="button"
                 class="general-button watch-video-button"
-                href="../downloads/lesson3/common-units.pdf"
-                download
+                onclick="openUnitExampleModal()"
               >
                 <p>Examples of Units</p>
-              </a>
+            </button>
 
+            </div>
+            <div class="modal" id="unitExampleModal" role="dialog" aria-modal="true" aria-labelledby="unitExampleModal">
+              <div id="unitModalTableWrap">
+                <div class="modal-header">
+                  <h2>Unit Examples</h2>
+                  <button
+                    type="button"
+                    class="close-button"
+                    onclick="closeUnitExampleModal()"
+                    aria-label="Close units examples">
+                    ×
+                  </button>
+                </div>
+                <div class="experiment-table-scroll">
+                  <table class="experiment-table">
+                    <thead>
+                      <tr>
+                        <th class="average-heading">Measure</th>
+                        <th class="average-heading">Units and abbreviations</th>
+                        <th class="average-heading">Measure with</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Temperature</td>
+                        <td>Degrees Celsius <span class="table-units">(°C)</span></td>
+                        <td>Thermometer</td>
+                      </tr>
+                      <tr>
+                        <td>Length</td>
+                        <td>Metre <span class="table-units">(m)</span>, Centimetre <span class="table-units">(cm)</span>, Millimetre <span class="table-units">(mm)</span></td>
+                        <td>Ruler, Measuring tape</td>
+                      </tr>
+                      <tr>
+                        <td>Weight</td>
+                        <td>Kilograms <span class="table-units">(kg)</span>, Grams <span class="table-units">(g)</span></td>
+                        <td>Scales</td>
+                      </tr>
+                      <tr>
+                        <td>Time</td>
+                        <td>Days, Hours <span class="table-units">(hrs)</span>, Minutes <span class="table-units">(mins)</span>, Seconds <span class="table-units">(secs)</span></td>
+                        <td>Calendar, Watch, Stopwatch</td>
+                      </tr>
+                      <tr>
+                        <td>Volume</td>
+                        <td>Litre <span class="table-units">(l)</span>, Millilitre <span class="table-units">(ml)</span></td>
+                        <td>Measuring cylinder</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
             </div>
             <!-- Shared video modal -->
             <div
@@ -2630,6 +2683,32 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
     videoTitle
   );
 }
+
+function openUnitExampleModal() {
+  const modal = document.getElementById('unitExampleModal');
+
+  if (modal) {
+    modal.style.display = 'block';
+    growModalFromTrigger(modal);
+  }
+}
+
+function closeUnitExampleModal() {
+  const modal = document.getElementById('unitExampleModal');
+
+  if (modal) {
+    modal.style.display = 'none';
+  }
+
+}
+
+window.addEventListener("click", function(event) {
+  const unitModal = document.getElementById("unitExampleModal");
+
+  if (unitModal && event.target === unitModal) {
+    closeUnitExampleModal();
+  }
+});
 
 
       function createDragGhost(label) {
