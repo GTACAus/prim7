@@ -1,0 +1,904 @@
+/* ==================================================
+   PRETASK LESSON
+   
+   Used only by pretask/pretask.html.
+   ================================================== */
+
+.botanist-mission {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: center;
+  gap: 24px;
+
+  margin: 0 0 36px;
+  padding: 26px 30px;
+
+  background: var(--yellow);
+  border: 3px solid var(--charcoal);
+  border-radius: 26px;
+
+  box-shadow: var(--shadow-medium);
+}
+
+.mission-icon {
+  width: 140px;
+  height: 118px;
+
+  overflow: hidden;
+
+  background: var(--paper);
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+
+  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.28);
+}
+
+.mission-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.botanist-mission h2 {
+  margin: 0 0 9px;
+
+  color: var(--purple);
+
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.botanist-mission p {
+  margin: 0;
+
+  color: var(--text);
+
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.video-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.plant-game,
+.learning-row {
+  display: grid;
+  gap: 18px;
+}
+
+.video-row {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+.learning-row {
+  grid-template-columns: 1fr 0.8fr;
+  align-items: start;
+}
+
+.video-box {
+  height: 500px;
+  background: var(--soft-blue);
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.video-box iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.think-box {
+  min-height: 500px;
+  background: var(--soft-yellow);
+  border-radius: 20px;
+  padding: 0;
+  color: var(--muted);
+  overflow: hidden;
+  border: 1px solid rgba(63, 70, 63, 0.12);
+}
+
+.stw-column {
+  padding: 14px;
+  border-bottom: 1px solid rgba(63, 70, 63, 0.14);
+}
+
+.stw-column:last-child {
+  border-bottom: none;
+}
+
+.stw-column h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.stw-column p {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.stw-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.stw-input-row input,
+.brainstorm-item input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  background: #fffdf5;
+  color: var(--text);
+}
+
+.stw-input-row input {
+  flex: 1;
+}
+
+.stw-input-row button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: var(--button);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stw-list {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  list-style: none;
+  padding-left: 0;
+}
+
+.stw-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  background: #fffdf5;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 10px 8px 14px;
+  margin-bottom: 8px;
+}
+
+.plant-canvas {
+  min-height: 280px;
+  background: var(--soft-green);
+  border: 1px dashed var(--line);
+  align-items: center;
+  justify-content: center;
+}
+
+.plant-game-container {
+  margin: 10px;
+  padding-bottom: 10px;
+}
+
+.brainstorm-answer {
+  display: none;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.postit-brainstorm {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
+
+  background-image: url("../../images/pretask/postitwall.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.postit-answer {
+  position: absolute;
+  width: 17.5%;
+  height: 15%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px;
+}
+
+.postit-answer input {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+
+  padding: 8px 10px;
+
+  font-size: clamp(0.72rem, 1.3vw, 0.95rem);
+  font-weight: 600;
+  text-align: center;
+
+  outline: none;
+}
+
+.postit-answer input:focus {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 3px rgba(0, 188, 116, 0.2);
+}
+
+.postit-answer .brainstorm-answer {
+  width: 100%;
+  height: 100%;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 8px 10px;
+
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.78);
+
+  color: var(--text);
+  font-size: clamp(0.72rem, 1.3vw, 0.95rem);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.postit-1 {
+  top: 25%;
+  left: 10%;
+}
+
+.postit-2 {
+  top: 25%;
+  left: 31%;
+}
+
+.postit-3 {
+  top: 25%;
+  left: 52%;
+}
+
+.postit-4 {
+  top: 25%;
+  left: 74%;
+}
+
+.postit-5 {
+  top: 57%;
+  left: 10%;
+}
+
+.postit-6 {
+  top: 57%;
+  left: 31%;
+}
+
+.postit-7 {
+  top: 57%;
+  left: 52%;
+}
+
+.postit-8 {
+  top: 57%;
+  left: 74%;
+}
+
+@media (max-width: 800px) {
+  .postit-answer {
+    width: 20%;
+    height: 20%;
+  }
+}
+
+.diagram-element {
+  min-height: 260px;
+  background: var(--soft-green);
+  border-radius: 18px;
+  border: 1px dashed var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.diagram-iframe {
+  height: 70rem;
+}
+
+@media (max-width: 800px) {
+  .diagram-iframe {
+    height: 72rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .diagram-iframe {
+    height: 85rem;
+  }
+}
+
+/*
+  The border comes from the shared ".diagram-activity, .thinglink-box"
+  rule in build_style.css. This rule used to declare
+  "border: 1px dashed var(--line)" as well, but the shared rule came
+  later in the same file and always won, so it never had any effect.
+*/
+.thinglink-box {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.thinglink-responsive-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 150%; /* 1080:1620 aspect ratio = 150% */
+  overflow: hidden;
+}
+
+.thinglink-responsive-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#watchNextButton,
+#buildNextButton,
+#brainstormNextButton,
+#diagramNextButton {
+  display: inline-block;
+}
+
+.detective-embed-box {
+  background: var(--soft-blue);
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  padding: 12px;
+  height: 720px;
+}
+
+.detective-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+  background: white;
+}
+
+.final-brainstorm-box {
+  background: var(--soft-green);
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  padding: 24px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.final-brainstorm-centre {
+  grid-column: 1 / -1;
+  background: #fffdf5;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 18px 24px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.final-branch {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.final-branch h3 {
+  margin: 0 0 12px;
+  text-align: left;
+  color: var(--text);
+}
+
+.final-branch input {
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: #fffdf5;
+  color: var(--text);
+}
+
+.final-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.final-input-row input {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: #fffdf5;
+  color: var(--text);
+}
+
+.final-input-row button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: var(--button);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.final-answer-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 12px 0 0;
+}
+
+.final-answer-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  background: #fffdf5;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 10px 8px 14px;
+  margin-bottom: 8px;
+}
+
+.drop-zone {
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.option-button {
+  display: inline-block;
+  margin-right: 20px;
+  background: var(--green);
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  font-style: normal;
+  font-size: 16px;
+  border-radius: 999px;
+}
+
+.plant-area {
+  position: relative;
+  width: 280px;
+  height: 400px;
+}
+
+.plant-image {
+  max-width: 99%;
+  max-height: 99%;
+  border: 20px solid white;
+  border-radius: 20px;
+}
+
+.drag-ghost {
+  position: fixed;
+  /* height: 50%; */
+  pointer-events: none; /* don't block elementFromPoint() */
+  opacity: 0.7;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: none;
+}
+
+.drag-ghost-part {
+  width: 50%;
+  height: 50%;
+}
+
+.slot {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--mint);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.slot .slot-rectangle {
+  position: absolute;
+  border: 2px solid white; /* Defines the rectangle */
+  background-color: white;
+  opacity: 1;
+  z-index: 1; /* Higher z-index ensures it appears on top */
+  border-radius: 8px;
+}
+
+.filled .slot-rectangle {
+  opacity: 0;
+}
+
+.slot.filled {
+  border-color: transparent;
+}
+
+.slot.filled .slot-content {
+  opacity: 1;
+}
+
+.slot .slot-content {
+  opacity: 0.2;
+  z-index: 2;
+}
+
+.slot-flower {
+  top: 20px;
+  left: 80px;
+  width: 110px;
+  height: 85px;
+}
+
+.slot-left-leaf {
+  top: 115px;
+  left: 50px;
+  width: 75px;
+  height: 55px;
+}
+
+.slot-stem {
+  top: 105px;
+  right: 135px;
+  width: 20px;
+  height: 150px;
+}
+
+.slot-roots {
+  bottom: 60px;
+  left: 85px;
+  width: 100px;
+  height: 80px;
+}
+
+.emoji-flower {
+  font-size: 60px;
+}
+
+.emoji-leaf {
+  font-size: 44px;
+}
+
+.slot-flower .slot-rectangle {
+  width: 100%;
+  height: 100%;
+}
+
+.slot-left-leaf .slot-rectangle {
+  width: 100%;
+  height: 100%;
+}
+
+.slot-stem .slot-rectangle {
+  width: 100%;
+  height: 100%;
+}
+
+.slot-roots .slot-rectangle {
+  width: 100%;
+  height: 100%;
+}
+
+.emoji-leaf-flip {
+  font-size: 44px;
+  transform: scaleX(-1);
+}
+
+.emoji-roots {
+  font-size: 44px;
+}
+
+.label-slot {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--mint);
+  border-radius: 8px;
+  transition: all 0.3s;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.label-slot.filled {
+  border-color: var(--green);
+  background: var(--soft-green);
+}
+
+.label-slot {
+  width: 70px;
+  height: 30px;
+}
+
+.label-flower-slot {
+  top: 30px;
+  right: 40px;
+}
+
+.label-leaf-slot {
+  top: 120px;
+  left: 5px;
+}
+
+.label-stem-slot {
+  top: 175px;
+  right: 60px;
+}
+
+.label-roots-slot {
+  bottom: 50px;
+  right: 110px;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.video-box {
+  background: #101110;
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.think-box {
+  background: var(--soft-yellow);
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.stw-column {
+  padding: 17px;
+  border-bottom: 2px dashed rgba(48, 51, 47, 0.32);
+}
+
+.stw-column h3 {
+  color: var(--purple);
+
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stw-input-row input,
+.final-input-row input,
+.postit-answer input {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  background: white;
+
+  box-shadow: inset 0 -2px 0 rgba(48, 51, 47, 0.09);
+
+  font-family: inherit;
+}
+
+.stw-input-row input:focus,
+.final-input-row input:focus {
+  outline: 3px solid rgba(78, 50, 232, 0.18);
+  border-color: var(--purple);
+}
+
+.stw-input-row button,
+.final-input-row button {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  background: var(--green);
+  color: white;
+
+  box-shadow: 0 3px 0 var(--line);
+
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.stw-input-row button:hover,
+.final-input-row button:hover {
+  background: var(--purple);
+  transform: translateY(-1px);
+}
+
+.stw-list li,
+.final-answer-list li {
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  box-shadow: 0 2px 0 rgba(48, 51, 47, 0.2);
+}
+
+.plant-canvas {
+  background: radial-gradient(circle, rgba(78, 50, 232, 0.1) 1.5px, transparent 1.5px), var(--card);
+
+  background-size: 22px 22px;
+
+  border: 3px solid var(--line);
+  border-radius: 22px;
+}
+
+.plant-game-container {
+  width: 100%;
+  margin: 0;
+}
+
+.tab-button {
+  padding: 10px;
+
+  background: var(--purple);
+  border: 3px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.tab-button .option-button,
+.tab-button button {
+  border: 2px solid var(--line) !important;
+  border-radius: 12px !important;
+
+  background: var(--soft-purple);
+  color: var(--text);
+
+  font-family: inherit;
+  font-weight: 700;
+}
+
+/*
+  Tray holding the draggable plant parts and labels.
+  Was ".canva-section" with an inline background from the Canva export;
+  the inline value never applied because this rule used !important.
+*/
+.parts-tray {
+  border: 2px solid var(--line);
+  border-radius: 18px;
+
+  background: var(--card);
+}
+
+/* Success message shown when a drag-and-drop activity is finished. */
+.success-text {
+  color: rgb(45, 80, 22);
+
+  font-size: 22px;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.postit-brainstorm {
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.postit-answer input {
+  border: 2px solid rgba(48, 51, 47, 0.75);
+
+  background: rgba(255, 253, 244, 0.86);
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+}
+
+.postit-answer .brainstorm-answer {
+  border: 2px solid var(--line);
+
+  background: rgba(255, 253, 244, 0.92);
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.22);
+}
+
+.detective-embed-box {
+  background: var(--soft-blue);
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.final-brainstorm-box {
+  background: var(--yellow);
+  border: 3px solid var(--line);
+  border-radius: 22px;
+
+  box-shadow: 0 6px 0 var(--line);
+}
+
+.final-brainstorm-centre {
+  background: var(--purple);
+  color: white;
+
+  border: 3px solid var(--line);
+  border-radius: 16px;
+
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.final-branch {
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 18px;
+
+  box-shadow: 0 4px 0 var(--line);
+}
+
+.final-branch h3 {
+  color: var(--purple);
+  text-transform: uppercase;
+}
+
+.animate-in {
+  animation: bounce-in 0.4s ease-out;
+}
+
+.success-icon {
+  animation: confetti 1s 5 ease-out;
+}
+
+
+/* ----- Moved here from build_style.css: these selectors are pretask-only ----- */
+
+@media (max-width: 960px) {
+  .detective-embed-box {
+    min-height: 1200px;
+  }
+
+  .video-row,
+  .plant-game,
+  .learning-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -14,6 +14,26 @@
          rel="stylesheet"
          type="text/css">
 
+      <!--
+        Late print and mobile overrides. These used to sit at the end of
+        build_style.css, so they must load after it but before the
+        stylesheets that were already overriding them.
+      -->
+      <link
+         href="../styles/overrides.css"
+         rel="stylesheet"
+         type="text/css">
+
+      <link
+         href="../styles/reasoned_prediction_builder.css"
+         rel="stylesheet"
+         type="text/css">
+
+      <link
+         href="../styles/lesson1_styles/lesson1_activities.css"
+         rel="stylesheet"
+         type="text/css">
+
       <link
         href="../styles/lesson1_styles/lesson1.css"
         rel="stylesheet"
@@ -492,7 +512,7 @@
                <main class="flashcard-content">
                 <div class="layout">
                   <div class="pile-section">
-                    <h2 data-template-id="left-label" class="canva-text mb-3"></h2>
+                    <h2 data-template-id="left-label" class="mb-3"></h2>
                     <div id="left-pile" class="pile-container"></div>
                     <p id="left-count">0</p>
                   </div>
@@ -512,7 +532,7 @@
                     <button id="reset-btn" data-template-id="btn-reset" class="general-button hidden" onclick="resetCards()">Reset</button>
                   </div>
                   <div class="pile-section">
-                    <h2 data-template-id="right-label" class="canva-text mb-3"></h2>
+                    <h2 data-template-id="right-label" class="mb-3"></h2>
                     <div id="right-pile" class="pile-container"></div>
                     <p id="right-count">0</p>
                   </div>
@@ -1284,6 +1304,7 @@
       <script src="../scripts/common_functions.js"></script>
       <script src="../scripts/lesson1_scripts/flash_cards.js"></script>
       <script src="../scripts/reasoned_prediction_table.js"></script>
+      <script src="../scripts/lesson1_scripts/testing_predictions.js"></script>
       <script>
         const dev = true;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
