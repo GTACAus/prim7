@@ -2082,42 +2082,6 @@
         pointer-events: auto;
     }
 
-    /*
-      Grow the box out of the card the student tapped.
-
-      The script sets three custom properties before opening the modal:
-        --origin-x / --origin-y  the card's centre, measured from the
-                                 box's own top-left corner
-        --start-scale            the card's width as a fraction of the
-                                 box's width
-
-      Scaling from that origin means the box starts sitting exactly over
-      the card and expands into place. The defaults below are a plain
-      grow-from-the-middle, used if the script has not run.
-    */
-    .yeast-mobile-modal.is-open .yeast-mobile-modal-box {
-        transform-origin: var(--origin-x, 50%) var(--origin-y, 50%);
-        animation: yeast-modal-grow 0.32s cubic-bezier(0.2, 0.8, 0.3, 1);
-    }
-
-    @keyframes yeast-modal-grow {
-        from {
-            transform: scale(var(--start-scale, 0.2));
-            opacity: 0;
-        }
-
-        to {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .yeast-mobile-modal.is-open .yeast-mobile-modal-box {
-            animation: none;
-        }
-    }
-
     .yeast-modal-content {
         width: 100%;
         max-width: 500px;

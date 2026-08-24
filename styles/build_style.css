@@ -660,6 +660,49 @@ input[type="checkbox"]:active {
   display: none !important;
 }
 
+/* ==================================================
+   MODAL OPENING ANIMATION
+
+   Any modal can grow out of whatever the student
+   clicked to open it. growModalFromTrigger() in
+   common_functions.js measures the trigger and sets
+   three custom properties on the modal's box:
+
+     --origin-x / --origin-y  the trigger's centre,
+                              measured from the box's
+                              own top-left corner
+     --start-scale            the trigger's width as a
+                              fraction of the box's
+
+   Scaling from that origin starts the box sitting over
+   the trigger and expands it into place. The fallbacks
+   below are a plain grow-from-the-middle, used when
+   there is no trigger to grow from.
+   ================================================== */
+
+.modal-grow-in {
+  transform-origin: var(--origin-x, 50%) var(--origin-y, 50%);
+  animation: modal-grow 0.32s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes modal-grow {
+  from {
+    transform: scale(var(--start-scale, 0.2));
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-grow-in {
+    animation: none;
+  }
+}
+
 .modal {
   display: none;
   position: fixed;

@@ -2382,32 +2382,6 @@
       const modal = document.getElementById('yeastModal');
       const modalText = document.getElementById('yeastModalText');
       const closeButton = modal.querySelector('.yeast-modal-close');
-      const modalBox = modal.querySelector('.yeast-mobile-modal-box');
-
-      /*
-        Tell the stylesheet where the tapped card is, so the modal can
-        grow out of it. The box carries no transform while it is closed,
-        so these measurements are its true resting size and position.
-      */
-      function pointModalAtCard(card) {
-          const cardBox = card.getBoundingClientRect();
-          const restingBox = modalBox.getBoundingClientRect();
-
-          modalBox.style.setProperty(
-              '--origin-x',
-              (cardBox.left + cardBox.width / 2 - restingBox.left) + 'px'
-          );
-
-          modalBox.style.setProperty(
-              '--origin-y',
-              (cardBox.top + cardBox.height / 2 - restingBox.top) + 'px'
-          );
-
-          modalBox.style.setProperty(
-              '--start-scale',
-              cardBox.width / restingBox.width
-          );
-      }
 
       cards.forEach(card => {
           card.addEventListener('click', () => {
@@ -2419,9 +2393,10 @@
 
                   modalText.textContent = text;
 
-                  pointModalAtCard(card);
-
                   modal.classList.add('is-open');
+
+                  // Shared helper: grows the modal out of the tapped card.
+                  growModalFromTrigger(modal, card);
               }
           });
       });
