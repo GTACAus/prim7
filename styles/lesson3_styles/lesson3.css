@@ -706,7 +706,7 @@
   align-items: center; 
   justify-content: center;
 
-  min-width: 104px;
+  width: clamp(80px, 7vw, 104px);
   min-height: 44px;
   padding: 10px 16px;
 
@@ -717,6 +717,7 @@
 
   font: inherit;
   font-weight: 700;
+  font-size: clamp(10px, 3vw, 15px);
 
   appearance: none;
 }
@@ -1194,11 +1195,27 @@
 
 
 /* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  #yeastActivity {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
 
-@media (max-width: 700px) {
+  #yeastLabelBank,
+  .yeast-table-card,
+  #yeastLabelFeedback,
+  .lesson3-reset-container,
+  #labelsCompleteAfterContainer {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  
   #yeast-labels .table-label-bank {
     padding: 14px;
     gap: 9px;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
   #yeast-labels .drag-label {
