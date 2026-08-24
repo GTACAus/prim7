@@ -33,11 +33,111 @@ function unlockSection(nextSectionId, currentSectionId) {
   }, 100);
 }
 
+/* ==================================================
+   MODAL OPENING ANIMATION
+   ================================================== */
+
+/*
+  Remember the last thing the student clicked so that a
+  modal can grow out of it.
+
+  This listens in the capture phase, so it always runs
+  before the onclick handler that opens the modal. That
+  means open functions need no extra argument and no
+  markup has to change.
+*/
+let lastModalTrigger = null;
+
+document.addEventListener("click", function(event) {
+  lastModalTrigger =
+    event.target.closest("button, a, [onclick], .yeast-card") ||
+    event.target;
+}, true);
+
+/*
+  Grow a modal out of the element that opened it.
+
+  Call this straight after the modal has been made
+  visible; the box has to be laid out before it can be
+  measured. Pass a trigger to override the remembered
+  one, or nothing to use the last click.
+
+  Falls back to a plain grow from the centre when there
+  is no usable trigger.
+*/
+function growModalFromTrigger(modal, trigger) {
+  if (!modal) {
+    return;
+  }
+
+  const box = modal.firstElementChild;
+
+  if (!box) {
+    return;
+  }
+
+  /*
+    Clear the animation first. The class carries the
+    transform, so the box has to be untransformed for
+    the measurements below to be its true resting size.
+  */
+  box.classList.remove("modal-grow-in");
+
+  const restingBox = box.getBoundingClientRect();
+
+  /* The modal is not actually on screen. */
+  if (!restingBox.width) {
+    return;
+  }
+
+  const source = trigger || lastModalTrigger;
+  const sourceBox =
+    source && source.isConnected
+      ? source.getBoundingClientRect()
+      : null;
+
+  if (sourceBox && sourceBox.width) {
+    box.style.setProperty(
+      "--origin-x",
+      (sourceBox.left + sourceBox.width / 2 - restingBox.left) + "px"
+    );
+
+    box.style.setProperty(
+      "--origin-y",
+      (sourceBox.top + sourceBox.height / 2 - restingBox.top) + "px"
+    );
+
+    /*
+      Keep the starting size within a sensible band. Some
+      triggers are tiny and some, like the hidden teacher
+      strip, are wider than the panel they open; without
+      this the animation is either a jarring jump from a
+      speck or no visible growth at all.
+    */
+    const startScale = Math.max(
+      0.08,
+      Math.min(sourceBox.width / restingBox.width, 0.9)
+    );
+
+    box.style.setProperty("--start-scale", startScale);
+  } else {
+    box.style.removeProperty("--origin-x");
+    box.style.removeProperty("--origin-y");
+    box.style.removeProperty("--start-scale");
+  }
+
+  /* Force a reflow so the animation replays on reopen. */
+  void box.offsetWidth;
+
+  box.classList.add("modal-grow-in");
+}
+
 function openGlossary() {
   const modal = document.getElementById('glossaryModal');
 
   if (modal) {
     modal.style.display = 'block';
+    growModalFromTrigger(modal);
   }
 }
 
@@ -641,6 +741,7 @@ function openTeacherMenu() {
 
   if (teacherModal) {
     teacherModal.classList.add("open");
+    growModalFromTrigger(teacherModal);
   }
 }
 
@@ -762,6 +863,8 @@ function openVideoModal(videoSource, videoTitle) {
 
   modal.style.display = "block";
   document.body.style.overflow = "hidden";
+
+  growModalFromTrigger(modal);
 
   player.load();
 }
