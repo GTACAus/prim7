@@ -574,14 +574,17 @@ input[type="checkbox"]:active {
   align-items: center;
 
   z-index: 2000;
+  pointer-events: none;
 }
 
 .home-button {
   border-top: 5px solid var(--yellow) !important;
+  pointer-events: auto;
 }
 
 .glossary-button {
   border-top: 5px solid var(--purple) !important;
+  pointer-events: auto;
 }
 
 .home-button,
