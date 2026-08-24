@@ -121,16 +121,9 @@
 
 <button
   type="button"
-  onclick="teacherJump('yeast-average')"
->
-  5. Yeast experiment: calculate the average
-</button>
-
-<button
-  type="button"
   onclick="teacherJump('build-your-own-table')"
 >
-  6. Ball bounce experiment: complete the table
+  5. Ball bounce experiment: complete the table
 </button>
         </div>
 
@@ -1390,138 +1383,15 @@
             </button>
           </div>
 
-        <button
-          id="yeastAverageNext"
-          class="next-button general-button"
-          onclick="unlockSection('yeast-average', 'yeast-labels')"
-          hidden
-        >
-          Next
-        </button>
-        <p class="completed-note">Completed — next activity unlocked.</p>
-      </section>
-
-      <!-- ==================================================
-         YEAST EXPERIMENT - CALCULATE AVERAGES
-         ================================================== -->
-<section class="section data-table-section locked" id="yeast-average">
-  <h2 class="section-title">Calculate the average results</h2>
-
-  <div class="diagram-activity diagram-box">
-    <p class="activity-instruction">
-      Use the <strong>Calculate</strong> button for each temperature
-      to complete the average column.
-    </p>
-  </div>
-
-        <div id="yeastAverageTable" class="data-table-card yeast-table-card pop-in">
-          <div class="experiment-table-scroll">
-            <table
-              class="experiment-table experiment-table-average yeast-table"
-              aria-label="Yeast experiment data table with averages"
-            >
-              <thead>
-                <tr>
-                  <th class="independent-heading" rowspan="2">Temperature (°C)</th>
-
-                  <th class="dependent-heading" colspan="4">Circumference of balloon (cm)</th>
-                </tr>
-
-<tr>
-  <th class="test-heading">Test 1</th>
-  <th class="test-heading">Test 2</th>
-  <th class="test-heading">Test 3</th>
-  <th class="average-heading">Average</th>
-</tr>
-
-              </thead>
-
-<tbody>
-  <tr data-average-row>
-    <th class="independent-value">2</th>
-
-    <td data-value="0">0</td>
-    <td data-value="0">0</td>
-    <td data-value="0">0</td>
-
-    <td class="average-cell">
       <button
-        class="average-button general-button"
-        type="button"
-        onclick="calculateFixedAverage(this)"
+        id="yeastAverageNext"
+        class="next-button general-button"
+        onclick="unlockSection('build-your-own-table', 'yeast-labels')"
+        hidden
       >
-        Calculate
+        Next
       </button>
-    </td>
-  </tr>
 
-  <tr data-average-row>
-    <th class="independent-value">22</th>
-
-    <td data-value="14.5">14.5</td>
-    <td data-value="16">16</td>
-    <td data-value="16.8">16.8</td>
-
-    <td class="average-cell">
-      <button
-        class="average-button general-button"
-        type="button"
-        onclick="calculateFixedAverage(this)"
-      >
-        Calculate
-      </button>
-    </td>
-  </tr>
-
-  <tr data-average-row>
-    <th class="independent-value">37</th>
-
-    <td data-value="19.8">19.8</td>
-    <td data-value="13.8">13.8</td>
-    <td data-value="19.8">19.8</td>
-
-    <td class="average-cell">
-      <button
-        class="average-button general-button"
-        type="button"
-        onclick="calculateFixedAverage(this)"
-      >
-        Calculate
-      </button>
-    </td>
-  </tr>
-
-  <tr data-average-row>
-    <th class="independent-value">80</th>
-
-    <td data-value="9">9</td>
-    <td data-value="0">0</td>
-    <td data-value="17">17</td>
-
-    <td class="average-cell">
-      <button
-        class="average-button general-button"
-        type="button"
-        onclick="calculateFixedAverage(this)"
-      >
-        Calculate
-      </button>
-    </td>
-  </tr>
-</tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="reset-button-container lesson3-reset-container">
-          <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-average')">
-            Reset
-          </button>
-        </div>
-
-        <button class="next-button general-button" onclick="unlockSection('build-your-own-table', 'yeast-average')" hidden>
-          Next
-        </button>
         <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
@@ -2421,7 +2291,6 @@ const lesson3SectionIds = [
   "yeast-variables",
   "data-table-template",
   "yeast-labels",
-  "yeast-average",
   "build-your-own-table",
 ];
 
@@ -3808,83 +3677,6 @@ function ballBounceRepeatStopAndCheck(button) {
   }
 }
 
-function resetYeastAverage() {
-  const section =
-    document.getElementById("yeast-average");
-
-  if (!section) {
-    return;
-  }
-
-  const stopAndCheck =
-    section.querySelector(".stop-and-check");
-
-  const table =
-    document.getElementById("yeastAverageTable");
-
-  const predictionCheck =
-    document.getElementById("yeastPredictionCheck");
-
-  const nextButton =
-    section.querySelector(".next-button");
-
-
-  /* Reset all calculated averages */
-
-  restoreAverageButtons(
-    "#yeast-average",
-    calculateFixedAverage
-  );
-
-
-  /* Reset interpretation activity */
-
-  if (predictionCheck) {
-    predictionCheck.hidden = true;
-
-    predictionCheck
-      .querySelectorAll(".prediction-button")
-      .forEach(function (button) {
-        button.classList.remove(
-          "selected-answer",
-          "buzz"
-        );
-      });
-
-    const finalQuestion =
-      predictionCheck.querySelector(
-        ".yeast-prediction-final"
-      );
-
-    if (finalQuestion) {
-      finalQuestion.hidden = true;
-    }
-  }
-
-
-  yeastResultAnswers = {
-    "low-to-37": false,
-    "37-to-80": false
-  };
-
-  // /* Reset Stop & Think */
-  if (stopAndCheck) {
-    resetStopAndCheck(
-      stopAndCheck,
-      function () {
-        if (nextButton) {
-          nextButton.hidden = false;
-        }
-      }
-    );
-
-    stopAndCheck.hidden = true;
-  }
-
-  if (nextButton) {
-    nextButton.hidden = true;
-  }
-}
       function resetBuildYourOwnTable() {
         document.getElementById("ballBouncePredictionSupported").classList.remove("selected-answer");
         document.getElementById("ballBouncePredictionUnsupported").classList.remove("selected-answer");
@@ -3944,11 +3736,6 @@ function resetYeastAverage() {
 
         if (sectionId === "yeast-labels") {
           resetYeastLabels();
-          return;
-        }
-
-        if (sectionId === "yeast-average") {
-          resetYeastAverage();
           return;
         }
 
