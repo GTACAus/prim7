@@ -1,0 +1,281 @@
+/* ==================================================
+   LATE OVERRIDES
+
+   These two layers used to sit at the end of
+   build_style.css and relied on being the last rules the
+   browser saw. Link this file AFTER every other
+   stylesheet on the page so they keep winning.
+   ================================================== */
+
+/* ---------- Printable student lesson ---------- */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    width: auto !important;
+    height: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: visible !important;
+
+    background: white !important;
+    color: black !important;
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 100% !important;
+    max-width: none !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide website controls */
+
+  .glossary-button,
+  .worksheet-button,
+  .save-work-button,
+  .home-button,
+  .next-button,
+  .reset-btn,
+  .delete-answer,
+  .teacher-modal,
+  .modal,
+  .teacher-actions,
+  .tab-button,
+  .option-button-container,
+  .completed-note,
+  .return-to-top-button {
+    display: none !important;
+  }
+
+  .reset-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  /* Show all lesson sections */
+
+  .locked {
+    display: block !important;
+  }
+
+  /* Begin each major activity on a new page */
+
+  #watch,
+  #build,
+  #brainstorm,
+  #diagram,
+  #detective,
+  #final-brainstorm {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  /* Allow large sections to continue onto another page */
+
+  .section {
+    display: block !important;
+
+    margin: 0 0 8mm !important;
+    padding: 7mm !important;
+
+    background: white !important;
+    box-shadow: none !important;
+
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  /* Keep smaller cards together */
+
+  .intro-card,
+  .botanist-mission,
+  .diagram-activity,
+  .stw-column,
+  .final-branch,
+  .image-box {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Compact the introduction */
+
+  .lesson-intro {
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .lesson-heading {
+    margin-bottom: 5mm !important;
+  }
+
+  .lesson-heading h1 {
+    font-size: 24pt !important;
+  }
+
+  .lesson-summary {
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+  }
+
+  .botanist-mission {
+    margin-bottom: 5mm !important;
+    padding: 5mm !important;
+  }
+
+  .mission-icon {
+    width: 28mm !important;
+    height: 24mm !important;
+  }
+
+  .intro-grid {
+    gap: 5mm !important;
+  }
+
+  .intro-card {
+    padding: 5mm !important;
+  }
+
+  /* Hide interactive iframe content */
+
+  .video-box,
+  .plant-functions,
+  .thinglink-box,
+  .detective-embed-box {
+    display: none !important;
+  }
+
+  /* Show printable replacement messages */
+
+  .print-note {
+    margin: 5mm 0;
+    padding: 5mm;
+
+    background: var(--soft-yellow) !important;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+
+    color: black;
+    font-size: 10pt;
+    font-weight: 600;
+
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Do not print empty input controls */
+
+  .stw-input-row,
+  .final-input-row,
+  .postit-answer input {
+    display: none !important;
+  }
+
+  /* Keep submitted student answers visible */
+
+  .brainstorm-answer.visible {
+    display: flex !important;
+  }
+
+  .stw-list,
+  .final-answer-list {
+    display: block !important;
+  }
+
+  .stw-list li,
+  .final-answer-list li,
+  .brainstorm-answer {
+    overflow-wrap: anywhere;
+  }
+
+  /* Remove screen shadows */
+
+  .lesson-intro,
+  .intro-card,
+  .botanist-mission,
+  .diagram-box,
+  .think-box,
+  .image-box,
+  .postit-brainstorm,
+  .final-branch,
+  .final-brainstorm-box {
+    box-shadow: none !important;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 800px) {
+  .section {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .lesson-intro {
+    padding-top: 92px;
+  }
+
+  .botanist-mission {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-icon {
+    width: 120px;
+    height: 120px;
+  }
+
+  .page-header {
+    max-width: none;
+    padding-left: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .home-button,
+  .glossary-button,
+  .worksheet-button,
+  .save-work-button {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .glossary-button {
+    grid-column: -1;
+  }
+
+  .worksheet-button,
+  .home-button,
+  .glossary-button,
+  .save-work-button {
+    padding: 10px 14px;
+    font-size: 0.7rem;
+  }
+
+  .worksheet-button {
+    position: relative;
+  }
+}

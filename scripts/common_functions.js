@@ -1,3 +1,23 @@
+/* ==================================================
+   COMMON FUNCTIONS
+
+   Shared by every lesson page. Anything used by only
+   one page belongs in that page's own script:
+     scripts/pretask_scripts/
+     scripts/lesson1_scripts/
+     scripts/lesson2_scripts/
+
+   Contents:
+     - Section unlocking and glossary
+     - Classroom language filter
+     - Number input controls
+     - Stop and check
+     - Hidden teacher navigation
+     - Video modal
+     - Save lesson as PDF
+     - Student answer helpers
+   ================================================== */
+
 function unlockSection(nextSectionId, currentSectionId) {
   const nextSection = document.getElementById(nextSectionId);
   const currentSection = document.getElementById(currentSectionId);
@@ -527,143 +547,6 @@ function resetStopAndCheck(stopAndCheck, additionalFunction = function() {}) {
 }
 
 /* ==================================================
-   REASONED PREDICTION EVIDENCE CHECK
-   ================================================== */
-
-/*
-  Check whether a student's supported/not-supported
-  selection matches the experimental results.
-
-  The feedback wording and correct answer are stored
-  in data attributes on each prediction-feedback element.
-*/
-function checkReasonedPrediction(
-  selectedButton,
-  selectedAnswer
-) {
-  const predictionCard =
-    selectedButton.closest(".prediction-test-card");
-
-  if (!predictionCard) {
-    return;
-  }
-
-  const feedback =
-    predictionCard.querySelector(
-      ".prediction-feedback"
-    );
-
-  const choiceButtons =
-    predictionCard.querySelectorAll(
-      ".prediction-choice-button"
-    );
-
-  if (!feedback) {
-    return;
-  }
-
-  const correctAnswer =
-    feedback.dataset.correctAnswer === "true";
-
-  const answerIsCorrect =
-    selectedAnswer === correctAnswer;
-
-  choiceButtons.forEach(function(button) {
-    button.classList.remove(
-      "selected-answer",
-      "correct-answer",
-      "incorrect-answer"
-    );
-
-    button.setAttribute(
-      "aria-pressed",
-      "false"
-    );
-  });
-
-  selectedButton.classList.add(
-    "selected-answer"
-  );
-
-  selectedButton.setAttribute(
-    "aria-pressed",
-    "true"
-  );
-
-  feedback.hidden = false;
-
-  if (answerIsCorrect) {
-    selectedButton.classList.add(
-      "correct-answer"
-    );
-
-    feedback.className =
-      "prediction-feedback feedback-correct";
-
-    feedback.textContent =
-      feedback.dataset.correctFeedback;
-
-    predictionCard.classList.add(
-      "prediction-completed"
-    );
-  } else {
-    selectedButton.classList.add(
-      "incorrect-answer"
-    );
-
-    feedback.className =
-      "prediction-feedback feedback-incorrect";
-
-    feedback.textContent =
-      feedback.dataset.incorrectFeedback;
-  }
-
-  updatePredictionTestCompletion();
-}
-
-
-/*
-  Show the completion message after all four examples
-  have been answered correctly.
-*/
-function updatePredictionTestCompletion() {
-  const predictionCards =
-    document.querySelectorAll(
-      "#testing-predictions .prediction-test-card"
-    );
-
-  const completedCards =
-    document.querySelectorAll(
-      "#testing-predictions " +
-      ".prediction-test-card.prediction-completed"
-    );
-
-  const completionMessage =
-    document.getElementById(
-      "predictionTestCompletion"
-    );
-
-  if (!completionMessage) {
-    return;
-  }
-
-  const allCompleted =
-    predictionCards.length > 0 &&
-    completedCards.length ===
-      predictionCards.length;
-
-  completionMessage.hidden =
-    !allCompleted;
-
-  if (allCompleted) {
-    completionMessage.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
-  }
-}
-
-/* ==================================================
    SHARED TEACHER NAVIGATION
    ================================================== */
 
@@ -1101,108 +984,3 @@ function setActivityFeedback(
   );
 }
 
-initialiseFloatingCards();
-
-function initialiseFloatingCards() {
-  const floatingCards = [];
-  document.querySelectorAll('.floating-card').forEach(section => {
-      floatingCards.push({
-          element: section,
-          // Current rendered values
-          currentRotateX: 0,
-          currentRotateY: 0,
-          currentScale: 1,
-          // Target values
-          targetRotateX: 0,
-          targetRotateY: 0,
-          targetScale: 1,
-          currentShadowOpacity: 0,
-          targetShadowOpacity: 0,
-          currentShadowX: 0,
-          currentShadowY: 0,
-          targetShadowX: 0,
-          targetShadowY: 0,
-          // Normalized mouse position (-1 to 1)
-          dx: 0,
-          dy: 0
-      });
-  });
-  // Tuning values
-  const MAX_ROTATION = 2;       // degrees
-  const BASE_SCALE = 1.02;       // scale when hovering center
-  const EXTRA_SCALE = 0.01;      // additional scale toward corners
-  const SMOOTHING = 0.25;        // 0.08-0.15 feels good
-  const MAX_SHADOW_OFFSET = 2;  // px
-  floatingCards.forEach(card => {
-      card.element.addEventListener('mousemove', e => {
-          const rect = card.element.getBoundingClientRect();
-          // Mouse position normalized to -1..1
-          card.dx = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-          card.dy = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-          // Clamp values
-          card.dx = Math.max(-1, Math.min(1, card.dx));
-          card.dy = Math.max(-1, Math.min(1, card.dy));
-          // Rotation
-          card.targetRotateY = card.dx * MAX_ROTATION;
-          card.targetRotateX = -card.dy * MAX_ROTATION;
-          // Scale increases toward corners
-          const distance = Math.min(
-              Math.sqrt(card.dx * card.dx + card.dy * card.dy),
-              1
-          );
-          card.targetScale = BASE_SCALE + distance * EXTRA_SCALE;
-          card.targetShadowOpacity = 1;
-          card.targetShadowX = -card.dx * MAX_SHADOW_OFFSET;
-          card.targetShadowY = card.dy * MAX_SHADOW_OFFSET;
-      });
-      card.element.addEventListener('mouseleave', () => {
-          card.targetRotateX = 0;
-          card.targetRotateY = 0;
-          card.targetScale = 1;
-          // card.dx = 0;
-          // card.dy = 0;
-          card.targetShadowOpacity = 0;
-          card.targetShadowX = 0;
-          card.targetShadowY = 0;
-      });
-  });
-  // Single animation loop
-  function animate() {
-      for (const card of floatingCards) {
-          // Smooth interpolation
-          card.currentRotateX += (card.targetRotateX - card.currentRotateX) * SMOOTHING;
-          card.currentRotateY += (card.targetRotateY - card.currentRotateY) * SMOOTHING;
-          card.currentScale += (card.targetScale - card.currentScale) * SMOOTHING;
-          // Shadow
-          const distance = Math.min(
-              Math.sqrt(card.dx * card.dx + card.dy * card.dy),
-              1
-          );
-          const shadowX = -card.dx * MAX_SHADOW_OFFSET;
-          const shadowY = card.dy * MAX_SHADOW_OFFSET;
-          card.currentShadowOpacity += (card.targetShadowOpacity - card.currentShadowOpacity) * SMOOTHING;
-          const blur = 10;
-          card.currentShadowX +=
-              (card.targetShadowX - card.currentShadowX) * SMOOTHING;
-          card.currentShadowY +=
-              (card.targetShadowY - card.currentShadowY) * SMOOTHING;
-          // Apply transform
-          card.element.style.transform = `
-              perspective(800px)
-              scale(${card.currentScale})
-              rotateX(${card.currentRotateX}deg)
-              rotateY(${card.currentRotateY}deg)
-          `;
-          // Apply shadow
-          card.element.style.boxShadow = `
-            ${card.currentShadowX}px
-            ${card.currentShadowY}px
-            ${blur}px
-            rgba(0, 0, 0, ${card.currentShadowOpacity})
-        `;
-      }
-      requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);        
-
-}
