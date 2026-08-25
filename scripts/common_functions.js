@@ -893,17 +893,33 @@ function closeVideoModal() {
 function openPdfModal(pdfSource, pdfTitle) {
   const modal = document.getElementById("pdfModal");
   const frame = document.getElementById("pdfModalFrame");
+  const image = document.getElementById("pdfModalImage");
   const title = document.getElementById("pdfModalTitle");
   const downloadLink = document.getElementById("pdfModalDownload");
 
-  if (!modal || !frame) {
+  if (!modal || !frame || !image) {
     return;
   }
 
-  frame.src = pdfSource;
+  // Images preview in an <img>; PDFs preview in the browser's own viewer.
+  const isImage = /\.(png|jpe?g|gif|webp|svg)$/i.test(pdfSource);
+
+  if (isImage) {
+    image.src = pdfSource;
+    image.style.display = "block";
+
+    frame.removeAttribute("src");
+    frame.style.display = "none";
+  } else {
+    frame.src = pdfSource;
+    frame.style.display = "block";
+
+    image.removeAttribute("src");
+    image.style.display = "none";
+  }
 
   if (title) {
-    title.textContent = pdfTitle || "PDF guide";
+    title.textContent = pdfTitle || "Reference sheet";
   }
 
   if (downloadLink) {
@@ -921,12 +937,14 @@ function openPdfModal(pdfSource, pdfTitle) {
 function closePdfModal() {
   const modal = document.getElementById("pdfModal");
   const frame = document.getElementById("pdfModalFrame");
+  const image = document.getElementById("pdfModalImage");
 
-  if (!modal || !frame) {
+  if (!modal || !frame || !image) {
     return;
   }
 
   frame.removeAttribute("src");
+  image.removeAttribute("src");
 
   modal.style.display = "none";
   document.body.style.overflow = "";
