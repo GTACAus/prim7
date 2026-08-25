@@ -1344,6 +1344,16 @@
   background-color: var(--lavender);
 }
 
+#yeastAverageNext {
+  background: var(--card);
+  color: var(--charcoal);
+  border-top: 5px solid var(--green);
+}
+
+#yeastAverageNext:hover {
+  background: var(--soft-green);
+}
+
 /* ==================================================
    RESPONSIVE TABLE SIZING
    Prefer shrinking before horizontal scrolling.
@@ -2979,4 +2989,33 @@
 .video-dropdown-header .close-button {
   flex: 0 0 auto;
   margin-left: auto;
+}
+
+/* Lesson 3 Part B: link back to Part B, sits beside Home in the header. */
+#back-to-part1-button {
+  /* justify-self: start; */
+  grid-row: 2;
+
+  background: var(--card);
+  color: var(--text);
+
+  border-top: 5px solid var(--green);
+
+  pointer-events: auto;
+}
+
+#back-to-part1-button:hover {
+  background: var(--soft-green);
+}
+
+@media (max-width: 800px) {
+  #back-to-part1-button {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  #back-to-part1-button {
+    padding: 10px 14px;
+    font-size: 0.7rem;
+  }
 }

@@ -1552,18 +1552,3 @@ input[type="checkbox"]:active {
   border: 3px solid var(--line);
   border-radius: 16px;
 }
-
-/* Lesson 3 Part 2: link back to Part 1, sits beside Home in the header. */
-.back-to-part1-button {
-  justify-self: start;
-
-  /* Breathing room between this and the Home button in the next column. */
-  margin-left: 16px;
-
-  background: var(--card) !important;
-  color: var(--text) !important;
-
-  border-top: 5px solid var(--green) !important;
-
-  pointer-events: auto;
-}

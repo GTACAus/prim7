@@ -249,10 +249,10 @@
     max-width: none;
     padding-left: 0;
 
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; */
   }
 
   .home-button,
