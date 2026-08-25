@@ -886,11 +886,63 @@ function closeVideoModal() {
   document.body.style.overflow = "";
 }
 
+/* ==================================================
+   SHARED PDF MODAL
+   ================================================== */
+
+function openPdfModal(pdfSource, pdfTitle) {
+  const modal = document.getElementById("pdfModal");
+  const frame = document.getElementById("pdfModalFrame");
+  const title = document.getElementById("pdfModalTitle");
+  const downloadLink = document.getElementById("pdfModalDownload");
+
+  if (!modal || !frame) {
+    return;
+  }
+
+  frame.src = pdfSource;
+
+  if (title) {
+    title.textContent = pdfTitle || "PDF guide";
+  }
+
+  if (downloadLink) {
+    downloadLink.href = pdfSource;
+    downloadLink.setAttribute("download", "");
+  }
+
+  modal.style.display = "block";
+  document.body.style.overflow = "hidden";
+
+  growModalFromTrigger(modal);
+}
+
+
+function closePdfModal() {
+  const modal = document.getElementById("pdfModal");
+  const frame = document.getElementById("pdfModalFrame");
+
+  if (!modal || !frame) {
+    return;
+  }
+
+  frame.removeAttribute("src");
+
+  modal.style.display = "none";
+  document.body.style.overflow = "";
+}
+
+
 window.addEventListener("click", function(event) {
   const videoModal = document.getElementById("videoModal");
+  const pdfModal = document.getElementById("pdfModal");
 
   if (videoModal && event.target === videoModal) {
     closeVideoModal();
+  }
+
+  if (pdfModal && event.target === pdfModal) {
+    closePdfModal();
   }
 });
 
@@ -898,6 +950,7 @@ window.addEventListener("click", function(event) {
 document.addEventListener("keydown", function(event) {
   if (event.key === "Escape") {
     closeVideoModal();
+    closePdfModal();
   }
 });
 
