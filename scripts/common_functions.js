@@ -841,11 +841,6 @@ function teacherResetView() {
     }
   );
 
-  /* Saved student work belongs to the old view, so it goes too. */
-  if (typeof clearLessonProgress === "function") {
-    clearLessonProgress();
-  }
-
   closeTeacherMenu();
 
   window.scrollTo({

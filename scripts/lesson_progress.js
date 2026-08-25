@@ -30,22 +30,48 @@
   const TAG = "data-lesson-progress-id";
   const SAVE_DELAY = 300;
 
+  /*
+    Pop-up players and modals are not student work. They
+    always start closed, so their state is neither saved
+    nor put back.
+  */
+  const TRANSIENT = [
+    ".video-dropdown-panel",
+    ".modal",
+    ".teacher-modal",
+    ".yeast-mobile-modal"
+  ].join(", ");
+
   let elements = [];
+  let transient = {};
   let baseline = {};
   let saveTimer = null;
   let ready = false;
   let replaying = false;
   let languageFilterReady = false;
   let pendingAnswers = [];
+  let reapplySavedState = null;
 
   document.addEventListener("language-filter-ready", function () {
     languageFilterReady = true;
+
+    if (pendingAnswers.length === 0) {
+      return;
+    }
+
+    replaying = true;
 
     pendingAnswers.forEach(function (submit) {
       submit();
     });
 
     pendingAnswers = [];
+
+    if (reapplySavedState) {
+      reapplySavedState();
+    }
+
+    replaying = false;
 
     queueSave();
   });
@@ -156,6 +182,21 @@
     const changes = {};
 
     elements.forEach(function (element, index) {
+      if (transient[index]) {
+        return;
+      }
+
+      /*
+        Some activities rebuild part of the page - a reset
+        swaps every average cell for a fresh Calculate
+        button, for example. The elements they replaced
+        are no longer on the page, so their last state is
+        not the student's work and must not be saved.
+      */
+      if (!element.isConnected) {
+        return;
+      }
+
       const entry = describe(element);
 
       if (differs(entry, baseline[index])) {
@@ -298,6 +339,16 @@
     const answers = [];
     const averages = [];
 
+    function applyAll() {
+      Object.keys(payload.changes).forEach(function (key) {
+        const element = elements[Number(key)];
+
+        if (element && !transient[Number(key)]) {
+          apply(element, payload.changes[key]);
+        }
+      });
+    }
+
     Object.keys(payload.changes).forEach(function (key) {
       const element = elements[Number(key)];
 
@@ -307,8 +358,6 @@
 
       const entry = payload.changes[key];
 
-      apply(element, entry);
-
       if (typeof entry.answer === "string") {
         answers.push([element, entry.answer]);
       }
@@ -317,6 +366,11 @@
         averages.push(element);
       }
     });
+
+    reapplySavedState = applyAll;
+
+    applyAll();
+
 
     /*
       Replaying is done last, once every value is back in
@@ -330,6 +384,15 @@
     });
 
     averages.forEach(replayAverage);
+
+    /*
+      Replaying answers one at a time makes the page run
+      its "is this activity finished?" checks part way
+      through, which hides things that should be showing
+      by the end. Putting the saved state back once more
+      settles the page on how it actually looked.
+    */
+    applyAll();
 
     replaying = false;
   }
@@ -357,8 +420,10 @@
       describes a fresh, untouched page.
     */
     baseline = {};
+    transient = {};
 
     elements.forEach(function (element, index) {
+      transient[index] = element.closest(TRANSIENT) !== null;
       baseline[index] = describe(element);
     });
 
