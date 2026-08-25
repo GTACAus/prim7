@@ -1509,8 +1509,11 @@ input[type="checkbox"]:active {
 .pdf-modal-frame {
   display: block;
 
-  width: 100%;
-  height: 70vh;
+  /* Match the A3-portrait page shape so the fitted page fills the frame. */
+  width: min(100%, 50vh);
+  aspect-ratio: 1190 / 1684;
+
+  margin: 0 auto;
 
   background: #ffffff;
 
@@ -1532,7 +1535,7 @@ input[type="checkbox"]:active {
   }
 
   .pdf-modal-frame {
-    height: 60vh;
+    width: 100%;
   }
 }
 

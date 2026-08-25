@@ -911,7 +911,8 @@ function openPdfModal(pdfSource, pdfTitle) {
     frame.removeAttribute("src");
     frame.style.display = "none";
   } else {
-    frame.src = pdfSource;
+    // Hide the built-in viewer chrome so students see only page 1 of the sheet.
+    frame.src = pdfSource + "#page=1&toolbar=0&navpanes=0&scrollbar=0&view=Fit";
     frame.style.display = "block";
 
     image.removeAttribute("src");
