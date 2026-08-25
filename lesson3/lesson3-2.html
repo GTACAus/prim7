@@ -985,6 +985,41 @@
           <p>Save my work</p>
         </button>
       </section>
+<!-- Lesson 3 inline video panel for data-entry videos -->
+<div
+  class="video-dropdown-panel"
+  id="lesson3VideoPanel"
+  hidden
+>
+  <div class="video-dropdown-header">
+    <h2 id="lesson3VideoTitle">Video guide</h2>
+
+    <button
+      type="button"
+      class="close-button"
+      onclick="closeLesson3Video()"
+      aria-label="Close video"
+    >
+      ×
+    </button>
+  </div>
+
+  <video
+    id="lesson3VideoPlayer"
+    class="video-modal-player"
+    controls
+    preload="metadata"
+  >
+    Your browser does not support video playback.
+  </video>
+</div>
+
+      <div class="return-to-top">
+        <a class="return-to-top-button general-button" href="#">
+          <p class="bounce-symbol">↑</p>
+          <p>Return to Top</p>
+        </a>
+      </div>
     </main>
 
     <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
