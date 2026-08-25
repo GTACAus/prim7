@@ -325,6 +325,13 @@ async function loadClassroomLanguageFilter() {
       "blocked entries."
     );
 
+    /*
+      Saved student answers cannot be checked until the
+      filter is ready, so anything waiting on it is told
+      here.
+    */
+    document.dispatchEvent(new Event("language-filter-ready"));
+
   } catch (error) {
     profanityReady = false;
 

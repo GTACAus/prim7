@@ -9,36 +9,53 @@
    sections, it compares the page against how it looks
    on a fresh load and stores only what has changed.
 
-   That means new activities are covered automatically,
-   with no extra saving code.
+   Two things need more than a straight comparison:
+
+   1. Saved answers and calculated averages are built
+      by the page as the student works, so those
+      elements are not there to compare against on a
+      fresh load. They are replayed instead - the
+      value is put back and the page's own code is
+      asked to rebuild the answer, so buttons inside
+      it keep working.
+
+   2. Elements are matched by a tag added on load
+      rather than by position, so anything the page
+      adds later cannot shift the saved work onto the
+      wrong elements.
    ================================================== */
 
 (function () {
   const STORAGE_PREFIX = "prim7-progress:";
-
-  /*
-    Plain data held in JavaScript rather than in the
-    page. Anything listed here is saved alongside the
-    page state, so answers stay in step after a reload.
-  */
-  const TRACKED_GLOBALS = ["yeastResultAnswers"];
-
+  const TAG = "data-lesson-progress-id";
   const SAVE_DELAY = 300;
 
   let elements = [];
-  let baseline = [];
+  let baseline = {};
   let saveTimer = null;
   let ready = false;
+  let replaying = false;
+  let languageFilterReady = false;
+  let pendingAnswers = [];
+
+  document.addEventListener("language-filter-ready", function () {
+    languageFilterReady = true;
+
+    pendingAnswers.forEach(function (submit) {
+      submit();
+    });
+
+    pendingAnswers = [];
+
+    queueSave();
+  });
 
   function storageKey() {
     return STORAGE_PREFIX + window.location.pathname;
   }
 
   function readClassName(element) {
-    /*
-      SVG elements have an object here rather than a
-      string, so they are left alone.
-    */
+    /* SVG elements hold an object here, so they are left alone. */
     return typeof element.className === "string" ? element.className : null;
   }
 
@@ -48,6 +65,12 @@
       element.tagName === "TEXTAREA" ||
       element.tagName === "SELECT"
     );
+  }
+
+  function answerTextOf(element) {
+    const answer = element.querySelector(".table-entry-answer-text");
+
+    return answer ? answer.textContent : null;
   }
 
   function describe(element) {
@@ -61,33 +84,50 @@
       entry.c = className;
     }
 
-    if (isFormField(element)) {
-      entry.v = element.value;
+    /* Input rows are hidden with an inline style, not the hidden attribute. */
+    if (element.style && element.style.display) {
+      entry.s = element.style.display;
+    }
+
+    if (isFormField(element) || element.tagName === "BUTTON") {
       entry.d = element.disabled ? 1 : 0;
     }
 
-    if (element.tagName === "BUTTON") {
-      entry.d = element.disabled ? 1 : 0;
+    if (isFormField(element)) {
+      entry.v = element.value;
+    }
+
+    if (!element.classList) {
+      return entry;
     }
 
     /*
-      Drop zones show the text of the label dropped on
-      them, so their text has to travel with them.
+      A drop zone shows the text of the label dropped on
+      it, so that text has to travel with it.
     */
-    if (element.classList && element.classList.contains("label-drop-zone")) {
+    if (element.classList.contains("label-drop-zone")) {
       entry.t = element.textContent;
       entry.a = element.getAttribute("draggable");
     }
 
-    if (element.classList && element.classList.contains("drag-label")) {
+    if (element.classList.contains("drag-label")) {
       entry.a = element.getAttribute("draggable");
     }
 
-    return entry;
-  }
+    /* Saved answers and averages are replayed rather than copied. */
+    if (element.classList.contains("table-entry-answer")) {
+      const text = answerTextOf(element);
 
-  function snapshot() {
-    return elements.map(describe);
+      if (text !== null) {
+        entry.answer = text;
+      }
+    }
+
+    if (element.classList.contains("average-cell")) {
+      entry.average = element.classList.contains("average-result") ? 1 : 0;
+    }
+
+    return entry;
   }
 
   function differs(current, base) {
@@ -98,50 +138,26 @@
     return (
       current.h !== base.h ||
       current.c !== base.c ||
+      current.s !== base.s ||
       current.v !== base.v ||
       current.d !== base.d ||
       current.t !== base.t ||
-      current.a !== base.a
+      current.a !== base.a ||
+      current.answer !== base.answer ||
+      current.average !== base.average
     );
   }
 
-  function collectGlobals() {
-    const saved = {};
-
-    TRACKED_GLOBALS.forEach(function (name) {
-      if (typeof window[name] !== "undefined") {
-        try {
-          saved[name] = JSON.parse(JSON.stringify(window[name]));
-        } catch (error) {
-          /* Anything that will not serialise is skipped. */
-        }
-      }
-    });
-
-    return saved;
-  }
-
-  function applyGlobals(saved) {
-    if (!saved) {
-      return;
-    }
-
-    Object.keys(saved).forEach(function (name) {
-      if (typeof window[name] !== "undefined") {
-        window[name] = saved[name];
-      }
-    });
-  }
-
   function save() {
-    if (!ready) {
+    if (!ready || replaying) {
       return;
     }
 
-    const current = snapshot();
     const changes = {};
 
-    current.forEach(function (entry, index) {
+    elements.forEach(function (element, index) {
+      const entry = describe(element);
+
       if (differs(entry, baseline[index])) {
         changes[index] = entry;
       }
@@ -150,12 +166,11 @@
     const payload = {
       /*
         A page whose markup has changed cannot safely be
-        restored by position, so the element count is
-        stored as a simple fingerprint.
+        restored, so the number of elements on a fresh
+        load is kept as a simple fingerprint.
       */
       count: elements.length,
-      changes: changes,
-      globals: collectGlobals()
+      changes: changes
     };
 
     try {
@@ -177,6 +192,10 @@
 
     element.hidden = entry.h === 1;
 
+    if (typeof entry.s === "string") {
+      element.style.display = entry.s;
+    }
+
     if (isFormField(element) && typeof entry.v === "string") {
       element.value = entry.v;
     }
@@ -191,6 +210,61 @@
 
     if (typeof entry.a === "string") {
       element.setAttribute("draggable", entry.a);
+    }
+  }
+
+  function needsLanguageFilter(input) {
+    /*
+      Typed answers are checked against the classroom
+      language filter, which loads in the background.
+      Numbers skip that check.
+    */
+    return input.matches('input[type="text"], textarea');
+  }
+
+  /*
+    Hand a saved answer back to the page so that it
+    rebuilds the answer box itself. Doing it this way
+    keeps the clear button working, which copying the
+    finished markup would not.
+  */
+  function replayAnswer(answerBox, text) {
+    const control = answerBox.closest(".table-entry-control");
+
+    if (!control) {
+      return;
+    }
+
+    const input = control.querySelector("input, textarea");
+
+    if (!input) {
+      return;
+    }
+
+    function submit() {
+      replaying = true;
+      input.value = text;
+      input.dispatchEvent(new Event("blur"));
+      replaying = false;
+    }
+
+    /*
+      A typed answer submitted before the filter is ready
+      is thrown away, so those wait for it.
+    */
+    if (needsLanguageFilter(input) && !languageFilterReady) {
+      pendingAnswers.push(submit);
+      return;
+    }
+
+    submit();
+  }
+
+  function replayAverage(cell) {
+    const button = cell.querySelector(".average-button");
+
+    if (button) {
+      button.click();
     }
   }
 
@@ -221,15 +295,43 @@
       return;
     }
 
-    Object.keys(payload.changes).forEach(function (index) {
-      const element = elements[Number(index)];
+    const answers = [];
+    const averages = [];
 
-      if (element) {
-        apply(element, payload.changes[index]);
+    Object.keys(payload.changes).forEach(function (key) {
+      const element = elements[Number(key)];
+
+      if (!element) {
+        return;
+      }
+
+      const entry = payload.changes[key];
+
+      apply(element, entry);
+
+      if (typeof entry.answer === "string") {
+        answers.push([element, entry.answer]);
+      }
+
+      if (entry.average === 1) {
+        averages.push(element);
       }
     });
 
-    applyGlobals(payload.globals);
+    /*
+      Replaying is done last, once every value is back in
+      place: an average can only be worked out after the
+      numbers it uses have been restored.
+    */
+    replaying = true;
+
+    answers.forEach(function (pair) {
+      replayAnswer(pair[0], pair[1]);
+    });
+
+    averages.forEach(replayAverage);
+
+    replaying = false;
   }
 
   function clearProgress() {
@@ -245,12 +347,20 @@
       document.querySelectorAll("body *")
     );
 
+    elements.forEach(function (element, index) {
+      element.setAttribute(TAG, String(index));
+    });
+
     /*
       The baseline is taken after the page has set itself
       up but before anything is restored, so it always
       describes a fresh, untouched page.
     */
-    baseline = snapshot();
+    baseline = {};
+
+    elements.forEach(function (element, index) {
+      baseline[index] = describe(element);
+    });
 
     restore();
 
@@ -261,6 +371,7 @@
     document.addEventListener("click", queueSave, true);
     document.addEventListener("drop", queueSave, true);
     document.addEventListener("touchend", queueSave, true);
+    document.addEventListener("focusout", queueSave, true);
 
     window.addEventListener("pagehide", save);
   }
