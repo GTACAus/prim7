@@ -1552,3 +1552,29 @@ input[type="checkbox"]:active {
   border: 3px solid var(--line);
   border-radius: 16px;
 }
+
+/* ==================================================
+   FULL-WIDTH LEARNING OBJECTIVE CARD
+   Used where the objective sits above the intro grid
+   rather than beside another card.
+   ================================================== */
+
+.objectives-card-wide {
+  margin-bottom: 22px;
+}
+
+.objectives-card-wide .objective-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.objectives-card-wide .objective-list li {
+  margin-bottom: 0;
+}
+
+@media (max-width: 800px) {
+  .objectives-card-wide .objective-list {
+    grid-template-columns: 1fr;
+  }
+}
