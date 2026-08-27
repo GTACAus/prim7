@@ -3041,3 +3041,51 @@
     font-size: 0.7rem;
   }
 }
+
+/* ---------- Ball-bounce interpretation ---------- */
+
+.ball-bounce-interpretation {
+  display: grid;
+  gap: 14px;
+
+  width: 100%;
+  margin-top: 10px;
+}
+
+.ball-bounce-interpretation-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+  padding: 14px 16px;
+
+  background: var(--soft-blue);
+
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+
+  line-height: 1.5;
+}
+
+.ball-bounce-prediction-result {
+  margin-top: 10px;
+  padding-top: 18px;
+
+  border-top: 2px dashed var(--charcoal);
+}
+
+.ball-bounce-prediction-result > strong {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.ball-bounce-interpretation-row .table-number-control {
+  width: 90px;
+  flex: 0 0 90px;
+}
+
+.ball-bounce-interpretation-row .table-number-input {
+  height: 44px;
+}
