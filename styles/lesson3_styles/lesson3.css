@@ -2919,7 +2919,8 @@
 /* Separate the stages without making more giant cards */
 
 #ballBouncePlanning .prediction-heading,
-#ballBouncePlanning .observation-heading {
+#ballBouncePlanning .observation-heading,
+#ballBouncePlanning .repeat-tests-card {
   padding-top: 28px;
   margin-top: 28px;
 
