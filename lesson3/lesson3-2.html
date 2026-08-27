@@ -119,7 +119,7 @@
           </button>
         </div>
 
-        <p class="teacher-note">Teacher mode changes navigation only. Student answers are not deleted.</p>
+        <p class="teacher-note">Jumping between activities changes navigation only. Reset student view clears every answer on this page.</p>
       </div>
     </div>
 
@@ -1020,7 +1020,7 @@
             <button
               type="button"
               class="general-button reset-btn"
-              onclick="resetLesson3Section('build-your-own-table')"
+              onclick="resetLessonPage()"
             >
               Reset
             </button>
@@ -2671,6 +2671,8 @@ if (
   dependentCorrect &&
   controlsCorrect
 ) {
+  feedback.hidden = false;
+
   feedback.className =
     "variable-feedback feedback-success";
 
@@ -2688,6 +2690,8 @@ if (
 
   return;
 }
+
+    feedback.hidden = false;
 
     feedback.className =
       "variable-feedback feedback-try-again";

@@ -819,6 +819,23 @@ function teacherShowAll() {
   This changes section visibility and completion markers,
   but does not remove student answers.
 */
+/*
+  Put a lesson page back to how a student finds it for
+  the first time.
+
+  Reloading is deliberate: activities are spread across
+  many small widgets, and clearing them one by one has
+  repeatedly missed some. A fresh load cannot miss any.
+*/
+function resetLessonPage() {
+  if (typeof clearLessonProgress === "function") {
+    clearLessonProgress();
+  }
+
+  window.location.reload();
+}
+
+
 function teacherResetView() {
   teacherNavigationSectionIds.forEach(
     function(sectionId) {
@@ -842,6 +859,9 @@ function teacherResetView() {
   );
 
   closeTeacherMenu();
+
+  /* Clear every answer on the page, not just the navigation. */
+  resetLessonPage();
 
   window.scrollTo({
     top: 0,

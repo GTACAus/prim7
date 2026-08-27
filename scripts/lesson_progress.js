@@ -47,6 +47,7 @@
   let baseline = {};
   let saveTimer = null;
   let ready = false;
+  let stopped = false;
   let replaying = false;
   let languageFilterReady = false;
   let pendingAnswers = [];
@@ -175,7 +176,7 @@
   }
 
   function save() {
-    if (!ready || replaying) {
+    if (!ready || stopped || replaying) {
       return;
     }
 
@@ -398,6 +399,15 @@
   }
 
   function clearProgress() {
+    /*
+      Clearing is always followed by a fresh start, so
+      saving stops here too. Without this the page would
+      save the work again on its way out and bring it
+      straight back.
+    */
+    stopped = true;
+    window.clearTimeout(saveTimer);
+
     try {
       window.localStorage.removeItem(storageKey());
     } catch (error) {
