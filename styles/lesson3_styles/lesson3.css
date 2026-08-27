@@ -901,6 +901,28 @@
   grid-column: 1 / -1;
   grid-row: 3;
 }
+
+/* ---------- Part B practice plan ---------- */
+
+.practice-plan {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.practice-plan-step {
+  margin-bottom: 0;
+  padding: 14px 16px;
+
+  background: var(--soft-blue);
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+}
+
+.practice-plan-step h3 {
+  margin: 0;
+}
+
 /* ---------- Label bank ---------- */
 #yeast-labels .table-number-control {
   visibility: hidden;
