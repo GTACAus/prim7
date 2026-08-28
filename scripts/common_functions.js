@@ -822,11 +822,8 @@ function teacherJump(sectionId) {
     return;
   }
 
-  if (section.classList.contains("section")) {
-    section.classList.remove("locked");
-  } else {
-    section.hidden = false;
-  }
+  section.classList.remove("locked");
+  section.hidden = false;
 
   closeTeacherMenu();
 
@@ -853,6 +850,7 @@ function teacherShowAll() {
 
       if (section) {
         section.classList.remove("locked");
+        section.hidden = false;
       }
     }
   );
