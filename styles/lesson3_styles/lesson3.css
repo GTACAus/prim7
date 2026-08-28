@@ -119,6 +119,21 @@
   text-transform: uppercase;
 }
 
+/*
+  A full sentence inside the note box. The label above it
+  is short enough to read in capitals; this is not, so it
+  keeps normal sentence case.
+*/
+.custom-table-note-detail {
+  margin-top: 4px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+
 .experiment-table-scroll {
   width: 100%;
   overflow-x: auto;
