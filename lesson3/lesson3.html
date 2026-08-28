@@ -1513,7 +1513,7 @@
     </script>
     <script>
     
-      const dev = true;
+      const dev = false;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
 const lesson3SectionIds = [
@@ -2404,6 +2404,11 @@ if (averageButtons.length === 0) {
     }
 
     checkYeastPrediction();
+
+    predictionCheck.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
 
     return true;
   }

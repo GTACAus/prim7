@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Torch Reveal</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #05050a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #ddd;
+  }
+
+  .wrap {
+    text-align: center;
+  }
+
+  h1 {
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+    color: #9fb3c8;
+  }
+
+  .stage {
+    position: relative;
+    width: min(90vw, 1200px);
+    aspect-ratio: 1750 / 984;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,0,0,0.8);
+    cursor: none;
+  }
+
+  .stage img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* the mask reveals the image only inside the radial circle that
+       follows the pointer; everything outside stays hidden */
+    -webkit-mask-image: radial-gradient(circle var(--r, 140px) at var(--x, 50%) var(--y, 50%),
+                          rgba(0,0,0,1) 0%,
+                          rgba(0,0,0,0.85) 55%,
+                          rgba(0,0,0,0) 100%);
+    mask-image: radial-gradient(circle var(--r, 140px) at var(--x, 50%) var(--y, 50%),
+                          rgba(0,0,0,1) 0%,
+                          rgba(0,0,0,0.85) 55%,
+                          rgba(0,0,0,0) 100%);
+    transition: mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
+  }
+
+  /* soft warm glow that rides along with the torch circle, drawn above the image */
+  .glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle var(--r, 140px) at var(--x, 50%) var(--y, 50%),
+                  rgba(255, 200, 120, 0.18) 0%,
+                  rgba(255, 160, 60, 0.06) 45%,
+                  rgba(0,0,0,0) 75%);
+    mix-blend-mode: screen;
+  }
+
+  .hint {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: #667788;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>MOVE YOUR TORCH THROUGH THE DARK</h1>
+  <div class="stage" id="stage">
+    <img id="photo" src="../images/test/cave.jpg" alt="Cave interior">
+    <div class="glow" id="glow"></div>
+  </div>
+  <div class="hint">hover to reveal &middot; leave to go dark</div>
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const photo = document.getElementById('photo');
+  const glow = document.getElementById('glow');
+
+  function setSpot(xPct, yPct, radius) {
+    stage.style.setProperty('--x', xPct + '%');
+    stage.style.setProperty('--y', yPct + '%');
+    stage.style.setProperty('--r', radius + 'px');
+  }
+
+  // start fully dark (spot off-canvas)
+  setSpot(-50, -50, 140);
+
+  stage.addEventListener('mousemove', (e) => {
+    const rect = stage.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const xPct = (x / rect.width) * 100;
+    const yPct = (y / rect.height) * 100;
+    setSpot(xPct, yPct, 140);
+  });
+
+  stage.addEventListener('mouseleave', () => {
+    setSpot(-50, -50, 140);
+  });
+
+  // touch support
+  stage.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const rect = stage.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    setSpot((x / rect.width) * 100, (y / rect.height) * 100, 140);
+    e.preventDefault();
+  }, { passive: false });
+
+  stage.addEventListener('touchend', () => {
+    setSpot(-50, -50, 140);
+  });
+</script>
+
+</body>
+</html>
