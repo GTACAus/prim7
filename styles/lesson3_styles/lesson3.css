@@ -2795,7 +2795,8 @@
 
 .ball-bounce-setup,
 .ball-bounce-variables,
-#ballBouncePlanning {
+#ballBouncePlanning,
+#ballBounceTests {
   margin-bottom: 20px;
   padding: 24px;
 
@@ -2937,6 +2938,12 @@
   border-top: 8px solid var(--purple);
 }
 
+#ballBounceTests {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 8px solid var(--mint);
+}
+
 
 /* Separate the stages without making more giant cards */
 
@@ -2963,7 +2970,8 @@
 
   .ball-bounce-setup,
   .ball-bounce-variables,
-  #ballBouncePlanning {
+  #ballBouncePlanning,
+  #ballBounceTests {
     padding: 18px;
   }
 }

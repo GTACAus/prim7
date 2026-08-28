@@ -822,7 +822,11 @@ function teacherJump(sectionId) {
     return;
   }
 
-  section.classList.remove("locked");
+  if (section.classList.contains("section")) {
+    section.classList.remove("locked");
+  } else {
+    section.hidden = false;
+  }
 
   closeTeacherMenu();
 
