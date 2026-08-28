@@ -673,8 +673,9 @@ let teacherClickTimer = null;
      student view is reset.
 */
 function initialiseTeacherMenu(
-  sectionIds,
-  firstSectionId
+  sections,
+  firstSectionId,
+  backLink
 ) {
   const teacherTrigger =
     document.getElementById("teacherTrigger");
@@ -682,17 +683,60 @@ function initialiseTeacherMenu(
   const teacherModal =
     document.getElementById("teacherModal");
 
-  if (!teacherTrigger || !teacherModal) {
+  const sectionList =
+    document.querySelector(".teacher-section-list");
+
+  if (!teacherTrigger || !teacherModal || !sectionList) {
     return;
   }
 
+  // Accept either the old flat array of id strings or the
+  // new array of { id, label } objects, so existing pages
+  // that haven't been updated yet don't break.
+  const normalisedSections = (Array.isArray(sections) ? sections : [])
+    .map(function (section) {
+      if (typeof section === "string") {
+        return { id: section, label: section };
+      }
+      return section;
+    });
+
   teacherNavigationSectionIds =
-    Array.isArray(sectionIds)
-      ? sectionIds
-      : [];
+    normalisedSections.map(function (section) {
+      return section.id;
+    });
 
   teacherNavigationFirstSectionId =
     firstSectionId || teacherNavigationSectionIds[0] || "";
+
+  // Build the jump buttons
+  sectionList.innerHTML = "";
+
+  normalisedSections.forEach(function (section) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = section.label;
+
+    button.addEventListener("click", function () {
+      teacherJump(section.id);
+    });
+
+    sectionList.appendChild(button);
+  });
+
+  // Build the optional "back" link as its own distinct entry,
+  // since it navigates rather than jumping within the page.
+  if (backLink && backLink.href) {
+    const backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.textContent = backLink.label || "← Back";
+
+    backButton.addEventListener("click", function () {
+      window.location.href = backLink.href;
+    });
+
+    sectionList.appendChild(backButton);
+  }
 
   teacherTrigger.addEventListener(
     "click",

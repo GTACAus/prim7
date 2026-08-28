@@ -94,21 +94,7 @@
           </button>
         </div>
 
-        <div class="teacher-section-list">
-          <button
-  type="button"
-  onclick="teacherJump('build-your-own-table')"
->
-  1. Ball bounce experiment: complete the table
-</button>
-
-<button
-  type="button"
-  onclick="window.location.href='lesson3.html'"
->
-  ← Back to Part 1
-</button>
-        </div>
+        <div class="teacher-section-list"></div>
 
         <div class="teacher-actions">
           <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">Show all sections</button>
@@ -349,7 +335,7 @@
      BALL BOUNCE VARIABLES
      ================================================== -->
 
-<div class="ball-bounce-variables">
+<div class="ball-bounce-variables" id="ballBounceVariables">
 
   <div class="lesson3-planning-heading">
     <span>2</span>
@@ -1114,8 +1100,15 @@
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
 const lesson3SectionIds = [
-  "build-your-own-table",
+  { id: "build-your-own-table", label: "1. Ball bounce experiment: complete the table" }
+  // add more here later — no HTML edits needed:
+  // { id: "some-other-section", label: "2. Something else" }
 ];
+
+const lesson3TeacherBackLink = {
+  label: "← Back to Part A",
+  href: "lesson3.html"
+};
 
 const yeastVariablesStructure = {
   activityID: "yeast-variables",
@@ -3099,7 +3092,7 @@ function updateLesson3CompletedQuestion() {
 
       document.addEventListener("DOMContentLoaded", function () {
         if (typeof initialiseTeacherMenu === "function") {
-          initialiseTeacherMenu(lesson3SectionIds, "build-your-own-table");
+          initialiseTeacherMenu(lesson3SectionIds, "build-your-own-table", lesson3TeacherBackLink);
         }
 
         initialiseLesson3DragAndDrop();

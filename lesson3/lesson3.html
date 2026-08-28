@@ -96,34 +96,6 @@
         </div>
 
         <div class="teacher-section-list">
-          <button
-  type="button"
-  onclick="teacherJump('yeast-image-investigation')"
->
-  1. Is Yeast Alive?
-</button>
-
-<button
-  type="button"
-  onclick="teacherJump('yeast-variables')"
->
-  2. Yeast Variables: Select the variables
-</button>
-
-<button
-  type="button"
-  onclick="teacherJump('data-table-template')"
->
-  3. Data Table Template
-</button>
-
-<button
-  type="button"
-  onclick="teacherJump('yeast-labels')"
->
-  4. Yeast experiment: add the labels
-</button>
-
 <button
   type="button"
   onclick="window.location.href='lesson3-2.html'"
@@ -1545,11 +1517,16 @@
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
 const lesson3SectionIds = [
-  "yeast-image-investigation",
-  "yeast-variables",
-  "data-table-template",
-  "yeast-labels",
+  { id: "yeast-image-investigation", label: "1. Is Yeast Alive?" },
+  { id: "yeast-variables", label: "2. Yeast Variables: Select the variables" },
+  { id: "data-table-template", label: "3. Data Table Template" },
+  { id: "yeast-labels", label: "4. Yeast experiment: add the labels" }
 ];
+
+const lesson3TeacherBackLink = {
+  label: "← To Part B",
+  href: "lesson3.html"
+};
 
 const yeastVariablesStructure = {
   activityID: "yeast-variables",
@@ -3482,7 +3459,7 @@ function updateLesson3CompletedQuestion() {
 
       document.addEventListener("DOMContentLoaded", function () {
         if (typeof initialiseTeacherMenu === "function") {
-          initialiseTeacherMenu(lesson3SectionIds, "yeast-image-investigation");
+          initialiseTeacherMenu(lesson3SectionIds, "yeast-image-investigation", lesson3TeacherBackLink);
         }
 
         initialiseLesson3DragAndDrop();
