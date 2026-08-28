@@ -481,7 +481,7 @@ case "does":
       ".";
   }
 
-  const predictionComplete = fullPrediction !== "" && reason !== "";
+  const predictionComplete = checkComplete(fullPrediction, reason);
 
   if (predictionComplete) {
     fullPrediction +=
@@ -517,6 +517,17 @@ if (usesVariableDropdowns) {
       updatePrediction();
     }
   );
+}
+
+function checkComplete(fullPrediction, reason) {
+  return fullPrediction !== "" && reason !== "";
+}
+
+function reasonedPredictionCheckComplete() {
+  const prediction = document.getElementById("reasonedPrediction").innerHTML;
+  const reason = document.getElementById("reasonAnswer").innerHTML;
+
+  checkComplete(prediction, reason);
 }
 
 function resetBuilder() {

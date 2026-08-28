@@ -548,137 +548,119 @@
 
         <!-- ---------- REASONED PREDICTION ---------- -->
 
-        <div class="lesson3-planning-heading prediction-heading">
-          <span>4</span>
-
-          <div>
-            <p class="lesson3-planning-eyebrow">Reasoned prediction</p>
-            <h3>Make your reasoned prediction</h3>
+        <div id="predictionTable" class="pop-in" hidden>
+          <div class="lesson3-planning-heading prediction-heading">
+            <span>4</span>
+            <div>
+              <p class="lesson3-planning-eyebrow">Reasoned prediction</p>
+              <h3>Make your reasoned prediction</h3>
+            </div>
           </div>
-        </div>
-
-        <p class="lesson3-planning-instruction">
-          Use your testable question to predict what you think will happen and explain why.
-        </p>
-
-        <div class="reasoned-builder">
-            <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
-              <div class="prediction-organiser-row row-header">
-                <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
-                <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
-                <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
-              </div>
-
-              <div class="prediction-organiser-row row-variables">
-                <div class="prediction-organiser-cell cell-label">
-                  <span class="cell-sublabel">Testable Question</span>
-                  <span class="cell-helper">Identify the two things in your testable question</span>
+          <p class="lesson3-planning-instruction">
+            Use your testable question to predict what you think will happen and explain why.
+          </p>
+          <div class="reasoned-builder">
+              <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
+                <div class="prediction-organiser-row row-header">
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
+                  <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
                 </div>
-
-                <div class="prediction-organiser-cell">
-          <label class="cell-sublabel" for="changeVariable">
-            The thing I am changing
-          </label>
-
-        <div
-          id="changeVariable"
-          class="generated-text placeholder">
-          The thing I am changing
-        </div>
-
-
-        </div>
-
-                <div class="prediction-organiser-cell">
-          <label class="cell-sublabel" for="measureVariable">
-            The thing I am measuring
-          </label>
-
+                <div class="prediction-organiser-row row-variables">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Testable Question</span>
+                    <span class="cell-helper">Identify the two things in your testable question</span>
+                  </div>
+                  <div class="prediction-organiser-cell">
+            <label class="cell-sublabel" for="changeVariable">
+              The thing I am changing
+            </label>
           <div
-          id="measureVariable"
-          class="generated-text placeholder">
-          The thing I am measuring
-        </div>
-
-        </div>
-
-
-              </div>
-
-              <div class="prediction-organiser-row row-relationship">
-                <div class="prediction-organiser-cell cell-label">
-                  <span class="cell-sublabel">Relationship</span>
-                  <span class="cell-helper">Choose what you will change and what you think will happen</span>
+            id="changeVariable"
+            class="generated-text placeholder">
+            The thing I am changing
+          </div>
+          </div>
+                  <div class="prediction-organiser-cell">
+            <label class="cell-sublabel" for="measureVariable">
+              The thing I am measuring
+            </label>
+            <div
+            id="measureVariable"
+            class="generated-text placeholder">
+            The thing I am measuring
+          </div>
+          </div>
                 </div>
-                <div class="prediction-organiser-cell">
-                  <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
-                  <div class="relationship-area">
-                    <select id="causeRelationshipType" class="prediction-select">
-                      <option value="">Choose a relationship type</option>
-                      <option value="increase-decrease">Increase / decrease</option>
-                      <option value="with-without">With / without</option>
-                      <option value="condition-comparison">Condition 1 versus condition 2</option>
-                    </select>
-                    <div id="causeRelationshipButtons" class="relationship-buttons"></div>
-
-                    <div id="conditionComparisonInputs" class="condition-comparison-inputs">
-          <input
-            id="conditionOneInput"
-            class="condition-input"
-            type="text"
-            placeholder="Starting condition, e.g. blue">
-
-          <input
-            id="conditionTwoInput"
-            class="condition-input"
-            type="text"
-            placeholder="New condition, e.g. red">
-        </div>
-
+                <div class="prediction-organiser-row row-relationship">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Relationship</span>
+                    <span class="cell-helper">Choose what you will change and what you think will happen</span>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
+                    <div class="relationship-area">
+                      <select id="causeRelationshipType" class="prediction-select">
+                        <option value="">Choose a relationship type</option>
+                        <option value="increase-decrease">Increase / decrease</option>
+                        <option value="with-without">With / without</option>
+                        <option value="condition-comparison">Condition 1 versus condition 2</option>
+                      </select>
+                      <div id="causeRelationshipButtons" class="relationship-buttons"></div>
+                      <div id="conditionComparisonInputs" class="condition-comparison-inputs">
+            <input
+              id="conditionOneInput"
+              class="condition-input"
+              type="text"
+              placeholder="Starting condition, e.g. blue">
+            <input
+              id="conditionTwoInput"
+              class="condition-input"
+              type="text"
+              placeholder="New condition, e.g. red">
+          </div>
+                    </div>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <span class="cell-sublabel">Effect or result</span>
+                    <div id="effectRelationshipButtons" class="relationship-buttons three-options">
+                      <button type="button" class="relationship-option" data-effect="increase">Increase</button>
+                      <button type="button" class="relationship-option" data-effect="decrease">Decrease</button>
+                      <button type="button" class="relationship-option" data-effect="stay-the-same">Stay the same</button>
+                    </div>
                   </div>
                 </div>
-                <div class="prediction-organiser-cell">
-                  <span class="cell-sublabel">Effect or result</span>
-                  <div id="effectRelationshipButtons" class="relationship-buttons three-options">
-                    <button type="button" class="relationship-option" data-effect="increase">Increase</button>
-                    <button type="button" class="relationship-option" data-effect="decrease">Decrease</button>
-                    <button type="button" class="relationship-option" data-effect="stay-the-same">Stay the same</button>
+                <div class="prediction-organiser-row row-prediction">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
+                  <div class="prediction-organiser-cell"><div id="predictionIf" class="generated-text placeholder">Choose a cause relationship.</div></div>
+                  <div class="prediction-organiser-cell"><div id="predictionThen" class="generated-text placeholder">Choose an effect or result.</div></div>
+                </div>
+                <div class="prediction-organiser-row row-reason">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
+                  <div class="prediction-organiser-cell span-2 reason-inline">
+                    <label class="cell-helper" for="reasonInput">This is because...</label>
+                    <div id="reasonInputRow" class="permanent-input-row">
+                      <input id="reasonInput" type="text" class="prediction-input" placeholder="Explain why you expect this result">
+                    </div>
+                    <div id="reasonAnswer" class="submitted-answer"></div>
                   </div>
                 </div>
-              </div>
-
-              <div class="prediction-organiser-row row-prediction">
-                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
-                <div class="prediction-organiser-cell"><div id="predictionIf" class="generated-text placeholder">Choose a cause relationship.</div></div>
-                <div class="prediction-organiser-cell"><div id="predictionThen" class="generated-text placeholder">Choose an effect or result.</div></div>
-              </div>
-
-              <div class="prediction-organiser-row row-reason">
-                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
-                <div class="prediction-organiser-cell span-2 reason-inline">
-                  <label class="cell-helper" for="reasonInput">This is because...</label>
-                  <div id="reasonInputRow" class="permanent-input-row">
-                    <input id="reasonInput" type="text" class="prediction-input" placeholder="Explain why you expect this result">
+                <div class="prediction-organiser-row row-full">
+                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
+                  <div class="prediction-organiser-cell span-2">
+                    <div id="reasonedPrediction" class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
                   </div>
-                  <div id="reasonAnswer" class="submitted-answer"></div>
-                </div>
-              </div>
-
-              <div class="prediction-organiser-row row-full">
-                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
-                <div class="prediction-organiser-cell span-2">
-                  <div id="reasonedPrediction" class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
                 </div>
               </div>
             </div>
-          </div>
+        </div>
 
 
           <!-- ==================================================
      WHY REPEAT EACH TEST? - Insertion - initially this was in the yeast section
      ================================================== -->
 
-<div class="repeat-tests-inline">
+<div class="repeat-tests-inline pop-in" id="repeatTestsInline" hidden>
 
   <div class="repeat-tests-card">
 
@@ -2153,6 +2135,62 @@ function yeastAverageStopAndCheck(button) {
   showStopAndCheckAnswer(button);
 }
 
+function initialiseRepeatTestsVisibility() {
+  const reasonedPrediction = document.getElementById("reasonedPrediction");
+  const reasonAnswer = document.getElementById("reasonAnswer");
+  const repeatTestsInline = document.getElementById("repeatTestsInline");
+
+  if (!reasonedPrediction || !reasonAnswer || !repeatTestsInline) {
+    return;
+  }
+
+  function syncRepeatTestsVisibility() {
+    const predictionComplete =
+      !reasonedPrediction.classList.contains("placeholder");
+
+    const reasonComplete =
+      reasonAnswer.classList.contains("visible");
+
+    const shouldShow = predictionComplete && reasonComplete;
+
+    // Only act when the visibility state actually changes,
+    // so we don't re-scroll on every unrelated mutation
+    // while the section is already showing.
+    const wasHidden = repeatTestsInline.hidden;
+
+    repeatTestsInline.hidden = !shouldShow;
+
+    if (shouldShow && wasHidden) {
+      repeatTestsInline.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+  }
+
+  const observer = new MutationObserver(syncRepeatTestsVisibility);
+
+  observer.observe(reasonedPrediction, {
+    attributes: true,
+    attributeFilter: ["class"],
+    characterData: true,
+    childList: true,
+    subtree: true
+  });
+
+  observer.observe(reasonAnswer, {
+    attributes: true,
+    attributeFilter: ["class"]
+  });
+
+  // Run once on load in case content is already populated
+  // (e.g. after a page refresh with saved state) — don't
+  // scroll in this case, just sync visibility.
+  const predictionComplete = !reasonedPrediction.classList.contains("placeholder");
+  const reasonComplete = reasonAnswer.classList.contains("visible");
+  repeatTestsInline.hidden = !(predictionComplete && reasonComplete);
+}
+
 /* ==================================================
    BALL BOUNCE - REPEAT TESTS CHECK
    Reveals Step 2 after the student checks the answer.
@@ -3036,6 +3074,8 @@ function updateLesson3CompletedQuestion() {
     template.parts[2];
 
   completedQuestion.hidden = false;
+  document.getElementById("predictionTable").hidden = false;
+
 }
 
       document.addEventListener("DOMContentLoaded", function () {
@@ -3059,6 +3099,7 @@ function updateLesson3CompletedQuestion() {
 
         initialiseYeastResultQuestions();
 
+        initialiseRepeatTestsVisibility();
       });
 
       /* ==================================================
