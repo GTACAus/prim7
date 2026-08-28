@@ -2554,59 +2554,6 @@ function ballBounceRepeatStopAndCheck(button) {
   }
 }
 
-      function resetBuildYourOwnTable() {
-        document.getElementById("ballBouncePredictionSupported").classList.remove("selected-answer");
-        document.getElementById("ballBouncePredictionUnsupported").classList.remove("selected-answer");
-        document.getElementById("ballBouncePredictionCheck").hidden = true;
-        document.querySelectorAll("#build-your-own-table .table-number-control").forEach(function (control) {
-          const inputRow = control.querySelector(".table-entry-input-row");
-
-          const answerBox = control.querySelector(".table-entry-answer");
-
-          const input = control.querySelector(".table-number-input");
-
-          if (input) {
-            input.value = "";
-          }
-
-          if (inputRow) {
-            inputRow.style.display = "block";
-          }
-
-          if (answerBox) {
-            answerBox.classList.remove("visible");
-            answerBox.innerHTML = "";
-          }
-        });
-
-        document.querySelectorAll("#build-your-own-table .table-entry-control").forEach(function (control) {
-          const inputRow = control.querySelector(".table-entry-input-row");
-          const answerBox = control.querySelector(".table-entry-answer");
-          const input = control.querySelector(".lesson3-filtered-text");
-
-          if (input) {
-            input.value = "";
-          }
-
-          if (inputRow) {
-            inputRow.style.display = "block";
-          }
-
-          if (answerBox) {
-            answerBox.classList.remove("visible");
-            answerBox.innerHTML = "";
-          }
-        });
-
-        restoreAverageButtons("#build-your-own-table", calculateInputAverage);
-
-        const feedback = document.querySelector("#build-your-own-table .table-activity-feedback");
-        if (feedback) {
-          feedback.hidden = true;
-          feedback.innerHTML = "";
-        }
-      }
-
 function resetBallBounceTable() {
   const tableCard = document.querySelector(
     "#build-your-own-table .bounce-table-card"
@@ -2684,6 +2631,53 @@ function resetBallBounceTable() {
     feedback.hidden = true;
     feedback.innerHTML = "";
   }
+
+  /*
+    The "do the results support your prediction?" panel
+    is worked out from the averages above, so it goes
+    back too. Leaving it would show numbers copied from
+    a table that is now empty.
+  */
+  const predictionCheck =
+    document.getElementById("ballBouncePredictionCheck");
+
+  if (!predictionCheck) {
+    return;
+  }
+
+  predictionCheck.hidden = true;
+
+  predictionCheck
+    .querySelectorAll(".table-entry-control, .table-number-control")
+    .forEach(function (control) {
+      const inputRow =
+        control.querySelector(".table-entry-input-row");
+
+      const answerBox =
+        control.querySelector(".table-entry-answer");
+
+      const input =
+        control.querySelector("input");
+
+      if (input) {
+        input.value = "";
+      }
+
+      if (inputRow) {
+        inputRow.style.display = "block";
+      }
+
+      if (answerBox) {
+        answerBox.classList.remove("visible");
+        answerBox.innerHTML = "";
+      }
+    });
+
+  predictionCheck
+    .querySelectorAll(".prediction-button")
+    .forEach(function (button) {
+      button.classList.remove("selected-answer", "buzz");
+    });
 }
 
       function resetLesson3Section(sectionId) {
@@ -2696,7 +2690,7 @@ function resetBallBounceTable() {
         }
 
         if (sectionId === "build-your-own-table") {
-          resetBuildYourOwnTable();
+          resetBallBounceTable();
         }
       }
 
