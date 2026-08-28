@@ -168,51 +168,7 @@
 
               </div>
 
-              <div class="teacher-section-list">
-
-                  <button
-                      type="button"
-                      onclick="teacherJump('observe-experiment')">
-                      1. Observe the experiment
-                  </button>
-
-                  <button
-                      type="button"
-                      onclick="teacherJump('testable-question-intro')">
-                      2. What is a testable question?
-                  </button>
-
-                  <button
-                      type="button"
-                      onclick="teacherJump('flashcards')">
-                      3. Testable or non-testable?
-                  </button>
-
-                  <button
-                      type="button"
-                      onclick="teacherJump('testable-questions')">
-                      4. Write testable questions
-                  </button>
-
-                  <button
-                      type="button"
-                      onclick="teacherJump('reasoned-prediction')">
-                      5. Writing a reasoned prediction
-                  </button>
-
-                  <button
-                      type="button"
-                      onclick="teacherJump('reasoned-builder')">
-                      6. Build a reasoned prediction
-                  </button>
-
-                  <button
-                      type="button"
-                      onclick="teacherJump('testing-predictions')">
-                      7. Test reasoned predictions
-                  </button>
-
-              </div>
+              <div class="teacher-section-list"></div>
 
               <div class="teacher-actions">
 
@@ -1309,18 +1265,24 @@
         const dev = false;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
         
-        initialiseTeacherMenu(
-            [
-                "observe-experiment",
-                "testable-question-intro",
-                "flashcards",
-                "testable-questions",
-                "reasoned-prediction",
-                "reasoned-builder",
-                "testing-predictions"
-            ],
-            "observe-experiment"
-        );
+        const lesson1SectionIds = [
+          { id: "observe-experiment", label: "Observe the experiment" },
+          { id: "testable-question-intro", label: "What is a testable question?" },
+          { id: "flashcards", label: "Testable or non-testable?" },
+          { id: "testable-questions", label: "Write testable questions" },
+          { id: "reasoned-prediction", label: "Writing a reasoned prediction" },
+          { id: "reasoned-builder", label: "Build a reasoned prediction" },
+          { id: "testing-predictions", label: "Test reasoned predictions" },
+        ];
+
+        document.addEventListener("DOMContentLoaded", function() {
+          if (typeof initialiseTeacherMenu === "function") {
+            initialiseTeacherMenu(
+              lesson1SectionIds,
+              "observe-experiment"
+            );
+          }
+        });
     </script>
       
       <!-- Question Wheel Script -->

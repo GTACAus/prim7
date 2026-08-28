@@ -139,31 +139,7 @@
       </button>
     </div>
 
-    <div class="teacher-section-list">
-      <button type="button" onclick="teacherJump('watch')">
-        1. Making observations of plants
-      </button>
-
-      <button type="button" onclick="teacherJump('build')">
-        2. The structure of a flowering plant
-      </button>
-
-      <button type="button" onclick="teacherJump('brainstorm')">
-        3. Think like a scientist - Brainstorm to share ideas
-      </button>
-
-      <button type="button" onclick="teacherJump('diagram')">
-        4. Why do plants need the right physical conditions to survive?
-      </button>
-
-      <button type="button" onclick="teacherJump('detective')">
-        5. Can you solve the mystery of the unhealthy plants?
-      </button>
-
-      <button type="button" onclick="teacherJump('final-brainstorm')">
-        6. Check your understanding
-      </button>
-    </div>
+    <div class="teacher-section-list"></div>
 
     <div class="teacher-actions">
       <button
@@ -1336,18 +1312,22 @@ document.addEventListener('click', function(event) {
   }, 250);
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  initialiseTeacherMenu(
-    [
-      'watch',
-      'build',
-      'brainstorm',
-      'diagram',
-      'detective',
-      'final-brainstorm'
-    ],
-    'watch'
-  );
+const pretaskSectionIds = [
+  { id: "watch", label: "Making observations of plants" },
+  { id: "build", label: "The structure of a flowering plant" },
+  { id: "brainstorm", label: "Think like a scientist - Brainstorm to share ideas" },
+  { id: "diagram", label: "Why do plants need the right physical conditions to survive?" },
+  { id: "detective", label: "Can you solve the mystery of the unhealthy plants?" },
+  { id: "final-brainstorm", label: "Check your understanding" },
+];
+
+document.addEventListener("DOMContentLoaded", function() {
+  if (typeof initialiseTeacherMenu === "function") {
+    initialiseTeacherMenu(
+      pretaskSectionIds,
+      "watch"
+    );
+  }
 });
 
     (
