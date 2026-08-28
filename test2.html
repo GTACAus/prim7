@@ -641,6 +641,529 @@
           transition: none;
         }
       }
+
+
+      /* ==================================================
+         STUDENT PRACTICE / FORMATIVE ASSESSMENT
+         Test-only Lesson 4 additions.
+         ================================================== */
+
+      .student-challenge {
+        margin-top: 30px;
+        padding: 22px;
+        background: linear-gradient(
+          to bottom,
+          var(--paper) 0%,
+          var(--paper) 72%,
+          var(--soft-green) 190%
+        );
+        border: 3px solid var(--charcoal);
+        border-radius: 24px;
+        box-shadow: var(--shadow-small);
+      }
+
+      .student-challenge-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .student-challenge-heading h3 {
+        margin: 2px 0 5px;
+        font-size: 1.42rem;
+      }
+
+      .student-challenge-heading p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .challenge-kicker {
+        margin: 0 0 4px !important;
+        color: var(--purple) !important;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .challenge-badge {
+        flex: 0 0 auto;
+        padding: 7px 11px;
+        background: var(--yellow);
+        border: 2px solid var(--charcoal);
+        border-radius: 999px;
+        box-shadow: 0 2px 0 var(--charcoal);
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .challenge-grid {
+        display: grid;
+        grid-template-columns: minmax(270px, 0.82fr) minmax(0, 1.38fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      .challenge-panel,
+      .challenge-visual,
+      .graph-detective {
+        background: white;
+        border: 2px solid var(--charcoal);
+        border-radius: 18px;
+      }
+
+      .challenge-panel {
+        padding: 18px;
+      }
+
+      .challenge-visual {
+        padding: 16px;
+        overflow: hidden;
+      }
+
+      .challenge-step-label {
+        display: inline-block;
+        margin: 0 0 12px;
+        padding: 6px 10px;
+        background: var(--soft-blue);
+        border: 2px solid var(--charcoal);
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .challenge-question {
+        margin: 0 0 12px;
+        line-height: 1.5;
+      }
+
+      .challenge-choice-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .challenge-choice-grid.three-choice {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .challenge-choice {
+        min-height: 50px;
+        padding: 10px 12px;
+        background: var(--paper);
+        color: var(--text);
+        border: 2px solid var(--charcoal);
+        border-radius: 13px;
+        box-shadow: 0 3px 0 rgba(48, 51, 47, 0.24);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.15s ease,
+          background 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .challenge-choice:hover,
+      .challenge-choice:focus-visible {
+        background: var(--soft-yellow);
+        transform: translateY(-2px);
+        outline: 3px solid rgba(78, 50, 232, 0.2);
+      }
+
+      .challenge-choice.correct-choice {
+        background: var(--soft-green);
+        border-color: var(--green);
+      }
+
+      .challenge-choice.try-again-choice {
+        background: var(--soft-orange);
+        border-color: var(--orange);
+        animation: lesson4ChoiceBuzz 0.28s ease;
+      }
+
+      @keyframes lesson4ChoiceBuzz {
+        0%, 100% { transform: translateX(0); }
+        30% { transform: translateX(-4px); }
+        60% { transform: translateX(4px); }
+      }
+
+      .challenge-feedback {
+        min-height: 76px;
+        margin-top: 14px;
+        padding: 12px 14px;
+        background: var(--soft-blue);
+        border: 2px solid var(--charcoal);
+        border-left: 8px solid var(--blue);
+        border-radius: 13px;
+        line-height: 1.45;
+      }
+
+      .challenge-feedback strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .challenge-feedback.success {
+        background: var(--soft-green);
+        border-left-color: var(--green);
+      }
+
+      .challenge-feedback.try-again {
+        background: var(--soft-orange);
+        border-left-color: var(--orange);
+      }
+
+      .challenge-reset {
+        margin-top: 14px;
+        background: var(--soft-orange) !important;
+      }
+
+      .challenge-hidden[hidden] {
+        display: none !important;
+      }
+
+      .challenge-complete {
+        margin-top: 14px;
+        padding: 14px 16px;
+        background: var(--soft-green);
+        border: 2px solid var(--charcoal);
+        border-radius: 14px;
+        font-weight: 700;
+        line-height: 1.45;
+      }
+
+      /* ---------- Line graph practice ---------- */
+
+      .practice-table {
+        width: 100%;
+        margin: 12px 0 16px;
+        border-collapse: collapse;
+      }
+
+      .practice-table th,
+      .practice-table td {
+        padding: 7px 8px;
+        border: 1px solid var(--charcoal);
+        text-align: center;
+        font-size: 0.88rem;
+      }
+
+      .practice-table th {
+        background: var(--soft-yellow);
+      }
+
+      .practice-table th:last-child {
+        background: var(--soft-purple);
+      }
+
+      .practice-table tr.active-practice-row td {
+        background: var(--soft-green);
+        font-weight: 700;
+      }
+
+      .practice-crosshair {
+        stroke: var(--purple);
+        stroke-width: 2;
+        stroke-dasharray: 7 7;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .practice-crosshair.visible {
+        opacity: 0.55;
+      }
+
+      .practice-student-point {
+        fill: var(--orange);
+        stroke: var(--charcoal);
+        stroke-width: 3;
+        animation: graphPointPop 0.35s ease-out;
+      }
+
+      #linePracticePath {
+        fill: none;
+        stroke: var(--purple);
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .plot-prompt {
+        margin: 10px 0 0;
+        padding: 10px 12px;
+        background: var(--soft-yellow);
+        border: 2px solid var(--charcoal);
+        border-radius: 12px;
+        line-height: 1.4;
+      }
+
+      /* ---------- Bar graph practice ---------- */
+
+      .bar-builder-controls {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .bar-builder-row {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr) 42px;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        background: var(--paper);
+        border: 2px solid var(--charcoal);
+        border-radius: 13px;
+      }
+
+      .bar-builder-row label {
+        font-weight: 700;
+      }
+
+      .bar-builder-row output {
+        display: grid;
+        place-items: center;
+        min-height: 36px;
+        background: var(--soft-blue);
+        border: 2px solid var(--charcoal);
+        border-radius: 10px;
+        font-weight: 700;
+      }
+
+      .bar-builder-row input[type="range"] {
+        width: 100%;
+        accent-color: var(--purple);
+      }
+
+      .bar-builder-row.needs-fix {
+        background: var(--soft-orange);
+      }
+
+      .bar-builder-row.correct-bar {
+        background: var(--soft-green);
+      }
+
+      .practice-bar {
+        stroke: var(--charcoal);
+        stroke-width: 2;
+        transition: y 0.2s ease, height 0.2s ease;
+      }
+
+      .graph-detective {
+        margin-top: 16px;
+        padding: 16px;
+        background: linear-gradient(to bottom, white, var(--soft-yellow));
+      }
+
+      .graph-detective h4 {
+        margin: 0 0 6px;
+        font-size: 1.08rem;
+      }
+
+      .detective-mini-graph {
+        width: min(380px, 100%);
+        margin: 14px auto;
+        padding: 10px;
+        background: white;
+        border: 2px solid var(--charcoal);
+        border-radius: 12px;
+      }
+
+      /* ---------- Pie chart practice ---------- */
+
+      .student-token-grid {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 6px;
+        margin: 14px 0;
+      }
+
+      .student-token {
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        background: white;
+        border: 2px solid var(--charcoal);
+        border-radius: 50%;
+        font-size: 0.66rem;
+        font-weight: 700;
+        transition: background 0.25s ease, transform 0.2s ease;
+      }
+
+      .student-token.filled {
+        transform: scale(1.06);
+      }
+
+      .pie-practice-current {
+        margin-top: 12px;
+        padding: 12px 14px;
+        background: var(--soft-yellow);
+        border: 2px solid var(--charcoal);
+        border-radius: 13px;
+      }
+
+      .pie-practice-current strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .practice-pie-slice {
+        stroke: white;
+        stroke-width: 4;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .practice-pie-slice.visible {
+        opacity: 1;
+        animation: pieSlicePop 0.4s ease-out;
+      }
+
+      /* ---------- Final graph-choice challenge ---------- */
+
+      .final-graph-challenge {
+        margin-top: 38px;
+        padding: 26px;
+        background: linear-gradient(
+          to bottom,
+          var(--paper) 0%,
+          var(--paper) 58%,
+          var(--soft-purple) 180%
+        );
+        border: 3px solid var(--charcoal);
+        border-radius: 26px;
+        box-shadow: var(--shadow-medium);
+      }
+
+      .final-graph-challenge .section-title {
+        background: var(--purple);
+        color: white;
+      }
+
+      .scenario-card {
+        width: min(760px, 100%);
+        margin: 18px auto 0;
+        padding: 22px;
+        background: white;
+        border: 3px solid var(--charcoal);
+        border-radius: 20px;
+        box-shadow: var(--shadow-small);
+      }
+
+      .scenario-progress {
+        margin: 0 0 8px;
+        color: var(--purple);
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+
+      .scenario-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.3rem;
+      }
+
+      .scenario-card > p:not(.scenario-progress) {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .graph-type-choice-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .graph-type-choice {
+        min-height: 100px;
+        padding: 16px 10px;
+        background: var(--paper);
+        border: 3px solid var(--charcoal);
+        border-radius: 16px;
+        box-shadow: 0 4px 0 var(--charcoal);
+        color: var(--text);
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .graph-type-choice span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 2rem;
+      }
+
+      .graph-type-choice strong {
+        display: block;
+      }
+
+      .graph-type-choice:hover,
+      .graph-type-choice:focus-visible {
+        transform: translateY(-2px);
+        background: var(--soft-blue);
+        outline: 3px solid rgba(78, 50, 232, 0.18);
+      }
+
+      .scenario-next-button {
+        display: block;
+        margin: 14px auto 0;
+      }
+
+      .scenario-next-button[hidden],
+      .graph-type-choice-grid[hidden] {
+        display: none !important;
+      }
+
+      @media (max-width: 900px) {
+        .challenge-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 650px) {
+        .student-challenge,
+        .final-graph-challenge {
+          padding: 16px;
+        }
+
+        .student-challenge-heading {
+          display: block;
+        }
+
+        .challenge-badge {
+          display: inline-block;
+          margin-top: 10px;
+        }
+
+        .challenge-choice-grid,
+        .challenge-choice-grid.three-choice,
+        .graph-type-choice-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .bar-builder-row {
+          grid-template-columns: 1fr 48px;
+        }
+
+        .bar-builder-row label {
+          grid-column: 1 / -1;
+        }
+
+        .student-token-grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+
     </style>
   </head>
 
@@ -973,6 +1496,161 @@
         </div>
       </section>
 
+        <!-- ==================================================
+             LINE GRAPH STUDENT CHALLENGE
+             ================================================== -->
+        <div class="student-challenge" id="line-practice">
+          <div class="student-challenge-heading">
+            <div>
+              <p class="challenge-kicker">Your turn · formative check</p>
+              <h3>🎯 Plot the Experiment</h3>
+              <p>Use a new data table to choose the axes, plot four points and explain the trend.</p>
+            </div>
+            <span class="challenge-badge" id="linePracticeBadge">Step 1 of 4</span>
+          </div>
+
+          <div class="challenge-grid">
+            <div class="challenge-panel">
+              <p class="challenge-question">
+                A student changed the <strong>drop height</strong> of a ball and measured its
+                <strong>bounce height</strong>.
+              </p>
+
+              <table class="practice-table" aria-label="Ball drop experiment data">
+                <thead>
+                  <tr>
+                    <th>Drop height (cm)</th>
+                    <th>Bounce height (cm)</th>
+                  </tr>
+                </thead>
+                <tbody id="linePracticeDataBody">
+                  <tr><td>20</td><td>8</td></tr>
+                  <tr><td>40</td><td>17</td></tr>
+                  <tr><td>60</td><td>29</td></tr>
+                  <tr><td>80</td><td>36</td></tr>
+                </tbody>
+              </table>
+
+              <div id="lineAxisPractice">
+                <span class="challenge-step-label" id="lineAxisStageLabel">Choose the x-axis</span>
+                <p class="challenge-question" id="lineAxisQuestionText">
+                  Which variable belongs on the <strong>x-axis</strong>?
+                </p>
+                <div class="challenge-choice-grid">
+                  <button type="button" class="challenge-choice" data-line-axis-choice="drop">
+                    Drop height (cm)
+                  </button>
+                  <button type="button" class="challenge-choice" data-line-axis-choice="bounce">
+                    Bounce height (cm)
+                  </button>
+                </div>
+              </div>
+
+              <div class="challenge-hidden" id="linePlotPractice" hidden>
+                <span class="challenge-step-label">Plot the coordinates</span>
+                <p class="challenge-question">
+                  Click the graph where each pair belongs. The graph will snap a correctly placed point into position.
+                </p>
+                <div class="plot-prompt" id="linePlotPrompt">
+                  Plot <strong>(20, 8)</strong>: 20 cm drop height and 8 cm bounce height.
+                </div>
+              </div>
+
+              <div class="challenge-hidden" id="lineConnectPractice" hidden>
+                <span class="challenge-step-label">What comes next?</span>
+                <p class="challenge-question">All four measurements are plotted. What should you do to make the line graph?</p>
+                <div class="challenge-choice-grid three-choice">
+                  <button type="button" class="challenge-choice" data-line-next="connect">Connect the points</button>
+                  <button type="button" class="challenge-choice" data-line-next="bars">Turn them into bars</button>
+                  <button type="button" class="challenge-choice" data-line-next="slices">Turn them into slices</button>
+                </div>
+              </div>
+
+              <div class="challenge-hidden" id="lineInterpretPractice" hidden>
+                <span class="challenge-step-label">Read your graph</span>
+                <p class="challenge-question">What trend does your finished graph show?</p>
+                <div class="challenge-choice-grid">
+                  <button type="button" class="challenge-choice" data-line-trend="increase">
+                    As drop height increases, bounce height generally increases.
+                  </button>
+                  <button type="button" class="challenge-choice" data-line-trend="decrease">
+                    As drop height increases, bounce height decreases.
+                  </button>
+                </div>
+              </div>
+
+              <div class="challenge-feedback" id="linePracticeFeedback" role="status" aria-live="polite">
+                <strong>Think back to a fair test.</strong>
+                The x-axis usually shows the independent variable — the thing that was changed.
+              </div>
+
+              <button type="button" class="general-button challenge-reset" id="resetLinePracticeButton">Reset challenge</button>
+            </div>
+
+            <div class="challenge-visual">
+              <div class="graph-stage-heading">
+                <div>
+                  <h3>Your line graph</h3>
+                  <p id="linePracticeVisualHint">Choose the axes first. Then the graph becomes active.</p>
+                </div>
+                <span class="graph-badge">Student graph</span>
+              </div>
+
+              <div class="graph-svg-wrap">
+                <svg
+                  class="graph-svg"
+                  id="linePracticeSvg"
+                  viewBox="0 0 700 430"
+                  role="img"
+                  aria-label="Blank line graph for plotting ball drop and bounce height data"
+                >
+                  <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+
+                  <g aria-hidden="true">
+                    <line class="graph-grid-line" x1="90" y1="345" x2="630" y2="345"></line>
+                    <line class="graph-grid-line" x1="90" y1="266.25" x2="630" y2="266.25"></line>
+                    <line class="graph-grid-line" x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                    <line class="graph-grid-line" x1="90" y1="108.75" x2="630" y2="108.75"></line>
+                    <line class="graph-grid-line" x1="90" y1="30" x2="630" y2="30"></line>
+                  </g>
+
+                  <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+
+                  <text class="tick-label" x="90" y="367" text-anchor="middle">0</text>
+                  <text class="tick-label" x="225" y="367" text-anchor="middle">20</text>
+                  <text class="tick-label" x="360" y="367" text-anchor="middle">40</text>
+                  <text class="tick-label" x="495" y="367" text-anchor="middle">60</text>
+                  <text class="tick-label" x="630" y="367" text-anchor="middle">80</text>
+
+                  <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                  <text class="tick-label" x="72" y="270" text-anchor="end">10</text>
+                  <text class="tick-label" x="72" y="191" text-anchor="end">20</text>
+                  <text class="tick-label" x="72" y="112" text-anchor="end">30</text>
+                  <text class="tick-label" x="72" y="34" text-anchor="end">40</text>
+
+                  <text class="axis-label" x="360" y="405" text-anchor="middle" id="linePracticeXAxisLabel">x-axis</text>
+                  <text
+                    class="axis-label"
+                    x="25"
+                    y="190"
+                    text-anchor="middle"
+                    transform="rotate(-90 25 190)"
+                    id="linePracticeYAxisLabel"
+                  >y-axis</text>
+
+                  <line id="linePracticeCrossV" class="practice-crosshair" x1="0" y1="30" x2="0" y2="345"></line>
+                  <line id="linePracticeCrossH" class="practice-crosshair" x1="90" y1="0" x2="630" y2="0"></line>
+
+                  <path id="linePracticePath" d=""></path>
+                  <g id="linePracticePointsLayer"></g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       <!-- ==================================================
            BAR GRAPH
            ================================================== -->
@@ -1102,6 +1780,160 @@
         </div>
       </section>
 
+        <!-- ==================================================
+             BAR GRAPH STUDENT CHALLENGE
+             ================================================== -->
+        <div class="student-challenge" id="bar-practice">
+          <div class="student-challenge-heading">
+            <div>
+              <p class="challenge-kicker">Your turn · formative check</p>
+              <h3>📊 Build the Bars</h3>
+              <p>Translate a data table into bar heights, then use the graph to compare categories.</p>
+            </div>
+            <span class="challenge-badge" id="barPracticeBadge">Build</span>
+          </div>
+
+          <div class="challenge-grid">
+            <div class="challenge-panel">
+              <p class="challenge-question">
+                Students counted minibeasts in four schoolyard microhabitats.
+                Use the table to set the height of each bar.
+              </p>
+
+              <table class="practice-table" aria-label="Minibeast count data">
+                <thead>
+                  <tr><th>Microhabitat</th><th>Minibeasts found</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Garden bed</td><td>12</td></tr>
+                  <tr><td>Grass</td><td>7</td></tr>
+                  <tr><td>Under log</td><td>18</td></tr>
+                  <tr><td>Pavement</td><td>3</td></tr>
+                </tbody>
+              </table>
+
+              <div class="bar-builder-controls" id="barPracticeControls">
+                <div class="bar-builder-row" data-bar-row="0">
+                  <label for="barPractice0">Garden bed</label>
+                  <input id="barPractice0" type="range" min="0" max="20" step="1" value="0" data-bar-practice="0" />
+                  <output for="barPractice0">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="1">
+                  <label for="barPractice1">Grass</label>
+                  <input id="barPractice1" type="range" min="0" max="20" step="1" value="0" data-bar-practice="1" />
+                  <output for="barPractice1">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="2">
+                  <label for="barPractice2">Under log</label>
+                  <input id="barPractice2" type="range" min="0" max="20" step="1" value="0" data-bar-practice="2" />
+                  <output for="barPractice2">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="3">
+                  <label for="barPractice3">Pavement</label>
+                  <input id="barPractice3" type="range" min="0" max="20" step="1" value="0" data-bar-practice="3" />
+                  <output for="barPractice3">0</output>
+                </div>
+              </div>
+
+              <button type="button" class="general-button" id="checkBarPracticeButton" style="margin-top: 14px;">
+                Check my bars
+              </button>
+
+              <div class="challenge-hidden" id="barInterpretPractice" hidden>
+                <span class="challenge-step-label" style="margin-top: 16px;">Use the graph</span>
+                <p class="challenge-question">
+                  How many more minibeasts were found <strong>under the log</strong> than in the <strong>grass</strong>?
+                </p>
+                <div class="challenge-choice-grid three-choice">
+                  <button type="button" class="challenge-choice" data-bar-difference="5">5</button>
+                  <button type="button" class="challenge-choice" data-bar-difference="11">11</button>
+                  <button type="button" class="challenge-choice" data-bar-difference="25">25</button>
+                </div>
+              </div>
+
+              <div class="challenge-feedback" id="barPracticeFeedback" role="status" aria-live="polite">
+                <strong>Build from zero.</strong>
+                Move each slider until the bar height matches the number in the data table.
+              </div>
+
+              <button type="button" class="general-button challenge-reset" id="resetBarPracticeButton">Reset challenge</button>
+            </div>
+
+            <div class="challenge-visual">
+              <div class="graph-stage-heading">
+                <div>
+                  <h3>Your bar graph</h3>
+                  <p>Each slider changes one category without changing the others.</p>
+                </div>
+                <span class="graph-badge">Student graph</span>
+              </div>
+
+              <div class="graph-svg-wrap">
+                <svg class="graph-svg" id="barPracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student bar graph of minibeasts found in four microhabitats">
+                  <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+
+                  <g aria-hidden="true">
+                    <line class="graph-grid-line" x1="90" y1="345" x2="640" y2="345"></line>
+                    <line class="graph-grid-line" x1="90" y1="266.25" x2="640" y2="266.25"></line>
+                    <line class="graph-grid-line" x1="90" y1="187.5" x2="640" y2="187.5"></line>
+                    <line class="graph-grid-line" x1="90" y1="108.75" x2="640" y2="108.75"></line>
+                    <line class="graph-grid-line" x1="90" y1="30" x2="640" y2="30"></line>
+                  </g>
+
+                  <line class="graph-axis" x1="90" y1="345" x2="645" y2="345"></line>
+                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="25"></line>
+
+                  <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                  <text class="tick-label" x="72" y="270" text-anchor="end">5</text>
+                  <text class="tick-label" x="72" y="191" text-anchor="end">10</text>
+                  <text class="tick-label" x="72" y="112" text-anchor="end">15</text>
+                  <text class="tick-label" x="72" y="34" text-anchor="end">20</text>
+
+                  <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)">Minibeasts found</text>
+                  <text class="axis-label" x="365" y="410" text-anchor="middle">Microhabitat</text>
+
+                  <text class="tick-label" x="160" y="371" text-anchor="middle">Garden bed</text>
+                  <text class="tick-label" x="300" y="371" text-anchor="middle">Grass</text>
+                  <text class="tick-label" x="440" y="371" text-anchor="middle">Under log</text>
+                  <text class="tick-label" x="580" y="371" text-anchor="middle">Pavement</text>
+
+                  <rect class="practice-bar" data-practice-bar="0" x="118" y="345" width="84" height="0" rx="6" fill="var(--yellow)"></rect>
+                  <rect class="practice-bar" data-practice-bar="1" x="258" y="345" width="84" height="0" rx="6" fill="var(--mint)"></rect>
+                  <rect class="practice-bar" data-practice-bar="2" x="398" y="345" width="84" height="0" rx="6" fill="var(--blue)"></rect>
+                  <rect class="practice-bar" data-practice-bar="3" x="538" y="345" width="84" height="0" rx="6" fill="var(--lavender)"></rect>
+                </svg>
+              </div>
+
+              <div class="graph-detective challenge-hidden" id="barDetective" hidden>
+                <h4>🔎 Graph Detective</h4>
+                <p class="challenge-question">This graph makes a small difference look enormous. What is wrong?</p>
+
+                <div class="detective-mini-graph" aria-label="Misleading bar graph with a y-axis starting at fifty">
+                  <svg viewBox="0 0 360 220" style="width: 100%; height: auto; display: block;">
+                    <rect width="360" height="220" fill="white"></rect>
+                    <line x1="60" y1="170" x2="320" y2="170" stroke="var(--charcoal)" stroke-width="3"></line>
+                    <line x1="60" y1="170" x2="60" y2="25" stroke="var(--charcoal)" stroke-width="3"></line>
+                    <text x="48" y="174" text-anchor="end" font-size="12">50</text>
+                    <text x="48" y="104" text-anchor="end" font-size="12">55</text>
+                    <text x="48" y="34" text-anchor="end" font-size="12">60</text>
+                    <rect x="105" y="142" width="70" height="28" fill="var(--mint)" stroke="var(--charcoal)" stroke-width="2"></rect>
+                    <rect x="220" y="30" width="70" height="140" fill="var(--lavender)" stroke="var(--charcoal)" stroke-width="2"></rect>
+                    <text x="140" y="195" text-anchor="middle" font-size="12">A · 52</text>
+                    <text x="255" y="195" text-anchor="middle" font-size="12">B · 60</text>
+                  </svg>
+                </div>
+
+                <div class="challenge-choice-grid">
+                  <button type="button" class="challenge-choice" data-detective="zero">The y-axis does not start at zero.</button>
+                  <button type="button" class="challenge-choice" data-detective="touch">The two bars should touch.</button>
+                  <button type="button" class="challenge-choice" data-detective="line">The bar tops should be joined by a line.</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       <!-- ==================================================
            PIE CHART
            ================================================== -->
@@ -1200,6 +2032,137 @@
           </div>
         </div>
       </section>
+
+        <!-- ==================================================
+             PIE CHART STUDENT CHALLENGE
+             ================================================== -->
+        <div class="student-challenge" id="pie-practice">
+          <div class="student-challenge-heading">
+            <div>
+              <p class="challenge-kicker">Your turn · formative check</p>
+              <h3>🥧 Make the Whole</h3>
+              <p>Convert parts of a 20-student class into percentages and watch those parts build one whole circle.</p>
+            </div>
+            <span class="challenge-badge" id="piePracticeBadge">0% built</span>
+          </div>
+
+          <div class="challenge-grid">
+            <div class="challenge-panel">
+              <p class="challenge-question">
+                Twenty students each chose <strong>one</strong> favourite science-fair exhibit.
+                Because every student is counted once, all categories together represent the whole class.
+              </p>
+
+              <table class="practice-table" aria-label="Favourite science fair exhibit data">
+                <thead><tr><th>Exhibit</th><th>Students</th></tr></thead>
+                <tbody>
+                  <tr><td>Space</td><td>10</td></tr>
+                  <tr><td>Animals</td><td>5</td></tr>
+                  <tr><td>Plants</td><td>4</td></tr>
+                  <tr><td>Rocks</td><td>1</td></tr>
+                </tbody>
+              </table>
+
+              <div class="student-token-grid" id="piePracticeTokens" aria-label="Twenty student tokens"></div>
+
+              <div class="pie-practice-current" id="piePracticeCurrent">
+                <strong>Space: 10 of 20 students</strong>
+                What percentage of the whole class is that?
+              </div>
+
+              <div class="challenge-choice-grid three-choice" id="piePercentChoices"></div>
+
+              <div class="challenge-hidden" id="pieInterpretPractice" hidden>
+                <span class="challenge-step-label" style="margin-top: 16px;">Use the whole</span>
+                <p class="challenge-question">
+                  Space and Animals together account for 15 of the 20 students. What percentage is that?
+                </p>
+                <div class="challenge-choice-grid three-choice">
+                  <button type="button" class="challenge-choice" data-pie-total="55">55%</button>
+                  <button type="button" class="challenge-choice" data-pie-total="75">75%</button>
+                  <button type="button" class="challenge-choice" data-pie-total="90">90%</button>
+                </div>
+              </div>
+
+              <div class="challenge-feedback" id="piePracticeFeedback" role="status" aria-live="polite">
+                <strong>Start with a fraction of the whole.</strong>
+                10 out of 20 is the same as one half. What percentage of a whole is one half?
+              </div>
+
+              <button type="button" class="general-button challenge-reset" id="resetPiePracticeButton">Reset challenge</button>
+            </div>
+
+            <div class="challenge-visual">
+              <div class="graph-stage-heading">
+                <div>
+                  <h3>Your pie chart</h3>
+                  <p>Each correct percentage adds that category's slice to the same whole.</p>
+                </div>
+                <span class="graph-badge">Student chart</span>
+              </div>
+
+              <div class="graph-svg-wrap">
+                <svg class="graph-svg" id="piePracticeSvg" viewBox="0 0 500 440" role="img" aria-label="Student pie chart built from twenty students" style="min-width: 420px;">
+                  <circle cx="250" cy="220" r="160" fill="var(--soft-blue)" stroke="var(--charcoal)" stroke-width="3"></circle>
+                  <g id="piePracticeSlicesLayer"></g>
+                  <circle cx="250" cy="220" r="160" fill="none" stroke="var(--charcoal)" stroke-width="3" pointer-events="none"></circle>
+                  <text x="250" y="214" text-anchor="middle" font-size="17" font-weight="700" id="piePracticeCenterText">0%</text>
+                  <text x="250" y="238" text-anchor="middle" font-size="12" id="piePracticeCenterSubtext">of the whole built</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      <!-- ==================================================
+           FINAL GRAPH CHOICE CHALLENGE
+           ================================================== -->
+      <section class="final-graph-challenge" id="which-graph-challenge">
+        <h2 class="section-title">Final Challenge · Which Graph Should I Use?</h2>
+
+        <div class="diagram-box diagram-activity graph-intro-box">
+          <p class="activity-instruction">
+            Choosing the graph is part of scientific thinking. Read each investigation and decide whether the data is about
+            <strong>change</strong>, <strong>comparing categories</strong>, or <strong>parts of one whole</strong>.
+          </p>
+        </div>
+
+        <div class="scenario-card">
+          <p class="scenario-progress" id="scenarioProgress">Scenario 1 of 6</p>
+          <h3 id="scenarioTitle">Choose the best graph</h3>
+          <p id="scenarioText"></p>
+
+          <div class="graph-type-choice-grid" id="graphTypeChoiceGrid">
+            <button type="button" class="graph-type-choice" data-graph-choice="line">
+              <span>📈</span>
+              <strong>Line graph</strong>
+            </button>
+            <button type="button" class="graph-type-choice" data-graph-choice="bar">
+              <span>📊</span>
+              <strong>Bar graph</strong>
+            </button>
+            <button type="button" class="graph-type-choice" data-graph-choice="pie">
+              <span>🥧</span>
+              <strong>Pie chart</strong>
+            </button>
+          </div>
+
+          <div class="challenge-feedback" id="scenarioFeedback" role="status" aria-live="polite">
+            <strong>Ask what relationship matters.</strong>
+            Is the investigation showing change across ordered values, comparing separate categories, or dividing one whole?
+          </div>
+
+          <button type="button" class="general-button scenario-next-button" id="nextScenarioButton" hidden>
+            Next scenario
+          </button>
+
+          <button type="button" class="general-button challenge-reset scenario-next-button" id="resetScenarioButton">
+            Restart final challenge
+          </button>
+        </div>
+      </section>
+
 
       <div class="return-to-top">
         <a class="return-to-top-button general-button" href="#">
@@ -1910,6 +2873,784 @@
         );
       }
 
+
+
+      /* ==================================================
+         STUDENT PRACTICE CHALLENGES
+         ================================================== */
+
+      function setChallengeFeedback(elementId, type, title, message) {
+        const box = document.getElementById(elementId);
+        if (!box) return;
+
+        box.classList.remove("success", "try-again");
+        if (type === "success") box.classList.add("success");
+        if (type === "try-again") box.classList.add("try-again");
+
+        box.innerHTML = "";
+        const strong = document.createElement("strong");
+        strong.textContent = title;
+        box.appendChild(strong);
+        box.appendChild(document.createTextNode(message));
+      }
+
+      function flashChoice(button, className) {
+        if (!button) return;
+        button.classList.remove("correct-choice", "try-again-choice");
+        void button.offsetWidth;
+        button.classList.add(className);
+        window.setTimeout(function() {
+          button.classList.remove(className);
+        }, 650);
+      }
+
+      /* ---------- Line practice ---------- */
+
+      const linePracticeData = [
+        { x: 20, y: 8 },
+        { x: 40, y: 17 },
+        { x: 60, y: 29 },
+        { x: 80, y: 36 }
+      ];
+
+      const linePracticePlot = {
+        left: 90,
+        right: 630,
+        top: 30,
+        bottom: 345,
+        xMin: 0,
+        xMax: 80,
+        yMin: 0,
+        yMax: 40
+      };
+
+      let linePracticeAxisStage = "x";
+      let linePracticeAxesComplete = false;
+      let linePracticePointIndex = 0;
+      let linePracticeConnected = false;
+
+      function linePracticeX(value) {
+        return linePracticePlot.left +
+          ((value - linePracticePlot.xMin) / (linePracticePlot.xMax - linePracticePlot.xMin)) *
+          (linePracticePlot.right - linePracticePlot.left);
+      }
+
+      function linePracticeY(value) {
+        return linePracticePlot.bottom -
+          ((value - linePracticePlot.yMin) / (linePracticePlot.yMax - linePracticePlot.yMin)) *
+          (linePracticePlot.bottom - linePracticePlot.top);
+      }
+
+      function handleLineAxisChoice(button) {
+        const choice = button.dataset.lineAxisChoice;
+        const expected = linePracticeAxisStage === "x" ? "drop" : "bounce";
+
+        if (choice !== expected) {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "linePracticeFeedback",
+            "try-again",
+            linePracticeAxisStage === "x" ? "Think about what was changed." : "Think about what was measured.",
+            linePracticeAxisStage === "x"
+              ? " The student deliberately changed the drop height. The independent variable belongs on the x-axis."
+              : " Bounce height is the measurement that responded to the change, so it belongs on the y-axis."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+
+        if (linePracticeAxisStage === "x") {
+          document.getElementById("linePracticeXAxisLabel").textContent = "Drop height (cm)";
+          linePracticeAxisStage = "y";
+          document.getElementById("lineAxisStageLabel").textContent = "Choose the y-axis";
+          document.getElementById("lineAxisQuestionText").innerHTML =
+            "Which variable belongs on the <strong>y-axis</strong>?";
+          document.getElementById("linePracticeBadge").textContent = "Step 1 of 4";
+
+          setChallengeFeedback(
+            "linePracticeFeedback",
+            "success",
+            "Correct — drop height is the x-variable.",
+            " Now choose the variable that was measured for the y-axis."
+          );
+          return;
+        }
+
+        document.getElementById("linePracticeYAxisLabel").textContent = "Bounce height (cm)";
+        linePracticeAxesComplete = true;
+        document.getElementById("lineAxisPractice").hidden = true;
+        document.getElementById("linePlotPractice").hidden = false;
+        document.getElementById("linePracticeBadge").textContent = "Step 2 of 4";
+        document.getElementById("linePracticeVisualHint").textContent = "Click the graph to plot the highlighted data pair.";
+        document.querySelector("#linePracticeDataBody tr").classList.add("active-practice-row");
+
+        setChallengeFeedback(
+          "linePracticeFeedback",
+          "success",
+          "Axes ready.",
+          " Drop height is on x; bounce height is on y. Now plot the first coordinate pair from the table."
+        );
+      }
+
+      function linePracticeSvgPoint(event) {
+        const svg = document.getElementById("linePracticeSvg");
+        const point = svg.createSVGPoint();
+        point.x = event.clientX;
+        point.y = event.clientY;
+        const matrix = svg.getScreenCTM();
+        if (!matrix) return null;
+        return point.matrixTransform(matrix.inverse());
+      }
+
+      function updateLinePracticeCrosshair(event) {
+        if (!linePracticeAxesComplete || linePracticePointIndex >= linePracticeData.length) return;
+        const point = linePracticeSvgPoint(event);
+        if (!point) return;
+
+        const x = Math.max(linePracticePlot.left, Math.min(linePracticePlot.right, point.x));
+        const y = Math.max(linePracticePlot.top, Math.min(linePracticePlot.bottom, point.y));
+
+        const vertical = document.getElementById("linePracticeCrossV");
+        const horizontal = document.getElementById("linePracticeCrossH");
+        vertical.setAttribute("x1", x);
+        vertical.setAttribute("x2", x);
+        horizontal.setAttribute("y1", y);
+        horizontal.setAttribute("y2", y);
+        vertical.classList.add("visible");
+        horizontal.classList.add("visible");
+      }
+
+      function plotLinePracticePoint(event) {
+        if (!linePracticeAxesComplete || linePracticePointIndex >= linePracticeData.length) return;
+
+        const point = linePracticeSvgPoint(event);
+        if (!point) return;
+
+        if (
+          point.x < linePracticePlot.left - 12 ||
+          point.x > linePracticePlot.right + 12 ||
+          point.y < linePracticePlot.top - 12 ||
+          point.y > linePracticePlot.bottom + 12
+        ) {
+          return;
+        }
+
+        const target = linePracticeData[linePracticePointIndex];
+        const targetX = linePracticeX(target.x);
+        const targetY = linePracticeY(target.y);
+        const xDistance = Math.abs(point.x - targetX);
+        const yDistance = Math.abs(point.y - targetY);
+        const distance = Math.hypot(xDistance, yDistance);
+
+        if (distance > 34) {
+          let hint = " Find " + target.x + " on the x-axis, then move to " + target.y + " on the y-axis.";
+          if (xDistance <= 24 && yDistance > 24) {
+            hint = " Your x-position is close to " + target.x + ". Now check the bounce height on the y-axis: it should be " + target.y + ".";
+          } else if (yDistance <= 24 && xDistance > 24) {
+            hint = " Your y-position is close to " + target.y + ". Now check the drop height on the x-axis: it should be " + target.x + ".";
+          }
+
+          setChallengeFeedback(
+            "linePracticeFeedback",
+            "try-again",
+            "Almost — use both axes.",
+            hint
+          );
+          return;
+        }
+
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("class", "practice-student-point");
+        circle.setAttribute("cx", targetX);
+        circle.setAttribute("cy", targetY);
+        circle.setAttribute("r", "8");
+        document.getElementById("linePracticePointsLayer").appendChild(circle);
+
+        document.querySelectorAll("#linePracticeDataBody tr").forEach(function(row) {
+          row.classList.remove("active-practice-row");
+        });
+
+        linePracticePointIndex += 1;
+        document.getElementById("linePracticeCrossV").classList.remove("visible");
+        document.getElementById("linePracticeCrossH").classList.remove("visible");
+
+        if (linePracticePointIndex < linePracticeData.length) {
+          const next = linePracticeData[linePracticePointIndex];
+          const nextRow = document.querySelectorAll("#linePracticeDataBody tr")[linePracticePointIndex];
+          nextRow.classList.add("active-practice-row");
+          document.getElementById("linePlotPrompt").innerHTML =
+            "Plot <strong>(" + next.x + ", " + next.y + ")</strong>: " +
+            next.x + " cm drop height and " + next.y + " cm bounce height.";
+
+          setChallengeFeedback(
+            "linePracticeFeedback",
+            "success",
+            "Point " + linePracticePointIndex + " of " + linePracticeData.length + " is correct.",
+            " Each point joins one x-value from the first column with one y-value from the second column."
+          );
+          return;
+        }
+
+        document.getElementById("linePlotPractice").hidden = true;
+        document.getElementById("lineConnectPractice").hidden = false;
+        document.getElementById("linePracticeBadge").textContent = "Step 3 of 4";
+        document.getElementById("linePracticeVisualHint").textContent = "All measurements are plotted. Decide what makes this a line graph.";
+
+        setChallengeFeedback(
+          "linePracticeFeedback",
+          "success",
+          "All four coordinates are plotted.",
+          " You now have the raw measurements as points. What should a line graph add next?"
+        );
+      }
+
+      function handleLineNextChoice(button) {
+        const choice = button.dataset.lineNext;
+        if (choice !== "connect") {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "linePracticeFeedback",
+            "try-again",
+            "Keep the data type in mind.",
+            " Drop height is ordered numerical data. A line helps your eye follow how bounce height changes as drop height increases."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        const path = document.getElementById("linePracticePath");
+        const d = linePracticeData.map(function(point, index) {
+          return (index === 0 ? "M " : "L ") + linePracticeX(point.x) + " " + linePracticeY(point.y);
+        }).join(" ");
+        path.setAttribute("d", d);
+        linePracticeConnected = true;
+
+        document.getElementById("lineConnectPractice").hidden = true;
+        document.getElementById("lineInterpretPractice").hidden = false;
+        document.getElementById("linePracticeBadge").textContent = "Step 4 of 4";
+        document.getElementById("linePracticeVisualHint").textContent = "Use the completed graph to describe the relationship.";
+
+        setChallengeFeedback(
+          "linePracticeFeedback",
+          "success",
+          "Now it is a line graph.",
+          " The points came from measurements; the line makes the pattern across ordered drop heights easier to follow."
+        );
+      }
+
+      function handleLineTrendChoice(button) {
+        const choice = button.dataset.lineTrend;
+        if (choice !== "increase") {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "linePracticeFeedback",
+            "try-again",
+            "Read from left to right.",
+            " The plotted bounce heights rise from 8 to 17 to 29 to 36 cm as the drop height increases."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        document.getElementById("linePracticeBadge").textContent = "Complete ✓";
+        setChallengeFeedback(
+          "linePracticeFeedback",
+          "success",
+          "You built and interpreted the graph.",
+          " Higher drop heights produced higher bounce heights in these measurements. That conclusion comes from the pattern in the data."
+        );
+      }
+
+      function resetLinePractice() {
+        linePracticeAxisStage = "x";
+        linePracticeAxesComplete = false;
+        linePracticePointIndex = 0;
+        linePracticeConnected = false;
+
+        document.getElementById("linePracticeXAxisLabel").textContent = "x-axis";
+        document.getElementById("linePracticeYAxisLabel").textContent = "y-axis";
+        document.getElementById("lineAxisStageLabel").textContent = "Choose the x-axis";
+        document.getElementById("lineAxisQuestionText").innerHTML = "Which variable belongs on the <strong>x-axis</strong>?";
+        document.getElementById("lineAxisPractice").hidden = false;
+        document.getElementById("linePlotPractice").hidden = true;
+        document.getElementById("lineConnectPractice").hidden = true;
+        document.getElementById("lineInterpretPractice").hidden = true;
+        document.getElementById("linePracticeBadge").textContent = "Step 1 of 4";
+        document.getElementById("linePracticeVisualHint").textContent = "Choose the axes first. Then the graph becomes active.";
+        document.getElementById("linePlotPrompt").innerHTML = "Plot <strong>(20, 8)</strong>: 20 cm drop height and 8 cm bounce height.";
+        document.getElementById("linePracticePointsLayer").innerHTML = "";
+        document.getElementById("linePracticePath").setAttribute("d", "");
+        document.getElementById("linePracticeCrossV").classList.remove("visible");
+        document.getElementById("linePracticeCrossH").classList.remove("visible");
+
+        document.querySelectorAll("#linePracticeDataBody tr").forEach(function(row) {
+          row.classList.remove("active-practice-row");
+        });
+
+        setChallengeFeedback(
+          "linePracticeFeedback",
+          "",
+          "Think back to a fair test.",
+          " The x-axis usually shows the independent variable — the thing that was changed."
+        );
+      }
+
+      /* ---------- Bar practice ---------- */
+
+      const barPracticeData = [
+        { label: "Garden bed", value: 12 },
+        { label: "Grass", value: 7 },
+        { label: "Under log", value: 18 },
+        { label: "Pavement", value: 3 }
+      ];
+
+      let barPracticeBuiltCorrectly = false;
+      let barPracticeInterpretationCorrect = false;
+
+      function barPracticeHeight(value) {
+        return (value / 20) * 315;
+      }
+
+      function updatePracticeBar(index, value) {
+        const bar = document.querySelector('[data-practice-bar="' + index + '"]');
+        const height = barPracticeHeight(value);
+        bar.setAttribute("y", 345 - height);
+        bar.setAttribute("height", height);
+      }
+
+      function handleBarPracticeInput(input) {
+        const index = Number(input.dataset.barPractice);
+        const value = Number(input.value);
+        const row = document.querySelector('[data-bar-row="' + index + '"]');
+        row.querySelector("output").value = value;
+        row.classList.remove("needs-fix", "correct-bar");
+        updatePracticeBar(index, value);
+      }
+
+      function checkBarPractice() {
+        let firstWrongIndex = -1;
+
+        document.querySelectorAll("[data-bar-practice]").forEach(function(input, index) {
+          const row = document.querySelector('[data-bar-row="' + index + '"]');
+          const current = Number(input.value);
+          const target = barPracticeData[index].value;
+          const correct = current === target;
+          row.classList.toggle("correct-bar", correct);
+          row.classList.toggle("needs-fix", !correct);
+          if (!correct && firstWrongIndex === -1) firstWrongIndex = index;
+        });
+
+        if (firstWrongIndex !== -1) {
+          const input = document.querySelector('[data-bar-practice="' + firstWrongIndex + '"]');
+          const current = Number(input.value);
+          const target = barPracticeData[firstWrongIndex].value;
+          const difference = Math.abs(target - current);
+          const direction = current < target ? "higher" : "lower";
+
+          setChallengeFeedback(
+            "barPracticeFeedback",
+            "try-again",
+            barPracticeData[firstWrongIndex].label + " needs another look.",
+            " Your bar is at " + current + ", but the table shows " + target + ". Move it " + difference + " " + direction + "."
+          );
+          return;
+        }
+
+        barPracticeBuiltCorrectly = true;
+        document.getElementById("barInterpretPractice").hidden = false;
+        document.getElementById("barPracticeBadge").textContent = "Interpret";
+
+        setChallengeFeedback(
+          "barPracticeFeedback",
+          "success",
+          "All four bar heights match the data table.",
+          " Now use the completed graph to compare two categories."
+        );
+      }
+
+      function handleBarDifferenceChoice(button) {
+        if (button.dataset.barDifference !== "11") {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "barPracticeFeedback",
+            "try-again",
+            "Compare the two bar heights.",
+            " Under log is 18 and grass is 7. Find the difference between those two values."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        barPracticeInterpretationCorrect = true;
+        document.getElementById("barDetective").hidden = false;
+        document.getElementById("barPracticeBadge").textContent = "Detective";
+
+        setChallengeFeedback(
+          "barPracticeFeedback",
+          "success",
+          "Correct: 18 − 7 = 11.",
+          " Bar graphs are useful because both the visual height and the scale help us compare categories. Now inspect a misleading graph."
+        );
+      }
+
+      function handleBarDetectiveChoice(button) {
+        if (button.dataset.detective !== "zero") {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "barPracticeFeedback",
+            "try-again",
+            "Look closely at the y-axis labels.",
+            " The graph shows values 52 and 60, but the visible bars begin at 50. That makes an 8-unit difference look much larger."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        document.getElementById("barPracticeBadge").textContent = "Complete ✓";
+        setChallengeFeedback(
+          "barPracticeFeedback",
+          "success",
+          "You spotted the misleading scale.",
+          " For an ordinary bar graph, starting the y-axis at zero keeps bar height proportional to the amount being compared."
+        );
+      }
+
+      function resetBarPractice() {
+        barPracticeBuiltCorrectly = false;
+        barPracticeInterpretationCorrect = false;
+        document.getElementById("barPracticeBadge").textContent = "Build";
+        document.getElementById("barInterpretPractice").hidden = true;
+        document.getElementById("barDetective").hidden = true;
+
+        document.querySelectorAll("[data-bar-practice]").forEach(function(input, index) {
+          input.value = "0";
+          const row = document.querySelector('[data-bar-row="' + index + '"]');
+          row.classList.remove("needs-fix", "correct-bar");
+          row.querySelector("output").value = "0";
+          updatePracticeBar(index, 0);
+        });
+
+        setChallengeFeedback(
+          "barPracticeFeedback",
+          "",
+          "Build from zero.",
+          " Move each slider until the bar height matches the number in the data table."
+        );
+      }
+
+      /* ---------- Pie practice ---------- */
+
+      const piePracticeData = [
+        { label: "Space", value: 10, percent: 50, colour: "var(--yellow)", choices: [25, 50, 75], fraction: "one half" },
+        { label: "Animals", value: 5, percent: 25, colour: "var(--green)", choices: [10, 25, 40], fraction: "one quarter" },
+        { label: "Plants", value: 4, percent: 20, colour: "var(--purple)", choices: [15, 20, 40], fraction: "one fifth" },
+        { label: "Rocks", value: 1, percent: 5, colour: "var(--blue)", choices: [5, 10, 20], fraction: "one twentieth" }
+      ];
+
+      let piePracticeIndex = 0;
+      let piePracticeFilledTokens = 0;
+
+      function buildPiePracticeElements() {
+        const tokenGrid = document.getElementById("piePracticeTokens");
+        const sliceLayer = document.getElementById("piePracticeSlicesLayer");
+        tokenGrid.innerHTML = "";
+        sliceLayer.innerHTML = "";
+
+        for (let index = 0; index < 20; index += 1) {
+          const token = document.createElement("span");
+          token.className = "student-token";
+          token.textContent = index + 1;
+          tokenGrid.appendChild(token);
+        }
+
+        let runningAngle = 0;
+        piePracticeData.forEach(function(item, index) {
+          const sliceAngle = (item.value / 20) * 360;
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute("class", "practice-pie-slice");
+          path.setAttribute("d", describePieSlice(250, 220, 160, runningAngle, runningAngle + sliceAngle));
+          path.setAttribute("fill", item.colour);
+          path.dataset.piePracticeSlice = index;
+          sliceLayer.appendChild(path);
+          runningAngle += sliceAngle;
+        });
+      }
+
+      function renderPiePracticeQuestion() {
+        const item = piePracticeData[piePracticeIndex];
+        if (!item) return;
+
+        document.getElementById("piePracticeCurrent").innerHTML =
+          "<strong>" + item.label + ": " + item.value + " of 20 students</strong>" +
+          "What percentage of the whole class is that?";
+
+        const choices = document.getElementById("piePercentChoices");
+        choices.innerHTML = "";
+
+        item.choices.forEach(function(percent) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "challenge-choice";
+          button.textContent = percent + "%";
+          button.dataset.piePercentAnswer = percent;
+          button.addEventListener("click", function() {
+            handlePiePracticePercent(button);
+          });
+          choices.appendChild(button);
+        });
+      }
+
+      function handlePiePracticePercent(button) {
+        const item = piePracticeData[piePracticeIndex];
+        const selected = Number(button.dataset.piePercentAnswer);
+
+        if (selected !== item.percent) {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "piePracticeFeedback",
+            "try-again",
+            "Use the 20 students as the whole.",
+            " " + item.value + " out of 20 is " + item.fraction + " of the class. Think about how much of 100% that fraction represents."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        const tokens = document.querySelectorAll("#piePracticeTokens .student-token");
+        const start = piePracticeFilledTokens;
+        const end = start + item.value;
+
+        for (let index = start; index < end; index += 1) {
+          tokens[index].classList.add("filled");
+          tokens[index].style.background = item.colour;
+        }
+        piePracticeFilledTokens = end;
+
+        const slice = document.querySelector('[data-pie-practice-slice="' + piePracticeIndex + '"]');
+        slice.classList.add("visible");
+
+        piePracticeIndex += 1;
+        const builtPercent = piePracticeData
+          .slice(0, piePracticeIndex)
+          .reduce(function(total, datum) { return total + datum.percent; }, 0);
+
+        document.getElementById("piePracticeBadge").textContent = builtPercent + "% built";
+        document.getElementById("piePracticeCenterText").textContent = builtPercent + "%";
+
+        setChallengeFeedback(
+          "piePracticeFeedback",
+          "success",
+          item.label + " is " + item.percent + "% of the whole.",
+          " " + item.value + "/20 = " + item.percent + "%. The matching slice has now been added to the circle."
+        );
+
+        if (piePracticeIndex < piePracticeData.length) {
+          renderPiePracticeQuestion();
+          return;
+        }
+
+        document.getElementById("piePercentChoices").innerHTML = "";
+        document.getElementById("piePracticeCurrent").innerHTML =
+          "<strong>20 of 20 students are now represented.</strong>The four slices make 100% of one whole class.";
+        document.getElementById("pieInterpretPractice").hidden = false;
+        document.getElementById("piePracticeBadge").textContent = "100% built";
+
+        setChallengeFeedback(
+          "piePracticeFeedback",
+          "success",
+          "The whole pie is complete.",
+          " 50% + 25% + 20% + 5% = 100%. Now combine two slices and interpret the chart."
+        );
+      }
+
+      function handlePieTotalChoice(button) {
+        if (button.dataset.pieTotal !== "75") {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "piePracticeFeedback",
+            "try-again",
+            "Combine the two parts.",
+            " Space is 50% and Animals is 25%. Add those two shares of the same whole."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        document.getElementById("piePracticeBadge").textContent = "Complete ✓";
+        setChallengeFeedback(
+          "piePracticeFeedback",
+          "success",
+          "Correct: 50% + 25% = 75%.",
+          " A pie chart lets you reason about single slices and combinations of slices because every category belongs to the same 100% whole."
+        );
+      }
+
+      function resetPiePractice() {
+        piePracticeIndex = 0;
+        piePracticeFilledTokens = 0;
+        document.getElementById("pieInterpretPractice").hidden = true;
+        document.getElementById("piePracticeBadge").textContent = "0% built";
+        document.getElementById("piePracticeCenterText").textContent = "0%";
+
+        document.querySelectorAll("#piePracticeTokens .student-token").forEach(function(token) {
+          token.classList.remove("filled");
+          token.style.background = "white";
+        });
+
+        document.querySelectorAll(".practice-pie-slice").forEach(function(slice) {
+          slice.classList.remove("visible");
+        });
+
+        renderPiePracticeQuestion();
+        setChallengeFeedback(
+          "piePracticeFeedback",
+          "",
+          "Start with a fraction of the whole.",
+          " 10 out of 20 is the same as one half. What percentage of a whole is one half?"
+        );
+      }
+
+      /* ---------- Final graph-choice challenge ---------- */
+
+      const graphChoiceScenarios = [
+        {
+          text: "A student measures the height of the same bean plant every week for eight weeks.",
+          answer: "line",
+          reason: "The weeks are ordered and the goal is to see how plant height changes over time. A line graph makes the trend easy to follow."
+        },
+        {
+          text: "A class counts how many ants, beetles, flies and butterflies they find in the schoolyard.",
+          answer: "bar",
+          reason: "Ants, beetles, flies and butterflies are separate categories. A bar graph makes their counts easy to compare."
+        },
+        {
+          text: "Twenty students each choose one favourite science topic. The class wants to show what share chose space, animals, plants or rocks.",
+          answer: "pie",
+          reason: "Every student belongs to one category and all categories together make one whole class, so a pie chart can show the shares."
+        },
+        {
+          text: "The outdoor temperature is recorded every hour from 9 am until 3 pm.",
+          answer: "line",
+          reason: "Time has a meaningful order. A line graph shows how temperature changes from one hour to the next."
+        },
+        {
+          text: "Students plant the same number of seeds in sand, potting mix, clay soil and compost, then compare how many germinate in each soil type.",
+          answer: "bar",
+          reason: "The soil types are separate categories and the germinated seed counts are being compared between them."
+        },
+        {
+          text: "A school sorts all of one day's rubbish into paper, food, plastic and other waste and wants to show each category's share of the total waste.",
+          answer: "pie",
+          reason: "The categories are all parts of one meaningful total: the day's rubbish. A pie chart can show how the whole is divided."
+        }
+      ];
+
+      let graphChoiceScenarioIndex = 0;
+      let currentScenarioCorrect = false;
+
+      function renderGraphChoiceScenario() {
+        const scenario = graphChoiceScenarios[graphChoiceScenarioIndex];
+        document.getElementById("scenarioProgress").textContent =
+          "Scenario " + (graphChoiceScenarioIndex + 1) + " of " + graphChoiceScenarios.length;
+        document.getElementById("scenarioText").textContent = scenario.text;
+        document.getElementById("nextScenarioButton").hidden = true;
+        currentScenarioCorrect = false;
+
+        document.querySelectorAll(".graph-type-choice").forEach(function(button) {
+          button.disabled = false;
+          button.classList.remove("correct-choice", "try-again-choice");
+        });
+
+        setChallengeFeedback(
+          "scenarioFeedback",
+          "",
+          "Ask what relationship matters.",
+          " Is the investigation showing change across ordered values, comparing separate categories, or dividing one whole?"
+        );
+      }
+
+      function handleGraphChoice(button) {
+        if (currentScenarioCorrect) return;
+        const scenario = graphChoiceScenarios[graphChoiceScenarioIndex];
+        const choice = button.dataset.graphChoice;
+
+        if (choice !== scenario.answer) {
+          flashChoice(button, "try-again-choice");
+
+          let hint = "Think about what the reader needs to notice.";
+          if (choice === "pie") {
+            hint = "A pie chart needs categories that together form one meaningful whole. Does that describe this dataset?";
+          } else if (choice === "bar") {
+            hint = "A bar graph is strongest for comparing separate categories. Are these values separate groups, or do they follow an order?";
+          } else if (choice === "line") {
+            hint = "A line graph is strongest when x-values have a meaningful order and the goal is to follow change or a trend.";
+          }
+
+          setChallengeFeedback(
+            "scenarioFeedback",
+            "try-again",
+            "Not this one yet.",
+            " " + hint
+          );
+          return;
+        }
+
+        currentScenarioCorrect = true;
+        button.classList.add("correct-choice");
+        document.querySelectorAll(".graph-type-choice").forEach(function(choiceButton) {
+          choiceButton.disabled = true;
+        });
+
+        const names = { line: "Line graph", bar: "Bar graph", pie: "Pie chart" };
+        setChallengeFeedback(
+          "scenarioFeedback",
+          "success",
+          names[scenario.answer] + " is the best match.",
+          " " + scenario.reason
+        );
+
+        const nextButton = document.getElementById("nextScenarioButton");
+        nextButton.hidden = false;
+        nextButton.textContent =
+          graphChoiceScenarioIndex === graphChoiceScenarios.length - 1
+            ? "Finish challenge"
+            : "Next scenario";
+      }
+
+      function nextGraphChoiceScenario() {
+        if (!currentScenarioCorrect) return;
+
+        if (graphChoiceScenarioIndex < graphChoiceScenarios.length - 1) {
+          graphChoiceScenarioIndex += 1;
+          renderGraphChoiceScenario();
+          return;
+        }
+
+        document.getElementById("scenarioProgress").textContent = "Challenge complete";
+        document.getElementById("scenarioTitle").textContent = "🏆 You matched all six investigations";
+        document.getElementById("scenarioText").textContent =
+          "The key is not the shape of the graph. It is the question the data needs the graph to answer.";
+        document.getElementById("graphTypeChoiceGrid").hidden = true;
+        document.getElementById("nextScenarioButton").hidden = true;
+
+        setChallengeFeedback(
+          "scenarioFeedback",
+          "success",
+          "Change · Compare · Whole",
+          " Line graphs help follow change across ordered values. Bar graphs compare separate categories. Pie charts show parts of one meaningful whole."
+        );
+      }
+
+      function resetGraphChoiceChallenge() {
+        graphChoiceScenarioIndex = 0;
+        currentScenarioCorrect = false;
+        document.getElementById("scenarioTitle").textContent = "Choose the best graph";
+        document.getElementById("graphTypeChoiceGrid").hidden = false;
+        renderGraphChoiceScenario();
+      }
+
+
       /* ==================================================
          INITIALISE TEST PAGE
          ================================================== */
@@ -1939,9 +3680,55 @@
         document.getElementById("showPiePercentButton").addEventListener("click", showPiePercentages);
         document.getElementById("resetPieChartButton").addEventListener("click", resetPieChart);
 
+        document.querySelectorAll("[data-line-axis-choice]").forEach(function(button) {
+          button.addEventListener("click", function() { handleLineAxisChoice(button); });
+        });
+        document.getElementById("linePracticeSvg").addEventListener("pointermove", updateLinePracticeCrosshair);
+        document.getElementById("linePracticeSvg").addEventListener("pointerleave", function() {
+          document.getElementById("linePracticeCrossV").classList.remove("visible");
+          document.getElementById("linePracticeCrossH").classList.remove("visible");
+        });
+        document.getElementById("linePracticeSvg").addEventListener("click", plotLinePracticePoint);
+        document.querySelectorAll("[data-line-next]").forEach(function(button) {
+          button.addEventListener("click", function() { handleLineNextChoice(button); });
+        });
+        document.querySelectorAll("[data-line-trend]").forEach(function(button) {
+          button.addEventListener("click", function() { handleLineTrendChoice(button); });
+        });
+        document.getElementById("resetLinePracticeButton").addEventListener("click", resetLinePractice);
+
+        document.querySelectorAll("[data-bar-practice]").forEach(function(input) {
+          input.addEventListener("input", function() { handleBarPracticeInput(input); });
+        });
+        document.getElementById("checkBarPracticeButton").addEventListener("click", checkBarPractice);
+        document.querySelectorAll("[data-bar-difference]").forEach(function(button) {
+          button.addEventListener("click", function() { handleBarDifferenceChoice(button); });
+        });
+        document.querySelectorAll("[data-detective]").forEach(function(button) {
+          button.addEventListener("click", function() { handleBarDetectiveChoice(button); });
+        });
+        document.getElementById("resetBarPracticeButton").addEventListener("click", resetBarPractice);
+
+        document.querySelectorAll("[data-pie-total]").forEach(function(button) {
+          button.addEventListener("click", function() { handlePieTotalChoice(button); });
+        });
+        document.getElementById("resetPiePracticeButton").addEventListener("click", resetPiePractice);
+
+        document.querySelectorAll("[data-graph-choice]").forEach(function(button) {
+          button.addEventListener("click", function() { handleGraphChoice(button); });
+        });
+        document.getElementById("nextScenarioButton").addEventListener("click", nextGraphChoiceScenario);
+        document.getElementById("resetScenarioButton").addEventListener("click", resetGraphChoiceChallenge);
+
         resetLineGraph();
         resetBarGraph();
         resetPieChart();
+
+        buildPiePracticeElements();
+        resetLinePractice();
+        resetBarPractice();
+        resetPiePractice();
+        resetGraphChoiceChallenge();
       });
     </script>
   </body>

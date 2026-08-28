@@ -878,6 +878,15 @@ function resetLessonPage() {
     clearLessonProgress();
   }
 
+  /*
+    Some pages keep their own saved progress. Without
+    clearing that too, the reload would simply put every
+    answer straight back.
+  */
+  if (typeof clearPageSavedData === "function") {
+    clearPageSavedData();
+  }
+
   window.location.reload();
 }
 

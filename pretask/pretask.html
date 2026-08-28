@@ -805,6 +805,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const PRETASK_SAVE_KEY = 'plantExplorerPretaskSave';
 
+/*
+  Used by the teacher menu's "Reset student view" to
+  clear this page's saved progress before it reloads.
+*/
+function clearPageSavedData() {
+  try {
+    localStorage.removeItem(PRETASK_SAVE_KEY);
+  } catch (error) {
+    /* A blocked store just means there was nothing to clear. */
+  }
+}
+
 let pretaskIsRestoring = false;
 let pretaskSaveTimer = null;
 
