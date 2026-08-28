@@ -982,6 +982,16 @@ function saveCurrentPageData() {
     return;
   }
 
+  /*
+    Printing opens every section for the PDF. That is a
+    temporary view, not the student's progress, so
+    nothing is saved while it is on screen - otherwise
+    the whole lesson would reopen next time.
+  */
+  if (document.body.classList.contains('printing-lesson')) {
+    return;
+  }
+
   const data = collectPretaskData();
   console.log(data.plantBuilding);
 

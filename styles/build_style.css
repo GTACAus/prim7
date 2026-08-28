@@ -587,6 +587,16 @@ input[type="checkbox"]:active {
   pointer-events: auto;
 }
 
+/*
+  The header ignores clicks so students can select the
+  page underneath it, so every control placed in it has
+  to switch clicks back on. The pretask page keeps its
+  save button up here.
+*/
+.save-work-button {
+  pointer-events: auto;
+}
+
 .home-button,
 .glossary-button {
   background: var(--card) !important;
