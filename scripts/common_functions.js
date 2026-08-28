@@ -1054,7 +1054,36 @@ document.addEventListener("keydown", function(event) {
 
 let sectionsLockedBeforePrint = [];
 
+/*
+  Put back any sections that were opened up just for
+  printing.
+
+  Safe to call at any time: it does nothing unless a
+  print actually unlocked something.
+*/
+function restoreSectionsAfterPrint() {
+  if (sectionsLockedBeforePrint.length === 0) {
+    document.body.classList.remove('printing-lesson');
+    return;
+  }
+
+  sectionsLockedBeforePrint.forEach(section => {
+    section.classList.add('locked');
+  });
+
+  sectionsLockedBeforePrint = [];
+
+  document.body.classList.remove('printing-lesson');
+}
+
+
 function downloadLessonPDF() {
+  /*
+    If a previous print never told us it had finished,
+    tidy up before starting another one.
+  */
+  restoreSectionsAfterPrint();
+
   /*
     Make sure the most recent student answers are saved
     before opening the print window.
@@ -1089,19 +1118,36 @@ function downloadLessonPDF() {
   }, 300);
 }
 
-window.addEventListener('afterprint', function() {
-  /*
-    Restore the page to exactly how it looked before
-    the student downloaded it.
-  */
-  sectionsLockedBeforePrint.forEach(section => {
-    section.classList.add('locked');
-  });
+/*
+  Restore the page to exactly how it looked before the
+  student downloaded it.
 
-  sectionsLockedBeforePrint = [];
+  Two signals are used because "afterprint" does not
+  arrive in every browser when the print dialog is
+  cancelled - and a missed signal would leave the whole
+  lesson unlocked.
+*/
+window.addEventListener('afterprint', restoreSectionsAfterPrint);
 
-  document.body.classList.remove('printing-lesson');
-});
+const lessonPrintMedia =
+  typeof window.matchMedia === "function"
+    ? window.matchMedia('print')
+    : null;
+
+if (lessonPrintMedia) {
+  const handlePrintMediaChange = function (event) {
+    if (!event.matches) {
+      restoreSectionsAfterPrint();
+    }
+  };
+
+  if (typeof lessonPrintMedia.addEventListener === "function") {
+    lessonPrintMedia.addEventListener('change', handlePrintMediaChange);
+  } else if (typeof lessonPrintMedia.addListener === "function") {
+    /* Older browsers. */
+    lessonPrintMedia.addListener(handlePrintMediaChange);
+  }
+}
 
 function connectEnterAndBlurSave(input, saveFunction) {
   let isSubmitting = false;
