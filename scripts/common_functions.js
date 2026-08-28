@@ -712,10 +712,10 @@ function initialiseTeacherMenu(
   // Build the jump buttons
   sectionList.innerHTML = "";
 
-  normalisedSections.forEach(function (section) {
+  normalisedSections.forEach(function (section, index) {
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = section.label;
+    button.innerHTML = (index + 1) + ". " + section.label;
 
     button.addEventListener("click", function () {
       teacherJump(section.id);

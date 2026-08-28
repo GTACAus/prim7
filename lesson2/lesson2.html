@@ -129,44 +129,7 @@
         </button>
       </div>
 
-      <div class="teacher-section-list">
-
-        <button type="button" onclick="teacherJump('discover-variables')">
-          1. Discover possible variables
-        </button>
-
-        <button type="button" onclick="teacherJump('variable-types')">
-          2. Learn the three variable types
-        </button>
-
-        <button type="button" onclick="teacherJump('sort-variables-one')">
-          3. Sort variables: floor surface
-        </button>
-
-        <button type="button" onclick="teacherJump('sort-variables-two')">
-          4. Sort variables: ball size
-        </button>
-
-        <button
-          type="button"
-          onclick="teacherJump('choose-ball-pair')">
-          5. Choose the right pair for a <strong>fair test</strong> experiment
-        </button>
-
-        <button
-          type="button"
-          onclick="teacherJump('design-question')">
-          6. Design a question and make a prediction
-        </button>
-
-        <button type="button" onclick="teacherJump('sort-variables-three')">
-          7. Choose variables for your investigation
-        </button>
-
-        <button type="button" onclick="teacherJump('build-experiment')">
-          8. Describe the fair-test procedure
-        </button>
-      </div>
+      <div class="teacher-section-list"></div>
 
       <div class="teacher-actions">
         <button
@@ -1745,14 +1708,14 @@
        ================================================== */
 
     const lesson2SectionIds = [
-      "discover-variables",
-      "variable-types",
-      "sort-variables-one",
-      "sort-variables-two",
-      "choose-ball-pair",
-      "design-question",
-      "sort-variables-three",
-      "build-experiment"
+      { id: "discover-variables", label: "Discover possible variables" },
+      { id: "variable-types", label: "Learn the three variable types" },
+      { id: "sort-variables-one", label: "Sort variables: floor surface" },
+      { id: "sort-variables-two", label: "Sort variables: ball size" },
+      { id: "choose-ball-pair", label: "Choose the right pair for a fair test experiment" },
+      { id: "design-question", label: "Design a question and make a prediction" },
+      { id: "sort-variables-three", label: "Choose variables for your investigation" },
+      { id: "build-experiment", label: "Describe the fair-test procedure" },
     ];
 
 const feedbackDefaultMessage =
