@@ -986,7 +986,7 @@
             <button
               type="button"
               class="general-button reset-btn"
-              onclick="resetLessonPage()"
+              onclick="resetBallBounceTable()"
             >
               Reset
             </button>
@@ -2606,6 +2606,85 @@ function ballBounceRepeatStopAndCheck(button) {
           feedback.innerHTML = "";
         }
       }
+
+function resetBallBounceTable() {
+  const tableCard = document.querySelector(
+    "#build-your-own-table .bounce-table-card"
+  );
+
+  if (!tableCard) {
+    return;
+  }
+
+  // Reset permanent number entries
+  tableCard
+    .querySelectorAll(".table-number-control")
+    .forEach(function (control) {
+      const inputRow =
+        control.querySelector(".table-entry-input-row");
+
+      const answerBox =
+        control.querySelector(".table-entry-answer");
+
+      const input =
+        control.querySelector(".table-number-input");
+
+      if (input) {
+        input.value = "";
+      }
+
+      if (inputRow) {
+        inputRow.style.display = "block";
+      }
+
+      if (answerBox) {
+        answerBox.classList.remove("visible");
+        answerBox.innerHTML = "";
+      }
+    });
+
+  // Reset permanent text entries
+  tableCard
+    .querySelectorAll(".table-entry-control")
+    .forEach(function (control) {
+      const inputRow =
+        control.querySelector(".table-entry-input-row");
+
+      const answerBox =
+        control.querySelector(".table-entry-answer");
+
+      const input =
+        control.querySelector(".lesson3-filtered-text");
+
+      if (input) {
+        input.value = "";
+      }
+
+      if (inputRow) {
+        inputRow.style.display = "block";
+      }
+
+      if (answerBox) {
+        answerBox.classList.remove("visible");
+        answerBox.innerHTML = "";
+      }
+    });
+
+  // Reset calculated averages back to Calculate buttons
+  restoreAverageButtons(
+    "#build-your-own-table .bounce-table-card",
+    calculateInputAverage
+  );
+
+  // Clear any table feedback
+  const feedback =
+    document.getElementById("customTableFeedback");
+
+  if (feedback) {
+    feedback.hidden = true;
+    feedback.innerHTML = "";
+  }
+}
 
       function resetLesson3Section(sectionId) {
         const nextButton = document.getElementById(sectionId).querySelector(".next-button");
