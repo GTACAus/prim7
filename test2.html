@@ -1,0 +1,1948 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson 4 Test - Understanding Graphs</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
+
+    <style>
+      /* ==================================================
+         LESSON 4 GRAPH PLAYGROUND
+
+         Test-only overrides. If these ideas are kept, move
+         the useful rules into lesson4_styles/lesson4.css.
+         ================================================== */
+
+      .lesson4-page {
+        padding-top: 118px;
+      }
+
+      .lesson4-intro {
+        margin-bottom: 22px;
+        padding-top: 0;
+      }
+
+      .lesson4-test-note {
+        width: min(820px, 100%);
+        margin: 0 auto 28px;
+        padding: 14px 18px;
+        background: var(--soft-blue);
+        border: 2px dashed var(--charcoal);
+        border-radius: 16px;
+        color: var(--text);
+        line-height: 1.55;
+        text-align: center;
+      }
+
+      #line-graph .section-title {
+        background: var(--mint);
+      }
+
+      #bar-graph .section-title {
+        background: var(--yellow);
+      }
+
+      #pie-chart .section-title {
+        background: var(--lavender);
+      }
+
+      .graph-intro-box {
+        margin-bottom: 20px;
+      }
+
+      .graph-learning-grid {
+        display: grid;
+        grid-template-columns: minmax(240px, 0.78fr) minmax(0, 1.72fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .graph-control-card,
+      .graph-stage-card,
+      .graph-rule-card {
+        border: 3px solid var(--charcoal);
+        border-radius: 20px;
+        box-shadow: var(--shadow-small);
+      }
+
+      .graph-control-card {
+        padding: 20px;
+        background: linear-gradient(
+          to bottom,
+          var(--paper) 0%,
+          var(--paper) 60%,
+          var(--soft-blue) 180%
+        );
+      }
+
+      .graph-control-card h3,
+      .graph-rule-card h3 {
+        margin: 0 0 8px;
+        color: var(--text);
+      }
+
+      .graph-control-card > p,
+      .graph-rule-card > p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .graph-stage-card {
+        padding: 18px;
+        background: white;
+        overflow: hidden;
+      }
+
+      .graph-stage-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .graph-stage-heading h3 {
+        margin: 0;
+        color: var(--text);
+      }
+
+      .graph-stage-heading p {
+        margin: 3px 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .graph-badge {
+        flex: 0 0 auto;
+        padding: 6px 10px;
+        background: var(--soft-yellow);
+        border: 2px solid var(--charcoal);
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .graph-svg-wrap {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      .graph-svg {
+        display: block;
+        width: 100%;
+        min-width: 560px;
+        height: auto;
+      }
+
+      .graph-svg text {
+        font-family: "DM Sans", Arial, sans-serif;
+        fill: var(--text);
+      }
+
+      .graph-grid-line {
+        stroke: rgba(48, 51, 47, 0.16);
+        stroke-width: 1;
+      }
+
+      .graph-axis {
+        stroke: var(--charcoal);
+        stroke-width: 3;
+        stroke-linecap: round;
+      }
+
+      .axis-group {
+        opacity: 0;
+        transition: opacity 0.35s ease;
+      }
+
+      .axis-group.visible {
+        opacity: 1;
+      }
+
+      .axis-label {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .tick-label {
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .control-step-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .control-step {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 10px;
+        align-items: center;
+        padding: 10px;
+        background: white;
+        border: 2px solid var(--charcoal);
+        border-radius: 14px;
+      }
+
+      .control-step-number {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        background: var(--soft-yellow);
+        border: 2px solid var(--charcoal);
+        border-radius: 50%;
+        font-weight: 700;
+      }
+
+      .control-step:nth-child(2) .control-step-number {
+        background: var(--soft-purple);
+      }
+
+      .control-step:nth-child(3) .control-step-number {
+        background: var(--soft-green);
+      }
+
+      .control-step:nth-child(4) .control-step-number {
+        background: var(--soft-blue);
+      }
+
+      .control-step strong {
+        display: block;
+        margin-bottom: 2px;
+      }
+
+      .control-step span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.88rem;
+        line-height: 1.35;
+      }
+
+      .graph-button-stack {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .graph-button-stack .general-button {
+        width: 100%;
+        color: var(--text);
+        background: var(--soft-green);
+      }
+
+      .graph-button-stack .general-button:nth-child(2) {
+        background: var(--soft-purple);
+      }
+
+      .graph-button-stack .general-button:nth-child(3) {
+        background: var(--soft-yellow);
+      }
+
+      .graph-button-stack .general-button:nth-child(4) {
+        background: var(--soft-blue);
+      }
+
+      .graph-button-stack .reset-btn {
+        background: var(--soft-orange) !important;
+      }
+
+      .general-button:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+        pointer-events: none;
+        transform: none;
+        box-shadow: 0 4px 0 var(--charcoal);
+      }
+
+      .teaching-feedback {
+        min-height: 82px;
+        margin-top: 16px;
+        padding: 14px 16px;
+        background: var(--soft-blue);
+        border: 2px solid var(--charcoal);
+        border-left: 8px solid var(--blue);
+        border-radius: 14px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      .teaching-feedback strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .mini-data-table {
+        width: 100%;
+        margin-top: 18px;
+        border-collapse: collapse;
+        overflow: hidden;
+        border: 2px solid var(--charcoal);
+        border-radius: 12px;
+      }
+
+      .mini-data-table th,
+      .mini-data-table td {
+        padding: 8px 10px;
+        border: 1px solid var(--charcoal);
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .mini-data-table th {
+        background: var(--soft-yellow);
+      }
+
+      .mini-data-table th:last-child {
+        background: var(--soft-purple);
+      }
+
+      .mini-data-table tr.current-row td {
+        background: var(--soft-green);
+        font-weight: 700;
+      }
+
+      .point-guide {
+        stroke: var(--purple);
+        stroke-width: 2;
+        stroke-dasharray: 7 7;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .point-guide.visible {
+        opacity: 0.72;
+      }
+
+      .line-point {
+        fill: var(--orange);
+        stroke: var(--charcoal);
+        stroke-width: 3;
+        cursor: pointer;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .line-point.visible {
+        opacity: 1;
+        animation: graphPointPop 0.45s ease-out;
+      }
+
+      .line-point:hover,
+      .line-point:focus {
+        fill: var(--yellow);
+        outline: none;
+      }
+
+      @keyframes graphPointPop {
+        0% {
+          transform: scale(0.25);
+        }
+        70% {
+          transform: scale(1.18);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      #linePath {
+        fill: none;
+        stroke: var(--purple);
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .graph-rule-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      .graph-rule-card {
+        padding: 16px;
+        background: white;
+      }
+
+      .graph-rule-card:nth-child(1) {
+        border-top: 8px solid var(--mint);
+      }
+
+      .graph-rule-card:nth-child(2) {
+        border-top: 8px solid var(--yellow);
+      }
+
+      .graph-rule-card:nth-child(3) {
+        border-top: 8px solid var(--lavender);
+      }
+
+      /* ---------- Bar graph ---------- */
+
+      .bar-data-grid,
+      .pie-data-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .data-value-card {
+        padding: 12px 8px;
+        background: white;
+        border: 2px solid var(--charcoal);
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      .data-value-card strong {
+        display: block;
+        font-size: 1.2rem;
+      }
+
+      .data-value-card span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .data-value-card.active {
+        background: var(--soft-green);
+        transform: translateY(-2px);
+      }
+
+      .bar-rect {
+        stroke: var(--charcoal);
+        stroke-width: 2;
+        transition:
+          y 0.5s cubic-bezier(0.2, 0.8, 0.3, 1),
+          height 0.5s cubic-bezier(0.2, 0.8, 0.3, 1),
+          opacity 0.25s ease;
+        cursor: pointer;
+      }
+
+      .bar-rect:nth-of-type(1) {
+        fill: var(--yellow);
+      }
+
+      .bar-rect:nth-of-type(2) {
+        fill: var(--mint);
+      }
+
+      .bar-rect:nth-of-type(3) {
+        fill: var(--blue);
+      }
+
+      .bar-rect:nth-of-type(4) {
+        fill: var(--lavender);
+      }
+
+      .bar-rect.highlight {
+        stroke: var(--orange);
+        stroke-width: 6;
+      }
+
+      .bar-value-label {
+        opacity: 0;
+        font-size: 13px;
+        font-weight: 700;
+        text-anchor: middle;
+        transition: opacity 0.25s ease;
+      }
+
+      .bar-value-label.visible {
+        opacity: 1;
+      }
+
+      .zero-line-callout {
+        margin-top: 14px;
+        padding: 12px 14px;
+        background: var(--soft-yellow);
+        border: 2px solid var(--charcoal);
+        border-radius: 12px;
+        line-height: 1.45;
+      }
+
+      /* ---------- Pie chart ---------- */
+
+      .pie-layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 1fr) minmax(220px, 0.8fr);
+        gap: 20px;
+        align-items: center;
+      }
+
+      .pie-slice {
+        stroke: white;
+        stroke-width: 4;
+        cursor: pointer;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        transition:
+          opacity 0.35s ease,
+          transform 0.25s ease,
+          filter 0.25s ease;
+      }
+
+      .pie-slice.visible {
+        opacity: 1;
+        animation: pieSlicePop 0.4s ease-out;
+      }
+
+      .pie-slice.selected {
+        transform: scale(1.045);
+        filter: drop-shadow(0 4px 0 rgba(48, 51, 47, 0.35));
+      }
+
+      @keyframes pieSlicePop {
+        from {
+          opacity: 0;
+          transform: scale(0.7);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .pie-legend {
+        display: grid;
+        gap: 10px;
+      }
+
+      .pie-legend-button {
+        display: grid;
+        grid-template-columns: 20px 1fr auto;
+        gap: 9px;
+        align-items: center;
+        width: 100%;
+        padding: 10px 12px;
+        background: white;
+        border: 2px solid var(--charcoal);
+        border-radius: 12px;
+        color: var(--text);
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .pie-legend-button:hover,
+      .pie-legend-button.selected {
+        background: var(--soft-blue);
+      }
+
+      .legend-swatch {
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--charcoal);
+        border-radius: 4px;
+      }
+
+      .legend-count {
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .pie-percent {
+        opacity: 0;
+        font-size: 13px;
+        font-weight: 700;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+
+      .pie-percent.visible {
+        opacity: 1;
+      }
+
+      .whole-meter {
+        margin-top: 16px;
+        padding: 12px 14px;
+        background: white;
+        border: 2px solid var(--charcoal);
+        border-radius: 12px;
+      }
+
+      .whole-meter-track {
+        height: 18px;
+        margin-top: 8px;
+        overflow: hidden;
+        background: var(--soft-blue);
+        border: 2px solid var(--charcoal);
+        border-radius: 999px;
+      }
+
+      .whole-meter-fill {
+        width: 0;
+        height: 100%;
+        background: var(--green);
+        transition: width 0.45s ease;
+      }
+
+      .whole-meter-label {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      @media (max-width: 900px) {
+        .graph-learning-grid,
+        .pie-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .graph-rule-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .bar-data-grid,
+        .pie-data-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .lesson4-page {
+          padding-top: 126px;
+        }
+
+        .graph-stage-card,
+        .graph-control-card {
+          padding: 14px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .line-point.visible,
+        .pie-slice.visible {
+          animation: none;
+        }
+
+        .bar-rect,
+        .whole-meter-fill,
+        .axis-group {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page-header-wrapper">
+      <header class="page-header">
+        <button
+          class="general-button home-button"
+          type="button"
+          onclick="window.location.href='../index.html'"
+        >
+          <p class="bounce-symbol">🏠</p>
+          <p>Home</p>
+        </button>
+
+        <button
+          class="general-button glossary-button"
+          type="button"
+          onclick="openGlossary()"
+        >
+          <p class="bounce-symbol">📖</p>
+          <p>Vocabulary</p>
+        </button>
+      </header>
+    </div>
+
+    <!-- Shared glossary modal: opened by common_functions.js -->
+    <div class="modal" id="glossaryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="teacher-label">Lesson 4: Graphs</p>
+            <h2>Glossary Terms</h2>
+          </div>
+
+          <button
+            type="button"
+            class="close-button"
+            onclick="closeGlossary()"
+            aria-label="Close glossary"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="vocab-list">
+          <div class="vocab-card">
+            <h3>Graph</h3>
+            <p>A visual way of showing data so patterns, comparisons and relationships are easier to see.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>X-axis</h3>
+            <p>The horizontal axis. In a fair test line graph, this often shows the independent variable — what was changed.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Y-axis</h3>
+            <p>The vertical axis. In a fair test graph, this often shows the dependent variable — what was measured.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Line graph</h3>
+            <p>A graph that uses points and lines to show how a measured value changes across ordered or continuous values.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Bar graph</h3>
+            <p>A graph that uses separate bars to compare amounts across different categories.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Pie chart</h3>
+            <p>A circle divided into slices. Each slice shows how much one category contributes to the whole.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="page lesson4-page">
+      <header class="lesson-intro lesson4-intro">
+        <div class="lesson-heading">
+          <span class="lesson-label">Lesson 4 &middot; Test page</span>
+          <h1>Turning Data into Graphs</h1>
+          <p class="lesson-summary">
+            Graphs help scientists turn a table of numbers into a picture that makes
+            <strong>patterns</strong>, <strong>comparisons</strong> and <strong>parts of a whole</strong>
+            easier to see.
+          </p>
+        </div>
+      </header>
+
+      <div class="lesson4-test-note">
+        <strong>Prototype:</strong> all three graph activities are visible at once so we can compare ideas.
+        The examples use simple science-style data and can be swapped later.
+      </div>
+
+      <div class="intro-grid">
+        <section class="intro-card objectives-card">
+          <p class="intro-eyebrow">Learning objective</p>
+
+          <p class="learning-objective-text">
+            We are learning how to choose, build and read different kinds of <strong>graphs</strong>.
+          </p>
+
+          <p class="success-heading">Success criteria</p>
+
+          <ol class="objective-list">
+            <li>I can explain what the <strong>x-axis</strong> and <strong>y-axis</strong> show.</li>
+            <li>I can use a <strong>line graph</strong> or <strong>bar graph</strong> to represent data.</li>
+            <li>I can explain how a <strong>pie chart</strong> shows parts of one whole.</li>
+          </ol>
+        </section>
+
+        <section class="intro-card observation-card">
+          <p class="intro-eyebrow">Think like a scientist</p>
+          <h2>Different graphs answer different questions</h2>
+
+          <p>
+            A graph is not just decoration. Scientists choose a graph based on what they
+            want the reader to notice.
+          </p>
+
+          <div class="graph-rule-row" style="grid-template-columns: 1fr; margin-top: 16px;">
+            <div class="graph-rule-card">
+              <h3>📈 Change</h3>
+              <p>Use a line graph when the order between x-values matters and you want to see a trend.</p>
+            </div>
+            <div class="graph-rule-card">
+              <h3>📊 Compare</h3>
+              <p>Use a bar graph when you want to compare separate categories.</p>
+            </div>
+            <div class="graph-rule-card">
+              <h3>🥧 Whole</h3>
+              <p>Use a pie chart when all categories are parts of the same total.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ==================================================
+           LINE GRAPH
+           ================================================== -->
+      <section class="section" id="line-graph">
+        <h2 class="section-title">1. Build a Line Graph</h2>
+
+        <div class="diagram-box diagram-activity graph-intro-box">
+          <p class="activity-instruction">
+            This version deliberately starts with an almost empty graph. Build it in stages and watch how
+            each point connects one <strong>x-value</strong> with one <strong>y-value</strong>.
+          </p>
+        </div>
+
+        <div class="graph-learning-grid">
+          <div class="graph-control-card">
+            <h3>From a data table to a graph</h3>
+            <p>
+              Example: How does changing temperature affect the circumference of a balloon inflated by yeast?
+            </p>
+
+            <div class="control-step-list">
+              <div class="control-step">
+                <span class="control-step-number">1</span>
+                <div>
+                  <strong>Add the x-axis</strong>
+                  <span>What did we change? Temperature.</span>
+                </div>
+              </div>
+
+              <div class="control-step">
+                <span class="control-step-number">2</span>
+                <div>
+                  <strong>Add the y-axis</strong>
+                  <span>What did we measure? Balloon circumference.</span>
+                </div>
+              </div>
+
+              <div class="control-step">
+                <span class="control-step-number">3</span>
+                <div>
+                  <strong>Plot each pair</strong>
+                  <span>A point combines one x-value and one y-value.</span>
+                </div>
+              </div>
+
+              <div class="control-step">
+                <span class="control-step-number">4</span>
+                <div>
+                  <strong>Connect the points</strong>
+                  <span>The line helps your eyes follow the trend.</span>
+                </div>
+              </div>
+            </div>
+
+            <table class="mini-data-table" aria-label="Example line graph data">
+              <thead>
+                <tr>
+                  <th>Temperature (°C)</th>
+                  <th>Balloon circumference (cm)</th>
+                </tr>
+              </thead>
+              <tbody id="lineDataBody">
+                <tr><td>10</td><td>6</td></tr>
+                <tr><td>20</td><td>12</td></tr>
+                <tr><td>30</td><td>24</td></tr>
+                <tr><td>40</td><td>18</td></tr>
+                <tr><td>50</td><td>8</td></tr>
+              </tbody>
+            </table>
+
+            <div class="graph-button-stack">
+              <button type="button" class="general-button" id="showXAxisButton">Show x-axis</button>
+              <button type="button" class="general-button" id="showYAxisButton" disabled>Show y-axis</button>
+              <button type="button" class="general-button" id="plotPointButton" disabled>Plot first point</button>
+              <button type="button" class="general-button" id="connectPointsButton" disabled>Connect the points</button>
+              <button type="button" class="general-button reset-btn" id="resetLineGraphButton">Reset</button>
+            </div>
+
+            <div class="teaching-feedback" id="lineTeachingFeedback" role="status" aria-live="polite">
+              <strong>Start with the x-axis.</strong>
+              The x-axis is horizontal. In this fair test, it shows the variable that was changed.
+            </div>
+          </div>
+
+          <div class="graph-stage-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Yeast activity</h3>
+                <p>Hover or click a plotted point to read its coordinates.</p>
+              </div>
+              <span class="graph-badge">Line graph</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg
+                class="graph-svg"
+                id="lineGraphSvg"
+                viewBox="0 0 700 430"
+                role="img"
+                aria-label="Interactive line graph of temperature and balloon circumference"
+              >
+                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+
+                <!-- horizontal grid lines -->
+                <g aria-hidden="true">
+                  <line class="graph-grid-line" x1="90" y1="345" x2="630" y2="345"></line>
+                  <line class="graph-grid-line" x1="90" y1="292.5" x2="630" y2="292.5"></line>
+                  <line class="graph-grid-line" x1="90" y1="240" x2="630" y2="240"></line>
+                  <line class="graph-grid-line" x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                  <line class="graph-grid-line" x1="90" y1="135" x2="630" y2="135"></line>
+                  <line class="graph-grid-line" x1="90" y1="82.5" x2="630" y2="82.5"></line>
+                  <line class="graph-grid-line" x1="90" y1="30" x2="630" y2="30"></line>
+                </g>
+
+                <g id="lineXAxisGroup" class="axis-group">
+                  <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                  <polygon points="640,345 627,338 627,352" fill="var(--charcoal)"></polygon>
+
+                  <text class="tick-label" x="90" y="367" text-anchor="middle">10</text>
+                  <text class="tick-label" x="225" y="367" text-anchor="middle">20</text>
+                  <text class="tick-label" x="360" y="367" text-anchor="middle">30</text>
+                  <text class="tick-label" x="495" y="367" text-anchor="middle">40</text>
+                  <text class="tick-label" x="630" y="367" text-anchor="middle">50</text>
+
+                  <text class="axis-label" x="360" y="404" text-anchor="middle">Temperature (°C)</text>
+                </g>
+
+                <g id="lineYAxisGroup" class="axis-group">
+                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+                  <polygon points="90,20 83,33 97,33" fill="var(--charcoal)"></polygon>
+
+                  <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                  <text class="tick-label" x="72" y="296.5" text-anchor="end">5</text>
+                  <text class="tick-label" x="72" y="244" text-anchor="end">10</text>
+                  <text class="tick-label" x="72" y="191.5" text-anchor="end">15</text>
+                  <text class="tick-label" x="72" y="139" text-anchor="end">20</text>
+                  <text class="tick-label" x="72" y="86.5" text-anchor="end">25</text>
+                  <text class="tick-label" x="72" y="34" text-anchor="end">30</text>
+
+                  <text
+                    class="axis-label"
+                    x="25"
+                    y="190"
+                    text-anchor="middle"
+                    transform="rotate(-90 25 190)"
+                  >
+                    Balloon circumference (cm)
+                  </text>
+                </g>
+
+                <line id="lineGuideVertical" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
+                <line id="lineGuideHorizontal" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
+
+                <path id="linePath" d=""></path>
+                <g id="linePointsLayer"></g>
+
+                <g id="linePointCallout" opacity="0" aria-hidden="true">
+                  <rect
+                    id="linePointCalloutBox"
+                    x="0"
+                    y="0"
+                    width="174"
+                    height="55"
+                    rx="12"
+                    fill="var(--paper)"
+                    stroke="var(--charcoal)"
+                    stroke-width="2"
+                  ></rect>
+                  <text id="linePointCalloutText1" x="0" y="0" font-size="13" font-weight="700"></text>
+                  <text id="linePointCalloutText2" x="0" y="0" font-size="12"></text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="graph-rule-row">
+          <div class="graph-rule-card">
+            <h3>A point means two things at once</h3>
+            <p>The dotted guides let students trace from a point back to its x-value and y-value.</p>
+          </div>
+          <div class="graph-rule-card">
+            <h3>The line comes last</h3>
+            <p>Students see the raw points before the line, so the line is understood as a way of following change.</p>
+          </div>
+          <div class="graph-rule-card">
+            <h3>Good for ordered values</h3>
+            <p>Temperature has a meaningful order, so moving from 10 → 20 → 30 °C makes sense.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================
+           BAR GRAPH
+           ================================================== -->
+      <section class="section" id="bar-graph">
+        <h2 class="section-title">2. Compare Categories with a Bar Graph</h2>
+
+        <div class="diagram-box diagram-activity graph-intro-box">
+          <p class="activity-instruction">
+            A bar graph answers a different question: <strong>which category has more, less, highest or lowest?</strong>
+            The bars stay separate because the categories are separate.
+          </p>
+        </div>
+
+        <div class="graph-learning-grid">
+          <div class="graph-control-card">
+            <h3>Build the bars from the data</h3>
+            <p>Example: average bounce height of the same ball on four different surfaces.</p>
+
+            <div class="bar-data-grid" id="barDataGrid">
+              <div class="data-value-card"><strong>22</strong><span>Carpet · cm</span></div>
+              <div class="data-value-card"><strong>34</strong><span>Grass · cm</span></div>
+              <div class="data-value-card"><strong>63</strong><span>Wood · cm</span></div>
+              <div class="data-value-card"><strong>78</strong><span>Tile · cm</span></div>
+            </div>
+
+            <div class="zero-line-callout">
+              <strong>Why start at zero?</strong><br />
+              Bar height is what we compare, so using zero as the baseline keeps the visual comparison fair.
+            </div>
+
+            <div class="graph-button-stack">
+              <button type="button" class="general-button" id="buildBarButton">Build first bar</button>
+              <button type="button" class="general-button" id="showBarValuesButton" disabled>Show values</button>
+              <button type="button" class="general-button" id="findHighestBarButton" disabled>Find the highest</button>
+              <button type="button" class="general-button reset-btn" id="resetBarGraphButton">Reset</button>
+            </div>
+
+            <div class="teaching-feedback" id="barTeachingFeedback" role="status" aria-live="polite">
+              <strong>Look at the categories first.</strong>
+              Carpet, grass, wood and tile are separate groups, so each one gets its own bar.
+            </div>
+          </div>
+
+          <div class="graph-stage-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Ball bounce height</h3>
+                <p>Build the bars one at a time, then compare their heights.</p>
+              </div>
+              <span class="graph-badge">Bar graph</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg
+                class="graph-svg"
+                id="barGraphSvg"
+                viewBox="0 0 700 430"
+                role="img"
+                aria-label="Interactive bar graph comparing ball bounce height on four surfaces"
+              >
+                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+
+                <g aria-hidden="true">
+                  <line class="graph-grid-line" x1="90" y1="345" x2="640" y2="345"></line>
+                  <line class="graph-grid-line" x1="90" y1="275" x2="640" y2="275"></line>
+                  <line class="graph-grid-line" x1="90" y1="205" x2="640" y2="205"></line>
+                  <line class="graph-grid-line" x1="90" y1="135" x2="640" y2="135"></line>
+                  <line class="graph-grid-line" x1="90" y1="65" x2="640" y2="65"></line>
+                </g>
+
+                <line class="graph-axis" x1="90" y1="345" x2="645" y2="345"></line>
+                <line class="graph-axis" x1="90" y1="345" x2="90" y2="35"></line>
+
+                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                <text class="tick-label" x="72" y="279" text-anchor="end">20</text>
+                <text class="tick-label" x="72" y="209" text-anchor="end">40</text>
+                <text class="tick-label" x="72" y="139" text-anchor="end">60</text>
+                <text class="tick-label" x="72" y="69" text-anchor="end">80</text>
+
+                <text
+                  class="axis-label"
+                  x="25"
+                  y="190"
+                  text-anchor="middle"
+                  transform="rotate(-90 25 190)"
+                >
+                  Bounce height (cm)
+                </text>
+                <text class="axis-label" x="365" y="407" text-anchor="middle">Surface</text>
+
+                <text class="tick-label" x="165" y="371" text-anchor="middle">Carpet</text>
+                <text class="tick-label" x="300" y="371" text-anchor="middle">Grass</text>
+                <text class="tick-label" x="435" y="371" text-anchor="middle">Wood</text>
+                <text class="tick-label" x="570" y="371" text-anchor="middle">Tile</text>
+
+                <g id="barsLayer">
+                  <rect class="bar-rect" data-index="0" x="120" y="345" width="90" height="0" rx="6"></rect>
+                  <rect class="bar-rect" data-index="1" x="255" y="345" width="90" height="0" rx="6"></rect>
+                  <rect class="bar-rect" data-index="2" x="390" y="345" width="90" height="0" rx="6"></rect>
+                  <rect class="bar-rect" data-index="3" x="525" y="345" width="90" height="0" rx="6"></rect>
+                </g>
+
+                <g id="barLabelsLayer">
+                  <text class="bar-value-label" data-index="0" x="165" y="258">22 cm</text>
+                  <text class="bar-value-label" data-index="1" x="300" y="216">34 cm</text>
+                  <text class="bar-value-label" data-index="2" x="435" y="114">63 cm</text>
+                  <text class="bar-value-label" data-index="3" x="570" y="62">78 cm</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="graph-rule-row">
+          <div class="graph-rule-card">
+            <h3>Bars are separate</h3>
+            <p>The gap signals that carpet and grass are different categories, not values between each other.</p>
+          </div>
+          <div class="graph-rule-card">
+            <h3>Height carries meaning</h3>
+            <p>Taller bar = larger amount. Students can compare before reading the exact numbers.</p>
+          </div>
+          <div class="graph-rule-card">
+            <h3>Ask comparison questions</h3>
+            <p>Which is highest? Lowest? How much higher? These are natural bar-graph questions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================
+           PIE CHART
+           ================================================== -->
+      <section class="section" id="pie-chart">
+        <h2 class="section-title">3. Turn a Whole into a Pie Chart</h2>
+
+        <div class="diagram-box diagram-activity graph-intro-box">
+          <p class="activity-instruction">
+            A pie chart is about <strong>part of a whole</strong>. Here the whole is a class of 20 students.
+            Add each group as a slice and watch the chart fill toward 100%.
+          </p>
+        </div>
+
+        <div class="graph-learning-grid">
+          <div class="graph-control-card">
+            <h3>20 students = one whole class</h3>
+            <p>Example class poll: Which way of investigating science do students enjoy most?</p>
+
+            <div class="pie-data-grid" id="pieDataGrid">
+              <div class="data-value-card"><strong>8</strong><span>Observe</span></div>
+              <div class="data-value-card"><strong>6</strong><span>Measure</span></div>
+              <div class="data-value-card"><strong>4</strong><span>Experiment</span></div>
+              <div class="data-value-card"><strong>2</strong><span>Research</span></div>
+            </div>
+
+            <div class="whole-meter">
+              <strong>How much of the whole have we added?</strong>
+              <div class="whole-meter-track" aria-hidden="true">
+                <div class="whole-meter-fill" id="wholeMeterFill"></div>
+              </div>
+              <p class="whole-meter-label" id="wholeMeterLabel">0 of 20 students = 0%</p>
+            </div>
+
+            <div class="graph-button-stack">
+              <button type="button" class="general-button" id="addSliceButton">Add first slice</button>
+              <button type="button" class="general-button" id="showPiePercentButton" disabled>Show percentages</button>
+              <button type="button" class="general-button reset-btn" id="resetPieChartButton">Reset</button>
+            </div>
+
+            <div class="teaching-feedback" id="pieTeachingFeedback" role="status" aria-live="polite">
+              <strong>Start with the whole.</strong>
+              Every student belongs to exactly one category, so all four groups together must make 20 students, or 100%.
+            </div>
+          </div>
+
+          <div class="graph-stage-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Favourite investigation style</h3>
+                <p>After slices are added, click a legend item to inspect one part.</p>
+              </div>
+              <span class="graph-badge">Pie chart</span>
+            </div>
+
+            <div class="pie-layout">
+              <div class="graph-svg-wrap">
+                <svg
+                  class="graph-svg"
+                  id="pieChartSvg"
+                  viewBox="0 0 500 440"
+                  role="img"
+                  aria-label="Interactive pie chart showing four groups that total twenty students"
+                  style="min-width: 420px;"
+                >
+                  <circle cx="250" cy="220" r="160" fill="var(--soft-blue)" stroke="var(--charcoal)" stroke-width="3"></circle>
+                  <g id="pieSlicesLayer"></g>
+                  <g id="piePercentLayer"></g>
+                  <circle cx="250" cy="220" r="160" fill="none" stroke="var(--charcoal)" stroke-width="3" pointer-events="none"></circle>
+                </svg>
+              </div>
+
+              <div>
+                <div class="pie-legend" id="pieLegend"></div>
+
+                <div class="teaching-feedback" id="pieSliceDetail" style="margin-top: 14px;">
+                  <strong>Select a slice.</strong>
+                  Once the pie is built, choose a category to see its fraction of the whole and its percentage.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="graph-rule-row">
+          <div class="graph-rule-card">
+            <h3>The total must be meaningful</h3>
+            <p>A pie chart only makes sense when all slices belong to the same whole.</p>
+          </div>
+          <div class="graph-rule-card">
+            <h3>Slice size means proportion</h3>
+            <p>8 of 20 students becomes 40% of the circle; 2 of 20 becomes 10%.</p>
+          </div>
+          <div class="graph-rule-card">
+            <h3>Everything adds to 100%</h3>
+            <p>The fill meter makes the idea of completing the whole explicit before the finished pie appears.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="return-to-top">
+        <a class="return-to-top-button general-button" href="#">
+          <p class="bounce-symbol">↑</p>
+          <p>Return to Top</p>
+        </a>
+      </div>
+    </main>
+
+    <!-- Reuse shared site functions. Graph prototype behaviour stays inline for now. -->
+    <script src="../scripts/common_functions.js"></script>
+
+    <script>
+      /* ==================================================
+         LINE GRAPH PROTOTYPE
+         ================================================== */
+
+      const lineData = [
+        { x: 10, y: 6 },
+        { x: 20, y: 12 },
+        { x: 30, y: 24 },
+        { x: 40, y: 18 },
+        { x: 50, y: 8 }
+      ];
+
+      const linePlot = {
+        left: 90,
+        right: 630,
+        top: 30,
+        bottom: 345,
+        xMin: 10,
+        xMax: 50,
+        yMin: 0,
+        yMax: 30
+      };
+
+      let lineXAxisShown = false;
+      let lineYAxisShown = false;
+      let plottedLinePoints = 0;
+      let lineConnected = false;
+
+      function lineX(value) {
+        return linePlot.left +
+          ((value - linePlot.xMin) / (linePlot.xMax - linePlot.xMin)) *
+          (linePlot.right - linePlot.left);
+      }
+
+      function lineY(value) {
+        return linePlot.bottom -
+          ((value - linePlot.yMin) / (linePlot.yMax - linePlot.yMin)) *
+          (linePlot.bottom - linePlot.top);
+      }
+
+      function setLineFeedback(title, message) {
+        const box = document.getElementById("lineTeachingFeedback");
+        box.innerHTML = "";
+
+        const strong = document.createElement("strong");
+        strong.textContent = title;
+
+        const text = document.createTextNode(message);
+
+        box.appendChild(strong);
+        box.appendChild(text);
+      }
+
+      function buildLinePointElements() {
+        const layer = document.getElementById("linePointsLayer");
+        layer.innerHTML = "";
+
+        lineData.forEach(function(point, index) {
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute("class", "line-point");
+          circle.setAttribute("cx", lineX(point.x));
+          circle.setAttribute("cy", lineY(point.y));
+          circle.setAttribute("r", "8");
+          circle.setAttribute("tabindex", "-1");
+          circle.setAttribute("role", "button");
+          circle.setAttribute(
+            "aria-label",
+            point.x + " degrees Celsius, " + point.y + " centimetres"
+          );
+          circle.dataset.index = index;
+
+          circle.addEventListener("mouseenter", function() {
+            if (index < plottedLinePoints) showLinePointGuides(index);
+          });
+
+          circle.addEventListener("focus", function() {
+            if (index < plottedLinePoints) showLinePointGuides(index);
+          });
+
+          circle.addEventListener("click", function() {
+            if (index < plottedLinePoints) showLinePointGuides(index);
+          });
+
+          layer.appendChild(circle);
+        });
+      }
+
+      function showLinePointGuides(index) {
+        const point = lineData[index];
+        const px = lineX(point.x);
+        const py = lineY(point.y);
+
+        const vertical = document.getElementById("lineGuideVertical");
+        const horizontal = document.getElementById("lineGuideHorizontal");
+
+        vertical.setAttribute("x1", px);
+        vertical.setAttribute("y1", py);
+        vertical.setAttribute("x2", px);
+        vertical.setAttribute("y2", linePlot.bottom);
+        vertical.classList.add("visible");
+
+        horizontal.setAttribute("x1", linePlot.left);
+        horizontal.setAttribute("y1", py);
+        horizontal.setAttribute("x2", px);
+        horizontal.setAttribute("y2", py);
+        horizontal.classList.add("visible");
+
+        const callout = document.getElementById("linePointCallout");
+        const calloutBox = document.getElementById("linePointCalloutBox");
+        const text1 = document.getElementById("linePointCalloutText1");
+        const text2 = document.getElementById("linePointCalloutText2");
+
+        let calloutX = px + 18;
+        let calloutY = py - 72;
+
+        if (calloutX + 174 > 680) calloutX = px - 192;
+        if (calloutY < 12) calloutY = py + 18;
+
+        calloutBox.setAttribute("x", calloutX);
+        calloutBox.setAttribute("y", calloutY);
+
+        text1.setAttribute("x", calloutX + 12);
+        text1.setAttribute("y", calloutY + 22);
+        text1.textContent = "x = " + point.x + " °C";
+
+        text2.setAttribute("x", calloutX + 12);
+        text2.setAttribute("y", calloutY + 42);
+        text2.textContent = "y = " + point.y + " cm";
+
+        callout.setAttribute("opacity", "1");
+
+        const rows = document.querySelectorAll("#lineDataBody tr");
+        rows.forEach(function(row, rowIndex) {
+          row.classList.toggle("current-row", rowIndex === index);
+        });
+
+        setLineFeedback(
+          "Read the point as a pair.",
+          " At " + point.x + " °C, the balloon circumference was " + point.y + " cm. The dotted lines connect the point back to both axes."
+        );
+      }
+
+      function showLineXAxis() {
+        lineXAxisShown = true;
+        document.getElementById("lineXAxisGroup").classList.add("visible");
+        document.getElementById("showXAxisButton").disabled = true;
+        document.getElementById("showYAxisButton").disabled = false;
+
+        setLineFeedback(
+          "The x-axis shows what changed.",
+          " Temperature is the independent variable, so it runs horizontally from lower to higher values."
+        );
+      }
+
+      function showLineYAxis() {
+        lineYAxisShown = true;
+        document.getElementById("lineYAxisGroup").classList.add("visible");
+        document.getElementById("showYAxisButton").disabled = true;
+        document.getElementById("plotPointButton").disabled = false;
+
+        setLineFeedback(
+          "The y-axis shows what was measured.",
+          " Balloon circumference is the dependent variable, so each point will rise to the measured height."
+        );
+      }
+
+      function plotNextLinePoint() {
+        if (!lineXAxisShown || !lineYAxisShown || plottedLinePoints >= lineData.length) {
+          return;
+        }
+
+        const pointElements = document.querySelectorAll(".line-point");
+        const index = plottedLinePoints;
+        pointElements[index].classList.add("visible");
+        pointElements[index].setAttribute("tabindex", "0");
+        plottedLinePoints += 1;
+
+        showLinePointGuides(index);
+
+        const plotButton = document.getElementById("plotPointButton");
+
+        if (plottedLinePoints < lineData.length) {
+          plotButton.textContent = "Plot next point (" + (plottedLinePoints + 1) + " of " + lineData.length + ")";
+        } else {
+          plotButton.textContent = "All points plotted";
+          plotButton.disabled = true;
+          document.getElementById("connectPointsButton").disabled = false;
+
+          setLineFeedback(
+            "Now we can see the data as five separate points.",
+            " Before connecting them, notice that the highest measured value is at 30 °C."
+          );
+        }
+      }
+
+      function connectLinePoints() {
+        if (plottedLinePoints !== lineData.length || lineConnected) {
+          return;
+        }
+
+        const path = document.getElementById("linePath");
+        const d = lineData.map(function(point, index) {
+          return (index === 0 ? "M " : "L ") + lineX(point.x) + " " + lineY(point.y);
+        }).join(" ");
+
+        path.setAttribute("d", d);
+
+        const length = path.getTotalLength();
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset = length;
+        path.getBoundingClientRect();
+        path.style.transition = "stroke-dashoffset 0.9s ease";
+        path.style.strokeDashoffset = "0";
+
+        lineConnected = true;
+        document.getElementById("connectPointsButton").disabled = true;
+
+        setLineFeedback(
+          "The line reveals the trend.",
+          " Balloon size increases as the temperature rises to 30 °C, then decreases. The line helps us follow that change across ordered temperatures."
+        );
+      }
+
+      function resetLineGraph() {
+        lineXAxisShown = false;
+        lineYAxisShown = false;
+        plottedLinePoints = 0;
+        lineConnected = false;
+
+        document.getElementById("lineXAxisGroup").classList.remove("visible");
+        document.getElementById("lineYAxisGroup").classList.remove("visible");
+
+        document.querySelectorAll(".line-point").forEach(function(point) {
+          point.classList.remove("visible");
+          point.setAttribute("tabindex", "-1");
+        });
+
+        document.querySelectorAll("#lineDataBody tr").forEach(function(row) {
+          row.classList.remove("current-row");
+        });
+
+        document.getElementById("lineGuideVertical").classList.remove("visible");
+        document.getElementById("lineGuideHorizontal").classList.remove("visible");
+        document.getElementById("linePointCallout").setAttribute("opacity", "0");
+
+        const path = document.getElementById("linePath");
+        path.setAttribute("d", "");
+        path.style.transition = "none";
+        path.style.strokeDasharray = "none";
+        path.style.strokeDashoffset = "0";
+
+        const xButton = document.getElementById("showXAxisButton");
+        const yButton = document.getElementById("showYAxisButton");
+        const plotButton = document.getElementById("plotPointButton");
+        const connectButton = document.getElementById("connectPointsButton");
+
+        xButton.disabled = false;
+        yButton.disabled = true;
+        plotButton.disabled = true;
+        connectButton.disabled = true;
+        plotButton.textContent = "Plot first point";
+
+        setLineFeedback(
+          "Start with the x-axis.",
+          " The x-axis is horizontal. In this fair test, it shows the variable that was changed."
+        );
+      }
+
+      /* ==================================================
+         BAR GRAPH PROTOTYPE
+         ================================================== */
+
+      const barData = [
+        { label: "Carpet", value: 22 },
+        { label: "Grass", value: 34 },
+        { label: "Wood", value: 63 },
+        { label: "Tile", value: 78 }
+      ];
+
+      let builtBars = 0;
+      let barValuesVisible = false;
+
+      function barHeight(value) {
+        return (value / 80) * 280;
+      }
+
+      function setBarFeedback(title, message) {
+        const box = document.getElementById("barTeachingFeedback");
+        box.innerHTML = "";
+
+        const strong = document.createElement("strong");
+        strong.textContent = title;
+        box.appendChild(strong);
+        box.appendChild(document.createTextNode(message));
+      }
+
+      function buildNextBar() {
+        if (builtBars >= barData.length) return;
+
+        const bars = document.querySelectorAll(".bar-rect");
+        const cards = document.querySelectorAll("#barDataGrid .data-value-card");
+        const datum = barData[builtBars];
+        const bar = bars[builtBars];
+        const height = barHeight(datum.value);
+
+        cards.forEach(function(card) {
+          card.classList.remove("active");
+        });
+        cards[builtBars].classList.add("active");
+
+        bar.setAttribute("y", 345 - height);
+        bar.setAttribute("height", height);
+
+        builtBars += 1;
+
+        setBarFeedback(
+          datum.label + " = " + datum.value + " cm.",
+          " The bar grows upward from zero. Its height represents the measured bounce height for this category."
+        );
+
+        const buildButton = document.getElementById("buildBarButton");
+
+        if (builtBars < barData.length) {
+          buildButton.textContent = "Build next bar (" + (builtBars + 1) + " of " + barData.length + ")";
+        } else {
+          buildButton.textContent = "All bars built";
+          buildButton.disabled = true;
+          document.getElementById("showBarValuesButton").disabled = false;
+          document.getElementById("findHighestBarButton").disabled = false;
+
+          setBarFeedback(
+            "Now compare the bar heights.",
+            " You can already see which surfaces produced higher and lower bounces, even before showing the exact numbers."
+          );
+        }
+      }
+
+      function showBarValues() {
+        barValuesVisible = !barValuesVisible;
+
+        document.querySelectorAll(".bar-value-label").forEach(function(label, index) {
+          if (index < builtBars) {
+            label.classList.toggle("visible", barValuesVisible);
+          }
+        });
+
+        document.getElementById("showBarValuesButton").textContent =
+          barValuesVisible ? "Hide values" : "Show values";
+
+        setBarFeedback(
+          barValuesVisible ? "Exact values are useful after the visual comparison." : "The shape still tells the story.",
+          barValuesVisible
+            ? " The numbers confirm what the bar heights suggested."
+            : " A bar graph should still make the comparison visible without relying only on labels."
+        );
+      }
+
+      function findHighestBar() {
+        const bars = document.querySelectorAll(".bar-rect");
+        bars.forEach(function(bar) {
+          bar.classList.remove("highlight");
+        });
+
+        const highestIndex = barData.reduce(function(bestIndex, datum, index, array) {
+          return datum.value > array[bestIndex].value ? index : bestIndex;
+        }, 0);
+
+        bars[highestIndex].classList.add("highlight");
+        document.querySelectorAll("#barDataGrid .data-value-card")[highestIndex].classList.add("active");
+
+        setBarFeedback(
+          "Tile has the highest bar.",
+          " Its bounce height is 78 cm. This is the kind of comparison a bar graph makes quick to answer."
+        );
+      }
+
+      function inspectBar(index) {
+        if (index >= builtBars) return;
+
+        document.querySelectorAll(".bar-rect").forEach(function(bar, barIndex) {
+          bar.classList.toggle("highlight", barIndex === index);
+        });
+
+        document.querySelectorAll("#barDataGrid .data-value-card").forEach(function(card, cardIndex) {
+          card.classList.toggle("active", cardIndex === index);
+        });
+
+        const datum = barData[index];
+
+        setBarFeedback(
+          datum.label + " = " + datum.value + " cm.",
+          " The category is read along the x-axis and its measured amount is read from the height of the bar."
+        );
+      }
+
+      function resetBarGraph() {
+        builtBars = 0;
+        barValuesVisible = false;
+
+        document.querySelectorAll(".bar-rect").forEach(function(bar) {
+          bar.setAttribute("y", "345");
+          bar.setAttribute("height", "0");
+          bar.classList.remove("highlight");
+        });
+
+        document.querySelectorAll(".bar-value-label").forEach(function(label) {
+          label.classList.remove("visible");
+        });
+
+        document.querySelectorAll("#barDataGrid .data-value-card").forEach(function(card) {
+          card.classList.remove("active");
+        });
+
+        const buildButton = document.getElementById("buildBarButton");
+        buildButton.disabled = false;
+        buildButton.textContent = "Build first bar";
+
+        const valuesButton = document.getElementById("showBarValuesButton");
+        valuesButton.disabled = true;
+        valuesButton.textContent = "Show values";
+
+        document.getElementById("findHighestBarButton").disabled = true;
+
+        setBarFeedback(
+          "Look at the categories first.",
+          " Carpet, grass, wood and tile are separate groups, so each one gets its own bar."
+        );
+      }
+
+      /* ==================================================
+         PIE CHART PROTOTYPE
+         ================================================== */
+
+      const pieData = [
+        { label: "Observe", value: 8, colour: "var(--yellow)" },
+        { label: "Measure", value: 6, colour: "var(--green)" },
+        { label: "Experiment", value: 4, colour: "var(--purple)" },
+        { label: "Research", value: 2, colour: "var(--blue)" }
+      ];
+
+      const pieTotal = pieData.reduce(function(total, item) {
+        return total + item.value;
+      }, 0);
+
+      let visiblePieSlices = 0;
+      let piePercentagesVisible = false;
+
+      function polarToCartesian(centerX, centerY, radius, angleDegrees) {
+        const angleRadians = (angleDegrees - 90) * Math.PI / 180;
+
+        return {
+          x: centerX + radius * Math.cos(angleRadians),
+          y: centerY + radius * Math.sin(angleRadians)
+        };
+      }
+
+      function describePieSlice(centerX, centerY, radius, startAngle, endAngle) {
+        const start = polarToCartesian(centerX, centerY, radius, endAngle);
+        const end = polarToCartesian(centerX, centerY, radius, startAngle);
+        const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+        return [
+          "M", centerX, centerY,
+          "L", start.x, start.y,
+          "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
+          "Z"
+        ].join(" ");
+      }
+
+      function buildPieElements() {
+        const sliceLayer = document.getElementById("pieSlicesLayer");
+        const percentLayer = document.getElementById("piePercentLayer");
+        const legend = document.getElementById("pieLegend");
+
+        sliceLayer.innerHTML = "";
+        percentLayer.innerHTML = "";
+        legend.innerHTML = "";
+
+        let runningAngle = 0;
+
+        pieData.forEach(function(item, index) {
+          const sliceAngle = (item.value / pieTotal) * 360;
+          const startAngle = runningAngle;
+          const endAngle = runningAngle + sliceAngle;
+          const middleAngle = startAngle + sliceAngle / 2;
+
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute("class", "pie-slice");
+          path.setAttribute("d", describePieSlice(250, 220, 160, startAngle, endAngle));
+          path.setAttribute("fill", item.colour);
+          path.dataset.index = index;
+          path.setAttribute("tabindex", "-1");
+          path.setAttribute("role", "button");
+          path.setAttribute(
+            "aria-label",
+            item.label + ": " + item.value + " of " + pieTotal + " students"
+          );
+
+          path.addEventListener("click", function() {
+            if (index < visiblePieSlices) selectPieSlice(index);
+          });
+
+          path.addEventListener("focus", function() {
+            if (index < visiblePieSlices) selectPieSlice(index);
+          });
+
+          sliceLayer.appendChild(path);
+
+          const textPoint = polarToCartesian(250, 220, 108, middleAngle);
+          const percentText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          percentText.setAttribute("class", "pie-percent");
+          percentText.setAttribute("x", textPoint.x);
+          percentText.setAttribute("y", textPoint.y + 4);
+          percentText.setAttribute("text-anchor", "middle");
+          percentText.textContent = Math.round((item.value / pieTotal) * 100) + "%";
+          percentText.dataset.index = index;
+          percentLayer.appendChild(percentText);
+
+          const legendButton = document.createElement("button");
+          legendButton.type = "button";
+          legendButton.className = "pie-legend-button";
+          legendButton.dataset.index = index;
+          legendButton.disabled = true;
+
+          const swatch = document.createElement("span");
+          swatch.className = "legend-swatch";
+          swatch.style.background = item.colour;
+
+          const label = document.createElement("span");
+          label.textContent = item.label;
+
+          const count = document.createElement("span");
+          count.className = "legend-count";
+          count.textContent = item.value + "/" + pieTotal;
+
+          legendButton.appendChild(swatch);
+          legendButton.appendChild(label);
+          legendButton.appendChild(count);
+
+          legendButton.addEventListener("click", function() {
+            if (index < visiblePieSlices) selectPieSlice(index);
+          });
+
+          legend.appendChild(legendButton);
+
+          runningAngle = endAngle;
+        });
+      }
+
+      function setPieFeedback(title, message) {
+        const box = document.getElementById("pieTeachingFeedback");
+        box.innerHTML = "";
+
+        const strong = document.createElement("strong");
+        strong.textContent = title;
+        box.appendChild(strong);
+        box.appendChild(document.createTextNode(message));
+      }
+
+      function addNextPieSlice() {
+        if (visiblePieSlices >= pieData.length) return;
+
+        const index = visiblePieSlices;
+        const item = pieData[index];
+        const slices = document.querySelectorAll(".pie-slice");
+        const legendButtons = document.querySelectorAll(".pie-legend-button");
+        const dataCards = document.querySelectorAll("#pieDataGrid .data-value-card");
+
+        slices[index].classList.add("visible");
+        slices[index].setAttribute("tabindex", "0");
+        legendButtons[index].disabled = false;
+
+        dataCards.forEach(function(card) {
+          card.classList.remove("active");
+        });
+        dataCards[index].classList.add("active");
+
+        visiblePieSlices += 1;
+
+        const visibleTotal = pieData
+          .slice(0, visiblePieSlices)
+          .reduce(function(total, datum) {
+            return total + datum.value;
+          }, 0);
+
+        const percentage = Math.round((visibleTotal / pieTotal) * 100);
+        document.getElementById("wholeMeterFill").style.width = percentage + "%";
+        document.getElementById("wholeMeterLabel").textContent =
+          visibleTotal + " of " + pieTotal + " students = " + percentage + "%";
+
+        setPieFeedback(
+          item.label + " adds " + item.value + " students.",
+          " This slice takes up " + Math.round((item.value / pieTotal) * 100) + "% of the circle because it represents " + item.value + " of the " + pieTotal + " students."
+        );
+
+        const addButton = document.getElementById("addSliceButton");
+
+        if (visiblePieSlices < pieData.length) {
+          addButton.textContent = "Add next slice (" + (visiblePieSlices + 1) + " of " + pieData.length + ")";
+        } else {
+          addButton.textContent = "Whole pie complete";
+          addButton.disabled = true;
+          document.getElementById("showPiePercentButton").disabled = false;
+
+          setPieFeedback(
+            "All slices now make the whole.",
+            " 8 + 6 + 4 + 2 = 20 students, so the completed circle represents 100% of the class."
+          );
+        }
+      }
+
+      function showPiePercentages() {
+        piePercentagesVisible = !piePercentagesVisible;
+
+        document.querySelectorAll(".pie-percent").forEach(function(label, index) {
+          if (index < visiblePieSlices) {
+            label.classList.toggle("visible", piePercentagesVisible);
+          }
+        });
+
+        document.getElementById("showPiePercentButton").textContent =
+          piePercentagesVisible ? "Hide percentages" : "Show percentages";
+
+        setPieFeedback(
+          piePercentagesVisible ? "Counts can be converted into percentages." : "Slice size still shows proportion.",
+          piePercentagesVisible
+            ? " Each percentage tells us how much of the 100% whole belongs to that category."
+            : " The larger slices still represent larger shares of the class."
+        );
+      }
+
+      function selectPieSlice(index) {
+        if (index >= visiblePieSlices) return;
+
+        const item = pieData[index];
+        const percentage = Math.round((item.value / pieTotal) * 100);
+
+        document.querySelectorAll(".pie-slice").forEach(function(slice, sliceIndex) {
+          slice.classList.toggle("selected", sliceIndex === index);
+        });
+
+        document.querySelectorAll(".pie-legend-button").forEach(function(button, buttonIndex) {
+          button.classList.toggle("selected", buttonIndex === index);
+        });
+
+        document.querySelectorAll("#pieDataGrid .data-value-card").forEach(function(card, cardIndex) {
+          card.classList.toggle("active", cardIndex === index);
+        });
+
+        const detail = document.getElementById("pieSliceDetail");
+        detail.innerHTML =
+          "<strong>" + item.label + "</strong>" +
+          item.value + " of " + pieTotal + " students = <strong>" + percentage + "%</strong> of the whole class.";
+      }
+
+      function resetPieChart() {
+        visiblePieSlices = 0;
+        piePercentagesVisible = false;
+
+        document.querySelectorAll(".pie-slice").forEach(function(slice) {
+          slice.classList.remove("visible", "selected");
+          slice.setAttribute("tabindex", "-1");
+        });
+
+        document.querySelectorAll(".pie-percent").forEach(function(label) {
+          label.classList.remove("visible");
+        });
+
+        document.querySelectorAll(".pie-legend-button").forEach(function(button) {
+          button.disabled = true;
+          button.classList.remove("selected");
+        });
+
+        document.querySelectorAll("#pieDataGrid .data-value-card").forEach(function(card) {
+          card.classList.remove("active");
+        });
+
+        document.getElementById("wholeMeterFill").style.width = "0%";
+        document.getElementById("wholeMeterLabel").textContent = "0 of 20 students = 0%";
+
+        const addButton = document.getElementById("addSliceButton");
+        addButton.disabled = false;
+        addButton.textContent = "Add first slice";
+
+        const percentButton = document.getElementById("showPiePercentButton");
+        percentButton.disabled = true;
+        percentButton.textContent = "Show percentages";
+
+        document.getElementById("pieSliceDetail").innerHTML =
+          "<strong>Select a slice.</strong> Once the pie is built, choose a category to see its fraction of the whole and its percentage.";
+
+        setPieFeedback(
+          "Start with the whole.",
+          " Every student belongs to exactly one category, so all four groups together must make 20 students, or 100%."
+        );
+      }
+
+      /* ==================================================
+         INITIALISE TEST PAGE
+         ================================================== */
+
+      document.addEventListener("DOMContentLoaded", function() {
+        buildLinePointElements();
+        buildPieElements();
+
+        document.getElementById("showXAxisButton").addEventListener("click", showLineXAxis);
+        document.getElementById("showYAxisButton").addEventListener("click", showLineYAxis);
+        document.getElementById("plotPointButton").addEventListener("click", plotNextLinePoint);
+        document.getElementById("connectPointsButton").addEventListener("click", connectLinePoints);
+        document.getElementById("resetLineGraphButton").addEventListener("click", resetLineGraph);
+
+        document.getElementById("buildBarButton").addEventListener("click", buildNextBar);
+        document.getElementById("showBarValuesButton").addEventListener("click", showBarValues);
+        document.getElementById("findHighestBarButton").addEventListener("click", findHighestBar);
+        document.getElementById("resetBarGraphButton").addEventListener("click", resetBarGraph);
+
+        document.querySelectorAll(".bar-rect").forEach(function(bar) {
+          bar.addEventListener("click", function() {
+            inspectBar(Number(bar.dataset.index));
+          });
+        });
+
+        document.getElementById("addSliceButton").addEventListener("click", addNextPieSlice);
+        document.getElementById("showPiePercentButton").addEventListener("click", showPiePercentages);
+        document.getElementById("resetPieChartButton").addEventListener("click", resetPieChart);
+
+        resetLineGraph();
+        resetBarGraph();
+        resetPieChart();
+      });
+    </script>
+  </body>
+</html>
