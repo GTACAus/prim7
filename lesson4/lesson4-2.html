@@ -153,180 +153,117 @@
             </div>
           </div>
         </section>
-      </div>
+      </div>      
 
       <!-- ==================================================
-           LINE GRAPH
+           BAR GRAPH
            ================================================== -->
-      <section class="section" id="line-graph">
-        <h2 class="section-title">1. Build a Line Graph</h2>
+      <section class="section" id="bar-graph">
+        <h2 class="section-title">2. Compare Categories with a Bar Graph</h2>
 
         <div class="diagram-box diagram-activity graph-intro-box">
           <p class="activity-instruction">
-            This version deliberately starts with an almost empty graph. Build it in stages and watch how
-            each point connects one <strong>x-value</strong> with one <strong>y-value</strong>.
+            A bar graph answers a different question: <strong>which category has more, less, highest or lowest?</strong>
+            The bars stay separate because the categories are separate.
           </p>
         </div>
 
         <div class="graph-learning-grid">
           <div class="graph-control-card">
-            <h3>From a data table to a graph</h3>
-            <p>
-              Example: How does changing temperature affect the circumference of a balloon inflated by yeast?
-            </p>
+            <h3>Build the bars from the data</h3>
+            <p>Example: average bounce height of the same ball on four different surfaces.</p>
 
-            <div class="control-step-list">
-              <div class="control-step">
-                <span class="control-step-number">1</span>
-                <div>
-                  <strong>Add the x-axis</strong>
-                  <span>What did we change? Temperature.</span>
-                </div>
-              </div>
-
-              <div class="control-step">
-                <span class="control-step-number">2</span>
-                <div>
-                  <strong>Add the y-axis</strong>
-                  <span>What did we measure? Balloon circumference.</span>
-                </div>
-              </div>
-
-              <div class="control-step">
-                <span class="control-step-number">3</span>
-                <div>
-                  <strong>Plot each pair</strong>
-                  <span>A point combines one x-value and one y-value.</span>
-                </div>
-              </div>
-
-              <div class="control-step">
-                <span class="control-step-number">4</span>
-                <div>
-                  <strong>Connect the points</strong>
-                  <span>The line helps your eyes follow the trend.</span>
-                </div>
-              </div>
+            <div class="bar-data-grid" id="barDataGrid">
+              <div class="data-value-card"><strong>22</strong><span>Carpet · cm</span></div>
+              <div class="data-value-card"><strong>34</strong><span>Grass · cm</span></div>
+              <div class="data-value-card"><strong>63</strong><span>Wood · cm</span></div>
+              <div class="data-value-card"><strong>78</strong><span>Tile · cm</span></div>
             </div>
 
-            <table class="mini-data-table" aria-label="Example line graph data">
-              <thead>
-                <tr>
-                  <th>Temperature (°C)</th>
-                  <th>Balloon circumference (cm)</th>
-                </tr>
-              </thead>
-              <tbody id="lineDataBody">
-                <tr><td>10</td><td>6</td></tr>
-                <tr><td>20</td><td>12</td></tr>
-                <tr><td>30</td><td>24</td></tr>
-                <tr><td>40</td><td>18</td></tr>
-                <tr><td>50</td><td>8</td></tr>
-              </tbody>
-            </table>
+            <div class="zero-line-callout">
+              <strong>Why start at zero?</strong><br />
+              Bar height is what we compare, so using zero as the baseline keeps the visual comparison fair.
+            </div>
 
             <div class="graph-button-stack">
-              <button type="button" class="general-button" id="showXAxisButton">Show x-axis</button>
-              <button type="button" class="general-button" id="showYAxisButton" disabled>Show y-axis</button>
-              <button type="button" class="general-button" id="plotPointButton" disabled>Plot first point</button>
-              <button type="button" class="general-button" id="connectPointsButton" disabled>Connect the points</button>
+              <button type="button" class="general-button" id="buildBarButton">Build first bar</button>
+              <button type="button" class="general-button" id="showBarValuesButton" disabled>Show values</button>
+              <button type="button" class="general-button" id="findHighestBarButton" disabled>Find the highest</button>
               <div class="reset-button-container">
-                <button type="button" class="general-button reset-btn" id="resetLineGraphButton">Reset</button>
+                <button type="button" class="general-button reset-btn" id="resetBarGraphButton">Reset</button>
               </div>
             </div>
 
-            <div class="teaching-feedback" id="lineTeachingFeedback" role="status" aria-live="polite">
-              <strong>Start with the x-axis.</strong>
-              The x-axis is horizontal. In this fair test, it shows the variable that was changed.
+            <div class="teaching-feedback" id="barTeachingFeedback" role="status" aria-live="polite">
+              <strong>Look at the categories first.</strong>
+              Carpet, grass, wood and tile are separate groups, so each one gets its own bar.
             </div>
           </div>
 
           <div class="graph-stage-card">
             <div class="graph-stage-heading">
               <div>
-                <h3>Yeast activity</h3>
-                <p>Hover or click a plotted point to read its coordinates.</p>
+                <h3>Ball bounce height</h3>
+                <p>Build the bars one at a time, then compare their heights.</p>
               </div>
-              <span class="graph-badge">Line graph</span>
+              <span class="graph-badge">Bar graph</span>
             </div>
 
             <div class="graph-svg-wrap">
               <svg
                 class="graph-svg"
-                id="lineGraphSvg"
+                id="barGraphSvg"
                 viewBox="0 0 700 430"
                 role="img"
-                aria-label="Interactive line graph of temperature and balloon circumference"
+                aria-label="Interactive bar graph comparing ball bounce height on four surfaces"
               >
                 <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
 
-                <!-- horizontal grid lines -->
                 <g aria-hidden="true">
-                  <line class="graph-grid-line" x1="90" y1="345" x2="630" y2="345"></line>
-                  <line class="graph-grid-line" x1="90" y1="292.5" x2="630" y2="292.5"></line>
-                  <line class="graph-grid-line" x1="90" y1="240" x2="630" y2="240"></line>
-                  <line class="graph-grid-line" x1="90" y1="187.5" x2="630" y2="187.5"></line>
-                  <line class="graph-grid-line" x1="90" y1="135" x2="630" y2="135"></line>
-                  <line class="graph-grid-line" x1="90" y1="82.5" x2="630" y2="82.5"></line>
-                  <line class="graph-grid-line" x1="90" y1="30" x2="630" y2="30"></line>
+                  <line class="graph-grid-line" x1="90" y1="345" x2="640" y2="345"></line>
+                  <line class="graph-grid-line" x1="90" y1="275" x2="640" y2="275"></line>
+                  <line class="graph-grid-line" x1="90" y1="205" x2="640" y2="205"></line>
+                  <line class="graph-grid-line" x1="90" y1="135" x2="640" y2="135"></line>
+                  <line class="graph-grid-line" x1="90" y1="65" x2="640" y2="65"></line>
                 </g>
 
-                <g id="lineXAxisGroup" class="axis-group">
-                  <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
-                  <polygon points="640,345 627,338 627,352" fill="var(--charcoal)"></polygon>
+                <line class="graph-axis" x1="90" y1="345" x2="645" y2="345"></line>
+                <line class="graph-axis" x1="90" y1="345" x2="90" y2="35"></line>
 
-                  <text class="tick-label" x="90" y="367" text-anchor="middle">10</text>
-                  <text class="tick-label" x="225" y="367" text-anchor="middle">20</text>
-                  <text class="tick-label" x="360" y="367" text-anchor="middle">30</text>
-                  <text class="tick-label" x="495" y="367" text-anchor="middle">40</text>
-                  <text class="tick-label" x="630" y="367" text-anchor="middle">50</text>
+                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                <text class="tick-label" x="72" y="279" text-anchor="end">20</text>
+                <text class="tick-label" x="72" y="209" text-anchor="end">40</text>
+                <text class="tick-label" x="72" y="139" text-anchor="end">60</text>
+                <text class="tick-label" x="72" y="69" text-anchor="end">80</text>
 
-                  <text class="axis-label" x="360" y="404" text-anchor="middle">Temperature (°C)</text>
+                <text
+                  class="axis-label"
+                  x="25"
+                  y="190"
+                  text-anchor="middle"
+                  transform="rotate(-90 25 190)"
+                >
+                  Bounce height (cm)
+                </text>
+                <text class="axis-label" x="365" y="407" text-anchor="middle">Surface</text>
+
+                <text class="tick-label" x="165" y="371" text-anchor="middle">Carpet</text>
+                <text class="tick-label" x="300" y="371" text-anchor="middle">Grass</text>
+                <text class="tick-label" x="435" y="371" text-anchor="middle">Wood</text>
+                <text class="tick-label" x="570" y="371" text-anchor="middle">Tile</text>
+
+                <g id="barsLayer">
+                  <rect class="bar-rect" data-index="0" x="120" y="345" width="90" height="0" rx="6"></rect>
+                  <rect class="bar-rect" data-index="1" x="255" y="345" width="90" height="0" rx="6"></rect>
+                  <rect class="bar-rect" data-index="2" x="390" y="345" width="90" height="0" rx="6"></rect>
+                  <rect class="bar-rect" data-index="3" x="525" y="345" width="90" height="0" rx="6"></rect>
                 </g>
 
-                <g id="lineYAxisGroup" class="axis-group">
-                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
-                  <polygon points="90,20 83,33 97,33" fill="var(--charcoal)"></polygon>
-
-                  <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
-                  <text class="tick-label" x="72" y="296.5" text-anchor="end">5</text>
-                  <text class="tick-label" x="72" y="244" text-anchor="end">10</text>
-                  <text class="tick-label" x="72" y="191.5" text-anchor="end">15</text>
-                  <text class="tick-label" x="72" y="139" text-anchor="end">20</text>
-                  <text class="tick-label" x="72" y="86.5" text-anchor="end">25</text>
-                  <text class="tick-label" x="72" y="34" text-anchor="end">30</text>
-
-                  <text
-                    class="axis-label"
-                    x="25"
-                    y="190"
-                    text-anchor="middle"
-                    transform="rotate(-90 25 190)"
-                  >
-                    Balloon circumference (cm)
-                  </text>
-                </g>
-
-                <line id="lineGuideVertical" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
-                <line id="lineGuideHorizontal" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
-
-                <path id="linePath" d=""></path>
-                <g id="linePointsLayer"></g>
-
-                <g id="linePointCallout" opacity="0" aria-hidden="true">
-                  <rect
-                    id="linePointCalloutBox"
-                    x="0"
-                    y="0"
-                    width="174"
-                    height="55"
-                    rx="12"
-                    fill="var(--paper)"
-                    stroke="var(--charcoal)"
-                    stroke-width="2"
-                  ></rect>
-                  <text id="linePointCalloutText1" x="0" y="0" font-size="13" font-weight="700"></text>
-                  <text id="linePointCalloutText2" x="0" y="0" font-size="12"></text>
+                <g id="barLabelsLayer">
+                  <text class="bar-value-label" data-index="0" x="165" y="258">22 cm</text>
+                  <text class="bar-value-label" data-index="1" x="300" y="216">34 cm</text>
+                  <text class="bar-value-label" data-index="2" x="435" y="114">63 cm</text>
+                  <text class="bar-value-label" data-index="3" x="570" y="62">78 cm</text>
                 </g>
               </svg>
             </div>
@@ -335,360 +272,174 @@
 
         <div class="graph-rule-row">
           <div class="graph-rule-card">
-            <h3>A point means two things at once</h3>
-            <p>The dotted guides let students trace from a point back to its x-value and y-value.</p>
+            <h3>Bars are separate</h3>
+            <p>The gap signals that carpet and grass are different categories, not values between each other.</p>
           </div>
           <div class="graph-rule-card">
-            <h3>The line comes last</h3>
-            <p>Students see the raw points before the line, so the line is understood as a way of following change.</p>
+            <h3>Height carries meaning</h3>
+            <p>Taller bar = larger amount. Students can compare before reading the exact numbers.</p>
           </div>
           <div class="graph-rule-card">
-            <h3>Good for ordered values</h3>
-            <p>Temperature has a meaningful order, so moving from 10 → 20 → 30 °C makes sense.</p>
+            <h3>Ask comparison questions</h3>
+            <p>Which is highest? Lowest? How much higher? These are natural bar-graph questions.</p>
           </div>
         </div>
       </section>
 
         <!-- ==================================================
-             LINE GRAPH STUDENT CHALLENGE
+             BAR GRAPH STUDENT CHALLENGE
              ================================================== -->
-        <div class="student-challenge" id="line-practice">
+        <div class="student-challenge" id="bar-practice">
           <div class="student-challenge-heading">
             <div>
               <p class="challenge-kicker">Your turn · formative check</p>
-              <h3>🎯 Plot the Experiment</h3>
-              <p>Use a new data table to choose the axes, plot four points and explain the trend.</p>
+              <h3>📊 Build the Bars</h3>
+              <p>Translate a data table into bar heights, then use the graph to compare categories.</p>
             </div>
-            <span class="challenge-badge" id="linePracticeBadge">Step 1 of 4</span>
+            <span class="challenge-badge" id="barPracticeBadge">Build</span>
           </div>
 
           <div class="challenge-grid">
             <div class="challenge-panel">
               <p class="challenge-question">
-                A student changed the <strong>drop height</strong> of a ball and measured its
-                <strong>bounce height</strong>.
+                Students counted minibeasts in four schoolyard microhabitats.
+                Use the table to set the height of each bar.
               </p>
 
-              <table class="practice-table" aria-label="Ball drop experiment data">
+              <table class="practice-table" aria-label="Minibeast count data">
                 <thead>
-                  <tr>
-                    <th>Drop height (cm)</th>
-                    <th>Bounce height (cm)</th>
-                  </tr>
+                  <tr><th>Microhabitat</th><th>Minibeasts found</th></tr>
                 </thead>
-                <tbody id="linePracticeDataBody">
-                  <tr><td>20</td><td>8</td></tr>
-                  <tr><td>40</td><td>17</td></tr>
-                  <tr><td>60</td><td>29</td></tr>
-                  <tr><td>80</td><td>36</td></tr>
+                <tbody>
+                  <tr><td>Garden bed</td><td>12</td></tr>
+                  <tr><td>Grass</td><td>7</td></tr>
+                  <tr><td>Under log</td><td>18</td></tr>
+                  <tr><td>Pavement</td><td>3</td></tr>
                 </tbody>
               </table>
 
-              <div id="lineAxisPractice">
-                <span class="challenge-step-label" id="lineAxisStageLabel">Choose the x-axis</span>
-                <p class="challenge-question" id="lineAxisQuestionText">
-                  Which variable belongs on the <strong>x-axis</strong>?
-                </p>
-                <div class="challenge-choice-grid">
-                  <button type="button" class="challenge-choice" data-line-axis-choice="drop">
-                    Drop height (cm)
-                  </button>
-                  <button type="button" class="challenge-choice" data-line-axis-choice="bounce">
-                    Bounce height (cm)
-                  </button>
+              <div class="bar-builder-controls" id="barPracticeControls">
+                <div class="bar-builder-row" data-bar-row="0">
+                  <label for="barPractice0">Garden bed</label>
+                  <input id="barPractice0" type="range" min="0" max="20" step="1" value="0" data-bar-practice="0" />
+                  <output for="barPractice0">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="1">
+                  <label for="barPractice1">Grass</label>
+                  <input id="barPractice1" type="range" min="0" max="20" step="1" value="0" data-bar-practice="1" />
+                  <output for="barPractice1">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="2">
+                  <label for="barPractice2">Under log</label>
+                  <input id="barPractice2" type="range" min="0" max="20" step="1" value="0" data-bar-practice="2" />
+                  <output for="barPractice2">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="3">
+                  <label for="barPractice3">Pavement</label>
+                  <input id="barPractice3" type="range" min="0" max="20" step="1" value="0" data-bar-practice="3" />
+                  <output for="barPractice3">0</output>
                 </div>
               </div>
 
-              <div class="challenge-hidden" id="linePlotPractice" hidden>
-                <span class="challenge-step-label">Plot the coordinates</span>
+              <button type="button" class="general-button" id="checkBarPracticeButton" style="margin-top: 14px;">
+                Check my bars
+              </button>
+
+              <div class="challenge-hidden" id="barInterpretPractice" hidden>
+                <span class="challenge-step-label" style="margin-top: 16px;">Use the graph</span>
                 <p class="challenge-question">
-                  Click the graph where each pair belongs. The graph will snap a correctly placed point into position.
+                  How many more minibeasts were found <strong>under the log</strong> than in the <strong>grass</strong>?
                 </p>
-                <div class="plot-prompt" id="linePlotPrompt">
-                  Plot <strong>(20, 8)</strong>: 20 cm drop height and 8 cm bounce height.
-                </div>
-              </div>
-
-              <div class="challenge-hidden" id="lineConnectPractice" hidden>
-                <span class="challenge-step-label">What comes next?</span>
-                <p class="challenge-question">All four measurements are plotted. What should you do to make the line graph?</p>
                 <div class="challenge-choice-grid three-choice">
-                  <button type="button" class="challenge-choice" data-line-next="connect">Connect the points</button>
-                  <button type="button" class="challenge-choice" data-line-next="bars">Turn them into bars</button>
-                  <button type="button" class="challenge-choice" data-line-next="slices">Turn them into slices</button>
+                  <button type="button" class="challenge-choice" data-bar-difference="5">5</button>
+                  <button type="button" class="challenge-choice" data-bar-difference="11">11</button>
+                  <button type="button" class="challenge-choice" data-bar-difference="25">25</button>
                 </div>
               </div>
 
-              <div class="challenge-hidden" id="lineInterpretPractice" hidden>
-                <span class="challenge-step-label">Read your graph</span>
-                <p class="challenge-question">What trend does your finished graph show?</p>
-                <div class="challenge-choice-grid">
-                  <button type="button" class="challenge-choice" data-line-trend="increase">
-                    As drop height increases, bounce height generally increases.
-                  </button>
-                  <button type="button" class="challenge-choice" data-line-trend="decrease">
-                    As drop height increases, bounce height decreases.
-                  </button>
-                </div>
-              </div>
-
-              <div class="challenge-feedback" id="linePracticeFeedback" role="status" aria-live="polite">
-                <strong>Think back to a fair test.</strong>
-                The x-axis usually shows the independent variable — the thing that was changed.
+              <div class="challenge-feedback" id="barPracticeFeedback" role="status" aria-live="polite">
+                <strong>Build from zero.</strong>
+                Move each slider until the bar height matches the number in the data table.
               </div>
 
               <div class="reset-button-container">
-                <button type="button" class="general-button reset-btn" id="resetLinePracticeButton">Reset challenge</button>
+                <button type="button" class="general-button reset-btn" id="resetBarPracticeButton">Reset challenge</button>
               </div>
             </div>
 
             <div class="challenge-visual">
               <div class="graph-stage-heading">
                 <div>
-                  <h3>Your line graph</h3>
-                  <p id="linePracticeVisualHint">Choose the axes first. Then the graph becomes active.</p>
+                  <h3>Your bar graph</h3>
+                  <p>Each slider changes one category without changing the others.</p>
                 </div>
                 <span class="graph-badge">Student graph</span>
               </div>
 
               <div class="graph-svg-wrap">
-                <svg
-                  class="graph-svg"
-                  id="linePracticeSvg"
-                  viewBox="0 0 700 430"
-                  role="img"
-                  aria-label="Blank line graph for plotting ball drop and bounce height data"
-                >
+                <svg class="graph-svg" id="barPracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student bar graph of minibeasts found in four microhabitats">
                   <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
 
                   <g aria-hidden="true">
-                    <line class="graph-grid-line" x1="90" y1="345" x2="630" y2="345"></line>
-                    <line class="graph-grid-line" x1="90" y1="266.25" x2="630" y2="266.25"></line>
-                    <line class="graph-grid-line" x1="90" y1="187.5" x2="630" y2="187.5"></line>
-                    <line class="graph-grid-line" x1="90" y1="108.75" x2="630" y2="108.75"></line>
-                    <line class="graph-grid-line" x1="90" y1="30" x2="630" y2="30"></line>
+                    <line class="graph-grid-line" x1="90" y1="345" x2="640" y2="345"></line>
+                    <line class="graph-grid-line" x1="90" y1="266.25" x2="640" y2="266.25"></line>
+                    <line class="graph-grid-line" x1="90" y1="187.5" x2="640" y2="187.5"></line>
+                    <line class="graph-grid-line" x1="90" y1="108.75" x2="640" y2="108.75"></line>
+                    <line class="graph-grid-line" x1="90" y1="30" x2="640" y2="30"></line>
                   </g>
 
-                  <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
-                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
-
-                  <text class="tick-label" x="90" y="367" text-anchor="middle">0</text>
-                  <text class="tick-label" x="225" y="367" text-anchor="middle">20</text>
-                  <text class="tick-label" x="360" y="367" text-anchor="middle">40</text>
-                  <text class="tick-label" x="495" y="367" text-anchor="middle">60</text>
-                  <text class="tick-label" x="630" y="367" text-anchor="middle">80</text>
+                  <line class="graph-axis" x1="90" y1="345" x2="645" y2="345"></line>
+                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="25"></line>
 
                   <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
-                  <text class="tick-label" x="72" y="270" text-anchor="end">10</text>
-                  <text class="tick-label" x="72" y="191" text-anchor="end">20</text>
-                  <text class="tick-label" x="72" y="112" text-anchor="end">30</text>
-                  <text class="tick-label" x="72" y="34" text-anchor="end">40</text>
+                  <text class="tick-label" x="72" y="270" text-anchor="end">5</text>
+                  <text class="tick-label" x="72" y="191" text-anchor="end">10</text>
+                  <text class="tick-label" x="72" y="112" text-anchor="end">15</text>
+                  <text class="tick-label" x="72" y="34" text-anchor="end">20</text>
 
-                  <text class="axis-label" x="360" y="405" text-anchor="middle" id="linePracticeXAxisLabel">x-axis</text>
-                  <text
-                    class="axis-label"
-                    x="25"
-                    y="190"
-                    text-anchor="middle"
-                    transform="rotate(-90 25 190)"
-                    id="linePracticeYAxisLabel"
-                  >y-axis</text>
+                  <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)">Minibeasts found</text>
+                  <text class="axis-label" x="365" y="410" text-anchor="middle">Microhabitat</text>
 
-                  <line id="linePracticeCrossV" class="practice-crosshair" x1="0" y1="30" x2="0" y2="345"></line>
-                  <line id="linePracticeCrossH" class="practice-crosshair" x1="90" y1="0" x2="630" y2="0"></line>
+                  <text class="tick-label" x="160" y="371" text-anchor="middle">Garden bed</text>
+                  <text class="tick-label" x="300" y="371" text-anchor="middle">Grass</text>
+                  <text class="tick-label" x="440" y="371" text-anchor="middle">Under log</text>
+                  <text class="tick-label" x="580" y="371" text-anchor="middle">Pavement</text>
 
-                  <path id="linePracticePath" d=""></path>
-                  <g id="linePracticePointsLayer"></g>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>      
-
-      <!-- ==================================================
-           PIE CHART
-           ================================================== -->
-      <!-- <section class="section" id="pie-chart">
-        <h2 class="section-title">3. Turn a Whole into a Pie Chart</h2>
-
-        <div class="diagram-box diagram-activity graph-intro-box">
-          <p class="activity-instruction">
-            A pie chart is about <strong>part of a whole</strong>. Here the whole is a class of 20 students.
-            Add each group as a slice and watch the chart fill toward 100%.
-          </p>
-        </div>
-
-        <div class="graph-learning-grid">
-          <div class="graph-control-card">
-            <h3>20 students = one whole class</h3>
-            <p>Example class poll: Which way of investigating science do students enjoy most?</p>
-
-            <div class="pie-data-grid" id="pieDataGrid">
-              <div class="data-value-card"><strong>8</strong><span>Observe</span></div>
-              <div class="data-value-card"><strong>6</strong><span>Measure</span></div>
-              <div class="data-value-card"><strong>4</strong><span>Experiment</span></div>
-              <div class="data-value-card"><strong>2</strong><span>Research</span></div>
-            </div>
-
-            <div class="whole-meter">
-              <strong>How much of the whole have we added?</strong>
-              <div class="whole-meter-track" aria-hidden="true">
-                <div class="whole-meter-fill" id="wholeMeterFill"></div>
-              </div>
-              <p class="whole-meter-label" id="wholeMeterLabel">0 of 20 students = 0%</p>
-            </div>
-
-            <div class="graph-button-stack">
-              <button type="button" class="general-button" id="addSliceButton">Add first slice</button>
-              <button type="button" class="general-button" id="showPiePercentButton" disabled>Show percentages</button>
-              <div class="reset-button-container">
-                <button type="button" class="general-button reset-btn" id="resetPieChartButton">Reset</button>
-              </div>
-            </div>
-
-            <div class="teaching-feedback" id="pieTeachingFeedback" role="status" aria-live="polite">
-              <strong>Start with the whole.</strong>
-              Every student belongs to exactly one category, so all four groups together must make 20 students, or 100%.
-            </div>
-          </div>
-
-          <div class="graph-stage-card">
-            <div class="graph-stage-heading">
-              <div>
-                <h3>Favourite investigation style</h3>
-                <p>After slices are added, click a legend item to inspect one part.</p>
-              </div>
-              <span class="graph-badge">Pie chart</span>
-            </div>
-
-            <div class="pie-layout">
-              <div class="graph-svg-wrap">
-                <svg
-                  class="graph-svg"
-                  id="pieChartSvg"
-                  viewBox="0 0 500 440"
-                  role="img"
-                  aria-label="Interactive pie chart showing four groups that total twenty students"
-                  style="min-width: 420px;"
-                >
-                  <circle cx="250" cy="220" r="160" fill="var(--soft-blue)" stroke="var(--charcoal)" stroke-width="3"></circle>
-                  <g id="pieSlicesLayer"></g>
-                  <g id="piePercentLayer"></g>
-                  <circle cx="250" cy="220" r="160" fill="none" stroke="var(--charcoal)" stroke-width="3" pointer-events="none"></circle>
+                  <rect class="practice-bar" data-practice-bar="0" x="118" y="345" width="84" height="0" rx="6" fill="var(--yellow)"></rect>
+                  <rect class="practice-bar" data-practice-bar="1" x="258" y="345" width="84" height="0" rx="6" fill="var(--mint)"></rect>
+                  <rect class="practice-bar" data-practice-bar="2" x="398" y="345" width="84" height="0" rx="6" fill="var(--blue)"></rect>
+                  <rect class="practice-bar" data-practice-bar="3" x="538" y="345" width="84" height="0" rx="6" fill="var(--lavender)"></rect>
                 </svg>
               </div>
 
-              <div>
-                <div class="pie-legend" id="pieLegend"></div>
+              <div class="graph-detective challenge-hidden" id="barDetective" hidden>
+                <h4>🔎 Graph Detective</h4>
+                <p class="challenge-question">This graph makes a small difference look enormous. What is wrong?</p>
 
-                <div class="teaching-feedback" id="pieSliceDetail" style="margin-top: 14px;">
-                  <strong>Select a slice.</strong>
-                  Once the pie is built, choose a category to see its fraction of the whole and its percentage.
+                <div class="detective-mini-graph" aria-label="Misleading bar graph with a y-axis starting at fifty">
+                  <svg viewBox="0 0 360 220" style="width: 100%; height: auto; display: block;">
+                    <rect width="360" height="220" fill="white"></rect>
+                    <line x1="60" y1="170" x2="320" y2="170" stroke="var(--charcoal)" stroke-width="3"></line>
+                    <line x1="60" y1="170" x2="60" y2="25" stroke="var(--charcoal)" stroke-width="3"></line>
+                    <text x="48" y="174" text-anchor="end" font-size="12">50</text>
+                    <text x="48" y="104" text-anchor="end" font-size="12">55</text>
+                    <text x="48" y="34" text-anchor="end" font-size="12">60</text>
+                    <rect x="105" y="142" width="70" height="28" fill="var(--mint)" stroke="var(--charcoal)" stroke-width="2"></rect>
+                    <rect x="220" y="30" width="70" height="140" fill="var(--lavender)" stroke="var(--charcoal)" stroke-width="2"></rect>
+                    <text x="140" y="195" text-anchor="middle" font-size="12">A · 52</text>
+                    <text x="255" y="195" text-anchor="middle" font-size="12">B · 60</text>
+                  </svg>
+                </div>
+
+                <div class="challenge-choice-grid">
+                  <button type="button" class="challenge-choice" data-detective="zero">The y-axis does not start at zero.</button>
+                  <button type="button" class="challenge-choice" data-detective="touch">The two bars should touch.</button>
+                  <button type="button" class="challenge-choice" data-detective="line">The bar tops should be joined by a line.</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="graph-rule-row">
-          <div class="graph-rule-card">
-            <h3>The total must be meaningful</h3>
-            <p>A pie chart only makes sense when all slices belong to the same whole.</p>
-          </div>
-          <div class="graph-rule-card">
-            <h3>Slice size means proportion</h3>
-            <p>8 of 20 students becomes 40% of the circle; 2 of 20 becomes 10%.</p>
-          </div>
-          <div class="graph-rule-card">
-            <h3>Everything adds to 100%</h3>
-            <p>The fill meter makes the idea of completing the whole explicit before the finished pie appears.</p>
-          </div>
-        </div>
-      </section> -->
-
-        <!-- ==================================================
-             PIE CHART STUDENT CHALLENGE
-             ================================================== -->
-        <!-- <div class="student-challenge" id="pie-practice">
-          <div class="student-challenge-heading">
-            <div>
-              <p class="challenge-kicker">Your turn · formative check</p>
-              <h3>🥧 Make the Whole</h3>
-              <p>Convert parts of a 20-student class into percentages and watch those parts build one whole circle.</p>
-            </div>
-            <span class="challenge-badge" id="piePracticeBadge">0% built</span>
-          </div>
-
-          <div class="challenge-grid">
-            <div class="challenge-panel">
-              <p class="challenge-question">
-                Twenty students each chose <strong>one</strong> favourite science-fair exhibit.
-                Because every student is counted once, all categories together represent the whole class.
-              </p>
-
-              <table class="practice-table" aria-label="Favourite science fair exhibit data">
-                <thead><tr><th>Exhibit</th><th>Students</th></tr></thead>
-                <tbody>
-                  <tr><td>Space</td><td>10</td></tr>
-                  <tr><td>Animals</td><td>5</td></tr>
-                  <tr><td>Plants</td><td>4</td></tr>
-                  <tr><td>Rocks</td><td>1</td></tr>
-                </tbody>
-              </table>
-
-              <div class="student-token-grid" id="piePracticeTokens" aria-label="Twenty student tokens"></div>
-
-              <div class="pie-practice-current" id="piePracticeCurrent">
-                <strong>Space: 10 of 20 students</strong>
-                What percentage of the whole class is that?
-              </div>
-
-              <div class="challenge-choice-grid three-choice" id="piePercentChoices"></div>
-
-              <div class="challenge-hidden" id="pieInterpretPractice" hidden>
-                <span class="challenge-step-label" style="margin-top: 16px;">Use the whole</span>
-                <p class="challenge-question">
-                  Space and Animals together account for 15 of the 20 students. What percentage is that?
-                </p>
-                <div class="challenge-choice-grid three-choice">
-                  <button type="button" class="challenge-choice" data-pie-total="55">55%</button>
-                  <button type="button" class="challenge-choice" data-pie-total="75">75%</button>
-                  <button type="button" class="challenge-choice" data-pie-total="90">90%</button>
-                </div>
-              </div>
-
-              <div class="challenge-feedback" id="piePracticeFeedback" role="status" aria-live="polite">
-                <strong>Start with a fraction of the whole.</strong>
-                10 out of 20 is the same as one half. What percentage of a whole is one half?
-              </div>
-
-              <div class="reset-button-container">
-                <button type="button" class="general-button reset-btn" id="resetPiePracticeButton">Reset challenge</button>
-              </div>
-            </div>
-
-            <div class="challenge-visual">
-              <div class="graph-stage-heading">
-                <div>
-                  <h3>Your pie chart</h3>
-                  <p>Each correct percentage adds that category's slice to the same whole.</p>
-                </div>
-                <span class="graph-badge">Student chart</span>
-              </div>
-
-              <div class="graph-svg-wrap">
-                <svg class="graph-svg" id="piePracticeSvg" viewBox="0 0 500 440" role="img" aria-label="Student pie chart built from twenty students" style="min-width: 420px;">
-                  <circle cx="250" cy="220" r="160" fill="var(--soft-blue)" stroke="var(--charcoal)" stroke-width="3"></circle>
-                  <g id="piePracticeSlicesLayer"></g>
-                  <circle cx="250" cy="220" r="160" fill="none" stroke="var(--charcoal)" stroke-width="3" pointer-events="none"></circle>
-                  <text x="250" y="214" text-anchor="middle" font-size="17" font-weight="700" id="piePracticeCenterText">0%</text>
-                  <text x="250" y="238" text-anchor="middle" font-size="12" id="piePracticeCenterSubtext">of the whole built</text>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div> -->
-
 
       <!-- ==================================================
            FINAL GRAPH CHOICE CHALLENGE
