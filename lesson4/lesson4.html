@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lesson 4 Test - Understanding Graphs</title>
+    <title>Lesson 4 - Understanding Graphs</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
@@ -46,7 +46,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <div>
-            <p class="teacher-label">Lesson 4: Graphs</p>
+            <p class="teacher-label">Lesson 4 &middot; Part A: Line Graphs</p>
             <h2>Glossary Terms</h2>
           </div>
 
@@ -94,10 +94,41 @@
       </div>
     </div>
 
+    <!-- ==================================================
+       HIDDEN TEACHER MENU
+       Opened by clicking the lesson title five times.
+       ================================================== -->
+    <div class="teacher-modal" id="teacherModal">
+      <div class="teacher-panel">
+        <div class="teacher-panel-header">
+          <div>
+            <p class="teacher-label">Teacher tools</p>
+            <h2>Jump to an activity</h2>
+          </div>
+
+          <button type="button" class="teacher-close" onclick="closeTeacherMenu()" aria-label="Close teacher menu">
+            ×
+          </button>
+        </div>
+
+        <div class="teacher-section-list"></div>
+
+        <div class="teacher-actions">
+          <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">Show all sections</button>
+
+          <button type="button" class="teacher-secondary-button" onclick="teacherResetView()">
+            Reset student view
+          </button>
+        </div>
+
+        <p class="teacher-note">Jumping between activities changes navigation only. Reset student view clears every answer on this page.</p>
+      </div>
+    </div>
+
     <main class="page">
       <header class="lesson-intro">
         <div class="lesson-heading">
-          <span class="lesson-label">Lesson 4</span>
+          <span class="lesson-label">Lesson 4 &middot; Part A</span>
           <h1>Turning Data into Graphs</h1>
           <p class="lesson-summary">
             Graphs help scientists turn a table of numbers into a picture that makes
@@ -753,6 +784,18 @@
     <script src="scripts/common_functions.js"></script>
 
     <script>
+      const dev = false;
+      if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
+
+      const lesson4SectionIds = [
+        { id: "line-graph", label: "Is Yeast Alive?" },
+        { id: "line-practice", label: "Yeast Variables: Select the variables" },
+      ];
+
+      const lesson4TeacherBackLink = {
+        label: "← To Part B",
+        href: "lesson4-2.html"
+      };
       /* ==================================================
          LINE GRAPH PROTOTYPE
          ================================================== */
@@ -2229,10 +2272,14 @@
 
 
       /* ==================================================
-         INITIALISE TEST PAGE
+         INITIALISE GRAPH PAGE
          ================================================== */
 
       document.addEventListener("DOMContentLoaded", function() {
+        if (typeof initialiseTeacherMenu === "function") {
+          initialiseTeacherMenu(lesson4SectionIds, "line-graph", lesson4TeacherBackLink);
+        }
+
         buildLinePointElements();
         buildPieElements();
 
