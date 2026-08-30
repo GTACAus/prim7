@@ -4,13 +4,6 @@
    Test-only overrides. If these ideas are kept, move
    the useful rules into lesson4_styles/lesson4.css.
    ================================================== */
-.lesson4-page {
-  padding-top: 118px;
-}
-.lesson4-intro {
-  margin-bottom: 22px;
-  padding-top: 0;
-}
 .lesson4-test-note {
   width: min(820px, 100%);
   margin: 0 auto 28px;
@@ -509,9 +502,6 @@
   }
 }
 @media (max-width: 520px) {
-  .lesson4-page {
-    padding-top: 126px;
-  }
   .graph-stage-card,
   .graph-control-card {
     padding: 14px;
@@ -681,10 +671,6 @@
 .challenge-feedback.try-again {
   background: var(--soft-orange);
   border-left-color: var(--orange);
-}
-.challenge-reset {
-  margin-top: 14px;
-  background: var(--soft-orange) !important;
 }
 .challenge-hidden[hidden] {
   display: none !important;
