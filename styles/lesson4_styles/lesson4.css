@@ -35,8 +35,8 @@
 }
 
 /* Tablet and up: steps + data table sit beside the graph,
-   with the button row and feedback spanning both underneath
-   so the whole activity fits on screen without scrolling. */
+   with the button row spanning both underneath so the whole
+   activity fits on screen without scrolling. */
 @media (min-width: 900px) {
   .graph-learning-grid {
     grid-template-columns: minmax(260px, 0.95fr) minmax(320px, 1.25fr);
@@ -45,20 +45,10 @@
   .graph-controls-footer {
     grid-column: 1 / -1;
   }
-
-  .graph-controls-footer .graph-button-stack {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
-
-  .graph-controls-footer .graph-button-stack .reset-button-container {
-    grid-column: 1 / -1;
-    margin-top: 4px;
-  }
 }
 
 .graph-controls-footer {
-  margin-top: 0;
+  margin-top: 4px;
 }
 .graph-control-card,
 .graph-stage-card,
@@ -121,12 +111,11 @@
 }
 .graph-svg-wrap {
   width: 100%;
-  overflow-x: auto;
 }
 .graph-svg {
   display: block;
   width: 100%;
-  min-width: 560px;
+  max-width: 100%;
   height: auto;
 }
 .graph-svg text {
@@ -202,12 +191,13 @@
   line-height: 1.35;
 }
 .graph-button-stack {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 18px;
 }
 .graph-button-stack .general-button {
-  width: 100%;
+  flex: 1 1 160px;
   color: var(--text);
   background: var(--soft-green);
 }
@@ -219,6 +209,13 @@
 }
 .graph-button-stack .general-button:nth-child(4) {
   background: var(--soft-blue);
+}
+.graph-button-stack .reset-button-container {
+  flex: 1 1 160px;
+  margin-top: 0;
+}
+.graph-button-stack .reset-button-container .general-button {
+  width: 100%;
 }
 .general-button:disabled {
   opacity: 0.42;
@@ -594,6 +591,15 @@
   grid-template-columns: minmax(270px, 0.82fr) minmax(0, 1.38fr);
   gap: 18px;
   align-items: start;
+}
+.challenge-spotlight-game {
+  margin: 0 0 20px;
+  width: 100%;
+  /* height: 100%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--paper);
 }
 .challenge-panel,
 .challenge-visual,
