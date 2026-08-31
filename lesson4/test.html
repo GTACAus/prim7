@@ -278,10 +278,124 @@
       border-radius: 12px;
     }
 
-    .axis-builder-row { margin-top: 14px; }
-    .axis-builder-row > strong { display: block; margin-bottom: 8px; }
+    .axis-dnd-builder { margin-top: 14px; }
 
-    .check-row-button { width: 100%; margin-top: 10px; }
+    .axis-dnd-instruction {
+      margin: 8px 0 14px;
+      line-height: 1.5;
+    }
+
+    .axis-card-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 64px;
+      padding: 12px;
+      background: var(--paper);
+      border: 2px dashed var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .axis-drag-card {
+      min-height: 44px;
+      padding: 9px 13px;
+      background: white;
+      color: var(--text);
+      border: 2px solid var(--charcoal);
+      border-radius: 11px;
+      box-shadow: 0 3px 0 var(--charcoal);
+      font: inherit;
+      font-weight: 700;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .axis-drag-card:active { cursor: grabbing; transform: translateY(2px); box-shadow: 0 1px 0 var(--charcoal); }
+    .axis-drag-card.selected { outline: 4px solid var(--yellow); outline-offset: 2px; }
+    .axis-drag-card.placed { cursor: default; box-shadow: none; margin: 0; }
+
+    .axis-dnd-hint { margin: 10px 0 0; color: var(--muted); font-size: .9rem; }
+
+    /* Drag ghost follows the cursor/finger, matching the Lesson 3 table activity. */
+    .axis-drag-ghost {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      margin: 0;
+      opacity: 1;
+      transform: scale(1.04);
+      width: max-content;
+      max-width: 90vw;
+    }
+
+    .axis-drag-ghost .axis-drag-card {
+      margin: 0;
+      cursor: grabbing;
+      box-shadow: 0 3px 0 var(--charcoal);
+    }
+
+    .axis-drag-ghost.is-hovering-drop-zone .axis-drag-card {
+      background: var(--soft-yellow);
+    }
+
+    .axis-drag-card.is-dragging { opacity: .55; }
+    .axis-drag-card.placed {
+      opacity: .28;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* The drop targets are part of the SVG graph itself. */
+    #linePracticeSvg .axis-graph-drop-zone { cursor: pointer; }
+
+    #linePracticeSvg .axis-graph-drop-zone .axis-drop-zone-box {
+      fill: rgba(229, 238, 255, .72);
+      stroke: var(--blue);
+      stroke-width: 2.5;
+      stroke-dasharray: 7 5;
+      transition: fill .15s ease, stroke .15s ease, stroke-width .15s ease;
+    }
+
+    #linePracticeSvg .axis-graph-drop-zone .axis-drop-zone-text {
+      fill: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    #linePracticeSvg .axis-graph-drop-zone.drag-over .axis-drop-zone-box {
+      fill: var(--soft-yellow);
+      stroke: var(--purple);
+      stroke-width: 3.5;
+    }
+
+    #linePracticeSvg .axis-graph-drop-zone.drop-complete .axis-drop-zone-box {
+      fill: var(--soft-green);
+      stroke: var(--green);
+      stroke-dasharray: none;
+    }
+
+    #linePracticeSvg .axis-graph-drop-zone.drop-complete .axis-drop-zone-text {
+      fill: var(--text);
+    }
+
+    #linePracticeSvg .axis-graph-drop-zone.drop-incorrect .axis-drop-zone-box {
+      fill: var(--soft-orange);
+      stroke: var(--orange);
+      stroke-width: 3.5;
+    }
+
+    #linePracticeSvg .axis-graph-drop-zone.axis-complete {
+      display: none;
+    }
+
+    #linePracticeSvg .axis-label-complete {
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    #linePracticeSvg .axis-label-complete.visible { opacity: 1; }
 
     .mistake-layout,
     .analysis-grid {
@@ -325,6 +439,7 @@
       .challenge-choice-grid.three-choice { grid-template-columns: 1fr; }
       .axis-formula { grid-template-columns: 1fr; }
       .axis-formula > span { display: none; }
+      .axis-card-bank { justify-content: center; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -522,6 +637,15 @@
               </g>
             </svg>
           </div>
+          <figure class="experiment-photo-slot">
+            <!--
+              Replace this block with the photo, for example:
+              <img src="../images/lesson4/yeast-balloon.jpg" alt="Balloons on flasks of yeast at each temperature">
+            -->
+            <div class="experiment-photo-placeholder">Photo of the experiment goes here</div>
+            <figcaption>What the fair test looked like</figcaption>
+          </figure>
+
         </div>
       </div>
 
@@ -554,47 +678,26 @@
               </tbody>
             </table>
 
-            <div id="axisBuilder">
-              <span class="challenge-step-label">Build the x-axis label</span>
-              <div class="axis-builder-row">
-                <strong>Which variable belongs on the x-axis?</strong>
-                <div class="challenge-choice-grid">
-                  <button type="button" class="challenge-choice" data-axis-variable="x" data-value="drop">Drop height</button>
-                  <button type="button" class="challenge-choice" data-axis-variable="x" data-value="bounce">Bounce height</button>
-                </div>
-              </div>
-              <div class="axis-builder-row" id="xUnitRow" hidden>
-                <strong>Which unit belongs with drop height?</strong>
-                <div class="challenge-choice-grid three-choice">
-                  <button type="button" class="challenge-choice" data-axis-unit="x" data-value="cm">cm</button>
-                  <button type="button" class="challenge-choice" data-axis-unit="x" data-value="s">s</button>
-                  <button type="button" class="challenge-choice" data-axis-unit="x" data-value="deg">°C</button>
-                </div>
+            <div id="axisBuilder" class="axis-dnd-builder">
+              <span class="challenge-step-label">Build the axis labels</span>
+              <p class="axis-dnd-instruction"><strong>Drag each variable and unit card directly onto the correct place on the graph.</strong> A complete axis label needs a variable and a unit.</p>
+
+              <div class="axis-card-bank" id="axisCardBank" aria-label="Axis label cards">
+                <button type="button" class="axis-drag-card" id="axisCardDrop" draggable="true" data-card-type="variable" data-value="drop">Drop height</button>
+                <button type="button" class="axis-drag-card" id="axisCardBounce" draggable="true" data-card-type="variable" data-value="bounce">Bounce height</button>
+                <button type="button" class="axis-drag-card" id="axisCardCm1" draggable="true" data-card-type="unit" data-value="cm">cm</button>
+                <button type="button" class="axis-drag-card" id="axisCardCm2" draggable="true" data-card-type="unit" data-value="cm">cm</button>
+                <button type="button" class="axis-drag-card" id="axisCardSeconds" draggable="true" data-card-type="unit" data-value="s">seconds</button>
+                <button type="button" class="axis-drag-card" id="axisCardDegrees" draggable="true" data-card-type="unit" data-value="deg">°C</button>
               </div>
 
-              <div class="axis-builder-row" id="yVariableRow" hidden>
-                <span class="challenge-step-label">Build the y-axis label</span>
-                <strong>Which variable belongs on the y-axis?</strong>
-                <div class="challenge-choice-grid">
-                  <button type="button" class="challenge-choice" data-axis-variable="y" data-value="drop">Drop height</button>
-                  <button type="button" class="challenge-choice" data-axis-variable="y" data-value="bounce">Bounce height</button>
-                </div>
-              </div>
-              <div class="axis-builder-row" id="yUnitRow" hidden>
-                <strong>Which unit belongs with bounce height?</strong>
-                <div class="challenge-choice-grid three-choice">
-                  <button type="button" class="challenge-choice" data-axis-unit="y" data-value="cm">cm</button>
-                  <button type="button" class="challenge-choice" data-axis-unit="y" data-value="g">g</button>
-                  <button type="button" class="challenge-choice" data-axis-unit="y" data-value="min">min</button>
-                </div>
-              </div>
+              <p class="axis-dnd-hint">The dashed boxes are on the graph itself. On a touchscreen, you can drag with your finger. You can also tap a card and then tap a graph box.</p>
             </div>
 
             <div id="linePlotPractice" hidden>
               <span class="challenge-step-label">Plot the data</span>
               <p class="challenge-question">Use the highlighted row. Click the graph where the x-value and y-value meet.</p>
               <div class="plot-prompt" id="linePlotPrompt">Plot <strong>(20, 8)</strong>.</div>
-              <button type="button" class="general-button check-row-button" id="checkPlottedPointButton" disabled>Check against the table</button>
             </div>
 
             <div id="lineConnectPractice" hidden>
@@ -614,7 +717,7 @@
           </div>
 
           <div class="challenge-visual">
-            <div class="graph-stage-heading"><div><h3>Your line graph</h3><p id="linePracticeVisualHint">Build both axis labels first.</p></div><span class="graph-badge">Student graph</span></div>
+            <div class="graph-stage-heading"><div><h3>Your line graph</h3><p id="linePracticeVisualHint">Drag the label cards onto the dashed spaces on this graph.</p></div><span class="graph-badge">Student graph</span></div>
             <div class="graph-svg-wrap">
               <svg class="graph-svg" id="linePracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student line graph for ball drop and bounce data">
                 <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
@@ -637,14 +740,52 @@
                 <text class="tick-label" x="72" y="191" text-anchor="end">20</text>
                 <text class="tick-label" x="72" y="112" text-anchor="end">30</text>
                 <text class="tick-label" x="72" y="34" text-anchor="end">40</text>
-                <text class="axis-label" x="360" y="405" text-anchor="middle" id="linePracticeXAxisLabel">x-axis</text>
-                <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)" id="linePracticeYAxisLabel">y-axis</text>
+                <!-- Axis-label drop targets live on the graph, just like Lesson 3 drop zones live in the table. -->
+                <g id="xVariableDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
+                   data-axis-slot="x-variable" data-card-type="variable" data-expected="drop"
+                   aria-label="Drop the x-axis variable here">
+                  <rect class="axis-drop-zone-box" x="238" y="380" width="155" height="38" rx="9"></rect>
+                  <text class="axis-drop-zone-text" x="315.5" y="404" text-anchor="middle" data-placeholder="Variable">Variable</text>
+                </g>
+                <g id="xUnitDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
+                   data-axis-slot="x-unit" data-card-type="unit" data-expected="cm"
+                   aria-label="Drop the x-axis unit here">
+                  <rect class="axis-drop-zone-box" x="401" y="380" width="82" height="38" rx="9"></rect>
+                  <text class="axis-drop-zone-text" x="442" y="404" text-anchor="middle" data-placeholder="Unit">Unit</text>
+                </g>
+                <text class="axis-label axis-label-complete" x="360" y="405" text-anchor="middle" id="linePracticeXAxisLabel">Drop height (cm)</text>
+
+                <g transform="translate(25 190) rotate(-90)">
+                  <g id="yVariableDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
+                     data-axis-slot="y-variable" data-card-type="variable" data-expected="bounce"
+                     aria-label="Drop the y-axis variable here">
+                    <rect class="axis-drop-zone-box" x="-132" y="-19" width="170" height="38" rx="9"></rect>
+                    <text class="axis-drop-zone-text" x="-47" y="5" text-anchor="middle" data-placeholder="Variable">Variable</text>
+                  </g>
+                  <g id="yUnitDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
+                     data-axis-slot="y-unit" data-card-type="unit" data-expected="cm"
+                     aria-label="Drop the y-axis unit here">
+                    <rect class="axis-drop-zone-box" x="46" y="-19" width="78" height="38" rx="9"></rect>
+                    <text class="axis-drop-zone-text" x="85" y="5" text-anchor="middle" data-placeholder="Unit">Unit</text>
+                  </g>
+                </g>
+                <text class="axis-label axis-label-complete" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)" id="linePracticeYAxisLabel">Bounce height (cm)</text>
                 <line id="linePracticeCrossV" class="practice-crosshair" x1="0" y1="30" x2="0" y2="345"></line>
                 <line id="linePracticeCrossH" class="practice-crosshair" x1="90" y1="0" x2="630" y2="0"></line>
                 <path id="linePracticePath" d=""></path>
                 <g id="linePracticePointsLayer"></g>
               </svg>
             </div>
+
+            <figure class="experiment-photo-slot">
+            <!--
+              Replace this block with the photo, for example:
+              <img src="../images/lesson4/ball-bounce.jpg" alt="A ball being dropped from each height">
+            -->
+            <div class="experiment-photo-placeholder">Photo of the experiment goes here</div>
+            <figcaption>What the fair test looked like</figcaption>
+          </figure>
+
           </div>
         </div>
       </div>
@@ -797,6 +938,75 @@
       });
     }
 
+    /*
+      Work out where the coordinate callout can sit without
+      covering the plotted points or the line between them.
+
+      Four positions around the point are tried in turn, and
+      the first clear one wins. If the graph is too crowded
+      for any of them, the least crowded is used.
+    */
+    const CALLOUT_WIDTH = 190, CALLOUT_HEIGHT = 58, CALLOUT_GAP = 16;
+
+    function calloutOverlapScore(box, index) {
+      let score = 0;
+
+      lineData.forEach((point, i) => {
+        const cx = lineX(point.x), cy = lineY(point.y);
+
+        /* A generous radius keeps the marker and its outline clear. */
+        if (cx > box.x - 14 && cx < box.x + CALLOUT_WIDTH + 14 &&
+            cy > box.y - 14 && cy < box.y + CALLOUT_HEIGHT + 14) {
+          score += (i === index) ? 1 : 4;
+        }
+
+        /* Check the segment to the next point at a few places along it. */
+        if (i < lineData.length - 1) {
+          const nx = lineX(lineData[i + 1].x), ny = lineY(lineData[i + 1].y);
+
+          for (let step = 1; step < 6; step += 1) {
+            const t = step / 6;
+            const sx = cx + (nx - cx) * t, sy = cy + (ny - cy) * t;
+
+            if (sx > box.x && sx < box.x + CALLOUT_WIDTH &&
+                sy > box.y && sy < box.y + CALLOUT_HEIGHT) {
+              score += 1;
+            }
+          }
+        }
+      });
+
+      return score;
+    }
+
+    function placeCallout(px, py, index) {
+      const candidates = [
+        { x: px + CALLOUT_GAP, y: py - CALLOUT_HEIGHT - CALLOUT_GAP },
+        { x: px - CALLOUT_WIDTH - CALLOUT_GAP, y: py - CALLOUT_HEIGHT - CALLOUT_GAP },
+        { x: px + CALLOUT_GAP, y: py + CALLOUT_GAP },
+        { x: px - CALLOUT_WIDTH - CALLOUT_GAP, y: py + CALLOUT_GAP },
+        { x: px - CALLOUT_WIDTH / 2, y: py - CALLOUT_HEIGHT - CALLOUT_GAP },
+        { x: px - CALLOUT_WIDTH / 2, y: py + CALLOUT_GAP }
+      ];
+
+      let best = null;
+
+      for (let i = 0; i < candidates.length; i += 1) {
+        const box = candidates[i];
+
+        /* Keep the whole callout inside the drawing area. */
+        if (box.x < 8 || box.x + CALLOUT_WIDTH > 692) continue;
+        if (box.y < 8 || box.y + CALLOUT_HEIGHT > 396) continue;
+
+        const score = calloutOverlapScore(box, index);
+
+        if (score === 0) return box;
+        if (!best || score < best.score) best = { x: box.x, y: box.y, score: score };
+      }
+
+      return best || { x: Math.min(px + CALLOUT_GAP, 692 - CALLOUT_WIDTH), y: Math.max(8, py - CALLOUT_HEIGHT - CALLOUT_GAP) };
+    }
+
     function showWorkedGuides(index) {
       const point = lineData[index];
       const px = lineX(point.x), py = lineY(point.y);
@@ -805,9 +1015,8 @@
       h.setAttribute("x1", linePlot.left); h.setAttribute("x2", px); h.setAttribute("y1", py); h.setAttribute("y2", py); h.classList.add("visible");
 
       const callout = document.getElementById("linePointCallout"), box = document.getElementById("linePointCalloutBox"), t1 = document.getElementById("linePointCalloutText1"), t2 = document.getElementById("linePointCalloutText2");
-      let x = px + 18, y = py - 76;
-      if (x + 190 > 690) x = px - 208;
-      if (y < 8) y = py + 18;
+      const placed = placeCallout(px, py, index);
+      const x = placed.x, y = placed.y;
       box.setAttribute("x", x); box.setAttribute("y", y);
       t1.setAttribute("x", x + 12); t1.setAttribute("y", y + 23); t1.textContent = "x = " + point.x + " °C";
       t2.setAttribute("x", x + 12); t2.setAttribute("y", y + 44); t2.textContent = "y = " + point.y + " cm";
@@ -898,42 +1107,238 @@
 
     const practiceData = [{x:20,y:8},{x:40,y:17},{x:60,y:29},{x:80,y:36}];
     const practicePlot = { left:90,right:630,top:30,bottom:345,xMin:0,xMax:80,yMin:0,yMax:40 };
-    let xVariableOk=false,xUnitOk=false,yVariableOk=false,yUnitOk=false;
-    let practicePointIndex=0, pendingPracticePoint=null, practiceConnected=false;
+    const axisSlotValues = {
+      "x-variable": null,
+      "x-unit": null,
+      "y-variable": null,
+      "y-unit": null
+    };
+    let selectedAxisCard = null;
+    let practicePointIndex=0, practiceConnected=false;
     const practiceX = v => practicePlot.left + ((v-practicePlot.xMin)/(practicePlot.xMax-practicePlot.xMin))*(practicePlot.right-practicePlot.left);
     const practiceY = v => practicePlot.bottom - ((v-practicePlot.yMin)/(practicePlot.yMax-practicePlot.yMin))*(practicePlot.bottom-practicePlot.top);
 
-    function handleAxisVariable(button) {
-      const axis = button.dataset.axisVariable, value = button.dataset.value;
-      const correct = (axis === "x" && value === "drop") || (axis === "y" && value === "bounce");
-      if (!correct) {
-        flashChoice(button,"try-again-choice");
-        setFeedback("linePracticeFeedback","try-again",axis === "x" ? "Think about what was changed." : "Think about what was measured.",axis === "x" ? " Drop height was deliberately changed, so it belongs on the x-axis." : " Bounce height was measured in response, so it belongs on the y-axis.");
-        return;
-      }
-      flashChoice(button,"correct-choice");
-      if (axis === "x") { xVariableOk=true; document.getElementById("xUnitRow").hidden=false; setFeedback("linePracticeFeedback","success","Correct variable."," Now add the unit to complete the x-axis label."); }
-      else { yVariableOk=true; document.getElementById("yUnitRow").hidden=false; setFeedback("linePracticeFeedback","success","Correct variable."," Now add the unit to complete the y-axis label."); }
+    function axisCardLabel(value) {
+      return { drop: "Drop height", bounce: "Bounce height", cm: "cm", s: "seconds", deg: "°C" }[value] || value;
     }
 
-    function handleAxisUnit(button) {
-      const axis=button.dataset.axisUnit, value=button.dataset.value;
-      if (value !== "cm") { flashChoice(button,"try-again-choice"); setFeedback("linePracticeFeedback","try-again","Check the data-table heading."," The unit is shown in brackets after the variable name."); return; }
-      flashChoice(button,"correct-choice");
-      if (axis === "x") {
-        xUnitOk=true; document.getElementById("linePracticeXAxisLabel").textContent="Drop height (cm)"; document.getElementById("yVariableRow").hidden=false;
-        setFeedback("linePracticeFeedback","success","x-axis label complete."," Drop height (cm) includes both the variable name and its unit. Now build the y-axis label.");
-      } else {
-        yUnitOk=true; document.getElementById("linePracticeYAxisLabel").textContent="Bounce height (cm)"; beginPracticePlotting();
+    let axisDraggedCard = null;
+    let axisTouchDragging = false;
+    let axisDragGhost = null;
+
+    function updateAxisGraphLabels() {
+      const xReady = axisSlotValues["x-variable"] === "drop" && axisSlotValues["x-unit"] === "cm";
+      const yReady = axisSlotValues["y-variable"] === "bounce" && axisSlotValues["y-unit"] === "cm";
+
+      document.getElementById("xVariableDropZone").classList.toggle("axis-complete", xReady);
+      document.getElementById("xUnitDropZone").classList.toggle("axis-complete", xReady);
+      document.getElementById("yVariableDropZone").classList.toggle("axis-complete", yReady);
+      document.getElementById("yUnitDropZone").classList.toggle("axis-complete", yReady);
+      document.getElementById("linePracticeXAxisLabel").classList.toggle("visible", xReady);
+      document.getElementById("linePracticeYAxisLabel").classList.toggle("visible", yReady);
+
+      if (xReady && yReady) beginPracticePlotting();
+    }
+
+    function clearAxisCardSelection() {
+      document.querySelectorAll(".axis-drag-card.selected").forEach(card => card.classList.remove("selected"));
+      selectedAxisCard = null;
+    }
+
+    function createAxisDragGhost(card) {
+      removeAxisDragGhost();
+      const ghost = document.createElement("div");
+      ghost.className = "axis-drag-ghost";
+      const clone = card.cloneNode(true);
+      clone.disabled = false;
+      clone.removeAttribute("draggable");
+      clone.classList.remove("selected", "is-dragging", "placed");
+      ghost.appendChild(clone);
+      document.body.appendChild(ghost);
+      axisDragGhost = ghost;
+      return ghost;
+    }
+
+    function moveAxisDragGhost(point) {
+      if (!axisDragGhost || !point) return;
+      axisDragGhost.style.left = (point.clientX - axisDragGhost.offsetWidth / 2) + "px";
+      axisDragGhost.style.top = (point.clientY - axisDragGhost.offsetHeight / 2) + "px";
+    }
+
+    function removeAxisDragGhost() {
+      if (!axisDragGhost) return;
+      axisDragGhost.remove();
+      axisDragGhost = null;
+    }
+
+    function clearAxisDropHover() {
+      document.querySelectorAll(".axis-graph-drop-zone").forEach(zone => zone.classList.remove("drag-over"));
+      if (axisDragGhost) axisDragGhost.classList.remove("is-hovering-drop-zone");
+    }
+
+    function tryPlaceAxisCard(card, zone) {
+      if (!card || !zone || zone.classList.contains("drop-complete") || zone.classList.contains("axis-complete")) return;
+
+      const expectedType = zone.dataset.cardType;
+      const expectedValue = zone.dataset.expected;
+      const cardType = card.dataset.cardType;
+      const cardValue = card.dataset.value;
+
+      if (cardType !== expectedType || cardValue !== expectedValue) {
+        zone.classList.remove("drag-over");
+        zone.classList.add("drop-incorrect");
+        window.setTimeout(() => zone.classList.remove("drop-incorrect"), 500);
+        clearAxisCardSelection();
+        const slotName = zone.dataset.axisSlot.startsWith("x") ? "x-axis" : "y-axis";
+        const pieceName = expectedType === "variable" ? "variable" : "unit";
+        setFeedback("linePracticeFeedback","try-again","That card does not belong there."," Think about the " + pieceName + " needed for the " + slotName + ". The table headings give you a clue.");
+        return;
       }
+
+      const text = zone.querySelector(".axis-drop-zone-text");
+      if (text) text.textContent = axisCardLabel(cardValue);
+      zone.classList.remove("drag-over");
+      zone.classList.add("drop-complete");
+      card.classList.remove("selected", "is-dragging");
+      card.classList.add("placed");
+      card.disabled = true;
+      card.setAttribute("draggable", "false");
+      axisSlotValues[zone.dataset.axisSlot] = cardValue;
+      selectedAxisCard = null;
+
+      setFeedback("linePracticeFeedback","success",axisCardLabel(cardValue) + " is in the right place."," Keep labelling the graph. Each axis needs a variable and a unit.");
+      updateAxisGraphLabels();
+    }
+
+    function initialiseAxisDragAndDrop() {
+      const cards = document.querySelectorAll(".axis-drag-card");
+      const zones = document.querySelectorAll(".axis-graph-drop-zone");
+
+      cards.forEach(card => {
+        card.addEventListener("dragstart", event => {
+          if (card.disabled || card.classList.contains("placed")) { event.preventDefault(); return; }
+          axisDraggedCard = card;
+          card.classList.add("is-dragging");
+          event.dataTransfer.setData("text/plain", card.id);
+          event.dataTransfer.effectAllowed = "move";
+
+          const transparent = document.createElement("div");
+          transparent.style.position = "absolute";
+          transparent.style.width = "1px";
+          transparent.style.height = "1px";
+          transparent.style.opacity = "0";
+          document.body.appendChild(transparent);
+          event.dataTransfer.setDragImage(transparent, 0, 0);
+          window.setTimeout(() => transparent.remove(), 0);
+
+          createAxisDragGhost(card);
+          moveAxisDragGhost(event);
+        });
+
+        card.addEventListener("dragend", () => {
+          card.classList.remove("is-dragging");
+          clearAxisDropHover();
+          removeAxisDragGhost();
+          axisDraggedCard = null;
+        });
+
+        /* Touch drag mirrors Lesson 3's table-label interaction. */
+        card.addEventListener("touchstart", event => {
+          if (card.disabled || card.classList.contains("placed")) return;
+          axisDraggedCard = card;
+          axisTouchDragging = true;
+          card.classList.add("is-dragging");
+          const touch = event.touches[0];
+          createAxisDragGhost(card);
+          moveAxisDragGhost(touch);
+          event.preventDefault();
+        }, { passive: false });
+
+        card.addEventListener("touchmove", event => {
+          if (!axisTouchDragging || !axisDraggedCard) return;
+          event.preventDefault();
+          const touch = event.touches[0];
+          moveAxisDragGhost(touch);
+          const underFinger = document.elementFromPoint(touch.clientX, touch.clientY);
+          const zone = underFinger ? underFinger.closest(".axis-graph-drop-zone") : null;
+          clearAxisDropHover();
+          if (zone && !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete")) {
+            zone.classList.add("drag-over");
+            if (axisDragGhost) axisDragGhost.classList.add("is-hovering-drop-zone");
+          }
+        }, { passive: false });
+
+        card.addEventListener("touchend", event => {
+          if (!axisTouchDragging || !axisDraggedCard) return;
+          event.preventDefault();
+          const touch = event.changedTouches[0];
+          const underFinger = document.elementFromPoint(touch.clientX, touch.clientY);
+          const zone = underFinger ? underFinger.closest(".axis-graph-drop-zone") : null;
+          clearAxisDropHover();
+          if (zone && !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete")) {
+            tryPlaceAxisCard(axisDraggedCard, zone);
+          }
+          if (axisDraggedCard) axisDraggedCard.classList.remove("is-dragging");
+          removeAxisDragGhost();
+          axisDraggedCard = null;
+          axisTouchDragging = false;
+        }, { passive: false });
+
+        card.addEventListener("touchcancel", () => {
+          if (axisDraggedCard) axisDraggedCard.classList.remove("is-dragging");
+          clearAxisDropHover();
+          removeAxisDragGhost();
+          axisDraggedCard = null;
+          axisTouchDragging = false;
+        });
+
+        /* Accessible tap/click fallback. */
+        card.addEventListener("click", () => {
+          if (card.disabled || card.classList.contains("placed")) return;
+          const alreadySelected = selectedAxisCard === card;
+          clearAxisCardSelection();
+          if (!alreadySelected) { selectedAxisCard = card; card.classList.add("selected"); }
+        });
+      });
+
+      document.addEventListener("dragover", event => {
+        if (axisDraggedCard) moveAxisDragGhost(event);
+      });
+
+      zones.forEach(zone => {
+        zone.addEventListener("dragover", event => {
+          if (zone.classList.contains("drop-complete") || zone.classList.contains("axis-complete")) return;
+          event.preventDefault();
+          zone.classList.add("drag-over");
+          if (axisDragGhost) axisDragGhost.classList.add("is-hovering-drop-zone");
+        });
+        zone.addEventListener("dragleave", () => {
+          zone.classList.remove("drag-over");
+          if (axisDragGhost) axisDragGhost.classList.remove("is-hovering-drop-zone");
+        });
+        zone.addEventListener("drop", event => {
+          event.preventDefault();
+          const card = document.getElementById(event.dataTransfer.getData("text/plain")) || axisDraggedCard;
+          tryPlaceAxisCard(card, zone);
+        });
+        zone.addEventListener("click", () => {
+          if (selectedAxisCard) tryPlaceAxisCard(selectedAxisCard, zone);
+        });
+        zone.addEventListener("keydown", event => {
+          if ((event.key === "Enter" || event.key === " ") && selectedAxisCard) {
+            event.preventDefault();
+            tryPlaceAxisCard(selectedAxisCard, zone);
+          }
+        });
+      });
     }
 
     function beginPracticePlotting() {
-      if (!(xVariableOk&&xUnitOk&&yVariableOk&&yUnitOk)) return;
+      if (!document.getElementById("linePlotPractice").hidden) return;
       document.getElementById("axisBuilder").hidden=true;
       document.getElementById("linePlotPractice").hidden=false;
       document.getElementById("linePracticeBadge").textContent="Plot";
-      document.getElementById("linePracticeVisualHint").textContent="Plot the highlighted row, then check it against the table.";
+      document.getElementById("linePracticeVisualHint").textContent="Plot the highlighted row. Correct points snap into place automatically.";
       document.querySelectorAll("#linePracticeDataBody tr")[0].classList.add("active-practice-row");
       setFeedback("linePracticeFeedback","success","Both axis labels are complete."," Now transfer the data from the table to the graph one row at a time.");
     }
@@ -943,14 +1348,14 @@
     }
 
     function updatePracticeCrosshair(event) {
-      if (document.getElementById("linePlotPractice").hidden || pendingPracticePoint) return;
+      if (document.getElementById("linePlotPractice").hidden || practicePointIndex>=practiceData.length) return;
       const svg=document.getElementById("linePracticeSvg"), p=svgPoint(svg,event); if(!p) return;
       const x=Math.max(practicePlot.left,Math.min(practicePlot.right,p.x)), y=Math.max(practicePlot.top,Math.min(practicePlot.bottom,p.y));
       const v=document.getElementById("linePracticeCrossV"), h=document.getElementById("linePracticeCrossH"); v.setAttribute("x1",x);v.setAttribute("x2",x);h.setAttribute("y1",y);h.setAttribute("y2",y);v.classList.add("visible");h.classList.add("visible");
     }
 
     function placePracticePoint(event) {
-      if (document.getElementById("linePlotPractice").hidden || pendingPracticePoint || practicePointIndex>=practiceData.length) return;
+      if (document.getElementById("linePlotPractice").hidden || practicePointIndex>=practiceData.length) return;
       const svg=document.getElementById("linePracticeSvg"), p=svgPoint(svg,event); if(!p) return;
       const target=practiceData[practicePointIndex], tx=practiceX(target.x), ty=practiceY(target.y);
       const dx=Math.abs(p.x-tx), dy=Math.abs(p.y-ty), distance=Math.hypot(dx,dy);
@@ -960,24 +1365,28 @@
         else if(dy<=24&&dx>24) hint=" Your y-position is close. Check the x-value: " + target.x + " cm.";
         setFeedback("linePracticeFeedback","try-again","Use both axes.",hint); return;
       }
-      const circle=document.createElementNS("http://www.w3.org/2000/svg","circle"); circle.setAttribute("class","practice-student-point");circle.setAttribute("cx",tx);circle.setAttribute("cy",ty);circle.setAttribute("r","8");circle.dataset.pending="true";document.getElementById("linePracticePointsLayer").appendChild(circle);
-      pendingPracticePoint={circle,target};
-      document.getElementById("checkPlottedPointButton").disabled=false;
-      document.getElementById("linePracticeCrossV").classList.remove("visible");document.getElementById("linePracticeCrossH").classList.remove("visible");
-      setFeedback("linePracticeFeedback","","Point placed."," Before moving on, double-check this coordinate against the highlighted row in the data table.");
-    }
 
-    function checkPracticePoint() {
-      if(!pendingPracticePoint) return;
-      const rows=document.querySelectorAll("#linePracticeDataBody tr"), currentRow=rows[practicePointIndex];
-      currentRow.classList.remove("active-practice-row"); currentRow.classList.add("checked-row");
-      pendingPracticePoint.circle.removeAttribute("data-pending"); pendingPracticePoint=null; practicePointIndex+=1;
-      document.getElementById("checkPlottedPointButton").disabled=true;
+      const circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+      circle.setAttribute("class","practice-student-point");circle.setAttribute("cx",tx);circle.setAttribute("cy",ty);circle.setAttribute("r","8");
+      document.getElementById("linePracticePointsLayer").appendChild(circle);
+
+      const rows=document.querySelectorAll("#linePracticeDataBody tr");
+      rows[practicePointIndex].classList.remove("active-practice-row");
+      rows[practicePointIndex].classList.add("checked-row");
+      practicePointIndex+=1;
+      document.getElementById("linePracticeCrossV").classList.remove("visible");
+      document.getElementById("linePracticeCrossH").classList.remove("visible");
+
       if(practicePointIndex<practiceData.length) {
-        rows[practicePointIndex].classList.add("active-practice-row"); const next=practiceData[practicePointIndex]; document.getElementById("linePlotPrompt").innerHTML="Plot <strong>("+next.x+", "+next.y+")</strong>.";
-        setFeedback("linePracticeFeedback","success","Checked against the table."," The coordinate matches. Move to the next highlighted row.");
+        rows[practicePointIndex].classList.add("active-practice-row");
+        const next=practiceData[practicePointIndex];
+        document.getElementById("linePlotPrompt").innerHTML="Plot <strong>("+next.x+", "+next.y+")</strong>.";
+        setFeedback("linePracticeFeedback","success","Correct point."," It snapped to the coordinate. Now plot the next highlighted row.");
       } else {
-        document.getElementById("linePlotPractice").hidden=true; document.getElementById("lineConnectPractice").hidden=false; document.getElementById("linePracticeBadge").textContent="Connect"; document.getElementById("linePracticeVisualHint").textContent="All four measured points are plotted.";
+        document.getElementById("linePlotPractice").hidden=true;
+        document.getElementById("lineConnectPractice").hidden=false;
+        document.getElementById("linePracticeBadge").textContent="Connect";
+        document.getElementById("linePracticeVisualHint").textContent="All four measured points are plotted.";
         setFeedback("linePracticeFeedback","success","All four coordinates are accurate."," The plotted points are the measured data. What should you add to complete the line graph?");
       }
     }
@@ -987,15 +1396,38 @@
       flashChoice(button,"correct-choice");
       document.getElementById("linePracticePath").setAttribute("d",practiceData.map((p,i)=>(i?"L ":"M ")+practiceX(p.x)+" "+practiceY(p.y)).join(" "));
       practiceConnected=true; document.getElementById("lineConnectPractice").hidden=true; document.getElementById("linePracticeBadge").textContent="Complete ✓"; document.getElementById("practiceNextButton").hidden=false;
-      setFeedback("linePracticeFeedback","success","Your line graph is complete."," You labelled both axes with units, plotted every coordinate and checked each point against the table.");
+      setFeedback("linePracticeFeedback","success","Your line graph is complete."," You built both axis labels and plotted every coordinate accurately.");
     }
 
     function resetPractice() {
-      xVariableOk=xUnitOk=yVariableOk=yUnitOk=false; practicePointIndex=0; pendingPracticePoint=null; practiceConnected=false;
-      document.getElementById("axisBuilder").hidden=false; document.getElementById("xUnitRow").hidden=true; document.getElementById("yVariableRow").hidden=true; document.getElementById("yUnitRow").hidden=true; document.getElementById("linePlotPractice").hidden=true; document.getElementById("lineConnectPractice").hidden=true;
-      document.getElementById("linePracticeXAxisLabel").textContent="x-axis";document.getElementById("linePracticeYAxisLabel").textContent="y-axis";document.getElementById("linePracticePointsLayer").innerHTML="";document.getElementById("linePracticePath").setAttribute("d","");document.getElementById("linePracticeBadge").textContent="Axes";document.getElementById("linePracticeVisualHint").textContent="Build both axis labels first.";document.getElementById("linePlotPrompt").innerHTML="Plot <strong>(20, 8)</strong>.";document.getElementById("checkPlottedPointButton").disabled=true;document.getElementById("practiceNextButton").hidden=true;
+      practicePointIndex=0; practiceConnected=false; selectedAxisCard=null; axisDraggedCard=null; axisTouchDragging=false; removeAxisDragGhost();
+      Object.keys(axisSlotValues).forEach(key => axisSlotValues[key]=null);
+      ["axisCardDrop","axisCardBounce","axisCardCm1","axisCardCm2","axisCardSeconds","axisCardDegrees"].forEach(id => {
+        const card=document.getElementById(id);
+        card.classList.remove("selected","placed","is-dragging");
+        card.disabled=false;
+        card.setAttribute("draggable","true");
+      });
+      document.querySelectorAll(".axis-graph-drop-zone").forEach(zone => {
+        zone.classList.remove("drop-complete","drag-over","drop-incorrect","axis-complete");
+        const text=zone.querySelector(".axis-drop-zone-text");
+        if (text) text.textContent=text.dataset.placeholder || (zone.dataset.cardType === "variable" ? "Variable" : "Unit");
+      });
+      document.getElementById("axisBuilder").hidden=false;
+      document.getElementById("linePlotPractice").hidden=true;
+      document.getElementById("lineConnectPractice").hidden=true;
+      document.getElementById("linePracticeXAxisLabel").classList.remove("visible");
+      document.getElementById("linePracticeYAxisLabel").classList.remove("visible");
+      document.getElementById("linePracticePointsLayer").innerHTML="";
+      document.getElementById("linePracticePath").setAttribute("d","");
+      document.getElementById("linePracticeBadge").textContent="Axes";
+      document.getElementById("linePracticeVisualHint").textContent="Drag the label cards onto the dashed spaces on this graph.";
+      document.getElementById("linePlotPrompt").innerHTML="Plot <strong>(20, 8)</strong>.";
+      document.getElementById("practiceNextButton").hidden=true;
+      document.getElementById("linePracticeCrossV").classList.remove("visible");
+      document.getElementById("linePracticeCrossH").classList.remove("visible");
       document.querySelectorAll("#linePracticeDataBody tr").forEach(r=>r.classList.remove("active-practice-row","checked-row"));
-      setFeedback("linePracticeFeedback","","Start with what changed."," The independent variable belongs on the x-axis, and the axis label needs both the variable name and its unit.");
+      setFeedback("linePracticeFeedback","","Label the graph itself."," Drag each variable and unit card from the bank onto the dashed spaces on the x-axis and y-axis.");
     }
 
     let mistakeSolved=false;
@@ -1004,6 +1436,14 @@
       const layer=document.getElementById("mistakePointsLayer"); layer.innerHTML="";
       document.getElementById("mistakeWrongPath").setAttribute("d",mistakeData.map((p,i)=>(i?"L ":"M ")+lineX(p.x)+" "+lineY(p.y)).join(" "));
       document.getElementById("mistakeCorrectPath").setAttribute("d",lineData.map((p,i)=>(i?"L ":"M ")+lineX(p.x)+" "+lineY(p.y)).join(" "));
+
+      /*
+        Solving the activity swaps which line is showing.
+        Rebuilding has to put that back, or the corrected
+        line stays on screen behind the original points.
+      */
+      document.getElementById("mistakeWrongPath").setAttribute("opacity","1");
+      document.getElementById("mistakeCorrectPath").setAttribute("opacity","0");
       mistakeData.forEach((p,index)=>{ const c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("class","mistake-point");c.setAttribute("cx",lineX(p.x));c.setAttribute("cy",lineY(p.y));c.setAttribute("r","9");c.dataset.index=index;c.addEventListener("click",()=>handleMistakePoint(c,index));layer.appendChild(c); });
     }
     function handleMistakePoint(circle,index) {
@@ -1039,6 +1479,7 @@
     }
     function resetAnalysis(){[1,2,3,4].forEach(n=>document.getElementById("analysisStep"+n).hidden=n!==1);document.getElementById("predictionResult").hidden=true;setFeedback("analysisFeedback","","Read from the graph first."," Start by finding the highest plotted point.");}
 
+
     document.addEventListener("DOMContentLoaded", function() {
       if(typeof initialiseTeacherMenu==="function") initialiseTeacherMenu(lesson4SectionIds,"worked-example",lesson4TeacherBackLink);
       buildWorkedPoints(); resetWorkedExample(); resetPractice(); buildMistakeGraph(); resetMistake(); buildAnalysisGraph(); resetAnalysis();
@@ -1047,12 +1488,10 @@
       document.getElementById("resetLineGraphButton").addEventListener("click",resetWorkedExample);
       document.getElementById("workedExampleNext").addEventListener("click",()=>unlockSection("line-practice","worked-example"));
 
-      document.querySelectorAll("[data-axis-variable]").forEach(b=>b.addEventListener("click",()=>handleAxisVariable(b)));
-      document.querySelectorAll("[data-axis-unit]").forEach(b=>b.addEventListener("click",()=>handleAxisUnit(b)));
+      initialiseAxisDragAndDrop();
       document.getElementById("linePracticeSvg").addEventListener("pointermove",updatePracticeCrosshair);
       document.getElementById("linePracticeSvg").addEventListener("pointerleave",()=>{document.getElementById("linePracticeCrossV").classList.remove("visible");document.getElementById("linePracticeCrossH").classList.remove("visible");});
       document.getElementById("linePracticeSvg").addEventListener("click",placePracticePoint);
-      document.getElementById("checkPlottedPointButton").addEventListener("click",checkPracticePoint);
       document.querySelectorAll("[data-line-next]").forEach(b=>b.addEventListener("click",()=>handlePracticeConnect(b)));
       document.getElementById("resetLinePracticeButton").addEventListener("click",resetPractice);
       document.getElementById("practiceNextButton").addEventListener("click",()=>unlockSection("spot-the-mistake","line-practice"));
