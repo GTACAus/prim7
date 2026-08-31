@@ -32,3 +32,11 @@ stage.addEventListener('touchmove', (e) => {
 stage.addEventListener('touchend', () => {
   setSpot(-50, -50, 140);
 });
+
+// Hidden animals on top of the forest photo: clicking one marks it as
+// found with a red overlay. Toggle so a mis-click can be undone.
+document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
+  hotspot.addEventListener('click', () => {
+    hotspot.classList.toggle('found');
+  });
+});

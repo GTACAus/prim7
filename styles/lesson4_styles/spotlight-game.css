@@ -48,6 +48,76 @@
             rgba(0,0,0,0.04) 100%);
   transition: mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
 }
+/* ---------- Hidden animals layered on the forest photo ---------- */
+/* Same reveal mask as the photo, applied to the whole layer so every
+   animal in it is only visible where the torch is shining. Add more
+   .animal-hotspot buttons inside #animalLayer for more animals. */
+.animal-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
+            rgba(0,0,0,1) 0%,
+            rgba(0,0,0,0.9) 40%,
+            rgba(0,0,0,0.4) 70%,
+            rgba(0,0,0,0.04) 100%);
+  mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
+            rgba(0,0,0,1) 0%,
+            rgba(0,0,0,0.9) 40%,
+            rgba(0,0,0,0.4) 70%,
+            rgba(0,0,0,0.04) 100%);
+  transition: mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
+}
+.animal-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: none;
+  background: none;
+  line-height: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.animal-hotspot img {
+  /* opt back out of the full-bleed ".stage img" positioning (that rule
+     targets the background photo) so this small image sizes itself
+     from the button instead of stretching to fill the whole stage */
+  position: static;
+  inset: auto;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  mask-image: none;
+  -webkit-mask-image: none;
+  filter: none;
+  transition: transform 0.15s ease, filter 0.3s ease;
+}
+.animal-hotspot:hover img {
+  transform: scale(1.08);
+}
+.animal-hotspot:focus-visible {
+  outline: 3px solid #ffd166;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+/* red overlay shown once the student clicks the animal */
+.animal-hotspot.found img {
+  filter: brightness(0)
+          saturate(100%)
+          invert(21%)
+          sepia(89%)
+          saturate(3096%)
+          hue-rotate(348deg)
+          brightness(96%)
+          contrast(96%);
+}
+.animal-hotspot.found .animal-overlay {
+  opacity: 1;
+}
+
 /* soft warm glow that rides along with the torch circle, drawn above the image */
 .glow {
   position: absolute;
