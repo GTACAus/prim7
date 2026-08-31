@@ -129,7 +129,7 @@
       <header class="lesson-intro">
         <div class="lesson-heading">
           <span class="lesson-label">Lesson 4 &middot; Part A</span>
-          <h1>Turning Data into Graphs</h1>
+          <h1 id="teacherTrigger">Turning Data into Graphs</h1>
           <p class="lesson-summary">
             Graphs help scientists turn a table of numbers into a picture that makes
             <strong>patterns</strong>, <strong>comparisons</strong> and <strong>parts of a whole</strong>
@@ -781,15 +781,15 @@
     </main>
 
     <!-- Reuse shared site functions. Graph prototype behaviour stays inline for now. -->
-    <script src="scripts/common_functions.js"></script>
+    <script src="../scripts/common_functions.js"></script>
 
     <script>
       const dev = false;
       if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
       const lesson4SectionIds = [
-        { id: "line-graph", label: "Is Yeast Alive?" },
-        { id: "line-practice", label: "Yeast Variables: Select the variables" },
+        { id: "line-graph", label: "Build a line graph" },
+        { id: "line-practice", label: "Plot the experiment" },
       ];
 
       const lesson4TeacherBackLink = {

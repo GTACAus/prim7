@@ -47,6 +47,7 @@
   .save-work-button,
   .home-button,
   .next-button,
+  .back-to-part1-button,
   .reset-btn,
   .delete-answer,
   .teacher-modal,
@@ -258,7 +259,8 @@
   .home-button,
   .glossary-button,
   .worksheet-button,
-  .save-work-button {
+  .save-work-button,
+  .back-to-part1-button {
     margin: 0;
     white-space: nowrap;
   }
@@ -270,7 +272,8 @@
   .worksheet-button,
   .home-button,
   .glossary-button,
-  .save-work-button {
+  .save-work-button,
+  .back-to-part1-button {
     padding: 10px 14px;
     font-size: 0.7rem;
   }
