@@ -29,9 +29,36 @@
 }
 .graph-learning-grid {
   display: grid;
-  grid-template-columns: minmax(240px, 0.78fr) minmax(0, 1.72fr);
+  grid-template-columns: 1fr;
   gap: 20px;
   align-items: start;
+}
+
+/* Tablet and up: steps + data table sit beside the graph,
+   with the button row and feedback spanning both underneath
+   so the whole activity fits on screen without scrolling. */
+@media (min-width: 900px) {
+  .graph-learning-grid {
+    grid-template-columns: minmax(260px, 0.95fr) minmax(320px, 1.25fr);
+  }
+
+  .graph-controls-footer {
+    grid-column: 1 / -1;
+  }
+
+  .graph-controls-footer .graph-button-stack {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .graph-controls-footer .graph-button-stack .reset-button-container {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+  }
+}
+
+.graph-controls-footer {
+  margin-top: 0;
 }
 .graph-control-card,
 .graph-stage-card,
@@ -484,7 +511,6 @@
   font-size: 0.88rem;
 }
 @media (max-width: 900px) {
-  .graph-learning-grid,
   .pie-layout {
     grid-template-columns: 1fr;
   }
