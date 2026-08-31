@@ -255,37 +255,6 @@
             <section class="section data-table-section" id="build-your-own-table">
                 <h2 class="section-title">Complete a Scientific Table for the Ball-Bounce Experiment</h2>
 
-                <div class="ball-bounce-context">
-                    <p class="ball-bounce-context-eyebrow">Before you begin</p>
-
-                    <h3>How does the surface affect the way a ball bounces?</h3>
-
-                    <p>Have you ever noticed that a ball bounces differently depending on what it lands on?</p>
-
-                    <p>
-                        In this experiment, a table tennis ball is dropped onto two different surfaces. We count how
-                        many times it bounces before stopping and compare the results.
-                    </p>
-
-                    <div class="ball-bounce-conditions">
-                        <div class="ball-bounce-condition hard-condition">
-                            <span>Condition 1</span>
-                            <strong>Hard surface</strong>
-                        </div>
-
-                        <div class="ball-bounce-condition soft-condition">
-                            <span>Condition 2</span>
-                            <strong>Soft surface</strong>
-                        </div>
-                    </div>
-
-                    <p class="ball-bounce-context-task">
-                        Your job is to create a <strong>testable question</strong>, make a
-                        <strong>reasoned prediction</strong>, observe the tests, and record the results in your own data
-                        table.
-                    </p>
-                </div>
-
                 <!-- ==================================================
      BALL BOUNCE EXPERIMENT SETUP
      ================================================== -->
@@ -699,63 +668,7 @@
                     </div>
                     <!-- ---------- OBSERVE THE EXPERIMENT ---------- -->
 
-                    <div class="prediction-check" id="ballBouncePredictionCheck" hidden>
-                        <p class="prediction-label">Interpret the results</p>
 
-                        <h3>Use your averages to interpret the results</h3>
-
-                        <div class="ball-bounce-interpretation">
-                            <div class="ball-bounce-interpretation-row">
-                                <span>The average number of bounces on a <strong>hard surface</strong> was</span>
-
-                                <input
-                                    type="number"
-                                    class="table-number-input result-average-input"
-                                    step="any"
-                                    inputmode="decimal"
-                                    aria-label="Average number of bounces on the hard surface"
-                                />
-
-                                <span>bounces.</span>
-                            </div>
-
-                            <div class="ball-bounce-interpretation-row">
-                                <span>The average number of bounces on a <strong>soft surface</strong> was</span>
-
-                                <input
-                                    type="number"
-                                    class="table-number-input result-average-input"
-                                    step="any"
-                                    inputmode="decimal"
-                                    aria-label="Average number of bounces on the soft surface"
-                                />
-
-                                <span>bounces.</span>
-                            </div>
-
-                            <div class="ball-bounce-prediction-result">
-                                <strong>My reasoned prediction was</strong>
-
-                                <div class="prediction-buttons">
-                                    <button
-                                        id="ballBouncePredictionSupported"
-                                        type="button"
-                                        class="general-button prediction-button"
-                                    >
-                                        Supported
-                                    </button>
-
-                                    <button
-                                        id="ballBouncePredictionUnsupported"
-                                        type="button"
-                                        class="general-button prediction-button"
-                                    >
-                                        Not supported
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div id="ballBounceTests" class="lesson3-planning-activity pop-in" hidden>
                         <div class="lesson3-planning-heading observation-heading">
@@ -1006,6 +919,65 @@
                             </div>
                         </div>
                         <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
+
+                    <div class="prediction-check" id="ballBouncePredictionCheck" hidden>
+                        <p class="prediction-label">Interpret the results</p>
+
+                        <h3>Use your averages to interpret the results</h3>
+
+                        <div class="ball-bounce-interpretation">
+                            <div class="ball-bounce-interpretation-row">
+                                <span>The average number of bounces on a <strong>hard surface</strong> was</span>
+
+                                <input
+                                    type="number"
+                                    class="table-number-input result-average-input"
+                                    step="any"
+                                    inputmode="decimal"
+                                    aria-label="Average number of bounces on the hard surface"
+                                />
+
+                                <span>bounces.</span>
+                            </div>
+
+                            <div class="ball-bounce-interpretation-row">
+                                <span>The average number of bounces on a <strong>soft surface</strong> was</span>
+
+                                <input
+                                    type="number"
+                                    class="table-number-input result-average-input"
+                                    step="any"
+                                    inputmode="decimal"
+                                    aria-label="Average number of bounces on the soft surface"
+                                />
+
+                                <span>bounces.</span>
+                            </div>
+
+                            <div class="ball-bounce-prediction-result">
+                                <strong>My reasoned prediction was</strong>
+
+                                <div class="prediction-buttons">
+                                    <button
+                                        id="ballBouncePredictionSupported"
+                                        type="button"
+                                        class="general-button prediction-button"
+                                    >
+                                        Supported
+                                    </button>
+
+                                    <button
+                                        id="ballBouncePredictionUnsupported"
+                                        type="button"
+                                        class="general-button prediction-button"
+                                    >
+                                        Not supported
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     </div>
                 <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()">
                     <p class="bounce-symbol">💾</p>

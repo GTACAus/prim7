@@ -25,23 +25,6 @@
       line-height: 1.5;
     }
 
-    .lesson-flow {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .lesson-flow-card {
-      padding: 14px;
-      background: white;
-      border: 2px solid var(--charcoal);
-      border-radius: 14px;
-      text-align: center;
-    }
-
-    .lesson-flow-card strong { display: block; margin-bottom: 4px; }
-    .lesson-flow-card span { color: var(--muted); font-size: .9rem; }
 
     .question-prediction-grid {
       display: grid;
@@ -438,7 +421,6 @@
     .section.completed { opacity: 1; }
 
     @media (max-width: 900px) {
-      .lesson-flow,
       .graph-learning-grid,
       .challenge-grid,
       .question-prediction-grid,
@@ -525,13 +507,37 @@
 
       <section class="intro-card observation-card">
         <p class="intro-eyebrow">Think like a scientist</p>
-        <h2>One dataset, a clearer story</h2>
-        <p>A table stores the measurements. A line graph helps us see how the measured result changes as the independent variable changes.</p>
-        <div class="lesson-flow" aria-label="Lesson sequence">
-          <div class="lesson-flow-card"><strong>1 · Read</strong><span>the fair-test data</span></div>
-          <div class="lesson-flow-card"><strong>2 · Build</strong><span>the graph together</span></div>
-          <div class="lesson-flow-card"><strong>3 · Practise</strong><span>with new data</span></div>
-          <div class="lesson-flow-card"><strong>4 · Analyse</strong><span>what the graph says</span></div>
+        <h2>Showing Fair-Test Data in a Line Graph</h2>
+
+        <p>
+          A table holds the measurements from a fair test. A <strong>line graph</strong> turns those
+          measurements into a picture, so patterns and trends are easier to see.
+        </p>
+
+        <div class="formula-card">
+          <div class="formula-step">
+            <div id="formula-step-independent" class="formula-step-number">1</div>
+            <div>
+              <strong>The independent variable goes along the bottom</strong>
+              <span>The x-axis shows what you changed. Label it with the variable and its unit</span>
+            </div>
+          </div>
+
+          <div class="formula-step">
+            <div id="formula-step-dependent" class="formula-step-number">2</div>
+            <div>
+              <strong>The dependent variable goes up the side</strong>
+              <span>The y-axis shows what you measured. Label it with the variable and its unit</span>
+            </div>
+          </div>
+
+          <div class="formula-step">
+            <div id="formula-step-units" class="formula-step-number">3</div>
+            <div>
+              <strong>Every row of the table becomes one point</strong>
+              <span>Plot each pair of numbers carefully, then join the points to follow the pattern</span>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -970,7 +976,7 @@
         /* A generous radius keeps the marker and its outline clear. */
         if (cx > box.x - 14 && cx < box.x + CALLOUT_WIDTH + 14 &&
             cy > box.y - 14 && cy < box.y + CALLOUT_HEIGHT + 14) {
-          score += (i === index) ? 1 : 4;
+          score += 4;
         }
 
         /* Check the segment to the next point at a few places along it. */
@@ -993,36 +999,52 @@
     }
 
     function placeCallout(px, py, index) {
-      const candidates = [
-        { x: px + CALLOUT_GAP, y: py - CALLOUT_HEIGHT - CALLOUT_GAP },
-        { x: px - CALLOUT_WIDTH - CALLOUT_GAP, y: py - CALLOUT_HEIGHT - CALLOUT_GAP },
-        { x: px + CALLOUT_GAP, y: py + CALLOUT_GAP },
-        { x: px - CALLOUT_WIDTH - CALLOUT_GAP, y: py + CALLOUT_GAP },
-        { x: px - CALLOUT_WIDTH / 2, y: py - CALLOUT_HEIGHT - CALLOUT_GAP },
-        { x: px - CALLOUT_WIDTH / 2, y: py + CALLOUT_GAP }
-      ];
+      const minX = linePlot.left + 4;
+      const maxX = 688 - CALLOUT_WIDTH;
+      const minY = 12;
+      const maxY = linePlot.bottom - 6 - CALLOUT_HEIGHT;
 
+      let clear = null;
+      let clearDistance = Infinity;
       let best = null;
 
-      for (let i = 0; i < candidates.length; i += 1) {
-        const box = candidates[i];
+      /*
+        Sweep the whole plotting area rather than a handful
+        of spots beside the point. With five points and a
+        line running between them, the few obvious places
+        are often all taken, and the callout would end up
+        sitting on a neighbouring point.
 
-        /*
-          Stay inside the plotting area, not just the picture.
-          Going further left would cover the y-axis label.
-        */
-        if (box.x < linePlot.left + 4 || box.x + CALLOUT_WIDTH > 688) continue;
-        if (box.y < 12 || box.y + CALLOUT_HEIGHT > linePlot.bottom - 6) continue;
+        The clear position nearest the point wins, so the
+        callout still reads as belonging to it.
+      */
+      for (let x = minX; x <= maxX; x += 10) {
+        for (let y = minY; y <= maxY; y += 10) {
+          const box = { x: x, y: y };
+          const score = calloutOverlapScore(box, index);
 
-        const score = calloutOverlapScore(box, index);
+          if (score > 0) {
+            if (!best || score < best.score) best = { x: x, y: y, score: score };
+            continue;
+          }
 
-        if (score === 0) return box;
-        if (!best || score < best.score) best = { x: box.x, y: box.y, score: score };
+          /* Measured from the point to the nearest corner of the box. */
+          const dx = Math.max(x - px, 0, px - (x + CALLOUT_WIDTH));
+          const dy = Math.max(y - py, 0, py - (y + CALLOUT_HEIGHT));
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < clearDistance) {
+            clearDistance = distance;
+            clear = box;
+          }
+        }
       }
 
+      if (clear) return clear;
+
       return best || {
-        x: Math.min(Math.max(px + CALLOUT_GAP, linePlot.left + 4), 688 - CALLOUT_WIDTH),
-        y: Math.min(Math.max(12, py - CALLOUT_HEIGHT - CALLOUT_GAP), linePlot.bottom - 6 - CALLOUT_HEIGHT)
+        x: Math.min(Math.max(px + CALLOUT_GAP, minX), maxX),
+        y: Math.min(Math.max(minY, py - CALLOUT_HEIGHT - CALLOUT_GAP), maxY)
       };
     }
 
@@ -1509,6 +1531,23 @@
       /* Only the measured value can be wrong, so x stays put. */
       const y = Math.min(Math.max(point.y, linePlot.top), linePlot.bottom);
       mistakeDrag.circle.setAttribute("cy", y);
+
+      redrawMistakeLine();
+    }
+
+    /*
+      Redraw the line through wherever the points are
+      sitting right now, so it follows the point being
+      dragged instead of waiting until it is dropped.
+    */
+    function redrawMistakeLine() {
+      const points = document.querySelectorAll("#mistakePointsLayer .mistake-point");
+
+      const d = Array.from(points).map((circle, i) => {
+        return (i ? "L " : "M ") + circle.getAttribute("cx") + " " + circle.getAttribute("cy");
+      }).join(" ");
+
+      document.getElementById("mistakeWrongPath").setAttribute("d", d);
     }
 
     function endMistakeDrag(event) {
@@ -1525,6 +1564,7 @@
 
       if (drag.index !== 2) {
         drag.circle.setAttribute("cy", drag.homeY);
+        redrawMistakeLine();
         flashChoice(drag.circle, "try-again-choice");
         setFeedback("mistakeFeedback","try-again","That point already matches its table row."," Compare each y-value with the table, then move the one that disagrees.");
         return;
@@ -1532,6 +1572,7 @@
 
       if (!closeEnough) {
         drag.circle.setAttribute("cy", drag.homeY);
+        redrawMistakeLine();
         setFeedback("mistakeFeedback","try-again","That is the right point, but not the right place."," The table says 30°C goes with 24 cm. Read across from 24 on the y-axis.");
         return;
       }
