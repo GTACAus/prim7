@@ -141,25 +141,6 @@
       letter-spacing: .04em;
     }
 
-    .axis-formula {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr auto 1.2fr;
-      align-items: center;
-      gap: 8px;
-      margin: 12px 0;
-    }
-
-    .axis-formula-part {
-      padding: 10px 8px;
-      background: white;
-      border: 2px solid var(--charcoal);
-      border-radius: 10px;
-      text-align: center;
-      font-weight: 700;
-    }
-
-    .axis-formula-result { background: var(--soft-green); }
-
     .mini-data-table,
     .practice-table {
       width: 100%;
@@ -346,10 +327,42 @@
       box-shadow: none;
     }
 
+    /* The wrong point can be picked up and moved. */
+    #mistakeGraphSvg .mistake-point {
+      cursor: grab;
+      touch-action: none;
+    }
+
+    #mistakeGraphSvg .mistake-point.is-dragging {
+      cursor: grabbing;
+      stroke-width: 4;
+    }
+
+    #mistakeGraphSvg .mistake-point.fixed {
+      cursor: default;
+    }
+
+    .challenge-choice.selected-answer {
+      background: var(--soft-green);
+      border-color: var(--green);
+      box-shadow: 0 4px 0 var(--green);
+    }
+
     /* The drop targets are part of the SVG graph itself. */
     #linePracticeSvg .axis-graph-drop-zone { cursor: pointer; }
 
+    /*
+      An invisible, generous target around each dashed box.
+      Without it the pointer has to land on the small box
+      itself, which is fiddly once the graph is scaled down.
+    */
+    #linePracticeSvg .axis-graph-drop-zone .axis-drop-hit-pad {
+      fill: transparent;
+      pointer-events: all;
+    }
+
     #linePracticeSvg .axis-graph-drop-zone .axis-drop-zone-box {
+      pointer-events: all;
       fill: rgba(229, 238, 255, .72);
       stroke: var(--blue);
       stroke-width: 2.5;
@@ -437,8 +450,6 @@
       .lesson4-page { padding-top: 126px; }
       .challenge-choice-grid,
       .challenge-choice-grid.three-choice { grid-template-columns: 1fr; }
-      .axis-formula { grid-template-columns: 1fr; }
-      .axis-formula > span { display: none; }
       .axis-card-bank { justify-content: center; }
     }
 
@@ -565,14 +576,6 @@
             </div>
           </div>
 
-          <div class="axis-formula" id="workedAxisFormula" hidden>
-            <div class="axis-formula-part" id="formulaVariable">Temperature</div>
-            <span>+</span>
-            <div class="axis-formula-part" id="formulaUnit">°C</div>
-            <span>=</span>
-            <div class="axis-formula-part axis-formula-result" id="formulaResult">Temperature (°C)</div>
-          </div>
-
           <div class="graph-button-stack">
             <button type="button" class="general-button" id="workedNextButton">Show the x-axis</button>
             <div class="reset-button-container"><button type="button" class="general-button reset-btn" id="resetLineGraphButton">Reset example</button></div>
@@ -584,7 +587,8 @@
           </div>
         </div>
 
-        <div class="graph-stage-card">
+        <div class="graph-column">
+          <div class="graph-stage-card">
           <div class="graph-stage-heading">
             <div><h3>Yeast fair-test results</h3><p>Watch each table row become a coordinate on the graph.</p></div>
             <span class="graph-badge">Worked example</span>
@@ -637,17 +641,19 @@
               </g>
             </svg>
           </div>
-          <figure class="experiment-photo-slot">
+          </div>
+
+          <figure class="experiment-photo-card">
             <!--
-              Replace this block with the photo, for example:
+              Replace the placeholder below with the photo, for example:
               <img src="../images/lesson4/yeast-balloon.jpg" alt="Balloons on flasks of yeast at each temperature">
             -->
             <div class="experiment-photo-placeholder">Photo of the experiment goes here</div>
-            <figcaption>What the fair test looked like</figcaption>
+            <figcaption>The yeast fair test these measurements came from</figcaption>
           </figure>
-
         </div>
       </div>
+
 
       <button type="button" class="next-button general-button" id="workedExampleNext" hidden>Try it yourself</button>
       <p class="completed-note">Completed — next activity unlocked.</p>
@@ -716,7 +722,8 @@
             <div class="reset-button-container"><button type="button" class="general-button reset-btn" id="resetLinePracticeButton">Reset challenge</button></div>
           </div>
 
-          <div class="challenge-visual">
+          <div class="graph-column">
+            <div class="challenge-visual">
             <div class="graph-stage-heading"><div><h3>Your line graph</h3><p id="linePracticeVisualHint">Drag the label cards onto the dashed spaces on this graph.</p></div><span class="graph-badge">Student graph</span></div>
             <div class="graph-svg-wrap">
               <svg class="graph-svg" id="linePracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student line graph for ball drop and bounce data">
@@ -744,13 +751,15 @@
                 <g id="xVariableDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
                    data-axis-slot="x-variable" data-card-type="variable" data-expected="drop"
                    aria-label="Drop the x-axis variable here">
-                  <rect class="axis-drop-zone-box" x="238" y="380" width="155" height="38" rx="9"></rect>
+                  <rect class="axis-drop-hit-pad" x="223" y="362" width="185" height="74"></rect>
+                  <rect class="axis-drop-zone-box" x="238" y="377" width="155" height="44" rx="9"></rect>
                   <text class="axis-drop-zone-text" x="315.5" y="404" text-anchor="middle" data-placeholder="Variable">Variable</text>
                 </g>
                 <g id="xUnitDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
                    data-axis-slot="x-unit" data-card-type="unit" data-expected="cm"
                    aria-label="Drop the x-axis unit here">
-                  <rect class="axis-drop-zone-box" x="401" y="380" width="82" height="38" rx="9"></rect>
+                  <rect class="axis-drop-hit-pad" x="386" y="362" width="112" height="74"></rect>
+                  <rect class="axis-drop-zone-box" x="401" y="377" width="82" height="44" rx="9"></rect>
                   <text class="axis-drop-zone-text" x="442" y="404" text-anchor="middle" data-placeholder="Unit">Unit</text>
                 </g>
                 <text class="axis-label axis-label-complete" x="360" y="405" text-anchor="middle" id="linePracticeXAxisLabel">Drop height (cm)</text>
@@ -759,13 +768,15 @@
                   <g id="yVariableDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
                      data-axis-slot="y-variable" data-card-type="variable" data-expected="bounce"
                      aria-label="Drop the y-axis variable here">
-                    <rect class="axis-drop-zone-box" x="-132" y="-19" width="170" height="38" rx="9"></rect>
+                    <rect class="axis-drop-hit-pad" x="-147" y="-37" width="200" height="74"></rect>
+                    <rect class="axis-drop-zone-box" x="-132" y="-22" width="170" height="44" rx="9"></rect>
                     <text class="axis-drop-zone-text" x="-47" y="5" text-anchor="middle" data-placeholder="Variable">Variable</text>
                   </g>
                   <g id="yUnitDropZone" class="axis-graph-drop-zone" tabindex="0" role="button"
                      data-axis-slot="y-unit" data-card-type="unit" data-expected="cm"
                      aria-label="Drop the y-axis unit here">
-                    <rect class="axis-drop-zone-box" x="46" y="-19" width="78" height="38" rx="9"></rect>
+                    <rect class="axis-drop-hit-pad" x="31" y="-37" width="108" height="74"></rect>
+                    <rect class="axis-drop-zone-box" x="46" y="-22" width="78" height="44" rx="9"></rect>
                     <text class="axis-drop-zone-text" x="85" y="5" text-anchor="middle" data-placeholder="Unit">Unit</text>
                   </g>
                 </g>
@@ -777,18 +788,20 @@
               </svg>
             </div>
 
-            <figure class="experiment-photo-slot">
-            <!--
-              Replace this block with the photo, for example:
-              <img src="../images/lesson4/ball-bounce.jpg" alt="A ball being dropped from each height">
-            -->
-            <div class="experiment-photo-placeholder">Photo of the experiment goes here</div>
-            <figcaption>What the fair test looked like</figcaption>
-          </figure>
+          </div>
 
+            <figure class="experiment-photo-card">
+              <!--
+                Replace the placeholder below with the photo, for example:
+                <img src="../images/lesson4/ball-bounce.jpg" alt="A ball being dropped from each height">
+              -->
+              <div class="experiment-photo-placeholder">Photo of the experiment goes here</div>
+              <figcaption>The ball-bounce fair test these measurements came from</figcaption>
+            </figure>
           </div>
         </div>
       </div>
+
       <button type="button" class="next-button general-button" id="practiceNextButton" hidden>Spot a plotting mistake</button>
       <p class="completed-note">Completed — next activity unlocked.</p>
     </section>
@@ -797,7 +810,7 @@
       <h2 class="section-title">3. Spot the Plotting Mistake</h2>
       <div class="mistake-layout">
         <div class="graph-stage-card">
-          <div class="graph-stage-heading"><div><h3>Something changed the story</h3><p>One point does not match the data table. Click the point you think is wrong.</p></div><span class="graph-badge">Accuracy check</span></div>
+          <div class="graph-stage-heading"><div><h3>Something changed the story</h3><p>One point does not match the data table. Drag it to where it should be.</p></div><span class="graph-badge">Accuracy check</span></div>
           <table class="practice-table" aria-label="Mistake-check data">
             <thead><tr><th>Temperature (°C)</th><th>Balloon circumference (cm)</th></tr></thead>
             <tbody><tr><td>10</td><td>6</td></tr><tr><td>20</td><td>12</td></tr><tr><td><strong>30</strong></td><td><strong>24</strong></td></tr><tr><td>40</td><td>18</td></tr><tr><td>50</td><td>8</td></tr></tbody>
@@ -994,9 +1007,12 @@
       for (let i = 0; i < candidates.length; i += 1) {
         const box = candidates[i];
 
-        /* Keep the whole callout inside the drawing area. */
-        if (box.x < 8 || box.x + CALLOUT_WIDTH > 692) continue;
-        if (box.y < 8 || box.y + CALLOUT_HEIGHT > 396) continue;
+        /*
+          Stay inside the plotting area, not just the picture.
+          Going further left would cover the y-axis label.
+        */
+        if (box.x < linePlot.left + 4 || box.x + CALLOUT_WIDTH > 688) continue;
+        if (box.y < 12 || box.y + CALLOUT_HEIGHT > linePlot.bottom - 6) continue;
 
         const score = calloutOverlapScore(box, index);
 
@@ -1004,7 +1020,10 @@
         if (!best || score < best.score) best = { x: box.x, y: box.y, score: score };
       }
 
-      return best || { x: Math.min(px + CALLOUT_GAP, 692 - CALLOUT_WIDTH), y: Math.max(8, py - CALLOUT_HEIGHT - CALLOUT_GAP) };
+      return best || {
+        x: Math.min(Math.max(px + CALLOUT_GAP, linePlot.left + 4), 688 - CALLOUT_WIDTH),
+        y: Math.min(Math.max(12, py - CALLOUT_HEIGHT - CALLOUT_GAP), linePlot.bottom - 6 - CALLOUT_HEIGHT)
+      };
     }
 
     function showWorkedGuides(index) {
@@ -1028,12 +1047,10 @@
       const button = document.getElementById("workedNextButton");
       const kicker = document.getElementById("workedStepKicker");
       const content = document.getElementById("workedStepContent");
-      const formula = document.getElementById("workedAxisFormula");
 
       if (workedStage === 0) {
         document.getElementById("lineXAxisGroup").classList.add("visible");
         document.getElementById("workedXAxisLabel").textContent = "Temperature (°C)";
-        formula.hidden = false;
         kicker.textContent = "Step 1 · x-axis label";
         content.innerHTML = "<strong>Axis labels need the variable and the unit.</strong><p>Temperature + °C becomes <strong>Temperature (°C)</strong>.</p>";
         setFeedback("lineTeachingFeedback", "", "The x-axis is labelled precisely.", " The independent variable is horizontal, and its unit is included in the label.");
@@ -1045,9 +1062,6 @@
       if (workedStage === 1) {
         document.getElementById("lineYAxisGroup").classList.add("visible");
         document.getElementById("workedYAxisLabel").textContent = "Balloon circumference (cm)";
-        document.getElementById("formulaVariable").textContent = "Balloon circumference";
-        document.getElementById("formulaUnit").textContent = "cm";
-        document.getElementById("formulaResult").textContent = "Balloon circumference (cm)";
         kicker.textContent = "Step 2 · y-axis label";
         content.innerHTML = "<strong>Now label what was measured.</strong><p>Balloon circumference is the dependent variable, so it belongs on the vertical y-axis.</p>";
         setFeedback("lineTeachingFeedback", "", "Both axes are ready.", " Now each row in the table can become one coordinate on the graph.");
@@ -1057,7 +1071,7 @@
       }
 
       if (workedStage >= 2 && workedStage < 2 + lineData.length) {
-        const index = workedStage - 2;
+        const index = workedStage - 2;.
         const points = document.querySelectorAll(".line-point");
         points[index].classList.add("visible");
         plottedLinePoints = index + 1;
@@ -1091,7 +1105,6 @@
       document.getElementById("lineYAxisGroup").classList.remove("visible");
       document.getElementById("workedXAxisLabel").textContent = "";
       document.getElementById("workedYAxisLabel").textContent = "";
-      document.getElementById("workedAxisFormula").hidden = true;
       document.getElementById("workedStepKicker").textContent = "Step 1 · x-axis";
       document.getElementById("workedStepContent").innerHTML = "<strong>Start with what the scientist changed.</strong><p>Temperature is the independent variable, so it belongs on the horizontal x-axis.</p>";
       document.querySelectorAll(".line-point").forEach(point => point.classList.remove("visible"));
@@ -1444,19 +1457,121 @@
       */
       document.getElementById("mistakeWrongPath").setAttribute("opacity","1");
       document.getElementById("mistakeCorrectPath").setAttribute("opacity","0");
-      mistakeData.forEach((p,index)=>{ const c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("class","mistake-point");c.setAttribute("cx",lineX(p.x));c.setAttribute("cy",lineY(p.y));c.setAttribute("r","9");c.dataset.index=index;c.addEventListener("click",()=>handleMistakePoint(c,index));layer.appendChild(c); });
+      mistakeData.forEach((p,index)=>{ const c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("class","mistake-point");c.setAttribute("cx",lineX(p.x));c.setAttribute("cy",lineY(p.y));c.setAttribute("r","9");c.dataset.index=index;c.addEventListener("pointerdown",event=>startMistakeDrag(event,c,index));layer.appendChild(c); });
     }
-    function handleMistakePoint(circle,index) {
-      if(mistakeSolved) return;
-      if(index!==2) { flashChoice(circle,"try-again-choice"); setFeedback("mistakeFeedback","try-again","That point matches its table row."," Check the x-value and y-value together, then try another point."); return; }
-      mistakeSolved=true; circle.classList.add("fixed"); circle.setAttribute("cy",lineY(24)); document.getElementById("mistakeWrongPath").setAttribute("opacity","0");document.getElementById("mistakeCorrectPath").setAttribute("opacity","1");document.getElementById("mistakeEffectQuestion").hidden=false;
-      setFeedback("mistakeFeedback","success","You found the incorrect point."," The table says 30°C → 24 cm, but the point was plotted at 14 cm. It has now moved to the correct coordinate.");
+
+    /* ==================================================
+       Dragging the incorrect point onto its real value.
+
+       Moving the point is the correction itself, so the
+       student has to know both which point is wrong and
+       where it should have gone.
+       ================================================== */
+
+    let mistakeDrag = null;
+
+    function svgPointFromEvent(svg, event) {
+      const rect = svg.getBoundingClientRect();
+      const viewBox = svg.viewBox.baseVal;
+
+      /* A hidden graph has no size, and dividing by it gives NaN. */
+      if (!rect.width || !rect.height) return null;
+
+      return {
+        x: (event.clientX - rect.left) / rect.width * viewBox.width,
+        y: (event.clientY - rect.top) / rect.height * viewBox.height
+      };
+    }
+
+    function startMistakeDrag(event, circle, index) {
+      if (mistakeSolved) return;
+
+      event.preventDefault();
+
+      mistakeDrag = {
+        circle: circle,
+        index: index,
+        homeY: +circle.getAttribute("cy")
+      };
+
+      circle.classList.add("is-dragging");
+      circle.setPointerCapture(event.pointerId);
+    }
+
+    function moveMistakeDrag(event) {
+      if (!mistakeDrag) return;
+
+      const svg = document.getElementById("mistakeGraphSvg");
+      const point = svgPointFromEvent(svg, event);
+
+      if (!point) return;
+
+      /* Only the measured value can be wrong, so x stays put. */
+      const y = Math.min(Math.max(point.y, linePlot.top), linePlot.bottom);
+      mistakeDrag.circle.setAttribute("cy", y);
+    }
+
+    function endMistakeDrag(event) {
+      if (!mistakeDrag) return;
+
+      const drag = mistakeDrag;
+      mistakeDrag = null;
+
+      drag.circle.classList.remove("is-dragging");
+
+      const droppedY = +drag.circle.getAttribute("cy");
+      const correctY = lineY(lineData[drag.index].y);
+      const closeEnough = Math.abs(droppedY - correctY) <= 18;
+
+      if (drag.index !== 2) {
+        drag.circle.setAttribute("cy", drag.homeY);
+        flashChoice(drag.circle, "try-again-choice");
+        setFeedback("mistakeFeedback","try-again","That point already matches its table row."," Compare each y-value with the table, then move the one that disagrees.");
+        return;
+      }
+
+      if (!closeEnough) {
+        drag.circle.setAttribute("cy", drag.homeY);
+        setFeedback("mistakeFeedback","try-again","That is the right point, but not the right place."," The table says 30°C goes with 24 cm. Read across from 24 on the y-axis.");
+        return;
+      }
+
+      solveMistake(drag.circle);
+    }
+
+    function solveMistake(circle) {
+      mistakeSolved = true;
+      circle.classList.add("fixed");
+      circle.setAttribute("cy", lineY(24));
+      document.getElementById("mistakeWrongPath").setAttribute("opacity","0");
+      document.getElementById("mistakeCorrectPath").setAttribute("opacity","1");
+      document.getElementById("mistakeEffectQuestion").hidden = false;
+      setFeedback("mistakeFeedback","success","You moved it to the right coordinate."," The table says 30°C goes with 24 cm, but it had been plotted at 14 cm.");
     }
     function handleMistakeEffect(button) {
       if(button.dataset.mistakeEffect!=="peak") { flashChoice(button,"try-again-choice"); setFeedback("mistakeFeedback","try-again","Compare the two graph shapes."," The incorrect coordinate pulled the middle of the line downward, changing how large the peak looked."); return; }
-      flashChoice(button,"correct-choice"); document.getElementById("mistakeNextButton").hidden=false; setFeedback("mistakeFeedback","success","Exactly."," One incorrect coordinate can change the pattern the reader sees. Accurate plotting matters because the graph communicates the data.");
+      flashChoice(button,"correct-choice");
+      markChoiceSelected(button, "[data-mistake-effect]");
+      document.getElementById("mistakeNextButton").hidden=false; setFeedback("mistakeFeedback","success","Exactly."," One incorrect coordinate can change the pattern the reader sees. Accurate plotting matters because the graph communicates the data.");
     }
-    function resetMistake() { mistakeSolved=false; document.getElementById("mistakeEffectQuestion").hidden=true;document.getElementById("mistakeNextButton").hidden=true;buildMistakeGraph();setFeedback("mistakeFeedback","","Check point by point."," Compare each coordinate with the matching row in the table."); }
+
+    /*
+      Keep the chosen answer looking chosen, the way the
+      other lessons do, so students can see what they
+      already answered.
+    */
+    function markChoiceSelected(button, groupSelector) {
+      const group = button.closest(".challenge-choice-grid") || document;
+
+      group.querySelectorAll(groupSelector).forEach(other => {
+        other.classList.remove("selected-answer");
+      });
+
+      button.classList.add("selected-answer");
+    }
+    function resetMistake() { mistakeSolved=false; mistakeDrag=null;
+      document.querySelectorAll("#spot-the-mistake .selected-answer").forEach(b=>b.classList.remove("selected-answer"));
+      document.getElementById("mistakeEffectQuestion").hidden=true;document.getElementById("mistakeNextButton").hidden=true;buildMistakeGraph();setFeedback("mistakeFeedback","","Check point by point."," Compare each coordinate with the matching row in the table."); }
 
     function buildAnalysisGraph() {
       document.getElementById("analysisGraphSvg").innerHTML=document.getElementById("lineGraphSvg").innerHTML;
@@ -1471,13 +1586,13 @@
       const kind=button.dataset.analysis,value=button.dataset.value;
       const expected={peak:"30",firsttrend:"increase",afterpeak:"decrease",prediction:"not-supported"}[kind];
       if(value!==expected){flashChoice(button,"try-again-choice");const hints={peak:"Look for the highest point on the graph.",firsttrend:"Read the line from 10°C toward 30°C.",afterpeak:"Follow the line from 30°C toward 50°C.",prediction:"The prediction says the result will continue increasing. Compare that with what happens after 30°C."};setFeedback("analysisFeedback","try-again","Look at the evidence again."," "+hints[kind]);return;}
-      flashChoice(button,"correct-choice");
+      flashChoice(button,"correct-choice");markChoiceSelected(button,"[data-analysis=\""+kind+"\"]");
       if(kind==="peak"){document.getElementById("analysisStep1").hidden=true;document.getElementById("analysisStep2").hidden=false;setFeedback("analysisFeedback","success","30°C has the highest measured value."," Now describe what happens before that peak.");}
       else if(kind==="firsttrend"){document.getElementById("analysisStep2").hidden=true;document.getElementById("analysisStep3").hidden=false;setFeedback("analysisFeedback","success","The graph rises from 10°C to 30°C."," Now look at the measurements after the peak.");}
       else if(kind==="afterpeak"){document.getElementById("analysisStep3").hidden=true;document.getElementById("analysisStep4").hidden=false;setFeedback("analysisFeedback","success","After 30°C, the measured circumference decreases."," Use both parts of the graph to judge the original prediction.");}
       else {document.getElementById("analysisStep4").hidden=true;document.getElementById("predictionResult").hidden=false;setFeedback("analysisFeedback","success","The prediction is not supported by all the data."," The result increases up to 30°C, but it does not continue increasing at 40°C and 50°C.");document.getElementById("analyse-results").classList.add("completed");}
     }
-    function resetAnalysis(){[1,2,3,4].forEach(n=>document.getElementById("analysisStep"+n).hidden=n!==1);document.getElementById("predictionResult").hidden=true;setFeedback("analysisFeedback","","Read from the graph first."," Start by finding the highest plotted point.");}
+    function resetAnalysis(){document.querySelectorAll("#analyse-results .selected-answer").forEach(b=>b.classList.remove("selected-answer"));[1,2,3,4].forEach(n=>document.getElementById("analysisStep"+n).hidden=n!==1);document.getElementById("predictionResult").hidden=true;setFeedback("analysisFeedback","","Read from the graph first."," Start by finding the highest plotted point.");}
 
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -1495,6 +1610,11 @@
       document.querySelectorAll("[data-line-next]").forEach(b=>b.addEventListener("click",()=>handlePracticeConnect(b)));
       document.getElementById("resetLinePracticeButton").addEventListener("click",resetPractice);
       document.getElementById("practiceNextButton").addEventListener("click",()=>unlockSection("spot-the-mistake","line-practice"));
+
+      const mistakeSvg = document.getElementById("mistakeGraphSvg");
+      mistakeSvg.addEventListener("pointermove", moveMistakeDrag);
+      mistakeSvg.addEventListener("pointerup", endMistakeDrag);
+      mistakeSvg.addEventListener("pointercancel", endMistakeDrag);
 
       document.querySelectorAll("[data-mistake-effect]").forEach(b=>b.addEventListener("click",()=>handleMistakeEffect(b)));
       document.getElementById("resetMistakeButton").addEventListener("click",resetMistake);

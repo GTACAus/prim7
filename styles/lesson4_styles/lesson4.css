@@ -980,11 +980,17 @@
    experiment the data came from.
    ================================================== */
 
-.experiment-photo-slot {
-  margin: 14px 0 0;
+.experiment-photo-card {
+  margin: 18px 0 0;
+  padding: 16px;
+
+  background: white;
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+  box-shadow: var(--shadow-small);
 }
 
-.experiment-photo-slot img {
+.experiment-photo-card img {
   display: block;
   width: 100%;
   max-height: 260px;
@@ -1011,10 +1017,22 @@
   text-align: center;
 }
 
-.experiment-photo-slot figcaption {
+.experiment-photo-card figcaption {
   margin-top: 8px;
 
   color: var(--muted);
   font-size: 0.86rem;
   text-align: center;
+}
+
+/* The graph and the photo of the experiment share a column. */
+.graph-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.graph-column .experiment-photo-card {
+  margin: 0;
 }
