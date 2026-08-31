@@ -330,32 +330,18 @@
              ================================================== -->
         <section class="section student-challenge" id="bar-practice">
           <h2 class="section-title">Build the Bars</h2>
-          <div class="diagram-activity diagram-box">
-            <p class="challenge-kicker">Your turn · formative check</p>
+          <div class="diagram-box diagram-activity">
             <p>Translate a data table into bar heights, then use the graph to compare categories.</p>
           </div>
-
-          <div class="challenge-spotlight-game">
-            <div class="wrap">
-              <div class="stage" id="stage">
-                <img id="photo" class="" src="../images/lesson4/cave.jpg" alt="Cave interior">
-                <div class="glow" id="glow"></div>
-                <div class="darken-overlay"></div>
-                <!-- <div class="vignette"></div> -->
-              </div>
-            </div>
-          </div>
-
-          <div class="challenge-grid">
-            <div class="challenge-panel">
+          <div class="diagram-box diagram-activity">
               <p class="challenge-question">
-                Students counted minibeasts in four schoolyard microhabitats.
+                Students counted 5 types of animals found in a forest.
                 Use the table to set the height of each bar.
               </p>
 
               <table class="practice-table" aria-label="Minibeast count data">
                 <thead>
-                  <tr><th>Microhabitat</th><th>Minibeasts found</th></tr>
+                  <tr><th>Type of Animal</th><th>Animals found</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>Garden bed</td><td>12</td></tr>
@@ -364,45 +350,38 @@
                   <tr><td>Pavement</td><td>3</td></tr>
                 </tbody>
               </table>
+            </div>
 
-              <button type="button" class="general-button" id="checkBarPracticeButton" style="margin-top: 14px;">
-                Check my bars
-              </button>
-
-              <div class="challenge-hidden" id="barInterpretPractice" hidden>
-                <span class="challenge-step-label" style="margin-top: 16px;">Use the graph</span>
-                <p class="challenge-question">
-                  How many more minibeasts were found <strong>under the log</strong> than in the <strong>grass</strong>?
-                </p>
-                <div class="challenge-choice-grid three-choice">
-                  <button type="button" class="challenge-choice" data-bar-difference="5">5</button>
-                  <button type="button" class="challenge-choice" data-bar-difference="11">11</button>
-                  <button type="button" class="challenge-choice" data-bar-difference="25">25</button>
+          <div class="challenge-grid">
+            <div>
+              <div class="challenge-spotlight-game">
+                <div class="wrap">
+                  <div class="stage" id="stage">
+                    <img id="photo" class="" src="../images/lesson4/dark_forest.jpg" alt="Dark forest">
+                    <div class="glow" id="glow"></div>
+                    <div class="darken-overlay"></div>
+                    <!-- <div class="vignette"></div> -->
+                  </div>
                 </div>
               </div>
-
               <div class="challenge-feedback" id="barPracticeFeedback" role="status" aria-live="polite">
                 <strong>Build from zero.</strong>
                 Move each slider until the bar height matches the number in the data table.
-              </div>
-
-              <div class="reset-button-container">
-                <button type="button" class="general-button reset-btn" id="resetBarPracticeButton">Reset challenge</button>
               </div>
             </div>
 
             <div class="challenge-visual">
               <div class="graph-stage-heading">
-                <div>
-                  <h3>Your bar graph</h3>
-                  <p>Each slider changes one category without changing the others.</p>
-                </div>
                 <span class="challenge-badge" id="barPracticeBadge">Build</span>
                 <span class="graph-badge">Student graph</span>
               </div>
+              <div>
+                <h3>Your bar graph</h3>
+                <p>Each slider changes one category without changing the others.</p>
+              </div>
 
               <div class="graph-svg-wrap">
-                <svg class="graph-svg" id="barPracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student bar graph of minibeasts found in four microhabitats">
+                <svg class="graph-svg" id="barPracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student bar graph of animals found in a forest">
                   <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
 
                   <g aria-hidden="true">
@@ -422,8 +401,8 @@
                   <text class="tick-label" x="72" y="112" text-anchor="end">15</text>
                   <text class="tick-label" x="72" y="34" text-anchor="end">20</text>
 
-                  <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)">Minibeasts found</text>
-                  <text class="axis-label" x="365" y="410" text-anchor="middle">Microhabitat</text>
+                  <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)">Animals found</text>
+                  <text class="axis-label" x="365" y="410" text-anchor="middle">Type of Animal</text>
 
                   <text class="tick-label" x="160" y="371" text-anchor="middle">Garden bed</text>
                   <text class="tick-label" x="300" y="371" text-anchor="middle">Grass</text>
@@ -459,33 +438,49 @@
                   <output for="barPractice3">0</output>
                 </div>
               </div>
-
-              <div class="graph-detective challenge-hidden" id="barDetective" hidden>
-                <h4>🔎 Graph Detective</h4>
-                <p class="challenge-question">This graph makes a small difference look enormous. What is wrong?</p>
-
-                <div class="detective-mini-graph" aria-label="Misleading bar graph with a y-axis starting at fifty">
-                  <svg viewBox="0 0 360 220" style="width: 100%; height: auto; display: block;">
-                    <rect width="360" height="220" fill="white"></rect>
-                    <line x1="60" y1="170" x2="320" y2="170" stroke="var(--charcoal)" stroke-width="3"></line>
-                    <line x1="60" y1="170" x2="60" y2="25" stroke="var(--charcoal)" stroke-width="3"></line>
-                    <text x="48" y="174" text-anchor="end" font-size="12">50</text>
-                    <text x="48" y="104" text-anchor="end" font-size="12">55</text>
-                    <text x="48" y="34" text-anchor="end" font-size="12">60</text>
-                    <rect x="105" y="142" width="70" height="28" fill="var(--mint)" stroke="var(--charcoal)" stroke-width="2"></rect>
-                    <rect x="220" y="30" width="70" height="140" fill="var(--lavender)" stroke="var(--charcoal)" stroke-width="2"></rect>
-                    <text x="140" y="195" text-anchor="middle" font-size="12">A · 52</text>
-                    <text x="255" y="195" text-anchor="middle" font-size="12">B · 60</text>
-                  </svg>
-                </div>
-
-                <div class="challenge-choice-grid">
-                  <button type="button" class="challenge-choice" data-detective="zero">The y-axis does not start at zero.</button>
-                  <button type="button" class="challenge-choice" data-detective="touch">The two bars should touch.</button>
-                  <button type="button" class="challenge-choice" data-detective="line">The bar tops should be joined by a line.</button>
-                </div>
-              </div>
+              <button type="button" class="general-button" id="checkBarPracticeButton" style="margin-top: 14px;">
+                Check my bars
+              </button>
             </div>
+          </div>
+          <div class="diagram-activity challenge-hidden" id="barInterpretPractice" hidden>
+            <span class="challenge-step-label" style="margin-top: 16px;">Use the graph</span>
+            <p class="challenge-question">
+              How many more animals were found <strong>under the log</strong> than in the <strong>grass</strong>?
+            </p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-bar-difference="5">5</button>
+              <button type="button" class="challenge-choice" data-bar-difference="11">11</button>
+              <button type="button" class="challenge-choice" data-bar-difference="25">25</button>
+            </div>
+          </div>
+          <div class="graph-detective challenge-hidden diagram-activity pop-in" id="barDetective" hidden>
+            <h4>🔎 Graph Detective</h4>
+            <p class="challenge-question">This graph makes a small difference look enormous. What is wrong?</p>
+
+            <div class="detective-mini-graph" aria-label="Misleading bar graph with a y-axis starting at fifty">
+              <svg viewBox="0 0 360 220" style="width: 100%; height: auto; display: block;">
+                <rect width="360" height="220" fill="white"></rect>
+                <line x1="60" y1="170" x2="320" y2="170" stroke="var(--charcoal)" stroke-width="3"></line>
+                <line x1="60" y1="170" x2="60" y2="25" stroke="var(--charcoal)" stroke-width="3"></line>
+                <text x="48" y="174" text-anchor="end" font-size="12">50</text>
+                <text x="48" y="104" text-anchor="end" font-size="12">55</text>
+                <text x="48" y="34" text-anchor="end" font-size="12">60</text>
+                <rect x="105" y="142" width="70" height="28" fill="var(--mint)" stroke="var(--charcoal)" stroke-width="2"></rect>
+                <rect x="220" y="30" width="70" height="140" fill="var(--lavender)" stroke="var(--charcoal)" stroke-width="2"></rect>
+                <text x="140" y="195" text-anchor="middle" font-size="12">A · 52</text>
+                <text x="255" y="195" text-anchor="middle" font-size="12">B · 60</text>
+              </svg>
+            </div>
+
+            <div class="challenge-choice-grid pop-in">
+              <button type="button" class="challenge-choice" data-detective="zero">The y-axis does not start at zero.</button>
+              <button type="button" class="challenge-choice" data-detective="touch">The two bars should touch.</button>
+              <button type="button" class="challenge-choice" data-detective="line">The bar tops should be joined by a line.</button>
+            </div>
+          </div>
+          <div class="reset-button-container">
+            <button type="button" class="general-button reset-btn" id="resetBarPracticeButton">Reset</button>
           </div>
         </section>
 
