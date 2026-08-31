@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson 4 - Representing Fair-Test Data in a Line Graph</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/lesson4_styles/lesson4.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div class="page-header-wrapper">
+      <header class="page-header">
+        <button
+          class="general-button home-button"
+          type="button"
+          onclick="window.location.href='../index.html'"
+        >
+          <p class="bounce-symbol">🏠</p>
+          <p>Home</p>
+        </button>
+
+        <button
+          class="general-button glossary-button"
+          type="button"
+          onclick="openGlossary()"
+        >
+          <p class="bounce-symbol">📖</p>
+          <p>Vocabulary</p>
+        </button>
+      </header>
+    </div>
+
+    <div class="modal" id="glossaryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="teacher-label">Lesson 4: Line graphs</p>
+            <h2>Glossary terms</h2>
+          </div>
+
+          <button
+            type="button"
+            class="close-button"
+            onclick="closeGlossary()"
+            aria-label="Close glossary"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="vocab-grid">
+          <div class="vocab-card">
+            <h3>Independent variable</h3>
+            <p>The variable that is deliberately changed in a fair test.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Dependent variable</h3>
+            <p>The variable that is observed or measured in response.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>X-axis</h3>
+            <p>The horizontal axis. It usually shows the independent variable.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Y-axis</h3>
+            <p>The vertical axis. It usually shows the dependent variable.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Coordinate</h3>
+            <p>A pair of values that gives the exact position of one data point.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Trend</h3>
+            <p>The overall pattern or direction shown by the data.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Reasoned prediction</h3>
+            <p>A prediction supported by scientific knowledge or observations.</p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Supported</h3>
+            <p>When the evidence agrees with a prediction or explanation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="teacher-modal" id="teacherModal">
+      <div class="teacher-panel">
+        <div class="teacher-panel-header">
+          <div>
+            <p class="teacher-label">Teacher tools</p>
+            <h2>Jump to an activity</h2>
+          </div>
+
+          <button
+            type="button"
+            class="teacher-close"
+            onclick="closeTeacherMenu()"
+            aria-label="Close teacher menu"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="teacher-section-list"></div>
+
+        <div class="teacher-actions">
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherShowAll()"
+          >
+            Show all sections
+          </button>
+
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherResetView()"
+          >
+            Reset student view
+          </button>
+        </div>
+
+        <p class="teacher-note">
+          Jumping changes navigation only. Reset student view reloads every activity.
+        </p>
+      </div>
+    </div>
+
+    <main class="page lesson4-page">
+      <header class="lesson-intro lesson4-intro">
+        <div class="lesson-heading">
+          <span class="lesson-label">Lesson 4 &middot; Line graphs</span>
+          <h1 id="teacherTrigger">Read the Story in Fair-Test Data</h1>
+          <p class="lesson-summary">
+            Turn measurements in a table into a <strong>line graph</strong>, then use the
+            pattern to decide what the evidence tells us.
+          </p>
+        </div>
+      </header>
+
+      <div class="intro-grid">
+        <section class="intro-card objectives-card">
+          <p class="intro-eyebrow">Learning objective</p>
+          <p class="learning-objective-text">
+            We are learning how to represent <strong>fair-test data</strong> in a line graph.
+          </p>
+
+          <p class="success-heading">Success criteria</p>
+          <ol class="objective-list">
+            <li>I can label each axis with a <strong>variable and unit</strong>.</li>
+            <li>I can plot and double-check data at the correct <strong>coordinates</strong>.</li>
+            <li>I can describe a trend and decide whether a prediction is <strong>supported</strong>.</li>
+          </ol>
+        </section>
+
+        <section class="intro-card observation-card">
+          <p class="intro-eyebrow">Today&rsquo;s investigation route</p>
+          <h2>Table &rarr; points &rarr; line &rarr; evidence</h2>
+          <p>
+            The graph does not create new results. It reorganises the measurements so that
+            patterns and relationships are easier to see.
+          </p>
+
+          <div class="lesson-route" aria-label="Lesson activity sequence">
+            <span>Build together</span>
+            <span>Your turn</span>
+            <span>Spot a mistake</span>
+            <span>Analyse</span>
+          </div>
+        </section>
+      </div>
+
+      <section class="section" id="guided-build">
+        <h2 class="section-title">1. From a Table to a Line Graph</h2>
+
+        <div class="investigation-context">
+          <div>
+            <p class="context-label">Testable question</p>
+            <p class="context-question">
+              How does changing <strong>temperature</strong> affect the
+              <strong>circumference of a balloon</strong> inflated by yeast?
+            </p>
+          </div>
+
+          <div class="prediction-card">
+            <span aria-hidden="true">💭</span>
+            <div>
+              <strong>Reasoned prediction</strong>
+              <p>
+                As temperature increases, the balloon circumference will continue to increase
+                because warmer conditions make yeast more active.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="graph-learning-grid">
+          <div class="graph-control-card">
+            <p class="activity-kicker">Build it together</p>
+            <h3>The same data, represented visually</h3>
+            <p>
+              Use the controls in order. Watch how each part of the graph comes from the
+              question or the data table.
+            </p>
+
+            <table class="graph-data-table" aria-label="Yeast fair-test data">
+              <thead>
+                <tr>
+                  <th>Temperature<br /><span class="unit">(°C)</span></th>
+                  <th>Balloon circumference<br /><span class="unit">(cm)</span></th>
+                </tr>
+              </thead>
+              <tbody id="guidedDataBody">
+                <tr><td>10</td><td>6</td></tr>
+                <tr><td>20</td><td>12</td></tr>
+                <tr><td>30</td><td>24</td></tr>
+                <tr><td>40</td><td>18</td></tr>
+                <tr><td>50</td><td>8</td></tr>
+              </tbody>
+            </table>
+            <p class="data-note">Example classroom data for learning how to graph a fair test.</p>
+
+            <div class="axis-anatomy" aria-label="How axis labels are constructed">
+              <div class="axis-formula-card" id="guidedXFormula">
+                <span class="formula-axis">x-axis</span>
+                <span>Temperature</span>
+                <span aria-hidden="true">+</span>
+                <span>°C</span>
+                <span aria-hidden="true">=</span>
+                <strong>Temperature (°C)</strong>
+              </div>
+
+              <div class="axis-formula-card" id="guidedYFormula">
+                <span class="formula-axis">y-axis</span>
+                <span>Balloon circumference</span>
+                <span aria-hidden="true">+</span>
+                <span>cm</span>
+                <span aria-hidden="true">=</span>
+                <strong>Balloon circumference (cm)</strong>
+              </div>
+            </div>
+
+            <div class="graph-button-stack">
+              <button type="button" class="general-button" id="showGuidedXAxisButton">
+                1. Show what we changed
+              </button>
+              <button type="button" class="general-button" id="showGuidedYAxisButton" disabled>
+                2. Show what we measured
+              </button>
+              <button type="button" class="general-button" id="plotGuidedPointButton" disabled>
+                3. Plot the first point
+              </button>
+              <button type="button" class="general-button" id="connectGuidedPointsButton" disabled>
+                4. Connect the points
+              </button>
+            </div>
+
+            <div class="teaching-feedback" id="guidedFeedback" role="status" aria-live="polite">
+              <strong>Start with the independent variable.</strong>
+              The x-axis shows what scientists deliberately changed.
+            </div>
+
+            <div class="reset-button-container">
+              <button type="button" class="general-button reset-btn" id="resetGuidedButton">
+                Reset activity
+              </button>
+            </div>
+          </div>
+
+          <div class="graph-stage-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Yeast activity</h3>
+                <p id="guidedGraphHint">Begin by adding the x-axis.</p>
+              </div>
+              <span class="graph-badge">Guided graph</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg
+                class="graph-svg"
+                id="guidedGraphSvg"
+                viewBox="0 0 700 430"
+                role="img"
+                aria-label="Guided line graph of temperature and balloon circumference"
+              >
+                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+
+                <g class="graph-grid" aria-hidden="true">
+                  <line x1="90" y1="345" x2="630" y2="345"></line>
+                  <line x1="90" y1="292.5" x2="630" y2="292.5"></line>
+                  <line x1="90" y1="240" x2="630" y2="240"></line>
+                  <line x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                  <line x1="90" y1="135" x2="630" y2="135"></line>
+                  <line x1="90" y1="82.5" x2="630" y2="82.5"></line>
+                  <line x1="90" y1="30" x2="630" y2="30"></line>
+                </g>
+
+                <g id="guidedXAxisGroup" class="axis-group">
+                  <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                  <polygon points="640,345 627,338 627,352" fill="var(--charcoal)"></polygon>
+                  <text class="tick-label" x="90" y="368" text-anchor="middle">10</text>
+                  <text class="tick-label" x="225" y="368" text-anchor="middle">20</text>
+                  <text class="tick-label" x="360" y="368" text-anchor="middle">30</text>
+                  <text class="tick-label" x="495" y="368" text-anchor="middle">40</text>
+                  <text class="tick-label" x="630" y="368" text-anchor="middle">50</text>
+                  <text class="axis-label" x="360" y="405" text-anchor="middle">Temperature (°C)</text>
+                </g>
+
+                <g id="guidedYAxisGroup" class="axis-group">
+                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+                  <polygon points="90,20 83,33 97,33" fill="var(--charcoal)"></polygon>
+                  <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                  <text class="tick-label" x="72" y="296.5" text-anchor="end">5</text>
+                  <text class="tick-label" x="72" y="244" text-anchor="end">10</text>
+                  <text class="tick-label" x="72" y="191.5" text-anchor="end">15</text>
+                  <text class="tick-label" x="72" y="139" text-anchor="end">20</text>
+                  <text class="tick-label" x="72" y="86.5" text-anchor="end">25</text>
+                  <text class="tick-label" x="72" y="34" text-anchor="end">30</text>
+                  <text
+                    class="axis-label"
+                    x="24"
+                    y="190"
+                    text-anchor="middle"
+                    transform="rotate(-90 24 190)"
+                  >
+                    Balloon circumference (cm)
+                  </text>
+                </g>
+
+                <line id="guidedVerticalGuide" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
+                <line id="guidedHorizontalGuide" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
+                <path id="guidedLinePath" class="line-path" d=""></path>
+                <g id="guidedPointsLayer"></g>
+
+                <g id="guidedPointCallout" class="point-callout" aria-hidden="true">
+                  <rect width="190" height="56" rx="12"></rect>
+                  <text id="guidedPointCalloutLine1" x="14" y="23"></text>
+                  <text id="guidedPointCalloutLine2" x="14" y="43"></text>
+                </g>
+              </svg>
+            </div>
+
+            <div class="graph-reading-key">
+              <span><i class="key-dot"></i> one measured pair</span>
+              <span><i class="key-guide"></i> trace to both axes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-next" id="guidedNext" hidden>
+          <p>
+            The axes describe the variables, the points show the measurements, and the line helps
+            our eyes follow the pattern.
+          </p>
+          <button type="button" class="general-button" id="goToStudentBuildButton">
+            Try building one yourself <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="section locked" id="student-build">
+        <h2 class="section-title">2. Your Turn: Build a Line Graph</h2>
+
+        <div class="investigation-context">
+          <div>
+            <p class="context-label">New fair-test question</p>
+            <p class="context-question">
+              How does changing the <strong>wing length</strong> of a paper helicopter affect its
+              <strong>fall time</strong>?
+            </p>
+          </div>
+
+          <div class="prediction-card prediction-card-student">
+            <span aria-hidden="true">💭</span>
+            <div>
+              <strong>Reasoned prediction</strong>
+              <p>
+                If wing length increases, fall time will increase because larger wings create
+                more air resistance.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="student-challenge-heading">
+          <div>
+            <p class="challenge-kicker">Independent practice</p>
+            <h3>Construct the graph from the table</h3>
+          </div>
+          <span class="challenge-badge" id="studentBuildBadge">Axes 1 of 4</span>
+        </div>
+
+        <div class="challenge-grid">
+          <div class="challenge-panel">
+            <table class="graph-data-table" aria-label="Paper helicopter fair-test data">
+              <thead>
+                <tr>
+                  <th>Wing length<br /><span class="unit">(cm)</span></th>
+                  <th>Fall time<br /><span class="unit">(s)</span></th>
+                </tr>
+              </thead>
+              <tbody id="studentDataBody">
+                <tr><td>4</td><td>2</td></tr>
+                <tr><td>6</td><td>3</td></tr>
+                <tr><td>8</td><td>5</td></tr>
+                <tr><td>10</td><td>6</td></tr>
+              </tbody>
+            </table>
+            <p class="data-note">Example classroom data for this graphing challenge.</p>
+
+            <div id="axisBuilder">
+              <span class="challenge-step-label" id="axisBuilderLabel">Build the x-axis label</span>
+              <p class="challenge-question" id="axisBuilderQuestion">
+                Which variable belongs on the x-axis?
+              </p>
+              <div class="challenge-choice-grid" id="axisBuilderOptions"></div>
+            </div>
+
+            <div id="plotBuilder" hidden>
+              <span class="challenge-step-label">Plot and double-check</span>
+              <p class="challenge-question">
+                Read the highlighted row, then click where its x-value and y-value meet.
+              </p>
+              <div class="plot-prompt" id="studentPlotPrompt"></div>
+            </div>
+
+            <div class="point-check-card" id="pointCheckCard" hidden>
+              <div>
+                <span>Double-check against the table</span>
+                <strong id="pointCheckValues"></strong>
+              </div>
+              <button type="button" class="general-button" id="confirmPointButton">
+                I checked this point
+              </button>
+            </div>
+
+            <div id="connectBuilder" hidden>
+              <span class="challenge-step-label">All measurements are plotted</span>
+              <p class="challenge-question">What should we do to make this a line graph?</p>
+              <div class="challenge-choice-grid three-choice">
+                <button type="button" class="challenge-choice" data-connect-choice="connect">
+                  Connect the points
+                </button>
+                <button type="button" class="challenge-choice" data-connect-choice="bars">
+                  Turn points into bars
+                </button>
+                <button type="button" class="challenge-choice" data-connect-choice="reorder">
+                  Reorder the x-values
+                </button>
+              </div>
+            </div>
+
+            <div id="studentTrendQuestion" hidden>
+              <span class="challenge-step-label">Read the story</span>
+              <p class="challenge-question">What trend does your finished graph show?</p>
+              <div class="challenge-choice-grid">
+                <button type="button" class="challenge-choice" data-student-trend="increase">
+                  As wing length increases, fall time generally increases.
+                </button>
+                <button type="button" class="challenge-choice" data-student-trend="decrease">
+                  As wing length increases, fall time generally decreases.
+                </button>
+              </div>
+            </div>
+
+            <div id="studentPredictionQuestion" hidden>
+              <span class="challenge-step-label">Test the prediction</span>
+              <p class="challenge-question">Is the paper-helicopter prediction supported by these results?</p>
+              <div class="challenge-choice-grid">
+                <button type="button" class="challenge-choice" data-student-prediction="supported">
+                  Supported by these results
+                </button>
+                <button type="button" class="challenge-choice" data-student-prediction="not-supported">
+                  Not supported by these results
+                </button>
+              </div>
+            </div>
+
+            <div class="challenge-feedback" id="studentBuildFeedback" role="status" aria-live="polite">
+              <strong>Begin with what was changed.</strong>
+              The independent variable belongs on the x-axis.
+            </div>
+
+            <div class="reset-button-container">
+              <button type="button" class="general-button reset-btn" id="resetStudentBuildButton">
+                Reset challenge
+              </button>
+            </div>
+          </div>
+
+          <div class="challenge-visual">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Your paper-helicopter graph</h3>
+                <p id="studentGraphHint">Construct both axis labels to activate the graph.</p>
+              </div>
+              <span class="graph-badge">Student graph</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg
+                class="graph-svg student-graph is-disabled"
+                id="studentGraphSvg"
+                viewBox="0 0 700 430"
+                role="img"
+                aria-label="Blank graph for plotting paper helicopter data"
+              >
+                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+
+                <g class="graph-grid" aria-hidden="true">
+                  <line x1="90" y1="345" x2="630" y2="345"></line>
+                  <line x1="90" y1="292.5" x2="630" y2="292.5"></line>
+                  <line x1="90" y1="240" x2="630" y2="240"></line>
+                  <line x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                  <line x1="90" y1="135" x2="630" y2="135"></line>
+                  <line x1="90" y1="82.5" x2="630" y2="82.5"></line>
+                  <line x1="90" y1="30" x2="630" y2="30"></line>
+                </g>
+
+                <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                <polygon points="640,345 627,338 627,352" fill="var(--charcoal)"></polygon>
+                <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+                <polygon points="90,20 83,33 97,33" fill="var(--charcoal)"></polygon>
+
+                <text class="tick-label" x="90" y="368" text-anchor="middle">0</text>
+                <text class="tick-label" x="198" y="368" text-anchor="middle">2</text>
+                <text class="tick-label" x="306" y="368" text-anchor="middle">4</text>
+                <text class="tick-label" x="414" y="368" text-anchor="middle">6</text>
+                <text class="tick-label" x="522" y="368" text-anchor="middle">8</text>
+                <text class="tick-label" x="630" y="368" text-anchor="middle">10</text>
+
+                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                <text class="tick-label" x="72" y="296.5" text-anchor="end">1</text>
+                <text class="tick-label" x="72" y="244" text-anchor="end">2</text>
+                <text class="tick-label" x="72" y="191.5" text-anchor="end">3</text>
+                <text class="tick-label" x="72" y="139" text-anchor="end">4</text>
+                <text class="tick-label" x="72" y="86.5" text-anchor="end">5</text>
+                <text class="tick-label" x="72" y="34" text-anchor="end">6</text>
+
+                <text class="axis-label axis-placeholder" x="360" y="405" text-anchor="middle" id="studentXAxisLabel">
+                  x-axis label
+                </text>
+                <text
+                  class="axis-label axis-placeholder"
+                  x="24"
+                  y="190"
+                  text-anchor="middle"
+                  transform="rotate(-90 24 190)"
+                  id="studentYAxisLabel"
+                >
+                  y-axis label
+                </text>
+
+                <line id="studentCrossVertical" class="practice-crosshair" x1="0" y1="30" x2="0" y2="345"></line>
+                <line id="studentCrossHorizontal" class="practice-crosshair" x1="90" y1="0" x2="630" y2="0"></line>
+                <path id="studentLinePath" class="line-path" d=""></path>
+                <g id="studentPointsLayer"></g>
+              </svg>
+            </div>
+
+            <p class="touch-hint">Tip: on a small screen, scroll the graph sideways if needed.</p>
+          </div>
+        </div>
+
+        <div class="section-next" id="studentBuildNext" hidden>
+          <p>
+            You labelled the axes, checked every coordinate, constructed the line and used it as evidence.
+          </p>
+          <button type="button" class="general-button" id="goToMistakeButton">
+            Investigate a plotting mistake <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="section locked" id="spot-mistake">
+        <h2 class="section-title">3. Spot the Plotting Mistake</h2>
+
+        <div class="diagram-box diagram-activity">
+          <p class="activity-instruction">
+            A student used the same paper-helicopter data, but one point is in the wrong place.
+            Click the point that does <strong>not</strong> match the table.
+          </p>
+        </div>
+
+        <div class="mistake-grid">
+          <div class="mistake-data-panel">
+            <table class="graph-data-table compact-table" aria-label="Paper helicopter data for mistake activity">
+              <thead>
+                <tr>
+                  <th>Wing length (cm)</th>
+                  <th>Fall time (s)</th>
+                </tr>
+              </thead>
+              <tbody id="mistakeDataBody">
+                <tr><td>4</td><td>2</td></tr>
+                <tr><td>6</td><td>3</td></tr>
+                <tr><td>8</td><td>5</td></tr>
+                <tr><td>10</td><td>6</td></tr>
+              </tbody>
+            </table>
+
+            <div class="challenge-feedback" id="mistakeFeedback" role="status" aria-live="polite">
+              <strong>Check one pair at a time.</strong>
+              Trace each point down to the x-axis and across to the y-axis.
+            </div>
+
+            <div id="mistakeImpactQuestion" hidden>
+              <span class="challenge-step-label">What changed in the graph&rsquo;s message?</span>
+              <p class="challenge-question">How did the misplaced point affect the visible pattern?</p>
+              <div class="challenge-choice-grid">
+                <button type="button" class="challenge-choice" data-mistake-impact="hide-rise">
+                  It hid most of the rise from 6 cm to 8 cm and made the final rise look too steep.
+                </button>
+                <button type="button" class="challenge-choice" data-mistake-impact="higher-peak">
+                  It made the highest fall time look larger than it really was.
+                </button>
+                <button type="button" class="challenge-choice" data-mistake-impact="unit">
+                  It changed the units used on both axes.
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="graph-stage-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Which coordinate is wrong?</h3>
+                <p>Every circle is selectable with a mouse, touch or keyboard.</p>
+              </div>
+              <span class="graph-badge warning-badge">One mistake</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg
+                class="graph-svg"
+                id="mistakeGraphSvg"
+                viewBox="0 0 700 430"
+                role="img"
+                aria-label="Paper helicopter graph containing one incorrectly plotted point"
+              >
+                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+                <g class="graph-grid" aria-hidden="true">
+                  <line x1="90" y1="345" x2="630" y2="345"></line>
+                  <line x1="90" y1="292.5" x2="630" y2="292.5"></line>
+                  <line x1="90" y1="240" x2="630" y2="240"></line>
+                  <line x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                  <line x1="90" y1="135" x2="630" y2="135"></line>
+                  <line x1="90" y1="82.5" x2="630" y2="82.5"></line>
+                  <line x1="90" y1="30" x2="630" y2="30"></line>
+                </g>
+
+                <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+                <text class="tick-label" x="90" y="368" text-anchor="middle">0</text>
+                <text class="tick-label" x="198" y="368" text-anchor="middle">2</text>
+                <text class="tick-label" x="306" y="368" text-anchor="middle">4</text>
+                <text class="tick-label" x="414" y="368" text-anchor="middle">6</text>
+                <text class="tick-label" x="522" y="368" text-anchor="middle">8</text>
+                <text class="tick-label" x="630" y="368" text-anchor="middle">10</text>
+                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                <text class="tick-label" x="72" y="296.5" text-anchor="end">1</text>
+                <text class="tick-label" x="72" y="244" text-anchor="end">2</text>
+                <text class="tick-label" x="72" y="191.5" text-anchor="end">3</text>
+                <text class="tick-label" x="72" y="139" text-anchor="end">4</text>
+                <text class="tick-label" x="72" y="86.5" text-anchor="end">5</text>
+                <text class="tick-label" x="72" y="34" text-anchor="end">6</text>
+                <text class="axis-label" x="360" y="405" text-anchor="middle">Wing length (cm)</text>
+                <text
+                  class="axis-label"
+                  x="24"
+                  y="190"
+                  text-anchor="middle"
+                  transform="rotate(-90 24 190)"
+                >
+                  Fall time (s)
+                </text>
+
+                <path id="mistakeLinePath" class="line-path mistake-line" d=""></path>
+                <g id="mistakePointsLayer"></g>
+                <g id="correctPointGhost" class="correct-point-ghost" aria-hidden="true">
+                  <line x1="522" y1="82.5" x2="522" y2="187.5"></line>
+                  <circle cx="522" cy="82.5" r="10"></circle>
+                  <text x="540" y="78">Correct: (8, 5)</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-next" id="mistakeNext" hidden>
+          <p>
+            One misplaced point can change the pattern a reader sees. Accuracy protects the graph&rsquo;s message.
+          </p>
+          <button type="button" class="general-button" id="goToStoryButton">
+            Read a graph carefully <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="section locked" id="read-story">
+        <h2 class="section-title">4. Read the Story in the Graph</h2>
+
+        <div class="analysis-grid">
+          <div class="graph-stage-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Yeast activity: completed graph</h3>
+                <p>Read from left to right and look for where the direction changes.</p>
+              </div>
+              <span class="graph-badge">Analyse</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg
+                class="graph-svg"
+                id="analysisGraphSvg"
+                viewBox="0 0 700 430"
+                role="img"
+                aria-label="Completed line graph of temperature and balloon circumference"
+              >
+                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+                <g class="graph-grid" aria-hidden="true">
+                  <line x1="90" y1="345" x2="630" y2="345"></line>
+                  <line x1="90" y1="292.5" x2="630" y2="292.5"></line>
+                  <line x1="90" y1="240" x2="630" y2="240"></line>
+                  <line x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                  <line x1="90" y1="135" x2="630" y2="135"></line>
+                  <line x1="90" y1="82.5" x2="630" y2="82.5"></line>
+                  <line x1="90" y1="30" x2="630" y2="30"></line>
+                </g>
+                <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+                <text class="tick-label" x="90" y="368" text-anchor="middle">10</text>
+                <text class="tick-label" x="225" y="368" text-anchor="middle">20</text>
+                <text class="tick-label" x="360" y="368" text-anchor="middle">30</text>
+                <text class="tick-label" x="495" y="368" text-anchor="middle">40</text>
+                <text class="tick-label" x="630" y="368" text-anchor="middle">50</text>
+                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                <text class="tick-label" x="72" y="296.5" text-anchor="end">5</text>
+                <text class="tick-label" x="72" y="244" text-anchor="end">10</text>
+                <text class="tick-label" x="72" y="191.5" text-anchor="end">15</text>
+                <text class="tick-label" x="72" y="139" text-anchor="end">20</text>
+                <text class="tick-label" x="72" y="86.5" text-anchor="end">25</text>
+                <text class="tick-label" x="72" y="34" text-anchor="end">30</text>
+                <text class="axis-label" x="360" y="405" text-anchor="middle">Temperature (°C)</text>
+                <text
+                  class="axis-label"
+                  x="24"
+                  y="190"
+                  text-anchor="middle"
+                  transform="rotate(-90 24 190)"
+                >
+                  Balloon circumference (cm)
+                </text>
+                <path
+                  class="line-path static-line"
+                  d="M 90 282 L 225 219 L 360 93 L 495 156 L 630 261"
+                ></path>
+                <g class="static-points" aria-hidden="true">
+                  <circle cx="90" cy="282" r="9"></circle>
+                  <circle cx="225" cy="219" r="9"></circle>
+                  <circle cx="360" cy="93" r="9"></circle>
+                  <circle cx="495" cy="156" r="9"></circle>
+                  <circle cx="630" cy="261" r="9"></circle>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="analysis-question-card">
+            <div class="analysis-progress" id="storyProgress">Question 1 of 3</div>
+            <h3 id="storyQuestion">Where is the highest point on the graph?</h3>
+            <div class="challenge-choice-grid" id="storyOptions"></div>
+
+            <div class="challenge-feedback" id="storyFeedback" role="status" aria-live="polite">
+              <strong>Use both axes.</strong>
+              Find the highest point, then trace down to its temperature.
+            </div>
+
+            <button type="button" class="general-button analysis-next-button" id="storyNextButton" hidden>
+              Next question
+            </button>
+          </div>
+        </div>
+
+        <div class="section-next" id="storySectionNext" hidden>
+          <p>
+            The graph rises to a peak at 30°C and then falls. Now compare that pattern with the prediction.
+          </p>
+          <button type="button" class="general-button" id="goToPredictionButton">
+            Test the prediction <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="section locked" id="test-prediction">
+        <h2 class="section-title">5. Does the Evidence Support the Prediction?</h2>
+
+        <div class="prediction-analysis-card">
+          <div class="prediction-recap">
+            <p class="context-label">Original prediction</p>
+            <blockquote>
+              As temperature increases, the balloon circumference will continue to increase
+              because warmer conditions make yeast more active.
+            </blockquote>
+          </div>
+
+          <div id="predictionDecision">
+            <span class="challenge-step-label">Make a decision from the graph</span>
+            <p class="challenge-question">Is this prediction supported by all of the data?</p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-prediction-decision="supported">
+                Yes, supported
+              </button>
+              <button type="button" class="challenge-choice" data-prediction-decision="not-supported">
+                No, not supported by all data
+              </button>
+              <button type="button" class="challenge-choice" data-prediction-decision="unknown">
+                The graph cannot tell us
+              </button>
+            </div>
+          </div>
+
+          <div id="predictionEvidence" hidden>
+            <span class="challenge-step-label">Choose the evidence</span>
+            <p class="challenge-question">Which statement best explains your decision?</p>
+            <div class="challenge-choice-grid">
+              <button type="button" class="challenge-choice" data-prediction-evidence="peak">
+                Circumference increased to 24 cm at 30°C, then decreased to 18 cm and 8 cm at higher temperatures.
+              </button>
+              <button type="button" class="challenge-choice" data-prediction-evidence="warm">
+                The warmest temperature must always produce the largest balloon.
+              </button>
+              <button type="button" class="challenge-choice" data-prediction-evidence="first">
+                The first point was lower than the second point.
+              </button>
+            </div>
+          </div>
+
+          <div class="challenge-feedback" id="predictionFeedback" role="status" aria-live="polite">
+            <strong>A prediction is tested against the whole pattern.</strong>
+            Do not decide from only one pair of points.
+          </div>
+
+          <div class="evidence-conclusion" id="evidenceConclusion" hidden>
+            <span class="conclusion-icon" aria-hidden="true">🔬</span>
+            <div>
+              <p class="context-label">Evidence-based conclusion</p>
+              <p>
+                The prediction is <strong>not supported by all the data</strong>. Balloon circumference
+                increased from 10°C to 30°C, but decreased at 40°C and 50°C.
+              </p>
+              <small>
+                &ldquo;Not supported&rdquo; does not mean the prediction was silly. It means the results tell us
+                to revise our explanation.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="lesson-complete-card" id="lessonCompleteCard" hidden>
+          <span aria-hidden="true">🏆</span>
+          <div>
+            <p class="context-label">Lesson complete</p>
+            <h3>You built, checked and analysed a line graph.</h3>
+            <p>
+              You used precise axis labels, plotted coordinates from a table, identified a mistake,
+              described a trend and tested a reasoned prediction against evidence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="return-to-top">
+        <a class="return-to-top-button general-button" href="#">
+          <p class="bounce-symbol">↑</p>
+          <p>Return to Top</p>
+        </a>
+      </div>
+    </main>
+
+    <script src="../scripts/common_functions.js"></script>
+    <script src="../scripts/lesson4_scripts/lesson4.js"></script>
+  </body>
+</html>
