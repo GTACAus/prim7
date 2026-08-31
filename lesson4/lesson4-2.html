@@ -11,6 +11,7 @@
     />
     <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/lesson4_styles/lesson4.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/lesson4_styles/spotlight-game.css" rel="stylesheet" type="text/css" />
     <!-- Late print and mobile overrides: must stay before lesson3.css,
          which has its own @media print block. -->
     <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
@@ -221,15 +222,6 @@
               Bar height is what we compare, so using zero as the baseline keeps the visual comparison fair.
             </div>
 
-            <div class="graph-button-stack">
-              <button type="button" class="general-button" id="buildBarButton">Build first bar</button>
-              <button type="button" class="general-button" id="showBarValuesButton" disabled>Show values</button>
-              <button type="button" class="general-button" id="findHighestBarButton" disabled>Find the highest</button>
-              <div class="reset-button-container">
-                <button type="button" class="general-button reset-btn" id="resetBarGraphButton">Reset</button>
-              </div>
-            </div>
-
             <div class="teaching-feedback" id="barTeachingFeedback" role="status" aria-live="polite">
               <strong>Look at the categories first.</strong>
               Carpet, grass, wood and tile are separate groups, so each one gets its own bar.
@@ -304,6 +296,17 @@
               </svg>
             </div>
           </div>
+
+          <div class="graph-controls-footer">
+            <div class="graph-button-stack">
+              <button type="button" class="general-button" id="buildBarButton">Build first bar</button>
+              <button type="button" class="general-button" id="showBarValuesButton" disabled>Show values</button>
+              <button type="button" class="general-button" id="findHighestBarButton" disabled>Find the highest</button>
+              <div class="reset-button-container">
+                <button type="button" class="general-button reset-btn" id="resetBarGraphButton">Reset</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="graph-rule-row">
@@ -326,13 +329,21 @@
              BAR GRAPH STUDENT CHALLENGE
              ================================================== -->
         <section class="section student-challenge" id="bar-practice">
-          <div class="student-challenge-heading">
-            <div>
-              <p class="challenge-kicker">Your turn · formative check</p>
-              <h3>📊 Build the Bars</h3>
-              <p>Translate a data table into bar heights, then use the graph to compare categories.</p>
+          <h2 class="section-title">Build the Bars</h2>
+          <div class="diagram-activity diagram-box">
+            <p class="challenge-kicker">Your turn · formative check</p>
+            <p>Translate a data table into bar heights, then use the graph to compare categories.</p>
+          </div>
+
+          <div class="challenge-spotlight-game">
+            <div class="wrap">
+              <div class="stage" id="stage">
+                <img id="photo" class="" src="../images/lesson4/cave.jpg" alt="Cave interior">
+                <div class="glow" id="glow"></div>
+                <div class="darken-overlay"></div>
+                <!-- <div class="vignette"></div> -->
+              </div>
             </div>
-            <span class="challenge-badge" id="barPracticeBadge">Build</span>
           </div>
 
           <div class="challenge-grid">
@@ -353,29 +364,6 @@
                   <tr><td>Pavement</td><td>3</td></tr>
                 </tbody>
               </table>
-
-              <div class="bar-builder-controls" id="barPracticeControls">
-                <div class="bar-builder-row" data-bar-row="0">
-                  <label for="barPractice0">Garden bed</label>
-                  <input id="barPractice0" type="range" min="0" max="20" step="1" value="0" data-bar-practice="0" />
-                  <output for="barPractice0">0</output>
-                </div>
-                <div class="bar-builder-row" data-bar-row="1">
-                  <label for="barPractice1">Grass</label>
-                  <input id="barPractice1" type="range" min="0" max="20" step="1" value="0" data-bar-practice="1" />
-                  <output for="barPractice1">0</output>
-                </div>
-                <div class="bar-builder-row" data-bar-row="2">
-                  <label for="barPractice2">Under log</label>
-                  <input id="barPractice2" type="range" min="0" max="20" step="1" value="0" data-bar-practice="2" />
-                  <output for="barPractice2">0</output>
-                </div>
-                <div class="bar-builder-row" data-bar-row="3">
-                  <label for="barPractice3">Pavement</label>
-                  <input id="barPractice3" type="range" min="0" max="20" step="1" value="0" data-bar-practice="3" />
-                  <output for="barPractice3">0</output>
-                </div>
-              </div>
 
               <button type="button" class="general-button" id="checkBarPracticeButton" style="margin-top: 14px;">
                 Check my bars
@@ -409,6 +397,7 @@
                   <h3>Your bar graph</h3>
                   <p>Each slider changes one category without changing the others.</p>
                 </div>
+                <span class="challenge-badge" id="barPracticeBadge">Build</span>
                 <span class="graph-badge">Student graph</span>
               </div>
 
@@ -446,6 +435,29 @@
                   <rect class="practice-bar" data-practice-bar="2" x="398" y="345" width="84" height="0" rx="6" fill="var(--blue)"></rect>
                   <rect class="practice-bar" data-practice-bar="3" x="538" y="345" width="84" height="0" rx="6" fill="var(--lavender)"></rect>
                 </svg>
+              </div>
+
+              <div class="bar-builder-controls" id="barPracticeControls">
+                <div class="bar-builder-row" data-bar-row="0">
+                  <label for="barPractice0">Garden bed</label>
+                  <input id="barPractice0" type="range" min="0" max="20" step="1" value="0" data-bar-practice="0" />
+                  <output for="barPractice0">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="1">
+                  <label for="barPractice1">Grass</label>
+                  <input id="barPractice1" type="range" min="0" max="20" step="1" value="0" data-bar-practice="1" />
+                  <output for="barPractice1">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="2">
+                  <label for="barPractice2">Under log</label>
+                  <input id="barPractice2" type="range" min="0" max="20" step="1" value="0" data-bar-practice="2" />
+                  <output for="barPractice2">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="3">
+                  <label for="barPractice3">Pavement</label>
+                  <input id="barPractice3" type="range" min="0" max="20" step="1" value="0" data-bar-practice="3" />
+                  <output for="barPractice3">0</output>
+                </div>
               </div>
 
               <div class="graph-detective challenge-hidden" id="barDetective" hidden>
@@ -538,6 +550,7 @@
 
     <!-- Reuse shared site functions. Graph prototype behaviour stays inline for now. -->
     <script src="../scripts/common_functions.js"></script>
+    <script src="../scripts/lesson4_scripts/spotlight_game.js"></script>
 
     <script>
         const dev = false;
