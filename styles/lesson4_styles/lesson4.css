@@ -84,7 +84,7 @@
 }
 .graph-stage-heading {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: flex-start;
   gap: 12px;
   margin-bottom: 10px;
@@ -588,9 +588,10 @@
 }
 .challenge-grid {
   display: grid;
-  grid-template-columns: minmax(270px, 0.82fr) minmax(0, 1.38fr);
+  grid-template-columns: minmax(0, 1.38fr) minmax(270px, 0.82fr);
   gap: 18px;
   align-items: start;
+  margin-bottom: 20px;
 }
 .challenge-spotlight-game {
   margin: 0 0 20px;
@@ -609,6 +610,7 @@
   border-radius: 18px;
 }
 .challenge-panel {
+  margin-bottom: 20px;
   padding: 18px;
 }
 .challenge-visual {
