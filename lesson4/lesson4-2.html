@@ -552,273 +552,6 @@
             label: "← To Part A",
             href: "lesson4.html"
         };
-      /* ==================================================
-         LINE GRAPH PROTOTYPE
-         ================================================== */
-
-      const lineData = [
-        { x: 10, y: 6 },
-        { x: 20, y: 12 },
-        { x: 30, y: 24 },
-        { x: 40, y: 18 },
-        { x: 50, y: 8 }
-      ];
-
-      const linePlot = {
-        left: 90,
-        right: 630,
-        top: 30,
-        bottom: 345,
-        xMin: 10,
-        xMax: 50,
-        yMin: 0,
-        yMax: 30
-      };
-
-      let lineXAxisShown = false;
-      let lineYAxisShown = false;
-      let plottedLinePoints = 0;
-      let lineConnected = false;
-
-      function lineX(value) {
-        return linePlot.left +
-          ((value - linePlot.xMin) / (linePlot.xMax - linePlot.xMin)) *
-          (linePlot.right - linePlot.left);
-      }
-
-      function lineY(value) {
-        return linePlot.bottom -
-          ((value - linePlot.yMin) / (linePlot.yMax - linePlot.yMin)) *
-          (linePlot.bottom - linePlot.top);
-      }
-
-      function setLineFeedback(title, message) {
-        const box = document.getElementById("lineTeachingFeedback");
-        box.innerHTML = "";
-
-        const strong = document.createElement("strong");
-        strong.textContent = title;
-
-        const text = document.createTextNode(message);
-
-        box.appendChild(strong);
-        box.appendChild(text);
-      }
-
-      function buildLinePointElements() {
-        const layer = document.getElementById("linePointsLayer");
-        layer.innerHTML = "";
-
-        lineData.forEach(function(point, index) {
-          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-          circle.setAttribute("class", "line-point");
-          circle.setAttribute("cx", lineX(point.x));
-          circle.setAttribute("cy", lineY(point.y));
-          circle.setAttribute("r", "8");
-          circle.setAttribute("tabindex", "-1");
-          circle.setAttribute("role", "button");
-          circle.setAttribute(
-            "aria-label",
-            point.x + " degrees Celsius, " + point.y + " centimetres"
-          );
-          circle.dataset.index = index;
-
-          circle.addEventListener("mouseenter", function() {
-            if (index < plottedLinePoints) showLinePointGuides(index);
-          });
-
-          circle.addEventListener("focus", function() {
-            if (index < plottedLinePoints) showLinePointGuides(index);
-          });
-
-          circle.addEventListener("click", function() {
-            if (index < plottedLinePoints) showLinePointGuides(index);
-          });
-
-          layer.appendChild(circle);
-        });
-      }
-
-      function showLinePointGuides(index) {
-        const point = lineData[index];
-        const px = lineX(point.x);
-        const py = lineY(point.y);
-
-        const vertical = document.getElementById("lineGuideVertical");
-        const horizontal = document.getElementById("lineGuideHorizontal");
-
-        vertical.setAttribute("x1", px);
-        vertical.setAttribute("y1", py);
-        vertical.setAttribute("x2", px);
-        vertical.setAttribute("y2", linePlot.bottom);
-        vertical.classList.add("visible");
-
-        horizontal.setAttribute("x1", linePlot.left);
-        horizontal.setAttribute("y1", py);
-        horizontal.setAttribute("x2", px);
-        horizontal.setAttribute("y2", py);
-        horizontal.classList.add("visible");
-
-        const callout = document.getElementById("linePointCallout");
-        const calloutBox = document.getElementById("linePointCalloutBox");
-        const text1 = document.getElementById("linePointCalloutText1");
-        const text2 = document.getElementById("linePointCalloutText2");
-
-        let calloutX = px + 18;
-        let calloutY = py - 72;
-
-        if (calloutX + 174 > 680) calloutX = px - 192;
-        if (calloutY < 12) calloutY = py + 18;
-
-        calloutBox.setAttribute("x", calloutX);
-        calloutBox.setAttribute("y", calloutY);
-
-        text1.setAttribute("x", calloutX + 12);
-        text1.setAttribute("y", calloutY + 22);
-        text1.textContent = "x = " + point.x + " °C";
-
-        text2.setAttribute("x", calloutX + 12);
-        text2.setAttribute("y", calloutY + 42);
-        text2.textContent = "y = " + point.y + " cm";
-
-        callout.setAttribute("opacity", "1");
-
-        const rows = document.querySelectorAll("#lineDataBody tr");
-        rows.forEach(function(row, rowIndex) {
-          row.classList.toggle("current-row", rowIndex === index);
-        });
-
-        setLineFeedback(
-          "Read the point as a pair.",
-          " At " + point.x + " °C, the balloon circumference was " + point.y + " cm. The dotted lines connect the point back to both axes."
-        );
-      }
-
-      function showLineXAxis() {
-        lineXAxisShown = true;
-        document.getElementById("lineXAxisGroup").classList.add("visible");
-        document.getElementById("showXAxisButton").disabled = true;
-        document.getElementById("showYAxisButton").disabled = false;
-
-        setLineFeedback(
-          "The x-axis shows what changed.",
-          " Temperature is the independent variable, so it runs horizontally from lower to higher values."
-        );
-      }
-
-      function showLineYAxis() {
-        lineYAxisShown = true;
-        document.getElementById("lineYAxisGroup").classList.add("visible");
-        document.getElementById("showYAxisButton").disabled = true;
-        document.getElementById("plotPointButton").disabled = false;
-
-        setLineFeedback(
-          "The y-axis shows what was measured.",
-          " Balloon circumference is the dependent variable, so each point will rise to the measured height."
-        );
-      }
-
-      function plotNextLinePoint() {
-        if (!lineXAxisShown || !lineYAxisShown || plottedLinePoints >= lineData.length) {
-          return;
-        }
-
-        const pointElements = document.querySelectorAll(".line-point");
-        const index = plottedLinePoints;
-        pointElements[index].classList.add("visible");
-        pointElements[index].setAttribute("tabindex", "0");
-        plottedLinePoints += 1;
-
-        showLinePointGuides(index);
-
-        const plotButton = document.getElementById("plotPointButton");
-
-        if (plottedLinePoints < lineData.length) {
-          plotButton.textContent = "Plot next point (" + (plottedLinePoints + 1) + " of " + lineData.length + ")";
-        } else {
-          plotButton.textContent = "All points plotted";
-          plotButton.disabled = true;
-          document.getElementById("connectPointsButton").disabled = false;
-
-          setLineFeedback(
-            "Now we can see the data as five separate points.",
-            " Before connecting them, notice that the highest measured value is at 30 °C."
-          );
-        }
-      }
-
-      function connectLinePoints() {
-        if (plottedLinePoints !== lineData.length || lineConnected) {
-          return;
-        }
-
-        const path = document.getElementById("linePath");
-        const d = lineData.map(function(point, index) {
-          return (index === 0 ? "M " : "L ") + lineX(point.x) + " " + lineY(point.y);
-        }).join(" ");
-
-        path.setAttribute("d", d);
-
-        const length = path.getTotalLength();
-        path.style.strokeDasharray = length;
-        path.style.strokeDashoffset = length;
-        path.getBoundingClientRect();
-        path.style.transition = "stroke-dashoffset 0.9s ease";
-        path.style.strokeDashoffset = "0";
-
-        lineConnected = true;
-        document.getElementById("connectPointsButton").disabled = true;
-
-        setLineFeedback(
-          "The line reveals the trend.",
-          " Balloon size increases as the temperature rises to 30 °C, then decreases. The line helps us follow that change across ordered temperatures."
-        );
-      }
-
-      function resetLineGraph() {
-        lineXAxisShown = false;
-        lineYAxisShown = false;
-        plottedLinePoints = 0;
-        lineConnected = false;
-
-        document.getElementById("lineXAxisGroup").classList.remove("visible");
-        document.getElementById("lineYAxisGroup").classList.remove("visible");
-
-        document.querySelectorAll(".line-point").forEach(function(point) {
-          point.classList.remove("visible");
-          point.setAttribute("tabindex", "-1");
-        });
-
-        document.querySelectorAll("#lineDataBody tr").forEach(function(row) {
-          row.classList.remove("current-row");
-        });
-
-        document.getElementById("lineGuideVertical").classList.remove("visible");
-        document.getElementById("lineGuideHorizontal").classList.remove("visible");
-        document.getElementById("linePointCallout").setAttribute("opacity", "0");
-
-        const path = document.getElementById("linePath");
-        path.setAttribute("d", "");
-        path.style.transition = "none";
-        path.style.strokeDasharray = "none";
-        path.style.strokeDashoffset = "0";
-
-        const xButton = document.getElementById("showXAxisButton");
-        const yButton = document.getElementById("showYAxisButton");
-        const plotButton = document.getElementById("plotPointButton");
-        const connectButton = document.getElementById("connectPointsButton");
-
-        xButton.disabled = false;
-        yButton.disabled = true;
-        plotButton.disabled = true;
-        connectButton.disabled = true;
-        plotButton.textContent = "Plot first point";
-
-        setLineFeedback(
-          "Start with the x-axis.",
-          " The x-axis is horizontal. In this fair test, it shows the variable that was changed."
-        );
-      }
 
       /* ==================================================
          BAR GRAPH PROTOTYPE
@@ -2035,15 +1768,8 @@
         if (typeof initialiseTeacherMenu === "function") {
           initialiseTeacherMenu(lesson4SectionIds, "line-graph", lesson4TeacherBackLink);
         }
-        
-        buildLinePointElements();
-        buildPieElements();
 
-        document.getElementById("showXAxisButton").addEventListener("click", showLineXAxis);
-        document.getElementById("showYAxisButton").addEventListener("click", showLineYAxis);
-        document.getElementById("plotPointButton").addEventListener("click", plotNextLinePoint);
-        document.getElementById("connectPointsButton").addEventListener("click", connectLinePoints);
-        document.getElementById("resetLineGraphButton").addEventListener("click", resetLineGraph);
+        // buildPieElements();
 
         document.getElementById("buildBarButton").addEventListener("click", buildNextBar);
         document.getElementById("showBarValuesButton").addEventListener("click", showBarValues);
@@ -2056,26 +1782,9 @@
           });
         });
 
-        document.getElementById("addSliceButton").addEventListener("click", addNextPieSlice);
-        document.getElementById("showPiePercentButton").addEventListener("click", showPiePercentages);
-        document.getElementById("resetPieChartButton").addEventListener("click", resetPieChart);
-
-        document.querySelectorAll("[data-line-axis-choice]").forEach(function(button) {
-          button.addEventListener("click", function() { handleLineAxisChoice(button); });
-        });
-        document.getElementById("linePracticeSvg").addEventListener("pointermove", updateLinePracticeCrosshair);
-        document.getElementById("linePracticeSvg").addEventListener("pointerleave", function() {
-          document.getElementById("linePracticeCrossV").classList.remove("visible");
-          document.getElementById("linePracticeCrossH").classList.remove("visible");
-        });
-        document.getElementById("linePracticeSvg").addEventListener("click", plotLinePracticePoint);
-        document.querySelectorAll("[data-line-next]").forEach(function(button) {
-          button.addEventListener("click", function() { handleLineNextChoice(button); });
-        });
-        document.querySelectorAll("[data-line-trend]").forEach(function(button) {
-          button.addEventListener("click", function() { handleLineTrendChoice(button); });
-        });
-        document.getElementById("resetLinePracticeButton").addEventListener("click", resetLinePractice);
+        // document.getElementById("addSliceButton").addEventListener("click", addNextPieSlice);
+        // document.getElementById("showPiePercentButton").addEventListener("click", showPiePercentages);
+        // document.getElementById("resetPieChartButton").addEventListener("click", resetPieChart);
 
         document.querySelectorAll("[data-bar-practice]").forEach(function(input) {
           input.addEventListener("input", function() { handleBarPracticeInput(input); });
@@ -2089,26 +1798,24 @@
         });
         document.getElementById("resetBarPracticeButton").addEventListener("click", resetBarPractice);
 
-        document.querySelectorAll("[data-pie-total]").forEach(function(button) {
-          button.addEventListener("click", function() { handlePieTotalChoice(button); });
-        });
-        document.getElementById("resetPiePracticeButton").addEventListener("click", resetPiePractice);
+        // document.querySelectorAll("[data-pie-total]").forEach(function(button) {
+        //   button.addEventListener("click", function() { handlePieTotalChoice(button); });
+        // });
+        // document.getElementById("resetPiePracticeButton").addEventListener("click", resetPiePractice);
 
-        document.querySelectorAll("[data-graph-choice]").forEach(function(button) {
-          button.addEventListener("click", function() { handleGraphChoice(button); });
-        });
-        document.getElementById("nextScenarioButton").addEventListener("click", nextGraphChoiceScenario);
-        document.getElementById("resetScenarioButton").addEventListener("click", resetGraphChoiceChallenge);
+        // document.querySelectorAll("[data-graph-choice]").forEach(function(button) {
+        //   button.addEventListener("click", function() { handleGraphChoice(button); });
+        // });
+        // document.getElementById("nextScenarioButton").addEventListener("click", nextGraphChoiceScenario);
+        // document.getElementById("resetScenarioButton").addEventListener("click", resetGraphChoiceChallenge);
 
-        resetLineGraph();
         resetBarGraph();
-        resetPieChart();
+        // resetPieChart();
 
-        buildPiePracticeElements();
-        resetLinePractice();
         resetBarPractice();
-        resetPiePractice();
-        resetGraphChoiceChallenge();
+        // buildPiePracticeElements();
+        // resetPiePractice();
+        // resetGraphChoiceChallenge();
       });
     </script>
   </body>
