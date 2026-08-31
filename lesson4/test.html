@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 4 - Line Graphs</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
+  <link href="../styles/lesson4_styles/lesson4.css" rel="stylesheet" type="text/css" />
+  <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
+
+  <style>
+    .lesson4-page { padding-top: 118px; }
+    .lesson4-intro { margin-bottom: 22px; }
+    .lesson4-intro .lesson-summary { max-width: 780px; }
+
+    .focus-question {
+      margin: 0 0 18px;
+      padding: 16px 18px;
+      background: var(--soft-blue);
+      border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--blue);
+      border-radius: 16px;
+      line-height: 1.5;
+    }
+
+    .lesson-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .lesson-flow-card {
+      padding: 14px;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .lesson-flow-card strong { display: block; margin-bottom: 4px; }
+    .lesson-flow-card span { color: var(--muted); font-size: .9rem; }
+
+    .question-prediction-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0 20px;
+    }
+
+    .science-context-card {
+      padding: 16px 18px;
+      border: 2px solid var(--charcoal);
+      border-radius: 16px;
+      background: white;
+    }
+
+    .science-context-card:first-child { border-top: 8px solid var(--yellow); }
+    .science-context-card:last-child { border-top: 8px solid var(--lavender); }
+    .science-context-card p { margin: 6px 0 0; line-height: 1.5; }
+    .science-context-label {
+      margin: 0;
+      color: var(--purple);
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .graph-learning-grid,
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: minmax(270px, .8fr) minmax(0, 1.6fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .graph-control-card,
+    .graph-stage-card,
+    .challenge-panel,
+    .challenge-visual {
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+      background: white;
+    }
+
+    .graph-control-card,
+    .challenge-panel { padding: 20px; }
+    .graph-stage-card,
+    .challenge-visual { padding: 18px; overflow: hidden; }
+
+    .graph-stage-heading,
+    .student-challenge-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .graph-stage-heading h3,
+    .student-challenge-heading h3 { margin: 0; }
+    .graph-stage-heading p,
+    .student-challenge-heading p { margin: 3px 0 0; color: var(--muted); }
+
+    .graph-badge,
+    .challenge-badge {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      font-size: .76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .explicit-step {
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--paper);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .explicit-step-kicker,
+    .challenge-step-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 4px 8px;
+      background: var(--soft-yellow);
+      border: 1px solid var(--charcoal);
+      border-radius: 999px;
+      font-size: .76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .axis-formula {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1.2fr;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .axis-formula-part {
+      padding: 10px 8px;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .axis-formula-result { background: var(--soft-green); }
+
+    .mini-data-table,
+    .practice-table {
+      width: 100%;
+      margin: 14px 0 0;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .mini-data-table th,
+    .mini-data-table td,
+    .practice-table th,
+    .practice-table td {
+      padding: 9px 10px;
+      border: 1px solid var(--charcoal);
+      text-align: center;
+    }
+
+    .mini-data-table th,
+    .practice-table th { background: var(--soft-yellow); }
+    .mini-data-table th:last-child,
+    .practice-table th:last-child { background: var(--soft-purple); }
+    .mini-data-table tr.current-row td,
+    .practice-table tr.active-practice-row td { background: var(--soft-green); font-weight: 700; }
+    .practice-table tr.checked-row td { background: var(--mint); }
+
+    .graph-button-stack,
+    .challenge-choice-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .challenge-choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .challenge-choice-grid.three-choice { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .challenge-choice {
+      min-height: 48px;
+      padding: 10px 12px;
+      background: white;
+      color: var(--text);
+      border: 2px solid var(--charcoal);
+      border-radius: 12px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .challenge-choice:hover { background: var(--soft-blue); }
+    .challenge-choice.correct-choice { background: var(--soft-green); }
+    .challenge-choice.try-again-choice { background: var(--soft-orange); }
+
+    .teaching-feedback,
+    .challenge-feedback {
+      min-height: 74px;
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--soft-blue);
+      border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--blue);
+      border-radius: 14px;
+      line-height: 1.5;
+    }
+
+    .challenge-feedback.success { background: var(--soft-green); border-left-color: var(--green); }
+    .challenge-feedback.try-again { background: var(--soft-orange); border-left-color: var(--orange); }
+    .teaching-feedback strong,
+    .challenge-feedback strong { display: block; margin-bottom: 3px; }
+
+    .graph-svg-wrap { width: 100%; overflow-x: auto; }
+    .graph-svg { display: block; width: 100%; min-width: 560px; height: auto; }
+    .graph-svg text { font-family: "DM Sans", Arial, sans-serif; fill: var(--text); }
+    .graph-grid-line { stroke: rgba(48,51,47,.16); stroke-width: 1; }
+    .graph-axis { stroke: var(--charcoal); stroke-width: 3; stroke-linecap: round; }
+    .axis-group { opacity: 0; transition: opacity .35s ease; }
+    .axis-group.visible { opacity: 1; }
+    .axis-label { font-size: 15px; font-weight: 700; }
+    .tick-label { font-size: 12px; font-weight: 600; }
+    .point-guide,
+    .practice-crosshair { stroke: var(--purple); stroke-width: 2; stroke-dasharray: 7 7; opacity: 0; }
+    .point-guide.visible,
+    .practice-crosshair.visible { opacity: .72; }
+    .line-point,
+    .practice-student-point,
+    .mistake-point { fill: var(--orange); stroke: var(--charcoal); stroke-width: 3; }
+    .line-point { opacity: 0; cursor: pointer; }
+    .line-point.visible { opacity: 1; }
+    #linePath,
+    #linePracticePath,
+    #mistakeCorrectPath { fill: none; stroke: var(--purple); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    #mistakeWrongPath { fill: none; stroke: var(--orange); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .student-challenge {
+      margin-top: 28px;
+      padding: 24px;
+      background: linear-gradient(to bottom, var(--paper), var(--soft-blue) 180%);
+      border: 3px solid var(--charcoal);
+      border-radius: 24px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .challenge-kicker {
+      margin: 0 0 4px !important;
+      color: var(--purple) !important;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .challenge-question { line-height: 1.5; }
+    .plot-prompt {
+      margin-top: 10px;
+      padding: 12px 14px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-radius: 12px;
+    }
+
+    .axis-builder-row { margin-top: 14px; }
+    .axis-builder-row > strong { display: block; margin-bottom: 8px; }
+
+    .check-row-button { width: 100%; margin-top: 10px; }
+
+    .mistake-layout,
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .mistake-point { cursor: pointer; }
+    .mistake-point:hover { fill: var(--yellow); }
+    .mistake-point.fixed { fill: var(--green); }
+
+    .prediction-result {
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--soft-purple);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+      line-height: 1.5;
+    }
+
+    .analysis-step { margin-bottom: 18px; }
+    .analysis-step[hidden] { display: none; }
+
+    .section.locked { opacity: .45; pointer-events: none; }
+    .section.completed { opacity: 1; }
+
+    @media (max-width: 900px) {
+      .lesson-flow,
+      .graph-learning-grid,
+      .challenge-grid,
+      .question-prediction-grid,
+      .mistake-layout,
+      .analysis-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .lesson4-page { padding-top: 126px; }
+      .challenge-choice-grid,
+      .challenge-choice-grid.three-choice { grid-template-columns: 1fr; }
+      .axis-formula { grid-template-columns: 1fr; }
+      .axis-formula > span { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .axis-group { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header-wrapper">
+    <header class="page-header">
+      <button class="general-button home-button" type="button" onclick="window.location.href='../index.html'">
+        <p class="bounce-symbol">🏠</p><p>Home</p>
+      </button>
+      <button class="general-button glossary-button" type="button" onclick="openGlossary()">
+        <p class="bounce-symbol">📖</p><p>Vocabulary</p>
+      </button>
+    </header>
+  </div>
+
+  <div class="modal" id="glossaryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div><p class="teacher-label">Lesson 4: Line Graphs</p><h2>Glossary Terms</h2></div>
+        <button type="button" class="close-button" onclick="closeGlossary()" aria-label="Close glossary">×</button>
+      </div>
+      <div class="vocab-list">
+        <div class="vocab-card"><h3>Line graph</h3><p>A graph that uses plotted data points and lines to make a pattern or trend easier to see.</p></div>
+        <div class="vocab-card"><h3>X-axis</h3><p>The horizontal axis. In this fair test it shows the independent variable — what was changed.</p></div>
+        <div class="vocab-card"><h3>Y-axis</h3><p>The vertical axis. In this fair test it shows the dependent variable — what was measured.</p></div>
+        <div class="vocab-card"><h3>Coordinate</h3><p>A pair of values that tells us where one data point belongs on a graph.</p></div>
+        <div class="vocab-card"><h3>Trend</h3><p>The overall pattern in how the measured values change.</p></div>
+        <div class="vocab-card"><h3>Reasoned prediction</h3><p>A prediction that uses scientific knowledge to explain what you expect to happen.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="teacher-modal" id="teacherModal">
+    <div class="teacher-panel">
+      <div class="teacher-panel-header">
+        <div><p class="teacher-label">Teacher tools</p><h2>Jump to an activity</h2></div>
+        <button type="button" class="teacher-close" onclick="closeTeacherMenu()" aria-label="Close teacher menu">×</button>
+      </div>
+      <div class="teacher-section-list"></div>
+      <div class="teacher-actions">
+        <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">Show all sections</button>
+        <button type="button" class="teacher-secondary-button" onclick="teacherResetView()">Reset student view</button>
+      </div>
+      <p class="teacher-note">Jumping changes navigation only. Reset student view clears every answer on this page.</p>
+    </div>
+  </div>
+
+  <main class="page lesson4-page">
+    <header class="lesson-intro lesson4-intro">
+      <div class="lesson-heading">
+        <span class="lesson-label">Lesson 4 · Line Graphs</span>
+        <h1 id="teacherTrigger">Reading the Story in Fair-Test Data</h1>
+        <p class="lesson-summary">Scientists use <strong>line graphs</strong> to turn measurements into a visual pattern. In this lesson, you will learn how to label the axes, plot data accurately and use the finished graph to decide what the results mean.</p>
+      </div>
+    </header>
+
+    <div class="intro-grid">
+      <section class="intro-card objectives-card">
+        <p class="intro-eyebrow">Learning objective</p>
+        <p class="learning-objective-text">We are learning how to represent <strong>fair-test data</strong> in a <strong>line graph</strong>.</p>
+        <p class="success-heading">Success criteria</p>
+        <ol class="objective-list">
+          <li>I can identify what belongs on the <strong>x-axis</strong> and <strong>y-axis</strong>.</li>
+          <li>I can label axes with the <strong>variable and unit</strong> and plot data points accurately.</li>
+          <li>I can use a line graph to describe a <strong>pattern or trend</strong> and judge a prediction.</li>
+        </ol>
+      </section>
+
+      <section class="intro-card observation-card">
+        <p class="intro-eyebrow">Think like a scientist</p>
+        <h2>One dataset, a clearer story</h2>
+        <p>A table stores the measurements. A line graph helps us see how the measured result changes as the independent variable changes.</p>
+        <div class="lesson-flow" aria-label="Lesson sequence">
+          <div class="lesson-flow-card"><strong>1 · Read</strong><span>the fair-test data</span></div>
+          <div class="lesson-flow-card"><strong>2 · Build</strong><span>the graph together</span></div>
+          <div class="lesson-flow-card"><strong>3 · Practise</strong><span>with new data</span></div>
+          <div class="lesson-flow-card"><strong>4 · Analyse</strong><span>what the graph says</span></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="section" id="worked-example">
+      <h2 class="section-title">1. From a Data Table to a Line Graph</h2>
+
+      <div class="focus-question"><strong>Focusing question:</strong> How does changing the temperature affect the circumference of a balloon inflated by yeast?</div>
+
+      <div class="question-prediction-grid">
+        <div class="science-context-card">
+          <p class="science-context-label">Testable question</p>
+          <p>How does changing <strong>temperature</strong> affect <strong>balloon circumference</strong>?</p>
+        </div>
+        <div class="science-context-card">
+          <p class="science-context-label">Reasoned prediction</p>
+          <p>As temperature increases, the balloon circumference will continue to increase.</p>
+        </div>
+      </div>
+
+      <div class="graph-learning-grid">
+        <div class="graph-control-card">
+          <h3>Build the graph together</h3>
+          <p>Follow the data from the table into the graph. Each step explains why the graph is built that way.</p>
+
+          <table class="mini-data-table" aria-label="Yeast fair-test data">
+            <thead><tr><th>Temperature (°C)</th><th>Balloon circumference (cm)</th></tr></thead>
+            <tbody id="lineDataBody">
+              <tr><td>10</td><td>6</td></tr>
+              <tr><td>20</td><td>12</td></tr>
+              <tr><td>30</td><td>24</td></tr>
+              <tr><td>40</td><td>18</td></tr>
+              <tr><td>50</td><td>8</td></tr>
+            </tbody>
+          </table>
+
+          <div class="explicit-step" id="workedStepCard">
+            <span class="explicit-step-kicker" id="workedStepKicker">Step 1 · x-axis</span>
+            <div id="workedStepContent">
+              <strong>Start with what the scientist changed.</strong>
+              <p>Temperature is the independent variable, so it belongs on the horizontal x-axis.</p>
+            </div>
+          </div>
+
+          <div class="axis-formula" id="workedAxisFormula" hidden>
+            <div class="axis-formula-part" id="formulaVariable">Temperature</div>
+            <span>+</span>
+            <div class="axis-formula-part" id="formulaUnit">°C</div>
+            <span>=</span>
+            <div class="axis-formula-part axis-formula-result" id="formulaResult">Temperature (°C)</div>
+          </div>
+
+          <div class="graph-button-stack">
+            <button type="button" class="general-button" id="workedNextButton">Show the x-axis</button>
+            <div class="reset-button-container"><button type="button" class="general-button reset-btn" id="resetLineGraphButton">Reset example</button></div>
+          </div>
+
+          <div class="teaching-feedback" id="lineTeachingFeedback" role="status" aria-live="polite">
+            <strong>Look at the testable question.</strong>
+            Which variable did the scientist deliberately change?
+          </div>
+        </div>
+
+        <div class="graph-stage-card">
+          <div class="graph-stage-heading">
+            <div><h3>Yeast fair-test results</h3><p>Watch each table row become a coordinate on the graph.</p></div>
+            <span class="graph-badge">Worked example</span>
+          </div>
+          <div class="graph-svg-wrap">
+            <svg class="graph-svg" id="lineGraphSvg" viewBox="0 0 700 430" role="img" aria-label="Worked line graph of temperature and balloon circumference">
+              <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+              <g aria-hidden="true">
+                <line class="graph-grid-line" x1="90" y1="345" x2="630" y2="345"></line>
+                <line class="graph-grid-line" x1="90" y1="292.5" x2="630" y2="292.5"></line>
+                <line class="graph-grid-line" x1="90" y1="240" x2="630" y2="240"></line>
+                <line class="graph-grid-line" x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                <line class="graph-grid-line" x1="90" y1="135" x2="630" y2="135"></line>
+                <line class="graph-grid-line" x1="90" y1="82.5" x2="630" y2="82.5"></line>
+                <line class="graph-grid-line" x1="90" y1="30" x2="630" y2="30"></line>
+              </g>
+
+              <g id="lineXAxisGroup" class="axis-group">
+                <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                <polygon points="640,345 627,338 627,352" fill="var(--charcoal)"></polygon>
+                <text class="tick-label" x="90" y="367" text-anchor="middle">10</text>
+                <text class="tick-label" x="225" y="367" text-anchor="middle">20</text>
+                <text class="tick-label" x="360" y="367" text-anchor="middle">30</text>
+                <text class="tick-label" x="495" y="367" text-anchor="middle">40</text>
+                <text class="tick-label" x="630" y="367" text-anchor="middle">50</text>
+                <text class="axis-label" x="360" y="404" text-anchor="middle" id="workedXAxisLabel"></text>
+              </g>
+
+              <g id="lineYAxisGroup" class="axis-group">
+                <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+                <polygon points="90,20 83,33 97,33" fill="var(--charcoal)"></polygon>
+                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                <text class="tick-label" x="72" y="296.5" text-anchor="end">5</text>
+                <text class="tick-label" x="72" y="244" text-anchor="end">10</text>
+                <text class="tick-label" x="72" y="191.5" text-anchor="end">15</text>
+                <text class="tick-label" x="72" y="139" text-anchor="end">20</text>
+                <text class="tick-label" x="72" y="86.5" text-anchor="end">25</text>
+                <text class="tick-label" x="72" y="34" text-anchor="end">30</text>
+                <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)" id="workedYAxisLabel"></text>
+              </g>
+
+              <line id="lineGuideVertical" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
+              <line id="lineGuideHorizontal" class="point-guide" x1="0" y1="0" x2="0" y2="0"></line>
+              <path id="linePath" d=""></path>
+              <g id="linePointsLayer"></g>
+              <g id="linePointCallout" opacity="0" aria-hidden="true">
+                <rect id="linePointCalloutBox" x="0" y="0" width="190" height="58" rx="12" fill="var(--paper)" stroke="var(--charcoal)" stroke-width="2"></rect>
+                <text id="linePointCalloutText1" x="0" y="0" font-size="13" font-weight="700"></text>
+                <text id="linePointCalloutText2" x="0" y="0" font-size="12"></text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="next-button general-button" id="workedExampleNext" hidden>Try it yourself</button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <section class="section locked" id="line-practice">
+      <h2 class="section-title">2. Your Turn: Build a Line Graph</h2>
+      <div class="student-challenge">
+        <div class="student-challenge-heading">
+          <div><p class="challenge-kicker">Your turn · formative check</p><h3>Plot the Ball-Bounce Experiment</h3><p>Use a new fair-test dataset. This time, you build the axis labels and plot the data yourself.</p></div>
+          <span class="challenge-badge" id="linePracticeBadge">Axes</span>
+        </div>
+
+        <div class="challenge-grid">
+          <div class="challenge-panel">
+            <div class="science-context-card" style="margin-bottom:14px;">
+              <p class="science-context-label">Testable question</p>
+              <p>How does changing the <strong>drop height</strong> of a ball affect its <strong>bounce height</strong>?</p>
+            </div>
+
+            <table class="practice-table" aria-label="Ball bounce fair-test data">
+              <thead><tr><th>Drop height (cm)</th><th>Bounce height (cm)</th></tr></thead>
+              <tbody id="linePracticeDataBody">
+                <tr><td>20</td><td>8</td></tr>
+                <tr><td>40</td><td>17</td></tr>
+                <tr><td>60</td><td>29</td></tr>
+                <tr><td>80</td><td>36</td></tr>
+              </tbody>
+            </table>
+
+            <div id="axisBuilder">
+              <span class="challenge-step-label">Build the x-axis label</span>
+              <div class="axis-builder-row">
+                <strong>Which variable belongs on the x-axis?</strong>
+                <div class="challenge-choice-grid">
+                  <button type="button" class="challenge-choice" data-axis-variable="x" data-value="drop">Drop height</button>
+                  <button type="button" class="challenge-choice" data-axis-variable="x" data-value="bounce">Bounce height</button>
+                </div>
+              </div>
+              <div class="axis-builder-row" id="xUnitRow" hidden>
+                <strong>Which unit belongs with drop height?</strong>
+                <div class="challenge-choice-grid three-choice">
+                  <button type="button" class="challenge-choice" data-axis-unit="x" data-value="cm">cm</button>
+                  <button type="button" class="challenge-choice" data-axis-unit="x" data-value="s">s</button>
+                  <button type="button" class="challenge-choice" data-axis-unit="x" data-value="deg">°C</button>
+                </div>
+              </div>
+
+              <div class="axis-builder-row" id="yVariableRow" hidden>
+                <span class="challenge-step-label">Build the y-axis label</span>
+                <strong>Which variable belongs on the y-axis?</strong>
+                <div class="challenge-choice-grid">
+                  <button type="button" class="challenge-choice" data-axis-variable="y" data-value="drop">Drop height</button>
+                  <button type="button" class="challenge-choice" data-axis-variable="y" data-value="bounce">Bounce height</button>
+                </div>
+              </div>
+              <div class="axis-builder-row" id="yUnitRow" hidden>
+                <strong>Which unit belongs with bounce height?</strong>
+                <div class="challenge-choice-grid three-choice">
+                  <button type="button" class="challenge-choice" data-axis-unit="y" data-value="cm">cm</button>
+                  <button type="button" class="challenge-choice" data-axis-unit="y" data-value="g">g</button>
+                  <button type="button" class="challenge-choice" data-axis-unit="y" data-value="min">min</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="linePlotPractice" hidden>
+              <span class="challenge-step-label">Plot the data</span>
+              <p class="challenge-question">Use the highlighted row. Click the graph where the x-value and y-value meet.</p>
+              <div class="plot-prompt" id="linePlotPrompt">Plot <strong>(20, 8)</strong>.</div>
+              <button type="button" class="general-button check-row-button" id="checkPlottedPointButton" disabled>Check against the table</button>
+            </div>
+
+            <div id="lineConnectPractice" hidden>
+              <span class="challenge-step-label">Finish the graph</span>
+              <p class="challenge-question">All measurements are plotted. What should you do next?</p>
+              <div class="challenge-choice-grid">
+                <button type="button" class="challenge-choice" data-line-next="connect">Connect the points</button>
+                <button type="button" class="challenge-choice" data-line-next="bars">Turn them into bars</button>
+              </div>
+            </div>
+
+            <div class="challenge-feedback" id="linePracticeFeedback" role="status" aria-live="polite">
+              <strong>Start with what changed.</strong>
+              The independent variable belongs on the x-axis, and the axis label needs both the variable name and its unit.
+            </div>
+            <div class="reset-button-container"><button type="button" class="general-button reset-btn" id="resetLinePracticeButton">Reset challenge</button></div>
+          </div>
+
+          <div class="challenge-visual">
+            <div class="graph-stage-heading"><div><h3>Your line graph</h3><p id="linePracticeVisualHint">Build both axis labels first.</p></div><span class="graph-badge">Student graph</span></div>
+            <div class="graph-svg-wrap">
+              <svg class="graph-svg" id="linePracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student line graph for ball drop and bounce data">
+                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+                <g aria-hidden="true">
+                  <line class="graph-grid-line" x1="90" y1="345" x2="630" y2="345"></line>
+                  <line class="graph-grid-line" x1="90" y1="266.25" x2="630" y2="266.25"></line>
+                  <line class="graph-grid-line" x1="90" y1="187.5" x2="630" y2="187.5"></line>
+                  <line class="graph-grid-line" x1="90" y1="108.75" x2="630" y2="108.75"></line>
+                  <line class="graph-grid-line" x1="90" y1="30" x2="630" y2="30"></line>
+                </g>
+                <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line>
+                <line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+                <text class="tick-label" x="90" y="367" text-anchor="middle">0</text>
+                <text class="tick-label" x="225" y="367" text-anchor="middle">20</text>
+                <text class="tick-label" x="360" y="367" text-anchor="middle">40</text>
+                <text class="tick-label" x="495" y="367" text-anchor="middle">60</text>
+                <text class="tick-label" x="630" y="367" text-anchor="middle">80</text>
+                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
+                <text class="tick-label" x="72" y="270" text-anchor="end">10</text>
+                <text class="tick-label" x="72" y="191" text-anchor="end">20</text>
+                <text class="tick-label" x="72" y="112" text-anchor="end">30</text>
+                <text class="tick-label" x="72" y="34" text-anchor="end">40</text>
+                <text class="axis-label" x="360" y="405" text-anchor="middle" id="linePracticeXAxisLabel">x-axis</text>
+                <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)" id="linePracticeYAxisLabel">y-axis</text>
+                <line id="linePracticeCrossV" class="practice-crosshair" x1="0" y1="30" x2="0" y2="345"></line>
+                <line id="linePracticeCrossH" class="practice-crosshair" x1="90" y1="0" x2="630" y2="0"></line>
+                <path id="linePracticePath" d=""></path>
+                <g id="linePracticePointsLayer"></g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="next-button general-button" id="practiceNextButton" hidden>Spot a plotting mistake</button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <section class="section locked" id="spot-the-mistake">
+      <h2 class="section-title">3. Spot the Plotting Mistake</h2>
+      <div class="mistake-layout">
+        <div class="graph-stage-card">
+          <div class="graph-stage-heading"><div><h3>Something changed the story</h3><p>One point does not match the data table. Click the point you think is wrong.</p></div><span class="graph-badge">Accuracy check</span></div>
+          <table class="practice-table" aria-label="Mistake-check data">
+            <thead><tr><th>Temperature (°C)</th><th>Balloon circumference (cm)</th></tr></thead>
+            <tbody><tr><td>10</td><td>6</td></tr><tr><td>20</td><td>12</td></tr><tr><td><strong>30</strong></td><td><strong>24</strong></td></tr><tr><td>40</td><td>18</td></tr><tr><td>50</td><td>8</td></tr></tbody>
+          </table>
+          <div class="graph-svg-wrap">
+            <svg class="graph-svg" id="mistakeGraphSvg" viewBox="0 0 700 430" role="img" aria-label="Line graph containing one incorrectly plotted point">
+              <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
+              <g aria-hidden="true">
+                <line class="graph-grid-line" x1="90" y1="345" x2="630" y2="345"></line><line class="graph-grid-line" x1="90" y1="292.5" x2="630" y2="292.5"></line><line class="graph-grid-line" x1="90" y1="240" x2="630" y2="240"></line><line class="graph-grid-line" x1="90" y1="187.5" x2="630" y2="187.5"></line><line class="graph-grid-line" x1="90" y1="135" x2="630" y2="135"></line><line class="graph-grid-line" x1="90" y1="82.5" x2="630" y2="82.5"></line><line class="graph-grid-line" x1="90" y1="30" x2="630" y2="30"></line>
+              </g>
+              <line class="graph-axis" x1="90" y1="345" x2="640" y2="345"></line><line class="graph-axis" x1="90" y1="345" x2="90" y2="20"></line>
+              <text class="tick-label" x="90" y="367" text-anchor="middle">10</text><text class="tick-label" x="225" y="367" text-anchor="middle">20</text><text class="tick-label" x="360" y="367" text-anchor="middle">30</text><text class="tick-label" x="495" y="367" text-anchor="middle">40</text><text class="tick-label" x="630" y="367" text-anchor="middle">50</text>
+              <text class="tick-label" x="72" y="349" text-anchor="end">0</text><text class="tick-label" x="72" y="296.5" text-anchor="end">5</text><text class="tick-label" x="72" y="244" text-anchor="end">10</text><text class="tick-label" x="72" y="191.5" text-anchor="end">15</text><text class="tick-label" x="72" y="139" text-anchor="end">20</text><text class="tick-label" x="72" y="86.5" text-anchor="end">25</text><text class="tick-label" x="72" y="34" text-anchor="end">30</text>
+              <text class="axis-label" x="360" y="404" text-anchor="middle">Temperature (°C)</text><text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)">Balloon circumference (cm)</text>
+              <path id="mistakeWrongPath" d=""></path><path id="mistakeCorrectPath" d="" opacity="0"></path><g id="mistakePointsLayer"></g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="challenge-panel">
+          <span class="challenge-step-label">Think like a careful scientist</span>
+          <h3>Why does one wrong point matter?</h3>
+          <p>A graph is another way of communicating the data. If one coordinate is wrong, the visual pattern can tell a different story.</p>
+          <div class="challenge-feedback" id="mistakeFeedback" role="status" aria-live="polite"><strong>Check point by point.</strong>Compare each coordinate with the matching row in the table.</div>
+          <div id="mistakeEffectQuestion" hidden>
+            <p class="challenge-question"><strong>What did the incorrect point do to the graph's message?</strong></p>
+            <div class="challenge-choice-grid">
+              <button type="button" class="challenge-choice" data-mistake-effect="peak">It made the peak look much smaller.</button>
+              <button type="button" class="challenge-choice" data-mistake-effect="none">It did not change the pattern.</button>
+            </div>
+          </div>
+          <div class="reset-button-container"><button type="button" class="general-button reset-btn" id="resetMistakeButton">Reset activity</button></div>
+        </div>
+      </div>
+      <button type="button" class="next-button general-button" id="mistakeNextButton" hidden>Analyse the results</button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
+    </section>
+
+    <section class="section locked" id="analyse-results">
+      <h2 class="section-title">4. Read the Story in the Graph</h2>
+      <div class="focus-question"><strong>Return to the prediction:</strong> “As temperature increases, the balloon circumference will continue to increase.” Does the evidence support that prediction?</div>
+
+      <div class="analysis-grid">
+        <div class="graph-stage-card">
+          <div class="graph-stage-heading"><div><h3>Finished yeast line graph</h3><p>Use the shape of the line and the values in the table as evidence.</p></div><span class="graph-badge">Analyse</span></div>
+          <div class="graph-svg-wrap">
+            <svg class="graph-svg" id="analysisGraphSvg" viewBox="0 0 700 430" role="img" aria-label="Completed yeast line graph for analysis"></svg>
+          </div>
+        </div>
+
+        <div class="challenge-panel">
+          <div class="analysis-step" id="analysisStep1">
+            <span class="challenge-step-label">Question 1</span>
+            <p class="challenge-question"><strong>At which temperature was the balloon circumference highest?</strong></p>
+            <div class="challenge-choice-grid three-choice"><button class="challenge-choice" type="button" data-analysis="peak" data-value="20">20°C</button><button class="challenge-choice" type="button" data-analysis="peak" data-value="30">30°C</button><button class="challenge-choice" type="button" data-analysis="peak" data-value="50">50°C</button></div>
+          </div>
+          <div class="analysis-step" id="analysisStep2" hidden>
+            <span class="challenge-step-label">Question 2</span>
+            <p class="challenge-question"><strong>What happens from 10°C to 30°C?</strong></p>
+            <div class="challenge-choice-grid"><button class="challenge-choice" type="button" data-analysis="firsttrend" data-value="increase">The circumference increases.</button><button class="challenge-choice" type="button" data-analysis="firsttrend" data-value="decrease">The circumference decreases.</button></div>
+          </div>
+          <div class="analysis-step" id="analysisStep3" hidden>
+            <span class="challenge-step-label">Question 3</span>
+            <p class="challenge-question"><strong>What happens after 30°C?</strong></p>
+            <div class="challenge-choice-grid"><button class="challenge-choice" type="button" data-analysis="afterpeak" data-value="increase">It keeps increasing.</button><button class="challenge-choice" type="button" data-analysis="afterpeak" data-value="decrease">It decreases.</button></div>
+          </div>
+          <div class="analysis-step" id="analysisStep4" hidden>
+            <span class="challenge-step-label">Use the evidence</span>
+            <p class="challenge-question"><strong>Is the original prediction supported by all the data?</strong></p>
+            <div class="challenge-choice-grid"><button class="challenge-choice" type="button" data-analysis="prediction" data-value="supported">Supported</button><button class="challenge-choice" type="button" data-analysis="prediction" data-value="not-supported">Not supported</button></div>
+          </div>
+          <div class="challenge-feedback" id="analysisFeedback" role="status" aria-live="polite"><strong>Read from the graph first.</strong>Start by finding the highest plotted point.</div>
+          <div class="prediction-result" id="predictionResult" hidden><strong>Evidence-based conclusion:</strong> The prediction is not supported by all the data. Balloon circumference increased from 10°C to 30°C, then decreased at 40°C and 50°C.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="return-to-top"><a class="return-to-top-button general-button" href="#"><p class="bounce-symbol">↑</p><p>Return to Top</p></a></div>
+  </main>
+
+  <script src="../scripts/common_functions.js"></script>
+  <script>
+    const lesson4SectionIds = [
+      { id: "worked-example", label: "Build a line graph together" },
+      { id: "line-practice", label: "Build your own line graph" },
+      { id: "spot-the-mistake", label: "Spot the plotting mistake" },
+      { id: "analyse-results", label: "Analyse the fair-test results" }
+    ];
+
+    const lesson4TeacherBackLink = { label: "← Back", href: "../index.html" };
+
+    const lineData = [
+      { x: 10, y: 6 }, { x: 20, y: 12 }, { x: 30, y: 24 }, { x: 40, y: 18 }, { x: 50, y: 8 }
+    ];
+
+    const linePlot = { left: 90, right: 630, top: 30, bottom: 345, xMin: 10, xMax: 50, yMin: 0, yMax: 30 };
+    let workedStage = 0;
+    let plottedLinePoints = 0;
+
+    function lineX(value) {
+      return linePlot.left + ((value - linePlot.xMin) / (linePlot.xMax - linePlot.xMin)) * (linePlot.right - linePlot.left);
+    }
+    function lineY(value) {
+      return linePlot.bottom - ((value - linePlot.yMin) / (linePlot.yMax - linePlot.yMin)) * (linePlot.bottom - linePlot.top);
+    }
+
+    function setFeedback(id, type, title, message) {
+      const box = document.getElementById(id);
+      if (!box) return;
+      box.classList.remove("success", "try-again");
+      if (type) box.classList.add(type);
+      box.innerHTML = "";
+      const strong = document.createElement("strong");
+      strong.textContent = title;
+      box.appendChild(strong);
+      box.appendChild(document.createTextNode(message));
+    }
+
+    function flashChoice(button, className) {
+      button.classList.remove("correct-choice", "try-again-choice");
+      void button.offsetWidth;
+      button.classList.add(className);
+      setTimeout(() => button.classList.remove(className), 650);
+    }
+
+    function buildWorkedPoints() {
+      const layer = document.getElementById("linePointsLayer");
+      layer.innerHTML = "";
+      lineData.forEach((point, index) => {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("class", "line-point");
+        circle.setAttribute("cx", lineX(point.x));
+        circle.setAttribute("cy", lineY(point.y));
+        circle.setAttribute("r", "8");
+        circle.dataset.index = index;
+        circle.addEventListener("click", () => { if (index < plottedLinePoints) showWorkedGuides(index); });
+        layer.appendChild(circle);
+      });
+    }
+
+    function showWorkedGuides(index) {
+      const point = lineData[index];
+      const px = lineX(point.x), py = lineY(point.y);
+      const v = document.getElementById("lineGuideVertical"), h = document.getElementById("lineGuideHorizontal");
+      v.setAttribute("x1", px); v.setAttribute("x2", px); v.setAttribute("y1", py); v.setAttribute("y2", linePlot.bottom); v.classList.add("visible");
+      h.setAttribute("x1", linePlot.left); h.setAttribute("x2", px); h.setAttribute("y1", py); h.setAttribute("y2", py); h.classList.add("visible");
+
+      const callout = document.getElementById("linePointCallout"), box = document.getElementById("linePointCalloutBox"), t1 = document.getElementById("linePointCalloutText1"), t2 = document.getElementById("linePointCalloutText2");
+      let x = px + 18, y = py - 76;
+      if (x + 190 > 690) x = px - 208;
+      if (y < 8) y = py + 18;
+      box.setAttribute("x", x); box.setAttribute("y", y);
+      t1.setAttribute("x", x + 12); t1.setAttribute("y", y + 23); t1.textContent = "x = " + point.x + " °C";
+      t2.setAttribute("x", x + 12); t2.setAttribute("y", y + 44); t2.textContent = "y = " + point.y + " cm";
+      callout.setAttribute("opacity", "1");
+      document.querySelectorAll("#lineDataBody tr").forEach((row, i) => row.classList.toggle("current-row", i === index));
+    }
+
+    function workedExampleAdvance() {
+      const button = document.getElementById("workedNextButton");
+      const kicker = document.getElementById("workedStepKicker");
+      const content = document.getElementById("workedStepContent");
+      const formula = document.getElementById("workedAxisFormula");
+
+      if (workedStage === 0) {
+        document.getElementById("lineXAxisGroup").classList.add("visible");
+        document.getElementById("workedXAxisLabel").textContent = "Temperature (°C)";
+        formula.hidden = false;
+        kicker.textContent = "Step 1 · x-axis label";
+        content.innerHTML = "<strong>Axis labels need the variable and the unit.</strong><p>Temperature + °C becomes <strong>Temperature (°C)</strong>.</p>";
+        setFeedback("lineTeachingFeedback", "", "The x-axis is labelled precisely.", " The independent variable is horizontal, and its unit is included in the label.");
+        button.textContent = "Show the y-axis";
+        workedStage = 1;
+        return;
+      }
+
+      if (workedStage === 1) {
+        document.getElementById("lineYAxisGroup").classList.add("visible");
+        document.getElementById("workedYAxisLabel").textContent = "Balloon circumference (cm)";
+        document.getElementById("formulaVariable").textContent = "Balloon circumference";
+        document.getElementById("formulaUnit").textContent = "cm";
+        document.getElementById("formulaResult").textContent = "Balloon circumference (cm)";
+        kicker.textContent = "Step 2 · y-axis label";
+        content.innerHTML = "<strong>Now label what was measured.</strong><p>Balloon circumference is the dependent variable, so it belongs on the vertical y-axis.</p>";
+        setFeedback("lineTeachingFeedback", "", "Both axes are ready.", " Now each row in the table can become one coordinate on the graph.");
+        button.textContent = "Plot the first data point";
+        workedStage = 2;
+        return;
+      }
+
+      if (workedStage >= 2 && workedStage < 2 + lineData.length) {
+        const index = workedStage - 2;
+        const points = document.querySelectorAll(".line-point");
+        points[index].classList.add("visible");
+        plottedLinePoints = index + 1;
+        showWorkedGuides(index);
+        const p = lineData[index];
+        kicker.textContent = "Step 3 · plot the data";
+        content.innerHTML = "<strong>Read one table row as a pair.</strong><p>Find <strong>" + p.x + "</strong> on the x-axis and <strong>" + p.y + "</strong> on the y-axis. Their intersection is the data point.</p>";
+        setFeedback("lineTeachingFeedback", "", "Point " + (index + 1) + " of " + lineData.length + " plotted.", " The dotted guides trace the coordinate back to both axes.");
+        workedStage += 1;
+        if (index < lineData.length - 1) button.textContent = "Plot the next data point";
+        else button.textContent = "Connect the points";
+        return;
+      }
+
+      if (workedStage === 2 + lineData.length) {
+        const path = document.getElementById("linePath");
+        path.setAttribute("d", lineData.map((p, i) => (i ? "L " : "M ") + lineX(p.x) + " " + lineY(p.y)).join(" "));
+        kicker.textContent = "Step 4 · follow the pattern";
+        content.innerHTML = "<strong>The points are the measurements. The line helps us follow the change.</strong><p>Notice that the graph rises to 30°C and then falls.</p>";
+        setFeedback("lineTeachingFeedback", "success", "The line graph is complete.", " The table and graph now show the same data in two different forms.");
+        button.disabled = true;
+        button.textContent = "Worked example complete";
+        document.getElementById("workedExampleNext").hidden = false;
+        workedStage += 1;
+      }
+    }
+
+    function resetWorkedExample() {
+      workedStage = 0; plottedLinePoints = 0;
+      document.getElementById("lineXAxisGroup").classList.remove("visible");
+      document.getElementById("lineYAxisGroup").classList.remove("visible");
+      document.getElementById("workedXAxisLabel").textContent = "";
+      document.getElementById("workedYAxisLabel").textContent = "";
+      document.getElementById("workedAxisFormula").hidden = true;
+      document.getElementById("workedStepKicker").textContent = "Step 1 · x-axis";
+      document.getElementById("workedStepContent").innerHTML = "<strong>Start with what the scientist changed.</strong><p>Temperature is the independent variable, so it belongs on the horizontal x-axis.</p>";
+      document.querySelectorAll(".line-point").forEach(point => point.classList.remove("visible"));
+      document.querySelectorAll("#lineDataBody tr").forEach(row => row.classList.remove("current-row"));
+      document.getElementById("lineGuideVertical").classList.remove("visible");
+      document.getElementById("lineGuideHorizontal").classList.remove("visible");
+      document.getElementById("linePointCallout").setAttribute("opacity", "0");
+      document.getElementById("linePath").setAttribute("d", "");
+      const button = document.getElementById("workedNextButton"); button.disabled = false; button.textContent = "Show the x-axis";
+      document.getElementById("workedExampleNext").hidden = true;
+      setFeedback("lineTeachingFeedback", "", "Look at the testable question.", " Which variable did the scientist deliberately change?");
+    }
+
+    const practiceData = [{x:20,y:8},{x:40,y:17},{x:60,y:29},{x:80,y:36}];
+    const practicePlot = { left:90,right:630,top:30,bottom:345,xMin:0,xMax:80,yMin:0,yMax:40 };
+    let xVariableOk=false,xUnitOk=false,yVariableOk=false,yUnitOk=false;
+    let practicePointIndex=0, pendingPracticePoint=null, practiceConnected=false;
+    const practiceX = v => practicePlot.left + ((v-practicePlot.xMin)/(practicePlot.xMax-practicePlot.xMin))*(practicePlot.right-practicePlot.left);
+    const practiceY = v => practicePlot.bottom - ((v-practicePlot.yMin)/(practicePlot.yMax-practicePlot.yMin))*(practicePlot.bottom-practicePlot.top);
+
+    function handleAxisVariable(button) {
+      const axis = button.dataset.axisVariable, value = button.dataset.value;
+      const correct = (axis === "x" && value === "drop") || (axis === "y" && value === "bounce");
+      if (!correct) {
+        flashChoice(button,"try-again-choice");
+        setFeedback("linePracticeFeedback","try-again",axis === "x" ? "Think about what was changed." : "Think about what was measured.",axis === "x" ? " Drop height was deliberately changed, so it belongs on the x-axis." : " Bounce height was measured in response, so it belongs on the y-axis.");
+        return;
+      }
+      flashChoice(button,"correct-choice");
+      if (axis === "x") { xVariableOk=true; document.getElementById("xUnitRow").hidden=false; setFeedback("linePracticeFeedback","success","Correct variable."," Now add the unit to complete the x-axis label."); }
+      else { yVariableOk=true; document.getElementById("yUnitRow").hidden=false; setFeedback("linePracticeFeedback","success","Correct variable."," Now add the unit to complete the y-axis label."); }
+    }
+
+    function handleAxisUnit(button) {
+      const axis=button.dataset.axisUnit, value=button.dataset.value;
+      if (value !== "cm") { flashChoice(button,"try-again-choice"); setFeedback("linePracticeFeedback","try-again","Check the data-table heading."," The unit is shown in brackets after the variable name."); return; }
+      flashChoice(button,"correct-choice");
+      if (axis === "x") {
+        xUnitOk=true; document.getElementById("linePracticeXAxisLabel").textContent="Drop height (cm)"; document.getElementById("yVariableRow").hidden=false;
+        setFeedback("linePracticeFeedback","success","x-axis label complete."," Drop height (cm) includes both the variable name and its unit. Now build the y-axis label.");
+      } else {
+        yUnitOk=true; document.getElementById("linePracticeYAxisLabel").textContent="Bounce height (cm)"; beginPracticePlotting();
+      }
+    }
+
+    function beginPracticePlotting() {
+      if (!(xVariableOk&&xUnitOk&&yVariableOk&&yUnitOk)) return;
+      document.getElementById("axisBuilder").hidden=true;
+      document.getElementById("linePlotPractice").hidden=false;
+      document.getElementById("linePracticeBadge").textContent="Plot";
+      document.getElementById("linePracticeVisualHint").textContent="Plot the highlighted row, then check it against the table.";
+      document.querySelectorAll("#linePracticeDataBody tr")[0].classList.add("active-practice-row");
+      setFeedback("linePracticeFeedback","success","Both axis labels are complete."," Now transfer the data from the table to the graph one row at a time.");
+    }
+
+    function svgPoint(svg,event) {
+      const p=svg.createSVGPoint(); p.x=event.clientX; p.y=event.clientY; const m=svg.getScreenCTM(); return m ? p.matrixTransform(m.inverse()) : null;
+    }
+
+    function updatePracticeCrosshair(event) {
+      if (document.getElementById("linePlotPractice").hidden || pendingPracticePoint) return;
+      const svg=document.getElementById("linePracticeSvg"), p=svgPoint(svg,event); if(!p) return;
+      const x=Math.max(practicePlot.left,Math.min(practicePlot.right,p.x)), y=Math.max(practicePlot.top,Math.min(practicePlot.bottom,p.y));
+      const v=document.getElementById("linePracticeCrossV"), h=document.getElementById("linePracticeCrossH"); v.setAttribute("x1",x);v.setAttribute("x2",x);h.setAttribute("y1",y);h.setAttribute("y2",y);v.classList.add("visible");h.classList.add("visible");
+    }
+
+    function placePracticePoint(event) {
+      if (document.getElementById("linePlotPractice").hidden || pendingPracticePoint || practicePointIndex>=practiceData.length) return;
+      const svg=document.getElementById("linePracticeSvg"), p=svgPoint(svg,event); if(!p) return;
+      const target=practiceData[practicePointIndex], tx=practiceX(target.x), ty=practiceY(target.y);
+      const dx=Math.abs(p.x-tx), dy=Math.abs(p.y-ty), distance=Math.hypot(dx,dy);
+      if(distance>36) {
+        let hint=" Find " + target.x + " on the x-axis, then move to " + target.y + " on the y-axis.";
+        if(dx<=24&&dy>24) hint=" Your x-position is close. Check the y-value: " + target.y + " cm.";
+        else if(dy<=24&&dx>24) hint=" Your y-position is close. Check the x-value: " + target.x + " cm.";
+        setFeedback("linePracticeFeedback","try-again","Use both axes.",hint); return;
+      }
+      const circle=document.createElementNS("http://www.w3.org/2000/svg","circle"); circle.setAttribute("class","practice-student-point");circle.setAttribute("cx",tx);circle.setAttribute("cy",ty);circle.setAttribute("r","8");circle.dataset.pending="true";document.getElementById("linePracticePointsLayer").appendChild(circle);
+      pendingPracticePoint={circle,target};
+      document.getElementById("checkPlottedPointButton").disabled=false;
+      document.getElementById("linePracticeCrossV").classList.remove("visible");document.getElementById("linePracticeCrossH").classList.remove("visible");
+      setFeedback("linePracticeFeedback","","Point placed."," Before moving on, double-check this coordinate against the highlighted row in the data table.");
+    }
+
+    function checkPracticePoint() {
+      if(!pendingPracticePoint) return;
+      const rows=document.querySelectorAll("#linePracticeDataBody tr"), currentRow=rows[practicePointIndex];
+      currentRow.classList.remove("active-practice-row"); currentRow.classList.add("checked-row");
+      pendingPracticePoint.circle.removeAttribute("data-pending"); pendingPracticePoint=null; practicePointIndex+=1;
+      document.getElementById("checkPlottedPointButton").disabled=true;
+      if(practicePointIndex<practiceData.length) {
+        rows[practicePointIndex].classList.add("active-practice-row"); const next=practiceData[practicePointIndex]; document.getElementById("linePlotPrompt").innerHTML="Plot <strong>("+next.x+", "+next.y+")</strong>.";
+        setFeedback("linePracticeFeedback","success","Checked against the table."," The coordinate matches. Move to the next highlighted row.");
+      } else {
+        document.getElementById("linePlotPractice").hidden=true; document.getElementById("lineConnectPractice").hidden=false; document.getElementById("linePracticeBadge").textContent="Connect"; document.getElementById("linePracticeVisualHint").textContent="All four measured points are plotted.";
+        setFeedback("linePracticeFeedback","success","All four coordinates are accurate."," The plotted points are the measured data. What should you add to complete the line graph?");
+      }
+    }
+
+    function handlePracticeConnect(button) {
+      if(button.dataset.lineNext!=="connect") { flashChoice(button,"try-again-choice"); setFeedback("linePracticeFeedback","try-again","Remember the graph type."," A line graph connects the plotted measurements so the pattern across ordered x-values is easier to follow."); return; }
+      flashChoice(button,"correct-choice");
+      document.getElementById("linePracticePath").setAttribute("d",practiceData.map((p,i)=>(i?"L ":"M ")+practiceX(p.x)+" "+practiceY(p.y)).join(" "));
+      practiceConnected=true; document.getElementById("lineConnectPractice").hidden=true; document.getElementById("linePracticeBadge").textContent="Complete ✓"; document.getElementById("practiceNextButton").hidden=false;
+      setFeedback("linePracticeFeedback","success","Your line graph is complete."," You labelled both axes with units, plotted every coordinate and checked each point against the table.");
+    }
+
+    function resetPractice() {
+      xVariableOk=xUnitOk=yVariableOk=yUnitOk=false; practicePointIndex=0; pendingPracticePoint=null; practiceConnected=false;
+      document.getElementById("axisBuilder").hidden=false; document.getElementById("xUnitRow").hidden=true; document.getElementById("yVariableRow").hidden=true; document.getElementById("yUnitRow").hidden=true; document.getElementById("linePlotPractice").hidden=true; document.getElementById("lineConnectPractice").hidden=true;
+      document.getElementById("linePracticeXAxisLabel").textContent="x-axis";document.getElementById("linePracticeYAxisLabel").textContent="y-axis";document.getElementById("linePracticePointsLayer").innerHTML="";document.getElementById("linePracticePath").setAttribute("d","");document.getElementById("linePracticeBadge").textContent="Axes";document.getElementById("linePracticeVisualHint").textContent="Build both axis labels first.";document.getElementById("linePlotPrompt").innerHTML="Plot <strong>(20, 8)</strong>.";document.getElementById("checkPlottedPointButton").disabled=true;document.getElementById("practiceNextButton").hidden=true;
+      document.querySelectorAll("#linePracticeDataBody tr").forEach(r=>r.classList.remove("active-practice-row","checked-row"));
+      setFeedback("linePracticeFeedback","","Start with what changed."," The independent variable belongs on the x-axis, and the axis label needs both the variable name and its unit.");
+    }
+
+    let mistakeSolved=false;
+    const mistakeData=[{x:10,y:6},{x:20,y:12},{x:30,y:14},{x:40,y:18},{x:50,y:8}];
+    function buildMistakeGraph() {
+      const layer=document.getElementById("mistakePointsLayer"); layer.innerHTML="";
+      document.getElementById("mistakeWrongPath").setAttribute("d",mistakeData.map((p,i)=>(i?"L ":"M ")+lineX(p.x)+" "+lineY(p.y)).join(" "));
+      document.getElementById("mistakeCorrectPath").setAttribute("d",lineData.map((p,i)=>(i?"L ":"M ")+lineX(p.x)+" "+lineY(p.y)).join(" "));
+      mistakeData.forEach((p,index)=>{ const c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("class","mistake-point");c.setAttribute("cx",lineX(p.x));c.setAttribute("cy",lineY(p.y));c.setAttribute("r","9");c.dataset.index=index;c.addEventListener("click",()=>handleMistakePoint(c,index));layer.appendChild(c); });
+    }
+    function handleMistakePoint(circle,index) {
+      if(mistakeSolved) return;
+      if(index!==2) { flashChoice(circle,"try-again-choice"); setFeedback("mistakeFeedback","try-again","That point matches its table row."," Check the x-value and y-value together, then try another point."); return; }
+      mistakeSolved=true; circle.classList.add("fixed"); circle.setAttribute("cy",lineY(24)); document.getElementById("mistakeWrongPath").setAttribute("opacity","0");document.getElementById("mistakeCorrectPath").setAttribute("opacity","1");document.getElementById("mistakeEffectQuestion").hidden=false;
+      setFeedback("mistakeFeedback","success","You found the incorrect point."," The table says 30°C → 24 cm, but the point was plotted at 14 cm. It has now moved to the correct coordinate.");
+    }
+    function handleMistakeEffect(button) {
+      if(button.dataset.mistakeEffect!=="peak") { flashChoice(button,"try-again-choice"); setFeedback("mistakeFeedback","try-again","Compare the two graph shapes."," The incorrect coordinate pulled the middle of the line downward, changing how large the peak looked."); return; }
+      flashChoice(button,"correct-choice"); document.getElementById("mistakeNextButton").hidden=false; setFeedback("mistakeFeedback","success","Exactly."," One incorrect coordinate can change the pattern the reader sees. Accurate plotting matters because the graph communicates the data.");
+    }
+    function resetMistake() { mistakeSolved=false; document.getElementById("mistakeEffectQuestion").hidden=true;document.getElementById("mistakeNextButton").hidden=true;buildMistakeGraph();setFeedback("mistakeFeedback","","Check point by point."," Compare each coordinate with the matching row in the table."); }
+
+    function buildAnalysisGraph() {
+      document.getElementById("analysisGraphSvg").innerHTML=document.getElementById("lineGraphSvg").innerHTML;
+      const svg=document.getElementById("analysisGraphSvg"); svg.querySelectorAll(".axis-group").forEach(g=>g.classList.add("visible")); svg.querySelectorAll(".line-point").forEach(p=>p.classList.add("visible"));
+      const xLabel=svg.querySelector("#workedXAxisLabel"); if(xLabel) xLabel.textContent="Temperature (°C)"; const yLabel=svg.querySelector("#workedYAxisLabel"); if(yLabel) yLabel.textContent="Balloon circumference (cm)";
+      const path=svg.querySelector("#linePath"); if(path) path.setAttribute("d",lineData.map((p,i)=>(i?"L ":"M ")+lineX(p.x)+" "+lineY(p.y)).join(" "));
+      const callout=svg.querySelector("#linePointCallout");if(callout) callout.setAttribute("opacity","0"); const v=svg.querySelector("#lineGuideVertical"),h=svg.querySelector("#lineGuideHorizontal");if(v)v.classList.remove("visible");if(h)h.classList.remove("visible");
+    }
+
+    let analysisStage=1;
+    function handleAnalysis(button) {
+      const kind=button.dataset.analysis,value=button.dataset.value;
+      const expected={peak:"30",firsttrend:"increase",afterpeak:"decrease",prediction:"not-supported"}[kind];
+      if(value!==expected){flashChoice(button,"try-again-choice");const hints={peak:"Look for the highest point on the graph.",firsttrend:"Read the line from 10°C toward 30°C.",afterpeak:"Follow the line from 30°C toward 50°C.",prediction:"The prediction says the result will continue increasing. Compare that with what happens after 30°C."};setFeedback("analysisFeedback","try-again","Look at the evidence again."," "+hints[kind]);return;}
+      flashChoice(button,"correct-choice");
+      if(kind==="peak"){document.getElementById("analysisStep1").hidden=true;document.getElementById("analysisStep2").hidden=false;setFeedback("analysisFeedback","success","30°C has the highest measured value."," Now describe what happens before that peak.");}
+      else if(kind==="firsttrend"){document.getElementById("analysisStep2").hidden=true;document.getElementById("analysisStep3").hidden=false;setFeedback("analysisFeedback","success","The graph rises from 10°C to 30°C."," Now look at the measurements after the peak.");}
+      else if(kind==="afterpeak"){document.getElementById("analysisStep3").hidden=true;document.getElementById("analysisStep4").hidden=false;setFeedback("analysisFeedback","success","After 30°C, the measured circumference decreases."," Use both parts of the graph to judge the original prediction.");}
+      else {document.getElementById("analysisStep4").hidden=true;document.getElementById("predictionResult").hidden=false;setFeedback("analysisFeedback","success","The prediction is not supported by all the data."," The result increases up to 30°C, but it does not continue increasing at 40°C and 50°C.");document.getElementById("analyse-results").classList.add("completed");}
+    }
+    function resetAnalysis(){[1,2,3,4].forEach(n=>document.getElementById("analysisStep"+n).hidden=n!==1);document.getElementById("predictionResult").hidden=true;setFeedback("analysisFeedback","","Read from the graph first."," Start by finding the highest plotted point.");}
+
+    document.addEventListener("DOMContentLoaded", function() {
+      if(typeof initialiseTeacherMenu==="function") initialiseTeacherMenu(lesson4SectionIds,"worked-example",lesson4TeacherBackLink);
+      buildWorkedPoints(); resetWorkedExample(); resetPractice(); buildMistakeGraph(); resetMistake(); buildAnalysisGraph(); resetAnalysis();
+
+      document.getElementById("workedNextButton").addEventListener("click",workedExampleAdvance);
+      document.getElementById("resetLineGraphButton").addEventListener("click",resetWorkedExample);
+      document.getElementById("workedExampleNext").addEventListener("click",()=>unlockSection("line-practice","worked-example"));
+
+      document.querySelectorAll("[data-axis-variable]").forEach(b=>b.addEventListener("click",()=>handleAxisVariable(b)));
+      document.querySelectorAll("[data-axis-unit]").forEach(b=>b.addEventListener("click",()=>handleAxisUnit(b)));
+      document.getElementById("linePracticeSvg").addEventListener("pointermove",updatePracticeCrosshair);
+      document.getElementById("linePracticeSvg").addEventListener("pointerleave",()=>{document.getElementById("linePracticeCrossV").classList.remove("visible");document.getElementById("linePracticeCrossH").classList.remove("visible");});
+      document.getElementById("linePracticeSvg").addEventListener("click",placePracticePoint);
+      document.getElementById("checkPlottedPointButton").addEventListener("click",checkPracticePoint);
+      document.querySelectorAll("[data-line-next]").forEach(b=>b.addEventListener("click",()=>handlePracticeConnect(b)));
+      document.getElementById("resetLinePracticeButton").addEventListener("click",resetPractice);
+      document.getElementById("practiceNextButton").addEventListener("click",()=>unlockSection("spot-the-mistake","line-practice"));
+
+      document.querySelectorAll("[data-mistake-effect]").forEach(b=>b.addEventListener("click",()=>handleMistakeEffect(b)));
+      document.getElementById("resetMistakeButton").addEventListener("click",resetMistake);
+      document.getElementById("mistakeNextButton").addEventListener("click",()=>unlockSection("analyse-results","spot-the-mistake"));
+
+      document.querySelectorAll("[data-analysis]").forEach(b=>b.addEventListener("click",()=>handleAnalysis(b)));
+    });
+  </script>
+</body>
+</html>
