@@ -1042,3 +1042,69 @@
 .graph-column .experiment-photo-card {
   margin: 0;
 }
+
+
+/* ==================================================
+   NUMBERED "THINK LIKE A SCIENTIST" CARD
+   Same pattern as the lesson 3 intro cards, so the
+   lessons look like one another.
+   ================================================== */
+
+.formula-card {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.formula-step {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.16);
+}
+
+.formula-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  background: var(--mint);
+  border: 2px solid var(--line);
+  border-radius: 50%;
+
+  font-weight: 700;
+}
+
+#formula-step-independent {
+  background: var(--yellow);
+}
+
+#formula-step-dependent {
+  background: var(--soft-purple);
+}
+
+#formula-step-units {
+  background: var(--blue);
+}
+
+.formula-step strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text);
+}
+
+.formula-step span {
+  color: var(--muted);
+  line-height: 1.45;
+}
