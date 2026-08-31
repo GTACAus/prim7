@@ -95,6 +95,23 @@
   filter: none;
   transition: transform 0.15s ease, filter 0.3s ease;
 }
+.animal-hotspot .animal-overlay {
+  position: absolute;
+  inset: -5%;
+  background: rgba(220, 20, 20, 0.85);
+  -webkit-mask-image: url("../../images/lesson4/owl.png");
+  mask-image: url("../../images/lesson4/owl.png");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  mix-blend-mode: color; /* or multiply/hue */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
 .animal-hotspot:hover img {
   transform: scale(1.08);
 }
@@ -103,17 +120,9 @@
   outline-offset: 4px;
   border-radius: 6px;
 }
-/* red overlay shown once the student clicks the animal */
-.animal-hotspot.found img {
-  filter: brightness(0)
-          saturate(100%)
-          invert(21%)
-          sepia(89%)
-          saturate(3096%)
-          hue-rotate(348deg)
-          brightness(96%)
-          contrast(96%);
-}
+/* red overlay shown once the student clicks the animal: a red silhouette
+   masked to the owl's own shape, blended with mix-blend-mode so the
+   owl's original shading still shows through underneath the tint */
 .animal-hotspot.found .animal-overlay {
   opacity: 1;
 }
