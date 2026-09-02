@@ -107,9 +107,6 @@
 .animal-hotspot .animal-overlay {
   position: absolute;
   inset: -5%;
-  background: rgba(220, 20, 20, 0.85);
-  -webkit-mask-image: url("../../images/lesson4/owl.png");
-  mask-image: url("../../images/lesson4/owl.png");
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;
@@ -134,6 +131,35 @@
    owl's original shading still shows through underneath the tint */
 .animal-hotspot.found .animal-overlay {
   opacity: 1;
+}
+
+/* 'var(--yellow)', 'var(--mint)', 'var(--blue)',
+  'var(--lavender)', 'var(--green)', 'var(--purple)' */
+
+.animal-hotspot.found .owl-overlay {
+  -webkit-mask-image: url("../../images/lesson4/owl.png");
+  mask-image: url("../../images/lesson4/owl.png");
+  background: rgba(220, 20, 20, 0.85);
+}
+.animal-hotspot.found .yellow-bellied-glider-overlay {
+    -webkit-mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
+      mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
+        background: rgba(220, 203, 20, 0.85);
+}
+.animal-hotspot.found .leadbeaters-possum-overlay {
+    -webkit-mask-image: url("../../images/lesson4/leadbeaters-possum.png");
+      mask-image: url("../../images/lesson4/leadbeaters-possum.png");
+        background: rgba(60, 220, 20, 0.85);
+}
+.animal-hotspot.found .ringtail-possum-overlay {
+    -webkit-mask-image: url("../../images/lesson4/ringtail-possum.png");
+      mask-image: url("../../images/lesson4/ringtail-possum.png");
+        background: rgba(20, 220, 207, 0.85);
+}
+.animal-hotspot.found .feral-cat-overlay {
+    -webkit-mask-image: url("../../images/lesson4/cat.png");
+      mask-image: url("../../images/lesson4/cat.png");
+        background: rgba(197, 20, 220, 0.85);
 }
 
 /* soft warm glow that rides along with the torch circle, drawn above the image */
