@@ -16,7 +16,533 @@
          which has its own @media print block. -->
     <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
 
-    <style></style>
+    <style>
+
+    /* ==================================================
+       PART B - GUIDED BAR GRAPH CONSTRUCTION
+       Kept inline while this section is being prototyped.
+       ================================================== */
+    #bar-construction .section-title {
+      background: var(--mint);
+    }
+
+    .partb-intro-note {
+      margin-bottom: 20px;
+    }
+
+    .partb-data-card {
+      padding: 20px;
+      background: linear-gradient(to bottom, var(--paper), var(--soft-blue) 190%);
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .partb-data-card h3,
+    .partb-control-panel h3 {
+      margin: 4px 0 8px;
+    }
+
+    .partb-data-card > p,
+    .partb-control-panel > p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .partb-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    .partb-data-table {
+      min-width: 650px;
+      margin: 0;
+    }
+
+    .partb-data-table th:first-child,
+    .partb-data-table td:first-child {
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .partb-average-cell {
+      background: var(--soft-blue);
+      font-weight: 800;
+    }
+
+    .partb-average-cell.calculated {
+      background: var(--soft-green);
+      animation: pop-fade-in 0.45s ease;
+    }
+
+    .partb-table-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .partb-table-actions .challenge-feedback {
+      flex: 1 1 320px;
+      margin: 0;
+    }
+
+    .partb-construction-stage {
+      margin-top: 24px;
+    }
+
+    .partb-construction-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, .82fr) minmax(0, 1.55fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .partb-control-panel,
+    .partb-graph-card {
+      background: white;
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .partb-control-panel {
+      padding: 18px;
+    }
+
+    .partb-graph-card {
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .partb-label-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 14px;
+      min-height: 82px;
+      background: var(--paper);
+      border: 2px dashed var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .partb-axis-card {
+      min-height: 46px;
+      padding: 9px 13px;
+      background: white;
+      color: var(--text);
+      border: 2px solid var(--charcoal);
+      border-radius: 12px;
+      box-shadow: 0 3px 0 var(--charcoal);
+      font: inherit;
+      font-weight: 700;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .partb-axis-card:active {
+      cursor: grabbing;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 var(--charcoal);
+    }
+
+    .partb-axis-card.selected {
+      outline: 4px solid var(--yellow);
+      outline-offset: 2px;
+    }
+
+    .partb-axis-card.is-dragging {
+      opacity: .55;
+    }
+
+    .partb-axis-card.placed {
+      opacity: .28;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .partb-drag-ghost {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      width: max-content;
+      max-width: 90vw;
+      transform: scale(1.04);
+    }
+
+    .partb-drag-ghost .partb-axis-card {
+      margin: 0;
+      cursor: grabbing;
+      box-shadow: 0 3px 0 var(--charcoal);
+    }
+
+    .partb-drag-ghost.is-hovering-drop-zone .partb-axis-card {
+      background: var(--soft-yellow);
+    }
+
+    .partb-unit-check {
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .partb-unit-check p {
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+
+    .partb-unit-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .partb-builder-prompt {
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--soft-blue);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+      line-height: 1.5;
+    }
+
+    .partb-builder-prompt strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    #partBGraphSvg .partb-axis-drop-zone {
+      cursor: pointer;
+    }
+
+    #partBGraphSvg .partb-axis-drop-hit-pad {
+      fill: transparent;
+      pointer-events: all;
+    }
+
+    #partBGraphSvg .partb-axis-drop-box {
+      fill: rgba(215, 242, 244, .86);
+      stroke: var(--blue);
+      stroke-width: 2.5;
+      stroke-dasharray: 7 5;
+      pointer-events: none;
+      transition: fill .15s ease, stroke .15s ease, stroke-width .15s ease;
+    }
+
+    #partBGraphSvg .partb-axis-drop-text {
+      fill: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    #partBGraphSvg .partb-axis-drop-zone.drag-over .partb-axis-drop-box {
+      fill: var(--soft-yellow);
+      stroke: var(--purple);
+      stroke-width: 3.5;
+    }
+
+    #partBGraphSvg .partb-axis-drop-zone.drop-incorrect .partb-axis-drop-box {
+      fill: var(--soft-orange);
+      stroke: var(--orange);
+      stroke-width: 3.5;
+    }
+
+    #partBGraphSvg .partb-axis-drop-zone.drop-complete .partb-axis-drop-box {
+      fill: var(--soft-green);
+      stroke: var(--green);
+      stroke-dasharray: none;
+    }
+
+    #partBGraphSvg .partb-axis-drop-zone.axis-complete {
+      display: none;
+    }
+
+    #partBGraphSvg .partb-final-axis-label {
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    #partBGraphSvg .partb-final-axis-label.visible {
+      opacity: 1;
+    }
+
+    #partBGraphSvg .partb-x-choice,
+    #partBGraphSvg .partb-y-choice {
+      cursor: pointer;
+    }
+
+    #partBGraphSvg .partb-x-hit,
+    #partBGraphSvg .partb-y-hit {
+      fill: transparent;
+      pointer-events: all;
+    }
+
+    #partBGraphSvg .partb-x-choice:hover .partb-x-hit,
+    #partBGraphSvg .partb-y-choice:hover .partb-y-hit,
+    #partBGraphSvg .partb-x-choice.active .partb-x-hit,
+    #partBGraphSvg .partb-y-choice.active .partb-y-hit {
+      fill: rgba(255, 205, 29, .22);
+    }
+
+    #partBGraphSvg .partb-x-choice.active text,
+    #partBGraphSvg .partb-y-choice.active text {
+      fill: var(--purple);
+      font-weight: 800;
+    }
+
+    #partBGraphSvg .partb-y-choice.try-again .partb-y-hit {
+      fill: rgba(255, 109, 58, .24);
+      stroke: var(--orange);
+      stroke-width: 2;
+    }
+
+    #partBGraphSvg .partb-y-choice.try-again text {
+      fill: var(--orange);
+      font-weight: 800;
+    }
+
+    #partBGraphSvg .partb-x-choice.complete text {
+      fill: var(--green);
+      font-weight: 800;
+    }
+
+    #partBGraphSvg .partb-guide {
+      stroke: var(--purple);
+      stroke-width: 2.5;
+      stroke-dasharray: 8 7;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+    }
+
+    #partBGraphSvg .partb-guide.visible {
+      opacity: .82;
+    }
+
+    #partBGraphSvg .partb-intersection-point {
+      fill: var(--orange);
+      stroke: var(--charcoal);
+      stroke-width: 3;
+      opacity: 0;
+      pointer-events: none;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    #partBGraphSvg .partb-intersection-point.visible {
+      opacity: 1;
+      animation: graphPointPop .35s ease-out;
+    }
+
+    #partBGraphSvg .partb-intersection-point.wrong {
+      fill: var(--soft-orange);
+      stroke: var(--orange);
+    }
+
+    #partBGraphSvg .partb-bar-fill {
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+
+    #partBGraphSvg .partb-bar-fill.visible {
+      opacity: 1;
+    }
+
+    #partBGraphSvg .partb-bar-outline {
+      fill: none;
+      stroke: var(--charcoal);
+      stroke-width: 3;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
+
+    #partBGraphSvg .partb-value-label {
+      opacity: 0;
+      font-size: 12px;
+      font-weight: 800;
+      text-anchor: middle;
+      transition: opacity .25s ease;
+    }
+
+    #partBGraphSvg .partb-value-label.visible {
+      opacity: 1;
+    }
+
+    .partb-complete-note {
+      margin-top: 16px;
+    }
+
+    .partb-graph-check,
+    .partb-analysis-panel {
+      margin-top: 18px;
+      padding: 18px;
+      background: white;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .partb-graph-check h3,
+    .partb-analysis-panel h3 {
+      margin: 4px 0 8px;
+    }
+
+    .partb-graph-check > p,
+    .partb-analysis-panel > p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .partb-check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .partb-check-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      background: var(--soft-green);
+      border: 2px solid var(--charcoal);
+      border-radius: 13px;
+      line-height: 1.35;
+    }
+
+    .partb-check-icon {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 50%;
+      font-weight: 800;
+    }
+
+    .partb-analysis-question[hidden],
+    .partb-baseline-summary[hidden] {
+      display: none !important;
+    }
+
+    .partb-analysis-progress {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 9px;
+      background: var(--soft-purple);
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .partb-analysis-question {
+      margin-top: 8px;
+      padding: 14px;
+      background: var(--paper);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .partb-analysis-question .challenge-question {
+      margin-bottom: 10px;
+    }
+
+    .partb-analysis-animal-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .partb-baseline-summary {
+      margin-top: 16px;
+      padding: 18px;
+      background: linear-gradient(to bottom, var(--soft-green), var(--paper) 185%);
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+    }
+
+    .partb-baseline-summary h3 {
+      margin: 4px 0 8px;
+    }
+
+    .partb-baseline-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .partb-baseline-fact {
+      padding: 12px;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 13px;
+      text-align: center;
+    }
+
+    .partb-baseline-fact strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--purple);
+    }
+
+    .partb-story-hook {
+      margin: 14px 0 0;
+      padding: 14px 16px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--yellow);
+      border-radius: 14px;
+      line-height: 1.5;
+    }
+
+    #partBGraphSvg .partb-bar-fill.analysis-highlight {
+      stroke: var(--purple);
+      stroke-width: 5;
+      filter: drop-shadow(0 3px 0 rgba(48, 51, 47, .18));
+    }
+
+    #partBGraphSvg .partb-x-choice.analysis-highlight text {
+      fill: var(--purple);
+      font-weight: 800;
+    }
+
+    @media (max-width: 900px) {
+      .partb-construction-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .partb-unit-buttons,
+      .partb-check-grid,
+      .partb-baseline-facts,
+      .partb-analysis-animal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #partBGraphSvg .partb-bar-outline,
+      #partBGraphSvg .partb-bar-fill,
+      #partBGraphSvg .partb-final-axis-label,
+      #partBGraphSvg .partb-guide {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+    </style>
   </head>
 
   <body>
@@ -587,6 +1113,222 @@
         </section>
 
       <!-- ==================================================
+           PART B - LEARN HOW TO CONSTRUCT A BAR GRAPH
+           ================================================== -->
+      <section class="section" id="bar-construction">
+        <h2 class="section-title">Part B · Learn How to Construct a Bar Graph</h2>
+
+        <div class="diagram-box diagram-activity partb-intro-note">
+          <p class="activity-instruction">
+            Your team repeated the nocturnal-animal survey on three nights. Use the repeated counts to calculate an
+            <strong>average</strong>, then turn those averages into a bar graph one category at a time.
+          </p>
+        </div>
+
+        <div class="partb-data-card">
+          <span class="challenge-step-label">Step 1 · Find the averages</span>
+          <h3>Three nights of spotlighting</h3>
+          <p>
+            <strong>Night 1</strong> is the count from the spotlighting activity above. The other two nights are repeat surveys.
+            Calculate the average number seen for each animal before you graph the data.
+          </p>
+
+          <div class="partb-table-wrap">
+            <table class="practice-table partb-data-table" aria-label="Nocturnal animal counts across three survey nights">
+              <thead>
+                <tr>
+                  <th>Type of animal</th>
+                  <th>Night 1</th>
+                  <th>Night 2</th>
+                  <th>Night 3</th>
+                  <th>Average</th>
+                </tr>
+              </thead>
+              <tbody id="partBTableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="partb-table-actions">
+            <button type="button" class="general-button" id="partBCalculateAveragesButton">Calculate averages</button>
+            <div class="challenge-feedback" id="partBTableFeedback" role="status" aria-live="polite">
+              <strong>Start with your repeated surveys.</strong>
+              Night 1 matches the animals counted in the forest activity. The graph will use the average across all three nights.
+            </div>
+          </div>
+        </div>
+
+        <div class="partb-construction-stage challenge-hidden" id="partBConstructionStage" hidden>
+          <div class="partb-construction-grid">
+            <div class="partb-control-panel">
+              <span class="challenge-step-label" id="partBStepLabel">Step 2 · Label the axes</span>
+              <h3 id="partBControlHeading">Build the graph labels</h3>
+              <p id="partBControlText">
+                Drag the two correct labels from the bank onto the dashed spaces on the graph. The x-axis shows the categories;
+                the y-axis shows what was counted.
+              </p>
+
+              <div class="partb-label-bank" id="partBLabelBank" aria-label="Bar graph axis label cards">
+                <button type="button" class="partb-axis-card" id="partBCardAnimal" draggable="true" data-partb-card="animal">Type of animal</button>
+                <button type="button" class="partb-axis-card" id="partBCardNumber" draggable="true" data-partb-card="number">Number of animals</button>
+                <button type="button" class="partb-axis-card" id="partBCardNight" draggable="true" data-partb-card="night">Night number</button>
+                <button type="button" class="partb-axis-card" id="partBCardTemperature" draggable="true" data-partb-card="temperature">Temperature</button>
+              </div>
+
+              <div class="partb-unit-check challenge-hidden" id="partBUnitCheck" hidden>
+                <p><strong>Unit check:</strong> Do these axis labels need a measurement unit such as cm or seconds?</p>
+                <div class="partb-unit-buttons">
+                  <button type="button" class="challenge-choice" data-partb-unit="none">No unit needed</button>
+                  <button type="button" class="challenge-choice" data-partb-unit="cm">cm</button>
+                  <button type="button" class="challenge-choice" data-partb-unit="seconds">seconds</button>
+                </div>
+              </div>
+
+              <div class="partb-builder-prompt challenge-hidden" id="partBBuilderPrompt" hidden>
+                <strong id="partBBuilderPromptTitle">Choose an animal category.</strong>
+                <span id="partBBuilderPromptText">Click one of the animal names on the x-axis to begin its bar.</span>
+              </div>
+
+              <div class="challenge-feedback" id="partBFeedback" role="status" aria-live="polite">
+                <strong>Start with the axes.</strong>
+                A bar graph needs clear labels before any bars are drawn.
+              </div>
+            </div>
+
+            <div class="partb-graph-card">
+              <div class="graph-stage-heading">
+                <div>
+                  <h3>Average nocturnal animals observed</h3>
+                  <p id="partBGraphHint">First label the graph. Then you will construct each bar from its plotted point.</p>
+                </div>
+                <span class="graph-badge" id="partBGraphBadge">Axes</span>
+              </div>
+
+              <div class="graph-svg-wrap">
+                <svg class="graph-svg" id="partBGraphSvg" viewBox="0 0 760 500" role="img" aria-label="Interactive bar graph of average nocturnal animal counts">
+                  <rect x="0" y="0" width="760" height="500" rx="18" fill="white"></rect>
+
+                  <g aria-hidden="true" id="partBGridLayer"></g>
+                  <line class="graph-axis" x1="120" y1="370" x2="715" y2="370"></line>
+                  <line class="graph-axis" x1="120" y1="370" x2="120" y2="35"></line>
+
+                  <g id="partBYTicksLayer"></g>
+                  <g id="partBXCategoriesLayer"></g>
+
+                  <g id="partBXAxisDropZone" class="partb-axis-drop-zone" tabindex="0" role="button"
+                     data-partb-axis-slot="x" data-partb-expected="animal" aria-label="Drop the x-axis label here">
+                    <rect class="partb-axis-drop-hit-pad" x="285" y="422" width="260" height="76"></rect>
+                    <rect class="partb-axis-drop-box" x="315" y="440" width="200" height="42" rx="9"></rect>
+                    <text class="partb-axis-drop-text" x="415" y="466" text-anchor="middle" data-placeholder="x-axis label">x-axis label</text>
+                  </g>
+
+                  <g transform="translate(32 205) rotate(-90)">
+                    <g id="partBYAxisDropZone" class="partb-axis-drop-zone" tabindex="0" role="button"
+                       data-partb-axis-slot="y" data-partb-expected="number" aria-label="Drop the y-axis label here">
+                      <rect class="partb-axis-drop-hit-pad" x="-145" y="-38" width="290" height="76"></rect>
+                      <rect class="partb-axis-drop-box" x="-115" y="-22" width="230" height="44" rx="9"></rect>
+                      <text class="partb-axis-drop-text" x="0" y="5" text-anchor="middle" data-placeholder="y-axis label">y-axis label</text>
+                    </g>
+                  </g>
+
+                  <text class="axis-label partb-final-axis-label" id="partBXAxisLabel" x="415" y="470" text-anchor="middle">Type of animal</text>
+                  <text class="axis-label partb-final-axis-label" id="partBYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+
+                  <line class="partb-guide" id="partBVerticalGuide" x1="0" y1="40" x2="0" y2="370"></line>
+                  <line class="partb-guide" id="partBHorizontalGuide" x1="120" y1="0" x2="710" y2="0"></line>
+                  <g id="partBBarsLayer"></g>
+                  <g id="partBOutlinesLayer"></g>
+                  <circle class="partb-intersection-point" id="partBIntersectionPoint" cx="0" cy="0" r="8"></circle>
+                  <g id="partBValuesLayer"></g>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="challenge-complete partb-complete-note challenge-hidden" id="partBCompleteNote" hidden>
+            <strong>Bar graph constructed.</strong>
+            You have turned the average survey data into five correctly constructed bars.
+          </div>
+
+          <div class="partb-graph-check challenge-hidden" id="partBGraphCheck" hidden>
+            <span class="challenge-step-label">Before you analyse</span>
+            <h3>Quick bar-graph check</h3>
+            <p>The graph was built using the same construction rules for every category.</p>
+
+            <div class="partb-check-grid" aria-label="Bar graph construction checklist">
+              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Every bar starts at <strong>zero</strong>.</span></div>
+              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Every bar has the <strong>same width</strong>.</span></div>
+              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>The gaps between bars are <strong>equal</strong>.</span></div>
+              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Each bar height matches the <strong>average</strong> in the table.</span></div>
+            </div>
+
+            <button type="button" class="general-button" id="partBStartAnalysisButton">Analyse the graph</button>
+          </div>
+
+          <div class="partb-analysis-panel challenge-hidden" id="partBAnalysisPanel" hidden>
+            <span class="challenge-step-label">Step 5 · Analyse the graph</span>
+            <h3>What does your bar graph tell you?</h3>
+            <p>Use the finished graph to compare the average number of animals observed.</p>
+
+            <div class="partb-analysis-question" id="partBAnalysisQuestion1">
+              <span class="partb-analysis-progress">Question 1 of 3</span>
+              <p class="challenge-question"><strong>Which animal was found in the highest average number?</strong></p>
+              <div class="challenge-choice-grid partb-analysis-animal-grid">
+                <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="0">Leadbeater's Possum</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="1">Yellow-bellied Glider</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="2">Ringtail Possum</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="3">Powerful Owl</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="4">Feral Cats</button>
+              </div>
+            </div>
+
+            <div class="partb-analysis-question" id="partBAnalysisQuestion2" hidden>
+              <span class="partb-analysis-progress">Question 2 of 3</span>
+              <p class="challenge-question"><strong>On average, how many Leadbeater's Possums were observed?</strong></p>
+              <div class="challenge-choice-grid three-choice" id="partBLeadbeatersChoices"></div>
+            </div>
+
+            <div class="partb-analysis-question" id="partBAnalysisQuestion3" hidden>
+              <span class="partb-analysis-progress">Question 3 of 3</span>
+              <p class="challenge-question"><strong>Which animal was found in the lowest average number?</strong></p>
+              <div class="challenge-choice-grid partb-analysis-animal-grid">
+                <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="0">Leadbeater's Possum</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="1">Yellow-bellied Glider</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="2">Ringtail Possum</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="3">Powerful Owl</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="4">Feral Cats</button>
+              </div>
+            </div>
+
+            <div class="challenge-feedback" id="partBAnalysisFeedback" role="status" aria-live="polite">
+              <strong>Read the bar heights.</strong>
+              Start by finding the tallest bar.
+            </div>
+
+            <div class="partb-baseline-summary challenge-hidden" id="partBBaselineSummary" hidden>
+              <span class="challenge-step-label">Baseline survey complete</span>
+              <h3>These are your results before nest boxes</h3>
+
+              <div class="partb-baseline-facts">
+                <div class="partb-baseline-fact"><strong>Highest average</strong><span id="partBBaselineHighest">—</span></div>
+                <div class="partb-baseline-fact"><strong>Leadbeater's Possums</strong><span id="partBBaselineLeadbeaters">—</span> on average</div>
+                <div class="partb-baseline-fact"><strong>Lowest average</strong><span id="partBBaselineLowest">—</span></div>
+              </div>
+
+              <p class="partb-story-hook">
+                <strong>Keep this result in mind.</strong> These counts describe the forest <strong>before nest boxes were installed</strong>.
+                Later, you will return one year after the conservation action and compare the new survey results with this baseline.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reset-button-container">
+          <button type="button" class="general-button reset-btn" id="resetPartBConstructionButton">Reset Part B</button>
+        </div>
+      </section>
+
+
+      <!-- ==================================================
            FINAL GRAPH CHOICE CHALLENGE
            ================================================== -->
       <!-- <section class="final-graph-challenge" id="which-graph-challenge">
@@ -655,7 +1397,8 @@
 
         const lesson4SectionIds = [
             { id: "bar-graph", label: "Compare categories with a bar graph" },
-            { id: "bar-practice", label: "Build the bars" },
+            { id: "bar-practice", label: "Collect and visualise animal data" },
+            { id: "bar-construction", label: "Construct a bar graph" },
         ];
 
         const lesson4TeacherBackLink = {
@@ -1564,6 +2307,1143 @@
         );
       }
 
+
+
+      /* ==================================================
+         PART B - GUIDED BAR GRAPH CONSTRUCTION
+         ================================================== */
+
+      /*
+        Night 1 matches the spotlight activity above and the planning draft:
+        Leadbeater's Possum 2, Yellow-bellied Glider 3, Ringtail Possum 6,
+        Powerful Owl 1, Feral Cats 2.
+
+        Night 2 and Night 3 are prototype repeat-survey values only. They are
+        deliberately chosen so the averages are whole numbers on the planned
+        0-10 scale. Replace these two columns when the curriculum team confirms
+        the final repeat-survey data.
+      */
+      const partBBarData = [
+        { label: "Leadbeater's Possum", short: ["Leadbeater's", "Possum"], nights: [2, 3, 4], colour: "var(--yellow)" },
+        { label: "Yellow-bellied Glider", short: ["Yellow-bellied", "Glider"], nights: [3, 4, 5], colour: "var(--mint)" },
+        { label: "Ringtail Possum", short: ["Ringtail", "Possum"], nights: [6, 5, 7], colour: "var(--blue)" },
+        { label: "Powerful Owl", short: ["Powerful", "Owl"], nights: [1, 1, 1], colour: "var(--lavender)" },
+        { label: "Feral Cats", short: ["Feral", "Cats"], nights: [2, 2, 2], colour: "var(--soft-orange)" }
+      ];
+
+      const partBPlot = {
+        left: 120,
+        right: 710,
+        top: 40,
+        bottom: 370,
+        maxY: 10,
+        centres: [170, 290, 410, 530, 650],
+        barWidth: 70
+      };
+
+      const partBAxisValues = { x: null, y: null };
+      let partBSelectedCard = null;
+      let partBDraggedCard = null;
+      let partBTouchDragging = false;
+      let partBDragGhost = null;
+      let partBAveragesReady = false;
+      let partBStage = "averages";
+      let partBSelectedAnimalIndex = null;
+      let partBSelectedYValue = null;
+      let partBBuiltBars = new Set();
+      let partBAnalysisStep = 0;
+
+      function partBAverage(item) {
+        return item.nights.reduce(function(sum, value) { return sum + value; }, 0) / item.nights.length;
+      }
+
+      function partBFormatAverage(value) {
+        return Number.isInteger(value) ? String(value) : value.toFixed(1);
+      }
+
+      function partBY(value) {
+        return partBPlot.bottom - (value / partBPlot.maxY) * (partBPlot.bottom - partBPlot.top);
+      }
+
+      function buildPartBTable() {
+        const body = document.getElementById("partBTableBody");
+        body.innerHTML = "";
+
+        partBBarData.forEach(function(item, index) {
+          const row = document.createElement("tr");
+          row.dataset.partbRow = index;
+          row.innerHTML =
+            "<td>" + item.label + "</td>" +
+            "<td>" + item.nights[0] + "</td>" +
+            "<td>" + item.nights[1] + "</td>" +
+            "<td>" + item.nights[2] + "</td>" +
+            '<td class="partb-average-cell"><span data-partb-average="' + index + '">—</span></td>';
+          body.appendChild(row);
+        });
+      }
+
+      function buildPartBGraphScaffold() {
+        const grid = document.getElementById("partBGridLayer");
+        const yTicks = document.getElementById("partBYTicksLayer");
+        const xCategories = document.getElementById("partBXCategoriesLayer");
+        const bars = document.getElementById("partBBarsLayer");
+        const values = document.getElementById("partBValuesLayer");
+
+        grid.innerHTML = "";
+        yTicks.innerHTML = "";
+        xCategories.innerHTML = "";
+        bars.innerHTML = "";
+        values.innerHTML = "";
+
+        for (let value = 0; value <= 10; value += 1) {
+          const y = partBY(value);
+
+          const gridLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          gridLine.setAttribute("class", "graph-grid-line");
+          gridLine.setAttribute("x1", partBPlot.left);
+          gridLine.setAttribute("x2", partBPlot.right);
+          gridLine.setAttribute("y1", y);
+          gridLine.setAttribute("y2", y);
+          grid.appendChild(gridLine);
+
+          const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          group.setAttribute("class", "partb-y-choice");
+          group.dataset.partbYValue = value;
+          group.setAttribute("tabindex", "0");
+          group.setAttribute("role", "button");
+          group.setAttribute("aria-label", "Choose " + value + " on the y-axis");
+
+          const hit = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          hit.setAttribute("class", "partb-y-hit");
+          hit.setAttribute("x", 68);
+          hit.setAttribute("y", y - 14);
+          hit.setAttribute("width", 48);
+          hit.setAttribute("height", 28);
+          hit.setAttribute("rx", 6);
+
+          const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          label.setAttribute("class", "tick-label");
+          label.setAttribute("x", 103);
+          label.setAttribute("y", y + 4);
+          label.setAttribute("text-anchor", "end");
+          label.textContent = value;
+
+          group.appendChild(hit);
+          group.appendChild(label);
+          yTicks.appendChild(group);
+        }
+
+        partBBarData.forEach(function(item, index) {
+          const centre = partBPlot.centres[index];
+          const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          group.setAttribute("class", "partb-x-choice");
+          group.dataset.partbXIndex = index;
+          group.setAttribute("tabindex", "0");
+          group.setAttribute("role", "button");
+          group.setAttribute("aria-label", "Choose " + item.label + " on the x-axis");
+
+          const hit = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          hit.setAttribute("class", "partb-x-hit");
+          hit.setAttribute("x", centre - 52);
+          hit.setAttribute("y", 373);
+          hit.setAttribute("width", 104);
+          hit.setAttribute("height", 55);
+          hit.setAttribute("rx", 6);
+
+          const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          label.setAttribute("class", "tick-label");
+          label.setAttribute("x", centre);
+          label.setAttribute("y", 394);
+          label.setAttribute("text-anchor", "middle");
+
+          const line1 = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+          line1.setAttribute("x", centre);
+          line1.setAttribute("dy", 0);
+          line1.textContent = item.short[0];
+
+          const line2 = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+          line2.setAttribute("x", centre);
+          line2.setAttribute("dy", 14);
+          line2.textContent = item.short[1];
+
+          label.appendChild(line1);
+          label.appendChild(line2);
+          group.appendChild(hit);
+          group.appendChild(label);
+          xCategories.appendChild(group);
+
+          const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          bar.setAttribute("class", "partb-bar-fill");
+          bar.dataset.partbBar = index;
+          bar.setAttribute("x", centre - partBPlot.barWidth / 2);
+          bar.setAttribute("y", partBPlot.bottom);
+          bar.setAttribute("width", partBPlot.barWidth);
+          bar.setAttribute("height", 0);
+          bar.setAttribute("rx", 4);
+          bar.setAttribute("fill", item.colour);
+          bars.appendChild(bar);
+
+          const valueLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          valueLabel.setAttribute("class", "partb-value-label");
+          valueLabel.dataset.partbValueLabel = index;
+          valueLabel.setAttribute("x", centre);
+          valueLabel.setAttribute("y", Math.max(partBPlot.top + 16, partBY(partBAverage(item)) - 10));
+          valueLabel.textContent = partBFormatAverage(partBAverage(item));
+          values.appendChild(valueLabel);
+        });
+      }
+
+      function calculatePartBAverages() {
+        document.querySelectorAll("[data-partb-average]").forEach(function(cell, index) {
+          const value = partBAverage(partBBarData[index]);
+          cell.textContent = partBFormatAverage(value);
+          cell.closest("td").classList.add("calculated");
+        });
+
+        partBAveragesReady = true;
+        partBStage = "axes";
+        document.getElementById("partBCalculateAveragesButton").disabled = true;
+        document.getElementById("partBConstructionStage").hidden = false;
+
+        setChallengeFeedback(
+          "partBTableFeedback",
+          "success",
+          "Averages calculated.",
+          " These average counts are the values you will represent with the heights of the bars."
+        );
+
+        window.setTimeout(function() {
+          document.getElementById("partBConstructionStage").scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
+      }
+
+      function partBCardLabel(value) {
+        return {
+          animal: "Type of animal",
+          number: "Number of animals",
+          night: "Night number",
+          temperature: "Temperature"
+        }[value] || value;
+      }
+
+      function partBClearCardSelection() {
+        document.querySelectorAll(".partb-axis-card.selected").forEach(function(card) {
+          card.classList.remove("selected");
+        });
+        partBSelectedCard = null;
+      }
+
+      function partBCreateDragGhost(card) {
+        partBRemoveDragGhost();
+        const ghost = document.createElement("div");
+        ghost.className = "partb-drag-ghost";
+        const clone = card.cloneNode(true);
+        clone.disabled = false;
+        clone.removeAttribute("draggable");
+        clone.classList.remove("selected", "placed", "is-dragging");
+        ghost.appendChild(clone);
+        document.body.appendChild(ghost);
+        partBDragGhost = ghost;
+      }
+
+      function partBMoveDragGhost(point) {
+        if (!partBDragGhost || !point) return;
+        partBDragGhost.style.left = (point.clientX - partBDragGhost.offsetWidth / 2) + "px";
+        partBDragGhost.style.top = (point.clientY - partBDragGhost.offsetHeight / 2) + "px";
+      }
+
+      function partBRemoveDragGhost() {
+        if (!partBDragGhost) return;
+        partBDragGhost.remove();
+        partBDragGhost = null;
+      }
+
+      function partBClearDropHover() {
+        document.querySelectorAll("#partBGraphSvg .partb-axis-drop-zone").forEach(function(zone) {
+          zone.classList.remove("drag-over");
+        });
+        if (partBDragGhost) partBDragGhost.classList.remove("is-hovering-drop-zone");
+      }
+
+      function partBGetDropZoneAtPoint(clientX, clientY, tolerance) {
+        const extra = typeof tolerance === "number" ? tolerance : 28;
+        const zones = Array.from(document.querySelectorAll("#partBGraphSvg .partb-axis-drop-zone")).filter(function(zone) {
+          return !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete");
+        });
+
+        let closestZone = null;
+        let closestDistance = Infinity;
+
+        zones.forEach(function(zone) {
+          const hitPad = zone.querySelector(".partb-axis-drop-hit-pad") || zone;
+          const rect = hitPad.getBoundingClientRect();
+          const inside =
+            clientX >= rect.left - extra && clientX <= rect.right + extra &&
+            clientY >= rect.top - extra && clientY <= rect.bottom + extra;
+
+          if (!inside) return;
+
+          const centreX = rect.left + rect.width / 2;
+          const centreY = rect.top + rect.height / 2;
+          const distance = Math.hypot(clientX - centreX, clientY - centreY);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestZone = zone;
+          }
+        });
+
+        return closestZone;
+      }
+
+      function partBTryPlaceAxisCard(card, zone) {
+        if (!card || !zone || card.disabled || zone.classList.contains("drop-complete")) return;
+
+        const cardValue = card.dataset.partbCard;
+        const expected = zone.dataset.partbExpected;
+
+        if (cardValue !== expected) {
+          zone.classList.remove("drag-over");
+          zone.classList.add("drop-incorrect");
+          window.setTimeout(function() { zone.classList.remove("drop-incorrect"); }, 500);
+          partBClearCardSelection();
+
+          setChallengeFeedback(
+            "partBFeedback",
+            "try-again",
+            "That label does not belong on this axis.",
+            zone.dataset.partbAxisSlot === "x"
+              ? " The x-axis holds the animal categories."
+              : " The y-axis shows how many animals were counted."
+          );
+          return;
+        }
+
+        const textNode = zone.querySelector(".partb-axis-drop-text");
+        if (textNode) textNode.textContent = partBCardLabel(cardValue);
+        zone.classList.remove("drag-over");
+        zone.classList.add("drop-complete");
+        card.classList.remove("selected", "is-dragging");
+        card.classList.add("placed");
+        card.disabled = true;
+        card.setAttribute("draggable", "false");
+        partBAxisValues[zone.dataset.partbAxisSlot] = cardValue;
+        partBSelectedCard = null;
+
+        setChallengeFeedback(
+          "partBFeedback",
+          "success",
+          partBCardLabel(cardValue) + " is in the right place.",
+          " Finish the other axis label."
+        );
+
+        partBUpdateAxisLabels();
+      }
+
+      function partBUpdateAxisLabels() {
+        const ready = partBAxisValues.x === "animal" && partBAxisValues.y === "number";
+        if (!ready) return;
+
+        partBStage = "unit";
+        document.getElementById("partBUnitCheck").hidden = false;
+        document.getElementById("partBStepLabel").textContent = "Step 3 · Check the units";
+        document.getElementById("partBControlHeading").textContent = "Do these labels need units?";
+        document.getElementById("partBControlText").textContent = "Some graph axes need units such as cm, °C or seconds. Decide whether these two labels need one.";
+
+        setChallengeFeedback(
+          "partBFeedback",
+          "success",
+          "Both variables are on the correct axes.",
+          " Now check whether a measurement unit is needed."
+        );
+      }
+
+      function partBHandleUnitChoice(button) {
+        if (partBStage !== "unit") return;
+
+        if (button.dataset.partbUnit !== "none") {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "partBFeedback",
+            "try-again",
+            "Not this time.",
+            " We are sorting animals into categories and counting how many were seen. We are not measuring a length, time or temperature."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        document.getElementById("partBXAxisDropZone").classList.add("axis-complete");
+        document.getElementById("partBYAxisDropZone").classList.add("axis-complete");
+        document.getElementById("partBXAxisLabel").classList.add("visible");
+        document.getElementById("partBYAxisLabel").classList.add("visible");
+        document.getElementById("partBLabelBank").hidden = true;
+        document.getElementById("partBUnitCheck").hidden = true;
+        document.getElementById("partBBuilderPrompt").hidden = false;
+        document.getElementById("partBStepLabel").textContent = "Step 4 · Construct the bars";
+        document.getElementById("partBControlHeading").textContent = "Build each bar from a plotted point";
+        document.getElementById("partBControlText").textContent = "For each animal: choose the category on the x-axis, choose the average count on the y-axis, then mark where the two dotted guides meet.";
+        document.getElementById("partBGraphBadge").textContent = "Build";
+        document.getElementById("partBGraphHint").textContent = "Choose an animal on the x-axis to start a vertical guide.";
+        partBStage = "category";
+
+        setChallengeFeedback(
+          "partBFeedback",
+          "success",
+          "No measurement unit is needed.",
+          " ‘Type of animal’ is a category and ‘Number of animals’ is a count. Now construct the bars."
+        );
+      }
+
+      function partBInitialiseAxisDragAndDrop() {
+        const cards = document.querySelectorAll(".partb-axis-card");
+        const zones = document.querySelectorAll("#partBGraphSvg .partb-axis-drop-zone");
+
+        cards.forEach(function(card) {
+          card.addEventListener("dragstart", function(event) {
+            if (card.disabled || card.classList.contains("placed")) {
+              event.preventDefault();
+              return;
+            }
+
+            partBDraggedCard = card;
+            card.classList.add("is-dragging");
+            event.dataTransfer.setData("text/plain", card.id);
+            event.dataTransfer.effectAllowed = "move";
+
+            const transparent = document.createElement("div");
+            transparent.style.position = "absolute";
+            transparent.style.width = "1px";
+            transparent.style.height = "1px";
+            transparent.style.opacity = "0";
+            document.body.appendChild(transparent);
+            event.dataTransfer.setDragImage(transparent, 0, 0);
+            window.setTimeout(function() { transparent.remove(); }, 0);
+
+            partBCreateDragGhost(card);
+            partBMoveDragGhost(event);
+          });
+
+          card.addEventListener("dragend", function() {
+            card.classList.remove("is-dragging");
+            partBClearDropHover();
+            partBRemoveDragGhost();
+            partBDraggedCard = null;
+          });
+
+          card.addEventListener("touchstart", function(event) {
+            if (card.disabled || card.classList.contains("placed")) return;
+            partBDraggedCard = card;
+            partBTouchDragging = true;
+            card.classList.add("is-dragging");
+            const touch = event.touches[0];
+            partBCreateDragGhost(card);
+            partBMoveDragGhost(touch);
+            event.preventDefault();
+          }, { passive: false });
+
+          card.addEventListener("touchmove", function(event) {
+            if (!partBTouchDragging || !partBDraggedCard) return;
+            event.preventDefault();
+            const touch = event.touches[0];
+            partBMoveDragGhost(touch);
+            const zone = partBGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+            partBClearDropHover();
+            if (zone) {
+              zone.classList.add("drag-over");
+              if (partBDragGhost) partBDragGhost.classList.add("is-hovering-drop-zone");
+            }
+          }, { passive: false });
+
+          card.addEventListener("touchend", function(event) {
+            if (!partBTouchDragging || !partBDraggedCard) return;
+            event.preventDefault();
+            const touch = event.changedTouches[0];
+            const zone = partBGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+            partBClearDropHover();
+            if (zone) partBTryPlaceAxisCard(partBDraggedCard, zone);
+            if (partBDraggedCard) partBDraggedCard.classList.remove("is-dragging");
+            partBRemoveDragGhost();
+            partBDraggedCard = null;
+            partBTouchDragging = false;
+          }, { passive: false });
+
+          card.addEventListener("touchcancel", function() {
+            if (partBDraggedCard) partBDraggedCard.classList.remove("is-dragging");
+            partBClearDropHover();
+            partBRemoveDragGhost();
+            partBDraggedCard = null;
+            partBTouchDragging = false;
+          });
+
+          card.addEventListener("click", function() {
+            if (card.disabled || card.classList.contains("placed")) return;
+            const alreadySelected = partBSelectedCard === card;
+            partBClearCardSelection();
+            if (!alreadySelected) {
+              partBSelectedCard = card;
+              card.classList.add("selected");
+            }
+          });
+        });
+
+        document.addEventListener("dragover", function(event) {
+          if (!partBDraggedCard) return;
+          event.preventDefault();
+          partBMoveDragGhost(event);
+          const zone = partBGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+          partBClearDropHover();
+          if (zone) {
+            zone.classList.add("drag-over");
+            if (partBDragGhost) partBDragGhost.classList.add("is-hovering-drop-zone");
+            if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+          }
+        });
+
+        document.addEventListener("drop", function(event) {
+          if (!partBDraggedCard) return;
+          event.preventDefault();
+          const zone = partBGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+          partBClearDropHover();
+          if (zone) partBTryPlaceAxisCard(partBDraggedCard, zone);
+        });
+
+        zones.forEach(function(zone) {
+          zone.addEventListener("click", function() {
+            if (partBSelectedCard) partBTryPlaceAxisCard(partBSelectedCard, zone);
+          });
+
+          zone.addEventListener("keydown", function(event) {
+            if ((event.key === "Enter" || event.key === " ") && partBSelectedCard) {
+              event.preventDefault();
+              partBTryPlaceAxisCard(partBSelectedCard, zone);
+            }
+          });
+        });
+      }
+
+      function partBSetActiveX(index) {
+        document.querySelectorAll("#partBGraphSvg .partb-x-choice").forEach(function(group, groupIndex) {
+          group.classList.toggle("active", groupIndex === index);
+        });
+      }
+
+      function partBSetActiveY(value) {
+        document.querySelectorAll("#partBGraphSvg .partb-y-choice").forEach(function(group) {
+          group.classList.toggle("active", Number(group.dataset.partbYValue) === value);
+        });
+      }
+
+      function partBChooseCategory(index) {
+        if (partBStage !== "category") return;
+
+        if (partBBuiltBars.has(index)) {
+          setChallengeFeedback("partBFeedback", "try-again", "That bar is already complete.", " Choose one of the remaining animal categories.");
+          return;
+        }
+
+        partBSelectedAnimalIndex = index;
+        partBSelectedYValue = null;
+        partBSetActiveX(index);
+        partBSetActiveY(null);
+
+        const x = partBPlot.centres[index];
+        const vertical = document.getElementById("partBVerticalGuide");
+        vertical.setAttribute("x1", x);
+        vertical.setAttribute("x2", x);
+        vertical.classList.add("visible");
+        document.getElementById("partBHorizontalGuide").classList.remove("visible");
+        document.getElementById("partBIntersectionPoint").classList.remove("visible", "wrong");
+
+        partBStage = "y";
+        document.getElementById("partBBuilderPromptTitle").textContent = partBBarData[index].label + " selected.";
+        document.getElementById("partBBuilderPromptText").textContent = "Now click the y-axis value that represents this animal's average count.";
+        document.getElementById("partBGraphHint").textContent = "The vertical dotted guide identifies the animal category. Now choose a value on the y-axis.";
+
+        setChallengeFeedback(
+          "partBFeedback",
+          "",
+          "Follow the category upwards.",
+          " The vertical dotted line keeps going through the plotting area so you can line it up with a y-value."
+        );
+      }
+
+      function partBChooseY(value) {
+        if (partBStage !== "y" && partBStage !== "intersection") return;
+        if (partBSelectedAnimalIndex === null) return;
+
+        const expected = partBAverage(partBBarData[partBSelectedAnimalIndex]);
+
+        /*
+          Check the data value as soon as the student chooses the y-axis.
+          A wrong value never creates the horizontal guide, so the next
+          task is always locating the intersection of the correct x and y.
+        */
+        if (Math.abs(value - expected) > 0.001) {
+          const wrongChoice = document.querySelector('[data-partb-y-value="' + value + '"]');
+          if (wrongChoice) {
+            wrongChoice.classList.add("try-again");
+            window.setTimeout(function() {
+              wrongChoice.classList.remove("try-again");
+            }, 550);
+          }
+
+          partBSetActiveY(null);
+          document.getElementById("partBHorizontalGuide").classList.remove("visible");
+          document.getElementById("partBIntersectionPoint").classList.remove("visible", "wrong");
+          partBSelectedYValue = null;
+          partBStage = "y";
+
+          setChallengeFeedback(
+            "partBFeedback",
+            "try-again",
+            "Check the average in the table.",
+            " That y-axis value does not match the average for " + partBBarData[partBSelectedAnimalIndex].label + ". Check the table and try again."
+          );
+          return;
+        }
+
+        partBSelectedYValue = value;
+        partBSetActiveY(value);
+
+        const y = partBY(value);
+        const horizontal = document.getElementById("partBHorizontalGuide");
+        horizontal.setAttribute("y1", y);
+        horizontal.setAttribute("y2", y);
+        horizontal.classList.add("visible");
+        document.getElementById("partBIntersectionPoint").classList.remove("visible", "wrong");
+
+        partBStage = "intersection";
+        document.getElementById("partBBuilderPromptTitle").textContent = "Where do the two dotted lines meet?";
+        document.getElementById("partBBuilderPromptText").textContent = "Click the intersection to mark the data point before the bar is drawn.";
+        document.getElementById("partBGraphHint").textContent = "The two guides cross at one coordinate. Click that intersection.";
+
+        setChallengeFeedback(
+          "partBFeedback",
+          "success",
+          "Correct y-value.",
+          " Now use the vertical and horizontal guides together and mark where they intersect."
+        );
+      }
+
+      function partBSvgPoint(event) {
+        const svg = document.getElementById("partBGraphSvg");
+        const point = svg.createSVGPoint();
+        point.x = event.clientX;
+        point.y = event.clientY;
+        const matrix = svg.getScreenCTM();
+        return matrix ? point.matrixTransform(matrix.inverse()) : null;
+      }
+
+      function partBHandleGraphIntersection(event) {
+        if (partBStage !== "intersection" || partBSelectedAnimalIndex === null || partBSelectedYValue === null) return;
+
+        if (event.target.closest && event.target.closest(".partb-x-choice, .partb-y-choice, .partb-axis-drop-zone")) return;
+
+        const point = partBSvgPoint(event);
+        if (!point) return;
+
+        const targetX = partBPlot.centres[partBSelectedAnimalIndex];
+        const targetY = partBY(partBSelectedYValue);
+        const distance = Math.hypot(point.x - targetX, point.y - targetY);
+
+        if (distance > 30) {
+          setChallengeFeedback(
+            "partBFeedback",
+            "try-again",
+            "Find the crossing point.",
+            " Place the point where the vertical and horizontal dotted guides intersect."
+          );
+          return;
+        }
+
+        const marker = document.getElementById("partBIntersectionPoint");
+        marker.setAttribute("cx", targetX);
+        marker.setAttribute("cy", targetY);
+        marker.classList.remove("wrong");
+        marker.classList.add("visible");
+
+        const expected = partBAverage(partBBarData[partBSelectedAnimalIndex]);
+
+        if (Math.abs(partBSelectedYValue - expected) > 0.001) {
+          marker.classList.add("wrong");
+          setChallengeFeedback(
+            "partBFeedback",
+            "try-again",
+            "You found the intersection, but the y-value does not match the table.",
+            " Check the average for " + partBBarData[partBSelectedAnimalIndex].label + ", then choose the y-axis value again."
+          );
+
+          window.setTimeout(function() {
+            marker.classList.remove("visible", "wrong");
+            document.getElementById("partBHorizontalGuide").classList.remove("visible");
+            partBSetActiveY(null);
+            partBSelectedYValue = null;
+            partBStage = "y";
+            document.getElementById("partBBuilderPromptTitle").textContent = "Try the y-axis again.";
+            document.getElementById("partBBuilderPromptText").textContent = "Use the average in the table for this animal.";
+          }, 700);
+          return;
+        }
+
+        partBStage = "animating";
+        setChallengeFeedback(
+          "partBFeedback",
+          "success",
+          "Correct data point.",
+          " Watch how that point becomes the top of a bar that starts at zero."
+        );
+        partBAnimateBar(partBSelectedAnimalIndex, expected);
+      }
+
+      function partBAnimateBar(index, value) {
+        const centre = partBPlot.centres[index];
+        const y = partBY(value);
+        const left = centre - partBPlot.barWidth / 2;
+        const right = centre + partBPlot.barWidth / 2;
+        const bottom = partBPlot.bottom;
+        const outlineLayer = document.getElementById("partBOutlinesLayer");
+        const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        /*
+          Draw the bar the way a student would construct it by hand:
+          1. extend the top horizontally from the plotted point;
+          2. draw both vertical sides down to zero;
+          3. fill the completed bar;
+          4. show this bar's value above it.
+        */
+        function makeAnimatedLine(x1, y1, x2, y2, durationSeconds) {
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("class", "partb-bar-outline");
+          line.setAttribute("x1", x1);
+          line.setAttribute("y1", y1);
+          line.setAttribute("x2", x2);
+          line.setAttribute("y2", y2);
+          outlineLayer.appendChild(line);
+
+          const length = Math.hypot(x2 - x1, y2 - y1);
+          line.style.strokeDasharray = String(length);
+          line.style.strokeDashoffset = String(length);
+
+          requestAnimationFrame(function() {
+            line.style.transition = reduceMotion ? "none" : "stroke-dashoffset " + durationSeconds + "s ease";
+            line.style.strokeDashoffset = "0";
+          });
+
+          return line;
+        }
+
+        const topDuration = reduceMotion ? 0 : 750;
+        const sideDuration = reduceMotion ? 0 : 1000;
+        const fillDuration = reduceMotion ? 0 : 450;
+
+        /* Draw the top from the plotted point outwards in both directions. */
+        makeAnimatedLine(centre, y, right, y, .75);
+        makeAnimatedLine(centre, y, left, y, .75);
+
+        /* Only after the top is finished do the sides travel down to zero. */
+        window.setTimeout(function() {
+          makeAnimatedLine(left, y, left, bottom, 1);
+          makeAnimatedLine(right, y, right, bottom, 1);
+        }, topDuration);
+
+        window.setTimeout(function() {
+          const bar = document.querySelector('[data-partb-bar="' + index + '"]');
+          bar.style.transition = reduceMotion ? "none" : "opacity .45s ease";
+          bar.setAttribute("y", y);
+          bar.setAttribute("height", bottom - y);
+          bar.classList.add("visible");
+
+          window.setTimeout(function() {
+            const valueLabel = document.querySelector('[data-partb-value-label="' + index + '"]');
+            if (valueLabel) valueLabel.classList.add("visible");
+
+            partBBuiltBars.add(index);
+            const xChoice = document.querySelector('[data-partb-x-index="' + index + '"]');
+            if (xChoice) {
+              xChoice.classList.remove("active");
+              xChoice.classList.add("complete");
+            }
+
+            document.getElementById("partBVerticalGuide").classList.remove("visible");
+            document.getElementById("partBHorizontalGuide").classList.remove("visible");
+            document.getElementById("partBIntersectionPoint").classList.remove("visible");
+            partBSetActiveY(null);
+            partBSelectedAnimalIndex = null;
+            partBSelectedYValue = null;
+
+            if (partBBuiltBars.size === partBBarData.length) {
+              partBFinishConstruction();
+              return;
+            }
+
+            partBStage = "category";
+            document.getElementById("partBBuilderPromptTitle").textContent = "Bar complete.";
+            document.getElementById("partBBuilderPromptText").textContent = "Choose another animal category on the x-axis.";
+            document.getElementById("partBGraphHint").textContent = "Choose another animal to repeat the same construction steps.";
+            setChallengeFeedback(
+              "partBFeedback",
+              "success",
+              partBBarData[index].label + " is complete.",
+              " Its value is shown above the bar. Notice that the bar begins at zero and its top reaches the plotted point. Choose another category."
+            );
+          }, fillDuration);
+        }, topDuration + sideDuration);
+      }
+
+      function partBFinishConstruction() {
+        partBStage = "complete";
+        document.getElementById("partBGraphBadge").textContent = "Complete ✓";
+        document.getElementById("partBBuilderPromptTitle").textContent = "All five bars are complete.";
+        document.getElementById("partBBuilderPromptText").textContent = "You used the same process for every category: x-value, y-value, intersection, then bar.";
+        document.getElementById("partBGraphHint").textContent = "The completed bars are equal in width, equally spaced and all start at zero.";
+        document.getElementById("partBCompleteNote").hidden = false;
+        document.getElementById("partBGraphCheck").hidden = false;
+
+        setChallengeFeedback(
+          "partBFeedback",
+          "success",
+          "You constructed the bar graph correctly.",
+          " Before analysing the data, check the construction rules you just used."
+        );
+
+        window.setTimeout(function() {
+          document.getElementById("partBGraphCheck").scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 350);
+      }
+
+      function partBClearAnalysisHighlight() {
+        document.querySelectorAll("#partBGraphSvg .analysis-highlight").forEach(function(element) {
+          element.classList.remove("analysis-highlight");
+        });
+      }
+
+      function partBHighlightBar(index) {
+        partBClearAnalysisHighlight();
+        const bar = document.querySelector('[data-partb-bar="' + index + '"]');
+        const xChoice = document.querySelector('[data-partb-x-index="' + index + '"]');
+        if (bar) bar.classList.add("analysis-highlight");
+        if (xChoice) xChoice.classList.add("analysis-highlight");
+      }
+
+      function partBHighestIndex() {
+        let bestIndex = 0;
+        partBBarData.forEach(function(item, index) {
+          if (partBAverage(item) > partBAverage(partBBarData[bestIndex])) bestIndex = index;
+        });
+        return bestIndex;
+      }
+
+      function partBLowestIndex() {
+        let bestIndex = 0;
+        partBBarData.forEach(function(item, index) {
+          if (partBAverage(item) < partBAverage(partBBarData[bestIndex])) bestIndex = index;
+        });
+        return bestIndex;
+      }
+
+      function partBBuildLeadbeatersChoices() {
+        const choices = document.getElementById("partBLeadbeatersChoices");
+        const expected = partBAverage(partBBarData[0]);
+        const options = [Math.max(0, expected - 1), expected, expected + 1];
+
+        choices.innerHTML = "";
+        options.forEach(function(value) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "challenge-choice";
+          button.dataset.partbAnalysis = "leadbeaters";
+          button.dataset.partbValue = value;
+          button.textContent = partBFormatAverage(value);
+          button.addEventListener("click", function() { partBHandleAnalysisChoice(button); });
+          choices.appendChild(button);
+        });
+      }
+
+      function partBStartAnalysis() {
+        if (partBBuiltBars.size !== partBBarData.length) return;
+
+        partBAnalysisStep = 1;
+        document.getElementById("partBAnalysisPanel").hidden = false;
+        document.getElementById("partBStartAnalysisButton").disabled = true;
+        document.getElementById("partBGraphBadge").textContent = "Analyse";
+        document.getElementById("partBGraphHint").textContent = "Use the completed bars and their values as evidence.";
+
+        setChallengeFeedback(
+          "partBAnalysisFeedback",
+          "",
+          "Read the bar heights.",
+          " Start by finding the tallest bar."
+        );
+
+        window.setTimeout(function() {
+          document.getElementById("partBAnalysisPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
+      }
+
+      function partBHandleAnalysisChoice(button) {
+        const kind = button.dataset.partbAnalysis;
+
+        if (kind === "highest") {
+          const selectedIndex = Number(button.dataset.partbIndex);
+          const expectedIndex = partBHighestIndex();
+
+          if (selectedIndex !== expectedIndex) {
+            flashChoice(button, "try-again-choice");
+            setChallengeFeedback(
+              "partBAnalysisFeedback",
+              "try-again",
+              "Look for the tallest bar.",
+              " Compare the heights of all five bars, then try again."
+            );
+            return;
+          }
+
+          flashChoice(button, "correct-choice");
+          partBHighlightBar(expectedIndex);
+          document.getElementById("partBAnalysisQuestion1").hidden = true;
+          document.getElementById("partBAnalysisQuestion2").hidden = false;
+          partBAnalysisStep = 2;
+
+          setChallengeFeedback(
+            "partBAnalysisFeedback",
+            "success",
+            partBBarData[expectedIndex].label + " has the highest average.",
+            " Its bar reaches " + partBFormatAverage(partBAverage(partBBarData[expectedIndex])) + ". Now read the Leadbeater's Possum bar."
+          );
+          return;
+        }
+
+        if (kind === "leadbeaters") {
+          const selectedValue = Number(button.dataset.partbValue);
+          const expectedValue = partBAverage(partBBarData[0]);
+
+          if (Math.abs(selectedValue - expectedValue) > 0.001) {
+            flashChoice(button, "try-again-choice");
+            partBHighlightBar(0);
+            setChallengeFeedback(
+              "partBAnalysisFeedback",
+              "try-again",
+              "Read the top of the Leadbeater's Possum bar.",
+              " Use the y-axis scale or the value above the bar."
+            );
+            return;
+          }
+
+          flashChoice(button, "correct-choice");
+          partBHighlightBar(0);
+          document.getElementById("partBAnalysisQuestion2").hidden = true;
+          document.getElementById("partBAnalysisQuestion3").hidden = false;
+          partBAnalysisStep = 3;
+
+          setChallengeFeedback(
+            "partBAnalysisFeedback",
+            "success",
+            "Leadbeater's Possums averaged " + partBFormatAverage(expectedValue) + ".",
+            " One more comparison: find the shortest bar."
+          );
+          return;
+        }
+
+        if (kind === "lowest") {
+          const selectedIndex = Number(button.dataset.partbIndex);
+          const expectedIndex = partBLowestIndex();
+
+          if (selectedIndex !== expectedIndex) {
+            flashChoice(button, "try-again-choice");
+            setChallengeFeedback(
+              "partBAnalysisFeedback",
+              "try-again",
+              "Look for the shortest bar.",
+              " The shortest bar represents the smallest average count."
+            );
+            return;
+          }
+
+          flashChoice(button, "correct-choice");
+          partBHighlightBar(expectedIndex);
+          document.getElementById("partBAnalysisQuestion3").hidden = true;
+          partBAnalysisStep = 4;
+          partBFinishAnalysis();
+        }
+      }
+
+      function partBFinishAnalysis() {
+        const highestIndex = partBHighestIndex();
+        const lowestIndex = partBLowestIndex();
+        const leadbeatersAverage = partBAverage(partBBarData[0]);
+
+        document.getElementById("partBBaselineHighest").textContent =
+          partBBarData[highestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[highestIndex])) + ")";
+        document.getElementById("partBBaselineLeadbeaters").textContent = partBFormatAverage(leadbeatersAverage);
+        document.getElementById("partBBaselineLowest").textContent =
+          partBBarData[lowestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[lowestIndex])) + ")";
+
+        document.getElementById("partBBaselineSummary").hidden = false;
+        document.getElementById("partBGraphBadge").textContent = "Baseline ✓";
+        document.getElementById("partBGraphHint").textContent = "This graph is the baseline survey before nest boxes are installed.";
+        document.getElementById("bar-construction").classList.add("completed");
+
+        setChallengeFeedback(
+          "partBAnalysisFeedback",
+          "success",
+          "You analysed the baseline survey.",
+          " These results will be used later to compare what happens after nest boxes are installed."
+        );
+
+        window.setTimeout(function() {
+          document.getElementById("partBBaselineSummary").scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 220);
+      }
+
+      function resetPartBConstruction() {
+        partBAxisValues.x = null;
+        partBAxisValues.y = null;
+        partBSelectedCard = null;
+        partBDraggedCard = null;
+        partBTouchDragging = false;
+        partBRemoveDragGhost();
+        partBAveragesReady = false;
+        partBStage = "averages";
+        partBSelectedAnimalIndex = null;
+        partBSelectedYValue = null;
+        partBBuiltBars = new Set();
+
+        document.querySelectorAll("[data-partb-average]").forEach(function(cell) {
+          cell.textContent = "—";
+          cell.closest("td").classList.remove("calculated");
+        });
+
+        const calculateButton = document.getElementById("partBCalculateAveragesButton");
+        calculateButton.disabled = false;
+        document.getElementById("partBConstructionStage").hidden = true;
+        document.getElementById("partBUnitCheck").hidden = true;
+        document.getElementById("partBBuilderPrompt").hidden = true;
+        document.getElementById("partBCompleteNote").hidden = true;
+        document.getElementById("partBGraphCheck").hidden = true;
+        document.getElementById("partBAnalysisPanel").hidden = true;
+        document.getElementById("partBBaselineSummary").hidden = true;
+        document.getElementById("partBAnalysisQuestion1").hidden = false;
+        document.getElementById("partBAnalysisQuestion2").hidden = true;
+        document.getElementById("partBAnalysisQuestion3").hidden = true;
+        document.getElementById("partBStartAnalysisButton").disabled = false;
+        document.getElementById("bar-construction").classList.remove("completed");
+        partBAnalysisStep = 0;
+        partBClearAnalysisHighlight();
+        document.querySelectorAll("[data-partb-analysis]").forEach(function(button) {
+          button.classList.remove("correct-choice", "try-again-choice");
+        });
+        document.getElementById("partBLabelBank").hidden = false;
+        document.getElementById("partBStepLabel").textContent = "Step 2 · Label the axes";
+        document.getElementById("partBControlHeading").textContent = "Build the graph labels";
+        document.getElementById("partBControlText").textContent = "Drag the two correct labels from the bank onto the dashed spaces on the graph. The x-axis shows the categories; the y-axis shows what was counted.";
+        document.getElementById("partBGraphBadge").textContent = "Axes";
+        document.getElementById("partBGraphHint").textContent = "First label the graph. Then you will construct each bar from its plotted point.";
+
+        document.querySelectorAll(".partb-axis-card").forEach(function(card) {
+          card.classList.remove("selected", "placed", "is-dragging");
+          card.disabled = false;
+          card.setAttribute("draggable", "true");
+        });
+
+        document.querySelectorAll("#partBGraphSvg .partb-axis-drop-zone").forEach(function(zone) {
+          zone.classList.remove("drop-complete", "drop-incorrect", "drag-over", "axis-complete");
+          const label = zone.querySelector(".partb-axis-drop-text");
+          if (label) label.textContent = label.dataset.placeholder;
+        });
+
+        document.getElementById("partBXAxisLabel").classList.remove("visible");
+        document.getElementById("partBYAxisLabel").classList.remove("visible");
+        document.getElementById("partBVerticalGuide").classList.remove("visible");
+        document.getElementById("partBHorizontalGuide").classList.remove("visible");
+        document.getElementById("partBIntersectionPoint").classList.remove("visible", "wrong");
+        document.getElementById("partBOutlinesLayer").innerHTML = "";
+
+        document.querySelectorAll("[data-partb-bar]").forEach(function(bar) {
+          bar.setAttribute("y", partBPlot.bottom);
+          bar.setAttribute("height", 0);
+          bar.classList.remove("visible");
+        });
+
+        document.querySelectorAll("#partBGraphSvg .partb-x-choice").forEach(function(group) {
+          group.classList.remove("active", "complete");
+        });
+        document.querySelectorAll("#partBGraphSvg .partb-y-choice").forEach(function(group) {
+          group.classList.remove("active");
+        });
+        document.querySelectorAll("[data-partb-value-label]").forEach(function(label) {
+          label.classList.remove("visible");
+        });
+        document.querySelectorAll("[data-partb-unit]").forEach(function(button) {
+          button.classList.remove("correct-choice", "try-again-choice");
+        });
+
+        setChallengeFeedback(
+          "partBTableFeedback",
+          "",
+          "Start with your repeated surveys.",
+          " Night 1 matches the animals counted in the forest activity. The graph will use the average across all three nights."
+        );
+
+        setChallengeFeedback(
+          "partBFeedback",
+          "",
+          "Start with the axes.",
+          " A bar graph needs clear labels before any bars are drawn."
+        );
+
+        setChallengeFeedback(
+          "partBAnalysisFeedback",
+          "",
+          "Read the bar heights.",
+          " Start by finding the tallest bar."
+        );
+      }
+
+      function initialisePartBConstruction() {
+        buildPartBTable();
+        buildPartBGraphScaffold();
+        partBInitialiseAxisDragAndDrop();
+
+        document.getElementById("partBCalculateAveragesButton").addEventListener("click", calculatePartBAverages);
+        document.querySelectorAll("[data-partb-unit]").forEach(function(button) {
+          button.addEventListener("click", function() { partBHandleUnitChoice(button); });
+        });
+
+        document.querySelectorAll("#partBGraphSvg .partb-x-choice").forEach(function(group) {
+          const activate = function() { partBChooseCategory(Number(group.dataset.partbXIndex)); };
+          group.addEventListener("click", activate);
+          group.addEventListener("keydown", function(event) {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              activate();
+            }
+          });
+        });
+
+        document.querySelectorAll("#partBGraphSvg .partb-y-choice").forEach(function(group) {
+          const activate = function() { partBChooseY(Number(group.dataset.partbYValue)); };
+          group.addEventListener("click", activate);
+          group.addEventListener("keydown", function(event) {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              activate();
+            }
+          });
+        });
+
+        document.getElementById("partBGraphSvg").addEventListener("click", partBHandleGraphIntersection);
+        document.getElementById("partBStartAnalysisButton").addEventListener("click", partBStartAnalysis);
+        partBBuildLeadbeatersChoices();
+        document.querySelectorAll('[data-partb-analysis="highest"], [data-partb-analysis="lowest"]').forEach(function(button) {
+          button.addEventListener("click", function() { partBHandleAnalysisChoice(button); });
+        });
+        document.getElementById("resetPartBConstructionButton").addEventListener("click", resetPartBConstruction);
+
+        resetPartBConstruction();
+      }
+
+
       /* ---------- Pie practice ---------- */
 
       const piePracticeData = [
@@ -1882,7 +3762,7 @@
 
       document.addEventListener("DOMContentLoaded", function() {
         if (typeof initialiseTeacherMenu === "function") {
-          initialiseTeacherMenu(lesson4SectionIds, "line-graph", lesson4TeacherBackLink);
+          initialiseTeacherMenu(lesson4SectionIds, "bar-graph", lesson4TeacherBackLink);
         }
 
         // buildPieElements();
@@ -1913,6 +3793,8 @@
           button.addEventListener("click", function() { handleBarDetectiveChoice(button); });
         });
         document.getElementById("resetBarPracticeButton").addEventListener("click", resetBarPractice);
+
+        initialisePartBConstruction();
 
         // document.querySelectorAll("[data-pie-total]").forEach(function(button) {
         //   button.addEventListener("click", function() { handlePieTotalChoice(button); });
