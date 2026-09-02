@@ -679,6 +679,7 @@
 .challenge-feedback {
   min-height: 76px;
   margin-top: 14px;
+  margin-bottom: 20px;
   padding: 12px 14px;
   background: var(--soft-blue);
   border: 2px solid var(--charcoal);

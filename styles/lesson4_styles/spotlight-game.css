@@ -1,3 +1,11 @@
+:root {
+  --torch-mask: radial-gradient(circle var(--r) at var(--x) var(--y),
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.9) 40%,
+              rgba(0,0,0,0.4) 70%,
+              rgba(0,0,0,0.04) 100%);
+}
+
 .wrap {
     background: #05050a;
     text-align: center;
@@ -36,16 +44,16 @@
   display: block;
   /* the mask reveals the image only inside the radial circle that
      follows the pointer; everything outside stays hidden */
-  -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-            rgba(0,0,0,1) 0%,
-            rgba(0,0,0,0.9) 40%,
-            rgba(0,0,0,0.4) 70%,
-            rgba(0,0,0,0.04) 100%);
+  /* -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.9) 40%,
+              rgba(0,0,0,0.4) 70%,
+              rgba(0,0,0,0.04) 100%);
   mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-            rgba(0,0,0,1) 0%,
-            rgba(0,0,0,0.9) 40%,
-            rgba(0,0,0,0.4) 70%,
-            rgba(0,0,0,0.04) 100%);
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.9) 40%,
+              rgba(0,0,0,0.4) 70%,
+              rgba(0,0,0,0.04) 100%); */
   transition: mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
 }
 /* ---------- Hidden animals layered on the forest photo ---------- */
@@ -58,16 +66,17 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-            rgba(0,0,0,1) 0%,
-            rgba(0,0,0,0.9) 40%,
-            rgba(0,0,0,0.4) 70%,
-            rgba(0,0,0,0.04) 100%);
+  /* -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.9) 40%,
+              rgba(0,0,0,0.4) 70%,
+              rgba(0,0,0,0.04) 100%);
   mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-            rgba(0,0,0,1) 0%,
-            rgba(0,0,0,0.9) 40%,
-            rgba(0,0,0,0.4) 70%,
-            rgba(0,0,0,0.04) 100%);
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.9) 40%,
+              rgba(0,0,0,0.4) 70%,
+              rgba(0,0,0,0.04) 100%); */
+            
   transition: mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
 }
 .animal-hotspot {
@@ -143,4 +152,293 @@
   margin-top: 14px;
   font-size: 0.85rem;
   color: #667788;
+}
+
+/* ---------- Animal counters ---------- */
+.animal-counter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.animal-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140px;
+  padding: 14px 12px;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.animal-counter-label {
+  margin: 0 0 10px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.86rem;
+}
+
+.counter-circle {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 4px;
+  width: 84px;
+  height: 84px;
+  padding: 8px;
+  background: var(--paper);
+  border: 3px solid var(--charcoal);
+  border-radius: 50%;
+}
+
+.counter-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--orange);
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  animation: graphPointPop 0.3s ease-out;
+}
+
+.counter-value-text {
+  margin: 8px 0 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.counter-button-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.counter-button {
+  width: 36px;
+  height: 36px;
+  background: var(--soft-blue);
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  box-shadow: 0 3px 0 var(--charcoal);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.counter-button:hover,
+.counter-button:focus-visible {
+  background: var(--soft-yellow);
+  transform: translateY(-1px);
+}
+
+.counter-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--charcoal);
+}
+
+.animal-counter.counter-correct {
+  background: var(--soft-green);
+  border-color: var(--green);
+}
+
+.animal-counter.counter-correct .counter-circle {
+  border-color: var(--green);
+}
+
+.animal-counter.counter-incorrect {
+  background: var(--soft-orange);
+  border-color: var(--orange);
+  animation: lesson4ChoiceBuzz 0.28s ease;
+}
+
+@media (max-width: 520px) {
+  .animal-counter {
+    width: 120px;
+  }
+  .counter-circle {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+/* ==================================================
+   STACK VISUALISATION (shape-morphing + rotation)
+   Built once when the animal count is confirmed
+   correct. The two buttons toggle a single class that
+   morphs the same elements between a vertical bar
+   chart (rectangles, baseline at bottom) and a
+   rotated horizontal layout (circles, baseline at
+   left) — nothing is rebuilt between the two states.
+   ================================================== */
+
+.stack-buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.stack-toggle-button {
+  flex: 1 1 180px;
+  background: var(--soft-purple);
+  color: var(--text);
+}
+
+.stack-toggle-button.stack-active {
+  background: var(--green);
+  color: white;
+}
+
+.animal-stack-visual {
+  margin-top: 18px;
+  padding: 20px 16px 16px;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+  box-shadow: var(--shadow-small);
+}
+
+.stack-visual-title {
+  margin: 0 0 16px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---- Outer row: holds one .stack-group per animal type ---- */
+.bar-stack-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 28px;
+  min-height: 220px;
+  padding: 0 10px;
+  border-bottom: 3px solid var(--charcoal);
+  transition:
+    flex-direction 0s 0.2s,
+    border 0.4s ease,
+    padding 0.4s ease,
+    min-height 0.4s ease;
+}
+
+.bar-stack-row.circle-mode {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  min-height: 0;
+  padding: 14px 10px 14px 18px;
+  border-bottom: none;
+  border-left: 3px solid var(--charcoal);
+}
+
+/* ---- One group = column/row of units + its label ---- */
+.stack-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: flex-direction 0s 0.2s;
+}
+
+.bar-stack-row.circle-mode .stack-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---- The stack of units itself ---- */
+.bar-stack-column {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 4px;
+  transition: flex-direction 0s 0.2s;
+}
+
+.bar-stack-row.circle-mode .bar-stack-column {
+  flex-direction: row;
+  align-items: center;
+}
+
+/* ---- Individual unit: rectangle <-> circle ---- */
+.stack-unit {
+  width: 46px;
+  height: 22px;
+  border: 2px solid var(--charcoal);
+  border-radius: 5px;
+  opacity: 0;
+  animation: barStackSegmentRise 0.3s ease-out forwards;
+  transition:
+    width 0.4s cubic-bezier(0.3, 0.7, 0.3, 1),
+    border-radius 0.4s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+
+.bar-stack-row.circle-mode .stack-unit {
+  width: 22px;
+  border-radius: 50%;
+}
+
+@keyframes barStackSegmentRise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Label under (bar mode) / beside (circle mode) each group ---- */
+.bar-stack-label {
+  width: 46px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: width 0.4s ease, text-align 0s 0.2s;
+}
+
+.bar-stack-row.circle-mode .bar-stack-label {
+  width: auto;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.bar-stack-label span {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.76rem;
+}
+
+.bar-stack-row.circle-mode .bar-stack-label span {
+  display: inline;
+  margin: 0 0 0 4px;
+}
+
+@media (max-width: 520px) {
+  .bar-stack-row {
+    gap: 16px;
+  }
+  .stack-unit,
+  .bar-stack-label {
+    width: 36px;
+  }
+  .bar-stack-row.circle-mode .stack-unit {
+    width: 22px;
+  }
+  .bar-stack-row.circle-mode .bar-stack-label {
+    width: auto;
+  }
 }
