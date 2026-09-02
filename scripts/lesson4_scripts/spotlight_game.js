@@ -60,8 +60,13 @@ document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
    of that type actually exist.
    ================================================== */
 
-function capitaliseAnimalType(type) {
-  return type.charAt(0).toUpperCase() + type.slice(1);
+const colourPalette = [
+  'var(--yellow)', 'var(--mint)', 'var(--blue)',
+  'var(--lavender)', 'var(--green)', 'var(--purple)'
+];
+
+function colourForIndex(index) {
+  return colourPalette[index % colourPalette.length];
 }
 
 function countHotspotsByType() {
@@ -78,11 +83,13 @@ function countHotspotsByType() {
 
 function renderAnimalCounterDots(counter, count) {
   const circle = counter.querySelector('.counter-circle');
+  
   circle.innerHTML = '';
 
   for (let index = 0; index < count; index += 1) {
     const dot = document.createElement('span');
     dot.className = 'counter-dot';
+    dot.style.backgroundColor = counter.dataset.dotColour;
     circle.appendChild(dot);
   }
 }
@@ -150,6 +157,14 @@ function changeAnimalCount(counter, delta, syncHotspots = true) {
   }
 }
 
+function getAnimalColourFor(type) {
+  const hotspot = document.querySelector('.animal-hotspot[data-animal="' + type + '"]');
+  if (!hotspot) return 'var(--orange)'; // fallback if no matching hotspot exists
+
+  const computed = getComputedStyle(hotspot).getPropertyValue('--animal-colour').trim();
+  return computed || 'var(--orange)';
+}
+
 function buildAnimalCounters() {
   const panel = document.getElementById('animalCounterPanel');
   if (!panel) return;
@@ -166,10 +181,11 @@ function buildAnimalCounters() {
     counter.dataset.animalCounter = type;
     counter.dataset.value = '0';
     counter.dataset.max = String(maxCount);
+    counter.dataset.dotColour = getAnimalColourFor(type);
 
     const label = document.createElement('p');
     label.className = 'animal-counter-label';
-    label.textContent = capitaliseAnimalType(type);
+    label.textContent = type;
     counter.appendChild(label);
 
     const circle = document.createElement('div');
@@ -188,14 +204,14 @@ function buildAnimalCounters() {
     const downButton = document.createElement('button');
     downButton.type = 'button';
     downButton.className = 'counter-button counter-down';
-    downButton.setAttribute('aria-label', 'Remove one ' + capitaliseAnimalType(type));
+    downButton.setAttribute('aria-label', 'Remove one ' + type);
     downButton.textContent = '−';
     downButton.addEventListener('click', () => changeAnimalCount(counter, -1));
 
     const upButton = document.createElement('button');
     upButton.type = 'button';
     upButton.className = 'counter-button counter-up';
-    upButton.setAttribute('aria-label', 'Add one ' + capitaliseAnimalType(type));
+    upButton.setAttribute('aria-label', 'Add one ' + type);
     upButton.textContent = '+';
     upButton.addEventListener('click', () => changeAnimalCount(counter, 1));
 
@@ -225,7 +241,7 @@ function checkAnimalCount() {
     counter.classList.toggle('counter-correct', correct);
     counter.classList.toggle('counter-incorrect', !correct);
 
-    if (!correct && !firstWrongLabel) firstWrongLabel = capitaliseAnimalType(type);
+    if (!correct && !firstWrongLabel) firstWrongLabel = type;
     if (!correct) allCorrect = false;
   });
 
@@ -278,14 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
    the same segments between bar and circle shapes.
    ================================================== */
 
-const stackColourPalette = [
-  'var(--yellow)', 'var(--mint)', 'var(--blue)',
-  'var(--lavender)', 'var(--green)', 'var(--purple)'
-];
-
-function stackColourForIndex(index) {
-  return stackColourPalette[index % stackColourPalette.length];
-}
 
 function getCheckedAnimalCounts() {
   const counts = [];
@@ -296,6 +304,61 @@ function getCheckedAnimalCounts() {
     });
   });
   return counts;
+}
+
+function createCylinder(parent, colour) {
+  const cylinder = document.createElement('div');
+  cylinder.className = 'cylinder';
+
+  const stripCount = 12;
+
+  const diameter = 46; // circle diameter
+  const height = 7;   // cylinder thickness/height
+  const radius = diameter / 2;
+
+  const circumference = 2 * Math.PI * radius;
+
+  // Slight overlap prevents tiny gaps between strips.
+  const stripWidth = (circumference / stripCount) * 1.12;
+
+  // Pass dimensions to CSS
+  parent.style.setProperty('--cylinder-diameter', `${diameter}px`);
+  parent.style.setProperty('--cylinder-height', `${height}px`);
+
+  for (let i = 0; i < stripCount; i += 1) {
+    const strip = document.createElement('div');
+    strip.className = 'cylinder-strip';
+
+    const angle = (360 / stripCount) * i;
+
+    strip.style.width = stripWidth + 'px';
+    strip.style.height = height + 'px';
+    strip.style.marginLeft = -(stripWidth / 2) + 'px';
+
+    strip.style.backgroundColor = colour;
+
+    strip.style.transform =
+      `rotateY(${angle}deg) translateZ(${radius}px)`;
+
+    const brightness =
+      0.72 + 0.28 * Math.max(
+        0,
+        Math.cos(angle * Math.PI / 180)
+      );
+
+    strip.style.filter = `brightness(${brightness})`;
+
+    cylinder.appendChild(strip);
+  }
+
+  // Circular cap
+  const top = document.createElement('div');
+  top.className = 'cylinder-top';
+  top.style.backgroundColor = colour;
+
+  cylinder.appendChild(top);
+
+  parent.appendChild(cylinder);
 }
 
 function buildStackVisual() {
@@ -315,15 +378,20 @@ function buildStackVisual() {
 
     for (let i = 0; i < entry.value; i += 1) {
       const unit = document.createElement('div');
+
       unit.className = 'stack-unit';
-      unit.style.background = stackColourForIndex(groupIndex);
       unit.style.animationDelay = (i * 0.05) + 's';
+
+      const colour = colourForIndex(groupIndex);
+
+      createCylinder(unit, colour);
+
       column.appendChild(unit);
     }
 
     const label = document.createElement('div');
     label.className = 'bar-stack-label';
-    label.innerHTML = capitaliseAnimalType(entry.type) + '<span>' + entry.value + '</span>';
+    label.innerHTML = entry.type + '<span>' + entry.value + '</span>';
 
     group.appendChild(column);
     group.appendChild(label);

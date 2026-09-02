@@ -118,8 +118,15 @@
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-.animal-hotspot:hover img {
+
+.animal-hotspot:hover:not(.found) img {
   transform: scale(1.08);
+  filter:
+    drop-shadow(2px 0 0 white)
+    drop-shadow(-2px 0 0 white)
+    drop-shadow(0 2px 0 white)
+    drop-shadow(0 -2px 0 white);
+
 }
 .animal-hotspot:focus-visible {
   outline: 3px solid #ffd166;
@@ -133,33 +140,51 @@
   opacity: 1;
 }
 
-/* 'var(--yellow)', 'var(--mint)', 'var(--blue)',
-  'var(--lavender)', 'var(--green)', 'var(--purple)' */
+/* One source of truth per animal type */
+.animal-hotspot[data-animal="Powerful Owl"] {
+  --animal-colour: color-mix(in srgb, var(--yellow) 85%, transparent);
+}
+.animal-hotspot[data-animal="Yellow Bellied Glider"] {
+  --animal-colour: color-mix(in srgb, var(--blue) 85%, transparent);
+}
+.animal-hotspot[data-animal="Leadbeater's Possum"] {
+  --animal-colour: color-mix(in srgb, var(--mint) 85%, transparent);
+}
+.animal-hotspot[data-animal="Ringtail Possum"] {
+  --animal-colour: color-mix(in srgb, var(--lavender) 85%, transparent);
+}
+.animal-hotspot[data-animal="Feral Cat"] {
+  --animal-colour: color-mix(in srgb, var(--green) 85%, transparent);
+}
+
+/* Overlays just reference the variable — no repeated color-mix() per type */
+.animal-hotspot.found .owl-overlay,
+.animal-hotspot.found .yellow-bellied-glider-overlay,
+.animal-hotspot.found .leadbeaters-possum-overlay,
+.animal-hotspot.found .ringtail-possum-overlay,
+.animal-hotspot.found .feral-cat-overlay {
+  background: var(--animal-colour);
+}
 
 .animal-hotspot.found .owl-overlay {
   -webkit-mask-image: url("../../images/lesson4/owl.png");
   mask-image: url("../../images/lesson4/owl.png");
-  background: rgba(220, 20, 20, 0.85);
 }
 .animal-hotspot.found .yellow-bellied-glider-overlay {
-    -webkit-mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
-      mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
-        background: rgba(220, 203, 20, 0.85);
+  -webkit-mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
+  mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
 }
 .animal-hotspot.found .leadbeaters-possum-overlay {
-    -webkit-mask-image: url("../../images/lesson4/leadbeaters-possum.png");
-      mask-image: url("../../images/lesson4/leadbeaters-possum.png");
-        background: rgba(60, 220, 20, 0.85);
+  -webkit-mask-image: url("../../images/lesson4/leadbeaters-possum.png");
+  mask-image: url("../../images/lesson4/leadbeaters-possum.png");
 }
 .animal-hotspot.found .ringtail-possum-overlay {
-    -webkit-mask-image: url("../../images/lesson4/ringtail-possum.png");
-      mask-image: url("../../images/lesson4/ringtail-possum.png");
-        background: rgba(20, 220, 207, 0.85);
+  -webkit-mask-image: url("../../images/lesson4/ringtail-possum.png");
+  mask-image: url("../../images/lesson4/ringtail-possum.png");
 }
 .animal-hotspot.found .feral-cat-overlay {
-    -webkit-mask-image: url("../../images/lesson4/cat.png");
-      mask-image: url("../../images/lesson4/cat.png");
-        background: rgba(197, 20, 220, 0.85);
+  -webkit-mask-image: url("../../images/lesson4/cat.png");
+  mask-image: url("../../images/lesson4/cat.png");
 }
 
 /* soft warm glow that rides along with the torch circle, drawn above the image */
@@ -357,14 +382,12 @@
 }
 
 .bar-stack-row.circle-mode {
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: flex-end;
   justify-content: center;
   gap: 16px;
   min-height: 0;
   padding: 14px 10px 14px 18px;
-  border-bottom: none;
-  border-left: 3px solid var(--charcoal);
 }
 
 /* ---- One group = column/row of units + its label ---- */
@@ -377,57 +400,151 @@
 }
 
 .bar-stack-row.circle-mode .stack-group {
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   gap: 12px;
 }
 
-/* ---- The stack of units itself ---- */
+/* ---- Individual unit: cylinder <-> circle ---- */
 .bar-stack-column {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
-  transition: flex-direction 0s 0.2s;
+
+  perspective: 700px;
 }
 
-.bar-stack-row.circle-mode .bar-stack-column {
-  flex-direction: row;
-  align-items: center;
-}
-
-/* ---- Individual unit: rectangle <-> circle ---- */
+/* Container for each individual cylinder */
 .stack-unit {
-  width: 46px;
-  height: 22px;
-  border: 2px solid var(--charcoal);
-  border-radius: 5px;
+  position: relative;
+
+  width: var(--cylinder-diameter);
+  height: var(--cylinder-height);
+
+  perspective: 500px;
+
   opacity: 0;
   animation: barStackSegmentRise 0.3s ease-out forwards;
+
   transition:
-    width 0.4s cubic-bezier(0.3, 0.7, 0.3, 1),
-    border-radius 0.4s cubic-bezier(0.3, 0.7, 0.3, 1);
+    height 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
+}
+
+
+/* The complete 3D cylinder */
+.cylinder {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 46px;
+  height: 22px;
+
+  transform-style: preserve-3d;
+
+  transform:
+    translate(-50%, -50%)
+    rotateX(0deg);
+
+  transition:
+    transform 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
+}
+
+
+/* Each small strip forms part of the curved cylinder wall */
+.cylinder-strip {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  margin-top: -11px;
+
+  box-sizing: border-box;
+
+  border-top: 2px solid var(--charcoal);
+  border-bottom: 2px solid var(--charcoal);
+
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
+.cylinder-top {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: var(--cylinder-diameter);
+  height: var(--cylinder-diameter);
+
+  margin-left: calc(var(--cylinder-diameter) / -2);
+  margin-top: calc(var(--cylinder-diameter) / -2);
+
+  box-sizing: border-box;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+
+  /*
+    Cylinder runs along the Y axis, so the cap
+    needs to lie in the X/Z plane.
+  */
+  transform:
+    translateY(-11px)
+    rotateX(90deg);
+
+  transform-style: preserve-3d;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(255,255,255,0.45),
+      rgba(255,255,255,0.08) 45%,
+      rgba(0,0,0,0.12)
+    );
+
+  backface-visibility: visible;
+}
+
+.bar-stack-row.circle-mode .cylinder {
+  transform:
+    translate(-50%, -50%)
+    rotateX(-90deg);
 }
 
 .bar-stack-row.circle-mode .stack-unit {
-  width: 22px;
-  border-radius: 50%;
+  height: var(--cylinder-diameter);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-point.visible,
+  .pie-slice.visible {
+    animation: none;
+  }
+  .bar-rect,
+  .whole-meter-fill,
+  .axis-group,
+  .stack-unit {
+    transition: none;
+  }
 }
 
 @keyframes barStackSegmentRise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    translate: 0 8px;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    translate: 0 0;
   }
 }
 
 /* ---- Label under (bar mode) / beside (circle mode) each group ---- */
 .bar-stack-label {
-  width: 46px;
+  width: fit-content;
   text-align: center;
   font-size: 0.82rem;
   font-weight: 700;
@@ -457,12 +574,8 @@
   .bar-stack-row {
     gap: 16px;
   }
-  .stack-unit,
   .bar-stack-label {
     width: 36px;
-  }
-  .bar-stack-row.circle-mode .stack-unit {
-    width: 22px;
   }
   .bar-stack-row.circle-mode .bar-stack-label {
     width: auto;
