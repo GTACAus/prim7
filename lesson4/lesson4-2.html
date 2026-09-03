@@ -542,6 +542,986 @@
         animation: none !important;
       }
     }
+
+
+    /* ==================================================
+       PART C - INDEPENDENT BAR GRAPH PRACTICE
+       Follow-up Project Possum survey.
+       ================================================== */
+    #bar-follow-up .section-title {
+      background: var(--lavender);
+    }
+
+    .partc-story-card,
+    .partc-data-card,
+    .partc-graph-card,
+    .partc-control-card,
+    .partc-analysis-panel,
+    .partc-complete-card {
+      background: white;
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .partc-story-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 18px 20px;
+      background: linear-gradient(to right, var(--soft-purple), white 72%);
+    }
+
+    .partc-story-icon {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      border: 3px solid var(--charcoal);
+      border-radius: 50%;
+      background: var(--paper);
+      font-size: 2rem;
+    }
+
+    .partc-story-card h3,
+    .partc-data-card h3,
+    .partc-control-card h3,
+    .partc-analysis-panel h3,
+    .partc-complete-card h3 {
+      margin: 3px 0 7px;
+    }
+
+    .partc-story-card p,
+    .partc-data-card > p,
+    .partc-control-card > p,
+    .partc-analysis-panel > p,
+    .partc-complete-card > p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .partc-data-card {
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .partc-table-wrap {
+      width: 100%;
+      margin-top: 14px;
+      overflow-x: auto;
+    }
+
+    .partc-data-table {
+      min-width: 650px;
+    }
+
+    .partc-data-table tr.partc-current-row td {
+      background: var(--soft-yellow);
+      font-weight: 800;
+    }
+
+    .partc-data-table tr.partc-complete-row td {
+      background: var(--soft-green);
+    }
+
+    .partc-average-cell {
+      background: var(--soft-purple) !important;
+      font-weight: 800;
+    }
+
+    .partc-build-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, .82fr) minmax(420px, 1.4fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .partc-control-card,
+    .partc-graph-card {
+      padding: 18px;
+    }
+
+    .partc-axis-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .partc-axis-bank[hidden] {
+      display: none !important;
+    }
+
+    .partc-axis-card,
+    .partc-drag-ghost .partc-axis-card {
+      min-height: 46px;
+      padding: 9px 14px;
+      background: var(--paper);
+      color: var(--text);
+      border: 2px solid var(--charcoal);
+      border-top: 6px solid var(--blue);
+      border-radius: 13px;
+      box-shadow: 0 3px 0 rgba(48, 51, 47, .2);
+      font: inherit;
+      font-weight: 800;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .partc-axis-card:hover,
+    .partc-axis-card.selected {
+      background: var(--soft-blue);
+    }
+
+    .partc-axis-card.is-dragging {
+      opacity: .55;
+    }
+
+    .partc-axis-card.placed {
+      opacity: .28;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .partc-drag-ghost {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      width: max-content;
+      max-width: 88vw;
+      transform: scale(1.04);
+    }
+
+    .partc-drag-ghost.is-hovering-drop-zone .partc-axis-card {
+      background: var(--soft-yellow);
+    }
+
+    #partCGraphSvg .partc-axis-drop-hit-pad {
+      fill: transparent;
+      pointer-events: all;
+    }
+
+    #partCGraphSvg .partc-axis-drop-box {
+      fill: rgba(229, 238, 255, .72);
+      stroke: var(--blue);
+      stroke-width: 2.5;
+      stroke-dasharray: 7 5;
+      pointer-events: none;
+      transition: fill .15s ease, stroke .15s ease, stroke-width .15s ease;
+    }
+
+    #partCGraphSvg .partc-axis-drop-text {
+      fill: var(--charcoal);
+      font-size: 13px;
+      font-weight: 800;
+      pointer-events: none;
+    }
+
+    #partCGraphSvg .partc-axis-drop-zone.drag-over .partc-axis-drop-box {
+      fill: var(--soft-yellow);
+      stroke: var(--purple);
+      stroke-width: 4;
+    }
+
+    #partCGraphSvg .partc-axis-drop-zone.drop-complete .partc-axis-drop-box {
+      fill: var(--soft-green);
+      stroke: var(--green);
+      stroke-dasharray: none;
+    }
+
+    #partCGraphSvg .partc-axis-drop-zone.drop-incorrect .partc-axis-drop-box {
+      fill: var(--soft-orange);
+      stroke: var(--orange);
+      animation: lesson4ChoiceBuzz .28s ease;
+    }
+
+    #partCGraphSvg .partc-axis-drop-zone.axis-complete {
+      display: none;
+    }
+
+    #partCGraphSvg .partc-final-axis-label {
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    #partCGraphSvg .partc-final-axis-label.visible {
+      opacity: 1;
+    }
+
+    #partCGraphSvg .partc-scaffold-layer {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+    }
+
+    #partCGraphSvg .partc-scaffold-layer.visible {
+      opacity: 1;
+    }
+
+    .partc-unit-check {
+      margin: 14px 0;
+      padding: 14px;
+      background: var(--soft-blue);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .partc-unit-check p {
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+
+    .partc-unit-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .partc-slider-stage {
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-radius: 15px;
+    }
+
+    .partc-slider-stage[hidden] {
+      display: none !important;
+    }
+
+    /* Part C reuses the original five-slider builder from the earlier prototype. */
+    #bar-follow-up.partc-bars-active .partc-build-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #bar-follow-up.partc-bars-active .partc-graph-card {
+      order: 1;
+    }
+
+    #bar-follow-up.partc-bars-active .partc-control-card {
+      order: 2;
+    }
+
+    /*
+      Desktop slider workbench.
+      Keep the follow-up table full-width above the working area, then
+      place the five sliders beside the graph underneath it.
+    */
+    @media (min-width: 1000px) {
+      #bar-follow-up.partc-bars-active {
+        display: grid;
+        grid-template-columns: minmax(360px, .9fr) minmax(0, 1.2fr);
+        column-gap: 18px;
+        row-gap: 18px;
+        align-items: start;
+      }
+
+      #bar-follow-up.partc-bars-active > .section-title,
+      #bar-follow-up.partc-bars-active > .partc-story-card,
+      #bar-follow-up.partc-bars-active > .partc-data-card,
+      #bar-follow-up.partc-bars-active > .partc-analysis-panel,
+      #bar-follow-up.partc-bars-active > .reset-button-container {
+        grid-column: 1 / -1;
+      }
+
+      /*
+        Keep the data table full-width across the workbench.
+        Students can scan the averages first, then work directly below it
+        with sliders on the left and the graph on the right.
+      */
+      #bar-follow-up.partc-bars-active > .partc-data-card {
+        grid-row: 3;
+        margin-bottom: 0;
+        padding: 16px 18px;
+      }
+
+      /* Let the graph and controls participate directly in the section grid. */
+      #bar-follow-up.partc-bars-active > .partc-build-grid {
+        display: contents;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-control-card {
+        grid-column: 1;
+        grid-row: 4;
+        order: initial;
+        padding: 14px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-graph-card {
+        grid-column: 2;
+        grid-row: 4;
+        order: initial;
+        position: static;
+        padding: 14px;
+      }
+
+      /* The table can use the full section width, so keep it comfortably readable. */
+      #bar-follow-up.partc-bars-active .partc-data-card h3 {
+        margin-bottom: 4px;
+        font-size: 1.05rem;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-card > p {
+        font-size: .9rem;
+        line-height: 1.4;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-table-wrap {
+        margin-top: 10px;
+        overflow-x: visible;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-table {
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-table th,
+      #bar-follow-up.partc-bars-active .partc-data-table td {
+        padding: 7px 8px;
+        font-size: .82rem;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-table th:first-child,
+      #bar-follow-up.partc-bars-active .partc-data-table td:first-child {
+        width: 32%;
+      }
+
+      /* Make the graph a little shorter on screen while keeping its labels legible. */
+      #bar-follow-up.partc-bars-active .partc-graph-card .graph-stage-heading {
+        margin-bottom: 4px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-graph-card .graph-stage-heading p {
+        font-size: .82rem;
+        line-height: 1.35;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-graph-card .graph-svg-wrap {
+        width: min(100%, 620px);
+        margin: 0 auto;
+      }
+
+      /* Compress the five-slider panel enough to sit under the data table. */
+      #bar-follow-up.partc-bars-active .partc-control-card > h3 {
+        margin-bottom: 3px;
+        font-size: 1.03rem;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-control-card > p {
+        font-size: .86rem;
+        line-height: 1.4;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-slider-stage {
+        margin-top: 10px;
+        padding: 12px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-slider-stage h4 {
+        margin: 2px 0 3px;
+        font-size: .98rem;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-slider-instruction {
+        margin-bottom: 9px;
+        font-size: .82rem;
+        line-height: 1.35;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls {
+        gap: 7px;
+        margin-top: 8px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls .bar-builder-row {
+        grid-template-columns: minmax(118px, 145px) minmax(0, 1fr) 40px;
+        gap: 7px;
+        padding: 6px 8px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls .bar-builder-row label {
+        font-size: .78rem;
+        line-height: 1.2;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls .bar-builder-row output {
+        min-height: 31px;
+        font-size: .82rem;
+      }
+
+      #bar-follow-up.partc-bars-active #checkPartCBarsButton {
+        margin-top: 10px !important;
+        padding: 9px 14px;
+        font-size: .88rem;
+      }
+
+      #bar-follow-up.partc-bars-active #partCFeedback {
+        min-height: 0;
+        margin-top: 10px;
+        margin-bottom: 0;
+        padding: 9px 11px;
+        font-size: .82rem;
+        line-height: 1.35;
+      }
+    }
+
+    .partc-bar-builder-controls {
+      margin-top: 14px;
+    }
+
+    .partc-bar-builder-controls .bar-builder-row {
+      grid-template-columns: minmax(150px, 190px) minmax(0, 1fr) 48px;
+    }
+
+    .partc-bar-builder-controls input[type="range"] {
+      width: 100%;
+      accent-color: var(--purple);
+    }
+
+    .partc-slider-progress {
+      display: inline-block;
+      margin-bottom: 7px;
+      padding: 5px 9px;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .partc-slider-stage h4 {
+      margin: 3px 0 5px;
+      font-size: 1.08rem;
+    }
+
+    .partc-slider-instruction {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .partc-slider-row {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 42px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .partc-slider-row span {
+      text-align: center;
+      font-weight: 800;
+    }
+
+    #partCBarSlider {
+      width: 100%;
+      accent-color: var(--purple);
+    }
+
+    .partc-slider-value {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 42px;
+      margin: 10px auto 0;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    #partCGraphSvg .partc-practice-bar {
+      stroke: var(--charcoal);
+      stroke-width: 2.5;
+      transition: y .18s ease, height .18s ease, opacity .2s ease;
+    }
+
+    #partCGraphSvg .partc-practice-bar.preview {
+      opacity: .72;
+    }
+
+    #partCGraphSvg .partc-practice-bar.complete {
+      opacity: 1;
+    }
+
+    #partCGraphSvg .partc-value-label {
+      opacity: 0;
+      font-size: 13px;
+      font-weight: 800;
+      text-anchor: middle;
+      transition: opacity .25s ease;
+    }
+
+    #partCGraphSvg .partc-value-label.visible {
+      opacity: 1;
+    }
+
+    #partCGraphSvg .partc-category-label.active {
+      fill: var(--purple);
+      font-weight: 800;
+    }
+
+    #partCGraphSvg .partc-category-label.complete {
+      fill: var(--green);
+      font-weight: 800;
+    }
+
+    #partCGraphSvg .partc-practice-bar.analysis-highlight {
+      stroke: var(--purple);
+      stroke-width: 6;
+      filter: drop-shadow(0 3px 0 rgba(48, 51, 47, .16));
+    }
+
+    .partc-analysis-panel,
+    .partc-complete-card {
+      margin-top: 18px;
+      padding: 18px;
+    }
+
+    .partc-analysis-question[hidden],
+    .partc-complete-card[hidden] {
+      display: none !important;
+    }
+
+    .partc-analysis-progress {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 9px;
+      background: var(--soft-purple);
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .partc-analysis-question {
+      margin-top: 10px;
+      padding: 14px;
+      background: var(--paper);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .partc-analysis-animal-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    /* Keep the Part C completion summary easy to scan. The generic
+       .partc-complete-card > p rule above has greater specificity than
+       the individual paragraph classes, so set the spacing with the
+       parent card rather than relying on paragraph margins. */
+    .partc-complete-card {
+      display: grid;
+      gap: 16px;
+    }
+
+    .partc-complete-card h3 {
+      margin: 0;
+    }
+
+    .partc-complete-card .partc-result-statement,
+    .partc-complete-card .partc-next-hook {
+      margin: 0;
+    }
+
+    .partc-result-statement {
+      padding: 16px 18px;
+      background: var(--soft-green);
+      border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--green);
+      border-radius: 14px;
+      line-height: 1.55;
+    }
+
+    .partc-next-hook {
+      padding: 16px 18px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--yellow);
+      border-radius: 14px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 900px) {
+      .partc-build-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .partc-story-card {
+        grid-template-columns: 1fr;
+      }
+
+      .partc-story-icon {
+        width: 54px;
+        height: 54px;
+      }
+
+      .partc-unit-buttons,
+      .partc-analysis-animal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #partCGraphSvg .partc-practice-bar,
+      #partCGraphSvg .partc-final-axis-label,
+      #partCGraphSvg .partc-scaffold-layer {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+
+
+
+    /* ==================================================
+       PART D - COMPARE BEFORE AND AFTER
+       Compact paired-bar comparison activity.
+       ================================================== */
+    #bar-compare .section-title {
+      background: var(--lavender);
+    }
+
+    .partd-intro-card,
+    .partd-data-card,
+    .partd-builder-card,
+    .partd-graph-card,
+    .partd-analysis-panel,
+    .partd-complete-card {
+      background: white;
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .partd-intro-card,
+    .partd-data-card,
+    .partd-analysis-panel,
+    .partd-complete-card {
+      padding: 18px;
+    }
+
+    .partd-intro-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+      background: linear-gradient(to right, white, var(--soft-purple));
+    }
+
+    .partd-intro-icon {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      background: var(--soft-purple);
+      border: 2px solid var(--charcoal);
+      border-radius: 18px;
+      font-size: 2rem;
+    }
+
+    .partd-intro-card h3,
+    .partd-data-card h3,
+    .partd-builder-card h3,
+    .partd-analysis-panel h3,
+    .partd-complete-card h3 {
+      margin: 0 0 7px;
+    }
+
+    .partd-intro-card p,
+    .partd-data-card > p,
+    .partd-builder-card > p,
+    .partd-analysis-panel > p,
+    .partd-complete-card > p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .partd-data-card {
+      margin-bottom: 18px;
+    }
+
+    .partd-table-wrap {
+      width: 100%;
+      margin-top: 12px;
+      overflow-x: auto;
+    }
+
+    .partd-data-table {
+      width: 100%;
+      margin: 0;
+      table-layout: fixed;
+    }
+
+    .partd-data-table th:first-child,
+    .partd-data-table td:first-child {
+      width: 46%;
+      text-align: left;
+    }
+
+    .partd-data-table th:nth-child(2),
+    .partd-data-table td:nth-child(2) {
+      background: rgba(192, 173, 255, 0.18);
+    }
+
+    .partd-data-table th:nth-child(3),
+    .partd-data-table td:nth-child(3) {
+      background: rgba(215, 245, 233, 0.62);
+    }
+
+    .partd-work-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.78fr) minmax(440px, 1.22fr);
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .partd-builder-card,
+    .partd-graph-card {
+      padding: 16px;
+    }
+
+    .partd-builder-card {
+      background: linear-gradient(to bottom, white, var(--soft-yellow) 190%);
+    }
+
+    .partd-builder-controls {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .partd-builder-controls .bar-builder-row {
+      grid-template-columns: minmax(125px, 0.9fr) minmax(90px, 1.2fr) 42px;
+      gap: 8px;
+      padding: 8px 9px;
+    }
+
+    .partd-builder-controls .bar-builder-row label {
+      font-size: 0.82rem;
+      line-height: 1.25;
+    }
+
+    .partd-builder-controls .bar-builder-row output {
+      min-height: 34px;
+    }
+
+    .partd-builder-complete {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: var(--soft-green);
+      border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--green);
+      border-radius: 14px;
+      line-height: 1.5;
+    }
+
+    .partd-builder-complete[hidden] {
+      display: none !important;
+    }
+
+    .partd-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin: 10px 0 8px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .partd-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .partd-swatch {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--charcoal);
+      border-radius: 4px;
+    }
+
+    .partd-swatch.before {
+      background: var(--lavender);
+    }
+
+    .partd-swatch.after {
+      background: var(--green);
+    }
+
+    #partDGraphSvg .partd-before-bar,
+    #partDGraphSvg .partd-after-bar {
+      stroke: var(--charcoal);
+      stroke-width: 2;
+    }
+
+    #partDGraphSvg .partd-before-bar {
+      fill: var(--lavender);
+      opacity: 0.86;
+    }
+
+    #partDGraphSvg .partd-after-bar {
+      fill: var(--green);
+      transition: y 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+    }
+
+    #partDGraphSvg .partd-after-bar.preview {
+      opacity: 0.56;
+    }
+
+    #partDGraphSvg .partd-after-bar.complete {
+      opacity: 1;
+    }
+
+    #partDGraphSvg .partd-pair-highlight {
+      stroke: var(--orange);
+      stroke-width: 5;
+    }
+
+    #partDGraphSvg .partd-value-label {
+      font-size: 12px;
+      font-weight: 800;
+      text-anchor: middle;
+    }
+
+    #partDGraphSvg .partd-after-value {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    #partDGraphSvg .partd-after-value.visible {
+      opacity: 1;
+    }
+
+    #partDGraphSvg .partd-change-marker {
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    #partDGraphSvg .partd-change-marker.visible {
+      opacity: 1;
+    }
+
+    #partDGraphSvg .partd-change-line {
+      stroke: var(--orange);
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    #partDGraphSvg .partd-change-badge {
+      fill: var(--soft-orange);
+      stroke: var(--orange);
+      stroke-width: 2.5;
+    }
+
+    #partDGraphSvg .partd-change-text {
+      fill: var(--charcoal);
+      font-size: 16px;
+      font-weight: 800;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    .partd-analysis-panel {
+      margin-top: 18px;
+      background: linear-gradient(to bottom, white, var(--soft-blue) 220%);
+    }
+
+    .partd-analysis-panel[hidden],
+    .partd-analysis-question[hidden],
+    .partd-prediction-check[hidden],
+    .partd-complete-card[hidden] {
+      display: none !important;
+    }
+
+    .partd-analysis-question {
+      margin-top: 12px;
+      padding: 14px;
+      background: var(--paper);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+    }
+
+    .partd-prediction-check {
+      margin-top: 18px;
+      padding: 16px 18px;
+      background: var(--soft-purple);
+      border: 2px solid var(--charcoal);
+      border-radius: 16px;
+    }
+
+    .partd-prediction-statement {
+      margin: 10px 0 14px;
+      padding: 13px 15px;
+      background: white;
+      border: 2px dashed var(--purple);
+      border-radius: 13px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .partd-complete-card {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+      background: white;
+    }
+
+    .partd-result-statement,
+    .partd-conclusion-note {
+      margin: 0 !important;
+      padding: 16px 18px;
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+      line-height: 1.55;
+    }
+
+    .partd-result-statement {
+      background: var(--soft-green);
+      border-left: 8px solid var(--green);
+    }
+
+    .partd-conclusion-note {
+      background: var(--soft-yellow);
+      border-left: 8px solid var(--yellow);
+    }
+
+    @media (max-width: 900px) {
+      .partd-work-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .partd-intro-card {
+        grid-template-columns: 1fr;
+      }
+
+      .partd-builder-controls .bar-builder-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #partDGraphSvg .partd-after-bar,
+      #partDGraphSvg .partd-after-value,
+      #partDGraphSvg .partd-change-marker {
+        transition: none !important;
+      }
+    }
+
     </style>
   </head>
 
@@ -963,10 +1943,9 @@
                 <div class="bar-stack-row" id="stackRow"></div>
               </div>
 
-              <div class="animal-stack-visual challenge-hidden" id="animalStackVisual" hidden></div>
               
             </div>
-          <div class="challenge-grid">
+          <div class="challenge-grid" id="legacyBarPracticeSlider" hidden>
             <div>
               <div class="diagram-box diagram-activity">
                 <p class="challenge-question">
@@ -1324,7 +2303,7 @@
 
               <p class="partb-story-hook">
                 <strong>Keep this result in mind.</strong> These counts describe the forest <strong>before nest boxes were installed</strong>.
-                Later, you will return one year after the conservation action and compare the new survey results with this baseline.
+                Later, you will return two years after the conservation action and compare the new survey results with this baseline.
               </p>
             </div>
           </div>
@@ -1332,6 +2311,425 @@
 
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartBConstructionButton">Reset Part B</button>
+        </div>
+      </section>
+
+
+
+
+      <!-- ==================================================
+           PART C - PRACTICE CONSTRUCTING A BAR GRAPH
+           Follow-up Project Possum survey after nest boxes.
+           ================================================== -->
+      <section class="section student-challenge" id="bar-follow-up">
+        <h2 class="section-title">Part C · Your Turn: Return to the Forest</h2>
+
+        <div class="partc-story-card">
+          <div class="partc-story-icon" aria-hidden="true">🌙</div>
+          <div>
+            <span class="challenge-step-label">Two years later...</span>
+            <h3>Your ranger team returns to the same forest</h3>
+            <p>
+              Nest boxes have been installed. Your team repeats the same nocturnal-animal survey over three nights.
+              This time, <strong>you will build the follow-up bar graph more independently</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="partc-data-card">
+          <span class="challenge-step-label">Step 1 · Read the follow-up data</span>
+          <h3>Survey results after nest boxes</h3>
+          <p>
+            The averages have already been calculated. Use the <strong>Average</strong> column when you build each bar.
+          </p>
+
+          <div class="partc-table-wrap">
+            <table class="practice-table partc-data-table" aria-label="Follow-up nocturnal animal survey two years after nest boxes were installed">
+              <thead>
+                <tr>
+                  <th>Type of animal</th>
+                  <th>Night 1</th>
+                  <th>Night 2</th>
+                  <th>Night 3</th>
+                  <th>Average</th>
+                </tr>
+              </thead>
+              <tbody id="partCTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="partc-build-grid">
+          <div class="partc-control-card">
+            <span class="challenge-step-label" id="partCStepLabel">Step 2 · Label the axes</span>
+            <h3 id="partCControlHeading">Set up your bar graph</h3>
+            <p id="partCControlText">
+              Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.
+            </p>
+
+            <div class="partc-axis-bank" id="partCAxisBank" aria-label="Axis label cards">
+              <button type="button" class="partc-axis-card" id="partCCardAnimal" draggable="true" data-partc-card="animal">Type of animal</button>
+              <button type="button" class="partc-axis-card" id="partCCardNumber" draggable="true" data-partc-card="number">Number of animals</button>
+              <button type="button" class="partc-axis-card" id="partCCardNight" draggable="true" data-partc-card="night">Night number</button>
+              <button type="button" class="partc-axis-card" id="partCCardAverage" draggable="true" data-partc-card="average">Average</button>
+            </div>
+
+            <div class="partc-unit-check challenge-hidden" id="partCUnitCheck" hidden>
+              <p><strong>Do these axes need a measurement unit?</strong> Check the data before the graph is revealed.</p>
+              <div class="partc-unit-buttons">
+                <button type="button" class="challenge-choice" data-partc-unit="none">No unit needed</button>
+                <button type="button" class="challenge-choice" data-partc-unit="cm">cm</button>
+                <button type="button" class="challenge-choice" data-partc-unit="seconds">seconds</button>
+              </div>
+            </div>
+
+            <div class="partc-slider-stage" id="partCSliderStage" hidden>
+              <span class="partc-slider-progress">Step 3 · Build all five bars</span>
+              <h4>Use the averages to set each bar height</h4>
+              <p class="partc-slider-instruction">
+                Move each slider until its bar matches the average in the follow-up survey table, then check all five bars.
+              </p>
+
+              <div class="bar-builder-controls partc-bar-builder-controls" id="partCBarBuilderControls">
+                <div class="bar-builder-row" data-partc-bar-row="0">
+                  <label for="partCBarPractice0">Leadbeater's Possum</label>
+                  <input id="partCBarPractice0" type="range" min="0" max="10" step="1" value="0" data-partc-bar-practice="0" />
+                  <output for="partCBarPractice0">0</output>
+                </div>
+                <div class="bar-builder-row" data-partc-bar-row="1">
+                  <label for="partCBarPractice1">Yellow-bellied Glider</label>
+                  <input id="partCBarPractice1" type="range" min="0" max="10" step="1" value="0" data-partc-bar-practice="1" />
+                  <output for="partCBarPractice1">0</output>
+                </div>
+                <div class="bar-builder-row" data-partc-bar-row="2">
+                  <label for="partCBarPractice2">Ringtail Possum</label>
+                  <input id="partCBarPractice2" type="range" min="0" max="10" step="1" value="0" data-partc-bar-practice="2" />
+                  <output for="partCBarPractice2">0</output>
+                </div>
+                <div class="bar-builder-row" data-partc-bar-row="3">
+                  <label for="partCBarPractice3">Powerful Owl</label>
+                  <input id="partCBarPractice3" type="range" min="0" max="10" step="1" value="0" data-partc-bar-practice="3" />
+                  <output for="partCBarPractice3">0</output>
+                </div>
+                <div class="bar-builder-row" data-partc-bar-row="4">
+                  <label for="partCBarPractice4">Feral Cats</label>
+                  <input id="partCBarPractice4" type="range" min="0" max="10" step="1" value="0" data-partc-bar-practice="4" />
+                  <output for="partCBarPractice4">0</output>
+                </div>
+              </div>
+
+              <button type="button" class="general-button" id="checkPartCBarsButton" style="margin-top: 14px;">
+                Check my bars
+              </button>
+            </div>
+
+            <div class="challenge-feedback" id="partCFeedback" role="status" aria-live="polite">
+              <strong>Use the table.</strong>
+              The category belongs on one axis and the number counted belongs on the other.
+            </div>
+          </div>
+
+          <div class="partc-graph-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Follow-up nocturnal animal survey</h3>
+                <p id="partCGraphHint">Label the axes first. The categories and scale will appear when the graph is ready.</p>
+              </div>
+              <span class="graph-badge" id="partCGraphBadge">Set up</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg class="graph-svg" id="partCGraphSvg" viewBox="0 0 760 500" role="img" aria-label="Student bar graph for the follow-up nocturnal animal survey">
+                <rect x="0" y="0" width="760" height="500" rx="18" fill="white"></rect>
+
+                <g class="partc-scaffold-layer" id="partCScaffoldLayer" aria-hidden="true">
+                  <g id="partCGridLayer"></g>
+                  <g id="partCYTicksLayer"></g>
+                  <g id="partCXCategoriesLayer"></g>
+                </g>
+
+                <line class="graph-axis" x1="120" y1="370" x2="715" y2="370"></line>
+                <line class="graph-axis" x1="120" y1="370" x2="120" y2="35"></line>
+
+                <g id="partCXAxisDropZone" class="partc-axis-drop-zone" tabindex="0" role="button"
+                   data-partc-axis-slot="x" data-partc-expected="animal" aria-label="Drop the x-axis label here">
+                  <rect class="partc-axis-drop-hit-pad" x="285" y="422" width="260" height="76"></rect>
+                  <rect class="partc-axis-drop-box" x="315" y="440" width="200" height="42" rx="9"></rect>
+                  <text class="partc-axis-drop-text" x="415" y="466" text-anchor="middle" data-placeholder="x-axis label">x-axis label</text>
+                </g>
+
+                <g transform="translate(32 205) rotate(-90)">
+                  <g id="partCYAxisDropZone" class="partc-axis-drop-zone" tabindex="0" role="button"
+                     data-partc-axis-slot="y" data-partc-expected="number" aria-label="Drop the y-axis label here">
+                    <rect class="partc-axis-drop-hit-pad" x="-145" y="-38" width="290" height="76"></rect>
+                    <rect class="partc-axis-drop-box" x="-115" y="-22" width="230" height="44" rx="9"></rect>
+                    <text class="partc-axis-drop-text" x="0" y="5" text-anchor="middle" data-placeholder="y-axis label">y-axis label</text>
+                  </g>
+                </g>
+
+                <text class="axis-label partc-final-axis-label" id="partCXAxisLabel" x="415" y="470" text-anchor="middle">Type of animal</text>
+                <text class="axis-label partc-final-axis-label" id="partCYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+
+                <g id="partCBarsLayer"></g>
+                <g id="partCValuesLayer"></g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="partc-analysis-panel challenge-hidden" id="partCAnalysisPanel" hidden>
+          <span class="challenge-step-label">Step 4 · Analyse your graph</span>
+          <h3>What does the follow-up survey show?</h3>
+          <p>Use the graph you constructed. The relevant bars will highlight as you answer.</p>
+
+          <div class="partc-analysis-question" id="partCAnalysisQuestion1">
+            <span class="partc-analysis-progress">Question 1 of 3</span>
+            <p class="challenge-question"><strong>Which animal was found in the highest average number?</strong></p>
+            <div class="challenge-choice-grid partc-analysis-animal-grid">
+              <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="0">Leadbeater's Possum</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="1">Yellow-bellied Glider</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="2">Ringtail Possum</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="3">Powerful Owl</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="4">Feral Cats</button>
+            </div>
+          </div>
+
+          <div class="partc-analysis-question" id="partCAnalysisQuestion2" hidden>
+            <span class="partc-analysis-progress">Question 2 of 3</span>
+            <p class="challenge-question"><strong>Which animal was found in the lowest average number?</strong></p>
+            <div class="challenge-choice-grid partc-analysis-animal-grid">
+              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="0">Leadbeater's Possum</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="1">Yellow-bellied Glider</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="2">Ringtail Possum</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="3">Powerful Owl</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="4">Feral Cats</button>
+            </div>
+          </div>
+
+          <div class="partc-analysis-question" id="partCAnalysisQuestion3" hidden>
+            <span class="partc-analysis-progress">Question 3 of 3</span>
+            <p class="challenge-question"><strong>What is the difference between the highest and lowest average counts?</strong></p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-partc-difference="3">3 animals</button>
+              <button type="button" class="challenge-choice" data-partc-difference="5">5 animals</button>
+              <button type="button" class="challenge-choice" data-partc-difference="7">7 animals</button>
+            </div>
+          </div>
+
+          <div class="challenge-feedback" id="partCAnalysisFeedback" role="status" aria-live="polite">
+            <strong>Start with the tallest bar.</strong>
+            Which category reaches the highest value on the y-axis?
+          </div>
+
+          <div class="partc-complete-card challenge-hidden" id="partCCompleteCard" hidden>
+            <span class="challenge-step-label">Follow-up survey complete</span>
+            <h3>You now have a second set of results</h3>
+            <p class="partc-result-statement" id="partCResultStatement"></p>
+            <p class="partc-next-hook">
+              <strong>What changed after the nest boxes were installed?</strong><br />
+              This graph shows the follow-up survey, but it cannot answer that question by itself. Next, compare these results with the
+              <strong>baseline survey from before the nest boxes</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="reset-button-container">
+          <button type="button" class="general-button reset-btn" id="resetPartCButton">Reset Part C</button>
+        </div>
+      </section>
+
+
+
+
+      <!-- ==================================================
+           PART D - ADD A SECOND DATA SET TO A BAR GRAPH
+           Compare baseline and follow-up Project Possum data.
+           ================================================== -->
+      <section class="section student-challenge" id="bar-compare">
+        <h2 class="section-title">Part D · Compare Before and After</h2>
+
+        <div class="partd-intro-card">
+          <div class="partd-intro-icon" aria-hidden="true">📊</div>
+          <div>
+            <span class="challenge-step-label">One investigation · two surveys</span>
+            <h3>Put the baseline and follow-up results on one graph</h3>
+            <p>
+              You have already graphed the forest <strong>before nest boxes</strong> and <strong>two years later</strong>.
+              Now add the second set of bars so the two surveys can be compared directly.
+            </p>
+          </div>
+        </div>
+
+        <div class="partd-data-card">
+          <span class="challenge-step-label">Step 1 · Bring the two surveys together</span>
+          <h3>Comparison data</h3>
+          <p>You only need the average from each survey now. Use the <strong>Two years later</strong> column to add the new bars.</p>
+
+          <div class="partd-table-wrap">
+            <table class="practice-table partd-data-table" aria-label="Comparison of average nocturnal animal counts before nest boxes and two years later">
+              <thead>
+                <tr>
+                  <th>Type of animal</th>
+                  <th>Before nest boxes</th>
+                  <th>Two years later</th>
+                </tr>
+              </thead>
+              <tbody id="partDComparisonBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="partd-work-grid">
+          <div class="partd-builder-card">
+            <span class="challenge-step-label">Step 2 · Add the second data set</span>
+            <h3>Build the follow-up bars beside the baseline</h3>
+            <p>
+              The purple bars are already on the graph. Use the sliders to add the green bars for the survey two years later.
+            </p>
+
+            <div class="bar-builder-controls partd-builder-controls" id="partDBuilderControls">
+              <div class="bar-builder-row" data-partd-bar-row="0">
+                <label for="partDBar0">Leadbeater's Possum</label>
+                <input id="partDBar0" type="range" min="0" max="10" step="1" value="0" data-partd-bar="0" />
+                <output for="partDBar0">0</output>
+              </div>
+              <div class="bar-builder-row" data-partd-bar-row="1">
+                <label for="partDBar1">Yellow-bellied Glider</label>
+                <input id="partDBar1" type="range" min="0" max="10" step="1" value="0" data-partd-bar="1" />
+                <output for="partDBar1">0</output>
+              </div>
+              <div class="bar-builder-row" data-partd-bar-row="2">
+                <label for="partDBar2">Ringtail Possum</label>
+                <input id="partDBar2" type="range" min="0" max="10" step="1" value="0" data-partd-bar="2" />
+                <output for="partDBar2">0</output>
+              </div>
+              <div class="bar-builder-row" data-partd-bar-row="3">
+                <label for="partDBar3">Powerful Owl</label>
+                <input id="partDBar3" type="range" min="0" max="10" step="1" value="0" data-partd-bar="3" />
+                <output for="partDBar3">0</output>
+              </div>
+              <div class="bar-builder-row" data-partd-bar-row="4">
+                <label for="partDBar4">Feral Cats</label>
+                <input id="partDBar4" type="range" min="0" max="10" step="1" value="0" data-partd-bar="4" />
+                <output for="partDBar4">0</output>
+              </div>
+            </div>
+
+            <button type="button" class="general-button" id="checkPartDBarsButton" style="margin-top: 14px;">Check my new bars</button>
+
+            <div class="partd-builder-complete" id="partDBuilderComplete" hidden>
+              <strong>Second data set added.</strong><br />
+              Each animal now has a pair of bars, so you can compare before and after directly.
+            </div>
+
+            <div class="challenge-feedback" id="partDFeedback" role="status" aria-live="polite">
+              <strong>Read the comparison table.</strong>
+              Set each green bar to the value in the Two years later column.
+            </div>
+          </div>
+
+          <div class="partd-graph-card">
+            <div class="graph-stage-heading">
+              <div>
+                <h3>Before and after nest boxes</h3>
+                <p id="partDGraphHint">The baseline bars are already shown. Add the follow-up bars beside them.</p>
+              </div>
+              <span class="graph-badge" id="partDGraphBadge">Compare</span>
+            </div>
+
+            <div class="partd-legend" aria-label="Graph key">
+              <span class="partd-legend-item"><span class="partd-swatch before" aria-hidden="true"></span>Before nest boxes</span>
+              <span class="partd-legend-item"><span class="partd-swatch after" aria-hidden="true"></span>Two years later</span>
+            </div>
+
+            <div class="graph-svg-wrap">
+              <svg class="graph-svg" id="partDGraphSvg" viewBox="0 0 760 500" role="img" aria-label="Paired bar graph comparing average nocturnal animal counts before nest boxes and two years later">
+                <rect x="0" y="0" width="760" height="500" rx="18" fill="white"></rect>
+                <g id="partDGridLayer"></g>
+                <g id="partDYTicksLayer"></g>
+
+                <line class="graph-axis" x1="120" y1="370" x2="715" y2="370"></line>
+                <line class="graph-axis" x1="120" y1="370" x2="120" y2="35"></line>
+
+                <text class="axis-label" x="415" y="470" text-anchor="middle">Type of animal</text>
+                <text class="axis-label" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+
+                <g id="partDCategoriesLayer"></g>
+                <g id="partDBeforeBarsLayer"></g>
+                <g id="partDAfterBarsLayer"></g>
+                <g id="partDValuesLayer"></g>
+                <g class="partd-change-marker" id="partDChangeMarker" aria-hidden="true"></g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="partd-analysis-panel" id="partDAnalysisPanel" hidden>
+          <span class="challenge-step-label">Step 3 · Compare the paired bars</span>
+          <h3>What changed after the nest boxes were installed?</h3>
+          <p>Use the two bars for each animal to compare the baseline and follow-up surveys.</p>
+
+          <div class="partd-analysis-question" id="partDAnalysisQuestion1">
+            <span class="partc-analysis-progress">Question 1 of 3</span>
+            <p class="challenge-question"><strong>What happened to the average number of Leadbeater's Possums?</strong></p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-partd-change="increase">Increased</button>
+              <button type="button" class="challenge-choice" data-partd-change="decrease">Decreased</button>
+              <button type="button" class="challenge-choice" data-partd-change="same">Stayed the same</button>
+            </div>
+          </div>
+
+          <div class="partd-analysis-question" id="partDAnalysisQuestion2" hidden>
+            <span class="partc-analysis-progress">Question 2 of 3</span>
+            <p class="challenge-question"><strong>By how many animals did the Leadbeater's Possum average change?</strong></p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-partd-difference="1">1 animal</button>
+              <button type="button" class="challenge-choice" data-partd-difference="2">2 animals</button>
+              <button type="button" class="challenge-choice" data-partd-difference="3">3 animals</button>
+            </div>
+          </div>
+
+          <div class="partd-analysis-question" id="partDAnalysisQuestion3" hidden>
+            <span class="partc-analysis-progress">Question 3 of 3</span>
+            <p class="challenge-question"><strong>Did any of the other animal categories change between the two surveys?</strong></p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-partd-other="no">No, they stayed the same</button>
+              <button type="button" class="challenge-choice" data-partd-other="yes">Yes, at least one changed</button>
+              <button type="button" class="challenge-choice" data-partd-other="cannot-tell">You cannot tell from this graph</button>
+            </div>
+          </div>
+
+          <div class="challenge-feedback" id="partDAnalysisFeedback" role="status" aria-live="polite">
+            <strong>Compare the first pair of bars.</strong>
+            Is the green Leadbeater's Possum bar higher, lower or the same as the purple bar?
+          </div>
+
+          <div class="partd-prediction-check" id="partDPredictionCheck" hidden>
+            <span class="challenge-step-label">Step 4 · Check the prediction</span>
+            <h3>Return to the Project Possum prediction</h3>
+            <p class="partd-prediction-statement">
+              If we provide nest boxes, then the number of Leadbeater's Possums living in this section of forest will increase.
+            </p>
+            <p><strong>Do these results support the prediction?</strong></p>
+            <div class="prediction-buttons">
+              <button type="button" class="general-button prediction-button" data-partd-prediction="supported">Supported</button>
+              <button type="button" class="general-button prediction-button" data-partd-prediction="not-supported">Not supported</button>
+            </div>
+          </div>
+
+          <div class="partd-complete-card" id="partDCompleteCard" hidden>
+            <span class="challenge-step-label">Comparison complete</span>
+            <h3>Use the two data sets to describe the result</h3>
+            <p class="partd-result-statement" id="partDResultStatement"></p>
+            <p class="partd-conclusion-note">
+              <strong>Why use two bars for each animal?</strong><br />
+              Putting the surveys side by side makes changes between the same categories easier to see.
+            </p>
+          </div>
+        </div>
+
+        <div class="reset-button-container">
+          <button type="button" class="general-button reset-btn" id="resetPartDButton">Reset Part D</button>
         </div>
       </section>
 
@@ -1407,6 +2805,8 @@
             { id: "bar-graph", label: "Compare categories with a bar graph" },
             { id: "bar-practice", label: "Collect and visualise animal data" },
             { id: "bar-construction", label: "Construct a bar graph" },
+            { id: "bar-follow-up", label: "Part C: Return to the forest" },
+            { id: "bar-compare", label: "Part D: Compare before and after" },
         ];
 
         const lesson4TeacherBackLink = {
@@ -3453,6 +4853,1376 @@
       }
 
 
+
+
+      /* ==================================================
+         PART C - FOLLOW-UP SURVEY BAR GRAPH PRACTICE
+         ================================================== */
+
+      /*
+        PROTOTYPE FOLLOW-UP DATA ONLY.
+        These values are deliberately simple whole-number averages so the
+        interaction can be developed on a 0-10 scale. Replace them when the
+        curriculum team confirms the final research-based teaching dataset.
+      */
+      const partCBarData = [
+        { label: "Leadbeater's Possum", short: ["Leadbeater's", "Possum"], nights: [4, 6, 5], average: 5, colour: "var(--yellow)" },
+        { label: "Yellow-bellied Glider", short: ["Yellow-bellied", "Glider"], nights: [5, 3, 4], average: 4, colour: "var(--mint)" },
+        { label: "Ringtail Possum", short: ["Ringtail", "Possum"], nights: [7, 5, 6], average: 6, colour: "var(--blue)" },
+        { label: "Powerful Owl", short: ["Powerful", "Owl"], nights: [1, 2, 0], average: 1, colour: "var(--lavender)" },
+        { label: "Feral Cats", short: ["Feral", "Cats"], nights: [2, 1, 3], average: 2, colour: "var(--soft-orange)" }
+      ];
+
+      const partCPlot = {
+        left: 120,
+        right: 710,
+        top: 40,
+        bottom: 370,
+        maxY: 10,
+        centres: [170, 290, 410, 530, 650],
+        barWidth: 70
+      };
+
+      const partCAxisValues = { x: null, y: null };
+      let partCSelectedCard = null;
+      let partCDraggedCard = null;
+      let partCTouchDragging = false;
+      let partCDragGhost = null;
+      let partCStage = "axes";
+      let partCCurrentBarIndex = 0;
+      let partCAnalysisStep = 0;
+
+      function partCY(value) {
+        return partCPlot.bottom - (value / partCPlot.maxY) * (partCPlot.bottom - partCPlot.top);
+      }
+
+      function buildPartCTable() {
+        const body = document.getElementById("partCTableBody");
+        if (!body) return;
+        body.innerHTML = "";
+
+        partCBarData.forEach(function(item, index) {
+          const row = document.createElement("tr");
+          row.dataset.partcRow = index;
+          row.innerHTML =
+            "<td>" + item.label + "</td>" +
+            "<td>" + item.nights[0] + "</td>" +
+            "<td>" + item.nights[1] + "</td>" +
+            "<td>" + item.nights[2] + "</td>" +
+            '<td class="partc-average-cell">' + item.average + "</td>";
+          body.appendChild(row);
+        });
+      }
+
+      function buildPartCGraphScaffold() {
+        const grid = document.getElementById("partCGridLayer");
+        const yTicks = document.getElementById("partCYTicksLayer");
+        const xCategories = document.getElementById("partCXCategoriesLayer");
+        const bars = document.getElementById("partCBarsLayer");
+        const values = document.getElementById("partCValuesLayer");
+
+        if (!grid || !yTicks || !xCategories || !bars || !values) return;
+
+        grid.innerHTML = "";
+        yTicks.innerHTML = "";
+        xCategories.innerHTML = "";
+        bars.innerHTML = "";
+        values.innerHTML = "";
+
+        for (let value = 0; value <= partCPlot.maxY; value += 1) {
+          const y = partCY(value);
+
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("class", "graph-grid-line");
+          line.setAttribute("x1", partCPlot.left);
+          line.setAttribute("x2", partCPlot.right);
+          line.setAttribute("y1", y);
+          line.setAttribute("y2", y);
+          grid.appendChild(line);
+
+          const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          label.setAttribute("class", "tick-label");
+          label.setAttribute("x", 103);
+          label.setAttribute("y", y + 4);
+          label.setAttribute("text-anchor", "end");
+          label.textContent = value;
+          yTicks.appendChild(label);
+        }
+
+        partCBarData.forEach(function(item, index) {
+          const centre = partCPlot.centres[index];
+
+          const category = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          category.setAttribute("class", "tick-label partc-category-label");
+          category.dataset.partcCategory = index;
+          category.setAttribute("x", centre);
+          category.setAttribute("y", 394);
+          category.setAttribute("text-anchor", "middle");
+
+          const first = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+          first.setAttribute("x", centre);
+          first.setAttribute("dy", 0);
+          first.textContent = item.short[0];
+          const second = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+          second.setAttribute("x", centre);
+          second.setAttribute("dy", 14);
+          second.textContent = item.short[1];
+          category.appendChild(first);
+          category.appendChild(second);
+          xCategories.appendChild(category);
+
+          const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          bar.setAttribute("class", "partc-practice-bar");
+          bar.dataset.partcBar = index;
+          bar.setAttribute("x", centre - partCPlot.barWidth / 2);
+          bar.setAttribute("y", partCPlot.bottom);
+          bar.setAttribute("width", partCPlot.barWidth);
+          bar.setAttribute("height", 0);
+          bar.setAttribute("rx", 4);
+          bar.setAttribute("fill", item.colour);
+          bars.appendChild(bar);
+
+          const valueLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          valueLabel.setAttribute("class", "partc-value-label");
+          valueLabel.dataset.partcValueLabel = index;
+          valueLabel.setAttribute("x", centre);
+          valueLabel.setAttribute("y", Math.max(partCPlot.top + 16, partCY(item.average) - 10));
+          valueLabel.textContent = item.average;
+          values.appendChild(valueLabel);
+        });
+      }
+
+      function partCCardLabel(value) {
+        return {
+          animal: "Type of animal",
+          number: "Number of animals",
+          night: "Night number",
+          average: "Average"
+        }[value] || value;
+      }
+
+      function partCClearCardSelection() {
+        document.querySelectorAll(".partc-axis-card.selected").forEach(function(card) {
+          card.classList.remove("selected");
+        });
+        partCSelectedCard = null;
+      }
+
+      function partCCreateDragGhost(card) {
+        partCRemoveDragGhost();
+        const ghost = document.createElement("div");
+        ghost.className = "partc-drag-ghost";
+        const clone = card.cloneNode(true);
+        clone.disabled = false;
+        clone.removeAttribute("draggable");
+        clone.classList.remove("selected", "placed", "is-dragging");
+        ghost.appendChild(clone);
+        document.body.appendChild(ghost);
+        partCDragGhost = ghost;
+      }
+
+      function partCMoveDragGhost(point) {
+        if (!partCDragGhost || !point) return;
+        partCDragGhost.style.left = (point.clientX - partCDragGhost.offsetWidth / 2) + "px";
+        partCDragGhost.style.top = (point.clientY - partCDragGhost.offsetHeight / 2) + "px";
+      }
+
+      function partCRemoveDragGhost() {
+        if (partCDragGhost) {
+          partCDragGhost.remove();
+          partCDragGhost = null;
+        }
+      }
+
+      function partCClearDropHover() {
+        document.querySelectorAll("#partCGraphSvg .partc-axis-drop-zone").forEach(function(zone) {
+          zone.classList.remove("drag-over");
+        });
+        if (partCDragGhost) partCDragGhost.classList.remove("is-hovering-drop-zone");
+      }
+
+      function partCGetDropZoneAtPoint(clientX, clientY, tolerance) {
+        const amount = typeof tolerance === "number" ? tolerance : 28;
+        const zones = Array.from(document.querySelectorAll("#partCGraphSvg .partc-axis-drop-zone")).filter(function(zone) {
+          return !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete");
+        });
+
+        let closestZone = null;
+        let closestDistance = Infinity;
+
+        zones.forEach(function(zone) {
+          const hitPad = zone.querySelector(".partc-axis-drop-hit-pad") || zone;
+          const rect = hitPad.getBoundingClientRect();
+          const inside =
+            clientX >= rect.left - amount && clientX <= rect.right + amount &&
+            clientY >= rect.top - amount && clientY <= rect.bottom + amount;
+
+          if (!inside) return;
+
+          const centreX = rect.left + rect.width / 2;
+          const centreY = rect.top + rect.height / 2;
+          const distance = Math.hypot(clientX - centreX, clientY - centreY);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestZone = zone;
+          }
+        });
+
+        return closestZone;
+      }
+
+      function partCUpdateAxisState() {
+        const xReady = partCAxisValues.x === "animal";
+        const yReady = partCAxisValues.y === "number";
+
+        if (xReady) {
+          document.getElementById("partCXAxisDropZone").classList.add("axis-complete");
+          document.getElementById("partCXAxisLabel").classList.add("visible");
+        }
+        if (yReady) {
+          document.getElementById("partCYAxisDropZone").classList.add("axis-complete");
+          document.getElementById("partCYAxisLabel").classList.add("visible");
+        }
+
+        if (xReady && yReady && partCStage === "axes") {
+          partCStage = "units";
+          document.getElementById("partCUnitCheck").hidden = false;
+          document.getElementById("partCStepLabel").textContent = "Step 2 · Check the units";
+          document.getElementById("partCControlHeading").textContent = "Do these axes need units?";
+          document.getElementById("partCControlText").textContent =
+            "You have labelled the variables correctly. Now decide whether these data are measured in a unit such as cm or seconds.";
+
+          setChallengeFeedback(
+            "partCFeedback",
+            "success",
+            "Axes labelled.",
+            " Use the table to decide whether a measurement unit is needed."
+          );
+        }
+      }
+
+      function partCTryPlaceAxisCard(card, zone) {
+        if (!card || !zone || partCStage !== "axes") return;
+
+        const value = card.dataset.partcCard;
+        const slot = zone.dataset.partcAxisSlot;
+        const expected = zone.dataset.partcExpected;
+
+        if (value !== expected) {
+          zone.classList.add("drop-incorrect");
+          window.setTimeout(function() { zone.classList.remove("drop-incorrect"); }, 500);
+          setChallengeFeedback(
+            "partCFeedback",
+            "try-again",
+            "Check the table headings.",
+            slot === "x"
+              ? " The x-axis should show the animal categories being compared."
+              : " The y-axis should show the quantity that was counted."
+          );
+          return;
+        }
+
+        partCAxisValues[slot] = value;
+        zone.querySelector(".partc-axis-drop-text").textContent = partCCardLabel(value);
+        zone.classList.add("drop-complete");
+        card.classList.add("placed");
+        card.disabled = true;
+        card.setAttribute("draggable", "false");
+        partCClearCardSelection();
+
+        setChallengeFeedback(
+          "partCFeedback",
+          "success",
+          "Correct axis label.",
+          " Place the remaining graph label."
+        );
+
+        partCUpdateAxisState();
+      }
+
+      function partCInitialiseAxisDragAndDrop() {
+        const cards = document.querySelectorAll(".partc-axis-card");
+        const zones = document.querySelectorAll("#partCGraphSvg .partc-axis-drop-zone");
+
+        cards.forEach(function(card) {
+          card.addEventListener("dragstart", function(event) {
+            if (card.disabled || card.classList.contains("placed")) {
+              event.preventDefault();
+              return;
+            }
+
+            partCDraggedCard = card;
+            card.classList.add("is-dragging");
+            event.dataTransfer.setData("text/plain", card.id);
+            event.dataTransfer.effectAllowed = "move";
+
+            const transparent = document.createElement("div");
+            transparent.style.position = "absolute";
+            transparent.style.width = "1px";
+            transparent.style.height = "1px";
+            transparent.style.opacity = "0";
+            document.body.appendChild(transparent);
+            event.dataTransfer.setDragImage(transparent, 0, 0);
+            window.setTimeout(function() { transparent.remove(); }, 0);
+
+            partCCreateDragGhost(card);
+            partCMoveDragGhost(event);
+          });
+
+          card.addEventListener("dragend", function() {
+            card.classList.remove("is-dragging");
+            partCClearDropHover();
+            partCRemoveDragGhost();
+            partCDraggedCard = null;
+          });
+
+          card.addEventListener("touchstart", function(event) {
+            if (card.disabled || card.classList.contains("placed")) return;
+            partCDraggedCard = card;
+            partCTouchDragging = true;
+            card.classList.add("is-dragging");
+            const touch = event.touches[0];
+            partCCreateDragGhost(card);
+            partCMoveDragGhost(touch);
+            event.preventDefault();
+          }, { passive: false });
+
+          card.addEventListener("touchmove", function(event) {
+            if (!partCTouchDragging || !partCDraggedCard) return;
+            event.preventDefault();
+            const touch = event.touches[0];
+            partCMoveDragGhost(touch);
+            const zone = partCGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+            partCClearDropHover();
+            if (zone) {
+              zone.classList.add("drag-over");
+              if (partCDragGhost) partCDragGhost.classList.add("is-hovering-drop-zone");
+            }
+          }, { passive: false });
+
+          card.addEventListener("touchend", function(event) {
+            if (!partCTouchDragging || !partCDraggedCard) return;
+            event.preventDefault();
+            const touch = event.changedTouches[0];
+            const zone = partCGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+            partCClearDropHover();
+            if (zone) partCTryPlaceAxisCard(partCDraggedCard, zone);
+            if (partCDraggedCard) partCDraggedCard.classList.remove("is-dragging");
+            partCRemoveDragGhost();
+            partCDraggedCard = null;
+            partCTouchDragging = false;
+          }, { passive: false });
+
+          card.addEventListener("touchcancel", function() {
+            if (partCDraggedCard) partCDraggedCard.classList.remove("is-dragging");
+            partCClearDropHover();
+            partCRemoveDragGhost();
+            partCDraggedCard = null;
+            partCTouchDragging = false;
+          });
+
+          card.addEventListener("click", function() {
+            if (card.disabled || card.classList.contains("placed")) return;
+            const alreadySelected = partCSelectedCard === card;
+            partCClearCardSelection();
+            if (!alreadySelected) {
+              partCSelectedCard = card;
+              card.classList.add("selected");
+            }
+          });
+        });
+
+        document.addEventListener("dragover", function(event) {
+          if (!partCDraggedCard) return;
+          event.preventDefault();
+          partCMoveDragGhost(event);
+          const zone = partCGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+          partCClearDropHover();
+          if (zone) {
+            zone.classList.add("drag-over");
+            if (partCDragGhost) partCDragGhost.classList.add("is-hovering-drop-zone");
+            if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+          }
+        });
+
+        document.addEventListener("drop", function(event) {
+          if (!partCDraggedCard) return;
+          event.preventDefault();
+          const zone = partCGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+          partCClearDropHover();
+          if (zone) partCTryPlaceAxisCard(partCDraggedCard, zone);
+        });
+
+        zones.forEach(function(zone) {
+          zone.addEventListener("click", function() {
+            if (partCSelectedCard) partCTryPlaceAxisCard(partCSelectedCard, zone);
+          });
+          zone.addEventListener("keydown", function(event) {
+            if ((event.key === "Enter" || event.key === " ") && partCSelectedCard) {
+              event.preventDefault();
+              partCTryPlaceAxisCard(partCSelectedCard, zone);
+            }
+          });
+        });
+      }
+
+      function partCHandleUnitChoice(button) {
+        if (partCStage !== "units") return;
+        const value = button.dataset.partcUnit;
+
+        if (value !== "none") {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "partCFeedback",
+            "try-again",
+            "No measurement unit is needed here.",
+            " These data are animal categories and whole-number counts, not measurements of length or time."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        partCStage = "bars";
+        document.getElementById("partCAxisBank").hidden = true;
+        document.getElementById("partCUnitCheck").hidden = true;
+        document.getElementById("partCScaffoldLayer").classList.add("visible");
+        document.getElementById("partCSliderStage").hidden = false;
+        document.getElementById("partCGraphBadge").textContent = "Build";
+        document.getElementById("partCStepLabel").textContent = "Step 3 · Build the bars";
+        document.getElementById("partCControlHeading").textContent = "Use the averages to set each bar height";
+        document.getElementById("partCControlText").textContent =
+          "Use the average column to set all five sliders. Each slider changes one category without changing the others.";
+        document.getElementById("partCGraphHint").textContent =
+          "The categories and 0-10 scale are now visible. Build all five bars from the average column.";
+        document.getElementById("bar-follow-up").classList.add("partc-bars-active");
+
+        partCResetBarBuilderControls();
+
+        setChallengeFeedback(
+          "partCFeedback",
+          "success",
+          "Graph set up correctly.",
+          " Now set all five bar heights from the average column, then check your bars."
+        );
+      }
+
+      function partCSetBarHeight(index, value, isPreview) {
+        const bar = document.querySelector('[data-partc-bar="' + index + '"]');
+        if (!bar) return;
+        const height = (value / partCPlot.maxY) * (partCPlot.bottom - partCPlot.top);
+        bar.setAttribute("y", partCPlot.bottom - height);
+        bar.setAttribute("height", height);
+        bar.classList.toggle("preview", Boolean(isPreview));
+      }
+
+      function partCResetBarBuilderControls() {
+        document.querySelectorAll("[data-partc-bar-practice]").forEach(function(input) {
+          const index = Number(input.dataset.partcBarPractice);
+          const row = document.querySelector('[data-partc-bar-row="' + index + '"]');
+          input.value = "0";
+          if (row) {
+            row.classList.remove("needs-fix", "correct-bar");
+            const output = row.querySelector("output");
+            if (output) {
+              output.value = "0";
+              output.textContent = "0";
+            }
+          }
+          partCSetBarHeight(index, 0, true);
+
+          const valueLabel = document.querySelector('[data-partc-value-label="' + index + '"]');
+          const category = document.querySelector('[data-partc-category="' + index + '"]');
+          const tableRow = document.querySelector('[data-partc-row="' + index + '"]');
+          const bar = document.querySelector('[data-partc-bar="' + index + '"]');
+          if (valueLabel) valueLabel.classList.remove("visible");
+          if (category) category.classList.remove("active", "complete");
+          if (tableRow) tableRow.classList.remove("partc-current-row", "partc-complete-row");
+          if (bar) bar.classList.remove("complete", "analysis-highlight");
+        });
+      }
+
+      function partCHandleBarBuilderInput(input) {
+        if (partCStage !== "bars") return;
+        const index = Number(input.dataset.partcBarPractice);
+        const value = Number(input.value);
+        const row = document.querySelector('[data-partc-bar-row="' + index + '"]');
+
+        if (row) {
+          row.classList.remove("needs-fix", "correct-bar");
+          const output = row.querySelector("output");
+          if (output) {
+            output.value = value;
+            output.textContent = value;
+          }
+        }
+
+        const valueLabel = document.querySelector('[data-partc-value-label="' + index + '"]');
+        const category = document.querySelector('[data-partc-category="' + index + '"]');
+        const tableRow = document.querySelector('[data-partc-row="' + index + '"]');
+        const bar = document.querySelector('[data-partc-bar="' + index + '"]');
+        if (valueLabel) valueLabel.classList.remove("visible");
+        if (category) category.classList.remove("complete");
+        if (tableRow) tableRow.classList.remove("partc-complete-row");
+        if (bar) bar.classList.remove("complete");
+
+        partCSetBarHeight(index, value, true);
+      }
+
+      function partCCheckAllBars() {
+        if (partCStage !== "bars") return;
+
+        let firstWrongIndex = -1;
+
+        document.querySelectorAll("[data-partc-bar-practice]").forEach(function(input) {
+          const index = Number(input.dataset.partcBarPractice);
+          const current = Number(input.value);
+          const target = partCBarData[index].average;
+          const correct = current === target;
+          const row = document.querySelector('[data-partc-bar-row="' + index + '"]');
+          const bar = document.querySelector('[data-partc-bar="' + index + '"]');
+          const valueLabel = document.querySelector('[data-partc-value-label="' + index + '"]');
+          const category = document.querySelector('[data-partc-category="' + index + '"]');
+          const tableRow = document.querySelector('[data-partc-row="' + index + '"]');
+
+          if (row) {
+            row.classList.toggle("correct-bar", correct);
+            row.classList.toggle("needs-fix", !correct);
+          }
+
+          if (correct) {
+            if (bar) {
+              bar.classList.remove("preview");
+              bar.classList.add("complete");
+            }
+            if (valueLabel) valueLabel.classList.add("visible");
+            if (category) category.classList.add("complete");
+            if (tableRow) tableRow.classList.add("partc-complete-row");
+          } else {
+            if (bar) {
+              bar.classList.add("preview");
+              bar.classList.remove("complete");
+            }
+            if (valueLabel) valueLabel.classList.remove("visible");
+            if (category) category.classList.remove("complete");
+            if (tableRow) tableRow.classList.remove("partc-complete-row");
+            if (firstWrongIndex === -1) firstWrongIndex = index;
+          }
+        });
+
+        if (firstWrongIndex !== -1) {
+          const input = document.querySelector('[data-partc-bar-practice="' + firstWrongIndex + '"]');
+          const current = input ? Number(input.value) : 0;
+          setChallengeFeedback(
+            "partCFeedback",
+            "try-again",
+            partCBarData[firstWrongIndex].label + " needs another look.",
+            " Your bar is at " + current + ". Check its average in the table and adjust that slider."
+          );
+          return;
+        }
+
+        setChallengeFeedback(
+          "partCFeedback",
+          "success",
+          "All five bars match the table.",
+          " Great work. Now use the finished graph to analyse the follow-up survey."
+        );
+
+        window.setTimeout(partCFinishBars, 350);
+      }
+
+      function partCFinishBars() {
+        partCStage = "analysis";
+        document.getElementById("bar-follow-up").classList.remove("partc-bars-active");
+        document.getElementById("partCSliderStage").hidden = true;
+        document.getElementById("partCAnalysisPanel").hidden = false;
+        document.getElementById("partCGraphBadge").textContent = "Analyse";
+        document.getElementById("partCStepLabel").textContent = "Bars complete ✓";
+        document.getElementById("partCControlHeading").textContent = "Your follow-up graph is complete";
+        document.getElementById("partCControlText").textContent =
+          "You translated every average in the table into a bar height. Now use the graph to analyse the survey.";
+        document.getElementById("partCGraphHint").textContent = "All five follow-up averages are now represented as bars.";
+
+        setChallengeFeedback(
+          "partCFeedback",
+          "success",
+          "All five bars match the table.",
+          " Use the finished graph to answer the analysis questions below."
+        );
+
+        window.setTimeout(function() {
+          document.getElementById("partCAnalysisPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 200);
+      }
+
+      function partCClearAnalysisHighlights() {
+        document.querySelectorAll("#partCGraphSvg .partc-practice-bar").forEach(function(bar) {
+          bar.classList.remove("analysis-highlight");
+        });
+      }
+
+      function partCHighlightAnalysisBars(indexes) {
+        partCClearAnalysisHighlights();
+        indexes.forEach(function(index) {
+          const bar = document.querySelector('[data-partc-bar="' + index + '"]');
+          if (bar) bar.classList.add("analysis-highlight");
+        });
+      }
+
+      function partCAnalysisIndex(kind) {
+        const values = partCBarData.map(function(item) { return item.average; });
+        const target = kind === "highest" ? Math.max.apply(null, values) : Math.min.apply(null, values);
+        return values.indexOf(target);
+      }
+
+      function partCHandleAnalysisChoice(button) {
+        if (partCStage !== "analysis") return;
+        const kind = button.dataset.partcAnalysis;
+        const chosen = Number(button.dataset.partcIndex);
+        const correct = partCAnalysisIndex(kind);
+
+        if (chosen !== correct) {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "partCAnalysisFeedback",
+            "try-again",
+            kind === "highest" ? "Look for the tallest bar." : "Look for the shortest bar.",
+            " Compare the bar tops with the y-axis scale and try again."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        partCHighlightAnalysisBars([correct]);
+
+        if (kind === "highest" && partCAnalysisStep === 0) {
+          partCAnalysisStep = 1;
+          document.getElementById("partCAnalysisQuestion1").hidden = true;
+          document.getElementById("partCAnalysisQuestion2").hidden = false;
+          setChallengeFeedback(
+            "partCAnalysisFeedback",
+            "success",
+            "Correct: " + partCBarData[correct].label + ".",
+            " Now find the lowest average count."
+          );
+          return;
+        }
+
+        if (kind === "lowest" && partCAnalysisStep === 1) {
+          partCAnalysisStep = 2;
+          document.getElementById("partCAnalysisQuestion2").hidden = true;
+          document.getElementById("partCAnalysisQuestion3").hidden = false;
+          setChallengeFeedback(
+            "partCAnalysisFeedback",
+            "success",
+            "Correct: " + partCBarData[correct].label + ".",
+            " Finally, find the difference between the highest and lowest averages."
+          );
+        }
+      }
+
+      function partCHandleDifferenceChoice(button) {
+        if (partCStage !== "analysis" || partCAnalysisStep !== 2) return;
+        const highestIndex = partCAnalysisIndex("highest");
+        const lowestIndex = partCAnalysisIndex("lowest");
+        const difference = partCBarData[highestIndex].average - partCBarData[lowestIndex].average;
+        const chosen = Number(button.dataset.partcDifference);
+
+        if (chosen !== difference) {
+          flashChoice(button, "try-again-choice");
+          partCHighlightAnalysisBars([highestIndex, lowestIndex]);
+          setChallengeFeedback(
+            "partCAnalysisFeedback",
+            "try-again",
+            "Use the two highlighted bars.",
+            " Subtract the lowest average from the highest average."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        partCHighlightAnalysisBars([highestIndex, lowestIndex]);
+        partCAnalysisStep = 3;
+        document.getElementById("partCAnalysisQuestion3").hidden = true;
+        document.getElementById("partCCompleteCard").hidden = false;
+        document.getElementById("partCGraphBadge").textContent = "Complete ✓";
+
+        const highest = partCBarData[highestIndex];
+        const lowest = partCBarData[lowestIndex];
+        document.getElementById("partCResultStatement").innerHTML =
+          "<strong>The data show that</strong> " + highest.label + " were observed in the highest average number (" + highest.average +
+          "), while " + lowest.label + " were observed in the lowest average number (" + lowest.average +
+          "). The difference between the highest and lowest averages was <strong>" + difference + " animals</strong>.";
+
+        setChallengeFeedback(
+          "partCAnalysisFeedback",
+          "success",
+          "Follow-up graph analysed.",
+          " You now have a baseline graph and a follow-up graph. Comparing them is the next scientific question."
+        );
+      }
+
+      function resetPartC() {
+        partCAxisValues.x = null;
+        partCAxisValues.y = null;
+        partCSelectedCard = null;
+        partCDraggedCard = null;
+        partCTouchDragging = false;
+        partCRemoveDragGhost();
+        partCStage = "axes";
+        partCCurrentBarIndex = 0;
+        partCAnalysisStep = 0;
+
+        document.getElementById("bar-follow-up").classList.remove("partc-bars-active");
+        buildPartCTable();
+        buildPartCGraphScaffold();
+        partCResetBarBuilderControls();
+
+        document.querySelectorAll(".partc-axis-card").forEach(function(card) {
+          card.disabled = false;
+          card.draggable = true;
+          card.classList.remove("selected", "placed", "is-dragging");
+        });
+
+        document.querySelectorAll("#partCGraphSvg .partc-axis-drop-zone").forEach(function(zone) {
+          zone.classList.remove("drag-over", "drop-complete", "drop-incorrect", "axis-complete");
+          const text = zone.querySelector(".partc-axis-drop-text");
+          if (text) text.textContent = text.dataset.placeholder;
+        });
+
+        document.getElementById("partCXAxisLabel").classList.remove("visible");
+        document.getElementById("partCYAxisLabel").classList.remove("visible");
+        document.getElementById("partCScaffoldLayer").classList.remove("visible");
+        document.getElementById("partCAxisBank").hidden = false;
+        document.getElementById("partCUnitCheck").hidden = true;
+        document.getElementById("partCSliderStage").hidden = true;
+        document.getElementById("partCAnalysisPanel").hidden = true;
+        document.getElementById("partCCompleteCard").hidden = true;
+
+        document.getElementById("partCAnalysisQuestion1").hidden = false;
+        document.getElementById("partCAnalysisQuestion2").hidden = true;
+        document.getElementById("partCAnalysisQuestion3").hidden = true;
+
+        document.querySelectorAll("[data-partc-unit], [data-partc-analysis], [data-partc-difference]").forEach(function(button) {
+          button.classList.remove("correct-choice", "try-again-choice");
+        });
+
+        document.getElementById("partCStepLabel").textContent = "Step 2 · Label the axes";
+        document.getElementById("partCControlHeading").textContent = "Set up your bar graph";
+        document.getElementById("partCControlText").textContent =
+          "Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.";
+        document.getElementById("partCGraphHint").textContent =
+          "Label the axes first. The categories and scale will appear when the graph is ready.";
+        document.getElementById("partCGraphBadge").textContent = "Set up";
+
+        setChallengeFeedback(
+          "partCFeedback",
+          "",
+          "Use the table.",
+          " The category belongs on one axis and the number counted belongs on the other."
+        );
+        setChallengeFeedback(
+          "partCAnalysisFeedback",
+          "",
+          "Start with the tallest bar.",
+          " Which category reaches the highest value on the y-axis?"
+        );
+      }
+
+      function initialisePartC() {
+        if (!document.getElementById("bar-follow-up")) return;
+
+        buildPartCTable();
+        buildPartCGraphScaffold();
+        partCInitialiseAxisDragAndDrop();
+
+        document.querySelectorAll("[data-partc-unit]").forEach(function(button) {
+          button.addEventListener("click", function() { partCHandleUnitChoice(button); });
+        });
+
+        document.querySelectorAll("[data-partc-bar-practice]").forEach(function(input) {
+          input.addEventListener("input", function() { partCHandleBarBuilderInput(input); });
+        });
+        document.getElementById("checkPartCBarsButton").addEventListener("click", partCCheckAllBars);
+
+        document.querySelectorAll("[data-partc-analysis]").forEach(function(button) {
+          button.addEventListener("click", function() { partCHandleAnalysisChoice(button); });
+        });
+        document.querySelectorAll("[data-partc-difference]").forEach(function(button) {
+          button.addEventListener("click", function() { partCHandleDifferenceChoice(button); });
+        });
+
+        document.getElementById("resetPartCButton").addEventListener("click", resetPartC);
+        resetPartC();
+      }
+
+
+
+
+      /* ==================================================
+         PART D - PAIRED BAR GRAPH COMPARISON
+         ================================================== */
+
+      const partDPlot = {
+        left: 120,
+        right: 710,
+        top: 40,
+        bottom: 370,
+        maxY: 10,
+        centres: [170, 290, 410, 530, 650],
+        barWidth: 38,
+        pairGap: 4
+      };
+
+      let partDStage = "bars";
+      let partDAnalysisStep = 0;
+
+      function partDData() {
+        return partCBarData.map(function(item, index) {
+          return {
+            label: item.label,
+            short: item.short,
+            before: partBAverage(partBBarData[index]),
+            after: item.average
+          };
+        });
+      }
+
+      function partDY(value) {
+        return partDPlot.bottom - (value / partDPlot.maxY) * (partDPlot.bottom - partDPlot.top);
+      }
+
+      function partDFormat(value) {
+        return Number.isInteger(value) ? String(value) : value.toFixed(1);
+      }
+
+      function buildPartDComparisonTable() {
+        const body = document.getElementById("partDComparisonBody");
+        if (!body) return;
+        body.innerHTML = "";
+
+        partDData().forEach(function(item) {
+          const row = document.createElement("tr");
+          row.innerHTML =
+            "<td>" + item.label + "</td>" +
+            "<td>" + partDFormat(item.before) + "</td>" +
+            "<td>" + partDFormat(item.after) + "</td>";
+          body.appendChild(row);
+        });
+      }
+
+      function buildPartDGraph() {
+        const grid = document.getElementById("partDGridLayer");
+        const yTicks = document.getElementById("partDYTicksLayer");
+        const categories = document.getElementById("partDCategoriesLayer");
+        const beforeLayer = document.getElementById("partDBeforeBarsLayer");
+        const afterLayer = document.getElementById("partDAfterBarsLayer");
+        const valuesLayer = document.getElementById("partDValuesLayer");
+        const changeMarker = document.getElementById("partDChangeMarker");
+        if (!grid || !yTicks || !categories || !beforeLayer || !afterLayer || !valuesLayer || !changeMarker) return;
+
+        grid.innerHTML = "";
+        yTicks.innerHTML = "";
+        categories.innerHTML = "";
+        beforeLayer.innerHTML = "";
+        afterLayer.innerHTML = "";
+        valuesLayer.innerHTML = "";
+        changeMarker.innerHTML = "";
+        changeMarker.classList.remove("visible");
+
+        for (let value = 0; value <= partDPlot.maxY; value += 1) {
+          const y = partDY(value);
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("class", "graph-grid-line");
+          line.setAttribute("x1", partDPlot.left);
+          line.setAttribute("x2", partDPlot.right);
+          line.setAttribute("y1", y);
+          line.setAttribute("y2", y);
+          grid.appendChild(line);
+
+          const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          label.setAttribute("class", "tick-label");
+          label.setAttribute("x", 103);
+          label.setAttribute("y", y + 4);
+          label.setAttribute("text-anchor", "end");
+          label.textContent = value;
+          yTicks.appendChild(label);
+        }
+
+        partDData().forEach(function(item, index) {
+          const centre = partDPlot.centres[index];
+          const beforeX = centre - partDPlot.pairGap / 2 - partDPlot.barWidth;
+          const afterX = centre + partDPlot.pairGap / 2;
+          const beforeY = partDY(item.before);
+          const beforeHeight = partDPlot.bottom - beforeY;
+
+          const category = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          category.setAttribute("class", "tick-label");
+          category.setAttribute("x", centre);
+          category.setAttribute("y", 394);
+          category.setAttribute("text-anchor", "middle");
+          const first = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+          first.setAttribute("x", centre);
+          first.setAttribute("dy", 0);
+          first.textContent = item.short[0];
+          const second = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+          second.setAttribute("x", centre);
+          second.setAttribute("dy", 14);
+          second.textContent = item.short[1];
+          category.appendChild(first);
+          category.appendChild(second);
+          categories.appendChild(category);
+
+          const beforeBar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          beforeBar.setAttribute("class", "partd-before-bar");
+          beforeBar.dataset.partdBeforeBar = index;
+          beforeBar.setAttribute("x", beforeX);
+          beforeBar.setAttribute("y", beforeY);
+          beforeBar.setAttribute("width", partDPlot.barWidth);
+          beforeBar.setAttribute("height", beforeHeight);
+          beforeBar.setAttribute("rx", 4);
+          beforeLayer.appendChild(beforeBar);
+
+          const afterBar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          afterBar.setAttribute("class", "partd-after-bar preview");
+          afterBar.dataset.partdAfterBar = index;
+          afterBar.setAttribute("x", afterX);
+          afterBar.setAttribute("y", partDPlot.bottom);
+          afterBar.setAttribute("width", partDPlot.barWidth);
+          afterBar.setAttribute("height", 0);
+          afterBar.setAttribute("rx", 4);
+          afterLayer.appendChild(afterBar);
+
+          const beforeValue = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          beforeValue.setAttribute("class", "partd-value-label");
+          beforeValue.setAttribute("x", beforeX + partDPlot.barWidth / 2);
+          beforeValue.setAttribute("y", Math.max(partDPlot.top + 14, beforeY - 8));
+          beforeValue.textContent = partDFormat(item.before);
+          valuesLayer.appendChild(beforeValue);
+
+          const afterValue = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          afterValue.setAttribute("class", "partd-value-label partd-after-value");
+          afterValue.dataset.partdAfterValue = index;
+          afterValue.setAttribute("x", afterX + partDPlot.barWidth / 2);
+          afterValue.setAttribute("y", Math.max(partDPlot.top + 14, partDY(item.after) - 8));
+          afterValue.textContent = partDFormat(item.after);
+          valuesLayer.appendChild(afterValue);
+        });
+      }
+
+      function partDSetAfterBarHeight(index, value, preview) {
+        const bar = document.querySelector('[data-partd-after-bar="' + index + '"]');
+        if (!bar) return;
+        const height = (value / partDPlot.maxY) * (partDPlot.bottom - partDPlot.top);
+        bar.setAttribute("y", partDPlot.bottom - height);
+        bar.setAttribute("height", height);
+        bar.classList.toggle("preview", Boolean(preview));
+      }
+
+      function partDHandleBarInput(input) {
+        if (partDStage !== "bars") return;
+        const index = Number(input.dataset.partdBar);
+        const value = Number(input.value);
+        const row = document.querySelector('[data-partd-bar-row="' + index + '"]');
+        if (row) {
+          row.classList.remove("needs-fix", "correct-bar");
+          const output = row.querySelector("output");
+          if (output) {
+            output.value = value;
+            output.textContent = value;
+          }
+        }
+        const label = document.querySelector('[data-partd-after-value="' + index + '"]');
+        const bar = document.querySelector('[data-partd-after-bar="' + index + '"]');
+        if (label) label.classList.remove("visible");
+        if (bar) bar.classList.remove("complete");
+        partDSetAfterBarHeight(index, value, true);
+      }
+
+      function partDClearPairHighlights() {
+        document.querySelectorAll("#partDGraphSvg .partd-before-bar, #partDGraphSvg .partd-after-bar").forEach(function(bar) {
+          bar.classList.remove("partd-pair-highlight");
+        });
+      }
+
+      function partDHighlightPair(index) {
+        partDClearPairHighlights();
+        const beforeBar = document.querySelector('[data-partd-before-bar="' + index + '"]');
+        const afterBar = document.querySelector('[data-partd-after-bar="' + index + '"]');
+        if (beforeBar) beforeBar.classList.add("partd-pair-highlight");
+        if (afterBar) afterBar.classList.add("partd-pair-highlight");
+      }
+
+      function partDShowLeadbeatersChangeMarker() {
+        const marker = document.getElementById("partDChangeMarker");
+        if (!marker) return;
+        marker.innerHTML = "";
+
+        const data = partDData()[0];
+        const centre = partDPlot.centres[0];
+        const x = centre + partDPlot.barWidth + 16;
+        const yBefore = partDY(data.before);
+        const yAfter = partDY(data.after);
+        const top = Math.min(yBefore, yAfter);
+        const bottom = Math.max(yBefore, yAfter);
+        const difference = Math.abs(data.after - data.before);
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("class", "partd-change-line");
+        line.setAttribute("x1", x);
+        line.setAttribute("x2", x);
+        line.setAttribute("y1", top);
+        line.setAttribute("y2", bottom);
+        marker.appendChild(line);
+
+        [top, bottom].forEach(function(y) {
+          const cap = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          cap.setAttribute("class", "partd-change-line");
+          cap.setAttribute("x1", x - 6);
+          cap.setAttribute("x2", x + 6);
+          cap.setAttribute("y1", y);
+          cap.setAttribute("y2", y);
+          marker.appendChild(cap);
+        });
+
+        // Put the change value in a high-contrast badge so it does not
+        // disappear among the bars and grid lines. The badge sits directly
+        // over the comparison bracket between the two survey heights.
+        const badgeWidth = 44;
+        const badgeHeight = 30;
+        const badgeCentreY = (top + bottom) / 2;
+
+        const badge = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        badge.setAttribute("class", "partd-change-badge");
+        badge.setAttribute("x", x - badgeWidth / 2);
+        badge.setAttribute("y", badgeCentreY - badgeHeight / 2);
+        badge.setAttribute("width", badgeWidth);
+        badge.setAttribute("height", badgeHeight);
+        badge.setAttribute("rx", 9);
+        marker.appendChild(badge);
+
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("class", "partd-change-text");
+        label.setAttribute("x", x);
+        label.setAttribute("y", badgeCentreY);
+        label.textContent = (data.after >= data.before ? "+" : "-") + partDFormat(difference);
+        marker.appendChild(label);
+        marker.classList.add("visible");
+      }
+
+      function partDCheckBars() {
+        if (partDStage !== "bars") return;
+        const data = partDData();
+        let firstWrong = -1;
+
+        document.querySelectorAll("[data-partd-bar]").forEach(function(input) {
+          const index = Number(input.dataset.partdBar);
+          const current = Number(input.value);
+          const correct = current === data[index].after;
+          const row = document.querySelector('[data-partd-bar-row="' + index + '"]');
+          const bar = document.querySelector('[data-partd-after-bar="' + index + '"]');
+          const valueLabel = document.querySelector('[data-partd-after-value="' + index + '"]');
+
+          if (row) {
+            row.classList.toggle("correct-bar", correct);
+            row.classList.toggle("needs-fix", !correct);
+          }
+
+          if (correct) {
+            if (bar) {
+              bar.classList.remove("preview");
+              bar.classList.add("complete");
+            }
+            if (valueLabel) valueLabel.classList.add("visible");
+          } else {
+            if (bar) {
+              bar.classList.add("preview");
+              bar.classList.remove("complete");
+            }
+            if (valueLabel) valueLabel.classList.remove("visible");
+            if (firstWrong === -1) firstWrong = index;
+          }
+        });
+
+        if (firstWrong !== -1) {
+          const input = document.querySelector('[data-partd-bar="' + firstWrong + '"]');
+          setChallengeFeedback(
+            "partDFeedback",
+            "try-again",
+            data[firstWrong].label + " needs another look.",
+            " Your green bar is at " + (input ? input.value : "0") + ". Check the Two years later column and adjust it."
+          );
+          return;
+        }
+
+        partDStage = "analysis";
+        document.getElementById("partDBuilderControls").hidden = true;
+        document.getElementById("checkPartDBarsButton").hidden = true;
+        document.getElementById("partDBuilderComplete").hidden = false;
+        document.getElementById("partDAnalysisPanel").hidden = false;
+        document.getElementById("partDGraphBadge").textContent = "Analyse";
+        document.getElementById("partDGraphHint").textContent = "Each category now has a before bar and a two-years-later bar.";
+        partDHighlightPair(0);
+
+        setChallengeFeedback(
+          "partDFeedback",
+          "success",
+          "Second data set added.",
+          " Now compare the paired bars to work out what changed."
+        );
+
+        window.setTimeout(function() {
+          document.getElementById("partDAnalysisPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 200);
+      }
+
+      function partDHandleChangeChoice(button) {
+        if (partDStage !== "analysis" || partDAnalysisStep !== 0) return;
+        const data = partDData()[0];
+        const correct = data.after > data.before ? "increase" : data.after < data.before ? "decrease" : "same";
+
+        if (button.dataset.partdChange !== correct) {
+          flashChoice(button, "try-again-choice");
+          partDHighlightPair(0);
+          setChallengeFeedback(
+            "partDAnalysisFeedback",
+            "try-again",
+            "Compare the two Leadbeater's Possum bars.",
+            " Is the green follow-up bar higher, lower or the same height as the purple baseline bar?"
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        partDHighlightPair(0);
+        partDAnalysisStep = 1;
+        document.getElementById("partDAnalysisQuestion1").hidden = true;
+        document.getElementById("partDAnalysisQuestion2").hidden = false;
+        setChallengeFeedback(
+          "partDAnalysisFeedback",
+          "success",
+          "Correct: the average increased.",
+          " Now use the two bar heights to work out the size of the change."
+        );
+      }
+
+      function partDPrepareDifferenceChoices() {
+        const leadbeaters = partDData()[0];
+        const correct = Math.abs(leadbeaters.after - leadbeaters.before);
+        let choices;
+
+        if (correct === 0) {
+          choices = [0, 1, 2];
+        } else {
+          choices = [Math.max(0, correct - 1), correct, correct + 1];
+        }
+
+        document.querySelectorAll("#partDAnalysisQuestion2 [data-partd-difference]").forEach(function(button, index) {
+          const value = choices[index];
+          button.dataset.partdDifference = value;
+          button.textContent = value + (value === 1 ? " animal" : " animals");
+        });
+      }
+
+      function partDHandleDifferenceChoice(button) {
+        if (partDStage !== "analysis" || partDAnalysisStep !== 1) return;
+        const data = partDData()[0];
+        const correct = Math.abs(data.after - data.before);
+        const chosen = Number(button.dataset.partdDifference);
+
+        if (chosen !== correct) {
+          flashChoice(button, "try-again-choice");
+          partDHighlightPair(0);
+          setChallengeFeedback(
+            "partDAnalysisFeedback",
+            "try-again",
+            "Use the two Leadbeater's Possum values.",
+            " Subtract the smaller average from the larger average."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        partDHighlightPair(0);
+        partDShowLeadbeatersChangeMarker();
+        partDAnalysisStep = 2;
+        document.getElementById("partDAnalysisQuestion2").hidden = true;
+        document.getElementById("partDAnalysisQuestion3").hidden = false;
+        setChallengeFeedback(
+          "partDAnalysisFeedback",
+          "success",
+          "Correct: the difference is " + partDFormat(correct) + " animals.",
+          " Now scan the other four pairs of bars."
+        );
+      }
+
+      function partDHandleOtherChoice(button) {
+        if (partDStage !== "analysis" || partDAnalysisStep !== 2) return;
+        const data = partDData();
+        const otherChanged = data.slice(1).map(function(item, offset) {
+          return item.before !== item.after ? offset + 1 : null;
+        }).filter(function(value) { return value !== null; });
+
+        const chosen = button.dataset.partdOther;
+        const correct = otherChanged.length === 0 ? "no" : "yes";
+
+        if (chosen !== correct) {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "partDAnalysisFeedback",
+            "try-again",
+            "Compare the other paired bars.",
+            " Look for any category where the purple and green bars have different heights."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        partDClearPairHighlights();
+        partDAnalysisStep = 3;
+        document.getElementById("partDAnalysisQuestion3").hidden = true;
+        document.getElementById("partDPredictionCheck").hidden = false;
+        setChallengeFeedback(
+          "partDAnalysisFeedback",
+          "success",
+          otherChanged.length === 0 ? "Correct: the other four averages stayed the same." : "Correct.",
+          " You can now return to the original Project Possum prediction."
+        );
+      }
+
+      function partDHandlePredictionChoice(button) {
+        if (partDStage !== "analysis" || partDAnalysisStep !== 3) return;
+        const leadbeaters = partDData()[0];
+        const correct = leadbeaters.after > leadbeaters.before ? "supported" : "not-supported";
+
+        if (button.dataset.partdPrediction !== correct) {
+          flashChoice(button, "try-again-choice");
+          partDHighlightPair(0);
+          setChallengeFeedback(
+            "partDAnalysisFeedback",
+            "try-again",
+            "Return to the prediction.",
+            " The prediction said the number of Leadbeater's Possums would increase. Compare the before and after averages again."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        button.classList.add("selected-answer");
+        partDAnalysisStep = 4;
+        partDStage = "complete";
+        document.getElementById("partDCompleteCard").hidden = false;
+        document.getElementById("partDGraphBadge").textContent = "Complete ✓";
+        partDHighlightPair(0);
+        partDShowLeadbeatersChangeMarker();
+
+        const change = leadbeaters.after - leadbeaters.before;
+        const otherChanged = partDData().slice(1).some(function(item) { return item.before !== item.after; });
+        document.getElementById("partDResultStatement").innerHTML =
+          "<strong>The data show that</strong> the average number of Leadbeater's Possums observed " +
+          (change > 0 ? "increased" : change < 0 ? "decreased" : "did not change") +
+          " from <strong>" + partDFormat(leadbeaters.before) + "</strong> before nest boxes to <strong>" +
+          partDFormat(leadbeaters.after) + "</strong> two years later, a change of <strong>" +
+          partDFormat(Math.abs(change)) + " animals</strong>. " +
+          (otherChanged ? "Some other animal categories also changed." : "The other four animal averages stayed the same in this data set.");
+
+        setChallengeFeedback(
+          "partDAnalysisFeedback",
+          "success",
+          correct === "supported" ? "The results support the prediction." : "The results do not support the prediction.",
+          " You used a paired bar graph to compare the same categories across two surveys."
+        );
+
+        document.getElementById("bar-compare").classList.add("completed");
+        window.setTimeout(function() {
+          document.getElementById("partDCompleteCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 180);
+      }
+
+      function resetPartD() {
+        partDStage = "bars";
+        partDAnalysisStep = 0;
+        buildPartDComparisonTable();
+        buildPartDGraph();
+        partDPrepareDifferenceChoices();
+        partDClearPairHighlights();
+
+        document.querySelectorAll("[data-partd-bar]").forEach(function(input) {
+          const index = Number(input.dataset.partdBar);
+          input.value = "0";
+          const row = document.querySelector('[data-partd-bar-row="' + index + '"]');
+          if (row) {
+            row.classList.remove("needs-fix", "correct-bar");
+            const output = row.querySelector("output");
+            if (output) {
+              output.value = "0";
+              output.textContent = "0";
+            }
+          }
+          partDSetAfterBarHeight(index, 0, true);
+        });
+
+        document.getElementById("partDBuilderControls").hidden = false;
+        document.getElementById("checkPartDBarsButton").hidden = false;
+        document.getElementById("partDBuilderComplete").hidden = true;
+        document.getElementById("partDAnalysisPanel").hidden = true;
+        document.getElementById("partDPredictionCheck").hidden = true;
+        document.getElementById("partDCompleteCard").hidden = true;
+        document.getElementById("partDAnalysisQuestion1").hidden = false;
+        document.getElementById("partDAnalysisQuestion2").hidden = true;
+        document.getElementById("partDAnalysisQuestion3").hidden = true;
+        document.getElementById("partDGraphBadge").textContent = "Compare";
+        document.getElementById("partDGraphHint").textContent = "The baseline bars are already shown. Add the follow-up bars beside them.";
+        document.getElementById("partDChangeMarker").classList.remove("visible");
+        document.getElementById("bar-compare").classList.remove("completed");
+
+        document.querySelectorAll("[data-partd-change], [data-partd-difference], [data-partd-other], [data-partd-prediction]").forEach(function(button) {
+          button.classList.remove("correct-choice", "try-again-choice", "selected-answer");
+        });
+
+        setChallengeFeedback(
+          "partDFeedback",
+          "",
+          "Read the comparison table.",
+          " Set each green bar to the value in the Two years later column."
+        );
+        setChallengeFeedback(
+          "partDAnalysisFeedback",
+          "",
+          "Compare the first pair of bars.",
+          " Is the green Leadbeater's Possum bar higher, lower or the same as the purple bar?"
+        );
+      }
+
+      function initialisePartD() {
+        if (!document.getElementById("bar-compare")) return;
+        buildPartDComparisonTable();
+        buildPartDGraph();
+
+        document.querySelectorAll("[data-partd-bar]").forEach(function(input) {
+          input.addEventListener("input", function() { partDHandleBarInput(input); });
+        });
+        document.getElementById("checkPartDBarsButton").addEventListener("click", partDCheckBars);
+
+        document.querySelectorAll("[data-partd-change]").forEach(function(button) {
+          button.addEventListener("click", function() { partDHandleChangeChoice(button); });
+        });
+        document.querySelectorAll("[data-partd-difference]").forEach(function(button) {
+          button.addEventListener("click", function() { partDHandleDifferenceChoice(button); });
+        });
+        document.querySelectorAll("[data-partd-other]").forEach(function(button) {
+          button.addEventListener("click", function() { partDHandleOtherChoice(button); });
+        });
+        document.querySelectorAll("[data-partd-prediction]").forEach(function(button) {
+          button.addEventListener("click", function() { partDHandlePredictionChoice(button); });
+        });
+
+        document.getElementById("resetPartDButton").addEventListener("click", resetPartD);
+        resetPartD();
+      }
+
+
       /* ---------- Pie practice ---------- */
 
       const piePracticeData = [
@@ -3804,6 +6574,9 @@
         document.getElementById("resetBarPracticeButton").addEventListener("click", resetBarPractice);
 
         initialisePartBConstruction();
+        initialisePartC();
+        initialisePartD();
+
         // document.querySelectorAll("[data-pie-total]").forEach(function(button) {
         //   button.addEventListener("click", function() { handlePieTotalChoice(button); });
         // });
