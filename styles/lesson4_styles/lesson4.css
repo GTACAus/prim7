@@ -587,12 +587,13 @@
   letter-spacing: 0.04em;
 }
 .challenge-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.38fr) minmax(270px, 0.82fr);
+  display: flex;
+  flex-direction: row;
   gap: 18px;
-  align-items: start;
+  align-items: center;
   margin-bottom: 20px;
 }
+
 .challenge-spotlight-game {
   margin: 0 0 20px;
   width: 100%;

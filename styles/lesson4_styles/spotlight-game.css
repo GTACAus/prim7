@@ -1,11 +1,16 @@
 :root {
-  --torch-mask: radial-gradient(circle var(--r) at var(--x) var(--y),
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.9) 40%,
-              rgba(0,0,0,0.4) 70%,
-              rgba(0,0,0,0.04) 100%);
-}
+  --x: 50%;
+  --y: 50%;
+  --r: 120px;
 
+  --torch-mask: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.9) 40%,
+    rgba(0, 0, 0, 0.4) 70%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+}
 .wrap {
     background: #05050a;
     text-align: center;
@@ -42,8 +47,17 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  /* the mask reveals the image only inside the radial circle that
-     follows the pointer; everything outside stays hidden */
+  transition: opacity 1.1s ease, mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
+}
+
+/* Day image: visible by default, no torch mask needed */
+#photoDay {
+  opacity: 1;
+}
+
+/* Night image: hidden by default, torch-masked once night starts */
+#photo {
+  opacity: 0;
   /* -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
               rgba(0,0,0,1) 0%,
               rgba(0,0,0,0.9) 40%,
@@ -54,18 +68,25 @@
               rgba(0,0,0,0.9) 40%,
               rgba(0,0,0,0.4) 70%,
               rgba(0,0,0,0.04) 100%); */
-  transition: mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
 }
+
+.stage.is-night #photoDay {
+  opacity: 0;
+}
+.stage.is-night #photo {
+  opacity: 1;
+}
+
 /* ---------- Hidden animals layered on the forest photo ---------- */
 /* Same reveal mask as the photo, applied to the whole layer so every
    animal in it is only visible where the torch is shining. Add more
    .animal-hotspot buttons inside #animalLayer for more animals. */
+/* Animal layer: only visible (and clickable) once night has fallen */
 .animal-layer {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.1s ease, mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
   /* -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
               rgba(0,0,0,1) 0%,
               rgba(0,0,0,0.9) 40%,
@@ -76,8 +97,29 @@
               rgba(0,0,0,0.9) 40%,
               rgba(0,0,0,0.4) 70%,
               rgba(0,0,0,0.04) 100%); */
-            
-  transition: mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
+}
+
+.stage.is-night .animal-layer {
+  opacity: 1;
+}
+.stage:not(.is-night) .animal-hotspot {
+  pointer-events: none; /* can't "find" animals hiding in daylight */
+}
+/* "Wait until night" prompt */
+.night-prompt {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 10, 0.35);
+  cursor: default;
+  transition: opacity 0.5s ease;
+}
+.stage.is-night .night-prompt {
+  opacity: 0;
+  pointer-events: none;
 }
 .animal-hotspot {
   position: absolute;

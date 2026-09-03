@@ -874,11 +874,52 @@
         overflow-x: visible;
       }
 
-      #bar-follow-up.partc-bars-active .partc-data-table {
-        min-width: 0;
-        width: 100%;
-        table-layout: fixed;
-      }
+              <div class="animal-stack-visual challenge-hidden" id="animalStackVisual" hidden>
+                <p class="stack-visual-title" id="stackVisualTitle">Each block is one animal you found</p>
+                <div class="bar-stack-row" id="stackRow"></div>
+              </div>
+
+              <div class="animal-stack-visual challenge-hidden" id="animalStackVisual" hidden></div>
+              
+            </div>
+          <div class="challenge-grid">
+            <div>
+              <div class="diagram-box diagram-activity">
+                <p class="challenge-question">
+                  Students counted 5 types of animals found in a forest.
+                  Use the table to set the height of each bar.
+                </p>
+                <table class="practice-table" aria-label="Minibeast count data">
+                  <thead>
+                    <tr><th>Type of Animal</th><th>Animals found</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Leadbeater's Possum</td><td>12</td></tr>
+                    <tr><td>Yellow Bellied Glider</td><td>7</td></tr>
+                    <tr><td>Ringtail Possum</td><td>18</td></tr>
+                    <tr><td>Powerful Owl</td><td>3</td></tr>
+                    <tr><td>Feral Cats</td><td>3</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="challenge-feedback" id="barPracticeFeedback" role="status" aria-live="polite">
+              <strong>Build from zero.</strong>
+              Move each slider until the bar height matches the number in the data table.
+            </div>
+            </div>
+            <div class="challenge-visual">
+              <div class="graph-stage-heading">
+                <span class="challenge-badge" id="barPracticeBadge">Build</span>
+                <span class="graph-badge">Student graph</span>
+              </div>
+              <div>
+                <h3>Your bar graph</h3>
+                <p>Each slider changes one category without changing the others.</p>
+              </div>
+
+              <div class="graph-svg-wrap">
+                <svg class="graph-svg" id="barPracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student bar graph of animals found in a forest">
+                  <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
 
       #bar-follow-up.partc-bars-active .partc-data-table th,
       #bar-follow-up.partc-bars-active .partc-data-table td {
@@ -908,11 +949,53 @@
         margin: 0 auto;
       }
 
-      /* Compress the five-slider panel enough to sit under the data table. */
-      #bar-follow-up.partc-bars-active .partc-control-card > h3 {
-        margin-bottom: 3px;
-        font-size: 1.03rem;
-      }
+              <div class="bar-builder-controls" id="barPracticeControls">
+                <div class="bar-builder-row" data-bar-row="0">
+                  <label for="barPractice0">Leadbeater's Possum</label>
+                  <input id="barPractice0" type="range" min="0" max="20" step="1" value="0" data-bar-practice="0" />
+                  <output for="barPractice0">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="1">
+                  <label for="barPractice1">Yellow Bellied Glider</label>
+                  <input id="barPractice1" type="range" min="0" max="20" step="1" value="0" data-bar-practice="1" />
+                  <output for="barPractice1">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="2">
+                  <label for="barPractice2">Ringtail Possum</label>
+                  <input id="barPractice2" type="range" min="0" max="20" step="1" value="0" data-bar-practice="2" />
+                  <output for="barPractice2">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="3">
+                  <label for="barPractice3">Powerful Owl</label>
+                  <input id="barPractice3" type="range" min="0" max="20" step="1" value="0" data-bar-practice="3" />
+                  <output for="barPractice3">0</output>
+                </div>
+                <div class="bar-builder-row" data-bar-row="4">
+                  <label for="barPractice4">Feral Cats</label>
+                  <input id="barPractice4" type="range" min="0" max="20" step="1" value="0" data-bar-practice="4" />
+                  <output for="barPractice4">0</output>
+                </div>
+              </div>
+              <button type="button" class="general-button" id="checkBarPracticeButton" style="margin-top: 14px;">
+                Check my bars
+              </button>
+            </div>
+          </div>
+          
+          <div class="diagram-activity challenge-hidden" id="barInterpretPractice" hidden>
+            <span class="challenge-step-label" style="margin-top: 16px;">Use the graph</span>
+            <p class="challenge-question">
+              How many more yellow bellied gliders were found than ringtail possums?
+            </p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-bar-difference="5">5</button>
+              <button type="button" class="challenge-choice" data-bar-difference="11">11</button>
+              <button type="button" class="challenge-choice" data-bar-difference="25">25</button>
+            </div>
+          </div>
+          <div class="graph-detective challenge-hidden diagram-activity pop-in" id="barDetective" hidden>
+            <h4>🔎 Graph Detective</h4>
+            <p class="challenge-question">This graph makes a small difference look enormous. What is wrong?</p>
 
       #bar-follow-up.partc-bars-active .partc-control-card > p {
         font-size: .86rem;

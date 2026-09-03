@@ -53,6 +53,23 @@ document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
   });
 });
 
+function startNight() {
+  stage.classList.add('is-night');
+  const nightButton = document.getElementById('waitForNightButton');
+  if (nightButton) nightButton.disabled = true;
+}
+
+function returnToDay() {
+  stage.classList.remove('is-night');
+  const nightButton = document.getElementById('waitForNightButton');
+  if (nightButton) nightButton.disabled = false;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const nightButton = document.getElementById('waitForNightButton');
+  if (nightButton) nightButton.addEventListener('click', startNight);
+});
+
 /* ==================================================
    ANIMAL COUNTERS
    One counter per unique data-animal type in
@@ -255,6 +272,7 @@ function checkAnimalCount() {
     feedback.appendChild(strong);
     feedback.appendChild(document.createTextNode(' You found and counted every hidden animal correctly.'));
     revealStackButtons();
+    returnToDay();
     return;
   }
 
@@ -278,6 +296,8 @@ function resetAnimalCounters() {
   feedback.innerHTML = '<strong>Use the torch to search first.</strong>Set each counter to how many of that animal you found hiding in the photo.';
 
   hideStackVisuals();
+  returnToDay();
+  document.querySelectorAll('.animal-hotspot.found').forEach(h => h.classList.remove('found'));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
