@@ -320,6 +320,9 @@ function resetAnimalCounters() {
     counter.classList.remove('counter-correct', 'counter-incorrect');
     renderAnimalCounterDots(counter, 0);
     counter.querySelector('.counter-value-text').textContent = '0';
+
+    const stage = document.getElementById("stage");
+    stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   const feedback = document.getElementById('animalCountFeedback');
@@ -328,7 +331,7 @@ function resetAnimalCounters() {
   feedback.innerHTML = '<strong>Use the torch to search first.</strong>Set each counter to how many of that animal you found hiding in the photo.';
 
   hideStackVisuals();
-    returnToDay();
+  returnToDay();
   document.querySelectorAll('.animal-hotspot.found').forEach(h => h.classList.remove('found'));
 }
 

@@ -1918,7 +1918,7 @@
                   </div>
                 </div>
               </div>
-              <div class="animal-counter-panel" id="animalCounterPanel" aria-label="Count the hidden animals"></div>
+              <div class="animal-counter-panel pop-in" id="animalCounterPanel" aria-label="Count the hidden animals"></div>
 
               <div class="reset-button-container">
                 <button type="button" class="general-button" id="checkAnimalCountButton">Check my count</button>
@@ -1941,122 +1941,8 @@
               <div class="animal-stack-visual challenge-hidden" id="animalStackVisual" hidden>
                 <p class="stack-visual-title" id="stackVisualTitle">Each block is one animal you found</p>
                 <div class="bar-stack-row" id="stackRow"></div>
-              </div>
-
-              
+              </div>              
             </div>
-          <div class="challenge-grid" id="legacyBarPracticeSlider" hidden>
-            <div>
-              <div class="diagram-box diagram-activity">
-                <p class="challenge-question">
-                  Students counted 5 types of animals found in a forest.
-                  Use the table to set the height of each bar.
-                </p>
-                <table class="practice-table" aria-label="Minibeast count data">
-                  <thead>
-                    <tr><th>Type of Animal</th><th>Animals found</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Leadbeater's Possum</td><td>12</td></tr>
-                    <tr><td>Yellow Bellied Glider</td><td>7</td></tr>
-                    <tr><td>Ringtail Possum</td><td>18</td></tr>
-                    <tr><td>Powerful Owl</td><td>3</td></tr>
-                    <tr><td>Feral Cats</td><td>3</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="challenge-feedback" id="barPracticeFeedback" role="status" aria-live="polite">
-              <strong>Build from zero.</strong>
-              Move each slider until the bar height matches the number in the data table.
-            </div>
-            </div>
-            <div class="challenge-visual">
-              <div class="graph-stage-heading">
-                <span class="challenge-badge" id="barPracticeBadge">Build</span>
-                <span class="graph-badge">Student graph</span>
-              </div>
-              <div>
-                <h3>Your bar graph</h3>
-                <p>Each slider changes one category without changing the others.</p>
-              </div>
-
-              <div class="graph-svg-wrap">
-                <svg class="graph-svg" id="barPracticeSvg" viewBox="0 0 700 430" role="img" aria-label="Student bar graph of animals found in a forest">
-                  <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
-
-                  <g aria-hidden="true">
-                    <line class="graph-grid-line" x1="90" y1="345" x2="640" y2="345"></line>
-                    <line class="graph-grid-line" x1="90" y1="266.25" x2="640" y2="266.25"></line>
-                    <line class="graph-grid-line" x1="90" y1="187.5" x2="640" y2="187.5"></line>
-                    <line class="graph-grid-line" x1="90" y1="108.75" x2="640" y2="108.75"></line>
-                    <line class="graph-grid-line" x1="90" y1="30" x2="640" y2="30"></line>
-                  </g>
-
-                  <line class="graph-axis" x1="90" y1="345" x2="645" y2="345"></line>
-                  <line class="graph-axis" x1="90" y1="345" x2="90" y2="25"></line>
-
-                  <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
-                  <text class="tick-label" x="72" y="270" text-anchor="end">5</text>
-                  <text class="tick-label" x="72" y="191" text-anchor="end">10</text>
-                  <text class="tick-label" x="72" y="112" text-anchor="end">15</text>
-                  <text class="tick-label" x="72" y="34" text-anchor="end">20</text>
-
-                  <text class="axis-label" x="25" y="190" text-anchor="middle" transform="rotate(-90 25 190)">Animals found</text>
-                  <text class="axis-label" x="365" y="416" text-anchor="middle">Type of Animal</text>
-
-                  <!-- 5 bars, evenly spaced across 90-640, each in its own ~110px slot -->
-                  <text class="tick-label" x="145" y="365" text-anchor="middle">
-                  <tspan x="145" dy="0">Leadbeater's</tspan>
-                  <tspan x="145" dy="13">Possum</tspan>
-                </text>
-                <text class="tick-label" x="255" y="365" text-anchor="middle">
-                  <tspan x="255" dy="0">Yellow Bellied</tspan>
-                  <tspan x="255" dy="13">Glider</tspan>
-                </text>
-                <text class="tick-label" x="365" y="371" text-anchor="middle">Ringtail Possum</text>
-                <text class="tick-label" x="475" y="371" text-anchor="middle">Powerful Owl</text>
-                <text class="tick-label" x="585" y="371" text-anchor="middle">Feral Cats</text>
-
-                  <rect class="practice-bar" data-practice-bar="0" x="110" y="345" width="70" height="0" rx="6" fill="var(--mint)"></rect>
-                  <rect class="practice-bar" data-practice-bar="1" x="220" y="345" width="70" height="0" rx="6" fill="var(--blue)"></rect>
-                  <rect class="practice-bar" data-practice-bar="2" x="330" y="345" width="70" height="0" rx="6" fill="var(--lavender)"></rect>
-                  <rect class="practice-bar" data-practice-bar="3" x="440" y="345" width="70" height="0" rx="6" fill="var(--yellow)"></rect>
-                  <rect class="practice-bar" data-practice-bar="4" x="550" y="345" width="70" height="0" rx="6" fill="var(--green)"></rect>
-                </svg>
-              </div>
-
-              <div class="bar-builder-controls" id="barPracticeControls">
-                <div class="bar-builder-row" data-bar-row="0">
-                  <label for="barPractice0">Leadbeater's Possum</label>
-                  <input id="barPractice0" type="range" min="0" max="20" step="1" value="0" data-bar-practice="0" />
-                  <output for="barPractice0">0</output>
-                </div>
-                <div class="bar-builder-row" data-bar-row="1">
-                  <label for="barPractice1">Yellow Bellied Glider</label>
-                  <input id="barPractice1" type="range" min="0" max="20" step="1" value="0" data-bar-practice="1" />
-                  <output for="barPractice1">0</output>
-                </div>
-                <div class="bar-builder-row" data-bar-row="2">
-                  <label for="barPractice2">Ringtail Possum</label>
-                  <input id="barPractice2" type="range" min="0" max="20" step="1" value="0" data-bar-practice="2" />
-                  <output for="barPractice2">0</output>
-                </div>
-                <div class="bar-builder-row" data-bar-row="3">
-                  <label for="barPractice3">Powerful Owl</label>
-                  <input id="barPractice3" type="range" min="0" max="20" step="1" value="0" data-bar-practice="3" />
-                  <output for="barPractice3">0</output>
-                </div>
-                <div class="bar-builder-row" data-bar-row="4">
-                  <label for="barPractice4">Feral Cats</label>
-                  <input id="barPractice4" type="range" min="0" max="20" step="1" value="0" data-bar-practice="4" />
-                  <output for="barPractice4">0</output>
-                </div>
-              </div>
-              <button type="button" class="general-button" id="checkBarPracticeButton" style="margin-top: 14px;">
-                Check my bars
-              </button>
-            </div>
-          </div>
           
           <div class="diagram-activity challenge-hidden" id="barInterpretPractice" hidden>
             <span class="challenge-step-label" style="margin-top: 16px;">Use the graph</span>
@@ -3687,33 +3573,13 @@
         );
       }
 
+      // This button used to reset the bar-building practice above (sliders,
+      // build badge, interpretation/detective panels). That practice isn't
+      // used any more, so the button (and this function, kept under its
+      // original name/id since other code still calls it) now just resets
+      // the spotlight "find the animals" activity instead.
       function resetBarPractice() {
-        barPracticeBuiltCorrectly = false;
-        barPracticeInterpretationCorrect = false;
-        document.getElementById("barPracticeBadge").textContent = "Build";
-        document.getElementById("barInterpretPractice").hidden = true;
-        document.getElementById("barDetective").hidden = true;
-
-        document.querySelectorAll("[data-bar-practice]").forEach(function(input, index) {
-          input.value = "0";
-          const row = document.querySelector('[data-bar-row="' + index + '"]');
-          row.classList.remove("needs-fix", "correct-bar");
-          row.querySelector("output").value = "0";
-          updatePracticeBar(index, 0);
-        });
-
-        document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
-          hotspot.classList.remove('found');
-        });
-
         if (typeof resetAnimalCounters === 'function') resetAnimalCounters();
-
-        setChallengeFeedback(
-          "barPracticeFeedback",
-          "",
-          "Build from zero.",
-          " Move each slider until the bar height matches the number in the data table."
-        );
       }
 
 
@@ -6564,7 +6430,12 @@
         document.querySelectorAll("[data-bar-practice]").forEach(function(input) {
           input.addEventListener("input", function() { handleBarPracticeInput(input); });
         });
-        document.getElementById("checkBarPracticeButton").addEventListener("click", checkBarPractice);
+        // checkBarPracticeButton belonged to the old bar-slider practice
+        // and no longer exists in the page; guarded so it doesn't throw
+        // and block every listener registered after it (that used to
+        // include the spotlight activity's reset button below).
+        const checkBarPracticeButtonEl = document.getElementById("checkBarPracticeButton");
+        if (checkBarPracticeButtonEl) checkBarPracticeButtonEl.addEventListener("click", checkBarPractice);
         document.querySelectorAll("[data-bar-difference]").forEach(function(button) {
           button.addEventListener("click", function() { handleBarDifferenceChoice(button); });
         });
