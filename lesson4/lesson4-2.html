@@ -1522,6 +1522,408 @@
       }
     }
 
+
+
+    /* ==================================================
+       IPAD / TABLET PORTRAIT WORKBENCH
+       Keep the reference data, controls and graph in view together.
+       Desktop and phone layouts are unchanged.
+       ================================================== */
+    @media (min-width: 700px) and (max-width: 1100px) and (orientation: portrait) {
+      #bar-construction,
+      #bar-follow-up,
+      #bar-compare {
+        padding: 18px;
+      }
+
+      /* ---------- Part B: averages + construction + graph ---------- */
+      #bar-construction.partb-build-active {
+        display: grid;
+        grid-template-columns: minmax(250px, .82fr) minmax(0, 1.18fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      #bar-construction.partb-build-active > .section-title,
+      #bar-construction.partb-build-active > .partb-intro-note,
+      #bar-construction.partb-build-active > .reset-button-container {
+        grid-column: 1 / -1;
+      }
+
+      #bar-construction.partb-build-active > .partb-data-card {
+        grid-column: 1;
+        grid-row: 3;
+        margin: 0;
+        padding: 12px;
+      }
+
+      #bar-construction.partb-build-active > .partb-construction-stage,
+      #bar-construction.partb-build-active .partb-construction-grid {
+        display: contents;
+      }
+
+      #bar-construction.partb-build-active .partb-control-panel {
+        grid-column: 1;
+        grid-row: 4;
+        padding: 12px;
+      }
+
+      #bar-construction.partb-build-active .partb-graph-card {
+        grid-column: 2;
+        grid-row: 3 / span 2;
+        padding: 12px;
+      }
+
+      #bar-construction.partb-build-active .partb-complete-note,
+      #bar-construction.partb-build-active .partb-graph-check,
+      #bar-construction.partb-build-active .partb-analysis-panel {
+        grid-column: 1 / -1;
+      }
+
+      /* Once the averages are calculated, only the columns needed for graphing
+         stay visible in the compact iPad reference table. */
+      #bar-construction.partb-build-active .partb-data-card > p,
+      #bar-construction.partb-build-active .partb-table-actions {
+        display: none;
+      }
+
+      #bar-construction.partb-build-active .partb-table-wrap {
+        margin-top: 8px;
+        overflow: visible;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table {
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th:nth-child(2),
+      #bar-construction.partb-build-active .partb-data-table th:nth-child(3),
+      #bar-construction.partb-build-active .partb-data-table th:nth-child(4),
+      #bar-construction.partb-build-active .partb-data-table td:nth-child(2),
+      #bar-construction.partb-build-active .partb-data-table td:nth-child(3),
+      #bar-construction.partb-build-active .partb-data-table td:nth-child(4) {
+        display: none;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th,
+      #bar-construction.partb-build-active .partb-data-table td {
+        padding: 6px 7px;
+        font-size: .76rem;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th:first-child,
+      #bar-construction.partb-build-active .partb-data-table td:first-child {
+        width: 68%;
+      }
+
+      #bar-construction.partb-build-active .partb-data-card h3,
+      #bar-construction.partb-build-active .partb-control-panel h3 {
+        font-size: .98rem;
+      }
+
+      #bar-construction.partb-build-active .partb-control-panel > p,
+      #bar-construction.partb-build-active .partb-builder-prompt,
+      #bar-construction.partb-build-active #partBFeedback {
+        font-size: .78rem;
+        line-height: 1.35;
+      }
+
+      #bar-construction.partb-build-active .partb-label-bank {
+        gap: 7px;
+        margin-top: 10px;
+        padding: 9px;
+        min-height: 0;
+      }
+
+      #bar-construction.partb-build-active .partb-axis-card {
+        min-height: 40px;
+        padding: 7px 9px;
+        font-size: .76rem;
+      }
+
+      /* ---------- Part C: compact reference + sliders beside graph ---------- */
+      #bar-follow-up.partc-bars-active {
+        display: grid;
+        grid-template-columns: minmax(250px, .82fr) minmax(0, 1.18fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      #bar-follow-up.partc-bars-active > .section-title,
+      #bar-follow-up.partc-bars-active > .partc-story-card,
+      #bar-follow-up.partc-bars-active > .partc-analysis-panel,
+      #bar-follow-up.partc-bars-active > .reset-button-container {
+        grid-column: 1 / -1;
+      }
+
+      #bar-follow-up.partc-bars-active > .partc-data-card {
+        grid-column: 1;
+        grid-row: 3;
+        margin: 0;
+        padding: 12px;
+      }
+
+      #bar-follow-up.partc-bars-active > .partc-build-grid {
+        display: contents;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-control-card {
+        grid-column: 1;
+        grid-row: 4;
+        order: initial;
+        padding: 12px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-graph-card {
+        grid-column: 2;
+        grid-row: 3 / span 2;
+        order: initial;
+        position: static;
+        padding: 12px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-card > p {
+        display: none;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-table-wrap {
+        margin-top: 8px;
+        overflow: visible;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-table {
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-table th:nth-child(2),
+      #bar-follow-up.partc-bars-active .partc-data-table th:nth-child(3),
+      #bar-follow-up.partc-bars-active .partc-data-table th:nth-child(4),
+      #bar-follow-up.partc-bars-active .partc-data-table td:nth-child(2),
+      #bar-follow-up.partc-bars-active .partc-data-table td:nth-child(3),
+      #bar-follow-up.partc-bars-active .partc-data-table td:nth-child(4) {
+        display: none;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-table th,
+      #bar-follow-up.partc-bars-active .partc-data-table td {
+        padding: 6px 7px;
+        font-size: .75rem;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-table th:first-child,
+      #bar-follow-up.partc-bars-active .partc-data-table td:first-child {
+        width: 68%;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-data-card h3,
+      #bar-follow-up.partc-bars-active .partc-control-card h3 {
+        font-size: .98rem;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-control-card > p {
+        font-size: .78rem;
+        line-height: 1.35;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-slider-stage {
+        margin-top: 8px;
+        padding: 9px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-slider-progress {
+        margin-bottom: 5px;
+        padding: 4px 7px;
+        font-size: .7rem;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-slider-stage h4 {
+        margin: 1px 0 3px;
+        font-size: .9rem;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-slider-instruction {
+        margin-bottom: 7px;
+        font-size: .74rem;
+        line-height: 1.3;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls {
+        gap: 6px;
+        margin-top: 6px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls .bar-builder-row {
+        grid-template-columns: minmax(92px, 112px) minmax(68px, 1fr) 34px;
+        gap: 5px;
+        padding: 5px 6px;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls .bar-builder-row label {
+        font-size: .68rem;
+        line-height: 1.15;
+      }
+
+      #bar-follow-up.partc-bars-active .partc-bar-builder-controls .bar-builder-row output {
+        min-height: 29px;
+        font-size: .76rem;
+      }
+
+      #bar-follow-up.partc-bars-active #checkPartCBarsButton {
+        margin-top: 8px !important;
+        padding: 8px 11px;
+        font-size: .8rem;
+      }
+
+      #bar-follow-up.partc-bars-active #partCFeedback {
+        min-height: 0;
+        margin-top: 8px;
+        margin-bottom: 0;
+        padding: 8px 9px;
+        font-size: .73rem;
+        line-height: 1.3;
+      }
+
+      /* ---------- Part D: comparison table + new bars beside graph ---------- */
+      #bar-compare:not(.completed) {
+        display: grid;
+        grid-template-columns: minmax(250px, .82fr) minmax(0, 1.18fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      #bar-compare:not(.completed) > .section-title,
+      #bar-compare:not(.completed) > .partd-intro-card,
+      #bar-compare:not(.completed) > .partd-analysis-panel,
+      #bar-compare:not(.completed) > .partd-complete-card,
+      #bar-compare:not(.completed) > .reset-button-container {
+        grid-column: 1 / -1;
+      }
+
+      #bar-compare:not(.completed) > .partd-data-card {
+        grid-column: 1;
+        grid-row: 3;
+        margin: 0;
+        padding: 12px;
+      }
+
+      #bar-compare:not(.completed) > .partd-work-grid {
+        display: contents;
+      }
+
+      #bar-compare:not(.completed) .partd-builder-card {
+        grid-column: 1;
+        grid-row: 4;
+        padding: 12px;
+      }
+
+      #bar-compare:not(.completed) .partd-graph-card {
+        grid-column: 2;
+        grid-row: 3 / span 2;
+        padding: 12px;
+      }
+
+      #bar-compare:not(.completed) .partd-data-card > p {
+        display: none;
+      }
+
+      #bar-compare:not(.completed) .partd-table-wrap {
+        margin-top: 8px;
+        overflow: visible;
+      }
+
+      #bar-compare:not(.completed) .partd-data-table th,
+      #bar-compare:not(.completed) .partd-data-table td {
+        padding: 5px 5px;
+        font-size: .69rem;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+      }
+
+      #bar-compare:not(.completed) .partd-data-table th:first-child,
+      #bar-compare:not(.completed) .partd-data-table td:first-child {
+        width: 48%;
+      }
+
+      #bar-compare:not(.completed) .partd-data-card h3,
+      #bar-compare:not(.completed) .partd-builder-card h3 {
+        font-size: .96rem;
+      }
+
+      #bar-compare:not(.completed) .partd-builder-card > p {
+        font-size: .75rem;
+        line-height: 1.3;
+      }
+
+      #bar-compare:not(.completed) .partd-builder-controls {
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      #bar-compare:not(.completed) .partd-builder-controls .bar-builder-row {
+        grid-template-columns: minmax(92px, 112px) minmax(68px, 1fr) 34px;
+        gap: 5px;
+        padding: 5px 6px;
+      }
+
+      #bar-compare:not(.completed) .partd-builder-controls .bar-builder-row label {
+        font-size: .68rem;
+        line-height: 1.15;
+      }
+
+      #bar-compare:not(.completed) .partd-builder-controls .bar-builder-row output {
+        min-height: 29px;
+        font-size: .76rem;
+      }
+
+      #bar-compare:not(.completed) #checkPartDBarsButton {
+        margin-top: 8px !important;
+        padding: 8px 11px;
+        font-size: .8rem;
+      }
+
+      #bar-compare:not(.completed) #partDFeedback {
+        margin-top: 8px;
+        padding: 8px 9px;
+        font-size: .73rem;
+        line-height: 1.3;
+      }
+
+      /* Keep graph text readable even though the SVG is physically smaller. */
+      #partBGraphSvg .tick-label,
+      #partCGraphSvg .tick-label,
+      #partDGraphSvg .tick-label {
+        font-size: 15px;
+      }
+
+      #partBGraphSvg .axis-label,
+      #partCGraphSvg .axis-label,
+      #partDGraphSvg .axis-label {
+        font-size: 17px;
+      }
+
+      .partb-graph-card .graph-stage-heading,
+      .partc-graph-card .graph-stage-heading,
+      .partd-graph-card .graph-stage-heading {
+        margin-bottom: 4px;
+      }
+
+      .partb-graph-card .graph-stage-heading p,
+      .partc-graph-card .graph-stage-heading p,
+      .partd-graph-card .graph-stage-heading p,
+      .partd-legend {
+        font-size: .72rem;
+        line-height: 1.25;
+      }
+    }
+
     </style>
   </head>
 
@@ -3912,6 +4314,7 @@
         partBAveragesReady = true;
         partBStage = "axes";
         document.getElementById("partBCalculateAveragesButton").disabled = true;
+        document.getElementById("bar-construction").classList.add("partb-build-active");
         document.getElementById("partBConstructionStage").hidden = false;
 
         setChallengeFeedback(
@@ -4736,7 +5139,7 @@
         document.getElementById("partBAnalysisQuestion2").hidden = true;
         document.getElementById("partBAnalysisQuestion3").hidden = true;
         document.getElementById("partBStartAnalysisButton").disabled = false;
-        document.getElementById("bar-construction").classList.remove("completed");
+        document.getElementById("bar-construction").classList.remove("completed", "partb-build-active");
         partBAnalysisStep = 0;
         partBClearAnalysisHighlight();
         document.querySelectorAll("[data-partb-analysis]").forEach(function(button) {
