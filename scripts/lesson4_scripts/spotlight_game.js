@@ -29,9 +29,6 @@ stage.addEventListener('touchmove', (e) => {
   setSpot((x / rect.width) * 100, (y / rect.height) * 100, 140);
   e.preventDefault();
 }, { passive: false });
-stage.addEventListener('touchend', () => {
-  setSpot(-50, -50, 140);
-});
 
 // Hidden animals on top of the forest photo: clicking one marks it as
 // found with a coloured overlay, and syncs the matching counter by ±1.
@@ -74,12 +71,30 @@ function startNight() {
   stage.classList.add('is-night');
   const nightButton = document.getElementById('waitForNightButton');
   if (nightButton) nightButton.disabled = true;
-}
 
-function returnToDay() {
+  // The counters are only meaningful once the torch is out and animals
+  // can be found, so keep them hidden until night actually starts.
+  const counterPanel = document.getElementById('animalCounterPanel');
+  if (counterPanel) counterPanel.style.display = '';
+ }
+
+function returnToDay(keepNightPromptHidden = false) {
   stage.classList.remove('is-night');
   const nightButton = document.getElementById('waitForNightButton');
-  if (nightButton) nightButton.disabled = false;
+  const nightPrompt = document.getElementById('nightPrompt');
+  if (keepNightPromptHidden) {
+    // The activity is finished (every animal found and counted correctly):
+    // swap back to the daytime photo, but don't let the "wait until night"
+    // prompt/button reappear over it.
+    if (nightPrompt) nightPrompt.style.display = 'none';
+  } else {
+    // A normal reset: re-arm the prompt/button so the activity can be
+    // played again, and hide the counters until night starts again.
+    if (nightPrompt) nightPrompt.style.display = '';
+    if (nightButton) nightButton.disabled = false;
+    const counterPanel = document.getElementById('animalCounterPanel');
+    if (counterPanel) counterPanel.style.display = 'none';
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -289,7 +304,7 @@ function checkAnimalCount() {
     feedback.appendChild(strong);
     feedback.appendChild(document.createTextNode(' You found and counted every hidden animal correctly.'));
     revealStackButtons();
-    returnToDay();
+    returnToDay(true);
     return;
   }
 
@@ -313,12 +328,15 @@ function resetAnimalCounters() {
   feedback.innerHTML = '<strong>Use the torch to search first.</strong>Set each counter to how many of that animal you found hiding in the photo.';
 
   hideStackVisuals();
-  returnToDay();
+    returnToDay();
   document.querySelectorAll('.animal-hotspot.found').forEach(h => h.classList.remove('found'));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   buildAnimalCounters();
+
+  const counterPanel = document.getElementById('animalCounterPanel');
+  if (counterPanel) counterPanel.style.display = 'none';
 
   const checkButton = document.getElementById('checkAnimalCountButton');
   if (checkButton) checkButton.addEventListener('click', checkAnimalCount);

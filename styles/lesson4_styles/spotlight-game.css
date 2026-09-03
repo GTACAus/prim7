@@ -58,8 +58,8 @@
 /* Night image: hidden by default, torch-masked once night starts */
 #photo {
   opacity: 0;
-  -webkit-mask-image: var(--torch-mask);
-  mask-image: var(--torch-mask);
+  /* -webkit-mask-image: var(--torch-mask);
+  mask-image: var(--torch-mask); */
 }
 
 .stage.is-night #photoDay {
@@ -79,8 +79,8 @@
   inset: 0;
   opacity: 0;
   transition: opacity 1.1s ease, mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
-  -webkit-mask-image: var(--torch-mask);
-  mask-image: var(--torch-mask);
+  /* -webkit-mask-image: var(--torch-mask);
+  mask-image: var(--torch-mask); */
 }
 
 .stage.is-night .animal-layer {
@@ -100,6 +100,17 @@
   background: rgba(5, 5, 10, 0.35);
   cursor: default;
   transition: opacity 0.5s ease;
+}
+#waitForNightButton {
+  background: var(--charcoal);
+  border: 2px solid var(--paper);
+  box-shadow: 0 3px 0 var(--paper);
+}
+#waitForNightButton:hover {
+  box-shadow: 0 5px var(--paper);
+}
+#waitForNightButton:active {
+  box-shadow: 0 1px var(--paper);
 }
 .stage.is-night .night-prompt {
   opacity: 0;
