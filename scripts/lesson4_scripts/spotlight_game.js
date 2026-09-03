@@ -75,7 +75,9 @@ function startNight() {
   // The counters are only meaningful once the torch is out and animals
   // can be found, so keep them hidden until night actually starts.
   const counterPanel = document.getElementById('animalCounterPanel');
+  const checkCountButton = document.getElementById('checkAnimalCountButton');
   if (counterPanel) counterPanel.style.display = '';
+  if (checkCountButton) checkCountButton.style.display = '';
  }
 
 function returnToDay(keepNightPromptHidden = false) {
@@ -93,7 +95,9 @@ function returnToDay(keepNightPromptHidden = false) {
     if (nightPrompt) nightPrompt.style.display = '';
     if (nightButton) nightButton.disabled = false;
     const counterPanel = document.getElementById('animalCounterPanel');
-    if (counterPanel) counterPanel.style.display = 'none';
+    const checkCountButton = document.getElementById('checkAnimalCountButton');
+  if (counterPanel) counterPanel.style.display = 'none';
+  if (checkCountButton) checkCountButton.style.display = 'none';
   }
 }
 

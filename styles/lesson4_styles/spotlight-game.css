@@ -125,20 +125,52 @@
   line-height: 0;
   cursor: pointer;
   pointer-events: auto;
-
-  animation: animal-peek 4s ease-in-out infinite;
 }
+
+/* At night, unfound animals periodically appear/disappear */
+#stage.is-night .animal-hotspot:not(.found) {
+  /* animation: animal-peek 10s ease-in-out infinite; */
+}
+
+/* Stagger the animations so animals don't all fade together */
+#stage.is-night .animal-hotspot:nth-child(2n):not(.found) {
+  animation-delay: -2s;
+}
+
+#stage.is-night .animal-hotspot:nth-child(3n):not(.found) {
+  animation-delay: -4s;
+}
+
+#stage.is-night .animal-hotspot:nth-child(5n):not(.found) {
+  animation-delay: -1s;
+}
+
+/* Once found, keep the animal visible */
+.animal-hotspot.found {
+  animation: none;
+  opacity: 1;
+}
+
 @keyframes animal-peek {
+  /* Visible */
   0%,
-  40% {
+  35% {
     opacity: 1;
   }
 
-  50%,
-  90% {
+  /* Fade out */
+  45% {
     opacity: 0;
   }
 
+  /* Hidden */
+  45%,
+  80% {
+    opacity: 0;
+  }
+
+  /* Fade back in */
+  90%,
   100% {
     opacity: 1;
   }
