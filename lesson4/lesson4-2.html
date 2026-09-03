@@ -1612,6 +1612,151 @@
     }
 
     /* ==================================================
+       BAR GRAPH PREAMBLE
+       Purpose first, then the two kinds of data students may graph.
+       ================================================== */
+    .bar-data-preamble {
+      margin: 22px 0 26px;
+      padding: 22px;
+      background: white;
+      border: 3px solid var(--charcoal);
+      border-radius: 22px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .bar-data-preamble h2 {
+      margin: 4px 0 8px;
+    }
+
+    .bar-data-preamble > p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .bar-purpose-callout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 180px;
+      gap: 18px;
+      align-items: center;
+      margin-top: 16px;
+      padding: 17px 18px;
+      background: var(--soft-blue);
+      border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--blue);
+      border-radius: 15px;
+    }
+
+    .bar-purpose-callout p {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .bar-length-demo {
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      gap: 22px;
+      min-height: 92px;
+      padding: 10px 12px 4px;
+      border-bottom: 3px solid var(--charcoal);
+    }
+
+    .bar-length-demo-item {
+      display: grid;
+      justify-items: center;
+      gap: 5px;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .bar-length-demo-bar {
+      width: 38px;
+      border: 2px solid var(--charcoal);
+      border-bottom: 0;
+      border-radius: 7px 7px 0 0;
+      background: var(--mint);
+    }
+
+    .bar-length-demo-bar.short { height: 38px; }
+    .bar-length-demo-bar.long {
+      height: 72px;
+      background: var(--yellow);
+    }
+
+    .bar-data-type-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .bar-data-type-card {
+      padding: 16px;
+      background: var(--paper);
+      border: 2px solid var(--charcoal);
+      border-radius: 15px;
+    }
+
+    .bar-data-type-card:first-child { border-top: 7px solid var(--yellow); }
+    .bar-data-type-card:last-child { border-top: 7px solid var(--mint); }
+
+    .bar-data-type-card h3 {
+      margin: 0 0 7px;
+      font-size: 1rem;
+    }
+
+    .bar-data-type-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .bar-data-visual {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 12px 0 10px;
+    }
+
+    .bar-data-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      min-height: 34px;
+      padding: 5px 10px;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .bar-data-example {
+      color: var(--text) !important;
+      font-size: .9rem;
+    }
+
+    @media (max-width: 700px) {
+      .bar-data-preamble { padding: 18px; }
+
+      .bar-purpose-callout {
+        grid-template-columns: 1fr;
+      }
+
+      .bar-length-demo {
+        max-width: 190px;
+        margin: 0 auto;
+      }
+
+      .bar-data-type-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ==================================================
        IPAD / TABLET PORTRAIT WORKBENCH
        Keep the reference data, controls and graph in view together.
        Desktop and phone layouts are unchanged.
@@ -2194,13 +2339,68 @@
 
           </div>
         </section>
-      </div>      
+      </div>
+
+      <section class="bar-data-preamble" aria-labelledby="barDataPreambleTitle">
+        <p class="intro-eyebrow">Using bar graphs</p>
+        <h2 id="barDataPreambleTitle">Visualising fair test data</h2>
+        <p>
+          Scientists use a <strong>bar graph</strong> when they want to visualise
+          <strong>discrete</strong> or <strong>categorical</strong> data.
+        </p>
+
+        <div class="bar-purpose-callout">
+          <p>
+            A bar graph organises information using bars of different lengths. This makes patterns in fair-test data easier to see:
+            a <strong>longer bar shows more</strong>, while a <strong>shorter bar shows less</strong>.
+          </p>
+
+          <div class="bar-length-demo" aria-hidden="true">
+            <div class="bar-length-demo-item">
+              <span class="bar-length-demo-bar short"></span>
+              <span>Less</span>
+            </div>
+            <div class="bar-length-demo-item">
+              <span class="bar-length-demo-bar long"></span>
+              <span>More</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bar-data-type-grid">
+          <article class="bar-data-type-card">
+            <h3>Discrete data</h3>
+            <p>
+              Discrete data uses whole-number values such as <strong>1, 2 and 3</strong>. When you are counting whole objects, there are no values in between.
+            </p>
+            <div class="bar-data-visual" aria-hidden="true">
+              <span class="bar-data-pill">1</span>
+              <span class="bar-data-pill">2</span>
+              <span class="bar-data-pill">3</span>
+            </div>
+            <p class="bar-data-example"><strong>Examples:</strong> number of pages in a book, number of pets.</p>
+          </article>
+
+          <article class="bar-data-type-card">
+            <h3>Categorical data</h3>
+            <p>
+              Categorical data is sorted into different <strong>groups or categories</strong>.
+            </p>
+            <div class="bar-data-visual" aria-hidden="true">
+              <span class="bar-data-pill">Hair colour</span>
+              <span class="bar-data-pill">Favourite animal</span>
+              <span class="bar-data-pill">Type of pet</span>
+            </div>
+            <p class="bar-data-example"><strong>Examples:</strong> hair colour, favourite animal, types of pets.</p>
+          </article>
+        </div>
+      </section>
 
         <!-- ==================================================
              BAR GRAPH STUDENT CHALLENGE
              ================================================== -->
         <section class="section student-challenge" id="bar-practice">
-          <h2 class="section-title">Build the Bars</h2>
+          <h2 class="section-title">Collecting and Visualising Data</h2>
           <div class="diagram-box diagram-activity">
             <p>Translate a data table into bar heights, then use the graph to compare categories.</p>
           </div>
