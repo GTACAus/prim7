@@ -1,16 +1,4 @@
-:root {
-  --x: 50%;
-  --y: 50%;
-  --r: 120px;
 
-  --torch-mask: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.9) 40%,
-    rgba(0, 0, 0, 0.4) 70%,
-    rgba(0, 0, 0, 0.04) 100%
-  );
-}
 .wrap {
     background: #05050a;
     text-align: center;
@@ -23,6 +11,18 @@
     aspect-ratio: 1750 / 984;
     /* box-shadow: 0 0 60px rgba(0,0,0,0.8); */
     cursor: none;
+
+    --x: 50%;
+    --y: 50%;
+    --r: 120px;
+
+    --torch-mask: radial-gradient(
+      circle var(--r) at var(--x) var(--y),
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0.9) 40%,
+      rgba(0, 0, 0, 0.4) 70%,
+      rgba(0, 0, 0, 0.04) 100%
+    );
 }
 
 .darken-overlay {
@@ -58,16 +58,8 @@
 /* Night image: hidden by default, torch-masked once night starts */
 #photo {
   opacity: 0;
-  /* -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.9) 40%,
-              rgba(0,0,0,0.4) 70%,
-              rgba(0,0,0,0.04) 100%);
-  mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.9) 40%,
-              rgba(0,0,0,0.4) 70%,
-              rgba(0,0,0,0.04) 100%); */
+  -webkit-mask-image: var(--torch-mask);
+  mask-image: var(--torch-mask);
 }
 
 .stage.is-night #photoDay {
@@ -87,16 +79,8 @@
   inset: 0;
   opacity: 0;
   transition: opacity 1.1s ease, mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
-  /* -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.9) 40%,
-              rgba(0,0,0,0.4) 70%,
-              rgba(0,0,0,0.04) 100%);
-  mask-image: radial-gradient(circle var(--r) at var(--x) var(--y),
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.9) 40%,
-              rgba(0,0,0,0.4) 70%,
-              rgba(0,0,0,0.04) 100%); */
+  -webkit-mask-image: var(--torch-mask);
+  mask-image: var(--torch-mask);
 }
 
 .stage.is-night .animal-layer {
@@ -208,26 +192,10 @@
   background: var(--animal-colour);
 }
 
-.animal-hotspot.found .owl-overlay {
-  -webkit-mask-image: url("../../images/lesson4/owl.png");
-  mask-image: url("../../images/lesson4/owl.png");
-}
-.animal-hotspot.found .yellow-bellied-glider-overlay {
-  -webkit-mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
-  mask-image: url("../../images/lesson4/yellow-bellied-glider.png");
-}
-.animal-hotspot.found .leadbeaters-possum-overlay {
-  -webkit-mask-image: url("../../images/lesson4/leadbeaters-possum.png");
-  mask-image: url("../../images/lesson4/leadbeaters-possum.png");
-}
-.animal-hotspot.found .ringtail-possum-overlay {
-  -webkit-mask-image: url("../../images/lesson4/ringtail-possum.png");
-  mask-image: url("../../images/lesson4/ringtail-possum.png");
-}
-.animal-hotspot.found .feral-cat-overlay {
-  -webkit-mask-image: url("../../images/lesson4/cat.png");
-  mask-image: url("../../images/lesson4/cat.png");
-}
+/* mask-image for each overlay is no longer set here: it's assigned per
+   hotspot in spotlight_game.js from that hotspot's own <img src>, so it
+   automatically matches whichever sprite is used (supports any number of
+   different images per animal type instead of one shared silhouette). */
 
 /* soft warm glow that rides along with the torch circle, drawn above the image */
 .glow {

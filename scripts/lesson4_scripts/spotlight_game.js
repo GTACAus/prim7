@@ -34,8 +34,25 @@ stage.addEventListener('touchend', () => {
 });
 
 // Hidden animals on top of the forest photo: clicking one marks it as
-// found with a red overlay, and syncs the matching counter by ±1.
+// found with a coloured overlay, and syncs the matching counter by ±1.
+// Each hotspot's overlay is masked to that hotspot's own <img> (its src),
+// not a shared per-species file — so any number of different sprites per
+// animal type each get an overlay matching their own silhouette.
 document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
+  const sprite = hotspot.querySelector('img');
+  const overlay = hotspot.querySelector('.animal-overlay');
+  if (sprite && overlay) {
+    const maskUrl = 'url("' + sprite.getAttribute('src') + '")';
+    overlay.style.maskImage = maskUrl;
+    overlay.style.webkitMaskImage = maskUrl;
+    // Match any flip/rotation applied to the sprite (e.g. scaleX(-1)) so
+    // the mask lines up with what's actually on screen.
+    const spriteTransform = sprite.style.transform;
+    if (spriteTransform) {
+      overlay.style.transform = spriteTransform;
+    }
+  }
+
   hotspot.addEventListener('click', () => {
     const wasFound = hotspot.classList.contains('found');
     hotspot.classList.toggle('found');
