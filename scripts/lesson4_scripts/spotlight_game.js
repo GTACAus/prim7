@@ -132,8 +132,9 @@ function countHotspotsByType() {
 
 function renderAnimalCounterDots(counter, count) {
   const circle = counter.querySelector('.counter-circle');
-  
-  circle.innerHTML = '';
+
+  // Remove only the dots, not the animal image
+  circle.querySelectorAll('.counter-dot').forEach(dot => dot.remove());
 
   for (let index = 0; index < count; index += 1) {
     const dot = document.createElement('span');
@@ -214,6 +215,14 @@ function getAnimalColourFor(type) {
   return computed || 'var(--orange)';
 }
 
+function getAnimalImage(type) {
+  const hotspot = document.querySelector(
+    `.animal-hotspot[data-animal="${type}"] img`
+  );
+
+  return hotspot ? hotspot.getAttribute('src') : null;
+}
+
 function buildAnimalCounters() {
   const panel = document.getElementById('animalCounterPanel');
   if (!panel) return;
@@ -241,6 +250,17 @@ function buildAnimalCounters() {
     circle.className = 'counter-circle';
     circle.setAttribute('aria-hidden', 'true');
     counter.appendChild(circle);
+
+    const imageSrc = getAnimalImage(type);
+
+    if (imageSrc) {
+      const image = document.createElement('img');
+      image.className = 'counter-image';
+      image.src = imageSrc;
+      image.alt = type;
+
+      circle.appendChild(image);
+    }
 
     const valueText = document.createElement('p');
     valueText.className = 'counter-value-text';
