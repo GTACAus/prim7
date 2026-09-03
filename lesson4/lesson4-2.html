@@ -1525,6 +1525,93 @@
 
 
     /* ==================================================
+       LESSON INTRO - BAR GRAPH CONSTRUCTION REFERENCE
+       Numbered steps match the visual language used in Lesson 3.
+       ================================================== */
+    .bar-construction-formula > p:not(.intro-eyebrow) {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .bar-formula-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-top: 16px;
+    }
+
+    .bar-formula-steps {
+      display: grid;
+      gap: 9px;
+    }
+
+    .bar-formula-step {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 10px 11px;
+      background: white;
+      border: 2px solid var(--charcoal);
+      border-radius: 13px;
+      box-shadow: 0 3px 0 rgba(48, 51, 47, .14);
+    }
+
+    .bar-formula-number {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-top: 1px;
+      border: 2px solid var(--charcoal);
+      border-radius: 50%;
+      background: var(--yellow);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .bar-formula-step:nth-child(2) .bar-formula-number {
+      background: var(--soft-purple);
+    }
+
+    .bar-formula-step:nth-child(3) .bar-formula-number {
+      background: var(--blue);
+    }
+
+    .bar-formula-step:nth-child(4) .bar-formula-number {
+      background: var(--mint);
+    }
+
+    .bar-formula-step strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: .92rem;
+      line-height: 1.3;
+    }
+
+    .bar-formula-step span {
+      display: block;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 620px) {
+      .bar-formula-step {
+        grid-template-columns: 38px minmax(0, 1fr);
+        padding: 9px;
+      }
+
+      .bar-formula-number {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    /* ==================================================
        IPAD / TABLET PORTRAIT WORKBENCH
        Keep the reference data, controls and graph in view together.
        Desktop and phone layouts are unchanged.
@@ -1960,7 +2047,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <div>
-            <p class="teacher-label">Lesson 4 &middot; Part B: Pie Graphs</p>
+            <p class="teacher-label">Lesson 4 &middot; Bar Graphs</p>
             <h2>Glossary Terms</h2>
           </div>
 
@@ -2000,10 +2087,6 @@
             <p>A graph that uses separate bars to compare amounts across different categories.</p>
           </div>
 
-          <div class="vocab-card">
-            <h3>Pie chart</h3>
-            <p>A circle divided into slices. Each slice shows how much one category contributes to the whole.</p>
-          </div>
         </div>
       </div>
     </div>
@@ -2043,190 +2126,75 @@
       <header class="lesson-intro">
         <div class="lesson-heading">
           <span class="lesson-label">Lesson 4 &middot; Part B</span>
-          <h1 id="teacherTrigger">Turning Data into Graphs</h1>
+          <h1 id="teacherTrigger">Using Bar Graphs to Visualise Fair Test Data</h1>
           <p class="lesson-summary">
-            Graphs help scientists turn a table of numbers into a picture that makes
-            <strong>patterns</strong>, <strong>comparisons</strong> and <strong>parts of a whole</strong>
-            easier to see.
+            Bar graphs help scientists turn fair-test data into a visual comparison, making
+            <strong>patterns</strong> and <strong>differences between categories</strong> easier to see.
           </p>
         </div>
       </header>
 
-      <div class="intro-grid">
+      <div class="intro-grid bar-lesson-intro-grid">
         <section class="intro-card objectives-card">
           <p class="intro-eyebrow">Learning objective</p>
 
           <p class="learning-objective-text">
-            We are learning how to choose, build and read different kinds of <strong>graphs</strong>.
+            We are learning how to represent <strong>fair test data</strong> in a <strong>bar graph</strong>.
           </p>
 
           <p class="success-heading">Success criteria</p>
 
           <ol class="objective-list">
-            <li>I can explain what the <strong>x-axis</strong> and <strong>y-axis</strong> show.</li>
-            <li>I can use a <strong>line graph</strong> or <strong>bar graph</strong> to represent data.</li>
-            <li>I can explain how a <strong>pie chart</strong> shows parts of one whole.</li>
+            <li>I am learning how to <strong>collect and visualise data</strong>.</li>
+            <li>I can <strong>label axes</strong> and <strong>plot data points</strong> on a bar graph.</li>
+            <li>I can use a bar graph to <strong>analyse the results of a fair test</strong>.</li>
           </ol>
         </section>
 
-        <section class="intro-card observation-card">
+        <section class="intro-card observation-card bar-construction-formula">
           <p class="intro-eyebrow">Think like a scientist</p>
-          <h2>Different graphs answer different questions</h2>
+          <h2>Constructing a bar graph</h2>
+          <p>How to construct a <strong>bar graph</strong> to represent fair test data:</p>
 
-          <p>
-            A graph is not just decoration. Scientists choose a graph based on what they
-            want the reader to notice.
-          </p>
+          <div class="bar-formula-layout">
+            <div class="bar-formula-steps">
+              <div class="bar-formula-step">
+                <div class="bar-formula-number">1</div>
+                <div>
+                  <strong>The independent variable is on the x-axis</strong>
+                  <span>The independent variable — the thing I change — is found in the left-hand column of a fair test table. The x-axis runs along the bottom of the graph.</span>
+                </div>
+              </div>
 
-          <div class="graph-rule-row" style="grid-template-columns: 1fr; margin-top: 16px;">
-            <div class="graph-rule-card">
-              <h3>📈 Change</h3>
-              <p>Use a line graph when the order between x-values matters and you want to see a trend.</p>
+              <div class="bar-formula-step">
+                <div class="bar-formula-number">2</div>
+                <div>
+                  <strong>The dependent variable is on the y-axis</strong>
+                  <span>The dependent variable — the thing you measure — is found in the column to the right of the independent variable. If the test was repeated, use the average measurement.</span>
+                </div>
+              </div>
+
+              <div class="bar-formula-step">
+                <div class="bar-formula-number">3</div>
+                <div>
+                  <strong>Plot the point for each row in your table</strong>
+                  <span>Find the x-axis value and draw a dotted line upwards. Find the y-axis value and draw a dotted line across. Where the lines meet, place an <strong>x</strong> to mark the spot.</span>
+                </div>
+              </div>
+
+              <div class="bar-formula-step">
+                <div class="bar-formula-number">4</div>
+                <div>
+                  <strong>Draw a bar for each plotted point</strong>
+                  <span>Keep every bar the same width and leave the same amount of space between each bar.</span>
+                </div>
+              </div>
             </div>
-            <div class="graph-rule-card">
-              <h3>📊 Compare</h3>
-              <p>Use a bar graph when you want to compare separate categories.</p>
-            </div>
-            <div class="graph-rule-card">
-              <h3>🥧 Whole</h3>
-              <p>Use a pie chart when all categories are parts of the same total.</p>
-            </div>
+
+
           </div>
         </section>
       </div>      
-
-      <!-- ==================================================
-           BAR GRAPH
-           ================================================== -->
-      <section class="section" id="bar-graph">
-        <h2 class="section-title">2. Compare Categories with a Bar Graph</h2>
-
-        <div class="diagram-box diagram-activity graph-intro-box">
-          <p class="activity-instruction">
-            A bar graph answers a different question: <strong>which category has more, less, highest or lowest?</strong>
-            The bars stay separate because the categories are separate.
-          </p>
-        </div>
-
-        <div class="graph-learning-grid">
-          <div class="graph-control-card">
-            <h3>Build the bars from the data</h3>
-            <p>Example: average bounce height of the same ball on four different surfaces.</p>
-
-            <div class="bar-data-grid" id="barDataGrid">
-              <div class="data-value-card"><strong>22</strong><span>Carpet · cm</span></div>
-              <div class="data-value-card"><strong>34</strong><span>Grass · cm</span></div>
-              <div class="data-value-card"><strong>63</strong><span>Wood · cm</span></div>
-              <div class="data-value-card"><strong>78</strong><span>Tile · cm</span></div>
-            </div>
-
-            <div class="zero-line-callout">
-              <strong>Why start at zero?</strong><br />
-              Bar height is what we compare, so using zero as the baseline keeps the visual comparison fair.
-            </div>
-
-            <div class="teaching-feedback" id="barTeachingFeedback" role="status" aria-live="polite">
-              <strong>Look at the categories first.</strong>
-              Carpet, grass, wood and tile are separate groups, so each one gets its own bar.
-            </div>
-          </div>
-
-          <div class="graph-stage-card">
-            <div class="graph-stage-heading">
-              <div>
-                <h3>Ball bounce height</h3>
-                <p>Build the bars one at a time, then compare their heights.</p>
-              </div>
-              <span class="graph-badge">Bar graph</span>
-            </div>
-
-            <div class="graph-svg-wrap">
-              <svg
-                class="graph-svg"
-                id="barGraphSvg"
-                viewBox="0 0 700 430"
-                role="img"
-                aria-label="Interactive bar graph comparing ball bounce height on four surfaces"
-              >
-                <rect x="0" y="0" width="700" height="430" rx="18" fill="white"></rect>
-
-                <g aria-hidden="true">
-                  <line class="graph-grid-line" x1="90" y1="345" x2="640" y2="345"></line>
-                  <line class="graph-grid-line" x1="90" y1="275" x2="640" y2="275"></line>
-                  <line class="graph-grid-line" x1="90" y1="205" x2="640" y2="205"></line>
-                  <line class="graph-grid-line" x1="90" y1="135" x2="640" y2="135"></line>
-                  <line class="graph-grid-line" x1="90" y1="65" x2="640" y2="65"></line>
-                </g>
-
-                <line class="graph-axis" x1="90" y1="345" x2="645" y2="345"></line>
-                <line class="graph-axis" x1="90" y1="345" x2="90" y2="35"></line>
-
-                <text class="tick-label" x="72" y="349" text-anchor="end">0</text>
-                <text class="tick-label" x="72" y="279" text-anchor="end">20</text>
-                <text class="tick-label" x="72" y="209" text-anchor="end">40</text>
-                <text class="tick-label" x="72" y="139" text-anchor="end">60</text>
-                <text class="tick-label" x="72" y="69" text-anchor="end">80</text>
-
-                <text
-                  class="axis-label"
-                  x="25"
-                  y="190"
-                  text-anchor="middle"
-                  transform="rotate(-90 25 190)"
-                >
-                  Bounce height (cm)
-                </text>
-                <text class="axis-label" x="365" y="407" text-anchor="middle">Surface</text>
-
-                <text class="tick-label" x="165" y="371" text-anchor="middle">Carpet</text>
-                <text class="tick-label" x="300" y="371" text-anchor="middle">Grass</text>
-                <text class="tick-label" x="435" y="371" text-anchor="middle">Wood</text>
-                <text class="tick-label" x="570" y="371" text-anchor="middle">Tile</text>
-
-                <g id="barsLayer">
-                  <rect class="bar-rect" data-index="0" x="120" y="345" width="90" height="0" rx="6"></rect>
-                  <rect class="bar-rect" data-index="1" x="255" y="345" width="90" height="0" rx="6"></rect>
-                  <rect class="bar-rect" data-index="2" x="390" y="345" width="90" height="0" rx="6"></rect>
-                  <rect class="bar-rect" data-index="3" x="525" y="345" width="90" height="0" rx="6"></rect>
-                </g>
-
-                <g id="barLabelsLayer">
-                  <text class="bar-value-label" data-index="0" x="165" y="258">22 cm</text>
-                  <text class="bar-value-label" data-index="1" x="300" y="216">34 cm</text>
-                  <text class="bar-value-label" data-index="2" x="435" y="114">63 cm</text>
-                  <text class="bar-value-label" data-index="3" x="570" y="62">78 cm</text>
-                </g>
-              </svg>
-            </div>
-          </div>
-
-          <div class="graph-controls-footer">
-            <div class="graph-button-stack">
-              <button type="button" class="general-button" id="buildBarButton">Build first bar</button>
-              <button type="button" class="general-button" id="showBarValuesButton" disabled>Show values</button>
-              <button type="button" class="general-button" id="findHighestBarButton" disabled>Find the highest</button>
-              <div class="reset-button-container">
-                <button type="button" class="general-button reset-btn" id="resetBarGraphButton">Reset</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="graph-rule-row">
-          <div class="graph-rule-card">
-            <h3>Bars are separate</h3>
-            <p>The gap signals that carpet and grass are different categories, not values between each other.</p>
-          </div>
-          <div class="graph-rule-card">
-            <h3>Height carries meaning</h3>
-            <p>Taller bar = larger amount. Students can compare before reading the exact numbers.</p>
-          </div>
-          <div class="graph-rule-card">
-            <h3>Ask comparison questions</h3>
-            <p>Which is highest? Lowest? How much higher? These are natural bar-graph questions.</p>
-          </div>
-        </div>
-      </section>
 
         <!-- ==================================================
              BAR GRAPH STUDENT CHALLENGE
@@ -3022,55 +2990,7 @@
       </section>
 
 
-      <!-- ==================================================
-           FINAL GRAPH CHOICE CHALLENGE
-           ================================================== -->
-      <!-- <section class="final-graph-challenge" id="which-graph-challenge">
-        <h2 class="section-title">Final Challenge · Which Graph Should I Use?</h2>
 
-        <div class="diagram-box diagram-activity graph-intro-box">
-          <p class="activity-instruction">
-            Choosing the graph is part of scientific thinking. Read each investigation and decide whether the data is about
-            <strong>change</strong>, <strong>comparing categories</strong>, or <strong>parts of one whole</strong>.
-          </p>
-        </div>
-
-        <div class="scenario-card">
-          <p class="scenario-progress" id="scenarioProgress">Scenario 1 of 6</p>
-          <h3 id="scenarioTitle">Choose the best graph</h3>
-          <p id="scenarioText"></p>
-
-          <div class="graph-type-choice-grid" id="graphTypeChoiceGrid">
-            <button type="button" class="graph-type-choice" data-graph-choice="line">
-              <span>📈</span>
-              <strong>Line graph</strong>
-            </button>
-            <button type="button" class="graph-type-choice" data-graph-choice="bar">
-              <span>📊</span>
-              <strong>Bar graph</strong>
-            </button>
-            <button type="button" class="graph-type-choice" data-graph-choice="pie">
-              <span>🥧</span>
-              <strong>Pie chart</strong>
-            </button>
-          </div>
-
-          <div class="challenge-feedback" id="scenarioFeedback" role="status" aria-live="polite">
-            <strong>Ask what relationship matters.</strong>
-            Is the investigation showing change across ordered values, comparing separate categories, or dividing one whole?
-          </div>
-
-          <button type="button" class="general-button scenario-next-button" id="nextScenarioButton" hidden>
-            Next scenario
-          </button>
-
-          <div class="reset-button-container">
-            <button type="button" class="general-button reset-btn scenario-next-button" id="resetScenarioButton">
-              Restart final challenge
-            </button>
-          </div>
-        </div>
-      </section> -->
 
 
       <div class="return-to-top">
@@ -3090,7 +3010,6 @@
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
         const lesson4SectionIds = [
-            { id: "bar-graph", label: "Compare categories with a bar graph" },
             { id: "bar-practice", label: "Collect and visualise animal data" },
             { id: "bar-construction", label: "Construct a bar graph" },
             { id: "bar-follow-up", label: "Part C: Return to the forest" },
@@ -3101,437 +3020,6 @@
             label: "← To Part A",
             href: "lesson4.html"
         };
-
-      /* ==================================================
-         BAR GRAPH PROTOTYPE
-         ================================================== */
-
-      const barData = [
-        { label: "Carpet", value: 22 },
-        { label: "Grass", value: 34 },
-        { label: "Wood", value: 63 },
-        { label: "Tile", value: 78 }
-      ];
-
-      let builtBars = 0;
-      let barValuesVisible = false;
-
-      function barHeight(value) {
-        return (value / 80) * 280;
-      }
-
-      function setBarFeedback(title, message) {
-        const box = document.getElementById("barTeachingFeedback");
-        box.innerHTML = "";
-
-        const strong = document.createElement("strong");
-        strong.textContent = title;
-        box.appendChild(strong);
-        box.appendChild(document.createTextNode(message));
-      }
-
-      function buildNextBar() {
-        if (builtBars >= barData.length) return;
-
-        const bars = document.querySelectorAll(".bar-rect");
-        const cards = document.querySelectorAll("#barDataGrid .data-value-card");
-        const datum = barData[builtBars];
-        const bar = bars[builtBars];
-        const height = barHeight(datum.value);
-
-        cards.forEach(function(card) {
-          card.classList.remove("active");
-        });
-        cards[builtBars].classList.add("active");
-
-        bar.setAttribute("y", 345 - height);
-        bar.setAttribute("height", height);
-
-        builtBars += 1;
-
-        setBarFeedback(
-          datum.label + " = " + datum.value + " cm.",
-          " The bar grows upward from zero. Its height represents the measured bounce height for this category."
-        );
-
-        const buildButton = document.getElementById("buildBarButton");
-
-        if (builtBars < barData.length) {
-          buildButton.textContent = "Build next bar (" + (builtBars + 1) + " of " + barData.length + ")";
-        } else {
-          buildButton.textContent = "All bars built";
-          buildButton.disabled = true;
-          document.getElementById("showBarValuesButton").disabled = false;
-          document.getElementById("findHighestBarButton").disabled = false;
-
-          setBarFeedback(
-            "Now compare the bar heights.",
-            " You can already see which surfaces produced higher and lower bounces, even before showing the exact numbers."
-          );
-        }
-      }
-
-      function showBarValues() {
-        barValuesVisible = !barValuesVisible;
-
-        document.querySelectorAll(".bar-value-label").forEach(function(label, index) {
-          if (index < builtBars) {
-            label.classList.toggle("visible", barValuesVisible);
-          }
-        });
-
-        document.getElementById("showBarValuesButton").textContent =
-          barValuesVisible ? "Hide values" : "Show values";
-
-        setBarFeedback(
-          barValuesVisible ? "Exact values are useful after the visual comparison." : "The shape still tells the story.",
-          barValuesVisible
-            ? " The numbers confirm what the bar heights suggested."
-            : " A bar graph should still make the comparison visible without relying only on labels."
-        );
-      }
-
-      function findHighestBar() {
-        const bars = document.querySelectorAll(".bar-rect");
-        bars.forEach(function(bar) {
-          bar.classList.remove("highlight");
-        });
-
-        const highestIndex = barData.reduce(function(bestIndex, datum, index, array) {
-          return datum.value > array[bestIndex].value ? index : bestIndex;
-        }, 0);
-
-        bars[highestIndex].classList.add("highlight");
-        document.querySelectorAll("#barDataGrid .data-value-card")[highestIndex].classList.add("active");
-
-        setBarFeedback(
-          "Tile has the highest bar.",
-          " Its bounce height is 78 cm. This is the kind of comparison a bar graph makes quick to answer."
-        );
-      }
-
-      function inspectBar(index) {
-        if (index >= builtBars) return;
-
-        document.querySelectorAll(".bar-rect").forEach(function(bar, barIndex) {
-          bar.classList.toggle("highlight", barIndex === index);
-        });
-
-        document.querySelectorAll("#barDataGrid .data-value-card").forEach(function(card, cardIndex) {
-          card.classList.toggle("active", cardIndex === index);
-        });
-
-        const datum = barData[index];
-
-        setBarFeedback(
-          datum.label + " = " + datum.value + " cm.",
-          " The category is read along the x-axis and its measured amount is read from the height of the bar."
-        );
-      }
-
-      function resetBarGraph() {
-        builtBars = 0;
-        barValuesVisible = false;
-
-        document.querySelectorAll(".bar-rect").forEach(function(bar) {
-          bar.setAttribute("y", "345");
-          bar.setAttribute("height", "0");
-          bar.classList.remove("highlight");
-        });
-
-        document.querySelectorAll(".bar-value-label").forEach(function(label) {
-          label.classList.remove("visible");
-        });
-
-        document.querySelectorAll("#barDataGrid .data-value-card").forEach(function(card) {
-          card.classList.remove("active");
-        });
-
-        const buildButton = document.getElementById("buildBarButton");
-        buildButton.disabled = false;
-        buildButton.textContent = "Build first bar";
-
-        const valuesButton = document.getElementById("showBarValuesButton");
-        valuesButton.disabled = true;
-        valuesButton.textContent = "Show values";
-
-        document.getElementById("findHighestBarButton").disabled = true;
-
-        setBarFeedback(
-          "Look at the categories first.",
-          " Carpet, grass, wood and tile are separate groups, so each one gets its own bar."
-        );
-      }
-
-      /* ==================================================
-         PIE CHART PROTOTYPE
-         ================================================== */
-
-      const pieData = [
-        { label: "Observe", value: 8, colour: "var(--yellow)" },
-        { label: "Measure", value: 6, colour: "var(--green)" },
-        { label: "Experiment", value: 4, colour: "var(--purple)" },
-        { label: "Research", value: 2, colour: "var(--blue)" }
-      ];
-
-      const pieTotal = pieData.reduce(function(total, item) {
-        return total + item.value;
-      }, 0);
-
-      let visiblePieSlices = 0;
-      let piePercentagesVisible = false;
-
-      function polarToCartesian(centerX, centerY, radius, angleDegrees) {
-        const angleRadians = (angleDegrees - 90) * Math.PI / 180;
-
-        return {
-          x: centerX + radius * Math.cos(angleRadians),
-          y: centerY + radius * Math.sin(angleRadians)
-        };
-      }
-
-      function describePieSlice(centerX, centerY, radius, startAngle, endAngle) {
-        const start = polarToCartesian(centerX, centerY, radius, endAngle);
-        const end = polarToCartesian(centerX, centerY, radius, startAngle);
-        const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-
-        return [
-          "M", centerX, centerY,
-          "L", start.x, start.y,
-          "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
-          "Z"
-        ].join(" ");
-      }
-
-      function buildPieElements() {
-        const sliceLayer = document.getElementById("pieSlicesLayer");
-        const percentLayer = document.getElementById("piePercentLayer");
-        const legend = document.getElementById("pieLegend");
-
-        sliceLayer.innerHTML = "";
-        percentLayer.innerHTML = "";
-        legend.innerHTML = "";
-
-        let runningAngle = 0;
-
-        pieData.forEach(function(item, index) {
-          const sliceAngle = (item.value / pieTotal) * 360;
-          const startAngle = runningAngle;
-          const endAngle = runningAngle + sliceAngle;
-          const middleAngle = startAngle + sliceAngle / 2;
-
-          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-          path.setAttribute("class", "pie-slice");
-          path.setAttribute("d", describePieSlice(250, 220, 160, startAngle, endAngle));
-          path.setAttribute("fill", item.colour);
-          path.dataset.index = index;
-          path.setAttribute("tabindex", "-1");
-          path.setAttribute("role", "button");
-          path.setAttribute(
-            "aria-label",
-            item.label + ": " + item.value + " of " + pieTotal + " students"
-          );
-
-          path.addEventListener("click", function() {
-            if (index < visiblePieSlices) selectPieSlice(index);
-          });
-
-          path.addEventListener("focus", function() {
-            if (index < visiblePieSlices) selectPieSlice(index);
-          });
-
-          sliceLayer.appendChild(path);
-
-          const textPoint = polarToCartesian(250, 220, 108, middleAngle);
-          const percentText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-          percentText.setAttribute("class", "pie-percent");
-          percentText.setAttribute("x", textPoint.x);
-          percentText.setAttribute("y", textPoint.y + 4);
-          percentText.setAttribute("text-anchor", "middle");
-          percentText.textContent = Math.round((item.value / pieTotal) * 100) + "%";
-          percentText.dataset.index = index;
-          percentLayer.appendChild(percentText);
-
-          const legendButton = document.createElement("button");
-          legendButton.type = "button";
-          legendButton.className = "pie-legend-button";
-          legendButton.dataset.index = index;
-          legendButton.disabled = true;
-
-          const swatch = document.createElement("span");
-          swatch.className = "legend-swatch";
-          swatch.style.background = item.colour;
-
-          const label = document.createElement("span");
-          label.textContent = item.label;
-
-          const count = document.createElement("span");
-          count.className = "legend-count";
-          count.textContent = item.value + "/" + pieTotal;
-
-          legendButton.appendChild(swatch);
-          legendButton.appendChild(label);
-          legendButton.appendChild(count);
-
-          legendButton.addEventListener("click", function() {
-            if (index < visiblePieSlices) selectPieSlice(index);
-          });
-
-          legend.appendChild(legendButton);
-
-          runningAngle = endAngle;
-        });
-      }
-
-      function setPieFeedback(title, message) {
-        const box = document.getElementById("pieTeachingFeedback");
-        box.innerHTML = "";
-
-        const strong = document.createElement("strong");
-        strong.textContent = title;
-        box.appendChild(strong);
-        box.appendChild(document.createTextNode(message));
-      }
-
-      function addNextPieSlice() {
-        if (visiblePieSlices >= pieData.length) return;
-
-        const index = visiblePieSlices;
-        const item = pieData[index];
-        const slices = document.querySelectorAll(".pie-slice");
-        const legendButtons = document.querySelectorAll(".pie-legend-button");
-        const dataCards = document.querySelectorAll("#pieDataGrid .data-value-card");
-
-        slices[index].classList.add("visible");
-        slices[index].setAttribute("tabindex", "0");
-        legendButtons[index].disabled = false;
-
-        dataCards.forEach(function(card) {
-          card.classList.remove("active");
-        });
-        dataCards[index].classList.add("active");
-
-        visiblePieSlices += 1;
-
-        const visibleTotal = pieData
-          .slice(0, visiblePieSlices)
-          .reduce(function(total, datum) {
-            return total + datum.value;
-          }, 0);
-
-        const percentage = Math.round((visibleTotal / pieTotal) * 100);
-        document.getElementById("wholeMeterFill").style.width = percentage + "%";
-        document.getElementById("wholeMeterLabel").textContent =
-          visibleTotal + " of " + pieTotal + " students = " + percentage + "%";
-
-        setPieFeedback(
-          item.label + " adds " + item.value + " students.",
-          " This slice takes up " + Math.round((item.value / pieTotal) * 100) + "% of the circle because it represents " + item.value + " of the " + pieTotal + " students."
-        );
-
-        const addButton = document.getElementById("addSliceButton");
-
-        if (visiblePieSlices < pieData.length) {
-          addButton.textContent = "Add next slice (" + (visiblePieSlices + 1) + " of " + pieData.length + ")";
-        } else {
-          addButton.textContent = "Whole pie complete";
-          addButton.disabled = true;
-          document.getElementById("showPiePercentButton").disabled = false;
-
-          setPieFeedback(
-            "All slices now make the whole.",
-            " 8 + 6 + 4 + 2 = 20 students, so the completed circle represents 100% of the class."
-          );
-        }
-      }
-
-      function showPiePercentages() {
-        piePercentagesVisible = !piePercentagesVisible;
-
-        document.querySelectorAll(".pie-percent").forEach(function(label, index) {
-          if (index < visiblePieSlices) {
-            label.classList.toggle("visible", piePercentagesVisible);
-          }
-        });
-
-        document.getElementById("showPiePercentButton").textContent =
-          piePercentagesVisible ? "Hide percentages" : "Show percentages";
-
-        setPieFeedback(
-          piePercentagesVisible ? "Counts can be converted into percentages." : "Slice size still shows proportion.",
-          piePercentagesVisible
-            ? " Each percentage tells us how much of the 100% whole belongs to that category."
-            : " The larger slices still represent larger shares of the class."
-        );
-      }
-
-      function selectPieSlice(index) {
-        if (index >= visiblePieSlices) return;
-
-        const item = pieData[index];
-        const percentage = Math.round((item.value / pieTotal) * 100);
-
-        document.querySelectorAll(".pie-slice").forEach(function(slice, sliceIndex) {
-          slice.classList.toggle("selected", sliceIndex === index);
-        });
-
-        document.querySelectorAll(".pie-legend-button").forEach(function(button, buttonIndex) {
-          button.classList.toggle("selected", buttonIndex === index);
-        });
-
-        document.querySelectorAll("#pieDataGrid .data-value-card").forEach(function(card, cardIndex) {
-          card.classList.toggle("active", cardIndex === index);
-        });
-
-        const detail = document.getElementById("pieSliceDetail");
-        detail.innerHTML =
-          "<strong>" + item.label + "</strong>" +
-          item.value + " of " + pieTotal + " students = <strong>" + percentage + "%</strong> of the whole class.";
-      }
-
-      function resetPieChart() {
-        visiblePieSlices = 0;
-        piePercentagesVisible = false;
-
-        document.querySelectorAll(".pie-slice").forEach(function(slice) {
-          slice.classList.remove("visible", "selected");
-          slice.setAttribute("tabindex", "-1");
-        });
-
-        document.querySelectorAll(".pie-percent").forEach(function(label) {
-          label.classList.remove("visible");
-        });
-
-        document.querySelectorAll(".pie-legend-button").forEach(function(button) {
-          button.disabled = true;
-          button.classList.remove("selected");
-        });
-
-        document.querySelectorAll("#pieDataGrid .data-value-card").forEach(function(card) {
-          card.classList.remove("active");
-        });
-
-        document.getElementById("wholeMeterFill").style.width = "0%";
-        document.getElementById("wholeMeterLabel").textContent = "0 of 20 students = 0%";
-
-        const addButton = document.getElementById("addSliceButton");
-        addButton.disabled = false;
-        addButton.textContent = "Add first slice";
-
-        const percentButton = document.getElementById("showPiePercentButton");
-        percentButton.disabled = true;
-        percentButton.textContent = "Show percentages";
-
-        document.getElementById("pieSliceDetail").innerHTML =
-          "<strong>Select a slice.</strong> Once the pie is built, choose a category to see its fraction of the whole and its percentage.";
-
-        setPieFeedback(
-          "Start with the whole.",
-          " Every student belongs to exactly one category, so all four groups together must make 20 students, or 100%."
-        );
-      }
-
-
 
       /* ==================================================
          STUDENT PRACTICE CHALLENGES
@@ -6492,343 +5980,16 @@
       }
 
 
-      /* ---------- Pie practice ---------- */
-
-      const piePracticeData = [
-        { label: "Space", value: 10, percent: 50, colour: "var(--yellow)", choices: [25, 50, 75], fraction: "one half" },
-        { label: "Animals", value: 5, percent: 25, colour: "var(--green)", choices: [10, 25, 40], fraction: "one quarter" },
-        { label: "Plants", value: 4, percent: 20, colour: "var(--purple)", choices: [15, 20, 40], fraction: "one fifth" },
-        { label: "Rocks", value: 1, percent: 5, colour: "var(--blue)", choices: [5, 10, 20], fraction: "one twentieth" }
-      ];
-
-      let piePracticeIndex = 0;
-      let piePracticeFilledTokens = 0;
-
-      function buildPiePracticeElements() {
-        const tokenGrid = document.getElementById("piePracticeTokens");
-        const sliceLayer = document.getElementById("piePracticeSlicesLayer");
-        tokenGrid.innerHTML = "";
-        sliceLayer.innerHTML = "";
-
-        for (let index = 0; index < 20; index += 1) {
-          const token = document.createElement("span");
-          token.className = "student-token";
-          token.textContent = index + 1;
-          tokenGrid.appendChild(token);
-        }
-
-        let runningAngle = 0;
-        piePracticeData.forEach(function(item, index) {
-          const sliceAngle = (item.value / 20) * 360;
-          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-          path.setAttribute("class", "practice-pie-slice");
-          path.setAttribute("d", describePieSlice(250, 220, 160, runningAngle, runningAngle + sliceAngle));
-          path.setAttribute("fill", item.colour);
-          path.dataset.piePracticeSlice = index;
-          sliceLayer.appendChild(path);
-          runningAngle += sliceAngle;
-        });
-      }
-
-      function renderPiePracticeQuestion() {
-        const item = piePracticeData[piePracticeIndex];
-        if (!item) return;
-
-        document.getElementById("piePracticeCurrent").innerHTML =
-          "<strong>" + item.label + ": " + item.value + " of 20 students</strong>" +
-          "What percentage of the whole class is that?";
-
-        const choices = document.getElementById("piePercentChoices");
-        choices.innerHTML = "";
-
-        item.choices.forEach(function(percent) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "challenge-choice";
-          button.textContent = percent + "%";
-          button.dataset.piePercentAnswer = percent;
-          button.addEventListener("click", function() {
-            handlePiePracticePercent(button);
-          });
-          choices.appendChild(button);
-        });
-      }
-
-      function handlePiePracticePercent(button) {
-        const item = piePracticeData[piePracticeIndex];
-        const selected = Number(button.dataset.piePercentAnswer);
-
-        if (selected !== item.percent) {
-          flashChoice(button, "try-again-choice");
-          setChallengeFeedback(
-            "piePracticeFeedback",
-            "try-again",
-            "Use the 20 students as the whole.",
-            " " + item.value + " out of 20 is " + item.fraction + " of the class. Think about how much of 100% that fraction represents."
-          );
-          return;
-        }
-
-        flashChoice(button, "correct-choice");
-        const tokens = document.querySelectorAll("#piePracticeTokens .student-token");
-        const start = piePracticeFilledTokens;
-        const end = start + item.value;
-
-        for (let index = start; index < end; index += 1) {
-          tokens[index].classList.add("filled");
-          tokens[index].style.background = item.colour;
-        }
-        piePracticeFilledTokens = end;
-
-        const slice = document.querySelector('[data-pie-practice-slice="' + piePracticeIndex + '"]');
-        slice.classList.add("visible");
-
-        piePracticeIndex += 1;
-        const builtPercent = piePracticeData
-          .slice(0, piePracticeIndex)
-          .reduce(function(total, datum) { return total + datum.percent; }, 0);
-
-        document.getElementById("piePracticeBadge").textContent = builtPercent + "% built";
-        document.getElementById("piePracticeCenterText").textContent = builtPercent + "%";
-
-        setChallengeFeedback(
-          "piePracticeFeedback",
-          "success",
-          item.label + " is " + item.percent + "% of the whole.",
-          " " + item.value + "/20 = " + item.percent + "%. The matching slice has now been added to the circle."
-        );
-
-        if (piePracticeIndex < piePracticeData.length) {
-          renderPiePracticeQuestion();
-          return;
-        }
-
-        document.getElementById("piePercentChoices").innerHTML = "";
-        document.getElementById("piePracticeCurrent").innerHTML =
-          "<strong>20 of 20 students are now represented.</strong>The four slices make 100% of one whole class.";
-        document.getElementById("pieInterpretPractice").hidden = false;
-        document.getElementById("piePracticeBadge").textContent = "100% built";
-
-        setChallengeFeedback(
-          "piePracticeFeedback",
-          "success",
-          "The whole pie is complete.",
-          " 50% + 25% + 20% + 5% = 100%. Now combine two slices and interpret the chart."
-        );
-      }
-
-      function handlePieTotalChoice(button) {
-        if (button.dataset.pieTotal !== "75") {
-          flashChoice(button, "try-again-choice");
-          setChallengeFeedback(
-            "piePracticeFeedback",
-            "try-again",
-            "Combine the two parts.",
-            " Space is 50% and Animals is 25%. Add those two shares of the same whole."
-          );
-          return;
-        }
-
-        flashChoice(button, "correct-choice");
-        document.getElementById("piePracticeBadge").textContent = "Complete ✓";
-        setChallengeFeedback(
-          "piePracticeFeedback",
-          "success",
-          "Correct: 50% + 25% = 75%.",
-          " A pie chart lets you reason about single slices and combinations of slices because every category belongs to the same 100% whole."
-        );
-      }
-
-      function resetPiePractice() {
-        piePracticeIndex = 0;
-        piePracticeFilledTokens = 0;
-        document.getElementById("pieInterpretPractice").hidden = true;
-        document.getElementById("piePracticeBadge").textContent = "0% built";
-        document.getElementById("piePracticeCenterText").textContent = "0%";
-
-        document.querySelectorAll("#piePracticeTokens .student-token").forEach(function(token) {
-          token.classList.remove("filled");
-          token.style.background = "white";
-        });
-
-        document.querySelectorAll(".practice-pie-slice").forEach(function(slice) {
-          slice.classList.remove("visible");
-        });
-
-        renderPiePracticeQuestion();
-        setChallengeFeedback(
-          "piePracticeFeedback",
-          "",
-          "Start with a fraction of the whole.",
-          " 10 out of 20 is the same as one half. What percentage of a whole is one half?"
-        );
-      }
-
-      /* ---------- Final graph-choice challenge ---------- */
-
-      const graphChoiceScenarios = [
-        {
-          text: "A student measures the height of the same bean plant every week for eight weeks.",
-          answer: "line",
-          reason: "The weeks are ordered and the goal is to see how plant height changes over time. A line graph makes the trend easy to follow."
-        },
-        {
-          text: "A class counts how many ants, beetles, flies and butterflies they find in the schoolyard.",
-          answer: "bar",
-          reason: "Ants, beetles, flies and butterflies are separate categories. A bar graph makes their counts easy to compare."
-        },
-        {
-          text: "Twenty students each choose one favourite science topic. The class wants to show what share chose space, animals, plants or rocks.",
-          answer: "pie",
-          reason: "Every student belongs to one category and all categories together make one whole class, so a pie chart can show the shares."
-        },
-        {
-          text: "The outdoor temperature is recorded every hour from 9 am until 3 pm.",
-          answer: "line",
-          reason: "Time has a meaningful order. A line graph shows how temperature changes from one hour to the next."
-        },
-        {
-          text: "Students plant the same number of seeds in sand, potting mix, clay soil and compost, then compare how many germinate in each soil type.",
-          answer: "bar",
-          reason: "The soil types are separate categories and the germinated seed counts are being compared between them."
-        },
-        {
-          text: "A school sorts all of one day's rubbish into paper, food, plastic and other waste and wants to show each category's share of the total waste.",
-          answer: "pie",
-          reason: "The categories are all parts of one meaningful total: the day's rubbish. A pie chart can show how the whole is divided."
-        }
-      ];
-
-      let graphChoiceScenarioIndex = 0;
-      let currentScenarioCorrect = false;
-
-      function renderGraphChoiceScenario() {
-        const scenario = graphChoiceScenarios[graphChoiceScenarioIndex];
-        document.getElementById("scenarioProgress").textContent =
-          "Scenario " + (graphChoiceScenarioIndex + 1) + " of " + graphChoiceScenarios.length;
-        document.getElementById("scenarioText").textContent = scenario.text;
-        document.getElementById("nextScenarioButton").hidden = true;
-        currentScenarioCorrect = false;
-
-        document.querySelectorAll(".graph-type-choice").forEach(function(button) {
-          button.disabled = false;
-          button.classList.remove("correct-choice", "try-again-choice");
-        });
-
-        setChallengeFeedback(
-          "scenarioFeedback",
-          "",
-          "Ask what relationship matters.",
-          " Is the investigation showing change across ordered values, comparing separate categories, or dividing one whole?"
-        );
-      }
-
-      function handleGraphChoice(button) {
-        if (currentScenarioCorrect) return;
-        const scenario = graphChoiceScenarios[graphChoiceScenarioIndex];
-        const choice = button.dataset.graphChoice;
-
-        if (choice !== scenario.answer) {
-          flashChoice(button, "try-again-choice");
-
-          let hint = "Think about what the reader needs to notice.";
-          if (choice === "pie") {
-            hint = "A pie chart needs categories that together form one meaningful whole. Does that describe this dataset?";
-          } else if (choice === "bar") {
-            hint = "A bar graph is strongest for comparing separate categories. Are these values separate groups, or do they follow an order?";
-          } else if (choice === "line") {
-            hint = "A line graph is strongest when x-values have a meaningful order and the goal is to follow change or a trend.";
-          }
-
-          setChallengeFeedback(
-            "scenarioFeedback",
-            "try-again",
-            "Not this one yet.",
-            " " + hint
-          );
-          return;
-        }
-
-        currentScenarioCorrect = true;
-        button.classList.add("correct-choice");
-        document.querySelectorAll(".graph-type-choice").forEach(function(choiceButton) {
-          choiceButton.disabled = true;
-        });
-
-        const names = { line: "Line graph", bar: "Bar graph", pie: "Pie chart" };
-        setChallengeFeedback(
-          "scenarioFeedback",
-          "success",
-          names[scenario.answer] + " is the best match.",
-          " " + scenario.reason
-        );
-
-        const nextButton = document.getElementById("nextScenarioButton");
-        nextButton.hidden = false;
-        nextButton.textContent =
-          graphChoiceScenarioIndex === graphChoiceScenarios.length - 1
-            ? "Finish challenge"
-            : "Next scenario";
-      }
-
-      function nextGraphChoiceScenario() {
-        if (!currentScenarioCorrect) return;
-
-        if (graphChoiceScenarioIndex < graphChoiceScenarios.length - 1) {
-          graphChoiceScenarioIndex += 1;
-          renderGraphChoiceScenario();
-          return;
-        }
-
-        document.getElementById("scenarioProgress").textContent = "Challenge complete";
-        document.getElementById("scenarioTitle").textContent = "🏆 You matched all six investigations";
-        document.getElementById("scenarioText").textContent =
-          "The key is not the shape of the graph. It is the question the data needs the graph to answer.";
-        document.getElementById("graphTypeChoiceGrid").hidden = true;
-        document.getElementById("nextScenarioButton").hidden = true;
-
-        setChallengeFeedback(
-          "scenarioFeedback",
-          "success",
-          "Change · Compare · Whole",
-          " Line graphs help follow change across ordered values. Bar graphs compare separate categories. Pie charts show parts of one meaningful whole."
-        );
-      }
-
-      function resetGraphChoiceChallenge() {
-        graphChoiceScenarioIndex = 0;
-        currentScenarioCorrect = false;
-        document.getElementById("scenarioTitle").textContent = "Choose the best graph";
-        document.getElementById("graphTypeChoiceGrid").hidden = false;
-        renderGraphChoiceScenario();
-      }
-
-
       /* ==================================================
          INITIALISE TEST PAGE
          ================================================== */
 
       document.addEventListener("DOMContentLoaded", function() {
         if (typeof initialiseTeacherMenu === "function") {
-          initialiseTeacherMenu(lesson4SectionIds, "bar-graph", lesson4TeacherBackLink);
+          initialiseTeacherMenu(lesson4SectionIds, "bar-practice", lesson4TeacherBackLink);
         }
 
-        // buildPieElements();
 
-        document.getElementById("buildBarButton").addEventListener("click", buildNextBar);
-        document.getElementById("showBarValuesButton").addEventListener("click", showBarValues);
-        document.getElementById("findHighestBarButton").addEventListener("click", findHighestBar);
-        document.getElementById("resetBarGraphButton").addEventListener("click", resetBarGraph);
-
-        document.querySelectorAll(".bar-rect").forEach(function(bar) {
-          bar.addEventListener("click", function() {
-            inspectBar(Number(bar.dataset.index));
-          });
-        });
-
-        // document.getElementById("addSliceButton").addEventListener("click", addNextPieSlice);
-        // document.getElementById("showPiePercentButton").addEventListener("click", showPiePercentages);
-        // document.getElementById("resetPieChartButton").addEventListener("click", resetPieChart);
 
         document.querySelectorAll("[data-bar-practice]").forEach(function(input) {
           input.addEventListener("input", function() { handleBarPracticeInput(input); });
@@ -6851,10 +6012,7 @@
         initialisePartC();
         initialisePartD();
 
-        // document.querySelectorAll("[data-pie-total]").forEach(function(button) {
-        //   button.addEventListener("click", function() { handlePieTotalChoice(button); });
         // });
-        // document.getElementById("resetPiePracticeButton").addEventListener("click", resetPiePractice);
 
         // document.querySelectorAll("[data-graph-choice]").forEach(function(button) {
         //   button.addEventListener("click", function() { handleGraphChoice(button); });
@@ -6862,12 +6020,8 @@
         // document.getElementById("nextScenarioButton").addEventListener("click", nextGraphChoiceScenario);
         // document.getElementById("resetScenarioButton").addEventListener("click", resetGraphChoiceChallenge);
 
-        resetBarGraph();
-        // resetPieChart();
 
         resetBarPractice();
-        // buildPiePracticeElements();
-        // resetPiePractice();
         // resetGraphChoiceChallenge();
       });
     </script>
