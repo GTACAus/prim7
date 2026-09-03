@@ -125,6 +125,23 @@
   line-height: 0;
   cursor: pointer;
   pointer-events: auto;
+
+  animation: animal-peek 4s ease-in-out infinite;
+}
+@keyframes animal-peek {
+  0%,
+  40% {
+    opacity: 1;
+  }
+
+  50%,
+  90% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 .animal-hotspot img {
   /* opt back out of the full-bleed ".stage img" positioning (that rule
@@ -586,9 +603,7 @@
 }
 
 .bar-stack-row.circle-mode .bar-stack-label {
-  width: auto;
-  text-align: left;
-  white-space: nowrap;
+  width: 100%;
 }
 
 .bar-stack-label span {
@@ -597,11 +612,6 @@
   color: var(--muted);
   font-weight: 500;
   font-size: 0.76rem;
-}
-
-.bar-stack-row.circle-mode .bar-stack-label span {
-  display: inline;
-  margin: 0 0 0 4px;
 }
 
 @media (max-width: 520px) {
