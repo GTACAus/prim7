@@ -19,7 +19,7 @@
     rgba(0, 0, 0, 1) 0%,
     rgba(0, 0, 0, 0.9) 40%,
     rgba(0, 0, 0, 0.4) 70%,
-    rgba(0, 0, 0, 0.03) 100%
+    rgba(0, 0, 0, 0.05) 100%
   );
 }
 
@@ -56,8 +56,8 @@
 /* Night image: hidden by default, torch-masked once night starts */
 #photo {
   opacity: 0;
-  -webkit-mask-image: var(--torch-mask);
-  mask-image: var(--torch-mask);
+  /* -webkit-mask-image: var(--torch-mask);
+  mask-image: var(--torch-mask); */
 }
 
 .stage.is-night #photoDay {
@@ -77,8 +77,8 @@
   inset: 0;
   opacity: 0;
   transition: opacity 1.1s ease, mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
-  -webkit-mask-image: var(--torch-mask);
-  mask-image: var(--torch-mask);
+  /* -webkit-mask-image: var(--torch-mask);
+  mask-image: var(--torch-mask); */
 }
 
 .stage.is-night .animal-layer {
@@ -127,7 +127,7 @@
 
 /* At night, unfound animals periodically appear/disappear */
 #stage.is-night .animal-hotspot:not(.found) {
-  animation: animal-peek 6s ease-in-out infinite;
+  /* animation: animal-peek 6s ease-in-out infinite; */
 }
 
 /* Stagger the animations so animals don't all fade together */
@@ -241,11 +241,7 @@
 }
 
 /* Overlays just reference the variable — no repeated color-mix() per type */
-.animal-hotspot.found .owl-overlay,
-.animal-hotspot.found .yellow-bellied-glider-overlay,
-.animal-hotspot.found .leadbeaters-possum-overlay,
-.animal-hotspot.found .ringtail-possum-overlay,
-.animal-hotspot.found .feral-cat-overlay {
+.animal-hotspot.found .animal-overlay {
   background: var(--animal-colour);
 }
 
