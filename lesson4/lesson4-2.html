@@ -1473,6 +1473,7 @@
       font: inherit;
       font-weight: 800;
       cursor: pointer;
+      outline: none;
     }
 
     .partd-site-toggle[data-partd-site="site1"] {
@@ -1486,8 +1487,10 @@
     .partd-site-toggle.selected {
       transform: translateY(2px);
       box-shadow: 0 1px 0 rgba(48, 51, 47, .18);
-      outline: 4px solid var(--yellow);
-      outline-offset: 1px;
+      outline: 4px solid color-mix(in srgb, var(--yellow) 85%, transparent);
+      transition:
+        transform 0.2s ease,
+        outline 0.2s ease;
     }
 
     .partd-site-toggle.site-complete::after {
@@ -1531,11 +1534,63 @@
     }
 
     #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"] {
-      accent-color: var(--purple);
+      accent-color: var(--lavender);
     }
-
     #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"] {
       accent-color: var(--green);
+    }
+
+    /*
+      accent-color only recolours the thumb in most browsers - it does
+      not paint the "already slid past" part of the track. That fill is
+      done here instead:
+
+        --partd-fill is a percentage ("0%".."100%") kept in sync with
+        each slider's value by partDUpdateSliderFill() in the page
+        script, on every input event and whenever a value is set
+        programmatically. The webkit track paints a hard-stop gradient
+        at that percentage: coloured before it, cream after. Firefox
+        exposes the filled portion as its own pseudo-element
+        (::-moz-range-progress), so it needs no JS help.
+    */
+    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track,
+    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track {
+      background: var(--cream);
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+    }
+
+    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track {
+      background: linear-gradient(
+        to right,
+        var(--lavender) var(--partd-fill, 0%),
+        var(--cream) var(--partd-fill, 0%)
+      );
+    }
+
+    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track {
+      background: linear-gradient(
+        to right,
+        var(--green) var(--partd-fill, 0%),
+        var(--cream) var(--partd-fill, 0%)
+      );
+    }
+
+    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-moz-range-track,
+    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-moz-range-track {
+      background: var(--cream);
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+    }
+
+    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-moz-range-progress {
+      background: var(--lavender);
+      border-radius: 999px;
+    }
+
+    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-moz-range-progress {
+      background: var(--green);
+      border-radius: 999px;
     }
 
     .partd-builder-complete {
@@ -7210,6 +7265,7 @@
           const index = Number(input.dataset.partdBar);
           const value = partDValues[partDActiveSite][index] || 0;
           input.value = String(value);
+          partDUpdateSliderFill(input);
 
           const row = document.querySelector('[data-partd-bar-row="' + index + '"]');
           if (row) {
@@ -7250,12 +7306,29 @@
         );
       }
 
+      /*
+        Keeps --partd-fill on the slider itself in sync with its value,
+        as a percentage string the CSS gradient reads to colour in the
+        "already slid past" part of the track. Needs calling both on
+        every drag (the input event) and whenever code sets .value
+        directly, since that never fires an input event on its own.
+      */
+      function partDUpdateSliderFill(input) {
+        const min = Number(input.min) || 0;
+        const max = Number(input.max) || 100;
+        const value = Number(input.value) || 0;
+        const percent = max === min ? 0 : ((value - min) / (max - min)) * 100;
+        input.style.setProperty("--partd-fill", percent + "%");
+      }
+
       function partDHandleBarInput(input) {
         if (partDStage !== "bars") return;
         const index = Number(input.dataset.partdBar);
         const value = Number(input.value);
         partDValues[partDActiveSite][index] = value;
         partDCheckedState[partDActiveSite][index] = null;
+
+        partDUpdateSliderFill(input);
 
         const row = document.querySelector('[data-partd-bar-row="' + index + '"]');
         if (row) {

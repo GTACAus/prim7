@@ -119,6 +119,7 @@
   box-shadow: 0 3px 0 var(--paper);
 }
 #waitForNightButton:hover {
+  background: rgb(0, 0, 119);
   box-shadow: 0 5px var(--paper);
 }
 #waitForNightButton:active {
