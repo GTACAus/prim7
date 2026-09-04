@@ -3195,7 +3195,7 @@
       <!-- ==================================================
            PART B - LEARN HOW TO CONSTRUCT A BAR GRAPH
            ================================================== -->
-      <section class="section" id="bar-construction" locked>
+      <section class="section locked" id="bar-construction">
         <h2 class="section-title">Part B · Learn How to Construct a Bar Graph</h2>
 
         <div class="diagram-box diagram-activity partb-intro-note">
@@ -5326,7 +5326,6 @@
         document.getElementById("partBGraphHint").textContent =
           "This graph is the baseline survey before nest boxes are installed.";
 
-        document.getElementById("bar-construction").classList.add("completed");
 
         // SHOW NEXT BUTTON
         const nextButton = document.getElementById("barConstructionNext");
@@ -6196,7 +6195,6 @@
         document.getElementById("partCCompleteCard").hidden = false;
         document.getElementById("partCGraphBadge").textContent = "Complete ✓";
 
-        document.getElementById("bar-follow-up").classList.add("completed");
         document.getElementById("barFollowUpNext").hidden = false;
 
         const highest = partCBarData[highestIndex];
