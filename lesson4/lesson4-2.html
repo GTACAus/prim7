@@ -2421,8 +2421,8 @@
     }
 
     .project-site-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 150px;
+      display: flex;
+      flex-direction: column;
       gap: 14px;
       align-items: center;
       min-height: 160px;
@@ -2435,11 +2435,9 @@
       min-width: 0;
     }
 
-    .project-site-image-placeholder {
-      display: grid;
-      place-items: center;
+    .project-site-image {
+      display: flex;
       align-content: center;
-      gap: 5px;
       min-height: 112px;
       padding: 10px;
       background: rgba(255, 255, 255, .72);
@@ -2449,12 +2447,11 @@
       text-align: center;
     }
 
-    .project-site-image-placeholder span {
-      font-size: 2rem;
-      line-height: 1;
+    .project-site-image img {
+      width: 100%;
     }
 
-    .project-site-image-placeholder small {
+    .project-site-image small {
       font-size: .7rem;
       font-weight: 800;
       line-height: 1.2;
@@ -2659,21 +2656,13 @@
         grid-template-columns: minmax(0, 1.25fr) minmax(200px, .75fr);
       }
 
-      .project-site-card {
-        grid-template-columns: minmax(0, 1fr) 125px;
-      }
-
-      .project-site-image-placeholder {
-        min-height: 104px;
-      }
-
       .project-animal-picture {
         width: 112px;
         height: 112px;
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 900px) {
       .project-species-layout,
       .project-question-grid,
       .project-site-rail {
@@ -2715,7 +2704,7 @@
         grid-template-columns: 1fr;
       }
 
-      .project-site-image-placeholder {
+      .project-site-image {
         min-height: 120px;
       }
 
@@ -3159,9 +3148,8 @@
                     <h4>Site 1</h4>
                     <p>Complete the first nocturnal-animal survey and record what you observe.</p>
                   </div>
-                  <div class="project-site-image-placeholder" role="img" aria-label="Placeholder for a daytime image of Site 1">
-                    <span aria-hidden="true">🌲</span>
-                    <small>Site 1 daytime image</small>
+                  <div class="project-site-image" role="img" aria-label="Placeholder for a daytime image of Site 1">
+                    <img src="../images/lesson4/site_1_day.png" alt="Site 1" />
                   </div>
                 </div>
 
@@ -3173,9 +3161,8 @@
                     <h4>Site 2</h4>
                     <p>You will investigate a second forest site later and compare its results with Site 1.</p>
                   </div>
-                  <div class="project-site-image-placeholder" role="img" aria-label="Placeholder for a daytime image of Site 2">
-                    <span aria-hidden="true">🌲</span>
-                    <small>Site 2 daytime image</small>
+                  <div class="project-site-image" role="img" aria-label="Placeholder for a daytime image of Site 2">
+                    <img src="../images/lesson4/site_2_day.png" alt="Site 2" />
                   </div>
                 </div>
               </div>
@@ -4114,7 +4101,7 @@
     <script src="../scripts/lesson4_scripts/spotlight_game.js"></script>
 
     <script>
-        const dev = false;
+        const dev = true;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
         const lesson4SectionIds = [
