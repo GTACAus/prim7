@@ -554,11 +554,7 @@
         align-items: start;
       }
 
-      #bar-construction.partb-build-active > .section-title,
-      #bar-construction.partb-build-active > .partb-intro-note,
-      #bar-construction.partb-build-active > .reset-button-container {
-        grid-column: 1 / -1;
-      }
+     
 
       #bar-construction.partb-build-active > .partb-data-card {
         grid-column: 1;
@@ -941,7 +937,6 @@
         align-items: start;
       }
 
-      #bar-follow-up.partc-bars-active > .section-title,
       #bar-follow-up.partc-bars-active > .partc-story-card,
       #bar-follow-up.partc-bars-active > .partc-data-card,
       #bar-follow-up.partc-bars-active > .partc-analysis-panel,
@@ -2046,7 +2041,6 @@
         align-items: start;
       }
 
-      #bar-follow-up.partc-bars-active > .section-title,
       #bar-follow-up.partc-bars-active > .partc-story-card,
       #bar-follow-up.partc-bars-active > .partc-analysis-panel,
       #bar-follow-up.partc-bars-active > .reset-button-container {
@@ -2296,12 +2290,11 @@
       #bar-follow-up.partc-site2-workbench,
       #bar-follow-up.partc-site2-workbench.partc-bars-active {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
         gap: 18px;
         align-items: start;
       }
 
-      #bar-follow-up.partc-site2-workbench > .section-title,
       #bar-follow-up.partc-site2-workbench > .partc-story-card,
       #bar-follow-up.partc-site2-workbench > .partc-site-image-stage,
       #bar-follow-up.partc-site2-workbench > .partc-analysis-panel,
@@ -2320,7 +2313,7 @@
       }
 
       #bar-follow-up.partc-site2-workbench > .partc-data-card {
-        grid-column: 1;
+        grid-column: 1 / -1;
         grid-row: 4;
         margin: 0;
         min-width: 0;
@@ -2333,8 +2326,8 @@
 
       #bar-follow-up.partc-site2-workbench .partc-control-card,
       #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-control-card {
-        grid-column: 2;
-        grid-row: 4;
+        grid-column: 1;
+        grid-row: 5;
         order: initial;
         min-width: 0;
         align-self: start;
@@ -2342,23 +2335,25 @@
 
       #bar-follow-up.partc-site2-workbench .partc-graph-card,
       #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-graph-card {
-        grid-column: 1 / -1;
+        grid-column: 2;
         grid-row: 5;
         order: initial;
         position: static;
+        min-width: 0;
+        align-self: start;
         padding: 20px 24px 24px;
       }
 
       #bar-follow-up.partc-site2-workbench .partc-graph-card .graph-stage-heading {
-        max-width: 980px;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
       }
 
       #bar-follow-up.partc-site2-workbench .partc-graph-card .graph-svg-wrap,
       #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-graph-card .graph-svg-wrap {
-        width: min(100%, 980px);
-        margin: 0 auto;
+        width: 100%;
+        margin: 0;
       }
 
       #bar-follow-up.partc-site2-workbench .partc-table-wrap {
@@ -2440,7 +2435,6 @@
         align-items: start;
       }
 
-      #bar-compare.partd-site-compare-workbench > .section-title,
       #bar-compare.partd-site-compare-workbench > .partd-intro-card,
       #bar-compare.partd-site-compare-workbench > .partd-analysis-panel,
       #bar-compare.partd-site-compare-workbench > .partd-complete-card,
@@ -3999,7 +3993,7 @@
            PART C - SITE 2 BAR GRAPH PRACTICE
            Students receive the three-night Site 2 survey results and graph them.
            ================================================== -->
-      <section class="section student-challenge partc-site2-workbench" id="bar-follow-up">
+      <section class="section student-challenge partc-site2-workbench locked" id="bar-follow-up">
         <h2 class="section-title">Part C · Site 2: Build the Bar Graph</h2>
 
         <div class="partc-story-card partc-site2-story">
@@ -4247,7 +4241,7 @@
            PART D - ADD A SECOND DATA SET TO A BAR GRAPH
            Compare baseline and follow-up Project Possum data.
            ================================================== -->
-      <section class="section student-challenge partd-site-compare-workbench partd-edit-site1" id="bar-compare">
+      <section class="section student-challenge partd-site-compare-workbench partd-edit-site1 locked" id="bar-compare">
         <h2 class="section-title">Part D · Compare Site 1 and Site 2</h2>
 
         <div class="partd-intro-card">
@@ -4461,7 +4455,7 @@
     <script src="../scripts/lesson4_scripts/spotlight_game.js"></script>
 
     <script>
-        const dev = false;
+        const dev = true;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
         const lesson4SectionIds = [
