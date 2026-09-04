@@ -26,6 +26,17 @@
       background: var(--mint);
     }
 
+    /* These three sections become grid containers at wider widths. A grid item
+       is blockified and stretched, so the inline-block title pill would run the
+       full width of its track. Keep it hugging its own text. */
+    #bar-construction > .section-title,
+    #bar-follow-up > .section-title,
+    #bar-compare > .section-title {
+      justify-self: start;
+      width: fit-content;
+      max-width: 100%;
+    }
+
     .partb-intro-note {
       margin-bottom: 20px;
     }
@@ -554,7 +565,26 @@
         align-items: start;
       }
 
-     
+      /* Heading and intro sit stacked above the two-column work area.
+         Without explicit placement they auto-flow into columns 1 and 2
+         and end up side by side. */
+      #bar-construction.partb-build-active > .section-title {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+
+      #bar-construction.partb-build-active > .partb-intro-note {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        margin-bottom: 0;
+      }
+
+      /* Anything after the graph keeps the full width too. */
+      #bar-construction.partb-build-active > .reset-button-container,
+      #bar-construction.partb-build-active > .next-button,
+      #bar-construction.partb-build-active > .completed-note {
+        grid-column: 1 / -1;
+      }
 
       #bar-construction.partb-build-active > .partb-data-card {
         grid-column: 1;
@@ -2435,6 +2465,7 @@
         align-items: start;
       }
 
+      #bar-compare.partd-site-compare-workbench > .section-title,
       #bar-compare.partd-site-compare-workbench > .partd-intro-card,
       #bar-compare.partd-site-compare-workbench > .partd-analysis-panel,
       #bar-compare.partd-site-compare-workbench > .partd-complete-card,
@@ -3425,7 +3456,7 @@
         <!-- ==================================================
              BAR GRAPH STUDENT CHALLENGE
              ================================================== -->
-        <section class="section student-challenge" id="bar-practice">
+        <section class="section student-challenge" id="bar-practice" data-progress-reset>
           <h2 class="section-title">Project Possum &middot; Site 1</h2>
 
           <div class="project-possum-flow">
@@ -3844,7 +3875,7 @@
               </div>
             </div>
 
-            <div class="partb-graph-card">
+            <div class="partb-graph-card pop-in">
               <div class="graph-stage-heading">
                 <div>
                   <h3>Average nocturnal animals observed</h3>

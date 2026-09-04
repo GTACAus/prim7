@@ -34,12 +34,21 @@
     Pop-up players and modals are not student work. They
     always start closed, so their state is neither saved
     nor put back.
+
+    A page can opt any other part of itself out of saving
+    the same way by adding data-progress-reset to it. That
+    element and everything inside it always comes back on
+    a fresh load exactly as it is written in the markup -
+    useful for an activity that is meant to be replayed
+    from the start every time, such as an animation or a
+    game whose whole point is the first run through.
   */
   const TRANSIENT = [
     ".video-dropdown-panel",
     ".modal",
     ".teacher-modal",
-    ".yeast-mobile-modal"
+    ".yeast-mobile-modal",
+    "[data-progress-reset]"
   ].join(", ");
 
   let elements = [];
