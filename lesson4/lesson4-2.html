@@ -2539,12 +2539,50 @@
           <div class="reset-button-container">
             <button type="button" class="general-button reset-btn" id="resetBarPracticeButton">Reset</button>
           </div>
+          <div
+            class="stop-and-check"
+            id="collectingVisualisingStopAndCheck"
+            hidden
+          >
+
+            <div class="stop-and-check-content">
+              <p>
+                Which one most clearly shows the difference between numbers of each animal?
+              </p>
+            </div>
+
+            <div class="stop-and-check-answer" hidden>
+              You can easily see differences between the numbers of each animal when they are laid out in a flat line.
+              This looks like a <strong>bar graph</strong>.
+              It is useful for comparing categorical data.
+            </div>
+
+            <button
+              type="button"
+              class="stop-and-check-button general-button"
+              onclick="showStopAndCheckAnswer(this, function () {
+                document.getElementById('collectingVisualisingNext').hidden = false;
+              })"
+            >
+              <p>Check Your Answer</p>
+              <p class="bounce-symbol">✅</p>
+            </button>
+
+          </div>
+          <button
+            id="collectingVisualisingNext"
+            class="next-button general-button"
+            onclick="unlockSection('bar-construction', 'bar-practice')"
+            hidden
+          >
+            Next
+          </button>
         </section>
 
       <!-- ==================================================
            PART B - LEARN HOW TO CONSTRUCT A BAR GRAPH
            ================================================== -->
-      <section class="section" id="bar-construction">
+      <section class="section" id="bar-construction" locked>
         <h2 class="section-title">Part B · Learn How to Construct a Bar Graph</h2>
 
         <div class="diagram-box diagram-activity partb-intro-note">
@@ -2754,6 +2792,14 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartBConstructionButton">Reset Part B</button>
         </div>
+        <button
+          id="barConstructionNext"
+          class="next-button general-button"
+          onclick="unlockSection('bar-follow-up', 'bar-construction')"
+          hidden
+        >
+          Next
+        </button>
       </section>
 
 
@@ -3656,6 +3702,11 @@
       // the spotlight "find the animals" activity instead.
       function resetBarPractice() {
         if (typeof resetAnimalCounters === 'function') resetAnimalCounters();
+        const stopAndCheck = document.getElementById('collectingVisualisingStopAndCheck');
+        resetStopAndCheck(stopAndCheck, () => {
+          document.getElementById('collectingVisualisingNext').hidden = false;
+        });
+        document.getElementById('collectingVisualisingNext').hidden = true;
       }
 
 

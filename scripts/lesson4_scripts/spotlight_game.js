@@ -335,6 +335,9 @@ function checkAnimalCount() {
     feedback.appendChild(document.createTextNode(' You found and counted every hidden animal correctly.'));
     revealStackButtons();
     returnToDay(true);
+    
+    document.getElementById("collectingVisualisingStopAndCheck").hidden = false;
+
     return;
   }
 
