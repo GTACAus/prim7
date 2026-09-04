@@ -376,6 +376,28 @@
       opacity: 1;
     }
 
+    #partBGraphSvg .partb-zero-bar-marker {
+      stroke: var(--orange);
+      stroke-width: 7;
+      stroke-linecap: round;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
+    }
+
+    #partBGraphSvg .partb-zero-bar-marker.visible {
+      opacity: 1;
+    }
+
+    #partBGraphSvg .partb-zero-bar-marker.fade-out {
+      opacity: 0;
+    }
+
+    #partBGraphSvg .partb-value-label.analysis-highlight {
+      fill: var(--purple);
+      font-size: 15px;
+    }
+
     .partb-complete-note {
       margin-top: 16px;
     }
@@ -516,6 +538,106 @@
     #partBGraphSvg .partb-x-choice.analysis-highlight text {
       fill: var(--purple);
       font-weight: 800;
+    }
+
+    /* ==================================================
+       PART B - TABLET + DESKTOP WORKBENCH
+       Step 1 data + Step 2 controls sit side by side;
+       the graph gets the full row underneath.
+       Applies from iPad/tablet widths upward after averages are calculated.
+       ================================================== */
+    @media (min-width: 700px) {
+      #bar-construction.partb-build-active {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      #bar-construction.partb-build-active > .section-title,
+      #bar-construction.partb-build-active > .partb-intro-note,
+      #bar-construction.partb-build-active > .reset-button-container {
+        grid-column: 1 / -1;
+      }
+
+      #bar-construction.partb-build-active > .partb-data-card {
+        grid-column: 1;
+        grid-row: 3;
+        margin: 0;
+        min-width: 0;
+        align-self: stretch;
+      }
+
+      #bar-construction.partb-build-active > .partb-construction-stage,
+      #bar-construction.partb-build-active .partb-construction-grid {
+        display: contents;
+      }
+
+      #bar-construction.partb-build-active .partb-control-panel {
+        grid-column: 2;
+        grid-row: 3;
+        min-width: 0;
+        align-self: stretch;
+      }
+
+      #bar-construction.partb-build-active .partb-graph-card {
+        grid-column: 1 / -1;
+        grid-row: 4;
+        padding: 20px 24px 24px;
+      }
+
+      #bar-construction.partb-build-active .partb-graph-card .graph-stage-heading {
+        max-width: 980px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #bar-construction.partb-build-active .partb-graph-card .graph-svg-wrap {
+        width: min(100%, 980px);
+        margin: 0 auto;
+      }
+
+      #bar-construction.partb-build-active .partb-complete-note,
+      #bar-construction.partb-build-active .partb-graph-check,
+      #bar-construction.partb-build-active .partb-analysis-panel {
+        grid-column: 1 / -1;
+      }
+
+      /* Compress the five-column reference table enough to share the top row
+         without hiding any of the three survey nights. */
+      #bar-construction.partb-build-active .partb-table-wrap {
+        overflow-x: visible;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table {
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th,
+      #bar-construction.partb-build-active .partb-data-table td {
+        padding: 7px 6px;
+        font-size: .76rem;
+        line-height: 1.22;
+        overflow-wrap: anywhere;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th:first-child,
+      #bar-construction.partb-build-active .partb-data-table td:first-child {
+        width: 36%;
+      }
+
+      #bar-construction.partb-build-active .partb-table-actions {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      #bar-construction.partb-build-active .partb-table-actions .challenge-feedback {
+        min-width: 0;
+      }
     }
 
     @media (max-width: 900px) {
@@ -1768,52 +1890,28 @@
         padding: 18px;
       }
 
-      /* ---------- Part B: averages + construction + graph ---------- */
+      /* ---------- Part B: same wide workbench, compacted for portrait iPads ---------- */
       #bar-construction.partb-build-active {
-        display: grid;
-        grid-template-columns: minmax(250px, .82fr) minmax(0, 1.18fr);
         gap: 12px;
-        align-items: start;
       }
 
-      #bar-construction.partb-build-active > .section-title,
-      #bar-construction.partb-build-active > .partb-intro-note,
-      #bar-construction.partb-build-active > .reset-button-container {
-        grid-column: 1 / -1;
-      }
-
-      #bar-construction.partb-build-active > .partb-data-card {
-        grid-column: 1;
-        grid-row: 3;
-        margin: 0;
-        padding: 12px;
-      }
-
-      #bar-construction.partb-build-active > .partb-construction-stage,
-      #bar-construction.partb-build-active .partb-construction-grid {
-        display: contents;
-      }
-
+      #bar-construction.partb-build-active > .partb-data-card,
       #bar-construction.partb-build-active .partb-control-panel {
-        grid-column: 1;
-        grid-row: 4;
         padding: 12px;
       }
 
       #bar-construction.partb-build-active .partb-graph-card {
-        grid-column: 2;
-        grid-row: 3 / span 2;
-        padding: 12px;
+        padding: 14px;
       }
 
-      #bar-construction.partb-build-active .partb-complete-note,
-      #bar-construction.partb-build-active .partb-graph-check,
-      #bar-construction.partb-build-active .partb-analysis-panel {
-        grid-column: 1 / -1;
+      #bar-construction.partb-build-active .partb-graph-card .graph-svg-wrap {
+        width: min(100%, 900px);
+        margin: 0 auto;
       }
 
-      /* Once the averages are calculated, only the columns needed for graphing
-         stay visible in the compact iPad reference table. */
+      /* After the averages are calculated, the explanation and completed
+         calculate controls are no longer needed. Keep all five table columns
+         visible so students can still refer to the three survey nights. */
       #bar-construction.partb-build-active .partb-data-card > p,
       #bar-construction.partb-build-active .partb-table-actions {
         display: none;
@@ -1830,51 +1928,42 @@
         table-layout: fixed;
       }
 
-      #bar-construction.partb-build-active .partb-data-table th:nth-child(2),
-      #bar-construction.partb-build-active .partb-data-table th:nth-child(3),
-      #bar-construction.partb-build-active .partb-data-table th:nth-child(4),
-      #bar-construction.partb-build-active .partb-data-table td:nth-child(2),
-      #bar-construction.partb-build-active .partb-data-table td:nth-child(3),
-      #bar-construction.partb-build-active .partb-data-table td:nth-child(4) {
-        display: none;
-      }
-
       #bar-construction.partb-build-active .partb-data-table th,
       #bar-construction.partb-build-active .partb-data-table td {
-        padding: 6px 7px;
-        font-size: .76rem;
-        line-height: 1.2;
+        padding: 5px 4px;
+        font-size: .66rem;
+        line-height: 1.15;
         overflow-wrap: anywhere;
       }
 
       #bar-construction.partb-build-active .partb-data-table th:first-child,
       #bar-construction.partb-build-active .partb-data-table td:first-child {
-        width: 68%;
+        width: 38%;
       }
 
       #bar-construction.partb-build-active .partb-data-card h3,
       #bar-construction.partb-build-active .partb-control-panel h3 {
-        font-size: .98rem;
+        font-size: .96rem;
       }
 
       #bar-construction.partb-build-active .partb-control-panel > p,
       #bar-construction.partb-build-active .partb-builder-prompt,
       #bar-construction.partb-build-active #partBFeedback {
-        font-size: .78rem;
-        line-height: 1.35;
+        font-size: .76rem;
+        line-height: 1.32;
       }
 
       #bar-construction.partb-build-active .partb-label-bank {
         gap: 7px;
-        margin-top: 10px;
-        padding: 9px;
+        margin-top: 9px;
+        padding: 8px;
         min-height: 0;
       }
 
       #bar-construction.partb-build-active .partb-axis-card {
-        min-height: 40px;
-        padding: 7px 9px;
-        font-size: .76rem;
+        min-height: 38px;
+        padding: 6px 8px;
+        font-size: .73rem;
       }
 
       /* ---------- Part C: compact reference + sliders beside graph ---------- */
@@ -2253,10 +2342,6 @@
       border-radius: 14px;
     }
 
-    .project-learn-block.conservation {
-      background: var(--soft-green);
-    }
-
     .project-learn-block h4 {
       margin: 0 0 5px;
       font-size: 1rem;
@@ -2337,10 +2422,43 @@
     }
 
     .project-site-card {
-      min-height: 130px;
-      padding: 15px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 150px;
+      gap: 14px;
+      align-items: center;
+      min-height: 160px;
+      padding: 15px 16px;
       border: 2px solid var(--charcoal);
       border-radius: 15px;
+    }
+
+    .project-site-copy {
+      min-width: 0;
+    }
+
+    .project-site-image-placeholder {
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 5px;
+      min-height: 112px;
+      padding: 10px;
+      background: rgba(255, 255, 255, .72);
+      border: 2px dashed var(--charcoal);
+      border-radius: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .project-site-image-placeholder span {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .project-site-image-placeholder small {
+      font-size: .7rem;
+      font-weight: 800;
+      line-height: 1.2;
     }
 
     .project-site-card.current {
@@ -2424,28 +2542,37 @@
 
     .project-animal-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
     }
 
     .project-animal-card {
       display: grid;
+      grid-column: span 2;
       justify-items: center;
-      align-content: start;
-      gap: 8px;
-      min-height: 168px;
-      padding: 12px 8px;
+      align-content: center;
+      gap: 11px;
+      min-height: 220px;
+      padding: 16px 12px;
       background: var(--paper);
       border: 2px solid var(--charcoal);
       border-radius: 15px;
       text-align: center;
     }
 
+    .project-animal-card:nth-child(4) {
+      grid-column: 2 / span 2;
+    }
+
+    .project-animal-card:nth-child(5) {
+      grid-column: 4 / span 2;
+    }
+
     .project-animal-picture {
       display: grid;
       place-items: center;
-      width: 82px;
-      height: 82px;
+      width: 126px;
+      height: 126px;
       background: white;
       border: 3px solid var(--charcoal);
       border-radius: 50%;
@@ -2453,17 +2580,17 @@
     }
 
     .project-animal-picture img {
-      width: 82%;
-      height: 82%;
+      width: 92%;
+      height: 92%;
       object-fit: contain;
     }
 
     .project-animal-picture.deer-placeholder {
-      font-size: 2.8rem;
+      font-size: 4.2rem;
     }
 
     .project-animal-card strong {
-      font-size: .86rem;
+      font-size: .96rem;
       line-height: 1.25;
     }
 
@@ -2537,8 +2664,17 @@
         grid-template-columns: minmax(0, 1.25fr) minmax(200px, .75fr);
       }
 
-      .project-animal-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+      .project-site-card {
+        grid-template-columns: minmax(0, 1fr) 125px;
+      }
+
+      .project-site-image-placeholder {
+        min-height: 104px;
+      }
+
+      .project-animal-picture {
+        width: 112px;
+        height: 112px;
       }
     }
 
@@ -2558,6 +2694,17 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .project-animal-card,
+      .project-animal-card:nth-child(4) {
+        grid-column: auto;
+      }
+
+      .project-animal-card:nth-child(5) {
+        grid-column: 1 / -1;
+        width: min(100%, 300px);
+        justify-self: center;
+      }
+
       .project-spotlight-intro {
         grid-template-columns: auto minmax(0, 1fr);
       }
@@ -2567,6 +2714,99 @@
         justify-self: start;
       }
     }
+
+    @media (max-width: 520px) {
+      .project-site-card {
+        grid-template-columns: 1fr;
+      }
+
+      .project-site-image-placeholder {
+        min-height: 120px;
+      }
+
+      .project-animal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-animal-card,
+      .project-animal-card:nth-child(4),
+      .project-animal-card:nth-child(5) {
+        grid-column: auto;
+        width: 100%;
+      }
+    }
+
+    /* ==================================================
+       PART B - COMPACT AVERAGE REFERENCE ON NARROW SCREENS
+       After students calculate the averages, the three individual night
+       columns are no longer needed while they construct the graph. On phones
+       and portrait tablets, keep only Animal + Average and let the card size
+       to its content instead of stretching to match the controls beside it.
+       ================================================== */
+    @media (max-width: 699px), (min-width: 700px) and (max-width: 1100px) and (orientation: portrait) {
+      #bar-construction.partb-build-active > .partb-data-card {
+        align-self: start;
+      }
+
+      #bar-construction.partb-build-active .partb-data-card > p,
+      #bar-construction.partb-build-active .partb-table-actions {
+        display: none;
+      }
+
+      #bar-construction.partb-build-active .partb-table-wrap {
+        margin-top: 10px;
+        overflow: visible;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table {
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th:nth-child(2),
+      #bar-construction.partb-build-active .partb-data-table th:nth-child(3),
+      #bar-construction.partb-build-active .partb-data-table th:nth-child(4),
+      #bar-construction.partb-build-active .partb-data-table td:nth-child(2),
+      #bar-construction.partb-build-active .partb-data-table td:nth-child(3),
+      #bar-construction.partb-build-active .partb-data-table td:nth-child(4) {
+        display: none;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th,
+      #bar-construction.partb-build-active .partb-data-table td {
+        padding: 9px 10px;
+        font-size: .86rem;
+        line-height: 1.25;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th:first-child,
+      #bar-construction.partb-build-active .partb-data-table td:first-child {
+        width: 72%;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th:nth-child(5),
+      #bar-construction.partb-build-active .partb-data-table td:nth-child(5) {
+        width: 28%;
+      }
+    }
+
+    @media (max-width: 699px) {
+      #bar-construction.partb-build-active .partb-data-card {
+        padding: 16px;
+      }
+
+      #bar-construction.partb-build-active .partb-data-card h3 {
+        font-size: 1.05rem;
+      }
+
+      #bar-construction.partb-build-active .partb-data-table th,
+      #bar-construction.partb-build-active .partb-data-table td {
+        padding: 10px 11px;
+        font-size: .92rem;
+      }
+    }
+
     </style>
   </head>
 
@@ -2893,18 +3133,6 @@
                     </button>
                   </div>
 
-                  <div class="project-learn-block conservation">
-                    <h4>Why do they need our help?</h4>
-                    <p>Read about conservation efforts that can be used to support Leadbeater's Possums and their forest habitat.</p>
-                    <button
-                      type="button"
-                      class="general-button project-resource-button"
-                      onclick="openPdfModal('../downloads/lesson4/leadbeaters-possum-conservation.pdf', 'Leadbeater\'s Possum Conservation')"
-                    >
-                      <span aria-hidden="true">📄</span>
-                      <span>Open conservation guide</span>
-                    </button>
-                  </div>
                 </div>
 
                 <aside class="project-species-portrait" aria-label="Leadbeater's Possum target species">
@@ -2932,17 +3160,29 @@
               <!-- Site 1 is designed to contain more Leadbeater's Possums than Site 2. Do not reveal that result before students collect the evidence. -->
               <div class="project-site-rail" aria-label="Two-site Project Possum investigation">
                 <div class="project-site-card current">
-                  <span class="project-site-chip">Survey now</span>
-                  <h4>Site 1</h4>
-                  <p>Complete the first nocturnal-animal survey and record what you observe.</p>
+                  <div class="project-site-copy">
+                    <span class="project-site-chip">Survey now</span>
+                    <h4>Site 1</h4>
+                    <p>Complete the first nocturnal-animal survey and record what you observe.</p>
+                  </div>
+                  <div class="project-site-image-placeholder" role="img" aria-label="Placeholder for a daytime image of Site 1">
+                    <span aria-hidden="true">🌲</span>
+                    <small>Site 1 daytime image</small>
+                  </div>
                 </div>
 
                 <div class="project-site-arrow" aria-hidden="true">→</div>
 
                 <div class="project-site-card future">
-                  <span class="project-site-chip">Later</span>
-                  <h4>Site 2</h4>
-                  <p>You will investigate a second forest site later and compare its results with Site 1.</p>
+                  <div class="project-site-copy">
+                    <span class="project-site-chip">Later</span>
+                    <h4>Site 2</h4>
+                    <p>You will investigate a second forest site later and compare its results with Site 1.</p>
+                  </div>
+                  <div class="project-site-image-placeholder" role="img" aria-label="Placeholder for a daytime image of Site 2">
+                    <span aria-hidden="true">🌲</span>
+                    <small>Site 2 daytime image</small>
+                  </div>
                 </div>
               </div>
 
@@ -3167,14 +3407,14 @@
 
         <div class="diagram-box diagram-activity partb-intro-note">
           <p class="activity-instruction">
-            Your team repeated the nocturnal-animal survey on three nights. Use the repeated counts to calculate an
+            Your team repeated the <strong>Site 1</strong> nocturnal-animal survey on three nights. Use the repeated counts to calculate an
             <strong>average</strong>, then turn those averages into a bar graph one category at a time.
           </p>
         </div>
 
         <div class="partb-data-card">
           <span class="challenge-step-label">Step 1 · Find the averages</span>
-          <h3>Three nights of spotlighting</h3>
+          <h3>Site 1 · Three nights of spotlighting</h3>
           <p>
             <strong>Night 1</strong> is the count from the spotlighting activity above. The other two nights are repeat surveys.
             Calculate the average number seen for each animal before you graph the data.
@@ -3293,7 +3533,7 @@
 
           <div class="challenge-complete partb-complete-note challenge-hidden" id="partBCompleteNote" hidden>
             <strong>Bar graph constructed.</strong>
-            You have turned the average survey data into five correctly constructed bars.
+            You have represented all five average survey values. A value of <strong>0</strong> is shown as a zero-height bar on the baseline.
           </div>
 
           <div class="partb-graph-check challenge-hidden" id="partBGraphCheck" hidden>
@@ -3305,7 +3545,7 @@
               <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Every bar starts at <strong>zero</strong>.</span></div>
               <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Every bar has the <strong>same width</strong>.</span></div>
               <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>The gaps between bars are <strong>equal</strong>.</span></div>
-              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Each bar height matches the <strong>average</strong> in the table.</span></div>
+              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Each bar height matches the <strong>average</strong> in the table, including a zero-height bar for <strong>0</strong>.</span></div>
             </div>
 
             <button type="button" class="general-button" id="partBStartAnalysisButton">Analyse the graph</button>
@@ -3324,7 +3564,7 @@
                 <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="1">Yellow-bellied Glider</button>
                 <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="2">Ringtail Possum</button>
                 <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="3">Powerful Owl</button>
-                <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="4">Feral Cats</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="highest" data-partb-index="4">Feral deer</button>
               </div>
             </div>
 
@@ -3342,7 +3582,7 @@
                 <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="1">Yellow-bellied Glider</button>
                 <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="2">Ringtail Possum</button>
                 <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="3">Powerful Owl</button>
-                <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="4">Feral Cats</button>
+                <button type="button" class="challenge-choice" data-partb-analysis="lowest" data-partb-index="4">Feral deer</button>
               </div>
             </div>
 
@@ -3352,8 +3592,8 @@
             </div>
 
             <div class="partb-baseline-summary challenge-hidden" id="partBBaselineSummary" hidden>
-              <span class="challenge-step-label">Baseline survey complete</span>
-              <h3>These are your results before nest boxes</h3>
+              <span class="challenge-step-label">Site 1 survey complete</span>
+              <h3>These are your Site 1 results</h3>
 
               <div class="partb-baseline-facts">
                 <div class="partb-baseline-fact"><strong>Highest average</strong><span id="partBBaselineHighest">—</span></div>
@@ -3362,8 +3602,8 @@
               </div>
 
               <p class="partb-story-hook">
-                <strong>Keep this result in mind.</strong> These counts describe the forest <strong>before nest boxes were installed</strong>.
-                Later, you will return two years after the conservation action and compare the new survey results with this baseline.
+                <strong>Keep this result in mind.</strong> These averages describe <strong>Site 1</strong>.
+                Later, you will survey <strong>Site 2</strong> and compare its results with Site 1.
               </p>
             </div>
           </div>
@@ -4283,21 +4523,16 @@
          ================================================== */
 
       /*
-        Night 1 matches the spotlight activity above and the planning draft:
-        Leadbeater's Possum 2, Yellow-bellied Glider 3, Ringtail Possum 6,
-        Powerful Owl 1, Feral Cats 2.
-
-        Night 2 and Night 3 are prototype repeat-survey values only. They are
-        deliberately chosen so the averages are whole numbers on the planned
-        0-10 scale. Replace these two columns when the curriculum team confirms
-        the final repeat-survey data.
+        Site 1 repeated-survey dataset. Night 1 matches the spotlight activity:
+        Leadbeater's Possum 5, Yellow-bellied Glider 2, Ringtail Possum 3,
+        Powerful Owl 1, Feral deer 0. The three-night averages are 6, 3, 4, 1 and 0.
       */
       const partBBarData = [
-        { label: "Leadbeater's Possum", short: ["Leadbeater's", "Possum"], nights: [2, 3, 4], colour: "var(--yellow)" },
-        { label: "Yellow-bellied Glider", short: ["Yellow-bellied", "Glider"], nights: [3, 4, 5], colour: "var(--mint)" },
-        { label: "Ringtail Possum", short: ["Ringtail", "Possum"], nights: [6, 5, 7], colour: "var(--blue)" },
+        { label: "Leadbeater's Possum", short: ["Leadbeater's", "Possum"], nights: [5, 7, 6], colour: "var(--yellow)" },
+        { label: "Yellow-bellied Glider", short: ["Yellow-bellied", "Glider"], nights: [2, 4, 3], colour: "var(--mint)" },
+        { label: "Ringtail Possum", short: ["Ringtail", "Possum"], nights: [3, 6, 3], colour: "var(--blue)" },
         { label: "Powerful Owl", short: ["Powerful", "Owl"], nights: [1, 1, 1], colour: "var(--lavender)" },
-        { label: "Feral Cats", short: ["Feral", "Cats"], nights: [2, 2, 2], colour: "var(--soft-orange)" }
+        { label: "Feral deer", short: ["Feral", "deer"], nights: [0, 0, 0], colour: "var(--soft-orange)" }
       ];
 
       const partBPlot = {
@@ -4957,11 +5192,14 @@
         }
 
         partBStage = "animating";
+        const isZeroValue = Math.abs(expected) < 0.001;
         setChallengeFeedback(
           "partBFeedback",
           "success",
           "Correct data point.",
-          " Watch how that point becomes the top of a bar that starts at zero."
+          isZeroValue
+            ? " This value is 0, so its bar has zero height and stays on the baseline. Watch how the graph records it."
+            : " Watch how that point becomes the top of a bar that starts at zero."
         );
         partBAnimateBar(partBSelectedAnimalIndex, expected);
       }
@@ -4974,14 +5212,8 @@
         const bottom = partBPlot.bottom;
         const outlineLayer = document.getElementById("partBOutlinesLayer");
         const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const isZeroValue = Math.abs(value) < 0.001;
 
-        /*
-          Draw the bar the way a student would construct it by hand:
-          1. extend the top horizontally from the plotted point;
-          2. draw both vertical sides down to zero;
-          3. fill the completed bar;
-          4. show this bar's value above it.
-        */
         function makeAnimatedLine(x1, y1, x2, y2, durationSeconds) {
           const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
           line.setAttribute("class", "partb-bar-outline");
@@ -5003,15 +5235,96 @@
           return line;
         }
 
+        function finishCurrentCategory() {
+          const valueLabel = document.querySelector('[data-partb-value-label="' + index + '"]');
+          if (valueLabel) valueLabel.classList.add("visible");
+
+          partBBuiltBars.add(index);
+          const xChoice = document.querySelector('[data-partb-x-index="' + index + '"]');
+          if (xChoice) {
+            xChoice.classList.remove("active");
+            xChoice.classList.add("complete");
+          }
+
+          document.getElementById("partBVerticalGuide").classList.remove("visible");
+          document.getElementById("partBHorizontalGuide").classList.remove("visible");
+          document.getElementById("partBIntersectionPoint").classList.remove("visible");
+          partBSetActiveY(null);
+          partBSelectedAnimalIndex = null;
+          partBSelectedYValue = null;
+
+          if (partBBuiltBars.size === partBBarData.length) {
+            partBFinishConstruction();
+            return;
+          }
+
+          partBStage = "category";
+          document.getElementById("partBBuilderPromptTitle").textContent = isZeroValue ? "Zero-height bar complete." : "Bar complete.";
+          document.getElementById("partBBuilderPromptText").textContent = "Choose another animal category on the x-axis.";
+          document.getElementById("partBGraphHint").textContent = "Choose another animal to repeat the same construction steps.";
+
+          if (isZeroValue) {
+            setChallengeFeedback(
+              "partBFeedback",
+              "success",
+              partBBarData[index].label + " is complete.",
+              " Its average is 0, so there is no coloured bar above the baseline. The 0 label records the result. Choose another category."
+            );
+          } else {
+            setChallengeFeedback(
+              "partBFeedback",
+              "success",
+              partBBarData[index].label + " is complete.",
+              " Its value is shown above the bar. Notice that the bar begins at zero and its top reaches the plotted point. Choose another category."
+            );
+          }
+        }
+
+        /*
+          Zero is still data. A zero-height bar should not be faked as a positive bar,
+          so briefly animate the bar width along the baseline, reveal the 0 label,
+          then leave no coloured area above the x-axis.
+        */
+        if (isZeroValue) {
+          const zeroMarker = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          zeroMarker.setAttribute("class", "partb-zero-bar-marker");
+          zeroMarker.setAttribute("x1", left);
+          zeroMarker.setAttribute("x2", right);
+          zeroMarker.setAttribute("y1", bottom);
+          zeroMarker.setAttribute("y2", bottom);
+          const zeroWidth = right - left;
+          zeroMarker.style.strokeDasharray = String(zeroWidth);
+          zeroMarker.style.strokeDashoffset = String(zeroWidth);
+          outlineLayer.appendChild(zeroMarker);
+
+          requestAnimationFrame(function() {
+            zeroMarker.classList.add("visible");
+            zeroMarker.style.transition = reduceMotion ? "none" : "stroke-dashoffset .65s ease, opacity .3s ease";
+            zeroMarker.style.strokeDashoffset = "0";
+          });
+
+          window.setTimeout(function() {
+            const bar = document.querySelector('[data-partb-bar="' + index + '"]');
+            if (bar) {
+              bar.setAttribute("y", bottom);
+              bar.setAttribute("height", 0);
+              bar.classList.add("visible");
+            }
+            finishCurrentCategory();
+            zeroMarker.classList.add("fade-out");
+            window.setTimeout(function() { zeroMarker.remove(); }, reduceMotion ? 0 : 350);
+          }, reduceMotion ? 0 : 900);
+          return;
+        }
+
+        /* Draw a positive-height bar as before: top first, sides to zero, then fill. */
         const topDuration = reduceMotion ? 0 : 750;
         const sideDuration = reduceMotion ? 0 : 1000;
         const fillDuration = reduceMotion ? 0 : 450;
 
-        /* Draw the top from the plotted point outwards in both directions. */
         makeAnimatedLine(centre, y, right, y, .75);
         makeAnimatedLine(centre, y, left, y, .75);
 
-        /* Only after the top is finished do the sides travel down to zero. */
         window.setTimeout(function() {
           makeAnimatedLine(left, y, left, bottom, 1);
           makeAnimatedLine(right, y, right, bottom, 1);
@@ -5024,49 +5337,16 @@
           bar.setAttribute("height", bottom - y);
           bar.classList.add("visible");
 
-          window.setTimeout(function() {
-            const valueLabel = document.querySelector('[data-partb-value-label="' + index + '"]');
-            if (valueLabel) valueLabel.classList.add("visible");
-
-            partBBuiltBars.add(index);
-            const xChoice = document.querySelector('[data-partb-x-index="' + index + '"]');
-            if (xChoice) {
-              xChoice.classList.remove("active");
-              xChoice.classList.add("complete");
-            }
-
-            document.getElementById("partBVerticalGuide").classList.remove("visible");
-            document.getElementById("partBHorizontalGuide").classList.remove("visible");
-            document.getElementById("partBIntersectionPoint").classList.remove("visible");
-            partBSetActiveY(null);
-            partBSelectedAnimalIndex = null;
-            partBSelectedYValue = null;
-
-            if (partBBuiltBars.size === partBBarData.length) {
-              partBFinishConstruction();
-              return;
-            }
-
-            partBStage = "category";
-            document.getElementById("partBBuilderPromptTitle").textContent = "Bar complete.";
-            document.getElementById("partBBuilderPromptText").textContent = "Choose another animal category on the x-axis.";
-            document.getElementById("partBGraphHint").textContent = "Choose another animal to repeat the same construction steps.";
-            setChallengeFeedback(
-              "partBFeedback",
-              "success",
-              partBBarData[index].label + " is complete.",
-              " Its value is shown above the bar. Notice that the bar begins at zero and its top reaches the plotted point. Choose another category."
-            );
-          }, fillDuration);
+          window.setTimeout(finishCurrentCategory, fillDuration);
         }, topDuration + sideDuration);
       }
 
       function partBFinishConstruction() {
         partBStage = "complete";
         document.getElementById("partBGraphBadge").textContent = "Complete ✓";
-        document.getElementById("partBBuilderPromptTitle").textContent = "All five bars are complete.";
-        document.getElementById("partBBuilderPromptText").textContent = "You used the same process for every category: x-value, y-value, intersection, then bar.";
-        document.getElementById("partBGraphHint").textContent = "The completed bars are equal in width, equally spaced and all start at zero.";
+        document.getElementById("partBBuilderPromptTitle").textContent = "All five categories are complete.";
+        document.getElementById("partBBuilderPromptText").textContent = "You used the same process for every category: x-value, y-value, intersection, then bar height.";
+        document.getElementById("partBGraphHint").textContent = "Each category is represented. A value of 0 stays on the baseline with zero bar height.";
         document.getElementById("partBCompleteNote").hidden = false;
         document.getElementById("partBGraphCheck").hidden = false;
 
@@ -5092,8 +5372,10 @@
         partBClearAnalysisHighlight();
         const bar = document.querySelector('[data-partb-bar="' + index + '"]');
         const xChoice = document.querySelector('[data-partb-x-index="' + index + '"]');
+        const valueLabel = document.querySelector('[data-partb-value-label="' + index + '"]');
         if (bar) bar.classList.add("analysis-highlight");
         if (xChoice) xChoice.classList.add("analysis-highlight");
+        if (valueLabel) valueLabel.classList.add("analysis-highlight");
       }
 
       function partBHighestIndex() {
@@ -5210,7 +5492,7 @@
             "partBAnalysisFeedback",
             "success",
             "Leadbeater's Possums averaged " + partBFormatAverage(expectedValue) + ".",
-            " One more comparison: find the shortest bar."
+            " One more comparison: find the lowest average. Remember that 0 sits on the baseline."
           );
           return;
         }
@@ -5224,8 +5506,8 @@
             setChallengeFeedback(
               "partBAnalysisFeedback",
               "try-again",
-              "Look for the shortest bar.",
-              " The shortest bar represents the smallest average count."
+              "Look for the lowest value.",
+              " A value of 0 has a zero-height bar, so there may be no coloured bar above the baseline."
             );
             return;
           }
@@ -5250,15 +5532,15 @@
           partBBarData[lowestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[lowestIndex])) + ")";
 
         document.getElementById("partBBaselineSummary").hidden = false;
-        document.getElementById("partBGraphBadge").textContent = "Baseline ✓";
-        document.getElementById("partBGraphHint").textContent = "This graph is the baseline survey before nest boxes are installed.";
+        document.getElementById("partBGraphBadge").textContent = "Site 1 ✓";
+        document.getElementById("partBGraphHint").textContent = "This graph summarises the average nocturnal-animal counts from Site 1.";
         document.getElementById("bar-construction").classList.add("completed");
 
         setChallengeFeedback(
           "partBAnalysisFeedback",
           "success",
-          "You analysed the baseline survey.",
-          " These results will be used later to compare what happens after nest boxes are installed."
+          "You analysed the Site 1 survey.",
+          " Keep these results: later you will compare them with the Site 2 survey."
         );
 
         window.setTimeout(function() {
