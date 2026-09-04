@@ -2582,11 +2582,6 @@
           <p>Home</p>
         </button>
 
-        <button id="back-to-part1-button" class="general-button" onclick="window.location.href='lesson4.html'">
-            <p class="bounce-symbol">←</p>
-            <p>Part A</p>
-        </button>
-
         <button
           class="general-button glossary-button"
           type="button"
@@ -2732,7 +2727,7 @@
     <main class="page">
       <header class="lesson-intro">
         <div class="lesson-heading">
-          <span class="lesson-label">Lesson 4 &middot; Part B</span>
+          <span class="lesson-label">Lesson 4 &middot; Part A</span>
           <h1 id="teacherTrigger">Using Bar Graphs to Visualise Data</h1>
           <p class="lesson-summary">
             Bar graphs help scientists turn fair-test data into a visual comparison, making
@@ -3427,7 +3422,7 @@
            PART C - PRACTICE CONSTRUCTING A BAR GRAPH
            Follow-up Project Possum survey after nest boxes.
            ================================================== -->
-      <section class="section student-challenge" id="bar-follow-up">
+      <section class="section student-challenge locked" id="bar-follow-up">
         <h2 class="section-title">Part C · Your Turn: Return to the Forest</h2>
 
         <div class="partc-story-card">
@@ -3642,6 +3637,15 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartCButton">Reset Part C</button>
         </div>
+
+        <button
+          id="barFollowUpNext"
+          class="next-button general-button"
+          onclick="unlockSection('bar-compare', 'bar-follow-up')"
+          hidden
+        >
+          Next
+        </button>
       </section>
 
 
@@ -3651,7 +3655,7 @@
            PART D - ADD A SECOND DATA SET TO A BAR GRAPH
            Compare baseline and follow-up Project Possum data.
            ================================================== -->
-      <section class="section student-challenge" id="bar-compare">
+      <section class="section student-challenge locked" id="bar-compare">
         <h2 class="section-title">Part D · Compare Before and After</h2>
 
         <div class="partd-intro-card">
@@ -3837,6 +3841,14 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartDButton">Reset Part D</button>
         </div>
+        <button
+          id="barCompareNext"
+          class="next-button general-button"
+          onclick="window.location.href='lesson4-2.html'"
+          hidden
+        >
+          Next
+        </button>
       </section>
 
 
@@ -3856,7 +3868,7 @@
     <script src="../scripts/lesson4_scripts/spotlight_game.js"></script>
 
     <script>
-        const dev = false;
+        const dev = true;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
         const lesson4SectionIds = [
@@ -3867,8 +3879,8 @@
         ];
 
         const lesson4TeacherBackLink = {
-            label: "← To Part A",
-            href: "lesson4.html"
+            label: "← To Part B",
+            href: "lesson4-2.html"
         };
 
       /* ==================================================
@@ -5305,6 +5317,13 @@
         document.getElementById("partBGraphHint").textContent = "This graph is the baseline survey before nest boxes are installed.";
         document.getElementById("bar-construction").classList.add("completed");
 
+        // SHOW NEXT BUTTON
+        const nextButton = document.getElementById("barConstructionNext");
+
+        if (nextButton) {
+          nextButton.hidden = false;
+        }
+
         setChallengeFeedback(
           "partBAnalysisFeedback",
           "success",
@@ -5349,6 +5368,9 @@
         document.getElementById("partBAnalysisQuestion3").hidden = true;
         document.getElementById("partBStartAnalysisButton").disabled = false;
         document.getElementById("bar-construction").classList.remove("completed", "partb-build-active");
+
+        document.getElementById("barConstructionNext").hidden = true;
+
         partBAnalysisStep = 0;
         partBClearAnalysisHighlight();
         document.querySelectorAll("[data-partb-analysis]").forEach(function(button) {
@@ -6160,6 +6182,9 @@
         document.getElementById("partCCompleteCard").hidden = false;
         document.getElementById("partCGraphBadge").textContent = "Complete ✓";
 
+        document.getElementById("bar-follow-up").classList.add("completed");
+        document.getElementById("barFollowUpNext").hidden = false;
+
         const highest = partCBarData[highestIndex];
         const lowest = partCBarData[lowestIndex];
         document.getElementById("partCResultStatement").innerHTML =
@@ -6187,6 +6212,10 @@
         partCAnalysisStep = 0;
 
         document.getElementById("bar-follow-up").classList.remove("partc-bars-active");
+
+        document.getElementById("bar-follow-up").classList.remove("completed");
+        document.getElementById("barFollowUpNext").hidden = true;
+
         buildPartCTable();
         buildPartCGraphScaffold();
         partCResetBarBuilderControls();
@@ -6861,7 +6890,11 @@
         document.querySelectorAll("[data-detective]").forEach(function(button) {
           button.addEventListener("click", function() { handleBarDetectiveChoice(button); });
         });
-        document.getElementById("resetBarPracticeButton").addEventListener("click", resetBarPractice);
+        document.getElementById("resetBarPracticeButton").addEventListener("click", () => {
+          resetBarPractice();
+          const stage = document.getElementById("stage");
+          stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
 
         initialisePartBConstruction();
         initialisePartC();

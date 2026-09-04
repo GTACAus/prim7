@@ -353,9 +353,6 @@ function resetAnimalCounters() {
     counter.classList.remove('counter-correct', 'counter-incorrect');
     renderAnimalCounterDots(counter, 0);
     counter.querySelector('.counter-value-text').textContent = '0';
-
-    const stage = document.getElementById("stage");
-    stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   const feedback = document.getElementById('animalCountFeedback');
