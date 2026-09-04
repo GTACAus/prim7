@@ -2585,10 +2585,6 @@
       object-fit: contain;
     }
 
-    .project-animal-picture.deer-placeholder {
-      font-size: 4.2rem;
-    }
-
     .project-animal-card strong {
       font-size: .96rem;
       line-height: 1.25;
@@ -3239,7 +3235,9 @@
                 </div>
 
                 <div class="project-animal-card">
-                  <div class="project-animal-picture deer-placeholder" aria-hidden="true">🦌</div>
+                  <div class="project-animal-picture">
+                    <img src="../images/lesson4/male_deer_1.png" alt="" />
+                  </div>
                   <strong>Feral deer</strong>
                 </div>
               </div>
@@ -7069,7 +7067,8 @@
           " You used a paired bar graph to compare the same categories across two surveys."
         );
 
-        document.getElementById("bar-compare").classList.add("completed");
+        document.getElementById("barCompareNext").hidden = false;
+        
         window.setTimeout(function() {
           document.getElementById("partDCompleteCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
         }, 180);
