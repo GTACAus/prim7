@@ -335,6 +335,9 @@ function checkAnimalCount() {
     feedback.appendChild(document.createTextNode(' You found and counted every hidden animal correctly.'));
     revealStackButtons();
     returnToDay(true);
+    
+    document.getElementById("collectingVisualisingStopAndCheck").hidden = false;
+
     return;
   }
 
@@ -350,9 +353,6 @@ function resetAnimalCounters() {
     counter.classList.remove('counter-correct', 'counter-incorrect');
     renderAnimalCounterDots(counter, 0);
     counter.querySelector('.counter-value-text').textContent = '0';
-
-    const stage = document.getElementById("stage");
-    stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   const feedback = document.getElementById('animalCountFeedback');
