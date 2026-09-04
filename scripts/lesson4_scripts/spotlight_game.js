@@ -219,12 +219,70 @@ function getAnimalColourFor(type) {
   return computed || 'var(--orange)';
 }
 
-function getAnimalImage(type) {
+function getAnimalImage(type, imageSrc) {
   const hotspot = document.querySelector(
     `.animal-hotspot[data-animal="${type}"] img`
   );
 
-  return hotspot ? hotspot.getAttribute('src') : null;
+  return hotspot ? hotspot.getAttribute('src') : imageSrc;
+}
+
+function createAnimalCounter(type, actualCount, imageSource) {
+  const maxCount = actualCount + 3; // headroom above the correct answer
+  const counter = document.createElement('div');
+
+  counter.className = 'animal-counter';
+  counter.dataset.animalCounter = type;
+  counter.dataset.value = '0';
+  counter.dataset.max = String(maxCount);
+  counter.dataset.dotColour = getAnimalColourFor(type);
+
+  const label = document.createElement('p');
+  label.className = 'animal-counter-label';
+  label.textContent = type;
+  counter.appendChild(label);
+
+  const circle = document.createElement('div');
+  circle.className = 'counter-circle';
+  circle.setAttribute('aria-hidden', 'true');
+  counter.appendChild(circle);
+
+  const imageSrc = getAnimalImage(type, imageSource);
+  if (imageSrc) {
+    const image = document.createElement('img');
+    image.className = 'counter-image';
+    image.src = imageSrc;
+    image.alt = type;
+    circle.appendChild(image);
+  }
+
+  const valueText = document.createElement('p');
+  valueText.className = 'counter-value-text';
+  valueText.textContent = '0';
+  counter.appendChild(valueText);
+
+  const buttonRow = document.createElement('div');
+  buttonRow.className = 'counter-button-row';
+
+  const downButton = document.createElement('button');
+  downButton.type = 'button';
+  downButton.className = 'counter-button counter-down';
+  downButton.setAttribute('aria-label', 'Remove one ' + type);
+  downButton.textContent = '−';
+  downButton.addEventListener('click', () => changeAnimalCount(counter, -1));
+
+  const upButton = document.createElement('button');
+  upButton.type = 'button';
+  upButton.className = 'counter-button counter-up';
+  upButton.setAttribute('aria-label', 'Add one ' + type);
+  upButton.textContent = '+';
+  upButton.addEventListener('click', () => changeAnimalCount(counter, 1));
+
+  buttonRow.appendChild(downButton);
+  buttonRow.appendChild(upButton);
+  counter.appendChild(buttonRow);
+
+  return counter;
 }
 
 function buildAnimalCounters() {
@@ -232,68 +290,16 @@ function buildAnimalCounters() {
   if (!panel) return;
 
   const countsByType = countHotspotsByType();
-  panel.innerHTML = '';
+  // panel.innerHTML = '';
 
   Object.keys(countsByType).forEach((type) => {
     const actualCount = countsByType[type];
-    const maxCount = actualCount + 3; // headroom above the correct answer
-
-    const counter = document.createElement('div');
-    counter.className = 'animal-counter';
-    counter.dataset.animalCounter = type;
-    counter.dataset.value = '0';
-    counter.dataset.max = String(maxCount);
-    counter.dataset.dotColour = getAnimalColourFor(type);
-
-    const label = document.createElement('p');
-    label.className = 'animal-counter-label';
-    label.textContent = type;
-    counter.appendChild(label);
-
-    const circle = document.createElement('div');
-    circle.className = 'counter-circle';
-    circle.setAttribute('aria-hidden', 'true');
-    counter.appendChild(circle);
-
-    const imageSrc = getAnimalImage(type);
-
-    if (imageSrc) {
-      const image = document.createElement('img');
-      image.className = 'counter-image';
-      image.src = imageSrc;
-      image.alt = type;
-
-      circle.appendChild(image);
-    }
-
-    const valueText = document.createElement('p');
-    valueText.className = 'counter-value-text';
-    valueText.textContent = '0';
-    counter.appendChild(valueText);
-
-    const buttonRow = document.createElement('div');
-    buttonRow.className = 'counter-button-row';
-
-    const downButton = document.createElement('button');
-    downButton.type = 'button';
-    downButton.className = 'counter-button counter-down';
-    downButton.setAttribute('aria-label', 'Remove one ' + type);
-    downButton.textContent = '−';
-    downButton.addEventListener('click', () => changeAnimalCount(counter, -1));
-
-    const upButton = document.createElement('button');
-    upButton.type = 'button';
-    upButton.className = 'counter-button counter-up';
-    upButton.setAttribute('aria-label', 'Add one ' + type);
-    upButton.textContent = '+';
-    upButton.addEventListener('click', () => changeAnimalCount(counter, 1));
-
-    buttonRow.appendChild(downButton);
-    buttonRow.appendChild(upButton);
-    counter.appendChild(buttonRow);
-
+    const counter = createAnimalCounter(type, actualCount);
     panel.appendChild(counter);
   });
+
+  const deerCounter = createAnimalCounter('Feral Deer', 0, '../images/lesson4/male_deer_1.png');
+  panel.appendChild(deerCounter);
 }
 
 function checkAnimalCount() {
