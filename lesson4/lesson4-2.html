@@ -5307,14 +5307,25 @@
         const leadbeatersAverage = partBAverage(partBBarData[0]);
 
         document.getElementById("partBBaselineHighest").textContent =
-          partBBarData[highestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[highestIndex])) + ")";
-        document.getElementById("partBBaselineLeadbeaters").textContent = partBFormatAverage(leadbeatersAverage);
+          partBBarData[highestIndex].label +
+          " (" +
+          partBFormatAverage(partBAverage(partBBarData[highestIndex])) +
+          ")";
+
+        document.getElementById("partBBaselineLeadbeaters").textContent =
+          partBFormatAverage(leadbeatersAverage);
+
         document.getElementById("partBBaselineLowest").textContent =
-          partBBarData[lowestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[lowestIndex])) + ")";
+          partBBarData[lowestIndex].label +
+          " (" +
+          partBFormatAverage(partBAverage(partBBarData[lowestIndex])) +
+          ")";
 
         document.getElementById("partBBaselineSummary").hidden = false;
         document.getElementById("partBGraphBadge").textContent = "Baseline ✓";
-        document.getElementById("partBGraphHint").textContent = "This graph is the baseline survey before nest boxes are installed.";
+        document.getElementById("partBGraphHint").textContent =
+          "This graph is the baseline survey before nest boxes are installed.";
+
         document.getElementById("bar-construction").classList.add("completed");
 
         // SHOW NEXT BUTTON
@@ -5322,6 +5333,7 @@
 
         if (nextButton) {
           nextButton.hidden = false;
+          nextButton.removeAttribute("hidden");
         }
 
         setChallengeFeedback(
@@ -5332,7 +5344,9 @@
         );
 
         window.setTimeout(function() {
-          document.getElementById("partBBaselineSummary").scrollIntoView({ behavior: "smooth", block: "center" });
+          document
+            .getElementById("partBBaselineSummary")
+            .scrollIntoView({ behavior: "smooth", block: "center" });
         }, 220);
       }
 
