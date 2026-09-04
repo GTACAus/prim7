@@ -11,9 +11,15 @@
   position: relative;
   aspect-ratio: 1920 / 1080;
   cursor: none; 
+
+  --moon-x: 70%;
+  --moon-y: 11%;
+  --moon-r: calc(100% * 0.45);
+
   --x: 50%;
   --y: 50%;
-  --r: 120px; 
+  --r: 300px;
+
   --torch-mask: radial-gradient(
     circle var(--r) at var(--x) var(--y),
     rgba(0, 0, 0, 1) 0%,
@@ -21,14 +27,14 @@
     rgba(0, 0, 0, 0.4) 70%,
     rgba(0, 0, 0, 0.05) 100%
   );
-}
 
-.darken-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  mix-blend-mode: multiply;
-  pointer-events: none;
+  --moon-mask: radial-gradient(
+    ellipse 30% 75% at var(--moon-x) var(--moon-y),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.2) 20%,
+    rgba(0, 0, 0, 0.05) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 .vignette {
@@ -56,8 +62,17 @@
 /* Night image: hidden by default, torch-masked once night starts */
 #photo {
   opacity: 0;
-  -webkit-mask-image: var(--torch-mask);
-  mask-image: var(--torch-mask);
+
+  -webkit-mask-image:
+    var(--torch-mask),
+    var(--moon-mask);
+
+  mask-image:
+    var(--torch-mask),
+    var(--moon-mask);
+
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
 }
 
 .stage.is-night #photoDay {
@@ -95,7 +110,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(5, 5, 10, 0.35);
   cursor: default;
   transition: opacity 0.5s ease;
 }
@@ -260,6 +274,14 @@
               rgba(255, 180, 90, 0.2) 45%,
               rgba(0,0,0,0) 75%);
   mix-blend-mode: screen;
+
+  /* Hidden during the day */
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+
+.stage.is-night .glow {
+  opacity: 1;
 }
 
 .hint {
