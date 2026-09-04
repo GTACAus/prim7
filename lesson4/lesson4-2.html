@@ -1751,7 +1751,6 @@
     }
 
     .bar-data-preamble > p {
-      margin: 0;
       color: var(--muted);
       line-height: 1.55;
     }
@@ -3034,7 +3033,7 @@
         </section>
       </div>
 
-      <section class="bar-data-preamble" aria-labelledby="barDataPreambleTitle">
+      <section id="bar-data-preamble" class="section bar-data-preamble" aria-labelledby="barDataPreambleTitle">
         <p class="intro-eyebrow">Using bar graphs</p>
         <h2 id="barDataPreambleTitle">Visualising fair test data</h2>
         <p>
@@ -3087,6 +3086,10 @@
             <p class="bar-data-example"><strong>Examples:</strong> hair colour, favourite animal, types of pets.</p>
           </article>
         </div>
+      <button class="next-button general-button" onclick="unlockSection('bar-practice', 'bar-data-preamble')">
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
         <!-- ==================================================
@@ -3428,6 +3431,7 @@
           >
             Next
           </button>
+          <p class="completed-note">Completed — next activity unlocked.</p>
         </section>
 
       <!-- ==================================================
@@ -3651,6 +3655,7 @@
         >
           Next
         </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
 
@@ -3884,6 +3889,7 @@
         >
           Next
         </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
 
@@ -4087,6 +4093,7 @@
         >
           Next
         </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
 
@@ -4103,10 +4110,11 @@
 
     <!-- Reuse shared site functions. Graph prototype behaviour stays inline for now. -->
     <script src="../scripts/common_functions.js"></script>
+    <script src="../scripts/lesson_progress.js"></script>
     <script src="../scripts/lesson4_scripts/spotlight_game.js"></script>
 
     <script>
-        const dev = true;
+        const dev = false;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
         const lesson4SectionIds = [
@@ -7068,7 +7076,7 @@
         );
 
         document.getElementById("barCompareNext").hidden = false;
-        
+
         window.setTimeout(function() {
           document.getElementById("partDCompleteCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
         }, 180);
