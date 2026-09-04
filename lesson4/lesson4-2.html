@@ -1824,7 +1824,6 @@
     }
 
     .bar-data-preamble > p {
-      margin: 0;
       color: var(--muted);
       line-height: 1.55;
     }
@@ -2771,8 +2770,8 @@
     }
 
     .project-site-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 150px;
+      display: flex;
+      flex-direction: column;
       gap: 14px;
       align-items: center;
       min-height: 160px;
@@ -2785,11 +2784,9 @@
       min-width: 0;
     }
 
-    .project-site-image-placeholder {
-      display: grid;
-      place-items: center;
+    .project-site-image {
+      display: flex;
       align-content: center;
-      gap: 5px;
       min-height: 112px;
       padding: 10px;
       background: rgba(255, 255, 255, .72);
@@ -2799,12 +2796,11 @@
       text-align: center;
     }
 
-    .project-site-image-placeholder span {
-      font-size: 2rem;
-      line-height: 1;
+    .project-site-image img {
+      width: 100%;
     }
 
-    .project-site-image-placeholder small {
+    .project-site-image small {
       font-size: .7rem;
       font-weight: 800;
       line-height: 1.2;
@@ -2934,10 +2930,6 @@
       object-fit: contain;
     }
 
-    .project-animal-picture.deer-placeholder {
-      font-size: 4.2rem;
-    }
-
     .project-animal-card strong {
       font-size: .96rem;
       line-height: 1.25;
@@ -3013,21 +3005,13 @@
         grid-template-columns: minmax(0, 1.25fr) minmax(200px, .75fr);
       }
 
-      .project-site-card {
-        grid-template-columns: minmax(0, 1fr) 125px;
-      }
-
-      .project-site-image-placeholder {
-        min-height: 104px;
-      }
-
       .project-animal-picture {
         width: 112px;
         height: 112px;
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 900px) {
       .project-species-layout,
       .project-question-grid,
       .project-site-rail {
@@ -3069,7 +3053,7 @@
         grid-template-columns: 1fr;
       }
 
-      .project-site-image-placeholder {
+      .project-site-image {
         min-height: 120px;
       }
 
@@ -3392,7 +3376,7 @@
         </section>
       </div>
 
-      <section class="bar-data-preamble" aria-labelledby="barDataPreambleTitle">
+      <section id="bar-data-preamble" class="section bar-data-preamble" aria-labelledby="barDataPreambleTitle">
         <p class="intro-eyebrow">Using bar graphs</p>
         <h2 id="barDataPreambleTitle">Visualising fair test data</h2>
         <p>
@@ -3445,6 +3429,10 @@
             <p class="bar-data-example"><strong>Examples:</strong> hair colour, favourite animal, types of pets.</p>
           </article>
         </div>
+      <button class="next-button general-button" onclick="unlockSection('bar-practice', 'bar-data-preamble')">
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
         <!-- ==================================================
@@ -3514,9 +3502,8 @@
                     <h4>Site 1</h4>
                     <p>Complete the first nocturnal-animal survey and record what you observe.</p>
                   </div>
-                  <div class="project-site-image-placeholder" role="img" aria-label="Placeholder for a daytime image of Site 1">
-                    <span aria-hidden="true">🌲</span>
-                    <small>Site 1 daytime image</small>
+                  <div class="project-site-image" role="img" aria-label="Placeholder for a daytime image of Site 1">
+                    <img src="../images/lesson4/site_1_day.png" alt="Site 1" />
                   </div>
                 </div>
 
@@ -3528,9 +3515,8 @@
                     <h4>Site 2</h4>
                     <p>You will investigate a second forest site later and compare its results with Site 1.</p>
                   </div>
-                  <div class="project-site-image-placeholder" role="img" aria-label="Placeholder for a daytime image of Site 2">
-                    <span aria-hidden="true">🌲</span>
-                    <small>Site 2 daytime image</small>
+                  <div class="project-site-image" role="img" aria-label="Placeholder for a daytime image of Site 2">
+                    <img src="../images/lesson4/site_2_day.png" alt="Site 2" />
                   </div>
                 </div>
               </div>
@@ -3593,7 +3579,9 @@
                 </div>
 
                 <div class="project-animal-card">
-                  <div class="project-animal-picture deer-placeholder" aria-hidden="true">🦌</div>
+                  <div class="project-animal-picture">
+                    <img src="../images/lesson4/male_deer_1.png" alt="" />
+                  </div>
                   <strong>Feral deer</strong>
                 </div>
               </div>
@@ -3746,12 +3734,51 @@
           <div class="reset-button-container">
             <button type="button" class="general-button reset-btn" id="resetBarPracticeButton">Reset</button>
           </div>
+          <div
+            class="stop-and-check"
+            id="collectingVisualisingStopAndCheck"
+            hidden
+          >
+
+            <div class="stop-and-check-content">
+              <p>
+                Which one most clearly shows the difference between numbers of each animal?
+              </p>
+            </div>
+
+            <div class="stop-and-check-answer" hidden>
+              You can easily see differences between the numbers of each animal when they are laid out in a flat line.
+              This looks like a <strong>bar graph</strong>.
+              It is useful for comparing categorical data.
+            </div>
+
+            <button
+              type="button"
+              class="stop-and-check-button general-button"
+              onclick="showStopAndCheckAnswer(this, function () {
+                document.getElementById('collectingVisualisingNext').hidden = false;
+              })"
+            >
+              <p>Check Your Answer</p>
+              <p class="bounce-symbol">✅</p>
+            </button>
+
+          </div>
+          <button
+            id="collectingVisualisingNext"
+            class="next-button general-button"
+            onclick="unlockSection('bar-construction', 'bar-practice')"
+            hidden
+          >
+            Next
+          </button>
+          <p class="completed-note">Completed — next activity unlocked.</p>
         </section>
 
       <!-- ==================================================
            PART B - LEARN HOW TO CONSTRUCT A BAR GRAPH
            ================================================== -->
-      <section class="section" id="bar-construction">
+      <section class="section locked" id="bar-construction">
         <h2 class="section-title">Part B · Learn How to Construct a Bar Graph</h2>
 
         <div class="diagram-box diagram-activity partb-intro-note">
@@ -3961,6 +3988,15 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartBConstructionButton">Reset Part B</button>
         </div>
+        <button
+          id="barConstructionNext"
+          class="next-button general-button"
+          onclick="unlockSection('bar-follow-up', 'bar-construction')"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
 
@@ -4201,6 +4237,16 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartCButton">Reset Part C</button>
         </div>
+
+        <button
+          id="barFollowUpNext"
+          class="next-button general-button"
+          onclick="unlockSection('bar-compare', 'bar-follow-up')"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
 
@@ -4397,6 +4443,15 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartDButton">Reset Part D</button>
         </div>
+        <button
+          id="barCompareNext"
+          class="next-button general-button"
+          onclick="window.location.href='lesson4-2.html'"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
 
@@ -4410,6 +4465,7 @@
 
     <!-- Reuse shared site functions. Graph prototype behaviour stays inline for now. -->
     <script src="../scripts/common_functions.js"></script>
+    <script src="../scripts/lesson_progress.js"></script>
     <script src="../scripts/lesson4_scripts/spotlight_game.js"></script>
 
     <script>
@@ -5895,9 +5951,10 @@
           partBBarData[lowestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[lowestIndex])) + ")";
 
         document.getElementById("partBBaselineSummary").hidden = false;
-        document.getElementById("partBGraphBadge").textContent = "Site 1 ✓";
-        document.getElementById("partBGraphHint").textContent = "This graph summarises the average nocturnal-animal counts from Site 1.";
-        document.getElementById("bar-construction").classList.add("completed");
+        document.getElementById("partBGraphBadge").textContent = "Baseline ✓";
+        document.getElementById("partBGraphHint").textContent =
+          "This graph is the baseline survey before nest boxes are installed.";
+
 
         setChallengeFeedback(
           "partBAnalysisFeedback",
@@ -6782,6 +6839,7 @@
 
         const site1Leadbeaters = partBAverage(partBBarData[0]);
         document.getElementById("partCSite1LeadbeatersReference").textContent = partBFormatAverage(site1Leadbeaters);
+        document.getElementById("barFollowUpNext").hidden = false;
 
         setChallengeFeedback(
           "partCAnalysisFeedback",
@@ -7472,6 +7530,8 @@
           "Comparison complete.",
           " You used one paired bar graph to compare the same animals across two forest sites."
         );
+
+        document.getElementById("barCompareNext").hidden = false;
 
         window.setTimeout(function() {
           document.getElementById("partDCompleteCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
