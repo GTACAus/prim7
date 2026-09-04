@@ -2247,6 +2247,225 @@
 
 
 
+
+    /* ==================================================
+       PART C - SITE 2 WORKBENCH
+       Match the successful Part B layout: reference table + controls
+       across the top, with a larger full-width graph underneath.
+       ================================================== */
+    .partc-site2-story {
+      display: block;
+      background: linear-gradient(to right, var(--soft-purple), white 76%);
+    }
+
+    .partc-site2-story-copy h3 {
+      margin: 4px 0 7px;
+    }
+
+    /* Full-width Site 2 daytime scene. This deliberately sits between the
+       Site 2 introduction and the table, echoing the large Site 1 forest view. */
+    .partc-site-image-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 0 0 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(215, 245, 233, .28), rgba(229, 238, 255, .26)),
+        var(--paper);
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .partc-site-image-stage::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 3px dashed rgba(48, 51, 47, .58);
+      border-radius: 15px;
+      pointer-events: none;
+    }
+
+    .partc-site-image-placeholder {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      max-width: 390px;
+      padding: 22px 28px;
+      background: rgba(255, 255, 255, .86);
+      border: 2px solid var(--charcoal);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .partc-site-image-placeholder .site-placeholder-icon {
+      font-size: 3.2rem;
+      line-height: 1;
+    }
+
+    .partc-site-image-placeholder strong {
+      font-size: 1.05rem;
+    }
+
+    .partc-site-image-placeholder small {
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .partc-site1-reference {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 8px 0 10px;
+      padding: 7px 10px;
+      background: var(--soft-green);
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      font-size: .84rem;
+      font-weight: 800;
+    }
+
+    @media (min-width: 700px) {
+      #bar-follow-up.partc-site2-workbench,
+      #bar-follow-up.partc-site2-workbench.partc-bars-active {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      #bar-follow-up.partc-site2-workbench > .section-title,
+      #bar-follow-up.partc-site2-workbench > .partc-story-card,
+      #bar-follow-up.partc-site2-workbench > .partc-site-image-stage,
+      #bar-follow-up.partc-site2-workbench > .partc-analysis-panel,
+      #bar-follow-up.partc-site2-workbench > .reset-button-container {
+        grid-column: 1 / -1;
+      }
+
+      #bar-follow-up.partc-site2-workbench > .partc-story-card {
+        grid-row: 2;
+        margin-bottom: 0;
+      }
+
+      #bar-follow-up.partc-site2-workbench > .partc-site-image-stage {
+        grid-row: 3;
+        margin-bottom: 0;
+      }
+
+      #bar-follow-up.partc-site2-workbench > .partc-data-card {
+        grid-column: 1;
+        grid-row: 4;
+        margin: 0;
+        min-width: 0;
+        align-self: start;
+      }
+
+      #bar-follow-up.partc-site2-workbench > .partc-build-grid {
+        display: contents;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-control-card,
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-control-card {
+        grid-column: 2;
+        grid-row: 4;
+        order: initial;
+        min-width: 0;
+        align-self: start;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-graph-card,
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-graph-card {
+        grid-column: 1 / -1;
+        grid-row: 5;
+        order: initial;
+        position: static;
+        padding: 20px 24px 24px;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-graph-card .graph-stage-heading {
+        max-width: 980px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-graph-card .graph-svg-wrap,
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-graph-card .graph-svg-wrap {
+        width: min(100%, 980px);
+        margin: 0 auto;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-table-wrap {
+        overflow-x: visible;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-data-table {
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-data-table th,
+      #bar-follow-up.partc-site2-workbench .partc-data-table td {
+        padding: 7px 6px;
+        font-size: .76rem;
+        line-height: 1.22;
+        overflow-wrap: anywhere;
+      }
+
+      #bar-follow-up.partc-site2-workbench .partc-data-table th:first-child,
+      #bar-follow-up.partc-site2-workbench .partc-data-table td:first-child {
+        width: 36%;
+      }
+    }
+
+    /* During the actual bar-building stage, compact the reference table on
+       tablets/phones to the two columns students now need: animal + average. */
+    @media (max-width: 1100px) {
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-card > p {
+        display: none;
+      }
+
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table th:nth-child(2),
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table th:nth-child(3),
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table th:nth-child(4),
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table td:nth-child(2),
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table td:nth-child(3),
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table td:nth-child(4) {
+        display: none;
+      }
+
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table th:first-child,
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table td:first-child {
+        width: 72%;
+        font-size: .84rem;
+      }
+
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table th:last-child,
+      #bar-follow-up.partc-site2-workbench.partc-bars-active .partc-data-table td:last-child {
+        font-size: .9rem;
+      }
+    }
+
+    @media (max-width: 699px) {
+      .partc-site-image-stage {
+        aspect-ratio: 4 / 3;
+      }
+
+      .partc-site-image-stage::before {
+        inset: 12px;
+      }
+
+      .partc-site-image-placeholder {
+        margin: 22px;
+        padding: 18px 20px;
+      }
+    }
+
     /* ==================================================
        PROJECT POSSUM - SITE 1 STORY FLOW
        Part A framing only. The spotlight interaction itself is unchanged.
@@ -2822,6 +3041,11 @@
           <p>Home</p>
         </button>
 
+        <button id="back-to-part1-button" class="general-button" onclick="window.location.href='lesson4.html'">
+            <p class="bounce-symbol">←</p>
+            <p>Part A</p>
+        </button>
+
         <button
           class="general-button glossary-button"
           type="button"
@@ -2967,7 +3191,7 @@
     <main class="page">
       <header class="lesson-intro">
         <div class="lesson-heading">
-          <span class="lesson-label">Lesson 4 &middot; Part A</span>
+          <span class="lesson-label">Lesson 4 &middot; Part B</span>
           <h1 id="teacherTrigger">Using Bar Graphs to Visualise Data</h1>
           <p class="lesson-summary">
             Bar graphs help scientists turn fair-test data into a visual comparison, making
@@ -3392,50 +3616,12 @@
           <div class="reset-button-container">
             <button type="button" class="general-button reset-btn" id="resetBarPracticeButton">Reset</button>
           </div>
-          <div
-            class="stop-and-check"
-            id="collectingVisualisingStopAndCheck"
-            hidden
-          >
-
-            <div class="stop-and-check-content">
-              <p>
-                Which one most clearly shows the difference between numbers of each animal?
-              </p>
-            </div>
-
-            <div class="stop-and-check-answer" hidden>
-              You can easily see differences between the numbers of each animal when they are laid out in a flat line.
-              This looks like a <strong>bar graph</strong>.
-              It is useful for comparing categorical data.
-            </div>
-
-            <button
-              type="button"
-              class="stop-and-check-button general-button"
-              onclick="showStopAndCheckAnswer(this, function () {
-                document.getElementById('collectingVisualisingNext').hidden = false;
-              })"
-            >
-              <p>Check Your Answer</p>
-              <p class="bounce-symbol">✅</p>
-            </button>
-
-          </div>
-          <button
-            id="collectingVisualisingNext"
-            class="next-button general-button"
-            onclick="unlockSection('bar-construction', 'bar-practice')"
-            hidden
-          >
-            Next
-          </button>
         </section>
 
       <!-- ==================================================
            PART B - LEARN HOW TO CONSTRUCT A BAR GRAPH
            ================================================== -->
-      <section class="section" id="bar-construction" locked>
+      <section class="section" id="bar-construction">
         <h2 class="section-title">Part B · Learn How to Construct a Bar Graph</h2>
 
         <div class="diagram-box diagram-activity partb-intro-note">
@@ -3645,47 +3831,47 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartBConstructionButton">Reset Part B</button>
         </div>
-        <button
-          id="barConstructionNext"
-          class="next-button general-button"
-          onclick="unlockSection('bar-follow-up', 'bar-construction')"
-          hidden
-        >
-          Next
-        </button>
       </section>
 
 
 
 
       <!-- ==================================================
-           PART C - PRACTICE CONSTRUCTING A BAR GRAPH
-           Follow-up Project Possum survey after nest boxes.
+           PART C - SITE 2 BAR GRAPH PRACTICE
+           Students receive the three-night Site 2 survey results and graph them.
            ================================================== -->
-      <section class="section student-challenge locked" id="bar-follow-up">
-        <h2 class="section-title">Part C · Your Turn: Return to the Forest</h2>
+      <section class="section student-challenge partc-site2-workbench" id="bar-follow-up">
+        <h2 class="section-title">Part C · Site 2: Build the Bar Graph</h2>
 
-        <div class="partc-story-card">
-          <div class="partc-story-icon" aria-hidden="true">🌙</div>
-          <div>
-            <span class="challenge-step-label">Two years later...</span>
-            <h3>Your ranger team returns to the same forest</h3>
+        <div class="partc-story-card partc-site2-story">
+          <div class="partc-site2-story-copy">
+            <span class="challenge-step-label">Project Possum · Site 2</span>
+            <h3>Now investigate the second forest site</h3>
             <p>
-              Nest boxes have been installed. Your team repeats the same nocturnal-animal survey over three nights.
-              This time, <strong>you will build the follow-up bar graph more independently</strong>.
+              Your ranger team has surveyed <strong>Site 2</strong> over three nights. You do not need to repeat the spotlighting activity here —
+              the survey results have already been collected for you. Use the data below to build a bar graph for Site 2.
             </p>
           </div>
         </div>
 
+        <div class="partc-site-image-stage" role="img" aria-label="Large placeholder for a daytime photograph of Site 2 without animals">
+          <div class="partc-site-image-placeholder">
+            <span class="site-placeholder-icon" aria-hidden="true">🌲</span>
+            <strong>Site 2 · Daytime forest image</strong>
+            <small>A large daytime photograph of Site 2, without animals, will go here.</small>
+          </div>
+        </div>
+
         <div class="partc-data-card">
-          <span class="challenge-step-label">Step 1 · Read the follow-up data</span>
-          <h3>Survey results after nest boxes</h3>
+          <span class="challenge-step-label">Step 1 · Read the Site 2 data</span>
+          <h3>Site 2 · Three nights of surveying</h3>
           <p>
-            The averages have already been calculated. Use the <strong>Average</strong> column when you build each bar.
+            The averages have already been calculated and rounded to the nearest whole animal for this activity.
+            Use the <strong>Average</strong> column when you build each bar.
           </p>
 
           <div class="partc-table-wrap">
-            <table class="practice-table partc-data-table" aria-label="Follow-up nocturnal animal survey two years after nest boxes were installed">
+            <table class="practice-table partc-data-table" aria-label="Site 2 nocturnal animal counts across three survey nights">
               <thead>
                 <tr>
                   <th>Type of animal</th>
@@ -3703,7 +3889,7 @@
         <div class="partc-build-grid">
           <div class="partc-control-card">
             <span class="challenge-step-label" id="partCStepLabel">Step 2 · Label the axes</span>
-            <h3 id="partCControlHeading">Set up your bar graph</h3>
+            <h3 id="partCControlHeading">Set up your Site 2 bar graph</h3>
             <p id="partCControlText">
               Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.
             </p>
@@ -3728,7 +3914,7 @@
               <span class="partc-slider-progress">Step 3 · Build all five bars</span>
               <h4>Use the averages to set each bar height</h4>
               <p class="partc-slider-instruction">
-                Move each slider until its bar matches the average in the follow-up survey table, then check all five bars.
+                Move each slider until its bar matches the average in the Site 2 table, then check all five bars.
               </p>
 
               <div class="bar-builder-controls partc-bar-builder-controls" id="partCBarBuilderControls">
@@ -3753,7 +3939,7 @@
                   <output for="partCBarPractice3">0</output>
                 </div>
                 <div class="bar-builder-row" data-partc-bar-row="4">
-                  <label for="partCBarPractice4">Feral Cats</label>
+                  <label for="partCBarPractice4">Feral deer</label>
                   <input id="partCBarPractice4" type="range" min="0" max="10" step="1" value="0" data-partc-bar-practice="4" />
                   <output for="partCBarPractice4">0</output>
                 </div>
@@ -3765,7 +3951,7 @@
             </div>
 
             <div class="challenge-feedback" id="partCFeedback" role="status" aria-live="polite">
-              <strong>Use the table.</strong>
+              <strong>Use the Site 2 table.</strong>
               The category belongs on one axis and the number counted belongs on the other.
             </div>
           </div>
@@ -3773,14 +3959,14 @@
           <div class="partc-graph-card">
             <div class="graph-stage-heading">
               <div>
-                <h3>Follow-up nocturnal animal survey</h3>
+                <h3>Site 2 · Average nocturnal animals observed</h3>
                 <p id="partCGraphHint">Label the axes first. The categories and scale will appear when the graph is ready.</p>
               </div>
               <span class="graph-badge" id="partCGraphBadge">Set up</span>
             </div>
 
             <div class="graph-svg-wrap">
-              <svg class="graph-svg" id="partCGraphSvg" viewBox="0 0 760 500" role="img" aria-label="Student bar graph for the follow-up nocturnal animal survey">
+              <svg class="graph-svg" id="partCGraphSvg" viewBox="0 0 760 500" role="img" aria-label="Student bar graph of average nocturnal animal counts at Site 2">
                 <rect x="0" y="0" width="760" height="500" rx="18" fill="white"></rect>
 
                 <g class="partc-scaffold-layer" id="partCScaffoldLayer" aria-hidden="true">
@@ -3820,40 +4006,49 @@
 
         <div class="partc-analysis-panel challenge-hidden" id="partCAnalysisPanel" hidden>
           <span class="challenge-step-label">Step 4 · Analyse your graph</span>
-          <h3>What does the follow-up survey show?</h3>
+          <h3>What does the Site 2 survey show?</h3>
           <p>Use the graph you constructed. The relevant bars will highlight as you answer.</p>
 
           <div class="partc-analysis-question" id="partCAnalysisQuestion1">
-            <span class="partc-analysis-progress">Question 1 of 3</span>
-            <p class="challenge-question"><strong>Which animal was found in the highest average number?</strong></p>
+            <span class="partc-analysis-progress">Question 1 of 4</span>
+            <p class="challenge-question"><strong>Which animal was found in the highest average number at Site 2?</strong></p>
             <div class="challenge-choice-grid partc-analysis-animal-grid">
               <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="0">Leadbeater's Possum</button>
               <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="1">Yellow-bellied Glider</button>
               <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="2">Ringtail Possum</button>
               <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="3">Powerful Owl</button>
-              <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="4">Feral Cats</button>
+              <button type="button" class="challenge-choice" data-partc-analysis="highest" data-partc-index="4">Feral deer</button>
             </div>
           </div>
 
           <div class="partc-analysis-question" id="partCAnalysisQuestion2" hidden>
-            <span class="partc-analysis-progress">Question 2 of 3</span>
-            <p class="challenge-question"><strong>Which animal was found in the lowest average number?</strong></p>
-            <div class="challenge-choice-grid partc-analysis-animal-grid">
-              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="0">Leadbeater's Possum</button>
-              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="1">Yellow-bellied Glider</button>
-              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="2">Ringtail Possum</button>
-              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="3">Powerful Owl</button>
-              <button type="button" class="challenge-choice" data-partc-analysis="lowest" data-partc-index="4">Feral Cats</button>
+            <span class="partc-analysis-progress">Question 2 of 4</span>
+            <p class="challenge-question"><strong>What is the lowest average count shown on the Site 2 graph?</strong></p>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-partc-lowest-value="0">0 animals</button>
+              <button type="button" class="challenge-choice" data-partc-lowest-value="1">1 animal</button>
+              <button type="button" class="challenge-choice" data-partc-lowest-value="2">2 animals</button>
             </div>
           </div>
 
           <div class="partc-analysis-question" id="partCAnalysisQuestion3" hidden>
-            <span class="partc-analysis-progress">Question 3 of 3</span>
-            <p class="challenge-question"><strong>What is the difference between the highest and lowest average counts?</strong></p>
+            <span class="partc-analysis-progress">Question 3 of 4</span>
+            <p class="challenge-question"><strong>What is the difference between the highest and lowest average counts at Site 2?</strong></p>
             <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-partc-difference="1">1 animal</button>
               <button type="button" class="challenge-choice" data-partc-difference="3">3 animals</button>
               <button type="button" class="challenge-choice" data-partc-difference="5">5 animals</button>
-              <button type="button" class="challenge-choice" data-partc-difference="7">7 animals</button>
+            </div>
+          </div>
+
+          <div class="partc-analysis-question" id="partCAnalysisQuestion4" hidden>
+            <span class="partc-analysis-progress">Question 4 of 4</span>
+            <p class="challenge-question"><strong>How does the average number of Leadbeater's Possums at Site 2 compare with Site 1?</strong></p>
+            <div class="partc-site1-reference">Site 1 average: <span id="partCSite1LeadbeatersReference">6</span></div>
+            <div class="challenge-choice-grid three-choice">
+              <button type="button" class="challenge-choice" data-partc-site-compare="more">Site 2 has more</button>
+              <button type="button" class="challenge-choice" data-partc-site-compare="fewer">Site 2 has fewer</button>
+              <button type="button" class="challenge-choice" data-partc-site-compare="same">They are the same</button>
             </div>
           </div>
 
@@ -3863,13 +4058,12 @@
           </div>
 
           <div class="partc-complete-card challenge-hidden" id="partCCompleteCard" hidden>
-            <span class="challenge-step-label">Follow-up survey complete</span>
-            <h3>You now have a second set of results</h3>
+            <span class="challenge-step-label">Site 2 survey complete</span>
+            <h3>You now have results from both sites</h3>
             <p class="partc-result-statement" id="partCResultStatement"></p>
             <p class="partc-next-hook">
-              <strong>What changed after the nest boxes were installed?</strong><br />
-              This graph shows the follow-up survey, but it cannot answer that question by itself. Next, compare these results with the
-              <strong>baseline survey from before the nest boxes</strong>.
+              <strong>You have now graphed Site 1 and Site 2.</strong><br />
+              Next, you can place the two datasets together and compare the sites directly.
             </p>
           </div>
         </div>
@@ -3877,17 +4071,7 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartCButton">Reset Part C</button>
         </div>
-
-        <button
-          id="barFollowUpNext"
-          class="next-button general-button"
-          onclick="unlockSection('bar-compare', 'bar-follow-up')"
-          hidden
-        >
-          Next
-        </button>
       </section>
-
 
 
 
@@ -3895,7 +4079,7 @@
            PART D - ADD A SECOND DATA SET TO A BAR GRAPH
            Compare baseline and follow-up Project Possum data.
            ================================================== -->
-      <section class="section student-challenge locked" id="bar-compare">
+      <section class="section student-challenge" id="bar-compare">
         <h2 class="section-title">Part D · Compare Before and After</h2>
 
         <div class="partd-intro-card">
@@ -4081,14 +4265,6 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartDButton">Reset Part D</button>
         </div>
-        <button
-          id="barCompareNext"
-          class="next-button general-button"
-          onclick="window.location.href='lesson4-2.html'"
-          hidden
-        >
-          Next
-        </button>
       </section>
 
 
@@ -4108,19 +4284,19 @@
     <script src="../scripts/lesson4_scripts/spotlight_game.js"></script>
 
     <script>
-        const dev = true;
+        const dev = false;
         if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
         const lesson4SectionIds = [
             { id: "bar-practice", label: "Collect and visualise animal data" },
             { id: "bar-construction", label: "Construct a bar graph" },
-            { id: "bar-follow-up", label: "Part C: Return to the forest" },
+            { id: "bar-follow-up", label: "Part C: Survey Site 2" },
             { id: "bar-compare", label: "Part D: Compare before and after" },
         ];
 
         const lesson4TeacherBackLink = {
-            label: "← To Part B",
-            href: "lesson4-2.html"
+            label: "← To Part A",
+            href: "lesson4.html"
         };
 
       /* ==================================================
@@ -4572,11 +4748,6 @@
       // the spotlight "find the animals" activity instead.
       function resetBarPractice() {
         if (typeof resetAnimalCounters === 'function') resetAnimalCounters();
-        const stopAndCheck = document.getElementById('collectingVisualisingStopAndCheck');
-        resetStopAndCheck(stopAndCheck, () => {
-          document.getElementById('collectingVisualisingNext').hidden = false;
-        });
-        document.getElementById('collectingVisualisingNext').hidden = true;
       }
 
 
@@ -5589,32 +5760,15 @@
         const leadbeatersAverage = partBAverage(partBBarData[0]);
 
         document.getElementById("partBBaselineHighest").textContent =
-          partBBarData[highestIndex].label +
-          " (" +
-          partBFormatAverage(partBAverage(partBBarData[highestIndex])) +
-          ")";
-
-        document.getElementById("partBBaselineLeadbeaters").textContent =
-          partBFormatAverage(leadbeatersAverage);
-
+          partBBarData[highestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[highestIndex])) + ")";
+        document.getElementById("partBBaselineLeadbeaters").textContent = partBFormatAverage(leadbeatersAverage);
         document.getElementById("partBBaselineLowest").textContent =
-          partBBarData[lowestIndex].label +
-          " (" +
-          partBFormatAverage(partBAverage(partBBarData[lowestIndex])) +
-          ")";
+          partBBarData[lowestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[lowestIndex])) + ")";
 
         document.getElementById("partBBaselineSummary").hidden = false;
         document.getElementById("partBGraphBadge").textContent = "Site 1 ✓";
         document.getElementById("partBGraphHint").textContent = "This graph summarises the average nocturnal-animal counts from Site 1.";
         document.getElementById("bar-construction").classList.add("completed");
-
-        // SHOW NEXT BUTTON
-        const nextButton = document.getElementById("barConstructionNext");
-
-        if (nextButton) {
-          nextButton.hidden = false;
-          nextButton.removeAttribute("hidden");
-        }
 
         setChallengeFeedback(
           "partBAnalysisFeedback",
@@ -5624,9 +5778,7 @@
         );
 
         window.setTimeout(function() {
-          document
-            .getElementById("partBBaselineSummary")
-            .scrollIntoView({ behavior: "smooth", block: "center" });
+          document.getElementById("partBBaselineSummary").scrollIntoView({ behavior: "smooth", block: "center" });
         }, 220);
       }
 
@@ -5662,9 +5814,6 @@
         document.getElementById("partBAnalysisQuestion3").hidden = true;
         document.getElementById("partBStartAnalysisButton").disabled = false;
         document.getElementById("bar-construction").classList.remove("completed", "partb-build-active");
-
-        document.getElementById("barConstructionNext").hidden = true;
-
         partBAnalysisStep = 0;
         partBClearAnalysisHighlight();
         document.querySelectorAll("[data-partb-analysis]").forEach(function(button) {
@@ -5788,17 +5937,16 @@
          ================================================== */
 
       /*
-        PROTOTYPE FOLLOW-UP DATA ONLY.
-        These values are deliberately simple whole-number averages so the
-        interaction can be developed on a 0-10 scale. Replace them when the
-        curriculum team confirms the final research-based teaching dataset.
+        SITE 2 SURVEY DATA supplied for the Project Possum comparison.
+        The activity uses whole-number bar heights. The feral deer mean from
+        3, 2 and 3 is shown as the rounded whole-number average of 3.
       */
       const partCBarData = [
-        { label: "Leadbeater's Possum", short: ["Leadbeater's", "Possum"], nights: [4, 6, 5], average: 5, colour: "var(--yellow)" },
-        { label: "Yellow-bellied Glider", short: ["Yellow-bellied", "Glider"], nights: [5, 3, 4], average: 4, colour: "var(--mint)" },
-        { label: "Ringtail Possum", short: ["Ringtail", "Possum"], nights: [7, 5, 6], average: 6, colour: "var(--blue)" },
-        { label: "Powerful Owl", short: ["Powerful", "Owl"], nights: [1, 2, 0], average: 1, colour: "var(--lavender)" },
-        { label: "Feral Cats", short: ["Feral", "Cats"], nights: [2, 1, 3], average: 2, colour: "var(--soft-orange)" }
+        { label: "Leadbeater's Possum", short: ["Leadbeater's", "Possum"], nights: [1, 0, 2], average: 1, colour: "var(--yellow)" },
+        { label: "Yellow-bellied Glider", short: ["Yellow-bellied", "Glider"], nights: [1, 0, 2], average: 1, colour: "var(--mint)" },
+        { label: "Ringtail Possum", short: ["Ringtail", "Possum"], nights: [3, 5, 4], average: 4, colour: "var(--blue)" },
+        { label: "Powerful Owl", short: ["Powerful", "Owl"], nights: [1, 1, 1], average: 1, colour: "var(--lavender)" },
+        { label: "Feral deer", short: ["Feral", "deer"], nights: [3, 2, 3], average: 3, colour: "var(--soft-orange)" }
       ];
 
       const partCPlot = {
@@ -6220,9 +6368,9 @@
         document.getElementById("partCStepLabel").textContent = "Step 3 · Build the bars";
         document.getElementById("partCControlHeading").textContent = "Use the averages to set each bar height";
         document.getElementById("partCControlText").textContent =
-          "Use the average column to set all five sliders. Each slider changes one category without changing the others.";
+          "Use the Site 2 average column to set all five sliders. Each slider changes one category without changing the others.";
         document.getElementById("partCGraphHint").textContent =
-          "The categories and 0-10 scale are now visible. Build all five bars from the average column.";
+          "The categories and 0-10 scale are now visible. Build all five Site 2 bars from the average column.";
         document.getElementById("bar-follow-up").classList.add("partc-bars-active");
 
         partCResetBarBuilderControls();
@@ -6354,7 +6502,7 @@
           "partCFeedback",
           "success",
           "All five bars match the table.",
-          " Great work. Now use the finished graph to analyse the follow-up survey."
+          " Great work. Now use the finished graph to analyse the Site 2 survey."
         );
 
         window.setTimeout(partCFinishBars, 350);
@@ -6367,16 +6515,16 @@
         document.getElementById("partCAnalysisPanel").hidden = false;
         document.getElementById("partCGraphBadge").textContent = "Analyse";
         document.getElementById("partCStepLabel").textContent = "Bars complete ✓";
-        document.getElementById("partCControlHeading").textContent = "Your follow-up graph is complete";
+        document.getElementById("partCControlHeading").textContent = "Your Site 2 graph is complete";
         document.getElementById("partCControlText").textContent =
-          "You translated every average in the table into a bar height. Now use the graph to analyse the survey.";
-        document.getElementById("partCGraphHint").textContent = "All five follow-up averages are now represented as bars.";
+          "You translated every Site 2 average in the table into a bar height. Now use the graph to analyse the survey.";
+        document.getElementById("partCGraphHint").textContent = "All five Site 2 averages are now represented as bars.";
 
         setChallengeFeedback(
           "partCFeedback",
           "success",
           "All five bars match the table.",
-          " Use the finished graph to answer the analysis questions below."
+          " Use the finished Site 2 graph to answer the analysis questions below."
         );
 
         window.setTimeout(function() {
@@ -6398,24 +6546,35 @@
         });
       }
 
-      function partCAnalysisIndex(kind) {
+      function partCAnalysisValue(kind) {
         const values = partCBarData.map(function(item) { return item.average; });
-        const target = kind === "highest" ? Math.max.apply(null, values) : Math.min.apply(null, values);
-        return values.indexOf(target);
+        return kind === "highest" ? Math.max.apply(null, values) : Math.min.apply(null, values);
+      }
+
+      function partCAnalysisIndexes(kind) {
+        const target = partCAnalysisValue(kind);
+        return partCBarData.reduce(function(indexes, item, index) {
+          if (item.average === target) indexes.push(index);
+          return indexes;
+        }, []);
+      }
+
+      function partCAnalysisIndex(kind) {
+        return partCAnalysisIndexes(kind)[0];
       }
 
       function partCHandleAnalysisChoice(button) {
-        if (partCStage !== "analysis") return;
+        if (partCStage !== "analysis" || partCAnalysisStep !== 0) return;
         const kind = button.dataset.partcAnalysis;
         const chosen = Number(button.dataset.partcIndex);
         const correct = partCAnalysisIndex(kind);
 
-        if (chosen !== correct) {
+        if (kind !== "highest" || chosen !== correct) {
           flashChoice(button, "try-again-choice");
           setChallengeFeedback(
             "partCAnalysisFeedback",
             "try-again",
-            kind === "highest" ? "Look for the tallest bar." : "Look for the shortest bar.",
+            "Look for the tallest bar.",
             " Compare the bar tops with the y-axis scale and try again."
           );
           return;
@@ -6423,74 +6582,130 @@
 
         flashChoice(button, "correct-choice");
         partCHighlightAnalysisBars([correct]);
+        partCAnalysisStep = 1;
+        document.getElementById("partCAnalysisQuestion1").hidden = true;
+        document.getElementById("partCAnalysisQuestion2").hidden = false;
+        setChallengeFeedback(
+          "partCAnalysisFeedback",
+          "success",
+          "Correct: " + partCBarData[correct].label + ".",
+          " Now read the lowest average value on the graph. More than one animal can share that value."
+        );
+      }
 
-        if (kind === "highest" && partCAnalysisStep === 0) {
-          partCAnalysisStep = 1;
-          document.getElementById("partCAnalysisQuestion1").hidden = true;
-          document.getElementById("partCAnalysisQuestion2").hidden = false;
+      function partCHandleLowestValueChoice(button) {
+        if (partCStage !== "analysis" || partCAnalysisStep !== 1) return;
+        const chosen = Number(button.dataset.partcLowestValue);
+        const lowest = partCAnalysisValue("lowest");
+        const lowestIndexes = partCAnalysisIndexes("lowest");
+
+        if (chosen !== lowest) {
+          flashChoice(button, "try-again-choice");
+          partCHighlightAnalysisBars(lowestIndexes);
           setChallengeFeedback(
             "partCAnalysisFeedback",
-            "success",
-            "Correct: " + partCBarData[correct].label + ".",
-            " Now find the lowest average count."
+            "try-again",
+            "Look at the shortest bar heights.",
+            " Several animals can share the same lowest average. Read that value from the y-axis."
           );
           return;
         }
 
-        if (kind === "lowest" && partCAnalysisStep === 1) {
-          partCAnalysisStep = 2;
-          document.getElementById("partCAnalysisQuestion2").hidden = true;
-          document.getElementById("partCAnalysisQuestion3").hidden = false;
-          setChallengeFeedback(
-            "partCAnalysisFeedback",
-            "success",
-            "Correct: " + partCBarData[correct].label + ".",
-            " Finally, find the difference between the highest and lowest averages."
-          );
-        }
+        flashChoice(button, "correct-choice");
+        partCHighlightAnalysisBars(lowestIndexes);
+        partCAnalysisStep = 2;
+        document.getElementById("partCAnalysisQuestion2").hidden = true;
+        document.getElementById("partCAnalysisQuestion3").hidden = false;
+        setChallengeFeedback(
+          "partCAnalysisFeedback",
+          "success",
+          "Correct: the lowest average is " + lowest + ".",
+          " Now subtract it from the highest average."
+        );
       }
 
       function partCHandleDifferenceChoice(button) {
         if (partCStage !== "analysis" || partCAnalysisStep !== 2) return;
-        const highestIndex = partCAnalysisIndex("highest");
-        const lowestIndex = partCAnalysisIndex("lowest");
-        const difference = partCBarData[highestIndex].average - partCBarData[lowestIndex].average;
+        const highest = partCAnalysisValue("highest");
+        const lowest = partCAnalysisValue("lowest");
+        const highestIndexes = partCAnalysisIndexes("highest");
+        const lowestIndexes = partCAnalysisIndexes("lowest");
+        const difference = highest - lowest;
         const chosen = Number(button.dataset.partcDifference);
 
         if (chosen !== difference) {
           flashChoice(button, "try-again-choice");
-          partCHighlightAnalysisBars([highestIndex, lowestIndex]);
+          partCHighlightAnalysisBars(highestIndexes.concat(lowestIndexes));
           setChallengeFeedback(
             "partCAnalysisFeedback",
             "try-again",
-            "Use the two highlighted bars.",
+            "Use the highlighted bar heights.",
             " Subtract the lowest average from the highest average."
           );
           return;
         }
 
         flashChoice(button, "correct-choice");
-        partCHighlightAnalysisBars([highestIndex, lowestIndex]);
+        partCHighlightAnalysisBars(highestIndexes.concat(lowestIndexes));
         partCAnalysisStep = 3;
         document.getElementById("partCAnalysisQuestion3").hidden = true;
-        document.getElementById("partCCompleteCard").hidden = false;
-        document.getElementById("partCGraphBadge").textContent = "Complete ✓";
+        document.getElementById("partCAnalysisQuestion4").hidden = false;
 
-        document.getElementById("bar-follow-up").classList.add("completed");
-        document.getElementById("barFollowUpNext").hidden = false;
-
-        const highest = partCBarData[highestIndex];
-        const lowest = partCBarData[lowestIndex];
-        document.getElementById("partCResultStatement").innerHTML =
-          "<strong>The data show that</strong> " + highest.label + " were observed in the highest average number (" + highest.average +
-          "), while " + lowest.label + " were observed in the lowest average number (" + lowest.average +
-          "). The difference between the highest and lowest averages was <strong>" + difference + " animals</strong>.";
+        const site1Leadbeaters = partBAverage(partBBarData[0]);
+        document.getElementById("partCSite1LeadbeatersReference").textContent = partBFormatAverage(site1Leadbeaters);
 
         setChallengeFeedback(
           "partCAnalysisFeedback",
           "success",
-          "Follow-up graph analysed.",
-          " You now have a baseline graph and a follow-up graph. Comparing them is the next scientific question."
+          "Correct: the difference is " + difference + ".",
+          " One more question: compare the Leadbeater's Possum result with Site 1."
+        );
+      }
+
+      function partCHandleSiteComparisonChoice(button) {
+        if (partCStage !== "analysis" || partCAnalysisStep !== 3) return;
+
+        const site1 = partBAverage(partBBarData[0]);
+        const site2 = partCBarData[0].average;
+        const correct = site2 < site1 ? "fewer" : (site2 > site1 ? "more" : "same");
+        const chosen = button.dataset.partcSiteCompare;
+        const difference = Math.abs(site1 - site2);
+
+        partCHighlightAnalysisBars([0]);
+
+        if (chosen !== correct) {
+          flashChoice(button, "try-again-choice");
+          setChallengeFeedback(
+            "partCAnalysisFeedback",
+            "try-again",
+            "Compare the two Leadbeater's Possum averages.",
+            " Site 1 averaged " + partBFormatAverage(site1) + "; Site 2 averaged " + site2 + "."
+          );
+          return;
+        }
+
+        flashChoice(button, "correct-choice");
+        partCAnalysisStep = 4;
+        document.getElementById("partCAnalysisQuestion4").hidden = true;
+        document.getElementById("partCCompleteCard").hidden = false;
+        document.getElementById("partCGraphBadge").textContent = "Complete ✓";
+
+        const highestValue = partCAnalysisValue("highest");
+        const lowestValue = partCAnalysisValue("lowest");
+        const highestLabels = partCAnalysisIndexes("highest").map(function(index) { return partCBarData[index].label; });
+        const lowestLabels = partCAnalysisIndexes("lowest").map(function(index) { return partCBarData[index].label; });
+
+        document.getElementById("partCResultStatement").innerHTML =
+          "<strong>At Site 2,</strong> " + highestLabels.join(", ") + " had the highest average (" + highestValue + "). " +
+          "The lowest average was " + lowestValue + ", shared by " + lowestLabels.join(", ") + ". " +
+          "Leadbeater's Possums averaged <strong>" + site2 + " at Site 2</strong> compared with <strong>" +
+          partBFormatAverage(site1) + " at Site 1</strong> — " + difference + " fewer on average at Site 2.";
+
+        setChallengeFeedback(
+          "partCAnalysisFeedback",
+          "success",
+          "Site 2 graph analysed.",
+          " You now have one graph for each site. Next, the two datasets can be compared directly."
         );
       }
 
@@ -6506,10 +6721,6 @@
         partCAnalysisStep = 0;
 
         document.getElementById("bar-follow-up").classList.remove("partc-bars-active");
-
-        document.getElementById("bar-follow-up").classList.remove("completed");
-        document.getElementById("barFollowUpNext").hidden = true;
-
         buildPartCTable();
         buildPartCGraphScaffold();
         partCResetBarBuilderControls();
@@ -6538,13 +6749,14 @@
         document.getElementById("partCAnalysisQuestion1").hidden = false;
         document.getElementById("partCAnalysisQuestion2").hidden = true;
         document.getElementById("partCAnalysisQuestion3").hidden = true;
+        document.getElementById("partCAnalysisQuestion4").hidden = true;
 
-        document.querySelectorAll("[data-partc-unit], [data-partc-analysis], [data-partc-difference]").forEach(function(button) {
+        document.querySelectorAll("[data-partc-unit], [data-partc-analysis], [data-partc-lowest-value], [data-partc-difference], [data-partc-site-compare]").forEach(function(button) {
           button.classList.remove("correct-choice", "try-again-choice");
         });
 
         document.getElementById("partCStepLabel").textContent = "Step 2 · Label the axes";
-        document.getElementById("partCControlHeading").textContent = "Set up your bar graph";
+        document.getElementById("partCControlHeading").textContent = "Set up your Site 2 bar graph";
         document.getElementById("partCControlText").textContent =
           "Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.";
         document.getElementById("partCGraphHint").textContent =
@@ -6554,8 +6766,8 @@
         setChallengeFeedback(
           "partCFeedback",
           "",
-          "Use the table.",
-          " The category belongs on one axis and the number counted belongs on the other."
+          "Use the Site 2 table.",
+          " The animal category belongs on one axis and the average number counted belongs on the other."
         );
         setChallengeFeedback(
           "partCAnalysisFeedback",
@@ -6584,8 +6796,14 @@
         document.querySelectorAll("[data-partc-analysis]").forEach(function(button) {
           button.addEventListener("click", function() { partCHandleAnalysisChoice(button); });
         });
+        document.querySelectorAll("[data-partc-lowest-value]").forEach(function(button) {
+          button.addEventListener("click", function() { partCHandleLowestValueChoice(button); });
+        });
         document.querySelectorAll("[data-partc-difference]").forEach(function(button) {
           button.addEventListener("click", function() { partCHandleDifferenceChoice(button); });
+        });
+        document.querySelectorAll("[data-partc-site-compare]").forEach(function(button) {
+          button.addEventListener("click", function() { partCHandleSiteComparisonChoice(button); });
         });
 
         document.getElementById("resetPartCButton").addEventListener("click", resetPartC);
@@ -7184,11 +7402,7 @@
         document.querySelectorAll("[data-detective]").forEach(function(button) {
           button.addEventListener("click", function() { handleBarDetectiveChoice(button); });
         });
-        document.getElementById("resetBarPracticeButton").addEventListener("click", () => {
-          resetBarPractice();
-          const stage = document.getElementById("stage");
-          stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
+        document.getElementById("resetBarPracticeButton").addEventListener("click", resetBarPractice);
 
         initialisePartBConstruction();
         initialisePartC();
