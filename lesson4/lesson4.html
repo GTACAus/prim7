@@ -1859,13 +1859,13 @@
       background: var(--mint);
     }
 
-    .bar-formula-step strong {
+    /* .bar-formula-step strong {
       display: block;
       margin-bottom: 3px;
       color: var(--text);
       font-size: .92rem;
       line-height: 1.3;
-    }
+    } */
 
     .bar-formula-step span {
       display: block;
@@ -2790,7 +2790,7 @@
       gap: 9px;
       min-height: 260px;
       padding: 18px;
-      background: linear-gradient(to bottom, var(--paper), var(--soft-purple));
+      background: var(--cream);
       border: 2px solid var(--charcoal);
       border-radius: 18px;
       text-align: center;
@@ -2798,9 +2798,12 @@
 
     .project-species-portrait img {
       width: min(100%, 185px);
-      max-height: 160px;
       object-fit: contain;
+      border: 2px solid var(--charcoal);
+      /* background: white; */
       filter: drop-shadow(0 5px 0 rgba(48, 51, 47, .12));
+      border-radius: 50%;
+      overflow: hidden;
     }
 
     .project-species-portrait strong {
@@ -3409,16 +3412,21 @@
               <div class="bar-formula-step">
                 <div class="bar-formula-number">1</div>
                 <div>
-                  <strong>The independent variable is on the x-axis</strong>
-                  <span>The independent variable — the thing I change — is found in the left-hand column of a fair test table. The x-axis runs along the bottom of the graph.</span>
+                  <strong>On the x-axis:</strong>
+                  <span>- The independent variable, the thing I change.</span>
+                  <span>or</span>
+                  <span>- The categories or groups being compared.</span>
+                  <span>- The x-axis is horizontal.</span>
                 </div>
               </div>
 
               <div class="bar-formula-step">
                 <div class="bar-formula-number">2</div>
                 <div>
-                  <strong>The dependent variable is on the y-axis</strong>
-                  <span>The dependent variable — the thing you measure — is found in the column to the right of the independent variable. If the test was repeated, use the average measurement.</span>
+                  <strong>On the y-axis:</strong>
+                  <span>- The dependent variable, the thing I measure.</span>
+                  <span>- If the test was repeated, use the average measurement.</span>
+                  <span>- The y-axis is vertical.</span>
                 </div>
               </div>
 
@@ -3426,7 +3434,9 @@
                 <div class="bar-formula-number">3</div>
                 <div>
                   <strong>Plot the point for each row in your table</strong>
-                  <span>Find the x-axis value and draw a dotted line upwards. Find the y-axis value and draw a dotted line across. Where the lines meet, place an <strong>x</strong> to mark the spot.</span>
+                  <span>- Find the x-axis value and draw a dotted line upwards.</span>
+                    <span>- Find the y-axis value and draw a dotted line across.</span>
+                    <span>- Where the lines meet, place an <strong>x</strong> to mark the spot.</span>
                 </div>
               </div>
 
@@ -3446,7 +3456,7 @@
 
       <section id="bar-data-preamble" class="section bar-data-preamble" aria-labelledby="barDataPreambleTitle">
         <p class="intro-eyebrow">Using bar graphs</p>
-        <h2 id="barDataPreambleTitle">Visualising fair test data</h2>
+        <h2 id="barDataPreambleTitle">Visualising Fair Test Data</h2>
         <p>
           Scientists use a <strong>bar graph</strong> when they want to visualise
           <strong>discrete</strong> or <strong>categorical</strong> data.
@@ -3474,13 +3484,15 @@
           <article class="bar-data-type-card">
             <h3>Discrete data</h3>
             <p>
-              Discrete data uses whole-number values such as <strong>1, 2 and 3</strong>. When you are counting whole objects, there are no values in between.
+              Discrete data uses whole-number values such as <strong>1, 2 and 3</strong>.
+              When you are counting whole objects, there are no values in between.
             </p>
             <div class="bar-data-visual" aria-hidden="true">
               <span class="bar-data-pill">1</span>
               <span class="bar-data-pill">2</span>
               <span class="bar-data-pill">3</span>
             </div>
+            <strong><i>Example bar graph here</i></strong>
             <p class="bar-data-example"><strong>Examples:</strong> number of pages in a book, number of pets.</p>
           </article>
 
@@ -3559,9 +3571,15 @@
               </div>
 
               <p class="project-mission-copy">
-                You are working in the Toolangi forest as a Park Ranger. You work for Parks Victoria. You are working with an environmental group called <i>Friends of the Leadbeater's Possum</i>
-                to investigate the numbers of 5 different animals living in different parts of the Toolangi forest. You will survey two areas. Site 1 and Site 2. Each area is the size of the 
-                Melbourne Cricket Ground. The same size as areas defended by a family of Leadbeater's possums. There have been known sightings of Leadbeater's possum in each area in the past.
+                You are working in the Toolangi forest as a Park Ranger.
+                You work for Parks Victoria.
+                You are working with an environmental group called <i>Friends of the Leadbeater's Possum</i>
+                to investigate the numbers of 5 different animals living in different parts of the Toolangi forest.
+                You will survey two areas:
+                <strong>Site 1 and Site 2</strong>.
+                Each area is the size of the Melbourne Cricket Ground.
+                The same size as areas defended by a family of Leadbeater's possums.
+                There have been known sightings of Leadbeater's possum in each area in the past.
               </p>
 
               <!-- Site 1 is designed to contain more Leadbeater's Possums than Site 2. Do not reveal that result before students collect the evidence. -->
