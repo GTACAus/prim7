@@ -73,6 +73,15 @@ body {
   padding: 38px 0 60px;
 }
 
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
 /* ---------- Scrollbar ----------*/
 ::-webkit-scrollbar {
   overflow-y: auto;
@@ -600,6 +609,16 @@ input[type="checkbox"]:active {
 }
 
 #back-to-part1-button:hover {
+  background: var(--soft-green);
+}
+
+.next-page-button {
+  background: var(--card);
+  color: var(--charcoal);
+  border-top: 5px solid var(--green);
+}
+
+.next-page-button:hover {
   background: var(--soft-green);
 }
 
@@ -1346,6 +1365,8 @@ input[type="checkbox"]:active {
 .next-button {
   margin-top: 20px;
   padding: 12px 22px;
+
+  width: fit-content;
 
   background: var(--orange);
   color: white;

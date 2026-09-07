@@ -67,7 +67,6 @@
     }
 
     .partb-data-table {
-      min-width: 650px;
       margin: 0;
     }
 
@@ -122,7 +121,7 @@
     .partb-control-panel {
       padding: 18px;
     }
-
+    
     .partb-graph-card {
       padding: 16px;
       overflow: hidden;
@@ -146,12 +145,17 @@
       background: white;
       color: var(--text);
       border: 2px solid var(--charcoal);
+      border-top: 6px solid var(--blue);
       border-radius: 12px;
       box-shadow: 0 3px 0 var(--charcoal);
       font: inherit;
       font-weight: 700;
       cursor: grab;
       user-select: none;
+    }
+
+    .partb-axis-card:hover {
+      background: var(--soft-blue);
     }
 
     .partb-axis-card:active {
@@ -557,10 +561,10 @@
        the graph gets the full row underneath.
        Applies from iPad/tablet widths upward after averages are calculated.
        ================================================== */
-    @media (min-width: 700px) {
+    @media (min-width: 900px) {
       #bar-construction.partb-build-active {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr);
         gap: 20px;
         align-items: start;
       }
@@ -581,13 +585,19 @@
 
       /* Anything after the graph keeps the full width too. */
       #bar-construction.partb-build-active > .reset-button-container,
-      #bar-construction.partb-build-active > .next-button,
       #bar-construction.partb-build-active > .completed-note {
         grid-column: 1 / -1;
       }
 
+      /* Grid items stretch to fill their column by default, which would
+         otherwise blow this button up to the full section width. Keep it
+         sized to its own content instead. */
+      #bar-construction.partb-build-active > .next-button {
+        justify-self: start;
+      }
+
       #bar-construction.partb-build-active > .partb-data-card {
-        grid-column: 1;
+        grid-column: 1 / -1;
         grid-row: 3;
         margin: 0;
         min-width: 0;
@@ -600,14 +610,14 @@
       }
 
       #bar-construction.partb-build-active .partb-control-panel {
-        grid-column: 2;
-        grid-row: 3;
+        grid-column: 1;
+        grid-row: 4;
         min-width: 0;
-        align-self: stretch;
+        align-self: start;
       }
 
       #bar-construction.partb-build-active .partb-graph-card {
-        grid-column: 1 / -1;
+        grid-column: 2;
         grid-row: 4;
         padding: 20px 24px 24px;
       }
@@ -666,7 +676,7 @@
       }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 899px) {
       .partb-construction-grid {
         grid-template-columns: 1fr;
       }
@@ -719,18 +729,7 @@
       align-items: center;
       margin-bottom: 18px;
       padding: 18px 20px;
-      background: linear-gradient(to right, var(--soft-purple), white 72%);
-    }
-
-    .partc-story-icon {
-      display: grid;
-      place-items: center;
-      width: 64px;
-      height: 64px;
-      border: 3px solid var(--charcoal);
-      border-radius: 50%;
-      background: var(--paper);
-      font-size: 2rem;
+      background: var(--soft-purple);
     }
 
     .partc-story-card h3,
@@ -760,10 +759,6 @@
       width: 100%;
       margin-top: 14px;
       overflow-x: auto;
-    }
-
-    .partc-data-table {
-      min-width: 650px;
     }
 
     .partc-data-table tr.partc-current-row td {
@@ -958,7 +953,7 @@
       Keep the follow-up table full-width above the working area, then
       place the five sliders beside the graph underneath it.
     */
-    @media (min-width: 1000px) {
+    @media (min-width: 900px) {
       #bar-follow-up.partc-bars-active {
         display: grid;
         grid-template-columns: minmax(360px, .9fr) minmax(0, 1.2fr);
@@ -1295,7 +1290,7 @@
       line-height: 1.55;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 899px) {
       .partc-build-grid {
         grid-template-columns: 1fr;
       }
@@ -1357,23 +1352,8 @@
     }
 
     .partd-intro-card {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 16px;
-      align-items: center;
       margin-bottom: 18px;
-      background: linear-gradient(to right, var(--soft-purple), white 76%);
-    }
-
-    .partd-intro-icon {
-      display: grid;
-      place-items: center;
-      width: 64px;
-      height: 64px;
-      background: white;
-      border: 2px solid var(--charcoal);
-      border-radius: 18px;
-      font-size: 2rem;
+      background: var(--soft-purple);
     }
 
     .partd-intro-card h3,
@@ -1451,10 +1431,6 @@
       font-weight: 800;
     }
 
-    .partd-builder-card {
-      background: linear-gradient(to bottom, white, var(--soft-yellow) 220%);
-    }
-
     .partd-site-switcher {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1469,7 +1445,7 @@
       color: var(--text);
       border: 2px solid var(--charcoal);
       border-radius: 13px;
-      box-shadow: 0 3px 0 rgba(48, 51, 47, .18);
+      box-shadow: 0 3px 0 var(--charcoal);
       font: inherit;
       font-weight: 800;
       cursor: pointer;
@@ -1485,12 +1461,12 @@
     }
 
     .partd-site-toggle.selected {
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 rgba(48, 51, 47, .18);
-      outline: 4px solid color-mix(in srgb, var(--yellow) 85%, transparent);
+      transform: translateY(4px);
+      box-shadow: none;
+      background: color-mix(in srgb, var(--yellow) 50%, transparent);
       transition:
         transform 0.2s ease,
-        outline 0.2s ease;
+        background 0.2s ease;
     }
 
     .partd-site-toggle.site-complete::after {
@@ -1538,60 +1514,7 @@
     }
     #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"] {
       accent-color: var(--green);
-    }
-
-    /*
-      accent-color only recolours the thumb in most browsers - it does
-      not paint the "already slid past" part of the track. That fill is
-      done here instead:
-
-        --partd-fill is a percentage ("0%".."100%") kept in sync with
-        each slider's value by partDUpdateSliderFill() in the page
-        script, on every input event and whenever a value is set
-        programmatically. The webkit track paints a hard-stop gradient
-        at that percentage: coloured before it, cream after. Firefox
-        exposes the filled portion as its own pseudo-element
-        (::-moz-range-progress), so it needs no JS help.
-    */
-    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track,
-    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track {
-      background: var(--cream);
-      border: 2px solid var(--charcoal);
-      border-radius: 999px;
-    }
-
-    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track {
-      background: linear-gradient(
-        to right,
-        var(--lavender) var(--partd-fill, 0%),
-        var(--cream) var(--partd-fill, 0%)
-      );
-    }
-
-    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-webkit-slider-runnable-track {
-      background: linear-gradient(
-        to right,
-        var(--green) var(--partd-fill, 0%),
-        var(--cream) var(--partd-fill, 0%)
-      );
-    }
-
-    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-moz-range-track,
-    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-moz-range-track {
-      background: var(--cream);
-      border: 2px solid var(--charcoal);
-      border-radius: 999px;
-    }
-
-    #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"]::-moz-range-progress {
-      background: var(--lavender);
-      border-radius: 999px;
-    }
-
-    #bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"]::-moz-range-progress {
-      background: var(--green);
-      border-radius: 999px;
-    }
+    }    
 
     .partd-builder-complete {
       margin-top: 14px;
@@ -1610,6 +1533,7 @@
     .partd-graph-card {
       padding: 18px;
       overflow: hidden;
+      margin-top: 18px;
     }
 
     .partd-legend {
@@ -1773,11 +1697,6 @@
     @media (max-width: 620px) {
       .partd-intro-card {
         grid-template-columns: 1fr;
-      }
-
-      .partd-intro-icon {
-        width: 54px;
-        height: 54px;
       }
 
       .partd-builder-controls .bar-builder-row {
@@ -2056,7 +1975,7 @@
        Keep the reference data, controls and graph in view together.
        Desktop and phone layouts are unchanged.
        ================================================== */
-    @media (min-width: 700px) and (max-width: 1100px) and (orientation: portrait) {
+    @media (min-width: 900px) and (max-width: 1100px) and (orientation: portrait) {
       #bar-construction,
       #bar-follow-up,
       #bar-compare {
@@ -2324,7 +2243,7 @@
        ================================================== */
     .partc-site2-story {
       display: block;
-      background: linear-gradient(to right, var(--soft-purple), white 76%);
+      background: var(--soft-purple);
     }
 
     .partc-site2-story-copy h3 {
@@ -2392,7 +2311,7 @@
       font-weight: 800;
     }
 
-    @media (min-width: 700px) {
+    @media (min-width: 900px) {
       #bar-follow-up.partc-site2-workbench,
       #bar-follow-up.partc-site2-workbench.partc-bars-active {
         display: grid;
@@ -2533,7 +2452,7 @@
        PART D - SITE 1 / SITE 2 WORKBENCH
        Match Parts B and C: table + controls above, large graph below.
        ================================================== */
-    @media (min-width: 700px) {
+    @media (min-width: 900px) {
       #bar-compare.partd-site-compare-workbench {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -2589,7 +2508,7 @@
       }
     }
 
-    @media (min-width: 700px) and (max-width: 1100px) and (orientation: portrait) {
+    @media (min-width: 900px) and (max-width: 1100px) and (orientation: portrait) {
       #bar-compare.partd-site-compare-workbench {
         gap: 12px;
       }
@@ -2681,10 +2600,6 @@
       #bar-compare.partd-site-compare-workbench .partd-data-table th:first-child,
       #bar-compare.partd-site-compare-workbench .partd-data-table td:first-child {
         width: 52%;
-      }
-
-      #bar-compare.partd-site-compare-workbench .partd-graph-card {
-        margin-top: 18px;
       }
     }
 
@@ -3051,7 +2966,7 @@
       align-items: center;
       margin: 2px 0 14px;
       padding: 16px 18px;
-      background: linear-gradient(to right, var(--soft-blue), white 72%);
+      background: var(--soft-blue)
     }
 
     .project-spotlight-intro .project-step-number {
@@ -3060,7 +2975,7 @@
 
     .project-site-one-badge {
       padding: 7px 11px;
-      background: var(--soft-green);
+      background: var(--mint);
       border: 2px solid var(--charcoal);
       border-radius: 999px;
       font-size: .82rem;
@@ -3700,7 +3615,7 @@
               </div>
 
               <div class="project-survey-tip">
-                <strong>Remember:</strong> zero is still data. If you do not observe one of the target animals, record <strong>0</strong>.
+                <strong>Remember:</strong> Zero is still data. If you do not observe one of the target animals, record <strong>0</strong>.
               </div>
             </article>
           </div>
@@ -3715,7 +3630,7 @@
               <span class="project-site-one-badge">Site 1</span>
             </div>
 
-              <div class="challenge-spotlight-game">
+              <div class="challenge-spotlight-game noselect">
                 <div class="wrap">
                   <div class="stage" id="stage">
                     <img id="photoDay" class="" src="../images/lesson4/habitat_day.png" alt="Day Time Habitat">
@@ -3795,10 +3710,10 @@
 
               <div class="stack-buttons-row challenge-hidden" id="stackButtonsRow" hidden>
                 <button type="button" class="general-button stack-toggle-button stack-active" id="showBarStackButton">
-                  📊 Show as bars
+                  Show as Bars
                 </button>
                 <button type="button" class="general-button stack-toggle-button" id="showCircleStackButton">
-                  ⚪ Show as circles
+                  Show as Circles
                 </button>
               </div>
 
@@ -3891,7 +3806,7 @@
       <!-- ==================================================
            PART B - LEARN HOW TO CONSTRUCT A BAR GRAPH
            ================================================== -->
-      <section class="section locked" id="bar-construction">
+      <section class="section locked" id="bar-construction" data-progress-reset>
         <h2 class="section-title">Part B · Learn How to Construct a Bar Graph</h2>
 
         <div class="diagram-box diagram-activity partb-intro-note">
@@ -4119,7 +4034,7 @@
            PART C - SITE 2 BAR GRAPH PRACTICE
            Students receive the three-night Site 2 survey results and graph them.
            ================================================== -->
-      <section class="section student-challenge partc-site2-workbench locked" id="bar-follow-up">
+      <section class="section student-challenge partc-site2-workbench locked" id="bar-follow-up" data-progress-reset>
         <h2 class="section-title">Part C · Site 2: Build the Bar Graph</h2>
 
         <div class="partc-story-card partc-site2-story">
@@ -4371,7 +4286,6 @@
         <h2 class="section-title">Part D · Compare Site 1 and Site 2</h2>
 
         <div class="partd-intro-card">
-          <div class="partd-intro-icon" aria-hidden="true">📊</div>
           <div>
             <span class="challenge-step-label">Two sites · one comparison</span>
             <h3>Put both sites on one graph</h3>
@@ -4557,11 +4471,11 @@
         </div>
         <button
           id="barCompareNext"
-          class="next-button general-button"
+          class="next-page-button general-button"
           onclick="window.location.href='lesson4-2.html'"
           hidden
         >
-          Next
+          Next: Part B
         </button>
         <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
@@ -5045,6 +4959,10 @@
       // the spotlight "find the animals" activity instead.
       function resetBarPractice() {
         if (typeof resetAnimalCounters === 'function') resetAnimalCounters();
+        const stopAndCheck = document.getElementById("collectingVisualisingStopAndCheck");
+        resetStopAndCheck(stopAndCheck, () => {
+          document.getElementById("collectingVisualisingNext").hidden = false;
+        });
       }
 
 
@@ -6067,6 +5985,7 @@
         document.getElementById("partBGraphHint").textContent =
           "This graph is the baseline survey before nest boxes are installed.";
 
+        document.getElementById("barConstructionNext").hidden = false;
 
         setChallengeFeedback(
           "partBAnalysisFeedback",
@@ -6951,8 +6870,7 @@
 
         const site1Leadbeaters = partBAverage(partBBarData[0]);
         document.getElementById("partCSite1LeadbeatersReference").textContent = partBFormatAverage(site1Leadbeaters);
-        document.getElementById("barFollowUpNext").hidden = false;
-
+        
         setChallengeFeedback(
           "partCAnalysisFeedback",
           "success",
@@ -7006,6 +6924,8 @@
           "Site 2 graph analysed.",
           " You now have one graph for each site. Next, the two datasets can be compared directly."
         );
+
+        document.getElementById("barFollowUpNext").hidden = false;
       }
 
       function resetPartC() {

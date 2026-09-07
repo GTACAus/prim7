@@ -520,8 +520,6 @@
   width: var(--cylinder-diameter);
   height: var(--cylinder-height);
 
-  perspective: 500px;
-
   opacity: 0;
   animation: barStackSegmentRise 0.3s ease-out forwards;
 
