@@ -613,13 +613,30 @@ input[type="checkbox"]:active {
 }
 
 .next-page-button {
-  background: var(--card);
-  color: var(--charcoal);
-  border-top: 5px solid var(--green);
+  margin-top: 20px;
+  padding: 12px 22px;
+
+  width: fit-content;
+
+  background: var(--card) !important;
+  color: var(--charcoal) !important;
+
+  border-top: 5px solid var(--green) !important;
+  border-radius: 12px;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
-.next-page-button:hover {
-  background: var(--soft-green);
+.next-page-button::after {
+  content: "  →";
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.next-page-button:hover::after {
+  transform: translateX(4px);
 }
 
 /*
