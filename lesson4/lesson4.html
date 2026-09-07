@@ -1927,6 +1927,30 @@
       line-height: 1.48;
     }
 
+    .bar-example-graphs-frame {
+      display: flex;
+      justify-content: center;
+      max-width: 640px;
+      margin: 16px auto 0;
+      padding: 14px;
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .bar-example-graphs-frame img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      /* The source PNG has a large blank margin below the charts.
+         Crop it off by fixing the visible area to just the chart
+         content instead of showing the full (mostly blank) image. */
+      aspect-ratio: 2000 / 740;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 14px;
+    }
+
     .bar-data-visual {
       display: flex;
       flex-wrap: wrap;
@@ -2773,7 +2797,7 @@
     }
 
     .project-mission-copy {
-      margin: 0 0 14px;
+      margin: 10px 0 14px;
       line-height: 1.55;
     }
 
@@ -3359,43 +3383,37 @@
             <div class="bar-formula-steps">
               <div class="bar-formula-step">
                 <div class="bar-formula-number">1</div>
-                <strong>On the x-axis:</strong>
+                <strong>On the horizontal x-axis:</strong>
                 <ul>
-                  <li>The x-axis is horizontal.</li>
-                  <li>The independent variable, the thing I change.</li>
-                </ul>
-                <span>or</span>
-                <ul>
-                  <li>The categories or groups being compared.</li>
+                  <li>The categorical variables or groups you are changing or comparing.</li>
                 </ul>
               </div>
 
               <div class="bar-formula-step">
                 <div class="bar-formula-number">2</div>
-                <strong>On the y-axis:</strong>
+                <strong>On the vertical y-axis:</strong>
                 <ul>
-                  <li>The y-axis is vertical.</li>
-                  <li>The dependent variable, the thing I measure.</li>
-                  <li>If the test was repeated, use the average measurement.</li>
+                  <li>The dependent variable - the thing you measure.</li>
+                  <li>If the test is repeated, use the average value.</li>
                 </ul>
               </div>
 
               <div class="bar-formula-step">
                 <div class="bar-formula-number">3</div>
-                <strong>Plot the point for each row in your table</strong>
+                <strong>Draw a bar for each category</strong>
                 <ul>
-                  <li>Find the x-axis value and draw a dotted line upwards.</li>
-                  <li>Find the y-axis value and draw a dotted line across.</li>
-                  <li>here the lines meet, place an <strong>x</strong> to mark the spot.</li>
+                  <li>The height of the bar shows the y-axis value for each group or category.</li>
+                  <li>Keep every bar the same width.</li>
+                  <li>Leave the same amount of space between each bar.</li>
                 </ul>
               </div>
 
               <div class="bar-formula-step">
                 <div class="bar-formula-number">4</div>
-                <div>
-                  <strong>Draw a bar for each plotted point</strong>
-                  <p>Keep every bar the same width and leave the same amount of space between each bar.</p>
-                </div>
+                <strong>Give your graph a title</strong>
+                <ul>
+                  <li>The title explains what your fair test is investigating.</li>
+                </ul>
               </div>
             </div>
 
@@ -3407,15 +3425,24 @@
       <section id="bar-data-preamble" class="section bar-data-preamble" aria-labelledby="barDataPreambleTitle">
         <p class="intro-eyebrow">Using bar graphs</p>
         <h2 id="barDataPreambleTitle">Visualising Fair Test Data</h2>
-        <p>
+        <button
+          type="button"
+          class="general-button project-resource-button"
+          onclick="openPdfModal('../downloads/lesson4/leadbeaters-possum-species.pdf', 'Types of Data')"
+        >
+        <p class="bounce-symbol">📄</p>
+        <p>Types of Data</p>
+        </button>
+                    
+        <p class="diagram-activity">
           Scientists use a <strong>bar graph</strong> when they want to visualise
-          <strong>discrete</strong> or <strong>categorical</strong> data.
+          <strong>discrete data</strong> or <strong>categorical data</strong>.
         </p>
 
         <div class="bar-purpose-callout">
           <p>
-            A bar graph organises information using bars of different lengths. This makes patterns in fair-test data easier to see:
-            a <strong>longer bar shows more</strong>, while a <strong>shorter bar shows less</strong>.
+            A bar graph makes it easy to compare data and look for patterns.
+            A longer bar shows a higher value or number compared to a shorter bar.
           </p>
 
           <div class="bar-length-demo" aria-hidden="true">
@@ -3427,6 +3454,15 @@
               <span class="bar-length-demo-bar long"></span>
               <span>More</span>
             </div>
+          </div>
+        </div>
+        <div class="project-species-lead" style="margin-top: 10px;">
+          <div>
+            <p>In a fair test bar graph:</p>
+            <ul>
+              <li>The categorical variables or groups being changed or compared go on the x-axis.</li>
+              <li>The dependent variable (the thing you measure) goes on the y-axis.</li>
+            </ul>
           </div>
         </div>
 
@@ -3442,7 +3478,7 @@
               <span class="bar-data-pill">2</span>
               <span class="bar-data-pill">3</span>
             </div>
-            <strong><i>Example bar graph here</i></strong>
+
             <p class="bar-data-example"><strong>Examples:</strong> number of pages in a book, number of pets.</p>
           </article>
 
@@ -3459,6 +3495,23 @@
             <p class="bar-data-example"><strong>Examples:</strong> hair colour, favourite animal, types of pets.</p>
           </article>
         </div>
+        <div class="diagram-activity" style="margin-top: 10px;">
+              <p>
+                Look at the 3 bar graphs below.
+                Each shows the results of a fair test.
+                Use these examples to explore how to:
+              </p>
+              <ul>
+                <li>Give your graph a title that explains what the fair test is investigating.</li>
+                <li>Label the x-axis and the units</li>
+                <li>Label the y-axis and the units</li>
+              </ul>
+            </div>
+
+        <div class="bar-example-graphs-frame">
+          <img src="../images/lesson4/example_bar_graphs.png" alt="Three example bar graphs, each with a title and labelled, unit-marked x-axis and y-axis." />
+        </div>
+
       <button class="next-button general-button" onclick="unlockSection('bar-practice', 'bar-data-preamble')">
         Next
       </button>
@@ -3476,27 +3529,30 @@
               <div class="project-step-heading">
                 <span class="project-step-number">1</span>
                 <div>
-                  <h3>Meet the Leadbeater's Possum</h3>
-                  <p>Before you begin the survey, meet the species at the centre of Project Possum.</p>
+                  <h3>Project Possum</h3>
+                    <p><strong>Your mission:</strong> Conduct a fair test to compare animals living in two forest sites</p>
                 </div>
               </div>
 
               <div class="project-species-layout">
                 <div class="project-species-copy">
                   <p class="project-species-lead">
-                    Leadbeater's Possums are <strong>critically endangered</strong>. Scientists and land managers need good evidence about where they are being found so they can make informed conservation decisions.
+                    Leadbeater's Possums live in forests in Victoria, Australia.
+                    They are listed as <strong>critically endangered</strong>.
+                    Conservation groups are trying to help them to survive.
+                    To do this they investigate where and how they live.
                   </p>
 
                   <div class="project-learn-block">
                     <h4>Learn more about Leadbeater's Possum</h4>
-                    <p>Open the species flyer for a quick introduction before starting your field survey.</p>
+                    <p>Open the Leadbeater's possum flyer to find out more about where they live and how they behave.</p>
                     <button
                       type="button"
                       class="general-button project-resource-button"
                       onclick="openPdfModal('../downloads/lesson4/leadbeaters-possum-species.pdf', 'Meet the Leadbeater\'s Possum')"
                     >
-                      <span aria-hidden="true">📄</span>
-                      <span>Open species guide</span>
+                      <span class="bounce-symbol" aria-hidden="true">📄</span>
+                      <span>Open Leadbeater's Flyer</span>
                     </button>
                   </div>
 
@@ -3509,36 +3565,29 @@
                   <small>Target species for Project Possum</small>
                 </aside>
               </div>
+              <p class="diagram-activity project-mission-copy">
+                You work for Parks Victoria as a ranger in the Toolangi State Forest.
+                You are working with an environmental group called <i>Friends of the Leadbeater's Possum</i>.
+                You will set up a fair test to carry out a survey of 5 animals living in two forest areas:
+                <strong>Site 1 and Site 2</strong>.
+                A survey the year before recorded a family of Leadbeater's Possums living at each site.
+              </p>
             </article>
 
             <article class="project-step-card">
               <div class="project-step-heading">
                 <span class="project-step-number">2</span>
                 <div>
-                  <h3>Your mission: Project Possum</h3>
-                  <p>Your ranger team will investigate two forest sites and compare the evidence you collect.</p>
+                  <h3>Compare Site 1 with Site 2</h3>
+                  <p>List any differences you can see</p>
                 </div>
               </div>
-
-              <p class="project-mission-copy">
-                You are working in the Toolangi forest as a Park Ranger.
-                You work for Parks Victoria.
-                You are working with an environmental group called <i>Friends of the Leadbeater's Possum</i>
-                to investigate the numbers of 5 different animals living in different parts of the Toolangi forest.
-                You will survey two areas:
-                <strong>Site 1 and Site 2</strong>.
-                Each area is the size of the Melbourne Cricket Ground.
-                The same size as areas defended by a family of Leadbeater's possums.
-                There have been known sightings of Leadbeater's possum in each area in the past.
-              </p>
 
               <!-- Site 1 is designed to contain more Leadbeater's Possums than Site 2. Do not reveal that result before students collect the evidence. -->
               <div class="project-site-rail" aria-label="Two-site Project Possum investigation">
                 <div class="project-site-card current">
                   <div class="project-site-copy">
-                    <span class="project-site-chip">Survey now</span>
                     <h4>Site 1</h4>
-                    <p>Complete the first nocturnal-animal survey and record what you observe.</p>
                   </div>
                   <div class="project-site-image" role="img" aria-label="Placeholder for a daytime image of Site 1">
                     <img src="../images/lesson4/site_1_day.png" alt="Site 1" />
@@ -3549,9 +3598,7 @@
 
                 <div class="project-site-card future">
                   <div class="project-site-copy">
-                    <span class="project-site-chip">Later</span>
                     <h4>Site 2</h4>
-                    <p>You will investigate a second forest site later and compare its results with Site 1.</p>
                   </div>
                   <div class="project-site-image" role="img" aria-label="Placeholder for a daytime image of Site 2">
                     <img src="../images/lesson4/site_2_day.png" alt="Site 2" />
@@ -3578,14 +3625,42 @@
               <div class="project-step-heading">
                 <span class="project-step-number">3</span>
                 <div>
-                  <h3>Your first task: survey Site 1</h3>
+                  <h3>Plan Your Fair Test</h3>
                   <p>You have been given a section of forest to investigate.</p>
                 </div>
               </div>
 
-              <p class="project-task-copy">
-                When night falls, use the spotlight to search the forest and <strong>count the number of each target animal you observe</strong>.
+              <p class="project-survey-tip">Independent variable: Compare numbers of 5 different animals at site 1 and site 2.</p>
+              <p class="project-survey-tip" style="background-color: var(--soft-blue); border-left: 8px solid var(--blue)">
+                Dependent variable: Measure the number of each animal
               </p>
+                <div class="project-survey-tip" style="background-color: var(--soft-green); border-left: 8px solid var(--green)">
+                  <p>Controlled variables:</p>
+                  <ul>
+                    <li>
+                      Controlled size: Each site is the size of the Melbourne Cricket Ground.
+                      This is the size of the territory of a family of Leadbeater's possums.
+                    </li>
+                    <li>
+                      Controlled time: You will count animals between 9pm and 10pm at night.
+                    </li>
+                    <li>
+                      Controlled equipment: You will use the same equipment to count the animals.
+                    </li>
+                    <li>
+                      Controleld people: You will have the same group carry out the count at each site.
+                    </li>
+                  </ul>
+                </div>
+
+              <div class="diagram-activity" style="margin-top: 10px;">
+                <p class="project-task-copy">
+                  Train everyone so they know how to recognise the 5 different animals being counted:
+                </p>
+                <p>
+                  When night falls, use the spotlight to search the forest and <strong>count the number of each target animal you observe</strong>.
+                </p>
+              </div>
 
               <div class="project-animal-grid" aria-label="Animals to count at Site 1">
                 <div class="project-animal-card">
@@ -4479,14 +4554,17 @@
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartDButton">Reset Part D</button>
         </div>
-        <button
+
+        <!-- Uncomment this when line graphs is ready -->
+        <!-- <button
           id="barCompareNext"
           class="next-page-button general-button"
           onclick="window.location.href='lesson4-2.html'"
           hidden
         >
           Next: Part B
-        </button>
+        </button> -->
+
         <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
 
