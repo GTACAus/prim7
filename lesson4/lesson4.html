@@ -1826,7 +1826,7 @@
       display: grid;
       grid-template-columns: 42px minmax(0, 1fr);
       gap: 10px;
-      align-items: start;
+      align-items: center;
       padding: 10px 11px;
       background: white;
       border: 2px solid var(--charcoal);
@@ -1868,7 +1868,28 @@
     } */
 
     .bar-formula-step span {
-      display: block;
+      grid-column: 2;
+      margin-left: 25%;
+      color: rgb(84, 37, 255);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .bar-formula-step p {
+      grid-column: 2;
+      margin: 0;
+      font-size: .82rem;
+      line-height: 1.4;
+    }
+
+    .bar-formula-step ul {
+      grid-column: 2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .bar-formula-step li {
       color: var(--muted);
       font-size: .82rem;
       line-height: 1.4;
@@ -2760,6 +2781,8 @@
       padding: 15px 17px;
       background: var(--soft-blue);
       border: 2px solid var(--charcoal);
+      border-left: 8px solid var(--blue);
+
       border-radius: 14px;
     }
 
@@ -2800,8 +2823,8 @@
       width: min(100%, 185px);
       object-fit: contain;
       border: 2px solid var(--charcoal);
-      /* background: white; */
       filter: drop-shadow(0 5px 0 rgba(48, 51, 47, .12));
+      background: white;
       border-radius: 50%;
       overflow: hidden;
     }
@@ -3411,40 +3434,42 @@
             <div class="bar-formula-steps">
               <div class="bar-formula-step">
                 <div class="bar-formula-number">1</div>
-                <div>
-                  <strong>On the x-axis:</strong>
-                  <span>- The independent variable, the thing I change.</span>
-                  <span>or</span>
-                  <span>- The categories or groups being compared.</span>
-                  <span>- The x-axis is horizontal.</span>
-                </div>
+                <strong>On the x-axis:</strong>
+                <ul>
+                  <li>The x-axis is horizontal.</li>
+                  <li>The independent variable, the thing I change.</li>
+                </ul>
+                <span>or</span>
+                <ul>
+                  <li>The categories or groups being compared.</li>
+                </ul>
               </div>
 
               <div class="bar-formula-step">
                 <div class="bar-formula-number">2</div>
-                <div>
-                  <strong>On the y-axis:</strong>
-                  <span>- The dependent variable, the thing I measure.</span>
-                  <span>- If the test was repeated, use the average measurement.</span>
-                  <span>- The y-axis is vertical.</span>
-                </div>
+                <strong>On the y-axis:</strong>
+                <ul>
+                  <li>The y-axis is vertical.</li>
+                  <li>The dependent variable, the thing I measure.</li>
+                  <li>If the test was repeated, use the average measurement.</li>
+                </ul>
               </div>
 
               <div class="bar-formula-step">
                 <div class="bar-formula-number">3</div>
-                <div>
-                  <strong>Plot the point for each row in your table</strong>
-                  <span>- Find the x-axis value and draw a dotted line upwards.</span>
-                    <span>- Find the y-axis value and draw a dotted line across.</span>
-                    <span>- Where the lines meet, place an <strong>x</strong> to mark the spot.</span>
-                </div>
+                <strong>Plot the point for each row in your table</strong>
+                <ul>
+                  <li>Find the x-axis value and draw a dotted line upwards.</li>
+                  <li>Find the y-axis value and draw a dotted line across.</li>
+                  <li>here the lines meet, place an <strong>x</strong> to mark the spot.</li>
+                </ul>
               </div>
 
               <div class="bar-formula-step">
                 <div class="bar-formula-number">4</div>
                 <div>
                   <strong>Draw a bar for each plotted point</strong>
-                  <span>Keep every bar the same width and leave the same amount of space between each bar.</span>
+                  <p>Keep every bar the same width and leave the same amount of space between each bar.</p>
                 </div>
               </div>
             </div>
