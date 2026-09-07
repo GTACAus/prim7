@@ -1381,16 +1381,6 @@
   background-color: var(--lavender);
 }
 
-#yeastAverageNext {
-  background: var(--card);
-  color: var(--charcoal);
-  border-top: 5px solid var(--green);
-}
-
-#yeastAverageNext:hover {
-  background: var(--soft-green);
-}
-
 /* ==================================================
    RESPONSIVE TABLE SIZING
    Prefer shrinking before horizontal scrolling.
