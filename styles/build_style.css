@@ -473,7 +473,7 @@ input[type="checkbox"]:active {
 }
 
 .locked {
-  display: none;
+  display: none !important;
 }
 
 .video-box,
