@@ -1,55 +1,13 @@
-
 /* ==================================================
-   LESSON 4 GRAPH PLAYGROUND
-   Test-only overrides. If these ideas are kept, move
-   the useful rules into lesson4_styles/lesson4.css.
+   LESSON 4
+
+   Page-specific components for pages/lesson4.html.
+   The shared shell, lesson cards, buttons, modals, sections, navigation,
+   stop-and-check, and responsive page frame remain in build_style.css and
+   overrides.css. The spotlight activity remains in spotlight-game.css.
    ================================================== */
-.lesson4-test-note {
-  width: min(820px, 100%);
-  margin: 0 auto 28px;
-  padding: 14px 18px;
-  background: var(--soft-blue);
-  border: 2px dashed var(--charcoal);
-  border-radius: 16px;
-  color: var(--text);
-  line-height: 1.55;
-  text-align: center;
-}
-#line-graph .section-title {
-  background: var(--mint);
-}
-#bar-graph .section-title {
-  background: var(--yellow);
-}
-#pie-chart .section-title {
-  background: var(--lavender);
-}
-.graph-intro-box {
-  margin-bottom: 20px;
-}
-.graph-learning-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  align-items: start;
-}
 
-/* Tablet and up: steps + data table sit beside the graph,
-   with the button row spanning both underneath so the whole
-   activity fits on screen without scrolling. */
-@media (min-width: 900px) {
-  .graph-learning-grid {
-    grid-template-columns: minmax(260px, 0.95fr) minmax(320px, 1.25fr);
-  }
-
-  .graph-controls-footer {
-    grid-column: 1 / -1;
-  }
-}
-
-.graph-controls-footer {
-  margin-top: 4px;
-}
+/* ---------- Shared graph foundations used on this page ---------- */
 .graph-control-card,
 .graph-stage-card,
 .graph-rule-card {
@@ -146,151 +104,12 @@
   font-size: 12px;
   font-weight: 600;
 }
-.control-step-list {
-  display: grid;
-  gap: 10px;
-  margin-top: 18px;
-}
-.control-step {
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  gap: 10px;
-  align-items: center;
-  padding: 10px;
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 14px;
-}
-.control-step-number {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  background: var(--soft-yellow);
-  border: 2px solid var(--charcoal);
-  border-radius: 50%;
-  font-weight: 700;
-}
-.control-step:nth-child(2) .control-step-number {
-  background: var(--soft-purple);
-}
-.control-step:nth-child(3) .control-step-number {
-  background: var(--soft-green);
-}
-.control-step:nth-child(4) .control-step-number {
-  background: var(--soft-blue);
-}
-.control-step strong {
-  display: block;
-  margin-bottom: 2px;
-}
-.control-step span {
-  display: block;
-  color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.35;
-}
-.graph-button-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
-}
-.graph-button-stack .general-button {
-  flex: 1 1 160px;
-  color: var(--text);
-  background: var(--soft-green);
-}
-.graph-button-stack .general-button:nth-child(2) {
-  background: var(--soft-purple);
-}
-.graph-button-stack .general-button:nth-child(3) {
-  background: var(--soft-yellow);
-}
-.graph-button-stack .general-button:nth-child(4) {
-  background: var(--soft-blue);
-}
-.graph-button-stack .reset-button-container {
-  flex: 1 1 160px;
-  margin-top: 0;
-}
-.graph-button-stack .reset-button-container .general-button {
-  width: 100%;
-}
 .general-button:disabled {
   opacity: 0.42;
   cursor: not-allowed;
   pointer-events: none;
   transform: none;
   box-shadow: 0 4px 0 var(--charcoal);
-}
-.teaching-feedback {
-  min-height: 82px;
-  margin-top: 16px;
-  padding: 14px 16px;
-  background: var(--soft-blue);
-  border: 2px solid var(--charcoal);
-  border-left: 8px solid var(--blue);
-  border-radius: 14px;
-  color: var(--text);
-  line-height: 1.5;
-}
-.teaching-feedback strong {
-  display: block;
-  margin-bottom: 3px;
-}
-.mini-data-table {
-  width: 100%;
-  margin-top: 18px;
-  border-collapse: collapse;
-  overflow: hidden;
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-}
-.mini-data-table th,
-.mini-data-table td {
-  padding: 8px 10px;
-  border: 1px solid var(--charcoal);
-  text-align: center;
-  font-size: 0.9rem;
-}
-.mini-data-table th {
-  background: var(--soft-yellow);
-}
-.mini-data-table th:last-child {
-  background: var(--soft-purple);
-}
-.mini-data-table tr.current-row td {
-  background: var(--soft-green);
-  font-weight: 700;
-}
-.point-guide {
-  stroke: var(--purple);
-  stroke-width: 2;
-  stroke-dasharray: 7 7;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.point-guide.visible {
-  opacity: 0.72;
-}
-.line-point {
-  fill: var(--orange);
-  stroke: var(--charcoal);
-  stroke-width: 3;
-  cursor: pointer;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.line-point.visible {
-  opacity: 1;
-  animation: graphPointPop 0.45s ease-out;
-}
-.line-point:hover,
-.line-point:focus {
-  fill: var(--yellow);
-  outline: none;
 }
 @keyframes graphPointPop {
   0% {
@@ -303,245 +122,8 @@
     transform: scale(1);
   }
 }
-#linePath {
-  fill: none;
-  stroke: var(--purple);
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.graph-rule-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-top: 20px;
-}
-.graph-rule-card {
-  padding: 16px;
-  background: white;
-}
-.graph-rule-card:nth-child(1) {
-  border-top: 8px solid var(--mint);
-}
-.graph-rule-card:nth-child(2) {
-  border-top: 8px solid var(--yellow);
-}
-.graph-rule-card:nth-child(3) {
-  border-top: 8px solid var(--lavender);
-}
-/* ---------- Bar graph ---------- */
-.bar-data-grid,
-.pie-data-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 18px;
-}
-.data-value-card {
-  padding: 12px 8px;
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-  text-align: center;
-}
-.data-value-card strong {
-  display: block;
-  font-size: 1.2rem;
-}
-.data-value-card span {
-  display: block;
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-.data-value-card.active {
-  background: var(--soft-green);
-  transform: translateY(-2px);
-}
-.bar-rect {
-  stroke: var(--charcoal);
-  stroke-width: 2;
-  transition:
-    y 0.5s cubic-bezier(0.2, 0.8, 0.3, 1),
-    height 0.5s cubic-bezier(0.2, 0.8, 0.3, 1),
-    opacity 0.25s ease;
-  cursor: pointer;
-}
-.bar-rect:nth-of-type(1) {
-  fill: var(--yellow);
-}
-.bar-rect:nth-of-type(2) {
-  fill: var(--mint);
-}
-.bar-rect:nth-of-type(3) {
-  fill: var(--blue);
-}
-.bar-rect:nth-of-type(4) {
-  fill: var(--lavender);
-}
-.bar-rect.highlight {
-  stroke: var(--orange);
-  stroke-width: 6;
-}
-.bar-value-label {
-  opacity: 0;
-  font-size: 13px;
-  font-weight: 700;
-  text-anchor: middle;
-  transition: opacity 0.25s ease;
-}
-.bar-value-label.visible {
-  opacity: 1;
-}
-.zero-line-callout {
-  margin-top: 14px;
-  padding: 12px 14px;
-  background: var(--soft-yellow);
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-  line-height: 1.45;
-}
-/* ---------- Pie chart ---------- */
-.pie-layout {
-  display: grid;
-  grid-template-columns: minmax(320px, 1fr) minmax(220px, 0.8fr);
-  gap: 20px;
-  align-items: center;
-}
-.pie-slice {
-  stroke: white;
-  stroke-width: 4;
-  cursor: pointer;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition:
-    opacity 0.35s ease,
-    transform 0.25s ease,
-    filter 0.25s ease;
-}
-.pie-slice.visible {
-  opacity: 1;
-  animation: pieSlicePop 0.4s ease-out;
-}
-.pie-slice.selected {
-  transform: scale(1.045);
-  filter: drop-shadow(0 4px 0 rgba(48, 51, 47, 0.35));
-}
-@keyframes pieSlicePop {
-  from {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-.pie-legend {
-  display: grid;
-  gap: 10px;
-}
-.pie-legend-button {
-  display: grid;
-  grid-template-columns: 20px 1fr auto;
-  gap: 9px;
-  align-items: center;
-  width: 100%;
-  padding: 10px 12px;
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-  color: var(--text);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.pie-legend-button:hover,
-.pie-legend-button.selected {
-  background: var(--soft-blue);
-}
-.legend-swatch {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--charcoal);
-  border-radius: 4px;
-}
-.legend-count {
-  color: var(--muted);
-  font-weight: 700;
-}
-.pie-percent {
-  opacity: 0;
-  font-size: 13px;
-  font-weight: 700;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-.pie-percent.visible {
-  opacity: 1;
-}
-.whole-meter {
-  margin-top: 16px;
-  padding: 12px 14px;
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-}
-.whole-meter-track {
-  height: 18px;
-  margin-top: 8px;
-  overflow: hidden;
-  background: var(--soft-blue);
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-}
-.whole-meter-fill {
-  width: 0;
-  height: 100%;
-  background: var(--green);
-  transition: width 0.45s ease;
-}
-.whole-meter-label {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 0.88rem;
-}
-@media (max-width: 900px) {
-  .pie-layout {
-    grid-template-columns: 1fr;
-  }
-  .graph-rule-row {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 700px) {
-  .bar-data-grid,
-  .pie-data-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 520px) {
-  .graph-stage-card,
-  .graph-control-card {
-    padding: 14px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .line-point.visible,
-  .pie-slice.visible {
-    animation: none;
-  }
-  .bar-rect,
-  .whole-meter-fill,
-  .axis-group {
-    transition: none;
-  }
-}
-/* ==================================================
-   STUDENT PRACTICE / FORMATIVE ASSESSMENT
-   Test-only Lesson 4 additions.
-   ================================================== */
+
+/* ---------- Student challenge foundations ---------- */
 .student-challenge {
   background: linear-gradient(
     to bottom,
@@ -550,50 +132,6 @@
     var(--soft-green) 190%
   );
 }
-.student-challenge-heading {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 18px;
-}
-.student-challenge-heading h3 {
-  margin: 2px 0 5px;
-  font-size: 1.42rem;
-}
-.student-challenge-heading p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.challenge-kicker {
-  margin: 0 0 4px !important;
-  color: var(--purple) !important;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.challenge-badge {
-  flex: 0 0 auto;
-  padding: 7px 11px;
-  background: var(--yellow);
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-  box-shadow: 0 2px 0 var(--charcoal);
-  font-size: 0.76rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.challenge-grid {
-  display: flex;
-  flex-direction: row;
-  gap: 18px;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .challenge-spotlight-game {
   margin: 0 0 20px;
   width: 100%;
@@ -712,7 +250,6 @@
   font-weight: 700;
   line-height: 1.45;
 }
-/* ---------- Line graph practice ---------- */
 .practice-table {
   width: 100%;
   margin: 12px 0 16px;
@@ -734,37 +271,6 @@
 .practice-table tr.active-practice-row td {
   background: var(--soft-green);
   font-weight: 700;
-}
-.practice-crosshair {
-  stroke: var(--purple);
-  stroke-width: 2;
-  stroke-dasharray: 7 7;
-  opacity: 0;
-  pointer-events: none;
-}
-.practice-crosshair.visible {
-  opacity: 0.55;
-}
-.practice-student-point {
-  fill: var(--orange);
-  stroke: var(--charcoal);
-  stroke-width: 3;
-  animation: graphPointPop 0.35s ease-out;
-}
-#linePracticePath {
-  fill: none;
-  stroke: var(--purple);
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.plot-prompt {
-  margin: 10px 0 0;
-  padding: 10px 12px;
-  background: var(--soft-yellow);
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-  line-height: 1.4;
 }
 /* ---------- Bar graph practice ---------- */
 .bar-builder-controls {
@@ -826,227 +332,6 @@
   border: 2px solid var(--charcoal);
   border-radius: 12px;
 }
-/* ---------- Pie chart practice ---------- */
-.student-token-grid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 6px;
-  margin: 14px 0;
-}
-.student-token {
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 50%;
-  font-size: 0.66rem;
-  font-weight: 700;
-  transition: background 0.25s ease, transform 0.2s ease;
-}
-.student-token.filled {
-  transform: scale(1.06);
-}
-.pie-practice-current {
-  margin-top: 12px;
-  padding: 12px 14px;
-  background: var(--soft-yellow);
-  border: 2px solid var(--charcoal);
-  border-radius: 13px;
-}
-.pie-practice-current strong {
-  display: block;
-  margin-bottom: 3px;
-}
-.practice-pie-slice {
-  stroke: white;
-  stroke-width: 4;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.practice-pie-slice.visible {
-  opacity: 1;
-  animation: pieSlicePop 0.4s ease-out;
-}
-/* ---------- Final graph-choice challenge ---------- */
-.final-graph-challenge {
-  margin-top: 38px;
-  padding: 26px;
-  background: linear-gradient(
-    to bottom,
-    var(--paper) 0%,
-    var(--paper) 58%,
-    var(--soft-purple) 180%
-  );
-  border: 3px solid var(--charcoal);
-  border-radius: 26px;
-  box-shadow: var(--shadow-medium);
-}
-.final-graph-challenge .section-title {
-  background: var(--purple);
-  color: white;
-}
-.scenario-card {
-  width: min(760px, 100%);
-  margin: 18px auto 0;
-  padding: 22px;
-  background: white;
-  border: 3px solid var(--charcoal);
-  border-radius: 20px;
-  box-shadow: var(--shadow-small);
-}
-.scenario-progress {
-  margin: 0 0 8px;
-  color: var(--purple);
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-}
-.scenario-card h3 {
-  margin: 0 0 8px;
-  font-size: 1.3rem;
-}
-.scenario-card > p:not(.scenario-progress) {
-  color: var(--muted);
-  line-height: 1.55;
-}
-.graph-type-choice-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 18px;
-}
-.graph-type-choice {
-  min-height: 100px;
-  padding: 16px 10px;
-  background: var(--paper);
-  border: 3px solid var(--charcoal);
-  border-radius: 16px;
-  box-shadow: 0 4px 0 var(--charcoal);
-  color: var(--text);
-  font: inherit;
-  cursor: pointer;
-}
-.graph-type-choice span {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 2rem;
-}
-.graph-type-choice strong {
-  display: block;
-}
-.graph-type-choice:hover,
-.graph-type-choice:focus-visible {
-  transform: translateY(-2px);
-  background: var(--soft-blue);
-  outline: 3px solid rgba(78, 50, 232, 0.18);
-}
-.scenario-next-button {
-  display: block;
-  margin: 14px auto 0;
-}
-.scenario-next-button[hidden],
-.graph-type-choice-grid[hidden] {
-  display: none !important;
-}
-@media (max-width: 900px) {
-  .challenge-grid {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 650px) {
-  .student-challenge,
-  .final-graph-challenge {
-    padding: 16px;
-  }
-  .student-challenge-heading {
-    display: block;
-  }
-  .challenge-badge {
-    display: inline-block;
-    margin-top: 10px;
-  }
-  .challenge-choice-grid,
-  .challenge-choice-grid.three-choice,
-  .graph-type-choice-grid {
-    grid-template-columns: 1fr;
-  }
-  .bar-builder-row {
-    grid-template-columns: 1fr 48px;
-  }
-  .bar-builder-row label {
-    grid-column: 1 / -1;
-  }
-  .student-token-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-/* ==================================================
-   EXPERIMENT PHOTO SLOT
-   Sits under a graph so students can see the real
-   experiment the data came from.
-   ================================================== */
-
-.experiment-photo-card {
-  margin: 18px 0 0;
-  padding: 16px;
-
-  background: white;
-  border: 3px solid var(--charcoal);
-  border-radius: 20px;
-  box-shadow: var(--shadow-small);
-}
-
-.experiment-photo-card img {
-  display: block;
-  width: 100%;
-  max-height: 260px;
-
-  object-fit: cover;
-
-  border: 2px solid var(--charcoal);
-  border-radius: 14px;
-}
-
-.experiment-photo-placeholder {
-  display: grid;
-  place-items: center;
-
-  min-height: 140px;
-  padding: 16px;
-
-  background: var(--paper);
-  border: 2px dashed var(--charcoal);
-  border-radius: 14px;
-
-  color: var(--muted);
-  font-weight: 700;
-  text-align: center;
-}
-
-.experiment-photo-card figcaption {
-  margin-top: 8px;
-
-  color: var(--muted);
-  font-size: 0.86rem;
-  text-align: center;
-}
-
-/* The graph and the photo of the experiment share a column. */
-.graph-column {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  min-width: 0;
-}
-
-.graph-column .experiment-photo-card {
-  margin: 0;
-}
-
 
 /* ==================================================
    NUMBERED "THINK LIKE A SCIENTIST" CARD
@@ -1112,3 +397,2526 @@
   color: var(--muted);
   line-height: 1.45;
 }
+
+/* ==================================================
+   PART B - GUIDED BAR GRAPH CONSTRUCTION
+   ================================================== */
+
+
+/* ==================================================
+   PART B - GUIDED BAR GRAPH CONSTRUCTION
+   Kept inline while this section is being prototyped.
+   ================================================== */
+#bar-construction .section-title {
+  background: var(--mint);
+}
+
+.partb-intro-note {
+  margin-bottom: 20px;
+}
+
+.partb-data-card {
+  padding: 20px;
+  background: linear-gradient(to bottom, var(--paper), var(--soft-blue) 190%);
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+  box-shadow: var(--shadow-small);
+}
+
+.partb-data-card h3,
+.partb-control-panel h3 {
+  margin: 4px 0 8px;
+}
+
+.partb-data-card > p,
+.partb-control-panel > p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.partb-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 14px;
+}
+
+.partb-data-table {
+  margin: 0;
+}
+
+.partb-data-table th:first-child,
+.partb-data-table td:first-child {
+  text-align: left;
+  font-weight: 700;
+}
+
+.partb-average-cell {
+  background: var(--soft-blue);
+  font-weight: 800;
+}
+
+.partb-average-cell.calculated {
+  background: var(--soft-green);
+  animation: pop-fade-in 0.45s ease;
+}
+
+.partb-table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.partb-table-actions .challenge-feedback {
+  flex: 1 1 320px;
+  margin: 0;
+}
+
+.partb-construction-stage {
+  margin-top: 24px;
+}
+
+.partb-construction-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, .82fr) minmax(0, 1.55fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.partb-control-panel {
+  padding: 18px;
+  background: white;
+}
+
+.partb-graph-card {
+  padding: 16px;
+}
+
+
+.partb-label-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px;
+  min-height: 82px;
+  background: var(--paper);
+  border: 2px dashed var(--charcoal);
+  border-radius: 14px;
+}
+
+.partb-axis-card {
+  min-height: 46px;
+  padding: 9px 13px;
+  background: white;
+  color: var(--text);
+  border: 2px solid var(--charcoal);
+  border-top: 6px solid var(--blue);
+  border-radius: 12px;
+  box-shadow: 0 3px 0 var(--charcoal);
+  font: inherit;
+  font-weight: 700;
+  cursor: grab;
+  user-select: none;
+}
+
+.partb-axis-card:hover {
+  background: var(--soft-blue);
+}
+
+.partb-axis-card:active {
+  cursor: grabbing;
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--charcoal);
+}
+
+.partb-axis-card.selected {
+  outline: 4px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.partb-axis-card.is-dragging {
+  opacity: .55;
+}
+
+.partb-axis-card.placed {
+  opacity: .28;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+.partb-drag-ghost {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  width: max-content;
+  max-width: 90vw;
+  transform: scale(1.04);
+}
+
+.partb-drag-ghost .partb-axis-card {
+  margin: 0;
+  cursor: grabbing;
+  box-shadow: 0 3px 0 var(--charcoal);
+}
+
+.partb-drag-ghost.is-hovering-drop-zone .partb-axis-card {
+  background: var(--soft-yellow);
+}
+
+.partb-unit-check {
+  margin-top: 16px;
+  padding: 14px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+
+.partb-unit-check p {
+  margin: 0 0 10px;
+  line-height: 1.45;
+}
+
+.partb-unit-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.partb-builder-prompt {
+  margin-top: 16px;
+  padding: 14px;
+  background: var(--soft-blue);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+  line-height: 1.5;
+}
+
+.partb-builder-prompt strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+#partBGraphSvg .partb-axis-drop-zone {
+  cursor: pointer;
+}
+
+#partBGraphSvg .partb-axis-drop-hit-pad {
+  fill: transparent;
+  pointer-events: all;
+}
+
+#partBGraphSvg .partb-axis-drop-box {
+  fill: rgba(215, 242, 244, .86);
+  stroke: var(--blue);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 5;
+  pointer-events: none;
+  transition: fill .15s ease, stroke .15s ease, stroke-width .15s ease;
+}
+
+#partBGraphSvg .partb-axis-drop-text {
+  fill: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+#partBGraphSvg .partb-axis-drop-zone.drag-over .partb-axis-drop-box {
+  fill: var(--soft-yellow);
+  stroke: var(--purple);
+  stroke-width: 3.5;
+}
+
+#partBGraphSvg .partb-axis-drop-zone.drop-incorrect .partb-axis-drop-box {
+  fill: var(--soft-orange);
+  stroke: var(--orange);
+  stroke-width: 3.5;
+}
+
+#partBGraphSvg .partb-axis-drop-zone.drop-complete .partb-axis-drop-box {
+  fill: var(--soft-green);
+  stroke: var(--green);
+  stroke-dasharray: none;
+}
+
+#partBGraphSvg .partb-axis-drop-zone.axis-complete {
+  display: none;
+}
+
+#partBGraphSvg .partb-final-axis-label {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+#partBGraphSvg .partb-final-axis-label.visible {
+  opacity: 1;
+}
+
+#partBGraphSvg .partb-x-choice,
+#partBGraphSvg .partb-y-choice {
+  cursor: pointer;
+}
+
+#partBGraphSvg .partb-x-hit,
+#partBGraphSvg .partb-y-hit {
+  fill: transparent;
+  pointer-events: all;
+}
+
+#partBGraphSvg .partb-x-choice:hover .partb-x-hit,
+#partBGraphSvg .partb-y-choice:hover .partb-y-hit,
+#partBGraphSvg .partb-x-choice.active .partb-x-hit,
+#partBGraphSvg .partb-y-choice.active .partb-y-hit {
+  fill: rgba(255, 205, 29, .22);
+}
+
+#partBGraphSvg .partb-x-choice.active text,
+#partBGraphSvg .partb-y-choice.active text {
+  fill: var(--purple);
+  font-weight: 800;
+}
+
+#partBGraphSvg .partb-y-choice.try-again .partb-y-hit {
+  fill: rgba(255, 109, 58, .24);
+  stroke: var(--orange);
+  stroke-width: 2;
+}
+
+#partBGraphSvg .partb-y-choice.try-again text {
+  fill: var(--orange);
+  font-weight: 800;
+}
+
+#partBGraphSvg .partb-x-choice.complete text {
+  fill: var(--green);
+  font-weight: 800;
+}
+
+#partBGraphSvg .partb-guide {
+  stroke: var(--purple);
+  stroke-width: 2.5;
+  stroke-dasharray: 8 7;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+#partBGraphSvg .partb-guide.visible {
+  opacity: .82;
+}
+
+#partBGraphSvg .partb-intersection-point {
+  fill: var(--orange);
+  stroke: var(--charcoal);
+  stroke-width: 3;
+  opacity: 0;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+#partBGraphSvg .partb-intersection-point.visible {
+  opacity: 1;
+  animation: graphPointPop .35s ease-out;
+}
+
+#partBGraphSvg .partb-intersection-point.wrong {
+  fill: var(--soft-orange);
+  stroke: var(--orange);
+}
+
+#partBGraphSvg .partb-bar-fill {
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+#partBGraphSvg .partb-bar-fill.visible {
+  opacity: 1;
+}
+
+#partBGraphSvg .partb-bar-outline {
+  fill: none;
+  stroke: var(--charcoal);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+#partBGraphSvg .partb-value-label {
+  opacity: 0;
+  font-size: 12px;
+  font-weight: 800;
+  text-anchor: middle;
+  transition: opacity .25s ease;
+}
+
+#partBGraphSvg .partb-value-label.visible {
+  opacity: 1;
+}
+
+#partBGraphSvg .partb-zero-bar-marker {
+  stroke: var(--orange);
+  stroke-width: 7;
+  stroke-linecap: round;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+
+#partBGraphSvg .partb-zero-bar-marker.visible {
+  opacity: 1;
+}
+
+#partBGraphSvg .partb-zero-bar-marker.fade-out {
+  opacity: 0;
+}
+
+#partBGraphSvg .partb-value-label.analysis-highlight {
+  fill: var(--purple);
+  font-size: 15px;
+}
+
+.partb-complete-note {
+  margin-top: 16px;
+}
+
+.partb-graph-check,
+.partb-analysis-panel {
+  margin-top: 18px;
+  padding: 18px;
+  background: white;
+  border: 3px solid var(--charcoal);
+  border-radius: 18px;
+  box-shadow: var(--shadow-small);
+}
+
+.partb-graph-check h3,
+.partb-analysis-panel h3 {
+  margin: 4px 0 8px;
+}
+
+.partb-graph-check > p,
+.partb-analysis-panel > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.partb-check-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.partb-check-item {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 12px;
+  background: var(--soft-green);
+  border: 2px solid var(--charcoal);
+  border-radius: 13px;
+  line-height: 1.35;
+}
+
+.partb-check-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.partb-analysis-question[hidden],
+.partb-baseline-summary[hidden] {
+  display: none !important;
+}
+
+.partb-analysis-progress {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 9px;
+  background: var(--soft-purple);
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.partb-analysis-question {
+  margin-top: 8px;
+  padding: 14px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+
+.partb-analysis-question .challenge-question {
+  margin-bottom: 10px;
+}
+
+.partb-analysis-animal-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.partb-baseline-summary {
+  margin-top: 16px;
+  padding: 18px;
+  background: linear-gradient(to bottom, var(--soft-green), var(--paper) 185%);
+  border: 3px solid var(--charcoal);
+  border-radius: 18px;
+}
+
+.partb-baseline-summary h3 {
+  margin: 4px 0 8px;
+}
+
+.partb-baseline-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.partb-baseline-fact {
+  padding: 12px;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 13px;
+  text-align: center;
+}
+
+.partb-baseline-fact strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--purple);
+}
+
+.partb-story-hook {
+  margin: 14px 0 0;
+  padding: 14px 16px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--yellow);
+  border-radius: 14px;
+  line-height: 1.5;
+}
+
+#partBGraphSvg .partb-bar-fill.analysis-highlight {
+  stroke: var(--purple);
+  stroke-width: 5;
+  filter: drop-shadow(0 3px 0 rgba(48, 51, 47, .18));
+}
+
+#partBGraphSvg .partb-x-choice.analysis-highlight text {
+  fill: var(--purple);
+  font-weight: 800;
+}
+
+
+/* ==================================================
+   PART C - SITE 2 BAR GRAPH PRACTICE
+   ================================================== */
+/* ==================================================
+   PART C - INDEPENDENT BAR GRAPH PRACTICE
+   Follow-up Project Possum survey.
+   ================================================== */
+#bar-follow-up .section-title {
+  background: var(--lavender);
+}
+
+.partc-story-card,
+.partc-data-card,
+.partc-graph-card,
+.partc-control-card,
+.partc-analysis-panel,
+.partc-complete-card {
+  background: white;
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+  box-shadow: var(--shadow-small);
+}
+
+.partc-story-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 18px 20px;
+  background: var(--soft-purple);
+}
+
+.partc-story-card h3,
+.partc-data-card h3,
+.partc-control-card h3,
+.partc-analysis-panel h3,
+.partc-complete-card h3 {
+  margin: 3px 0 7px;
+}
+
+.partc-story-card p,
+.partc-data-card > p,
+.partc-control-card > p,
+.partc-analysis-panel > p,
+.partc-complete-card > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.partc-data-card {
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.partc-table-wrap {
+  width: 100%;
+  margin-top: 14px;
+  overflow-x: auto;
+}
+
+.partc-data-table tr.partc-current-row td {
+  background: var(--soft-yellow);
+  font-weight: 800;
+}
+
+.partc-data-table tr.partc-complete-row td {
+  background: var(--soft-green);
+}
+
+.partc-average-cell {
+  background: var(--soft-purple) !important;
+  font-weight: 800;
+}
+
+.partc-build-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, .82fr) minmax(420px, 1.4fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.partc-control-card,
+.partc-graph-card {
+  padding: 18px;
+}
+
+.partc-axis-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.partc-axis-bank[hidden] {
+  display: none !important;
+}
+
+.partc-axis-card,
+.partc-drag-ghost .partc-axis-card {
+  min-height: 46px;
+  padding: 9px 14px;
+  background: var(--paper);
+  color: var(--text);
+  border: 2px solid var(--charcoal);
+  border-top: 6px solid var(--blue);
+  border-radius: 13px;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, .2);
+  font: inherit;
+  font-weight: 800;
+  cursor: grab;
+  user-select: none;
+}
+
+.partc-axis-card:hover,
+.partc-axis-card.selected {
+  background: var(--soft-blue);
+}
+
+.partc-axis-card.is-dragging {
+  opacity: .55;
+}
+
+.partc-axis-card.placed {
+  opacity: .28;
+  box-shadow: none;
+  cursor: default;
+}
+
+.partc-drag-ghost {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  width: max-content;
+  max-width: 88vw;
+  transform: scale(1.04);
+}
+
+.partc-drag-ghost.is-hovering-drop-zone .partc-axis-card {
+  background: var(--soft-yellow);
+}
+
+#partCGraphSvg .partc-axis-drop-hit-pad {
+  fill: transparent;
+  pointer-events: all;
+}
+
+#partCGraphSvg .partc-axis-drop-box {
+  fill: rgba(229, 238, 255, .72);
+  stroke: var(--blue);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 5;
+  pointer-events: none;
+  transition: fill .15s ease, stroke .15s ease, stroke-width .15s ease;
+}
+
+#partCGraphSvg .partc-axis-drop-text {
+  fill: var(--charcoal);
+  font-size: 13px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+#partCGraphSvg .partc-axis-drop-zone.drag-over .partc-axis-drop-box {
+  fill: var(--soft-yellow);
+  stroke: var(--purple);
+  stroke-width: 4;
+}
+
+#partCGraphSvg .partc-axis-drop-zone.drop-complete .partc-axis-drop-box {
+  fill: var(--soft-green);
+  stroke: var(--green);
+  stroke-dasharray: none;
+}
+
+#partCGraphSvg .partc-axis-drop-zone.drop-incorrect .partc-axis-drop-box {
+  fill: var(--soft-orange);
+  stroke: var(--orange);
+  animation: lesson4ChoiceBuzz .28s ease;
+}
+
+#partCGraphSvg .partc-axis-drop-zone.axis-complete {
+  display: none;
+}
+
+#partCGraphSvg .partc-final-axis-label {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+#partCGraphSvg .partc-final-axis-label.visible {
+  opacity: 1;
+}
+
+#partCGraphSvg .partc-scaffold-layer {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+#partCGraphSvg .partc-scaffold-layer.visible {
+  opacity: 1;
+}
+
+.partc-unit-check {
+  margin: 14px 0;
+  padding: 14px;
+  background: var(--soft-blue);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+
+.partc-unit-check p {
+  margin: 0 0 10px;
+  line-height: 1.45;
+}
+
+.partc-unit-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.partc-slider-stage {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-radius: 15px;
+}
+
+.partc-slider-stage[hidden] {
+  display: none !important;
+}
+
+.partc-bar-builder-controls {
+  margin-top: 14px;
+}
+
+.partc-bar-builder-controls .bar-builder-row {
+  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr) 48px;
+}
+
+.partc-bar-builder-controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--purple);
+}
+
+.partc-slider-progress {
+  display: inline-block;
+  margin-bottom: 7px;
+  padding: 5px 9px;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.partc-slider-stage h4 {
+  margin: 3px 0 5px;
+  font-size: 1.08rem;
+}
+
+.partc-slider-instruction {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+#partCGraphSvg .partc-practice-bar {
+  stroke: var(--charcoal);
+  stroke-width: 2.5;
+  transition: y .18s ease, height .18s ease, opacity .2s ease;
+}
+
+#partCGraphSvg .partc-practice-bar.preview {
+  opacity: .72;
+}
+
+#partCGraphSvg .partc-practice-bar.complete {
+  opacity: 1;
+}
+
+#partCGraphSvg .partc-value-label {
+  opacity: 0;
+  font-size: 13px;
+  font-weight: 800;
+  text-anchor: middle;
+  transition: opacity .25s ease;
+}
+
+#partCGraphSvg .partc-value-label.visible {
+  opacity: 1;
+}
+
+#partCGraphSvg .partc-category-label.active {
+  fill: var(--purple);
+  font-weight: 800;
+}
+
+#partCGraphSvg .partc-category-label.complete {
+  fill: var(--green);
+  font-weight: 800;
+}
+
+#partCGraphSvg .partc-practice-bar.analysis-highlight {
+  stroke: var(--purple);
+  stroke-width: 6;
+  filter: drop-shadow(0 3px 0 rgba(48, 51, 47, .16));
+}
+
+.partc-analysis-panel,
+.partc-complete-card {
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.partc-analysis-question[hidden],
+.partc-complete-card[hidden] {
+  display: none !important;
+}
+
+.partc-analysis-progress {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 9px;
+  background: var(--soft-purple);
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.partc-analysis-question {
+  margin-top: 10px;
+  padding: 14px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+
+.partc-analysis-animal-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Keep the Part C completion summary easy to scan. The generic
+   .partc-complete-card > p rule above has greater specificity than
+   the individual paragraph classes, so set the spacing with the
+   parent card rather than relying on paragraph margins. */
+.partc-complete-card {
+  display: grid;
+  gap: 16px;
+}
+
+.partc-complete-card h3 {
+  margin: 0;
+}
+
+.partc-complete-card .partc-result-statement,
+.partc-complete-card .partc-next-hook {
+  margin: 0;
+}
+
+.partc-result-statement {
+  padding: 16px 18px;
+  background: var(--soft-green);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--green);
+  border-radius: 14px;
+  line-height: 1.55;
+}
+
+.partc-next-hook {
+  padding: 16px 18px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--yellow);
+  border-radius: 14px;
+  line-height: 1.55;
+}
+
+@media (max-width: 899px) {
+  .partc-build-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .partc-story-card {
+    grid-template-columns: 1fr;
+  }
+
+  .partc-unit-buttons,
+  .partc-analysis-animal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #partCGraphSvg .partc-practice-bar,
+  #partCGraphSvg .partc-final-axis-label,
+  #partCGraphSvg .partc-scaffold-layer {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ==================================================
+   PART D - COMPARE SITE 1 AND SITE 2
+   ================================================== */
+/* ==================================================
+   PART D - COMPARE SITE 1 AND SITE 2
+   Students build both data sets on one paired bar graph.
+   ================================================== */
+#bar-compare .section-title {
+  background: var(--lavender);
+}
+
+.partd-intro-card,
+.partd-data-card,
+.partd-builder-card,
+.partd-graph-card,
+.partd-analysis-panel,
+.partd-complete-card {
+  background: white;
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+  box-shadow: var(--shadow-small);
+}
+
+.partd-intro-card,
+.partd-data-card,
+.partd-builder-card,
+.partd-analysis-panel,
+.partd-complete-card {
+  padding: 18px;
+}
+
+.partd-intro-card {
+  margin-bottom: 18px;
+  background: var(--soft-purple);
+}
+
+.partd-intro-card h3,
+.partd-data-card h3,
+.partd-builder-card h3,
+.partd-analysis-panel h3,
+.partd-complete-card h3 {
+  margin: 3px 0 7px;
+}
+
+.partd-intro-card p,
+.partd-data-card > p,
+.partd-builder-card > p,
+.partd-analysis-panel > p,
+.partd-complete-card > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.partd-compare-callout {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--soft-blue);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--blue);
+  border-radius: 13px;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.partd-data-card {
+  margin-bottom: 18px;
+}
+
+.partd-table-wrap {
+  width: 100%;
+  margin-top: 12px;
+  overflow-x: auto;
+}
+
+.partd-data-table {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  table-layout: fixed;
+}
+
+.partd-data-table th:first-child,
+.partd-data-table td:first-child {
+  width: 48%;
+  text-align: left;
+  font-weight: 700;
+}
+
+.partd-data-table th:nth-child(2),
+.partd-data-table td:nth-child(2) {
+  background: rgba(192, 173, 255, .18);
+}
+
+.partd-data-table th:nth-child(3),
+.partd-data-table td:nth-child(3) {
+  background: rgba(215, 245, 233, .62);
+}
+
+#bar-compare.partd-edit-site1 .partd-data-table th:nth-child(2),
+#bar-compare.partd-edit-site1 .partd-data-table td:nth-child(2) {
+  background: var(--soft-purple);
+  font-weight: 800;
+}
+
+#bar-compare.partd-edit-site2 .partd-data-table th:nth-child(3),
+#bar-compare.partd-edit-site2 .partd-data-table td:nth-child(3) {
+  background: var(--soft-green);
+  font-weight: 800;
+}
+
+.partd-site-switcher {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 10px;
+}
+
+.partd-site-toggle {
+  min-height: 54px;
+  padding: 9px 12px;
+  background: white;
+  color: var(--text);
+  border: 2px solid var(--charcoal);
+  border-radius: 13px;
+  box-shadow: 0 3px 0 var(--charcoal);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  outline: none;
+}
+
+.partd-site-toggle[data-partd-site="site1"] {
+  border-top: 7px solid var(--lavender);
+}
+
+.partd-site-toggle[data-partd-site="site2"] {
+  border-top: 7px solid var(--green);
+}
+
+.partd-site-toggle.selected {
+  transform: translateY(4px);
+  box-shadow: none;
+  background: color-mix(in srgb, var(--yellow) 50%, transparent);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.partd-site-toggle.site-complete::after {
+  content: " ✓";
+  color: var(--green);
+}
+
+.partd-site-toggle.needs-fix {
+  background: var(--soft-orange);
+}
+
+.partd-editing-note {
+  margin: 0 0 10px;
+  padding: 9px 11px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 11px;
+  font-size: .88rem;
+  line-height: 1.35;
+}
+
+.partd-builder-controls {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.partd-builder-controls .bar-builder-row {
+  grid-template-columns: minmax(130px, .95fr) minmax(100px, 1.25fr) 42px;
+  gap: 8px;
+  padding: 8px 9px;
+}
+
+.partd-builder-controls .bar-builder-row label {
+  font-size: .82rem;
+  line-height: 1.2;
+}
+
+.partd-builder-controls .bar-builder-row output {
+  min-height: 34px;
+}
+
+#bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"] {
+  accent-color: var(--lavender);
+}
+#bar-compare.partd-edit-site2 .partd-builder-controls input[type="range"] {
+  accent-color: var(--green);
+}    
+
+.partd-builder-complete {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--soft-green);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--green);
+  border-radius: 14px;
+  line-height: 1.5;
+}
+
+.partd-builder-complete[hidden] {
+  display: none !important;
+}
+
+.partd-graph-card {
+  padding: 18px;
+  overflow: hidden;
+  margin-top: 18px;
+}
+
+.partd-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 10px 0 8px;
+  color: var(--muted);
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.partd-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.partd-swatch {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--charcoal);
+  border-radius: 4px;
+}
+
+.partd-swatch.site1 {
+  background: var(--lavender);
+}
+
+.partd-swatch.site2 {
+  background: var(--mint);
+}
+
+#partDGraphSvg .partd-site1-bar,
+#partDGraphSvg .partd-site2-bar {
+  stroke: var(--charcoal);
+  stroke-width: 2.5;
+  transition: y .18s ease, height .18s ease, opacity .18s ease, stroke-width .18s ease;
+}
+
+#partDGraphSvg .partd-site1-bar {
+  fill: var(--lavender);
+}
+
+#partDGraphSvg .partd-site2-bar {
+  fill: var(--mint);
+}
+
+#bar-compare.partd-edit-site1 #partDGraphSvg .partd-site1-bar,
+#bar-compare.partd-edit-site2 #partDGraphSvg .partd-site2-bar,
+#bar-compare.partd-analysis-mode #partDGraphSvg .partd-site1-bar,
+#bar-compare.partd-analysis-mode #partDGraphSvg .partd-site2-bar {
+  opacity: 1;
+  stroke-width: 3.5;
+}
+
+#bar-compare.partd-edit-site1 #partDGraphSvg .partd-site2-bar,
+#bar-compare.partd-edit-site2 #partDGraphSvg .partd-site1-bar {
+  opacity: .56;
+}
+
+#partDGraphSvg .partd-pair-highlight {
+  stroke: var(--orange) !important;
+  stroke-width: 6 !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 3px 0 rgba(48, 51, 47, .14));
+}
+
+#partDGraphSvg .partd-value-label {
+  font-size: 12px;
+  font-weight: 800;
+  text-anchor: middle;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+#partDGraphSvg .partd-value-label.visible {
+  opacity: 1;
+}
+
+#partDGraphSvg .partd-difference-marker {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+#partDGraphSvg .partd-difference-marker.visible {
+  opacity: 1;
+}
+
+#partDGraphSvg .partd-difference-line {
+  stroke: var(--orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+#partDGraphSvg .partd-difference-badge {
+  fill: var(--soft-orange);
+  stroke: var(--orange);
+  stroke-width: 2.5;
+}
+
+#partDGraphSvg .partd-difference-text {
+  fill: var(--charcoal);
+  font-size: 16px;
+  font-weight: 800;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.partd-analysis-panel {
+  margin-top: 18px;
+  background: linear-gradient(to bottom, white, var(--soft-blue) 220%);
+}
+
+.partd-analysis-panel[hidden],
+.partd-analysis-question[hidden],
+.partd-complete-card[hidden] {
+  display: none !important;
+}
+
+.partd-analysis-question {
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+
+.partd-complete-card {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+  background: white;
+}
+
+.partd-result-statement,
+.partd-conclusion-note,
+.partd-prediction-reflection {
+  margin: 0 !important;
+  padding: 16px 18px;
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+  line-height: 1.55;
+}
+
+.partd-result-statement {
+  background: var(--soft-green);
+  border-left: 8px solid var(--green);
+}
+
+.partd-conclusion-note {
+  background: var(--soft-yellow);
+  border-left: 8px solid var(--yellow);
+}
+
+.partd-prediction-reflection {
+  background: var(--soft-purple);
+  border-left: 8px solid var(--purple);
+}
+
+@media (max-width: 620px) {
+  .partd-intro-card {
+    grid-template-columns: 1fr;
+  }
+
+  .partd-builder-controls .bar-builder-row {
+    grid-template-columns: 1fr;
+  }
+
+  .partd-site-switcher {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #partDGraphSvg .partd-site1-bar,
+  #partDGraphSvg .partd-site2-bar,
+  #partDGraphSvg .partd-value-label,
+  #partDGraphSvg .partd-difference-marker {
+    transition: none !important;
+  }
+}
+
+
+.partd-builder-card {
+  padding: 18px;
+  background: white;
+}
+
+.partd-graph-card {
+  padding: 18px;
+}
+
+/* ==================================================
+   BAR GRAPH PREAMBLE
+   ================================================== */
+/* ==================================================
+   BAR GRAPH PREAMBLE
+   Purpose first, then the two kinds of data students may graph.
+   ================================================== */
+.bar-data-preamble {
+  margin: 22px 0 26px;
+  padding: 22px;
+  background: white;
+  border: 3px solid var(--charcoal);
+  border-radius: 22px;
+  box-shadow: var(--shadow-small);
+}
+
+.bar-data-preamble h2 {
+  margin: 4px 0 8px;
+}
+
+.bar-data-preamble > p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.bar-purpose-callout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 18px;
+  align-items: center;
+  margin-top: 16px;
+  padding: 17px 18px;
+  background: var(--soft-blue);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--blue);
+  border-radius: 15px;
+}
+
+.bar-purpose-callout p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.bar-length-demo {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 22px;
+  min-height: 92px;
+  padding: 10px 12px 4px;
+  border-bottom: 3px solid var(--charcoal);
+}
+
+.bar-length-demo-item {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  font-size: .75rem;
+  font-weight: 800;
+}
+
+.bar-length-demo-bar {
+  width: 38px;
+  border: 2px solid var(--charcoal);
+  border-bottom: 0;
+  border-radius: 7px 7px 0 0;
+  background: var(--mint);
+}
+
+.bar-length-demo-bar.short { height: 38px; }
+.bar-length-demo-bar.long {
+  height: 72px;
+  background: var(--yellow);
+}
+
+.bar-data-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.bar-data-type-card {
+  padding: 16px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 15px;
+}
+
+.bar-data-type-card:first-child { border-top: 7px solid var(--yellow); }
+.bar-data-type-card:last-child { border-top: 7px solid var(--mint); }
+
+.bar-data-type-card h3 {
+  margin: 0 0 7px;
+  font-size: 1rem;
+}
+
+.bar-data-type-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.48;
+}
+
+.bar-example-graphs-frame {
+  display: flex;
+  justify-content: center;
+  max-width: 640px;
+  margin: 16px auto 0;
+  padding: 14px;
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+  box-shadow: var(--shadow-small);
+}
+
+.bar-example-graphs-frame img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  /* The source PNG has a large blank margin below the charts.
+     Crop it off by fixing the visible area to just the chart
+     content instead of showing the full (mostly blank) image. */
+  aspect-ratio: 2000 / 740;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 14px;
+}
+
+.bar-data-visual {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 12px 0 10px;
+}
+
+.bar-data-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 34px;
+  padding: 5px 10px;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.bar-data-example {
+  color: var(--text) !important;
+  font-size: .9rem;
+}
+
+@media (max-width: 700px) {
+  .bar-data-preamble { padding: 18px; }
+
+  .bar-purpose-callout {
+    grid-template-columns: 1fr;
+  }
+
+  .bar-length-demo {
+    max-width: 190px;
+    margin: 0 auto;
+  }
+
+  .bar-data-type-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ---------- Site 2 scene ---------- */
+/* ==================================================
+   PART C - SITE 2 WORKBENCH
+   Match the successful Part B layout: reference table + controls
+   across the top, with a larger full-width graph underneath.
+   ================================================== */
+.partc-site2-story {
+  display: block;
+  background: var(--soft-purple);
+}
+
+.partc-site2-story-copy h3 {
+  margin: 4px 0 7px;
+}
+
+/* Full-width Site 2 daytime scene. This deliberately sits between the
+   Site 2 introduction and the table, echoing the large Site 1 forest view. */
+.partc-site-image-stage {
+  position: relative;
+  margin: 0 0 18px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  background:
+    linear-gradient(rgba(215, 245, 233, .28), rgba(229, 238, 255, .26)),
+    var(--paper);
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+  box-shadow: var(--shadow-small);
+}
+
+.partc-site-image {
+  position: relative;
+  z-index: 1;
+
+  /* Definite height from the stage, width shrinks to the picture. */
+  display: flex;
+  height: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  border-radius: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.partc-site-image img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+}
+
+.partc-site-image small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.partc-site1-reference {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 10px;
+  padding: 7px 10px;
+  background: var(--soft-green);
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: .84rem;
+  font-weight: 800;
+}
+
+
+/* ==================================================
+   PART A - PROJECT POSSUM
+   ================================================== */
+/* ==================================================
+   PROJECT POSSUM - SITE 1 STORY FLOW
+   Part A framing only. The spotlight interaction itself is unchanged.
+   ================================================== */
+#bar-practice .section-title {
+  background: var(--mint);
+}
+
+.project-possum-flow {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.project-step-card,
+.project-spotlight-intro {
+  background: white;
+  border: 3px solid var(--charcoal);
+  border-radius: 20px;
+  box-shadow: var(--shadow-small);
+}
+
+.project-step-card {
+  padding: 20px;
+}
+
+.project-step-heading {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.project-step-number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  background: var(--yellow);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.project-step-card:nth-child(2) .project-step-number {
+  background: var(--soft-purple);
+}
+
+.project-step-card:nth-child(3) .project-step-number {
+  background: var(--blue);
+}
+
+.project-step-heading h3,
+.project-spotlight-intro h3 {
+  margin: 0 0 4px;
+}
+
+.project-step-heading p,
+.project-spotlight-intro p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.project-species-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(230px, .55fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.project-species-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.project-species-lead {
+  margin: 0;
+  padding: 15px 17px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--yellow);
+  border-radius: 14px;
+  line-height: 1.55;
+}
+
+.project-learn-block {
+  padding: 15px 17px;
+  background: var(--soft-blue);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--blue);
+
+  border-radius: 14px;
+}
+
+.project-learn-block h4 {
+  margin: 0 0 5px;
+  font-size: 1rem;
+}
+
+.project-learn-block p {
+  margin: 0 0 11px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.project-resource-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 9px 13px;
+  font-size: .88rem;
+}
+
+.project-species-portrait {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 9px;
+  min-height: 260px;
+  padding: 18px;
+  background: var(--cream);
+  border: 2px solid var(--charcoal);
+  border-radius: 18px;
+  text-align: center;
+}
+
+.project-species-portrait img {
+  width: min(100%, 185px);
+  object-fit: contain;
+  border: 2px solid var(--charcoal);
+  filter: drop-shadow(0 5px 0 rgba(48, 51, 47, .12));
+  background: white;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.project-species-portrait strong {
+  font-size: 1.06rem;
+}
+
+.project-species-portrait small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.project-status-chip,
+.project-site-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 5px 9px;
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: .76rem;
+  font-weight: 800;
+}
+
+.project-status-chip {
+  background: var(--soft-orange);
+}
+
+.project-mission-copy {
+  margin: 10px 0 14px;
+  line-height: 1.55;
+}
+
+.project-site-rail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin: 14px 0;
+}
+
+.project-site-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  min-height: 160px;
+  padding: 15px 16px;
+  border: 2px solid var(--charcoal);
+  border-radius: 15px;
+}
+
+.project-site-copy {
+  min-width: 0;
+}
+
+.project-site-image {
+  display: flex;
+  align-content: center;
+  min-height: 112px;
+  padding: 10px;
+  background: rgba(255, 255, 255, .72);
+  border: 2px dashed var(--charcoal);
+  border-radius: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.project-site-image img {
+  width: 100%;
+}
+
+.project-site-image small {
+  font-size: .7rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.project-site-card.current {
+  background: var(--soft-green);
+  border-top: 7px solid var(--green);
+}
+
+.project-site-card.future {
+  background: var(--soft-purple);
+  border-top: 7px solid var(--purple);
+}
+
+.project-site-card h4 {
+  margin: 7px 0 5px;
+  font-size: 1.02rem;
+}
+
+.project-site-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.4;
+  font-size: .9rem;
+}
+
+.project-site-card.current .project-site-chip {
+  background: white;
+}
+
+.project-site-card.future .project-site-chip {
+  background: white;
+}
+
+.project-site-arrow {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--purple);
+}
+
+.project-question-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.project-question-card {
+  padding: 15px 16px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+
+.project-question-card:first-child {
+  border-top: 7px solid var(--yellow);
+}
+
+.project-question-card:last-child {
+  border-top: 7px solid var(--lavender);
+}
+
+.project-question-card h4 {
+  margin: 0 0 7px;
+  font-size: .96rem;
+}
+
+.project-question-card p {
+  margin: 0;
+  line-height: 1.48;
+}
+
+.project-question-card .project-prompt-note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: .83rem;
+}
+
+.project-task-copy {
+  margin: 0 0 14px;
+  line-height: 1.55;
+}
+
+.project-animal-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.project-animal-card {
+  display: grid;
+  grid-column: span 2;
+  justify-items: center;
+  align-content: center;
+  gap: 11px;
+  min-height: 220px;
+  padding: 16px 12px;
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 15px;
+  text-align: center;
+}
+
+.project-animal-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.project-animal-card:nth-child(5) {
+  grid-column: 4 / span 2;
+}
+
+.project-animal-picture {
+  display: grid;
+  place-items: center;
+  width: 126px;
+  height: 126px;
+  background: white;
+  border: 3px solid var(--charcoal);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.project-animal-picture img {
+  width: 92%;
+  height: 92%;
+  object-fit: contain;
+}
+
+.project-animal-card strong {
+  font-size: .96rem;
+  line-height: 1.25;
+}
+
+.project-survey-tip {
+  margin-top: 13px;
+  padding: 12px 14px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-left: 8px solid var(--yellow);
+  border-radius: 13px;
+  line-height: 1.45;
+}
+
+.project-spotlight-intro {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin: 2px 0 14px;
+  padding: 16px 18px;
+  background: var(--soft-blue)
+}
+
+.project-spotlight-intro .project-step-number {
+  background: var(--mint);
+}
+
+.project-site-one-badge {
+  padding: 7px 11px;
+  background: var(--mint);
+  border: 2px solid var(--charcoal);
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Shared Lesson 3-style PDF preview shell. common_functions.js supplies the behaviour. */
+.pdf-modal-content {
+  width: min(92vw, 920px);
+  max-width: 920px;
+
+  height: 90vh;
+  max-height: 90vh;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pdf-modal-frame {
+  display: block;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+.pdf-modal-image {
+  display: none;
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+}
+
+.pdf-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .project-species-layout {
+    grid-template-columns: minmax(0, 1.25fr) minmax(200px, .75fr);
+  }
+
+  .project-animal-picture {
+    width: 112px;
+    height: 112px;
+  }
+}
+
+@media (max-width: 900px) {
+  .project-species-layout,
+  .project-question-grid,
+  .project-site-rail {
+    grid-template-columns: 1fr;
+  }
+
+  .project-site-arrow {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+
+  .project-animal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-animal-card,
+  .project-animal-card:nth-child(4) {
+    grid-column: auto;
+  }
+
+  .project-animal-card:nth-child(5) {
+    grid-column: 1 / -1;
+    width: min(100%, 300px);
+    justify-self: center;
+  }
+
+  .project-spotlight-intro {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .project-site-one-badge {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 520px) {
+  .project-site-card {
+    grid-template-columns: 1fr;
+  }
+
+  .project-site-image {
+    min-height: 120px;
+  }
+
+  .project-animal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-animal-card,
+  .project-animal-card:nth-child(4),
+  .project-animal-card:nth-child(5) {
+    grid-column: auto;
+    width: 100%;
+  }
+}
+
+
+/* ---------- Small page-specific utilities ---------- */
+.lesson4-page [hidden] {
+  display: none !important;
+}
+
+.bar-axis-summary,
+.lesson4-spaced-block {
+  margin-top: 10px;
+}
+
+.project-survey-tip-dependent {
+  background: var(--soft-blue);
+  border-left-color: var(--blue);
+}
+
+.project-survey-tip-controlled {
+  background: var(--soft-green);
+  border-left-color: var(--green);
+}
+
+.lesson4-check-button {
+  margin-top: 14px;
+}
+
+.spaced-step-label {
+  margin-top: 16px;
+}
+
+.detective-mini-graph-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Lesson 3's numbered formula cards use short text spans. Lesson 4 uses lists
+   inside the same component, so only list spacing needs a local addition. */
+.formula-step ul {
+  margin: 5px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.formula-step li {
+  margin: 3px 0;
+  line-height: 1.4;
+}
+
+/* ---------- Workbench structure ---------- */
+.lesson4-workbench {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  /* Part B: full-width reference table, then controls beside the graph. */
+  #bar-construction.partb-build-active .partb-workbench {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  #bar-construction.partb-build-active .partb-workbench > .partb-data-card {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-width: 0;
+    margin: 0;
+  }
+
+  #bar-construction.partb-build-active .partb-workbench > .partb-construction-stage,
+  #bar-construction.partb-build-active .partb-construction-grid {
+    display: contents;
+  }
+
+  #bar-construction.partb-build-active .partb-control-panel {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+    align-self: start;
+  }
+
+  #bar-construction.partb-build-active .partb-graph-card {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    align-self: start;
+    padding: 20px 24px 24px;
+  }
+
+  #bar-construction.partb-build-active .partb-complete-note,
+  #bar-construction.partb-build-active .partb-graph-check,
+  #bar-construction.partb-build-active .partb-analysis-panel {
+    grid-column: 1 / -1;
+  }
+
+  #bar-construction.partb-build-active .partb-table-wrap {
+    overflow-x: visible;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table th,
+  #bar-construction.partb-build-active .partb-data-table td {
+    padding: 7px 6px;
+    font-size: 0.76rem;
+    line-height: 1.22;
+    overflow-wrap: anywhere;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table th:first-child,
+  #bar-construction.partb-build-active .partb-data-table td:first-child {
+    width: 36%;
+  }
+
+  #bar-construction.partb-build-active .partb-table-actions {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  /* Part C: full-width Site 2 table, then controls beside the graph. */
+  .partc-workbench {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .partc-workbench > .partc-data-card {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .partc-workbench > .partc-build-grid {
+    display: contents;
+  }
+
+  .partc-workbench .partc-control-card {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+    align-self: start;
+    order: initial;
+  }
+
+  .partc-workbench .partc-graph-card {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    align-self: start;
+    order: initial;
+    position: static;
+    padding: 20px 24px 24px;
+  }
+
+  .partc-workbench .partc-table-wrap {
+    overflow-x: visible;
+  }
+
+  .partc-workbench .partc-data-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  .partc-workbench .partc-data-table th,
+  .partc-workbench .partc-data-table td {
+    padding: 7px 6px;
+    font-size: 0.76rem;
+    line-height: 1.22;
+    overflow-wrap: anywhere;
+  }
+
+  .partc-workbench .partc-data-table th:first-child,
+  .partc-workbench .partc-data-table td:first-child {
+    width: 36%;
+  }
+
+  /* Part D: full-width comparison table, then controls beside the graph. */
+  .partd-workbench {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+  }
+
+  .partd-workbench > .partd-data-card {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .partd-workbench > .partd-builder-card {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+    align-self: start;
+  }
+
+  .partd-workbench > .partd-graph-card {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    align-self: start;
+    padding: 20px 24px 24px;
+  }
+}
+
+@media (max-width: 899px) {
+  .partb-construction-grid,
+  .partc-build-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .partd-graph-card {
+    margin-top: 18px;
+  }
+}
+
+/* While students construct the graph, narrow screens only need the animal and
+   average columns from Part B. */
+@media (max-width: 699px),
+       (min-width: 700px) and (max-width: 1100px) and (orientation: portrait) {
+  #bar-construction.partb-build-active .partb-data-card {
+    align-self: start;
+  }
+
+  #bar-construction.partb-build-active .partb-data-card > p,
+  #bar-construction.partb-build-active .partb-table-actions {
+    display: none;
+  }
+
+  #bar-construction.partb-build-active .partb-table-wrap {
+    margin-top: 10px;
+    overflow: visible;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table th:nth-child(2),
+  #bar-construction.partb-build-active .partb-data-table th:nth-child(3),
+  #bar-construction.partb-build-active .partb-data-table th:nth-child(4),
+  #bar-construction.partb-build-active .partb-data-table td:nth-child(2),
+  #bar-construction.partb-build-active .partb-data-table td:nth-child(3),
+  #bar-construction.partb-build-active .partb-data-table td:nth-child(4) {
+    display: none;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table th,
+  #bar-construction.partb-build-active .partb-data-table td {
+    padding: 9px 10px;
+    font-size: 0.86rem;
+    line-height: 1.25;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table th:first-child,
+  #bar-construction.partb-build-active .partb-data-table td:first-child {
+    width: 72%;
+  }
+
+  #bar-construction.partb-build-active .partb-data-table th:nth-child(5),
+  #bar-construction.partb-build-active .partb-data-table td:nth-child(5) {
+    width: 28%;
+  }
+}
+
+/* Part C uses the same compact reference treatment once its sliders are live. */
+@media (max-width: 1100px) {
+  #bar-follow-up.partc-bars-active .partc-data-card > p {
+    display: none;
+  }
+
+  #bar-follow-up.partc-bars-active .partc-data-table th:nth-child(2),
+  #bar-follow-up.partc-bars-active .partc-data-table th:nth-child(3),
+  #bar-follow-up.partc-bars-active .partc-data-table th:nth-child(4),
+  #bar-follow-up.partc-bars-active .partc-data-table td:nth-child(2),
+  #bar-follow-up.partc-bars-active .partc-data-table td:nth-child(3),
+  #bar-follow-up.partc-bars-active .partc-data-table td:nth-child(4) {
+    display: none;
+  }
+
+  #bar-follow-up.partc-bars-active .partc-data-table th:first-child,
+  #bar-follow-up.partc-bars-active .partc-data-table td:first-child {
+    width: 72%;
+    font-size: 0.84rem;
+  }
+
+  #bar-follow-up.partc-bars-active .partc-data-table th:last-child,
+  #bar-follow-up.partc-bars-active .partc-data-table td:last-child {
+    font-size: 0.9rem;
+  }
+}
+
+/* Portrait iPad compaction without changing the desktop structure. */
+@media (min-width: 900px) and (max-width: 1100px) and (orientation: portrait) {
+  #bar-construction,
+  #bar-follow-up,
+  #bar-compare {
+    padding: 18px;
+  }
+
+  #bar-construction.partb-build-active .partb-workbench,
+  .partc-workbench,
+  .partd-workbench {
+    gap: 12px;
+  }
+
+  .partb-data-card,
+  .partb-control-panel,
+  .partc-data-card,
+  .partc-control-card,
+  .partd-data-card,
+  .partd-builder-card {
+    padding: 12px;
+  }
+
+  .partb-graph-card,
+  .partc-graph-card,
+  .partd-graph-card {
+    padding: 14px !important;
+  }
+
+  .partb-data-card h3,
+  .partb-control-panel h3,
+  .partc-data-card h3,
+  .partc-control-card h3,
+  .partd-data-card h3,
+  .partd-builder-card h3 {
+    font-size: 0.96rem;
+  }
+
+  .partb-control-panel > p,
+  .partb-builder-prompt,
+  #partBFeedback,
+  .partc-control-card > p,
+  .partd-builder-card > p {
+    font-size: 0.76rem;
+    line-height: 1.32;
+  }
+
+  .partb-label-bank {
+    gap: 7px;
+    margin-top: 9px;
+    padding: 8px;
+    min-height: 0;
+  }
+
+  .partb-axis-card {
+    min-height: 38px;
+    padding: 6px 8px;
+    font-size: 0.73rem;
+  }
+
+  .partc-slider-stage {
+    margin-top: 8px;
+    padding: 9px;
+  }
+
+  .partc-bar-builder-controls,
+  .partd-builder-controls {
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .partc-bar-builder-controls .bar-builder-row,
+  .partd-builder-controls .bar-builder-row {
+    grid-template-columns: minmax(95px, 115px) minmax(70px, 1fr) 34px;
+    gap: 5px;
+    padding: 5px 6px;
+  }
+
+  .partc-bar-builder-controls .bar-builder-row label,
+  .partd-builder-controls .bar-builder-row label {
+    font-size: 0.68rem;
+    line-height: 1.15;
+  }
+
+  .partc-bar-builder-controls .bar-builder-row output,
+  .partd-builder-controls .bar-builder-row output {
+    min-height: 29px;
+    font-size: 0.76rem;
+  }
+
+  #partBGraphSvg .tick-label,
+  #partCGraphSvg .tick-label,
+  #partDGraphSvg .tick-label {
+    font-size: 15px;
+  }
+
+  #partBGraphSvg .axis-label,
+  #partCGraphSvg .axis-label,
+  #partDGraphSvg .axis-label {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 699px) {
+  .partc-site-image-stage {
+    aspect-ratio: 4 / 3;
+  }
+
+  .partc-site-image {
+    margin: 0;
+    padding: 0;
+  }
+
+  .partb-data-card,
+  .partc-data-card,
+  .partd-data-card {
+    padding: 16px;
+  }
+
+  .partb-data-table th,
+  .partb-data-table td,
+  .partc-data-table th,
+  .partc-data-table td,
+  .partd-data-table th,
+  .partd-data-table td {
+    padding: 10px 8px;
+    font-size: 0.86rem;
+  }
+}
+
+
+@media (max-width: 520px) {
+  .graph-stage-card,
+  .graph-control-card {
+    padding: 14px;
+  }
+}
+
