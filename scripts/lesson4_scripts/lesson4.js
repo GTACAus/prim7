@@ -999,6 +999,7 @@ function partBStartAnalysis() {
 
   function partBHandleAnalysisChoice(button) {
     const kind = button.dataset.partbAnalysis;
+    document.getElementById("partBAnalysisFeedback").hidden = false;
 
     if (kind === "highest") {
       const selectedIndex = Number(button.dataset.partbIndex);
@@ -1021,12 +1022,13 @@ function partBStartAnalysis() {
       document.getElementById("partBAnalysisQuestion2").hidden = false;
       partBAnalysisStep = 2;
 
-      setChallengeFeedback(
-        "partBAnalysisFeedback",
-        "success",
-        partBBarData[expectedIndex].label + " has the highest average.",
-        ""
-      );
+      // setChallengeFeedback(
+      //   "partBAnalysisFeedback",
+      //   "success",
+      //   partBBarData[expectedIndex].label + " has the highest average.",
+      //   " Its bar reaches " + partBFormatAverage(partBAverage(partBBarData[expectedIndex])) + ". Now read the Leadbeater's Possum bar."
+      // );
+      document.getElementById("partBAnalysisFeedback").hidden = true;
       return;
     }
 
@@ -1052,12 +1054,14 @@ function partBStartAnalysis() {
       document.getElementById("partBAnalysisQuestion3").hidden = false;
       partBAnalysisStep = 3;
 
-      setChallengeFeedback(
-        "partBAnalysisFeedback",
-        "success",
-        "Leadbeater's Possums averaged " + partBFormatAverage(expectedValue) + ".",
-        " One more comparison: find the lowest average. Remember that 0 sits on the baseline."
-      );
+      // setChallengeFeedback(
+      //   "partBAnalysisFeedback",
+      //   "success",
+      //   "Leadbeater's Possums averaged " + partBFormatAverage(expectedValue) + ".",
+      //   " One more comparison: find the lowest average. Remember that 0 sits on the baseline."
+      // );
+      document.getElementById("partBAnalysisFeedback").hidden = true;
+
       return;
     }
 
@@ -1102,12 +1106,13 @@ function partBStartAnalysis() {
 
     document.getElementById("barConstructionNext").hidden = false;
 
-    setChallengeFeedback(
-      "partBAnalysisFeedback",
-      "success",
-      "You analysed the Site 1 survey.",
-      " Keep these results: later you will compare them with the Site 2 survey."
-    );
+    // setChallengeFeedback(
+    //   "partBAnalysisFeedback",
+    //   "success",
+    //   "You analysed the Site 1 survey.",
+    //   " Keep these results: later you will compare them with the Site 2 survey."
+    // );
+    document.getElementById("partBAnalysisFeedback").hidden = true;
 
     window.setTimeout(function() {
       document.getElementById("partBBaselineSummary").scrollIntoView({ behavior: "smooth", block: "center" });
