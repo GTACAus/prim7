@@ -968,26 +968,34 @@
     });
   }
 
-  function partBStartAnalysis() {
-    if (partBBuiltBars.size !== partBBarData.length) return;
+function partBStartAnalysis() {
+  if (partBBuiltBars.size !== partBBarData.length) return;
 
-    partBAnalysisStep = 1;
-    document.getElementById("partBAnalysisPanel").hidden = false;
-    document.getElementById("partBStartAnalysisButton").disabled = true;
-    document.getElementById("partBGraphBadge").textContent = "Analyse";
-    document.getElementById("partBGraphHint").textContent = "Use the completed bars and their values as evidence.";
+  partBAnalysisStep = 1;
 
-    setChallengeFeedback(
-      "partBAnalysisFeedback",
-      "",
-      "Read the bar heights.",
-      " Start by finding the tallest bar."
-    );
+  document.getElementById("partBGraphCheck").hidden = true;
+  document.getElementById("partBCompleteNote").hidden = true;
 
-    window.setTimeout(function() {
-      document.getElementById("partBAnalysisPanel").scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
-  }
+  document.getElementById("partBAnalysisPanel").hidden = false;
+  document.getElementById("partBStartAnalysisButton").disabled = true;
+  document.getElementById("partBGraphBadge").textContent = "Analyse";
+  document.getElementById("partBGraphHint").textContent =
+    "Use the completed bars and their values as evidence.";
+
+  setChallengeFeedback(
+    "partBAnalysisFeedback",
+    "",
+    "Read the bar heights.",
+    " Start by finding the tallest bar."
+  );
+
+  window.setTimeout(function() {
+    document.getElementById("partBAnalysisPanel").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 120);
+}
 
   function partBHandleAnalysisChoice(button) {
     const kind = button.dataset.partbAnalysis;
@@ -1017,7 +1025,7 @@
         "partBAnalysisFeedback",
         "success",
         partBBarData[expectedIndex].label + " has the highest average.",
-        " Its bar reaches " + partBFormatAverage(partBAverage(partBBarData[expectedIndex])) + ". Now read the Leadbeater's Possum bar."
+        ""
       );
       return;
     }
@@ -1145,8 +1153,11 @@
     });
     document.getElementById("partBLabelBank").hidden = false;
     document.getElementById("partBStepLabel").textContent = "Step 2 · Label the axes";
-    document.getElementById("partBControlHeading").textContent = "Build the graph labels";
-    document.getElementById("partBControlText").textContent = "Drag the two correct labels from the bank onto the dashed spaces on the graph. The x-axis shows the categories; the y-axis shows what was counted.";
+    document.getElementById("partBControlHeading").textContent =
+    "Label your graph axes";
+
+   document.getElementById("partBControlText").textContent =
+    "Look at the possible labels shown here. Choose one label to drag onto the x-axis to describe the categorical data. Then choose another label to drag onto the y-axis to show what you are measuring.";
     document.getElementById("partBGraphBadge").textContent = "Axes";
     document.getElementById("partBGraphHint").textContent = "First label the graph. Then you will construct each bar from its plotted point.";
 
