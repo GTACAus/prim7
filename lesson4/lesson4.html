@@ -253,88 +253,49 @@
       <section id="bar-data-preamble" class="section bar-data-preamble" aria-labelledby="barDataPreambleTitle">
         <p class="intro-eyebrow">Using bar graphs</p>
         <h2 id="barDataPreambleTitle">Visualising Fair Test Data</h2>
-        <button
-          type="button"
-          class="general-button project-resource-button"
-          onclick="openPdfModal('../downloads/lesson4/leadbeaters-possum-species.pdf', 'Types of Data')"
-        >
-        <p class="bounce-symbol">📄</p>
-        <p>Types of Data</p>
-        </button>
-                    
-        <p class="diagram-activity">
-          Scientists use a <strong>bar graph</strong> when they want to visualise
-          <strong>discrete data</strong> or <strong>categorical data</strong>.
-        </p>
-
-        <div class="bar-purpose-callout">
+        <div class="diagram-activity bar-data-intro-row">
           <p>
-            A bar graph makes it easy to compare data and look for patterns.
-            A longer bar shows a higher value or number compared to a shorter bar.
+            Scientists use a <strong>bar graph</strong> when they want to visualise
+            <strong>discrete data</strong> or <strong>categorical data</strong>.
           </p>
-
-          <div class="bar-length-demo" aria-hidden="true">
-            <div class="bar-length-demo-item">
-              <span class="bar-length-demo-bar short"></span>
-              <span>Less</span>
-            </div>
-            <div class="bar-length-demo-item">
-              <span class="bar-length-demo-bar long"></span>
-              <span>More</span>
-            </div>
-          </div>
-        </div>
-        <div class="project-species-lead bar-axis-summary">
-          <div>
-            <p>In a fair test bar graph:</p>
-            <ul>
-              <li>The categorical variables or groups being changed or compared go on the x-axis.</li>
-              <li>The dependent variable (the thing you measure) goes on the y-axis.</li>
-            </ul>
-          </div>
+          <button
+            type="button"
+            class="general-button project-resource-button bar-data-resource-button"
+            onclick="openPdfModal('../downloads/lesson4/leadbeaters-possum-species.pdf', 'Types of Data')"
+          >
+            <span class="bounce-symbol" aria-hidden="true">📄</span>
+            <span>Types of Data</span>
+          </button>
         </div>
 
-        <div class="bar-data-type-grid">
-          <article class="bar-data-type-card">
-            <h3>Discrete data</h3>
-            <p>
-              Discrete data uses whole-number values such as <strong>1, 2 and 3</strong>.
-              When you are counting whole objects, there are no values in between.
-            </p>
-            <div class="bar-data-visual" aria-hidden="true">
-              <span class="bar-data-pill">1</span>
-              <span class="bar-data-pill">2</span>
-              <span class="bar-data-pill">3</span>
-            </div>
+        <div class="wheel-question-checklist bar-example-checklist" aria-label="What to look for in the example bar graphs">
+          <h5>Look at the 3 bar graphs below</h5>
+          <p>Each shows the results of a fair test. As you look, check that each graph has:</p>
 
-            <p class="bar-data-example"><strong>Examples:</strong> number of pages in a book, number of pets.</p>
-          </article>
+          <label class="check-item">
+            <input type="checkbox" aria-label="Check for a clear graph title" />
+            <span>
+              <strong>A clear title</strong>
+              <small>Explains what the fair test is investigating.</small>
+            </span>
+          </label>
 
-          <article class="bar-data-type-card">
-            <h3>Categorical data</h3>
-            <p>
-              Categorical data is sorted into different <strong>groups or categories</strong>.
-            </p>
-            <div class="bar-data-visual" aria-hidden="true">
-              <span class="bar-data-pill">Hair colour</span>
-              <span class="bar-data-pill">Favourite animal</span>
-              <span class="bar-data-pill">Type of pet</span>
-            </div>
-            <p class="bar-data-example"><strong>Examples:</strong> hair colour, favourite animal, types of pets.</p>
-          </article>
+          <label class="check-item">
+            <input type="checkbox" aria-label="Check for an x-axis label and units" />
+            <span>
+              <strong>An x-axis label and units</strong>
+              <small>Shows the categories or groups being compared.</small>
+            </span>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" aria-label="Check for a y-axis label and units" />
+            <span>
+              <strong>A y-axis label and units</strong>
+              <small>Shows what was measured or counted.</small>
+            </span>
+          </label>
         </div>
-        <div class="diagram-activity lesson4-spaced-block">
-              <p>
-                Look at the 3 bar graphs below.
-                Each shows the results of a fair test.
-                Use these examples to explore how to:
-              </p>
-              <ul>
-                <li>Give your graph a title that explains what the fair test is investigating.</li>
-                <li>Label the x-axis and the units</li>
-                <li>Label the y-axis and the units</li>
-              </ul>
-            </div>
 
         <div class="bar-example-graphs-frame">
           <img src="../images/lesson4/example_bar_graphs.png" alt="Three example bar graphs, each with a title and labelled, unit-marked x-axis and y-axis." />
