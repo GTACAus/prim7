@@ -258,6 +258,8 @@
             Scientists use a <strong>bar graph</strong> when they want to visualise
             <strong>discrete data</strong> or <strong>categorical data</strong>.
           </p>
+
+          <!-- Commented Types of Data Button as it is redundant with image 
           <button
             type="button"
             class="general-button project-resource-button bar-data-resource-button"
@@ -266,14 +268,16 @@
             <span class="bounce-symbol" aria-hidden="true">📄</span>
             <span>Types of Data</span>
           </button>
+          -->
         </div>
 
         <!-- Full-width Canva visual placeholder using existing shared lesson elements only. -->
-        <div class="diagram-box diagram-activity">
-          <p class="intro-eyebrow">Visual reference</p>
-          <h3>Numerical vs categorical data</h3>
-          <p class="activity-instruction">Canva PNG will go here.</p>
-        </div>
+          <div class="image-box">
+            <img
+              src="../../images/lesson4/types-of-graphs.png"
+              alt="Visual comparison of numerical and categorical data"
+            />
+          </div>
 
         <div class="wheel-question-checklist bar-example-checklist" aria-label="What to look for in the example bar graphs">
           <h5>Look at the 3 bar graphs below</h5>
@@ -305,17 +309,23 @@
         </div>
 
         <!-- Existing intro-grid/intro-card components give us two responsive columns without new CSS. -->
-        <div class="intro-grid lesson4-spaced-block">
+        <div class="intro-grid">
           <section class="intro-card">
-            <p class="intro-eyebrow">Reference</p>
-            <h3>Blank bar graph template</h3>
-            <p>Canva PNG will go here.</p>
+            <div class="image-box">
+              <img
+                src="../images/lesson4/blank_bar_graph.png"
+                alt="Blank bar graph template showing the parts of a bar graph"
+              />
+            </div>
           </section>
 
           <section class="intro-card">
-            <p class="intro-eyebrow">Examples</p>
-            <h3>Bar graph examples</h3>
-            <p>Canva PNG will go here.</p>
+            <div class="image-box">
+              <img
+                src="../images/lesson4/bar_graph_examples.png"
+                alt="Examples of completed bar graphs"
+              />
+            </div>
           </section>
         </div>
 
@@ -329,7 +339,7 @@
              BAR GRAPH STUDENT CHALLENGE
              ================================================== -->
         <section class="section student-challenge locked" id="bar-practice">
-          <h2 class="section-title">A Fair Test to Compare Two Forest Sites</h2>
+          <h2 class="section-title">Project Possum &middot; Site 1</h2>
 
           <div class="project-possum-flow">
             <article class="project-step-card">
@@ -356,7 +366,7 @@
                     <button
                       type="button"
                       class="general-button project-resource-button"
-                      onclick="openPdfModal('../downloads/lesson4/leadbeaters-possum-species.pdf', 'Meet the Leadbeater\'s Possum')"
+                      onclick="openPdfModal('../../downloads/lesson4/leadbeaters-possum-flyer.pdf', 'Meet the Leadbeater\'s Possum')"
                     >
                       <span class="bounce-symbol" aria-hidden="true">📄</span>
                       <span>Open Leadbeater's Flyer</span>
@@ -373,7 +383,6 @@
                 </aside>
               </div>
               <p class="diagram-activity project-mission-copy">
-                <strong>Your mission</strong>: Conduct a fair test to compare animals living in two forest sites.
                 You work for Parks Victoria as a ranger in the Toolangi State Forest.
                 You are working with an environmental group called <i>Friends of the Leadbeater's Possum</i>.
                 You will set up a fair test to carry out a survey of 5 animals living in two forest areas:
@@ -438,12 +447,22 @@
                 </div>
               </div>
 
-              <p class="project-survey-tip">Independent variable: Compare numbers of 5 different animals at site 1 and site 2.</p>
-              <p class="project-survey-tip project-survey-tip-dependent">
-                Dependent variable: Measure the number of each animal
-              </p>
-                <div class="project-survey-tip project-survey-tip-controlled">
-                  <p>Controlled variables:</p>
+              <div class="variable-type-grid" aria-label="Variables in the Site 1 and Site 2 fair test">
+                <article class="variable-type-card independent">
+                  <p class="intro-eyebrow">Change</p>
+                  <h3>Independent variable</h3>
+                  <p>Compare numbers of 5 different animals at Site 1 and Site 2.</p>
+                </article>
+
+                <article class="variable-type-card dependent">
+                  <p class="intro-eyebrow">Measure</p>
+                  <h3>Dependent variable</h3>
+                  <p>Measure the number of each animal.</p>
+                </article>
+
+                <article class="variable-type-card controlled">
+                  <p class="intro-eyebrow">Keep the same</p>
+                  <h3>Controlled variables</h3>
                   <ul>
                     <li>
                       Controlled size: Each site is the size of the Melbourne Cricket Ground.
@@ -459,14 +478,12 @@
                       Controleld people: You will have the same group carry out the count at each site.
                     </li>
                   </ul>
-                </div>
+                </article>
+              </div>
 
               <div class="diagram-activity lesson4-spaced-block">
-                <p class="project-task-copy">
-                  Train everyone so they know how to recognise the 5 different animals being counted:
-                </p>
                 <p>
-                  When night falls, use the spotlight to search the forest and <strong>count the number of each target animal you observe</strong>.
+                  Between 9pm and 10pm at night, use a spotlight to count the number of each animal in your area.
                 </p>
               </div>
 
@@ -518,7 +535,9 @@
               <span class="project-step-number">4</span>
               <div>
                 <h3>Spotlighting activity</h3>
-                <p>Wait until night, search Site 1 carefully with the torch, then record your counts.</p>
+                <p>Wait until night, then use the spotlight to find animals. Click on animals as you see them. Use the "Check my count" button
+                  to see if you have counted all the animals. If not, keep searching.
+                </p>
               </div>
               <span class="project-site-one-badge">Site 1</span>
             </div>
@@ -599,6 +618,32 @@
               <div class="challenge-feedback" id="animalCountFeedback" role="status" aria-live="polite">
                 <strong>Use the torch to search first.</strong>
                 Set each counter to how many of that animal you found hiding in the photo.
+              </div>
+
+              <!-- Appears only after all animal counts are correct -->
+              <div
+                class="diagram-activity challenge-hidden"
+                id="visualiseCountsIntro"
+                hidden
+              >
+                <span class="challenge-step-label">Visualise your data</span>
+
+                <p>
+                  Look at the counters that show how many of each animal you found.
+                  Now compare three different ways to visualise or view your data:
+                </p>
+
+                <ul>
+                  <li>
+                    Look at the counters in the circles first.
+                  </li>
+                  <li>
+                    Click <strong>Show counters stacked up</strong>.
+                  </li>
+                  <li>
+                    Click <strong>Show counters laid flat in lines</strong>.
+                  </li>
+                </ul>
               </div>
 
               <div class="stack-buttons-row challenge-hidden" id="stackButtonsRow" hidden>

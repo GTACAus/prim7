@@ -506,22 +506,36 @@ function setStackShape(mode) {
 }
 
 function revealStackButtons() {
+  const intro = document.getElementById('visualiseCountsIntro');
   const buttonsRow = document.getElementById('stackButtonsRow');
+
+  if (intro) {
+    intro.hidden = false;
+    intro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
   if (buttonsRow) {
     buttonsRow.hidden = false;
-    buttonsRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+
   buildStackVisual();
 }
 
 function hideStackVisuals() {
+  const intro = document.getElementById('visualiseCountsIntro');
   const buttonsRow = document.getElementById('stackButtonsRow');
   const visual = document.getElementById('animalStackVisual');
+
+  if (intro) intro.hidden = true;
   if (buttonsRow) buttonsRow.hidden = true;
   if (visual) visual.hidden = true;
 
   const row = document.getElementById('stackRow');
-  if (row) { row.innerHTML = ''; row.classList.remove('circle-mode'); }
+
+  if (row) {
+    row.innerHTML = '';
+    row.classList.remove('circle-mode');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
