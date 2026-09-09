@@ -1778,11 +1778,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
 .bar-example-image-card .image-box {
   display: flex;
   width: 100%;
+  margin: 0;
   align-items: center;
   justify-content: center;
 }
@@ -3329,4 +3331,13 @@
     width: 76px;
     height: 76px;
   }
+}
+
+.more-less-protect-block {
+  margin-top: 22px;
+  text-align: center;
+}
+
+.more-less-protect-block .project-resource-button {
+  justify-content: center;
 }
