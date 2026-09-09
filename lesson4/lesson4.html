@@ -324,23 +324,23 @@
 
         <!-- Existing intro-grid/intro-card components give us two responsive columns without new CSS. -->
         <div class="intro-grid bar-example-image-grid">
-          <section class="intro-card bar-example-image-card">
+          <div class="intro-card bar-example-image-card">
             <div class="image-box">
               <img
                 src="../images/lesson4/blank_bar_graph.png"
                 alt="Blank bar graph template showing the parts of a bar graph"
               />
             </div>
-          </section>
+          </div>
 
-          <section class="intro-card bar-example-image-card">
+          <div class="intro-card bar-example-image-card">
             <div class="image-box">
               <img
                 src="../images/lesson4/bar_graph_examples.png"
                 alt="Examples of completed bar graphs"
               />
             </div>
-          </section>
+          </div>
         </div>
 
       <button class="next-button general-button" onclick="unlockSection('bar-practice', 'bar-data-preamble')">
@@ -1648,6 +1648,23 @@
                   </div>
                 </div>
               </div>
+            </div>
+
+            <!--
+              TODO: add downloads/lesson4/protect-leadbeaters-possum.pdf -
+              this button already points at that filename (same pattern as
+              the flyer button in Part A) but the file doesn't exist yet.
+            -->
+            <div class="project-learn-block more-less-protect-block">
+              <h4>What can we do to protect Leadbeater's Possum?</h4>
+              <button
+                type="button"
+                class="general-button project-resource-button"
+                onclick="openPdfModal('../../downloads/lesson4/protect-leadbeaters-possum.pdf', 'Protecting Leadbeater\'s Possum')"
+              >
+                <span class="bounce-symbol" aria-hidden="true">📄</span>
+                <span>Open Protection Guide</span>
+              </button>
             </div>
 
           </div>
