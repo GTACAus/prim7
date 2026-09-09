@@ -1928,13 +1928,15 @@ function partCHandleLeadbeatersChoice(button) {
 
   document.getElementById("partCAnalysisQuestion1").hidden = true;
   document.getElementById("partCAnalysisQuestion2").hidden = false;
+  document.getElementById("partCAnalysisFeedback").hidden = true;
 
-  setChallengeFeedback(
-    "partCAnalysisFeedback",
-    "success",
-    "Correct: the Site 2 average is " + correct + " Leadbeater's Possum.",
-    " Now look at the feral deer bar."
-  );
+  // setChallengeFeedback(
+  //   "partCAnalysisFeedback",
+  //   "success",
+  //   "Correct: the Site 2 average is " + correct + " Leadbeater's Possum.",
+  //   " Now look at the feral deer bar."
+  // );
+
 }
 
 
@@ -1965,18 +1967,19 @@ function partCHandleDeerChoice(button) {
 
   document.getElementById("partCAnalysisQuestion2").hidden = true;
   document.getElementById("partCAnalysisQuestion3").hidden = false;
+  document.getElementById("partCAnalysisFeedback").hidden = true;
 
   const site1Leadbeaters = partBAverage(partBBarData[0]);
 
   document.getElementById("partCSite1LeadbeatersReference").textContent =
     partBFormatAverage(site1Leadbeaters);
 
-  setChallengeFeedback(
-    "partCAnalysisFeedback",
-    "success",
-    "Correct: the Site 2 feral deer average is " + correct + ".",
-    " Now compare the Leadbeater's Possum results from Site 1 and Site 2."
-  );
+  // setChallengeFeedback(
+  //   "partCAnalysisFeedback",
+  //   "success",
+  //   "Correct: the Site 2 feral deer average is " + correct + ".",
+  //   " Now compare the Leadbeater's Possum results from Site 1 and Site 2."
+  // );
 }
 
 
@@ -2028,12 +2031,12 @@ function partCHandleLeadbeatersSiteChoice(button) {
     " at Site 2</strong>. " +
     "<strong>Site 1 had more Leadbeater's Possums.</strong>";
 
-  setChallengeFeedback(
-    "partCAnalysisFeedback",
-    "success",
-    "Correct: Site 1 had more Leadbeater's Possums.",
-    " You have now analysed the Site 2 graph and compared it with Site 1."
-  );
+  // setChallengeFeedback(
+  //   "partCAnalysisFeedback",
+  //   "success",
+  //   "Correct: Site 1 had more Leadbeater's Possums.",
+  //   " You have now analysed the Site 2 graph and compared it with Site 1."
+  // );
 
   document.getElementById("barFollowUpNext").hidden = false;
 }
