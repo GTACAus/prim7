@@ -3163,7 +3163,15 @@
   display: flex;
   justify-content: center;
   gap: 28px;
+  
   margin-bottom: 4px;
+  padding: 10px;
+
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-top: 6px solid var(--green);
+  box-shadow: 0 6px 0 var(--charcoal);
+  border-radius: 10px;
 }
 
 .more-less-item {
@@ -3199,7 +3207,7 @@
 
 .more-less-button {
   color: var(--charcoal);
-  background: var(--paper);
+  background: var(--soft-green);
   min-width: 110px;
 }
 
