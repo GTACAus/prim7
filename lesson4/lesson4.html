@@ -1484,7 +1484,6 @@
         </div>
 
         <div class="prediction-check" id="partDCompleteCard" hidden>
-
           <p class="prediction-label">
             Interpret the results
           </p>
@@ -1498,49 +1497,40 @@
               When there is more forest <strong>understorey</strong> the number of Leadbeater's possums will increase.
             </p>
           </div>
-        <div class="prediction-final">
+          <div class="prediction-final">
+            <h3>
+              Do the results support the reasoned prediction?
+            </h3>
 
-          <h3>
-            Do the results support the reasoned prediction?
-          </h3>
+            <div class="prediction-buttons">
 
-          <div class="prediction-buttons">
+              <button
+                id="predictionCheckSupported"
+                type="button"
+                class="general-button prediction-button"
+              >
+                Supported
+              </button>
 
-            <button
-              id="predictionCheckSupported"
-              type="button"
-              class="general-button prediction-button"
-            >
-              Supported
-            </button>
+              <button
+                id="predictionCheckPartlySupported"
+                type="button"
+                class="general-button prediction-button"
+              >
+                Partly Supported
+              </button>
 
-            <button
-              id="predictionCheckPartlySupported"
-              type="button"
-              class="general-button prediction-button"
-            >
-              Partly Supported
-            </button>
-
-            <button
-              id="predictionCheckUnsupported"
-              type="button"
-              class="general-button prediction-button"
-            >
-              Not supported
-            </button>
-
+              <button
+                id="predictionCheckUnsupported"
+                type="button"
+                class="general-button prediction-button"
+              >
+                Not supported
+              </button>
+            </div>
           </div>
-
         </div>
-
-        </div>
-        <div
-          class="stop-and-check"
-          id="partDStopAndCheck"
-          hidden
-        >
-
+        <div class="stop-and-check" id="partDStopAndCheck" hidden>
           <div class="stop-and-check-content">
             <p>
               Look at the pictures of each forest site.
@@ -1554,10 +1544,7 @@
             </p>
           </div>
 
-          <div
-            class="stop-and-check-answer"
-            hidden
-          >
+          <div class="stop-and-check-answer" hidden>
             Yeast is a living thing. At <strong>80°C</strong>, the temperature
             is too hot for the yeast to survive, so yeast activity slows down
             and stops.
@@ -1566,12 +1553,11 @@
           <button
             type="button"
             class="stop-and-check-button general-button"
-            onclick="yeastAverageStopAndCheck(this)"
+            onclick="showStopAndCheckAnswer(this)"
           >
             <p>Check Your Answer</p>
             <p class="bounce-symbol">✅</p>
           </button>
-
         </div>
         <!-- <div class="partd-complete-card" id="partDCompleteCard" hidden>
           <span class="challenge-step-label">Comparison complete</span>
