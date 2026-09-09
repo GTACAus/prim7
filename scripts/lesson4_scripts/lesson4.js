@@ -2528,6 +2528,43 @@ function partCHandleLeadbeatersSiteChoice(button) {
 
     const stopAndCheck = document.getElementById("partDStopAndCheck");
     if (stopAndCheck) stopAndCheck.hidden = false;
+    partDRenderStopAndCheckGraph();
+  }
+
+  /*
+    Drops a live copy of the finished paired-bar graph into the
+    stop-and-check recap, so students can re-read it without
+    scrolling back up. Re-clones on every call rather than trying to
+    keep a second copy in sync, so it's always accurate whenever it's
+    shown (first reveal, or resuming after a reload).
+  */
+  function partDRenderStopAndCheckGraph() {
+    const source = document.getElementById("partDGraphSvg");
+    const target = document.getElementById("partDStopAndCheckGraph");
+    if (!source || !target) return;
+
+    const clone = source.cloneNode(true);
+    clone.removeAttribute("id");
+    target.innerHTML = "";
+    target.appendChild(clone);
+  }
+
+  /*
+    The two "more/less" questions in the stop-and-check recap. One
+    button in each pair carries data-more-less-correct="true" - see
+    the HTML comment above them in lesson4.html to change which one.
+  */
+  function partDHandleMoreLessChoice(button) {
+    const group = button.closest(".more-less-buttons");
+    if (!group) return;
+
+    group.querySelectorAll(".more-less-button").forEach(function(other) {
+      other.classList.remove("selected-answer", "correct-choice", "try-again-choice");
+    });
+    if (button.dataset.moreLessCorrect === "true") {
+      button.classList.add("selected-answer");
+    }
+    flashChoice(button, button.dataset.moreLessCorrect === "true" ? "correct-choice" : "try-again-choice");
   }
 
   function partDCheckBars() {
@@ -2785,6 +2822,11 @@ function partCHandleLeadbeatersSiteChoice(button) {
         resetStopAndCheck(partDStopAndCheck);
       }
     }
+    document.querySelectorAll("#partDStopAndCheck .more-less-button").forEach(function(button) {
+      button.classList.remove("selected-answer", "correct-choice", "try-again-choice");
+    });
+    const partDStopAndCheckGraph = document.getElementById("partDStopAndCheckGraph");
+    if (partDStopAndCheckGraph) partDStopAndCheckGraph.innerHTML = "";
     document.querySelectorAll("[data-partd-site]").forEach(function(button) {
       button.classList.remove("needs-fix", "site-complete");
     });
@@ -2859,6 +2901,11 @@ function partCHandleLeadbeatersSiteChoice(button) {
       partDHighlightPair(0);
       partDRenderCompleteSummary();
     }
+
+    const stopAndCheck = document.getElementById("partDStopAndCheck");
+    if (stopAndCheck && !stopAndCheck.hidden) {
+      partDRenderStopAndCheckGraph();
+    }
   }
 
   function initialisePartD() {
@@ -2884,6 +2931,9 @@ function partCHandleLeadbeatersSiteChoice(button) {
     });
     document.querySelectorAll("#partDCompleteCard .prediction-button").forEach(function(button) {
       button.addEventListener("click", function() { partDHandlePredictionChoice(button); });
+    });
+    document.querySelectorAll("#partDStopAndCheck .more-less-button").forEach(function(button) {
+      button.addEventListener("click", function() { partDHandleMoreLessChoice(button); });
     });
 
     document.getElementById("resetPartDButton").addEventListener("click", resetPartD);
