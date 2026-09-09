@@ -1483,7 +1483,140 @@
           </div>
         </div>
 
-        <div class="partd-complete-card" id="partDCompleteCard" hidden>
+        <div class="prediction-check" id="partdPredictionCheck" >
+
+          <p class="prediction-label">
+            Interpret the results
+          </p>
+
+          <div class="prediction-reminder">
+            <h3 class="prediction-reminder-label">
+              Reasoned prediction
+            </h3>
+
+            <p>
+              As the temperature increases, the amount of gas made by yeast increases.
+              This is because living things need to be warm to survive.
+            </p>
+          </div>
+          <div>
+            <h3>Use the data to describe the results</h3>
+
+            <div class="prediction-result-question">
+
+              <p>
+                As the temperature increases from
+                <strong>2°C to 37°C</strong>, the amount of gas made by yeast:
+              </p>
+
+              <div class="prediction-buttons">
+                <button
+                  type="button"
+                  class="general-button prediction-button"
+                  data-yeast-result-question="low-to-37"
+                  data-answer="increases"
+                >
+                  Increases
+                </button>
+
+                <button
+                  type="button"
+                  class="general-button prediction-button"
+                  data-yeast-result-question="low-to-37"
+                  data-answer="decreases"
+                >
+                  Decreases
+                </button>
+
+                <button
+                  type="button"
+                  class="general-button prediction-button"
+                  data-yeast-result-question="low-to-37"
+                  data-answer="same"
+                >
+                  Does not change
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="result-question">
+
+            <p>
+              At <strong>80°C</strong>, the amount of gas made compared with
+              <strong>37°C</strong>:
+            </p>
+
+            <div class="prediction-buttons">
+              <button
+                type="button"
+                class="general-button prediction-button"
+                data-yeast-result-question="37-to-80"
+                data-answer="increases"
+              >
+                Increases
+              </button>
+
+              <button
+                type="button"
+                class="general-button prediction-button"
+                data-yeast-result-question="37-to-80"
+                data-answer="decreases"
+              >
+                Decreases
+              </button>
+
+              <button
+                type="button"
+                class="general-button prediction-button"
+                data-yeast-result-question="37-to-80"
+                data-answer="same"
+              >
+                Does not change
+              </button>
+            </div>
+
+          </div>
+
+        <div class="prediction-final" hidden>
+
+          <h3>
+            Do the results support the reasoned prediction?
+          </h3>
+
+          <div class="prediction-buttons">
+
+            <button
+              id="predictionCheckSupported"
+              type="button"
+              class="general-button prediction-button"
+            >
+              Supported
+            </button>
+
+            <button
+              id="predictionCheckPartlySupported"
+              type="button"
+              class="general-button prediction-button"
+            >
+              Partly Supported
+            </button>
+
+            <button
+              id="predictionCheckUnsupported"
+              type="button"
+              class="general-button prediction-button"
+            >
+              Not supported
+            </button>
+
+          </div>
+
+        </div>
+
+        </div>
+        <!-- <div class="partd-complete-card" id="partDCompleteCard" hidden>
           <span class="challenge-step-label">Comparison complete</span>
           <h3>Use the paired graph to describe the evidence</h3>
           <p class="partd-result-statement" id="partDResultStatement"></p>
@@ -1495,7 +1628,7 @@
             <strong>Return to your Part A prediction.</strong><br />
             Did the evidence match which site you expected to have more Leadbeater's Possums?
           </p>
-        </div>
+        </div> -->
 
         <div class="reset-button-container">
           <button type="button" class="general-button reset-btn" id="resetPartDButton">Reset Part D</button>
