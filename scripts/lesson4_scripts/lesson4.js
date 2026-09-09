@@ -2640,7 +2640,6 @@ function partCHandleLeadbeatersSiteChoice(button) {
     document.querySelectorAll("#partDAnalysisQuestion3 [data-partd-same-count]").forEach(function(button, index) {
       const value = choices[index];
       button.dataset.partdSameCount = value;
-      button.textContent = value + (value === 1 ? " category" : " categories");
     });
   }
 
