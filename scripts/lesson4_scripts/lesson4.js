@@ -2480,6 +2480,35 @@ function partCHandleLeadbeatersSiteChoice(button) {
     marker.classList.add("visible");
   }
 
+  function partDApplyAnalysisVisuals() {
+    const section = document.getElementById("bar-compare");
+    if (!section) return;
+    section.classList.remove("partd-edit-site1", "partd-edit-site2");
+    section.classList.add("partd-analysis-mode");
+
+    const data = partDData();
+    ["site1", "site2"].forEach(function(site) {
+      data.forEach(function(item, index) {
+        partDSetBarHeight(site, index, item[site], true);
+      });
+    });
+  }
+
+  function partDRenderCompleteSummary() {
+    const data = partDData();
+    const lead = data[0];
+    const difference = Math.abs(lead.site1 - lead.site2);
+    const higherSite = lead.site1 > lead.site2 ? "Site 1" : lead.site2 > lead.site1 ? "Site 2" : "Neither site";
+    const sameLabels = data.filter(function(item) { return item.site1 === item.site2; }).map(function(item) { return item.label; });
+
+    document.getElementById("partDResultStatement").innerHTML =
+      "<strong>The data show that</strong> Site 1 had an average of <strong>" + partDFormat(lead.site1) +
+      "</strong> Leadbeater's Possums and Site 2 had an average of <strong>" + partDFormat(lead.site2) +
+      "</strong>. <strong>" + higherSite + "</strong> had the higher average, with a difference of <strong>" +
+      partDFormat(difference) + " animals</strong>. " +
+      (sameLabels.length ? "The same average was recorded for <strong>" + sameLabels.join(" and ") + "</strong>." : "No animal category had the same average at both sites.");
+  }
+
   function partDCheckBars() {
     if (partDStage !== "bars") return;
     const data = partDData();
@@ -2519,15 +2548,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
     }
 
     partDStage = "analysis";
-    const section = document.getElementById("bar-compare");
-    section.classList.remove("partd-edit-site1", "partd-edit-site2");
-    section.classList.add("partd-analysis-mode");
-
-    ["site1", "site2"].forEach(function(site) {
-      data.forEach(function(item, index) {
-        partDSetBarHeight(site, index, item[site], true);
-      });
-    });
+    partDApplyAnalysisVisuals();
 
     document.getElementById("partDSiteSwitcher").hidden = true;
     document.getElementById("partDEditingNote").hidden = true;
@@ -2535,6 +2556,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
     document.getElementById("checkPartDBarsButton").hidden = true;
     document.getElementById("partDBuilderComplete").hidden = false;
     document.getElementById("partDAnalysisPanel").hidden = false;
+    document.getElementById("partDAnalysisFeedback").hidden = false;
     document.getElementById("partDGraphBadge").textContent = "Compare";
     document.getElementById("partDGraphHint").textContent = "Both sites are now on the same scale. Compare the paired bars for each animal.";
     partDHighlightPair(0);
@@ -2632,55 +2654,48 @@ function partCHandleLeadbeatersSiteChoice(button) {
   }
 
   function partDPrepareSameCountChoices() {
-    const sameCount = partDData().filter(function(item) { return item.site1 === item.site2; }).length;
-    let choices = [Math.max(0, sameCount - 1), sameCount, sameCount + 1];
-    choices = Array.from(new Set(choices));
-    while (choices.length < 3) choices.push(choices[choices.length - 1] + 1);
-
-    document.querySelectorAll("#partDAnalysisQuestion3 [data-partd-same-count]").forEach(function(button, index) {
-      const value = choices[index];
-      button.dataset.partdSameCount = value;
-    });
+    document
+      .querySelectorAll("#partDAnalysisQuestion3 [data-partd-same-count]")
+      .forEach(function(button) {
+        button.classList.remove(
+          "correct-choice",
+          "try-again-choice",
+          "selected-answer"
+        );
+      });
   }
 
   function partDHandleSameCountChoice(button) {
     if (partDStage !== "analysis" || partDAnalysisStep !== 2) return;
-    const data = partDData();
-    const correct = data.filter(function(item) { return item.site1 === item.site2; }).length;
-    const chosen = Number(button.dataset.partdSameCount);
 
-    if (chosen !== correct) {
+    const chosen = button.dataset.partdSameCount === "true";
+
+    if (!chosen) {
       flashChoice(button, "try-again-choice");
-      partDClearPairHighlights();
+      partDHighlightPair(4);
+
       setChallengeFeedback(
         "partDAnalysisFeedback",
         "try-again",
-        "Look for equal-height pairs.",
-        " Count each animal where the Site 1 and Site 2 bars reach the same height."
+        "Look at the feral deer bars.",
+        " Compare the Site 1 and Site 2 values for feral deer."
       );
+
       return;
     }
 
     flashChoice(button, "correct-choice");
+    partDHighlightPair(4);
+
     partDAnalysisStep = 3;
     partDStage = "complete";
+
     document.getElementById("partDAnalysisQuestion3").hidden = true;
     document.getElementById("partDCompleteCard").hidden = false;
     document.getElementById("partDGraphBadge").textContent = "Complete ✓";
     partDHighlightPair(0);
     partDShowLeadbeatersDifferenceMarker();
-
-    const lead = data[0];
-    const difference = Math.abs(lead.site1 - lead.site2);
-    const higherSite = lead.site1 > lead.site2 ? "Site 1" : lead.site2 > lead.site1 ? "Site 2" : "Neither site";
-    const sameLabels = data.filter(function(item) { return item.site1 === item.site2; }).map(function(item) { return item.label; });
-
-    document.getElementById("partDResultStatement").innerHTML =
-      "<strong>The data show that</strong> Site 1 had an average of <strong>" + partDFormat(lead.site1) +
-      "</strong> Leadbeater's Possums and Site 2 had an average of <strong>" + partDFormat(lead.site2) +
-      "</strong>. <strong>" + higherSite + "</strong> had the higher average, with a difference of <strong>" +
-      partDFormat(difference) + " animals</strong>. " +
-      (sameLabels.length ? "The same average was recorded for <strong>" + sameLabels.join(" and ") + "</strong>." : "No animal category had the same average at both sites.");
+    partDRenderCompleteSummary();
 
     setChallengeFeedback(
       "partDAnalysisFeedback",
@@ -2688,7 +2703,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
       "Comparison complete.",
       " You used one paired bar graph to compare the same animals across two forest sites."
     );
-
+    document.getElementById("partDAnalysisFeedback").hidden = true;
 
     window.setTimeout(function() {
       document.getElementById("partDCompleteCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -2726,9 +2741,13 @@ function partCHandleLeadbeatersSiteChoice(button) {
     document.getElementById("partDBuilderComplete").hidden = true;
     document.getElementById("partDAnalysisPanel").hidden = true;
     document.getElementById("partDCompleteCard").hidden = true;
+
     document.getElementById("partDAnalysisQuestion1").hidden = false;
     document.getElementById("partDAnalysisQuestion2").hidden = true;
     document.getElementById("partDAnalysisQuestion3").hidden = true;
+
+    document.getElementById("partDAnalysisFeedback").hidden = true;
+
     document.getElementById("partDDifferenceMarker").classList.remove("visible");
 
     document.querySelectorAll("[data-partd-lead-site], [data-partd-difference], [data-partd-same-count]").forEach(function(button) {
@@ -2753,6 +2772,61 @@ function partCHandleLeadbeatersSiteChoice(button) {
       "Start with the Leadbeater's Possum pair.",
       " Which of its two bars is taller?"
     );
+
+    document.getElementById("partDAnalysisFeedback").hidden = true;
+  }
+
+  /*
+    lesson_progress.js restores which elements were hidden/visible on
+    a previous visit, but it knows nothing about the plain JS
+    variables above (partDStage, partDAnalysisStep, partDActiveSite).
+    Those are reset to their start-of-lesson values by resetPartD()
+    on every load, before that restore runs - so without this, a
+    reload partway through the analysis questions shows the right
+    question on screen (the DOM was restored) but clicking its
+    buttons does nothing, because the handlers still think the
+    student is back at the very first question.
+
+    This listens for the same window "load" event lesson_progress.js
+    uses for its own restore. Its script tag comes before this one,
+    so its listener is registered first and this one always runs
+    after the saved hidden/visible state has been put back.
+  */
+  function partDSyncFromDom() {
+    const section = document.getElementById("bar-compare");
+    const analysisPanel = document.getElementById("partDAnalysisPanel");
+    const completeCard = document.getElementById("partDCompleteCard");
+    const question1 = document.getElementById("partDAnalysisQuestion1");
+    const question2 = document.getElementById("partDAnalysisQuestion2");
+    const question3 = document.getElementById("partDAnalysisQuestion3");
+    if (!section || !analysisPanel || !completeCard || !question1 || !question2 || !question3) return;
+
+    if (analysisPanel.hidden && completeCard.hidden) {
+      partDStage = "bars";
+      partDAnalysisStep = 0;
+      partDActiveSite = section.classList.contains("partd-edit-site2") ? "site2" : "site1";
+      return;
+    }
+
+    partDStage = completeCard.hidden ? "analysis" : "complete";
+    partDApplyAnalysisVisuals();
+
+    if (partDStage === "analysis") {
+      if (!question3.hidden) {
+        partDAnalysisStep = 2;
+        partDShowLeadbeatersDifferenceMarker();
+      } else if (!question2.hidden) {
+        partDAnalysisStep = 1;
+      } else {
+        partDAnalysisStep = 0;
+      }
+      partDHighlightPair(0);
+    } else {
+      partDAnalysisStep = 3;
+      partDShowLeadbeatersDifferenceMarker();
+      partDHighlightPair(0);
+      partDRenderCompleteSummary();
+    }
   }
 
   function initialisePartD() {
@@ -2779,6 +2853,8 @@ function partCHandleLeadbeatersSiteChoice(button) {
 
     document.getElementById("resetPartDButton").addEventListener("click", resetPartD);
     resetPartD();
+
+    window.addEventListener("load", partDSyncFromDom);
   }
 
 
