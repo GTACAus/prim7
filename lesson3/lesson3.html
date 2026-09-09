@@ -2512,21 +2512,14 @@ function checkYeastPrediction() {
   const unsupportedButton =
     document.getElementById("yeastPredictionCheckUnsupported");
 
-  const section =
-    document.getElementById("yeast-labels");
-
   const stopAndThink =
     document.getElementById("yeastHotStopAndThink");
-
-  const nextButton = 
-    section.querySelector(".next-button");
 
   if (
     !supportedButton ||
     !partlySupportedButton ||
     !unsupportedButton ||
-    !stopAndThink ||
-    !nextButton
+    !stopAndThink
   ) {
     return;
   }
