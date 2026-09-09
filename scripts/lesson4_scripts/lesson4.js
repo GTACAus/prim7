@@ -968,26 +968,34 @@
     });
   }
 
-  function partBStartAnalysis() {
-    if (partBBuiltBars.size !== partBBarData.length) return;
+function partBStartAnalysis() {
+  if (partBBuiltBars.size !== partBBarData.length) return;
 
-    partBAnalysisStep = 1;
-    document.getElementById("partBAnalysisPanel").hidden = false;
-    document.getElementById("partBStartAnalysisButton").disabled = true;
-    document.getElementById("partBGraphBadge").textContent = "Analyse";
-    document.getElementById("partBGraphHint").textContent = "Use the completed bars and their values as evidence.";
+  partBAnalysisStep = 1;
 
-    setChallengeFeedback(
-      "partBAnalysisFeedback",
-      "",
-      "Read the bar heights.",
-      " Start by finding the tallest bar."
-    );
+  document.getElementById("partBGraphCheck").hidden = true;
+  document.getElementById("partBCompleteNote").hidden = true;
 
-    window.setTimeout(function() {
-      document.getElementById("partBAnalysisPanel").scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
-  }
+  document.getElementById("partBAnalysisPanel").hidden = false;
+  document.getElementById("partBStartAnalysisButton").disabled = true;
+  document.getElementById("partBGraphBadge").textContent = "Analyse";
+  document.getElementById("partBGraphHint").textContent =
+    "Use the completed bars and their values as evidence.";
+
+  setChallengeFeedback(
+    "partBAnalysisFeedback",
+    "",
+    "Read the bar heights.",
+    " Start by finding the tallest bar."
+  );
+
+  window.setTimeout(function() {
+    document.getElementById("partBAnalysisPanel").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 120);
+}
 
   function partBHandleAnalysisChoice(button) {
     const kind = button.dataset.partbAnalysis;
@@ -1150,8 +1158,11 @@
     });
     document.getElementById("partBLabelBank").hidden = false;
     document.getElementById("partBStepLabel").textContent = "Step 2 · Label the axes";
-    document.getElementById("partBControlHeading").textContent = "Build the graph labels";
-    document.getElementById("partBControlText").textContent = "Drag the two correct labels from the bank onto the dashed spaces on the graph. The x-axis shows the categories; the y-axis shows what was counted.";
+    document.getElementById("partBControlHeading").textContent =
+    "Label your graph axes";
+
+   document.getElementById("partBControlText").textContent =
+    "Look at the possible labels shown here. Choose one label to drag onto the x-axis to describe the categorical data. Then choose another label to drag onto the y-axis to show what you are measuring.";
     document.getElementById("partBGraphBadge").textContent = "Axes";
     document.getElementById("partBGraphHint").textContent = "First label the graph. Then you will construct each bar from its plotted point.";
 
@@ -1890,153 +1901,142 @@
     return partCAnalysisIndexes(kind)[0];
   }
 
-  function partCHandleAnalysisChoice(button) {
-    if (partCStage !== "analysis" || partCAnalysisStep !== 0) return;
-    const kind = button.dataset.partcAnalysis;
-    const chosen = Number(button.dataset.partcIndex);
-    const correct = partCAnalysisIndex(kind);
+function partCHandleLeadbeatersChoice(button) {
+  if (partCStage !== "analysis" || partCAnalysisStep !== 0) return;
 
-    if (kind !== "highest" || chosen !== correct) {
-      flashChoice(button, "try-again-choice");
-      setChallengeFeedback(
-        "partCAnalysisFeedback",
-        "try-again",
-        "Look for the tallest bar.",
-        " Compare the bar tops with the y-axis scale and try again."
-      );
-      return;
-    }
+  const chosen = Number(button.dataset.partcLeadbeatersValue);
+  const correct = partCBarData[0].average;
 
-    flashChoice(button, "correct-choice");
-    partCHighlightAnalysisBars([correct]);
-    partCAnalysisStep = 1;
-    document.getElementById("partCAnalysisQuestion1").hidden = true;
-    document.getElementById("partCAnalysisQuestion2").hidden = false;
-    setChallengeFeedback(
-      "partCAnalysisFeedback",
-      "success",
-      "Correct: " + partCBarData[correct].label + ".",
-      " Now read the lowest average value on the graph. More than one animal can share that value."
-    );
-  }
-
-  function partCHandleLowestValueChoice(button) {
-    if (partCStage !== "analysis" || partCAnalysisStep !== 1) return;
-    const chosen = Number(button.dataset.partcLowestValue);
-    const lowest = partCAnalysisValue("lowest");
-    const lowestIndexes = partCAnalysisIndexes("lowest");
-
-    if (chosen !== lowest) {
-      flashChoice(button, "try-again-choice");
-      partCHighlightAnalysisBars(lowestIndexes);
-      setChallengeFeedback(
-        "partCAnalysisFeedback",
-        "try-again",
-        "Look at the shortest bar heights.",
-        " Several animals can share the same lowest average. Read that value from the y-axis."
-      );
-      return;
-    }
-
-    flashChoice(button, "correct-choice");
-    partCHighlightAnalysisBars(lowestIndexes);
-    partCAnalysisStep = 2;
-    document.getElementById("partCAnalysisQuestion2").hidden = true;
-    document.getElementById("partCAnalysisQuestion3").hidden = false;
-    setChallengeFeedback(
-      "partCAnalysisFeedback",
-      "success",
-      "Correct: the lowest average is " + lowest + ".",
-      " Now subtract it from the highest average."
-    );
-  }
-
-  function partCHandleDifferenceChoice(button) {
-    if (partCStage !== "analysis" || partCAnalysisStep !== 2) return;
-    const highest = partCAnalysisValue("highest");
-    const lowest = partCAnalysisValue("lowest");
-    const highestIndexes = partCAnalysisIndexes("highest");
-    const lowestIndexes = partCAnalysisIndexes("lowest");
-    const difference = highest - lowest;
-    const chosen = Number(button.dataset.partcDifference);
-
-    if (chosen !== difference) {
-      flashChoice(button, "try-again-choice");
-      partCHighlightAnalysisBars(highestIndexes.concat(lowestIndexes));
-      setChallengeFeedback(
-        "partCAnalysisFeedback",
-        "try-again",
-        "Use the highlighted bar heights.",
-        " Subtract the lowest average from the highest average."
-      );
-      return;
-    }
-
-    flashChoice(button, "correct-choice");
-    partCHighlightAnalysisBars(highestIndexes.concat(lowestIndexes));
-    partCAnalysisStep = 3;
-    document.getElementById("partCAnalysisQuestion3").hidden = true;
-    document.getElementById("partCAnalysisQuestion4").hidden = false;
-
-    const site1Leadbeaters = partBAverage(partBBarData[0]);
-    document.getElementById("partCSite1LeadbeatersReference").textContent = partBFormatAverage(site1Leadbeaters);
-
-    setChallengeFeedback(
-      "partCAnalysisFeedback",
-      "success",
-      "Correct: the difference is " + difference + ".",
-      " One more question: compare the Leadbeater's Possum result with Site 1."
-    );
-  }
-
-  function partCHandleSiteComparisonChoice(button) {
-    if (partCStage !== "analysis" || partCAnalysisStep !== 3) return;
-
-    const site1 = partBAverage(partBBarData[0]);
-    const site2 = partCBarData[0].average;
-    const correct = site2 < site1 ? "fewer" : (site2 > site1 ? "more" : "same");
-    const chosen = button.dataset.partcSiteCompare;
-    const difference = Math.abs(site1 - site2);
-
+  if (chosen !== correct) {
+    flashChoice(button, "try-again-choice");
     partCHighlightAnalysisBars([0]);
 
-    if (chosen !== correct) {
-      flashChoice(button, "try-again-choice");
-      setChallengeFeedback(
-        "partCAnalysisFeedback",
-        "try-again",
-        "Compare the two Leadbeater's Possum averages.",
-        " Site 1 averaged " + partBFormatAverage(site1) + "; Site 2 averaged " + site2 + "."
-      );
-      return;
-    }
+    setChallengeFeedback(
+      "partCAnalysisFeedback",
+      "try-again",
+      "Look at the Leadbeater's Possum bar.",
+      " Read its height using the y-axis."
+    );
 
-    flashChoice(button, "correct-choice");
-    partCAnalysisStep = 4;
-    document.getElementById("partCAnalysisQuestion4").hidden = true;
-    document.getElementById("partCCompleteCard").hidden = false;
-    document.getElementById("partCGraphBadge").textContent = "Complete ✓";
+    return;
+  }
 
-    const highestValue = partCAnalysisValue("highest");
-    const lowestValue = partCAnalysisValue("lowest");
-    const highestLabels = partCAnalysisIndexes("highest").map(function(index) { return partCBarData[index].label; });
-    const lowestLabels = partCAnalysisIndexes("lowest").map(function(index) { return partCBarData[index].label; });
+  flashChoice(button, "correct-choice");
+  partCHighlightAnalysisBars([0]);
 
-    document.getElementById("partCResultStatement").innerHTML =
-      "<strong>At Site 2,</strong> " + highestLabels.join(", ") + " had the highest average (" + highestValue + "). " +
-      "The lowest average was " + lowestValue + ", shared by " + lowestLabels.join(", ") + ". " +
-      "Leadbeater's Possums averaged <strong>" + site2 + " at Site 2</strong> compared with <strong>" +
-      partBFormatAverage(site1) + " at Site 1</strong> — " + difference + " fewer on average at Site 2.";
+  partCAnalysisStep = 1;
+
+  document.getElementById("partCAnalysisQuestion1").hidden = true;
+  document.getElementById("partCAnalysisQuestion2").hidden = false;
+
+  setChallengeFeedback(
+    "partCAnalysisFeedback",
+    "success",
+    "Correct: the Site 2 average is " + correct + " Leadbeater's Possum.",
+    " Now look at the feral deer bar."
+  );
+}
+
+
+function partCHandleDeerChoice(button) {
+  if (partCStage !== "analysis" || partCAnalysisStep !== 1) return;
+
+  const chosen = Number(button.dataset.partcDeerValue);
+  const correct = partCBarData[4].average;
+
+  if (chosen !== correct) {
+    flashChoice(button, "try-again-choice");
+    partCHighlightAnalysisBars([4]);
 
     setChallengeFeedback(
       "partCAnalysisFeedback",
-      "success",
-      "Site 2 graph analysed.",
-      " You now have one graph for each site. Next, the two datasets can be compared directly."
+      "try-again",
+      "Look at the feral deer bar.",
+      " Read its height using the y-axis."
     );
 
-    document.getElementById("barFollowUpNext").hidden = false;
+    return;
   }
+
+  flashChoice(button, "correct-choice");
+  partCHighlightAnalysisBars([4]);
+
+  partCAnalysisStep = 2;
+
+  document.getElementById("partCAnalysisQuestion2").hidden = true;
+  document.getElementById("partCAnalysisQuestion3").hidden = false;
+
+  const site1Leadbeaters = partBAverage(partBBarData[0]);
+
+  document.getElementById("partCSite1LeadbeatersReference").textContent =
+    partBFormatAverage(site1Leadbeaters);
+
+  setChallengeFeedback(
+    "partCAnalysisFeedback",
+    "success",
+    "Correct: the Site 2 feral deer average is " + correct + ".",
+    " Now compare the Leadbeater's Possum results from Site 1 and Site 2."
+  );
+}
+
+
+function partCHandleLeadbeatersSiteChoice(button) {
+  if (partCStage !== "analysis" || partCAnalysisStep !== 2) return;
+
+  const site1 = partBAverage(partBBarData[0]);
+  const site2 = partCBarData[0].average;
+
+  const correct =
+    site1 > site2
+      ? "site1"
+      : "site2";
+
+  const chosen = button.dataset.partcLeadbeatersSite;
+
+  partCHighlightAnalysisBars([0]);
+
+  if (chosen !== correct) {
+    flashChoice(button, "try-again-choice");
+
+    setChallengeFeedback(
+      "partCAnalysisFeedback",
+      "try-again",
+      "Compare the Leadbeater's Possum results.",
+      " Site 1 averaged " +
+        partBFormatAverage(site1) +
+        " and Site 2 averaged " +
+        site2 +
+        "."
+    );
+
+    return;
+  }
+
+  flashChoice(button, "correct-choice");
+
+  partCAnalysisStep = 3;
+
+  document.getElementById("partCAnalysisQuestion3").hidden = true;
+  document.getElementById("partCCompleteCard").hidden = false;
+  document.getElementById("partCGraphBadge").textContent = "Complete ✓";
+
+  document.getElementById("partCResultStatement").innerHTML =
+    "Leadbeater's Possums averaged <strong>" +
+    partBFormatAverage(site1) +
+    " at Site 1</strong> and <strong>" +
+    site2 +
+    " at Site 2</strong>. " +
+    "<strong>Site 1 had more Leadbeater's Possums.</strong>";
+
+  setChallengeFeedback(
+    "partCAnalysisFeedback",
+    "success",
+    "Correct: Site 1 had more Leadbeater's Possums.",
+    " You have now analysed the Site 2 graph and compared it with Site 1."
+  );
+
+  document.getElementById("barFollowUpNext").hidden = false;
+}
 
   function resetPartC() {
     partCAxisValues.x = null;
@@ -2078,9 +2078,10 @@
     document.getElementById("partCAnalysisQuestion1").hidden = false;
     document.getElementById("partCAnalysisQuestion2").hidden = true;
     document.getElementById("partCAnalysisQuestion3").hidden = true;
-    document.getElementById("partCAnalysisQuestion4").hidden = true;
 
-    document.querySelectorAll("[data-partc-unit], [data-partc-analysis], [data-partc-lowest-value], [data-partc-difference], [data-partc-site-compare]").forEach(function(button) {
+    document.querySelectorAll(
+      "[data-partc-unit], [data-partc-leadbeaters-value], [data-partc-deer-value], [data-partc-leadbeaters-site]"
+    ).forEach(function(button) {
       button.classList.remove("correct-choice", "try-again-choice");
     });
 
@@ -2101,8 +2102,8 @@
     setChallengeFeedback(
       "partCAnalysisFeedback",
       "",
-      "Start with the tallest bar.",
-      " Which category reaches the highest value on the y-axis?"
+      "Read the Leadbeater's Possum bar.",
+      " What average value does it reach?"
     );
   }
 
@@ -2122,17 +2123,22 @@
     });
     document.getElementById("checkPartCBarsButton").addEventListener("click", partCCheckAllBars);
 
-    document.querySelectorAll("[data-partc-analysis]").forEach(function(button) {
-      button.addEventListener("click", function() { partCHandleAnalysisChoice(button); });
+    document.querySelectorAll("[data-partc-leadbeaters-value]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        partCHandleLeadbeatersChoice(button);
+      });
     });
-    document.querySelectorAll("[data-partc-lowest-value]").forEach(function(button) {
-      button.addEventListener("click", function() { partCHandleLowestValueChoice(button); });
+
+    document.querySelectorAll("[data-partc-deer-value]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        partCHandleDeerChoice(button);
+      });
     });
-    document.querySelectorAll("[data-partc-difference]").forEach(function(button) {
-      button.addEventListener("click", function() { partCHandleDifferenceChoice(button); });
-    });
-    document.querySelectorAll("[data-partc-site-compare]").forEach(function(button) {
-      button.addEventListener("click", function() { partCHandleSiteComparisonChoice(button); });
+
+    document.querySelectorAll("[data-partc-leadbeaters-site]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        partCHandleLeadbeatersSiteChoice(button);
+      });
     });
 
     document.getElementById("resetPartCButton").addEventListener("click", resetPartC);
