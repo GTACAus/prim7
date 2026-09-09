@@ -3077,6 +3077,8 @@
 .stop-and-check-graph {
   width: min(420px, 100%);
   margin: 0 auto 20px;
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
 }
 
 .stop-and-check-graph .graph-svg {
@@ -3202,7 +3204,7 @@
 }
 
 .more-less-button:hover {
-  background: var(--green);
+  background: var(--soft-purple);
 }
 
 .more-less-button.selected-answer {
