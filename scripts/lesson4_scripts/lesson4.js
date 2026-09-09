@@ -2504,12 +2504,30 @@ function partCHandleLeadbeatersSiteChoice(button) {
     const higherSite = lead.site1 > lead.site2 ? "Site 1" : lead.site2 > lead.site1 ? "Site 2" : "Neither site";
     const sameLabels = data.filter(function(item) { return item.site1 === item.site2; }).map(function(item) { return item.label; });
 
-    document.getElementById("partDResultStatement").innerHTML =
-      "<strong>The data show that</strong> Site 1 had an average of <strong>" + partDFormat(lead.site1) +
-      "</strong> Leadbeater's Possums and Site 2 had an average of <strong>" + partDFormat(lead.site2) +
-      "</strong>. <strong>" + higherSite + "</strong> had the higher average, with a difference of <strong>" +
-      partDFormat(difference) + " animals</strong>. " +
-      (sameLabels.length ? "The same average was recorded for <strong>" + sameLabels.join(" and ") + "</strong>." : "No animal category had the same average at both sites.");
+    const resultStatement = document.getElementById("partDResultStatement");
+    if (resultStatement) {
+      resultStatement.innerHTML =
+        "<strong>The data show that</strong> Site 1 had an average of <strong>" + partDFormat(lead.site1) +
+        "</strong> Leadbeater's Possums and Site 2 had an average of <strong>" + partDFormat(lead.site2) +
+        "</strong>. <strong>" + higherSite + "</strong> had the higher average, with a difference of <strong>" +
+        partDFormat(difference) + " animals</strong>. " +
+        (sameLabels.length ? "The same average was recorded for <strong>" + sameLabels.join(" and ") + "</strong>." : "No animal category had the same average at both sites.");
+    }
+  }
+
+  /*
+    The reasoned-prediction check inside the completed comparison
+    card: pressing one of the .prediction-button choices marks it as
+    the selected answer (and unmarks the others), then reveals the
+    .stop-and-check that follows it.
+  */
+  function partDHandlePredictionChoice(button) {
+    document.querySelectorAll("#partDCompleteCard .prediction-button").forEach(function(other) {
+      other.classList.toggle("selected-answer", other === button);
+    });
+
+    const stopAndCheck = document.getElementById("partDStopAndCheck");
+    if (stopAndCheck) stopAndCheck.hidden = false;
   }
 
   function partDCheckBars() {
@@ -2756,6 +2774,17 @@ function partCHandleLeadbeatersSiteChoice(button) {
     document.querySelectorAll("[data-partd-lead-site], [data-partd-difference], [data-partd-same-count]").forEach(function(button) {
       button.classList.remove("correct-choice", "try-again-choice", "selected-answer");
     });
+    document.querySelectorAll("#partDCompleteCard .prediction-button").forEach(function(button) {
+      button.classList.remove("selected-answer");
+    });
+
+    const partDStopAndCheck = document.getElementById("partDStopAndCheck");
+    if (partDStopAndCheck) {
+      partDStopAndCheck.hidden = true;
+      if (typeof resetStopAndCheck === "function") {
+        resetStopAndCheck(partDStopAndCheck);
+      }
+    }
     document.querySelectorAll("[data-partd-site]").forEach(function(button) {
       button.classList.remove("needs-fix", "site-complete");
     });
@@ -2852,6 +2881,9 @@ function partCHandleLeadbeatersSiteChoice(button) {
     });
     document.querySelectorAll("[data-partd-same-count]").forEach(function(button) {
       button.addEventListener("click", function() { partDHandleSameCountChoice(button); });
+    });
+    document.querySelectorAll("#partDCompleteCard .prediction-button").forEach(function(button) {
+      button.addEventListener("click", function() { partDHandlePredictionChoice(button); });
     });
 
     document.getElementById("resetPartDButton").addEventListener("click", resetPartD);

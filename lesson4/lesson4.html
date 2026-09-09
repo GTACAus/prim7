@@ -1483,7 +1483,7 @@
           </div>
         </div>
 
-        <div class="prediction-check" id="partdPredictionCheck" >
+        <div class="prediction-check" id="partDCompleteCard" hidden>
 
           <p class="prediction-label">
             Interpret the results
@@ -1495,91 +1495,10 @@
             </h3>
 
             <p>
-              As the temperature increases, the amount of gas made by yeast increases.
-              This is because living things need to be warm to survive.
+              When there is more forest <strong>understorey</strong> the number of Leadbeater's possums will increase.
             </p>
           </div>
-          <div>
-            <h3>Use the data to describe the results</h3>
-
-            <div class="prediction-result-question">
-
-              <p>
-                As the temperature increases from
-                <strong>2°C to 37°C</strong>, the amount of gas made by yeast:
-              </p>
-
-              <div class="prediction-buttons">
-                <button
-                  type="button"
-                  class="general-button prediction-button"
-                  data-yeast-result-question="low-to-37"
-                  data-answer="increases"
-                >
-                  Increases
-                </button>
-
-                <button
-                  type="button"
-                  class="general-button prediction-button"
-                  data-yeast-result-question="low-to-37"
-                  data-answer="decreases"
-                >
-                  Decreases
-                </button>
-
-                <button
-                  type="button"
-                  class="general-button prediction-button"
-                  data-yeast-result-question="low-to-37"
-                  data-answer="same"
-                >
-                  Does not change
-                </button>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="result-question">
-
-            <p>
-              At <strong>80°C</strong>, the amount of gas made compared with
-              <strong>37°C</strong>:
-            </p>
-
-            <div class="prediction-buttons">
-              <button
-                type="button"
-                class="general-button prediction-button"
-                data-yeast-result-question="37-to-80"
-                data-answer="increases"
-              >
-                Increases
-              </button>
-
-              <button
-                type="button"
-                class="general-button prediction-button"
-                data-yeast-result-question="37-to-80"
-                data-answer="decreases"
-              >
-                Decreases
-              </button>
-
-              <button
-                type="button"
-                class="general-button prediction-button"
-                data-yeast-result-question="37-to-80"
-                data-answer="same"
-              >
-                Does not change
-              </button>
-            </div>
-
-          </div>
-
-        <div class="prediction-final" hidden>
+        <div class="prediction-final">
 
           <h3>
             Do the results support the reasoned prediction?
@@ -1614,6 +1533,44 @@
           </div>
 
         </div>
+
+        </div>
+        <div
+          class="stop-and-check"
+          id="partDStopAndCheck"
+          hidden
+        >
+
+          <div class="stop-and-check-content">
+            <p>
+              Look at the pictures of each forest site.
+              Then look at your bar graph showing numbers of each animal at each site.
+            </p>
+
+            <p>
+              <strong>
+                What might be causing the drop in Leadbeater's possum numbers between Site 1 and Site 2?
+              </strong>
+            </p>
+          </div>
+
+          <div
+            class="stop-and-check-answer"
+            hidden
+          >
+            Yeast is a living thing. At <strong>80°C</strong>, the temperature
+            is too hot for the yeast to survive, so yeast activity slows down
+            and stops.
+          </div>
+
+          <button
+            type="button"
+            class="stop-and-check-button general-button"
+            onclick="yeastAverageStopAndCheck(this)"
+          >
+            <p>Check Your Answer</p>
+            <p class="bounce-symbol">✅</p>
+          </button>
 
         </div>
         <!-- <div class="partd-complete-card" id="partDCompleteCard" hidden>
