@@ -1958,6 +1958,7 @@ function partCHandleDeerChoice(button) {
     );
 
     return;
+
   }
 
   flashChoice(button, "correct-choice");
@@ -2522,12 +2523,22 @@ function partCHandleLeadbeatersSiteChoice(button) {
     .stop-and-check that follows it.
   */
   function partDHandlePredictionChoice(button) {
+    const correct = button.id === "predictionCheckSupported";
+
     document.querySelectorAll("#partDCompleteCard .prediction-button").forEach(function(other) {
-      other.classList.toggle("selected-answer", other === button);
+      other.classList.remove("selected-answer");
     });
+
+    if (!correct) {
+      flashChoice(button, "try-again-choice");
+      return;
+    }
+
+    button.classList.add("selected-answer");
 
     const stopAndCheck = document.getElementById("partDStopAndCheck");
     if (stopAndCheck) stopAndCheck.hidden = false;
+
     partDRenderStopAndCheckGraph();
   }
 
@@ -2538,16 +2549,33 @@ function partCHandleLeadbeatersSiteChoice(button) {
     keep a second copy in sync, so it's always accurate whenever it's
     shown (first reveal, or resuming after a reload).
   */
-  function partDRenderStopAndCheckGraph() {
-    const source = document.getElementById("partDGraphSvg");
-    const target = document.getElementById("partDStopAndCheckGraph");
-    if (!source || !target) return;
+function partDRenderStopAndCheckGraph() {
+  const source = document.getElementById("partDGraphSvg");
+  const target = document.getElementById("partDStopAndCheckGraph");
+  if (!source || !target) return;
 
-    const clone = source.cloneNode(true);
-    clone.removeAttribute("id");
-    target.innerHTML = "";
-    target.appendChild(clone);
-  }
+  const clone = source.cloneNode(true);
+  clone.removeAttribute("id");
+
+  /* Value labels are useful while constructing the graph,
+     but not in the Stop and Think copy. */
+  clone.querySelectorAll(".partd-value-label").forEach(function(label) {
+    label.remove();
+  });
+
+  /* Remove analysis highlighting from the recap graph. */
+  clone.querySelectorAll(".partd-pair-highlight").forEach(function(element) {
+    element.classList.remove("partd-pair-highlight");
+  });
+
+  /* Remove the previous difference marker and number. */
+  clone.querySelectorAll(".partd-difference-marker").forEach(function(marker) {
+    marker.remove();
+  });
+
+  target.innerHTML = "";
+  target.appendChild(clone);
+}
 
   /*
     The two "more/less" questions in the stop-and-check recap. One
@@ -2633,6 +2661,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
 
   function partDHandleLeadSiteChoice(button) {
     if (partDStage !== "analysis" || partDAnalysisStep !== 0) return;
+    document.getElementById("partDAnalysisFeedback").hidden = false;
     const lead = partDData()[0];
     const correct = lead.site1 > lead.site2 ? "site1" : lead.site2 > lead.site1 ? "site2" : "same";
 
@@ -2653,12 +2682,13 @@ function partCHandleLeadbeatersSiteChoice(button) {
     partDAnalysisStep = 1;
     document.getElementById("partDAnalysisQuestion1").hidden = true;
     document.getElementById("partDAnalysisQuestion2").hidden = false;
-    setChallengeFeedback(
-      "partDAnalysisFeedback",
-      "success",
-      "Correct: " + partDSiteLabel(correct) + " had the higher Leadbeater's Possum average.",
-      " Now work out the difference between the two bar heights."
-    );
+    document.getElementById("partDAnalysisFeedback").hidden = true;
+    // setChallengeFeedback(
+    //   "partDAnalysisFeedback",
+    //   "success",
+    //   "Correct: " + partDSiteLabel(correct) + " had the higher Leadbeater's Possum average.",
+    //   " Now work out the difference between the two bar heights."
+    // );
   }
 
   function partDPrepareDifferenceChoices() {
@@ -2681,6 +2711,9 @@ function partCHandleLeadbeatersSiteChoice(button) {
 
   function partDHandleDifferenceChoice(button) {
     if (partDStage !== "analysis" || partDAnalysisStep !== 1) return;
+
+    document.getElementById("partDAnalysisFeedback").hidden = false;
+
     const lead = partDData()[0];
     const correct = Math.abs(lead.site1 - lead.site2);
     const chosen = Number(button.dataset.partdDifference);
@@ -2688,12 +2721,14 @@ function partCHandleLeadbeatersSiteChoice(button) {
     if (chosen !== correct) {
       flashChoice(button, "try-again-choice");
       partDHighlightPair(0);
-      setChallengeFeedback(
-        "partDAnalysisFeedback",
-        "try-again",
-        "Use the two Leadbeater's Possum values.",
-        " Subtract the smaller site average from the larger site average."
-      );
+
+      document.getElementById("partDAnalysisFeedback").hidden = true;
+      // setChallengeFeedback(
+      //   "partDAnalysisFeedback",
+      //   "try-again",
+      //   "Use the two Leadbeater's Possum values.",
+      //   " Subtract the smaller site average from the larger site average."
+      // );
       return;
     }
 
@@ -2726,6 +2761,8 @@ function partCHandleLeadbeatersSiteChoice(button) {
   function partDHandleSameCountChoice(button) {
     if (partDStage !== "analysis" || partDAnalysisStep !== 2) return;
 
+    document.getElementById("partDAnalysisFeedback").hidden = false;
+
     const chosen = button.dataset.partdSameCount === "true";
 
     if (!chosen) {
@@ -2755,12 +2792,12 @@ function partCHandleLeadbeatersSiteChoice(button) {
     partDShowLeadbeatersDifferenceMarker();
     partDRenderCompleteSummary();
 
-    setChallengeFeedback(
-      "partDAnalysisFeedback",
-      "success",
-      "Comparison complete.",
-      " You used one paired bar graph to compare the same animals across two forest sites."
-    );
+    // setChallengeFeedback(
+    //   "partDAnalysisFeedback",
+    //   "success",
+    //   "Comparison complete.",
+    //   " You used one paired bar graph to compare the same animals across two forest sites."
+    // );
     document.getElementById("partDAnalysisFeedback").hidden = true;
 
     window.setTimeout(function() {

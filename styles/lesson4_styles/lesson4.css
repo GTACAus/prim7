@@ -1619,11 +1619,12 @@
   text-anchor: middle;
   opacity: 0;
   transition: opacity .18s ease;
+  display: none; /* Hide the numbers on the top graph */
 }
 
-#partDGraphSvg .partd-value-label.visible {
+/* #partDGraphSvg .partd-value-label.visible {
   opacity: 1;
-}
+/* } */  Hide the numbers on the top graph */
 
 #partDGraphSvg .partd-difference-marker {
   opacity: 0;
@@ -1779,6 +1780,11 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .bar-example-image-card .image-box {
@@ -1791,8 +1797,9 @@
 
 .bar-example-image-card .image-box img {
   display: block;
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 280px;
+  max-width: 100%;
 }
 
 /* Portrait graph */
@@ -3123,10 +3130,8 @@
    ================================================== */
 
 .stop-and-check-graph {
-  width: min(420px, 100%);
-  margin: 0 auto 20px;
-  border: 2px solid var(--charcoal);
-  border-radius: 10px;
+  width: min(760px, 100%);
+  margin: 0 auto 24px;
 }
 
 .stop-and-check-graph .graph-svg {
@@ -3270,12 +3275,14 @@
   transform: translateY(3px);
 }
 
-.more-less-button.try-again-choice {
+.more-less-button.try-again-choice,
+.prediction-button.try-again-choice {
   background: var(--soft-orange);
   border-color: var(--orange);
   color: var(--charcoal);
   animation: lesson4ChoiceBuzz 0.28s ease;
 }
+
 .more-less-button.selected-answer:hover {
   cursor: default;
 }

@@ -261,26 +261,26 @@ function createAnimalCounter(type, actualCount, imageSource) {
   valueText.textContent = '0';
   counter.appendChild(valueText);
 
-  const buttonRow = document.createElement('div');
-  buttonRow.className = 'counter-button-row';
+  // const buttonRow = document.createElement('div');
+  // buttonRow.className = 'counter-button-row';
 
-  const downButton = document.createElement('button');
-  downButton.type = 'button';
-  downButton.className = 'counter-button counter-down';
-  downButton.setAttribute('aria-label', 'Remove one ' + type);
-  downButton.textContent = '−';
-  downButton.addEventListener('click', () => changeAnimalCount(counter, -1));
+  // const downButton = document.createElement('button');
+  // downButton.type = 'button';
+  // downButton.className = 'counter-button counter-down';
+  // downButton.setAttribute('aria-label', 'Remove one ' + type);
+  // downButton.textContent = '−';
+  // downButton.addEventListener('click', () => changeAnimalCount(counter, -1));
 
-  const upButton = document.createElement('button');
-  upButton.type = 'button';
-  upButton.className = 'counter-button counter-up';
-  upButton.setAttribute('aria-label', 'Add one ' + type);
-  upButton.textContent = '+';
-  upButton.addEventListener('click', () => changeAnimalCount(counter, 1));
+  // const upButton = document.createElement('button');
+  // upButton.type = 'button';
+  // upButton.className = 'counter-button counter-up';
+  // upButton.setAttribute('aria-label', 'Add one ' + type);
+  // upButton.textContent = '+';
+  // upButton.addEventListener('click', () => changeAnimalCount(counter, 1));
 
-  buttonRow.appendChild(downButton);
-  buttonRow.appendChild(upButton);
-  counter.appendChild(buttonRow);
+  // buttonRow.appendChild(downButton);
+  // buttonRow.appendChild(upButton);
+  // counter.appendChild(buttonRow);
 
   return counter;
 }
@@ -332,7 +332,7 @@ function checkAnimalCount() {
     feedback.classList.add('success');
     strong.textContent = 'All counts match!';
     feedback.appendChild(strong);
-    feedback.appendChild(document.createTextNode(' You found and counted every hidden animal correctly.'));
+    feedback.appendChild(document.createTextNode(' You found and counted every animal correctly.'));
     revealStackButtons();
     returnToDay(true);
     
@@ -497,9 +497,9 @@ function setStackShape(mode) {
 
   row.classList.toggle('circle-mode', mode === 'circle');
 
-  title.textContent = mode === 'circle'
-    ? 'Every circle is one animal you counted'
-    : 'Each block is one animal you found';
+title.textContent = mode === 'circle'
+  ? 'Each counter is one animal you found'
+  : 'Each counter is one animal you found';
 
   document.getElementById('showBarStackButton').classList.toggle('stack-active', mode === 'bar');
   document.getElementById('showCircleStackButton').classList.toggle('stack-active', mode === 'circle');
