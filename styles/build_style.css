@@ -1328,6 +1328,7 @@ input[type="checkbox"]:active {
 
 .stop-and-check-answer::before {
   content: "ANSWER";
+  text-transform: uppercase;
 
   position: absolute;
   top: -16px;
@@ -1339,7 +1340,7 @@ input[type="checkbox"]:active {
   border: 2px solid var(--line);
   border-radius: 999px;
 
-  color: var(--text);
+  color: var(--paper);
 
   font-size: 0.72rem;
   font-weight: 700;

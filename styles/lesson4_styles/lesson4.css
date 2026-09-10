@@ -1774,6 +1774,10 @@
   display: none;
 }
 
+#partDStopAndCheck .stop-and-check-answer::before {
+  content: "Think about your answer";
+}
+
 /* Equal-height cards, with each image centred inside */
 .bar-example-image-card {
   display: flex;
@@ -1797,9 +1801,8 @@
 
 .bar-example-image-card .image-box img {
   display: block;
-  width: auto;
-  height: 280px;
-  max-width: 100%;
+  width: 100%;
+  /* height: 280px; */
 }
 
 /* Portrait graph */
