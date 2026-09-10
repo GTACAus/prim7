@@ -408,7 +408,7 @@
     partBStage = "unit";
     document.getElementById("partBUnitCheck").hidden = false;
     document.getElementById("partBStepLabel").textContent = "Step 3 · Check the units";
-    document.getElementById("partBControlHeading").textContent = "Do these labels need units?";
+    // document.getElementById("partBControlHeading").textContent = "Do these labels need units?";
     document.getElementById("partBControlText").textContent = "Some graph axes need units such as cm, °C or seconds. Decide whether these two labels need one.";
 
     setChallengeFeedback(
@@ -442,7 +442,7 @@
     document.getElementById("partBUnitCheck").hidden = true;
     document.getElementById("partBBuilderPrompt").hidden = false;
     document.getElementById("partBStepLabel").textContent = "Step 4 · Construct the bars";
-    document.getElementById("partBControlHeading").textContent = "Build each bar from a plotted point";
+    // document.getElementById("partBControlHeading").textContent = "Build each bar from a plotted point";
     document.getElementById("partBControlText").textContent = "For each animal: choose the category on the x-axis, choose the average count on the y-axis, then mark where the two dotted guides meet.";
     document.getElementById("partBGraphBadge").textContent = "Build";
     document.getElementById("partBGraphHint").textContent = "Choose an animal on the x-axis to start a vertical guide.";
@@ -1158,8 +1158,7 @@ function partBStartAnalysis() {
     });
     document.getElementById("partBLabelBank").hidden = false;
     document.getElementById("partBStepLabel").textContent = "Step 2 · Label the axes";
-    document.getElementById("partBControlHeading").textContent =
-    "Label your graph axes";
+    // document.getElementById("partBControlHeading").textContent = "Label your graph axes";
 
    document.getElementById("partBControlText").textContent =
     "Look at the possible labels shown here. Choose one label to drag onto the x-axis to describe the categorical data. Then choose another label to drag onto the y-axis to show what you are measuring.";
@@ -1503,7 +1502,7 @@ function partBStartAnalysis() {
       partCStage = "units";
       document.getElementById("partCUnitCheck").hidden = false;
       document.getElementById("partCStepLabel").textContent = "Step 2 · Check the units";
-      document.getElementById("partCControlHeading").textContent = "Do these axes need units?";
+      // document.getElementById("partCControlHeading").textContent = "Do these axes need units?";
       document.getElementById("partCControlText").textContent =
         "You have labelled the variables correctly. Now decide whether these data are measured in a unit such as cm or seconds.";
 
@@ -1704,7 +1703,7 @@ function partBStartAnalysis() {
     document.getElementById("partCSliderStage").hidden = false;
     document.getElementById("partCGraphBadge").textContent = "Build";
     document.getElementById("partCStepLabel").textContent = "Step 3 · Build the bars";
-    document.getElementById("partCControlHeading").textContent = "Use the averages to set each bar height";
+    // document.getElementById("partCControlHeading").textContent = "Use the averages to set each bar height";
     document.getElementById("partCControlText").textContent =
       "Use the Site 2 average column to set all five sliders. Each slider changes one category without changing the others.";
     document.getElementById("partCGraphHint").textContent =
@@ -1853,7 +1852,7 @@ function partBStartAnalysis() {
     document.getElementById("partCAnalysisPanel").hidden = false;
     document.getElementById("partCGraphBadge").textContent = "Analyse";
     document.getElementById("partCStepLabel").textContent = "Bars complete ✓";
-    document.getElementById("partCControlHeading").textContent = "Your Site 2 graph is complete";
+    // document.getElementById("partCControlHeading").textContent = "Your Site 2 graph is complete";
     document.getElementById("partCControlText").textContent =
       "You translated every Site 2 average in the table into a bar height. Now use the graph to analyse the survey.";
     document.getElementById("partCGraphHint").textContent = "All five Site 2 averages are now represented as bars.";
@@ -2090,7 +2089,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
     });
 
     document.getElementById("partCStepLabel").textContent = "Step 2 · Label the axes";
-    document.getElementById("partCControlHeading").textContent = "Set up your Site 2 bar graph";
+    // document.getElementById("partCControlHeading").textContent = "Set up your Site 2 bar graph";
     document.getElementById("partCControlText").textContent =
       "Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.";
     document.getElementById("partCGraphHint").textContent =
