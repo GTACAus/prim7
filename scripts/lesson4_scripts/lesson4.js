@@ -1701,12 +1701,12 @@ function partBStartAnalysis() {
     document.getElementById("partCUnitCheck").hidden = true;
     document.getElementById("partCScaffoldLayer").classList.add("visible");
     document.getElementById("partCSliderStage").hidden = false;
-    document.getElementById("partCGraphBadge").textContent = "Build";
+    // document.getElementById("partCGraphBadge").textContent = "Build";
     document.getElementById("partCStepLabel").textContent = "Step 3 · Build the bars";
     // document.getElementById("partCControlHeading").textContent = "Use the averages to set each bar height";
     document.getElementById("partCControlText").textContent =
       "Use the Site 2 average column to set all five sliders. Each slider changes one category without changing the others.";
-    document.getElementById("partCGraphHint").textContent =
+    // document.getElementById("partCGraphHint").textContent =
       "The categories and 0-10 scale are now visible. Build all five Site 2 bars from the average column.";
     document.getElementById("bar-follow-up").classList.add("partc-bars-active");
 
@@ -1850,12 +1850,12 @@ function partBStartAnalysis() {
     document.getElementById("bar-follow-up").classList.remove("partc-bars-active");
     document.getElementById("partCSliderStage").hidden = true;
     document.getElementById("partCAnalysisPanel").hidden = false;
-    document.getElementById("partCGraphBadge").textContent = "Analyse";
+    // document.getElementById("partCGraphBadge").textContent = "Analyse";
     document.getElementById("partCStepLabel").textContent = "Bars complete ✓";
     // document.getElementById("partCControlHeading").textContent = "Your Site 2 graph is complete";
     document.getElementById("partCControlText").textContent =
       "You translated every Site 2 average in the table into a bar height. Now use the graph to analyse the survey.";
-    document.getElementById("partCGraphHint").textContent = "All five Site 2 averages are now represented as bars.";
+    // document.getElementById("partCGraphHint").textContent = "All five Site 2 averages are now represented as bars.";
 
     setChallengeFeedback(
       "partCFeedback",
@@ -2021,7 +2021,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
 
   document.getElementById("partCAnalysisQuestion3").hidden = true;
   document.getElementById("partCCompleteCard").hidden = false;
-  document.getElementById("partCGraphBadge").textContent = "Complete ✓";
+  // document.getElementById("partCGraphBadge").textContent = "Complete ✓";
 
   document.getElementById("partCResultStatement").innerHTML =
     "Leadbeater's Possums averaged <strong>" +
@@ -2092,9 +2092,9 @@ function partCHandleLeadbeatersSiteChoice(button) {
     // document.getElementById("partCControlHeading").textContent = "Set up your Site 2 bar graph";
     document.getElementById("partCControlText").textContent =
       "Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.";
-    document.getElementById("partCGraphHint").textContent =
+    // document.getElementById("partCGraphHint").textContent =
       "Label the axes first. The categories and scale will appear when the graph is ready.";
-    document.getElementById("partCGraphBadge").textContent = "Set up";
+    // document.getElementById("partCGraphBadge").textContent = "Set up";
 
     setChallengeFeedback(
       "partCFeedback",
