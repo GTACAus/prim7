@@ -1726,8 +1726,9 @@
 }
 
 .bar-example-image-grid {
-  grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 24px;
+  align-items: center;
 }
 
 /* These image cards don't need the decorative intro-card dotted line */
@@ -1735,11 +1736,6 @@
   display: none;
 }
 
-#partDStopAndCheck .stop-and-check-answer::before {
-  content: "Think about your answer";
-}
-
-/* Equal-height cards, with each image centred inside */
 .bar-example-image-card {
   display: flex;
   align-items: center;
@@ -1763,22 +1759,33 @@
 .bar-example-image-card .image-box img {
   display: block;
   width: 100%;
-  /* height: 280px; */
+  height: auto;
 }
 
-/* Portrait graph */
+/* Large template graph on the left */
 .bar-example-image-card:first-child .image-box img {
-  max-width: 300px;
+  max-width: 560px;
 }
 
-/* Landscape graph examples */
+/* Stack the two example graphs on the right */
+.bar-example-image-card:last-child {
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Keep the example graphs smaller */
 .bar-example-image-card:last-child .image-box img {
-  max-width: 620px;
+  max-width: 390px;
 }
 
 @media (max-width: 800px) {
   .bar-example-image-grid {
     grid-template-columns: 1fr;
+  }
+
+  .bar-example-image-card:first-child .image-box img,
+  .bar-example-image-card:last-child .image-box img {
+    max-width: 100%;
   }
 }
 
