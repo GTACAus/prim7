@@ -1721,12 +1721,12 @@ function partBStartAnalysis() {
     document.getElementById("partCScaffoldLayer").classList.add("visible");
     document.getElementById("partCSliderStage").hidden = false;
     // document.getElementById("partCGraphBadge").textContent = "Build";
-    document.getElementById("partCStepLabel").textContent = "Step 3 · Build the bars";
+    document.getElementById("partCStepLabel").textContent = "Step 3 · Use the slider to build the bars";
     // document.getElementById("partCControlHeading").textContent = "Use the averages to set each bar height";
     document.getElementById("partCControlText").textContent =
       "Use the Site 2 average column to set all five sliders. Each slider changes one category without changing the others.";
     // document.getElementById("partCGraphHint").textContent =
-      "The categories and 0-10 scale are now visible. Build all five Site 2 bars from the average column.";
+      // "The categories and 0-10 scale are now visible. Build all five Site 2 bars from the average column.";
     document.getElementById("bar-follow-up").classList.add("partc-bars-active");
 
     partCResetBarBuilderControls();
@@ -2115,7 +2115,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
         "Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.";
     }
     // document.getElementById("partCGraphHint").textContent =
-      "Label the axes first. The categories and scale will appear when the graph is ready.";
+      // "Label the axes first. The categories and scale will appear when the graph is ready.";
     // document.getElementById("partCGraphBadge").textContent = "Set up";
 
     setChallengeFeedback(
@@ -2352,8 +2352,8 @@ function partCHandleLeadbeatersSiteChoice(button) {
     //   partDSiteLabel(partDActiveSite) + " average in the table.";
 
     document.getElementById("partDGraphBadge").textContent = partDSiteLabel(partDActiveSite);
-    document.getElementById("partDGraphHint").textContent =
-      "Editing " + partDSiteLabel(partDActiveSite) + ". Move the sliders to change this site's bars, then switch sites whenever you like.";
+    // // document.getElementById("partDGraphHint").textContent =
+    //   "Editing " + partDSiteLabel(partDActiveSite) + ". Move the sliders to change this site's bars, then switch sites whenever you like.";
 
     document.querySelectorAll("[data-partd-bar]").forEach(function(input) {
       const index = Number(input.dataset.partdBar);
@@ -2436,20 +2436,6 @@ function partCHandleLeadbeatersSiteChoice(button) {
 
     partDSetBarHeight(partDActiveSite, index, value, true);
     partDRefreshSiteButtonStates();
-  }
-
-  function partDClearPairHighlights() {
-    document.querySelectorAll("#partDGraphSvg .partd-site1-bar, #partDGraphSvg .partd-site2-bar").forEach(function(bar) {
-      bar.classList.remove("partd-pair-highlight");
-    });
-  }
-
-  function partDHighlightPair(index) {
-    partDClearPairHighlights();
-    ["site1", "site2"].forEach(function(site) {
-      const bar = document.querySelector('[data-partd-series="' + site + '"][data-partd-bar-index="' + index + '"]');
-      if (bar) bar.classList.add("partd-pair-highlight");
-    });
   }
 
   function partDShowLeadbeatersDifferenceMarker() {
@@ -2680,8 +2666,7 @@ function partDRenderStopAndCheckGraph() {
     document.getElementById("partDAnalysisPanel").hidden = false;
     document.getElementById("partDAnalysisFeedback").hidden = false;
     document.getElementById("partDGraphBadge").textContent = "Compare";
-    document.getElementById("partDGraphHint").textContent = "Both sites are now on the same scale. Compare the paired bars for each animal.";
-    partDHighlightPair(0);
+    // document.getElementById("partDGraphHint").textContent = "Both sites are now on the same scale. Compare the paired bars for each animal.";
 
     // setChallengeFeedback(
     //   "partDFeedback",
@@ -2703,7 +2688,6 @@ function partDRenderStopAndCheckGraph() {
 
     if (button.dataset.partdLeadSite !== correct) {
       flashChoice(button, "try-again-choice");
-      partDHighlightPair(0);
       setChallengeFeedback(
         "partDAnalysisFeedback",
         "try-again",
@@ -2714,7 +2698,6 @@ function partDRenderStopAndCheckGraph() {
     }
 
     flashChoice(button, "correct-choice");
-    partDHighlightPair(0);
     partDAnalysisStep = 1;
     document.getElementById("partDAnalysisQuestion1").hidden = true;
     document.getElementById("partDAnalysisQuestion2").hidden = false;
@@ -2756,7 +2739,6 @@ function partDRenderStopAndCheckGraph() {
 
     if (chosen !== correct) {
       flashChoice(button, "try-again-choice");
-      partDHighlightPair(0);
 
       document.getElementById("partDAnalysisFeedback").hidden = true;
       // setChallengeFeedback(
@@ -2769,7 +2751,6 @@ function partDRenderStopAndCheckGraph() {
     }
 
     flashChoice(button, "correct-choice");
-    partDHighlightPair(0);
     partDShowLeadbeatersDifferenceMarker();
     partDAnalysisStep = 2;
     document.getElementById("partDAnalysisQuestion2").hidden = true;
@@ -2803,7 +2784,6 @@ function partDRenderStopAndCheckGraph() {
 
     if (!chosen) {
       flashChoice(button, "try-again-choice");
-      partDHighlightPair(4);
 
       setChallengeFeedback(
         "partDAnalysisFeedback",
@@ -2816,15 +2796,14 @@ function partDRenderStopAndCheckGraph() {
     }
 
     flashChoice(button, "correct-choice");
-    partDHighlightPair(4);
 
     partDAnalysisStep = 3;
     partDStage = "complete";
 
     document.getElementById("partDAnalysisQuestion3").hidden = true;
+    document.getElementById("partDAnalysisPanel").hidden = true;
     document.getElementById("partDCompleteCard").hidden = false;
     document.getElementById("partDGraphBadge").textContent = "Complete ✓";
-    partDHighlightPair(0);
     partDShowLeadbeatersDifferenceMarker();
     partDRenderCompleteSummary();
 
@@ -2859,7 +2838,6 @@ function partDRenderStopAndCheckGraph() {
     buildPartDGraph();
     partDPrepareDifferenceChoices();
     partDPrepareSameCountChoices();
-    partDClearPairHighlights();
 
     const section = document.getElementById("bar-compare");
     section.classList.remove("partd-edit-site2", "partd-analysis-mode", "completed");
@@ -2967,11 +2945,9 @@ function partDRenderStopAndCheckGraph() {
       } else {
         partDAnalysisStep = 0;
       }
-      partDHighlightPair(0);
     } else {
       partDAnalysisStep = 3;
       partDShowLeadbeatersDifferenceMarker();
-      partDHighlightPair(0);
       partDRenderCompleteSummary();
     }
 

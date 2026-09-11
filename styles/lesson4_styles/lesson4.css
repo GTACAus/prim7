@@ -1646,13 +1646,6 @@
   opacity: .56;
 }
 
-#partDGraphSvg .partd-pair-highlight {
-  stroke: var(--orange) !important;
-  stroke-width: 6 !important;
-  opacity: 1 !important;
-  filter: drop-shadow(0 3px 0 rgba(48, 51, 47, .14));
-}
-
 #partDGraphSvg .partd-value-label {
   font-size: 12px;
   font-weight: 800;
@@ -3192,13 +3185,6 @@
 
 .stop-and-check-graph .partd-site2-bar {
   fill: var(--mint);
-}
-
-.stop-and-check-graph .partd-pair-highlight {
-  stroke: var(--orange) !important;
-  stroke-width: 6 !important;
-  opacity: 1 !important;
-  filter: drop-shadow(0 3px 0 rgba(48, 51, 47, .14));
 }
 
 .stop-and-check-graph .partd-value-label {
