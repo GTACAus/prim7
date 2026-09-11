@@ -2088,7 +2088,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
       button.classList.remove("correct-choice", "try-again-choice");
     });
 
-    document.getElementById("partCStepLabel").textContent = "Step 2 · Label the axes";
+    document.getElementById("partCStepLabel").textContent = "Step 1 · Label the axes";
     // document.getElementById("partCControlHeading").textContent = "Set up your Site 2 bar graph";
     document.getElementById("partCControlText").textContent =
       "Use the table to decide what belongs on the x-axis and y-axis. Drag the correct labels onto the graph.";
