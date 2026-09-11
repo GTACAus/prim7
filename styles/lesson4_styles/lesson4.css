@@ -1799,6 +1799,7 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+  gap: 10px;
 
   background: transparent;
   border: none;
@@ -1827,7 +1828,7 @@
 
 /* Stack the two example graphs on the right */
 .bar-example-image-card:last-child {
-  flex-direction: column;
+  flex-direction: row;
   gap: 18px;
 }
 
@@ -1867,7 +1868,25 @@
   white-space: nowrap;
 }
 
+.graph-checklist-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 800px) {
+  .graph-checklist-container {
+    flex-direction: column;
+  }
+}
+
+.graph-checklist-container .bar-example-image-card {
+  flex: 2;
+}
+  
 .bar-example-checklist {
+  flex: 1;
   margin-top: 14px;
   margin-bottom: 18px;
   padding: 14px 16px;

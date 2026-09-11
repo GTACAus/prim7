@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 4 - Number Line Activity</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
+  <link href="../styles/lesson4_styles/lesson4.css" rel="stylesheet" type="text/css">
+  <link href="../styles/overrides.css" rel="stylesheet" type="text/css">
+  <style>
+    .number-line-activity {
+      --activity-purple: var(--purple);
+      --activity-line: var(--charcoal);
+      width: min(1120px, 94%);
+      margin: 0 auto;
+      padding: 34px 0 72px;
+      color: var(--text);
+    }
+
+    .number-line-activity *,
+    .number-line-activity *::before,
+    .number-line-activity *::after {
+      box-sizing: border-box;
+    }
+
+    .number-line-activity .activity-header {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .number-line-activity .activity-label {
+      margin: 0 0 8px;
+      color: var(--activity-purple);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .number-line-activity h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.05;
+    }
+
+    .number-line-activity .activity-summary {
+      max-width: 680px;
+      margin: 14px auto 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .number-line-activity .activity-card {
+      padding: clamp(18px, 4vw, 32px);
+      background: var(--paper);
+      border: 3px solid var(--charcoal);
+      border-radius: 24px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .number-line-activity .instruction-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 28px;
+      background: linear-gradient(110deg, var(--soft-blue), var(--paper));
+    }
+
+    .number-line-activity .instruction-card h2 {
+      margin: 0 0 6px;
+      font-size: 1.25rem;
+    }
+
+    .number-line-activity .instruction-card p {
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .number-line-activity .distance-badge {
+      min-width: 88px;
+      padding: 12px 14px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .number-line-activity .line-stage {
+      position: relative;
+      min-height: 285px;
+      padding: 170px 58px 0;
+      overflow: visible;
+    }
+
+    .number-line-activity .line-track {
+      position: relative;
+      height: 8px;
+      background: var(--activity-line);
+      border-radius: 999px;
+    }
+
+    .number-line-activity .line-track::before,
+    .number-line-activity .line-track::after {
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-top: 13px solid transparent;
+      border-bottom: 13px solid transparent;
+      content: "";
+      transform: translateY(-50%);
+    }
+
+    .number-line-activity .line-track::before {
+      left: -2px;
+      border-right: 18px solid var(--activity-line);
+      transform: translate(-100%, -50%);
+    }
+
+    .number-line-activity .line-track::after {
+      right: -2px;
+      border-left: 18px solid var(--activity-line);
+      transform: translate(100%, -50%);
+    }
+
+    .number-line-activity .line-point {
+      position: absolute;
+      top: 50%;
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      background: var(--paper);
+      border: 4px solid var(--activity-line);
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+      z-index: 2;
+    }
+
+    .number-line-activity .line-point:hover,
+    .number-line-activity .line-point:focus-visible,
+    .number-line-activity .line-point.is-selected {
+      background: var(--yellow);
+      border-color: var(--activity-purple);
+      outline: none;
+      transform: translate(-50%, -50%) scale(1.18);
+    }
+
+    .number-line-activity .line-point-label {
+      position: absolute;
+      top: 27px;
+      left: 50%;
+      width: max-content;
+      color: var(--text);
+      font-size: .88rem;
+      font-weight: 700;
+      transform: translateX(-50%);
+    }
+
+    .number-line-activity .person-marker {
+      position: absolute;
+      bottom: 48px;
+      left: 0;
+      width: 54px;
+      height: 72px;
+      object-fit: contain;
+      object-position: bottom center;
+      transform: translateX(-50%);
+    }
+
+    .number-line-activity .point-panel {
+      position: absolute;
+      bottom: 31px;
+      left: 0;
+      width: min(220px, 42vw);
+      padding: 14px 16px;
+      background: white;
+      border: 3px solid var(--activity-purple);
+      border-radius: 16px;
+      box-shadow: 0 5px 0 var(--charcoal);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 14px) scale(.92);
+      transform-origin: bottom center;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 3;
+    }
+
+    .number-line-activity .point-panel.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    .number-line-activity .point-panel::after {
+      position: absolute;
+      bottom: -11px;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border-right: 3px solid var(--activity-purple);
+      border-bottom: 3px solid var(--activity-purple);
+      content: "";
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .number-line-activity .point-panel h3 {
+      margin: 0 0 5px;
+      color: var(--activity-purple);
+      font-size: 1rem;
+    }
+
+    .number-line-activity .point-panel p {
+      margin: 0;
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+
+    .number-line-activity .panel-close {
+      position: absolute;
+      top: 5px;
+      right: 7px;
+      padding: 0 4px;
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    .number-line-activity .panel-close:focus-visible {
+      outline: 2px solid var(--activity-purple);
+      outline-offset: 2px;
+    }
+
+    .number-line-activity .line-controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .number-line-activity .line-control {
+      min-width: 118px;
+      padding: 11px 16px;
+      background: var(--green);
+      border: 2px solid var(--charcoal);
+      border-radius: 12px;
+      box-shadow: 0 3px 0 var(--charcoal);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .number-line-activity .line-control:hover,
+    .number-line-activity .line-control:focus-visible {
+      background: var(--soft-yellow);
+      outline: none;
+    }
+
+    .number-line-activity .line-control:active {
+      box-shadow: 0 1px 0 var(--charcoal);
+      transform: translateY(2px);
+    }
+
+    .number-line-activity .activity-note {
+      margin: 22px 0 0;
+      padding: 14px 16px;
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .number-line-activity .instruction-card {
+        grid-template-columns: 1fr;
+      }
+
+      .number-line-activity .distance-badge {
+        justify-self: start;
+      }
+
+      .number-line-activity .line-stage {
+        min-height: 325px;
+        padding-right: 38px;
+        padding-left: 38px;
+      }
+
+      .number-line-activity .point-panel {
+        width: min(190px, 58vw);
+        padding: 12px;
+      }
+
+      .number-line-activity .person-marker {
+        width: 46px;
+      }
+    }
+
+    @media print {
+      .number-line-activity .point-panel {
+        opacity: 1;
+        position: static;
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="number-line-activity">
+    <header class="activity-header">
+      <p class="activity-label">Lesson 4 · Number line</p>
+      <h1>How far did the person travel?</h1>
+      <p class="activity-summary">
+        A number line helps us show distance in order. Select a labelled point, or use the
+        buttons, to explore what each distance means.
+      </p>
+    </header>
+
+    <section class="activity-card instruction-card" aria-labelledby="activity-instructions">
+      <div>
+        <h2 id="activity-instructions">Explore the distances</h2>
+        <p>
+          Start at <strong>0 metres</strong>. Each labelled point is another 5 metres along the
+          path. What changes as the number gets larger?
+        </p>
+      </div>
+      <div class="distance-badge" id="selected-distance" aria-live="polite">Choose a point</div>
+    </section>
+
+    <section class="activity-card" aria-label="Interactive 0 to 20 metre number line">
+      <div class="line-stage">
+        <div class="line-track" id="number-line">
+          <img class="person-marker" src="../images/lesson4/test/person.png" alt="Person at the start of the number line">
+
+          <button class="line-point" type="button" data-distance="0" style="left: 0%;" aria-label="Open content for 0 metres">
+            <span class="line-point-label">0 m</span>
+          </button>
+          <button class="line-point" type="button" data-distance="5" style="left: 25%;" aria-label="Open content for 5 metres">
+            <span class="line-point-label">5 m</span>
+          </button>
+          <button class="line-point" type="button" data-distance="10" style="left: 50%;" aria-label="Open content for 10 metres">
+            <span class="line-point-label">10 m</span>
+          </button>
+          <button class="line-point" type="button" data-distance="15" style="left: 75%;" aria-label="Open content for 15 metres">
+            <span class="line-point-label">15 m</span>
+          </button>
+          <button class="line-point" type="button" data-distance="20" style="left: 100%;" aria-label="Open content for 20 metres">
+            <span class="line-point-label">20 m</span>
+          </button>
+
+          <div class="point-panel" data-panel="0" role="region" aria-label="Content for 0 metres">
+            <button class="panel-close" type="button" aria-label="Close 0 metre content">×</button>
+            <h3>0 metres</h3>
+            <p>Content for 0 m: this is the starting point.</p>
+          </div>
+          <div class="point-panel" data-panel="5" role="region" aria-label="Content for 5 metres">
+            <button class="panel-close" type="button" aria-label="Close 5 metre content">×</button>
+            <h3>5 metres</h3>
+            <p>Content for 5 m: the person is 5 metres from the start.</p>
+          </div>
+          <div class="point-panel" data-panel="10" role="region" aria-label="Content for 10 metres">
+            <button class="panel-close" type="button" aria-label="Close 10 metre content">×</button>
+            <h3>10 metres</h3>
+            <p>Content for 10 m: the person is halfway to 20 metres.</p>
+          </div>
+          <div class="point-panel" data-panel="15" role="region" aria-label="Content for 15 metres">
+            <button class="panel-close" type="button" aria-label="Close 15 metre content">×</button>
+            <h3>15 metres</h3>
+            <p>Content for 15 m: 5 metres remain before reaching 20 metres.</p>
+          </div>
+          <div class="point-panel" data-panel="20" role="region" aria-label="Content for 20 metres">
+            <button class="panel-close" type="button" aria-label="Close 20 metre content">×</button>
+            <h3>20 metres</h3>
+            <p>Content for 20 m: this is the furthest labelled point.</p>
+          </div>
+        </div>
+
+        <div class="line-controls" aria-label="Number line controls">
+          <button class="line-control" type="button" data-distance="0">← Start at 0 m</button>
+          <button class="line-control" type="button" data-distance="20">Finish at 20 m →</button>
+        </div>
+      </div>
+
+      <p class="activity-note" id="activity-note" role="status" aria-live="polite">
+        Select a point to open its content panel.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const activity = document.querySelector(".number-line-activity");
+      const points = Array.from(activity.querySelectorAll(".line-point"));
+      const controls = Array.from(activity.querySelectorAll(".line-control"));
+      const panels = Array.from(activity.querySelectorAll(".point-panel"));
+      const badge = activity.querySelector("#selected-distance");
+      const note = activity.querySelector("#activity-note");
+
+      function closePanels() {
+        panels.forEach(function (panel) {
+          panel.classList.remove("is-open");
+        });
+        points.forEach(function (point) {
+          point.classList.remove("is-selected");
+          point.setAttribute("aria-expanded", "false");
+        });
+      }
+
+      function openDistance(distance, focusPoint) {
+        const value = String(distance);
+        const point = points.find(function (item) {
+          return item.dataset.distance === value;
+        });
+        const panel = panels.find(function (item) {
+          return item.dataset.panel === value;
+        });
+
+        if (!point || !panel) return;
+
+        closePanels();
+        point.classList.add("is-selected");
+        point.setAttribute("aria-expanded", "true");
+        panel.classList.add("is-open");
+        badge.textContent = distance + " m selected";
+        note.textContent = "You selected " + distance + " metres. Read the panel above the point.";
+
+        if (focusPoint) point.focus();
+      }
+
+      points.forEach(function (point) {
+        point.setAttribute("aria-expanded", "false");
+        point.addEventListener("click", function () {
+          openDistance(point.dataset.distance, false);
+        });
+      });
+
+      controls.forEach(function (control) {
+        control.addEventListener("click", function () {
+          openDistance(control.dataset.distance, true);
+        });
+      });
+
+      panels.forEach(function (panel) {
+        panel.querySelector(".panel-close").addEventListener("click", function () {
+          closePanels();
+          badge.textContent = "Choose a point";
+          note.textContent = "Select a point to open its content panel.";
+        });
+      });
+    }());
+  </script>
+</body>
+</html>

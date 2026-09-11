@@ -292,40 +292,32 @@
               alt="Visual comparison of numerical and categorical data"
             />
           </div> -->
-
-        <div class="wheel-question-checklist bar-example-checklist" aria-label="What to look for in the example bar graphs">
-          <h5>Look at the 3 bar graphs below</h5>
-          <p>Each shows the results of a fair test. As you look, check that each graph has:</p>
-
-          <label class="check-item">
-            <input type="checkbox" aria-label="Check for a clear graph title" />
-            <span>
-              <strong>A clear title</strong>
-              <small>Explains what the fair test is investigating.</small>
-            </span>
-          </label>
-
-          <label class="check-item">
-            <input type="checkbox" aria-label="Check for an x-axis label and units" />
-            <span>
-              <strong>An x-axis label and units</strong>
-              <small>Shows the categories or groups being compared.</small>
-            </span>
-          </label>
-
-          <label class="check-item">
-            <input type="checkbox" aria-label="Check for a y-axis label and units" />
-            <span>
-              <strong>A y-axis label and units</strong>
-              <small>Shows what was measured or counted.</small>
-            </span>
-          </label>
-        </div>
-
-        <!-- Existing intro-grid/intro-card components give us two responsive columns without new CSS. -->
-        <div class="intro-grid bar-example-image-grid">
-
-          <!-- Large template graph -->
+        <div class="graph-checklist-container">
+          <div class="wheel-question-checklist bar-example-checklist" aria-label="What to look for in the example bar graphs">
+            <h5>Look at the following 3 bar graphs</h5>
+            <p>Each shows the results of a fair test. As you look, check that each graph has:</p>
+            <label class="check-item">
+              <input type="checkbox" aria-label="Check for a clear graph title" />
+              <span>
+                <strong>A clear title</strong>
+                <small>Explains what the fair test is investigating.</small>
+              </span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" aria-label="Check for an x-axis label and units" />
+              <span>
+                <strong>An x-axis label and units</strong>
+                <small>Shows the categories or groups being compared.</small>
+              </span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" aria-label="Check for a y-axis label and units" />
+              <span>
+                <strong>A y-axis label and units</strong>
+                <small>Shows what was measured or counted.</small>
+              </span>
+            </label>
+          </div>
           <div class="intro-card bar-example-image-card">
             <div class="image-box">
               <img
@@ -334,9 +326,11 @@
               />
             </div>
           </div>
+          
+        </div>
 
-          <!-- Two completed examples stacked vertically -->
-          <div class="intro-card bar-example-image-card">
+        <!-- Existing intro-grid/intro-card components give us two responsive columns without new CSS. -->
+        <div class="intro-card bar-example-image-card">
 
             <div class="image-box">
               <img
@@ -353,8 +347,6 @@
             </div>
 
           </div>
-
-        </div>
 
       <button class="next-button general-button" onclick="unlockSection('bar-practice', 'bar-data-preamble')">
         Next

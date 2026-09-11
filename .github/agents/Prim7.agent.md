@@ -1,7 +1,7 @@
 ---
 name: Prim7 Agent
 description: Works on Prim7, creating, modifying and suggesting changes to html, css, and js files. It can also read and analyze code to provide suggestions for improvements.
-tools: [read, grep, glob, bash]
+
 ---
 
 <!-- Tip: Use /create-agent in chat to generate content with agent assistance -->
