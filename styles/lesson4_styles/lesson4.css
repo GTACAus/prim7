@@ -158,6 +158,7 @@
 }
 .challenge-step-label {
   display: inline-block;
+  margin-bottom: 5px;
   padding: 6px 10px;
   background: var(--soft-blue);
   border: 2px solid var(--charcoal);
