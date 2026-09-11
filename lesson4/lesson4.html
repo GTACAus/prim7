@@ -786,7 +786,7 @@
         <div class="lesson4-workbench partb-workbench" id="partBWorkbench">
         <div class="partb-data-card">
           <span class="challenge-step-label">Step 1 · Get the average values</span>
-          <h3>Site 1 · Three nights of spotlighting</h3>
+          <!-- <h3>Site 1 · Three nights of spotlighting</h3> -->
           <p>
             Your team repeated the survey of animals at <strong>Site 1</strong> on three different nights: Night 1, Night 2 and Night 3.
             Use the button to calculate the average for each animal, then use those average values to build your bar graph.
@@ -794,6 +794,7 @@
 
           <div class="partb-table-wrap">
             <table class="practice-table partb-data-table" aria-label="Animal counts across three spotlight survey nights at Site 1">
+              <caption>Table 1. Site 1 animal counts across three nights</caption>
               <thead>
                 <tr>
                   <th>Type of animal</th>
@@ -821,11 +822,11 @@
             <div class="graph-control-card partb-control-panel">
               <span class="challenge-step-label" id="partBStepLabel">Step 2 · Label the graph axes</span>
               <!-- <h3 id="partBControlHeading">Label your graph axes</h3> -->
-              <p id="partBControlText">
+              <!-- <p id="partBControlText">
                 Look at the possible labels shown here. Choose one label to drag onto the <strong>x-axis</strong>. 
                 This describes the categories or groups you are changing or comparing.
                 Then choose another label to drag onto the <strong>y-axis</strong> to show what you are measuring.
-              </p>
+              </p> -->
 
               <div class="partb-label-bank" id="partBLabelBank" aria-label="Bar graph axis label cards">
                 <button type="button" class="partb-axis-card" id="partBCardAnimal" draggable="true" data-partb-card="animal">Type of animal</button>
@@ -858,9 +859,9 @@
               <div class="graph-stage-heading">
                 <div>
                   <h3>Average animal counts from spotlight surveys at Site 1</h3>
-                  <p id="partBGraphHint">First label the graph. Then you will construct each bar from its plotted point.</p>
+                  <!-- <p id="partBGraphHint">First label the graph. Then you will construct each bar from its plotted point.</p> -->
                 </div>
-                <span class="graph-badge" id="partBGraphBadge">Axes</span>
+                <!-- <span class="graph-badge" id="partBGraphBadge">Axes</span> -->
               </div>
 
               <div class="graph-svg-wrap">
@@ -904,10 +905,10 @@
             </div>
           </div>
 
-          <div class="challenge-complete partb-complete-note challenge-hidden" id="partBCompleteNote" hidden>
+          <!-- <div class="challenge-complete partb-complete-note challenge-hidden" id="partBCompleteNote" hidden>
             <strong>Bar graph constructed.</strong>
             You have represented all five average survey values. A value of <strong>0</strong> is shown as a zero-height bar on the baseline.
-          </div>
+          </div> -->
 
           <div class="partb-graph-check challenge-hidden" id="partBGraphCheck" hidden>
             <span class="challenge-step-label">Before you analyse</span>
@@ -915,19 +916,31 @@
             <p>The graph was built using the same construction rules for every category.</p>
 
             <div class="partb-check-grid" aria-label="Bar graph construction checklist">
-              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Every bar starts at <strong>zero</strong>.</span></div>
-              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Every bar has the <strong>same width</strong>.</span></div>
-              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>The gaps between bars are <strong>equal</strong>.</span></div>
-              <div class="partb-check-item"><span class="partb-check-icon">✓</span><span>Each bar height matches the <strong>average</strong> in the table, including a zero-height bar for <strong>feral deer</strong>.</span></div>
+              <label class="partb-check-item">
+                <input type="checkbox" />
+                <span>Every bar starts at <strong>zero</strong>.</span>
+              </label>
+              <label class="partb-check-item">
+                <input type="checkbox" />
+                <span>Every bar has the <strong>same width</strong>.</span>
+              </label>
+              <label class="partb-check-item">
+                <input type="checkbox" />
+                <span>The gaps between bars are <strong>equal</strong>.</span>
+              </label>
+              <label class="partb-check-item">
+                <input type="checkbox" />
+                <span>Each bar height matches the <strong>average</strong> in the table, including a zero-height bar for <strong>feral deer</strong>.</span>
+              </label>
             </div>
 
-            <button type="button" class="general-button" id="partBStartAnalysisButton">Analyse the graph</button>
+            <button type="button" class="general-button" id="partBStartAnalysisButton" hidden>Analyse the graph</button>
           </div>
 
           <div class="partb-analysis-panel challenge-hidden" id="partBAnalysisPanel" hidden>
             <span class="challenge-step-label">Step 5 · Analyse the graph</span>
-            <h3>What does your bar graph tell you?</h3>
-            <p>Use the finished graph to compare the average number of animals observed.</p>
+            <!-- <h3>What does your bar graph tell you?</h3> -->
+            <!-- <p>Use the finished graph to compare the average number of animals observed.</p> -->
 
             <div class="partb-analysis-question" id="partBAnalysisQuestion1">
               <span class="partb-analysis-progress">Question 1 of 3</span>
@@ -970,8 +983,9 @@
 
               <div class="partb-baseline-facts">
                 <div class="partb-baseline-fact"><strong>Highest average</strong><span id="partBBaselineHighest">—</span></div>
-                <div class="partb-baseline-fact"><strong>Leadbeater's Possums</strong><span id="partBBaselineLeadbeaters">—</span> on average</div>
+                <div class="partb-baseline-fact"><strong>Number of Leadbeater's Possums</strong><span id="partBBaselineLeadbeaters">—</span></div>
                 <div class="partb-baseline-fact"><strong>Lowest average</strong><span id="partBBaselineLowest">—</span></div>
+                <div class="partb-baseline-fact"><strong>Number of Feral Deers</strong><span id="partBBaselineFeralDeer">—</span></div>
               </div>
 
               <p class="partb-story-hook">
@@ -1036,6 +1050,7 @@
 
           <div class="partc-table-wrap">
             <table class="practice-table partc-data-table" aria-label="Site 2 animal counts across three spotlight survey nights">
+              <caption>Table 2. Site 2 animal counts across three nights</caption>
               <thead>
                 <tr>
                   <th>Type of animal</th>
@@ -1367,6 +1382,7 @@
 
           <div class="partd-table-wrap">
             <table class="practice-table partd-data-table" aria-label="Comparison of average animal counts at Site 1 and Site 2">
+              <caption>Table 3. Comparison of average animal counts at Site 1 and Site 2</caption>
               <thead>
                 <tr>
                   <th>Type of animal</th>

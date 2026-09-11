@@ -454,6 +454,14 @@
   margin: 0;
 }
 
+.partb-data-table caption,
+.partc-data-table caption,
+.partd-data-table caption {
+  margin-bottom: 8px;
+  font-weight: 700;
+  text-align: left;
+}
+
 .partb-data-table th:first-child,
 .partb-data-table td:first-child {
   text-align: left;
@@ -475,6 +483,7 @@
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
+  justify-content: center;
   margin-top: 16px;
 }
 
@@ -825,25 +834,24 @@
 
 .partb-check-item {
   display: grid;
-  grid-template-columns: 34px 1fr;
+  grid-template-columns: 20px 1fr;
   gap: 10px;
-  align-items: center;
+  align-items: start;
   padding: 11px 12px;
   background: var(--soft-green);
   border: 2px solid var(--charcoal);
   border-radius: 13px;
   line-height: 1.35;
+  cursor: pointer;
 }
 
-.partb-check-icon {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 50%;
-  font-weight: 800;
+.partb-check-item input[type="checkbox"] {
+  margin: 2px 0 0;
+}
+
+.partb-graph-check > .general-button {
+  display: block;
+  margin: 0 auto;
 }
 
 .partb-analysis-question[hidden],
@@ -892,7 +900,7 @@
 
 .partb-baseline-facts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
   margin: 14px 0;
 }
@@ -2700,9 +2708,13 @@
 
   #bar-construction.partb-build-active .partb-table-actions {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 10px;
     align-items: stretch;
+  }
+
+  #bar-construction.partb-build-active .partb-table-actions > .general-button {
+    justify-self: center;
   }
 
   /* Part C: full-width Site 2 table, then controls beside the graph. */
@@ -2987,6 +2999,10 @@
   .partc-data-card,
   .partd-data-card {
     padding: 16px;
+  }
+
+  .partb-baseline-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .partb-data-table th,

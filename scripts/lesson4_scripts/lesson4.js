@@ -409,7 +409,7 @@
     document.getElementById("partBUnitCheck").hidden = false;
     document.getElementById("partBStepLabel").textContent = "Step 3 · Check the units";
     // document.getElementById("partBControlHeading").textContent = "Do these labels need units?";
-    document.getElementById("partBControlText").textContent = "Some graph axes need units such as cm, °C or seconds. Decide whether these two labels need one.";
+    // document.getElementById("partBControlText").textContent = "Some graph axes need units such as cm, °C or seconds. Decide whether these two labels need one.";
 
     setChallengeFeedback(
       "partBFeedback",
@@ -443,9 +443,9 @@
     document.getElementById("partBBuilderPrompt").hidden = false;
     document.getElementById("partBStepLabel").textContent = "Step 4 · Construct the bars";
     // document.getElementById("partBControlHeading").textContent = "Build each bar from a plotted point";
-    document.getElementById("partBControlText").textContent = "For each animal: choose the category on the x-axis, choose the average count on the y-axis, then mark where the two dotted guides meet.";
-    document.getElementById("partBGraphBadge").textContent = "Build";
-    document.getElementById("partBGraphHint").textContent = "Choose an animal on the x-axis to start a vertical guide.";
+    // document.getElementById("partBControlText").textContent = "For each animal: choose the category on the x-axis, choose the average count on the y-axis, then mark where the two dotted guides meet.";
+    // document.getElementById("partBGraphBadge").textContent = "Build";
+    // document.getElementById("partBGraphHint").textContent = "Choose an animal on the x-axis to start a vertical guide.";
     partBStage = "category";
 
     setChallengeFeedback(
@@ -619,7 +619,7 @@
     partBStage = "y";
     document.getElementById("partBBuilderPromptTitle").textContent = partBBarData[index].label + " selected.";
     document.getElementById("partBBuilderPromptText").textContent = "Now click the y-axis value that represents this animal's average count.";
-    document.getElementById("partBGraphHint").textContent = "The vertical dotted guide identifies the animal category. Now choose a value on the y-axis.";
+    // document.getElementById("partBGraphHint").textContent = "The vertical dotted guide identifies the animal category. Now choose a value on the y-axis.";
 
     setChallengeFeedback(
       "partBFeedback",
@@ -677,7 +677,7 @@
     partBStage = "intersection";
     document.getElementById("partBBuilderPromptTitle").textContent = "Where do the two dotted lines meet?";
     document.getElementById("partBBuilderPromptText").textContent = "Click the intersection to mark the data point before the bar is drawn.";
-    document.getElementById("partBGraphHint").textContent = "The two guides cross at one coordinate. Click that intersection.";
+    // document.getElementById("partBGraphHint").textContent = "The two guides cross at one coordinate. Click that intersection.";
 
     setChallengeFeedback(
       "partBFeedback",
@@ -817,7 +817,7 @@
       partBStage = "category";
       document.getElementById("partBBuilderPromptTitle").textContent = isZeroValue ? "Zero-height bar complete." : "Bar complete.";
       document.getElementById("partBBuilderPromptText").textContent = "Choose another animal category on the x-axis.";
-      document.getElementById("partBGraphHint").textContent = "Choose another animal to repeat the same construction steps.";
+      // document.getElementById("partBGraphHint").textContent = "Choose another animal to repeat the same construction steps.";
 
       if (isZeroValue) {
         setChallengeFeedback(
@@ -899,11 +899,11 @@
 
   function partBFinishConstruction() {
     partBStage = "complete";
-    document.getElementById("partBGraphBadge").textContent = "Complete ✓";
+    // document.getElementById("partBGraphBadge").textContent = "Complete ✓";
     document.getElementById("partBBuilderPromptTitle").textContent = "All five categories are complete.";
     document.getElementById("partBBuilderPromptText").textContent = "You used the same process for every category: x-value, y-value, intersection, then bar height.";
-    document.getElementById("partBGraphHint").textContent = "Each category is represented. A value of 0 stays on the baseline with zero bar height.";
-    document.getElementById("partBCompleteNote").hidden = false;
+    // document.getElementById("partBGraphHint").textContent = "Each category is represented. A value of 0 stays on the baseline with zero bar height.";
+    // document.getElementById("partBCompleteNote").hidden = false;
     document.getElementById("partBGraphCheck").hidden = false;
 
     setChallengeFeedback(
@@ -916,6 +916,16 @@
     window.setTimeout(function() {
       document.getElementById("partBGraphCheck").scrollIntoView({ behavior: "smooth", block: "center" });
     }, 350);
+  }
+
+  function updatePartBChecklistButton() {
+    const checklist = document.querySelectorAll("#partBGraphCheck input[type='checkbox']");
+    const startAnalysisButton = document.getElementById("partBStartAnalysisButton");
+    if (!startAnalysisButton) return;
+
+    startAnalysisButton.hidden = !Array.from(checklist).every(function(checkbox) {
+      return checkbox.checked;
+    });
   }
 
   function partBClearAnalysisHighlight() {
@@ -974,12 +984,12 @@ function partBStartAnalysis() {
   partBAnalysisStep = 1;
 
   document.getElementById("partBGraphCheck").hidden = true;
-  document.getElementById("partBCompleteNote").hidden = true;
+  // document.getElementById("partBCompleteNote").hidden = true;
 
   document.getElementById("partBAnalysisPanel").hidden = false;
   document.getElementById("partBStartAnalysisButton").disabled = true;
-  document.getElementById("partBGraphBadge").textContent = "Analyse";
-  document.getElementById("partBGraphHint").textContent =
+  // document.getElementById("partBGraphBadge").textContent = "Analyse";
+  // document.getElementById("partBGraphHint").textContent =
     "Use the completed bars and their values as evidence.";
 
   setChallengeFeedback(
@@ -1092,16 +1102,18 @@ function partBStartAnalysis() {
     const highestIndex = partBHighestIndex();
     const lowestIndex = partBLowestIndex();
     const leadbeatersAverage = partBAverage(partBBarData[0]);
+    const feralDeerAverage = partBAverage(partBBarData[4]);
 
     document.getElementById("partBBaselineHighest").textContent =
-      partBBarData[highestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[highestIndex])) + ")";
+      partBBarData[highestIndex].label;
     document.getElementById("partBBaselineLeadbeaters").textContent = partBFormatAverage(leadbeatersAverage);
     document.getElementById("partBBaselineLowest").textContent =
-      partBBarData[lowestIndex].label + " (" + partBFormatAverage(partBAverage(partBBarData[lowestIndex])) + ")";
+      partBBarData[lowestIndex].label.replace("Feral deer", "Feral Deer");
+    document.getElementById("partBBaselineFeralDeer").textContent = partBFormatAverage(feralDeerAverage);
 
     document.getElementById("partBBaselineSummary").hidden = false;
-    document.getElementById("partBGraphBadge").textContent = "Baseline ✓";
-    document.getElementById("partBGraphHint").textContent =
+    // document.getElementById("partBGraphBadge").textContent = "Baseline ✓";
+    // document.getElementById("partBGraphHint").textContent =
       "This graph is the baseline survey before nest boxes are installed.";
 
     document.getElementById("barConstructionNext").hidden = false;
@@ -1142,17 +1154,21 @@ function partBStartAnalysis() {
     document.getElementById("partBConstructionStage").hidden = true;
     document.getElementById("partBUnitCheck").hidden = true;
     document.getElementById("partBBuilderPrompt").hidden = true;
-    document.getElementById("partBCompleteNote").hidden = true;
+    // document.getElementById("partBCompleteNote").hidden = true;
     document.getElementById("partBGraphCheck").hidden = true;
     document.getElementById("partBAnalysisPanel").hidden = true;
     document.getElementById("partBBaselineSummary").hidden = true;
     document.getElementById("partBAnalysisQuestion1").hidden = false;
     document.getElementById("partBAnalysisQuestion2").hidden = true;
     document.getElementById("partBAnalysisQuestion3").hidden = true;
+    document.getElementById("partBStartAnalysisButton").hidden = true;
     document.getElementById("partBStartAnalysisButton").disabled = false;
     document.getElementById("bar-construction").classList.remove("completed", "partb-build-active");
     partBAnalysisStep = 0;
     partBClearAnalysisHighlight();
+    document.querySelectorAll("#partBGraphCheck input[type='checkbox']").forEach(function(checkbox) {
+      checkbox.checked = false;
+    });
     document.querySelectorAll("[data-partb-analysis]").forEach(function(button) {
       button.classList.remove("correct-choice", "try-again-choice");
     });
@@ -1160,10 +1176,10 @@ function partBStartAnalysis() {
     document.getElementById("partBStepLabel").textContent = "Step 2 · Label the axes";
     // document.getElementById("partBControlHeading").textContent = "Label your graph axes";
 
-   document.getElementById("partBControlText").textContent =
+  //  document.getElementById("partBControlText").textContent =
     "Look at the possible labels shown here. Choose one label to drag onto the x-axis to describe the categorical data. Then choose another label to drag onto the y-axis to show what you are measuring.";
-    document.getElementById("partBGraphBadge").textContent = "Axes";
-    document.getElementById("partBGraphHint").textContent = "First label the graph. Then you will construct each bar from its plotted point.";
+    // document.getElementById("partBGraphBadge").textContent = "Axes";
+    // document.getElementById("partBGraphHint").textContent = "First label the graph. Then you will construct each bar from its plotted point.";
 
     document.querySelectorAll(".partb-axis-card").forEach(function(card) {
       card.classList.remove("selected", "placed", "is-dragging");
@@ -1258,6 +1274,9 @@ function partBStartAnalysis() {
     });
 
     document.getElementById("partBGraphSvg").addEventListener("click", partBHandleGraphIntersection);
+    document.querySelectorAll("#partBGraphCheck input[type='checkbox']").forEach(function(checkbox) {
+      checkbox.addEventListener("change", updatePartBChecklistButton);
+    });
     document.getElementById("partBStartAnalysisButton").addEventListener("click", partBStartAnalysis);
     partBBuildLeadbeatersChoices();
     document.querySelectorAll('[data-partb-analysis="highest"], [data-partb-analysis="lowest"]').forEach(function(button) {
@@ -2325,9 +2344,9 @@ function partCHandleLeadbeatersSiteChoice(button) {
       button.setAttribute("aria-pressed", selected ? "true" : "false");
     });
 
-    document.getElementById("partDEditingNote").innerHTML =
-      "<strong>Editing " + partDSiteLabel(partDActiveSite) + ".</strong> Match each slider to the " +
-      partDSiteLabel(partDActiveSite) + " average in the table.";
+    // document.getElementById("partDEditingNote").innerHTML =
+    //   "<strong>Editing " + partDSiteLabel(partDActiveSite) + ".</strong> Match each slider to the " +
+    //   partDSiteLabel(partDActiveSite) + " average in the table.";
 
     document.getElementById("partDGraphBadge").textContent = partDSiteLabel(partDActiveSite);
     document.getElementById("partDGraphHint").textContent =
@@ -2370,12 +2389,12 @@ function partCHandleLeadbeatersSiteChoice(button) {
     partDActiveSite = site;
     partDRenderActiveSiteControls();
 
-    setChallengeFeedback(
-      "partDFeedback",
-      "",
-      "Editing " + partDSiteLabel(site) + ".",
-      " Use the " + partDSiteLabel(site) + " column in the table. Your other site's bars stay exactly where you left them."
-    );
+    // setChallengeFeedback(
+    //   "partDFeedback",
+    //   "",
+    //   "Editing " + partDSiteLabel(site) + ".",
+    //   " Use the " + partDSiteLabel(site) + " column in the table. Your other site's bars stay exactly where you left them."
+    // );
   }
 
   /*
@@ -2638,12 +2657,12 @@ function partDRenderStopAndCheckGraph() {
       partDActiveSite = firstWrongSite;
       partDRenderActiveSiteControls();
       const item = data[firstWrongIndex];
-      setChallengeFeedback(
-        "partDFeedback",
-        "try-again",
-        partDSiteLabel(firstWrongSite) + " needs another look.",
-        " Start with " + item.label + ". Check the " + partDSiteLabel(firstWrongSite) + " average in the table and adjust that bar."
-      );
+      // setChallengeFeedback(
+      //   "partDFeedback",
+      //   "try-again",
+      //   partDSiteLabel(firstWrongSite) + " needs another look.",
+      //   " Start with " + item.label + ". Check the " + partDSiteLabel(firstWrongSite) + " average in the table and adjust that bar."
+      // );
       return;
     }
 
@@ -2651,7 +2670,7 @@ function partDRenderStopAndCheckGraph() {
     partDApplyAnalysisVisuals();
 
     document.getElementById("partDSiteSwitcher").hidden = true;
-    document.getElementById("partDEditingNote").hidden = true;
+    // document.getElementById("partDEditingNote").hidden = true;
     document.getElementById("partDBuilderControls").hidden = true;
     document.getElementById("checkPartDBarsButton").hidden = true;
     document.getElementById("partDBuilderComplete").hidden = false;
@@ -2661,12 +2680,12 @@ function partDRenderStopAndCheckGraph() {
     document.getElementById("partDGraphHint").textContent = "Both sites are now on the same scale. Compare the paired bars for each animal.";
     partDHighlightPair(0);
 
-    setChallengeFeedback(
-      "partDFeedback",
-      "success",
-      "Both sites match the table.",
-      " Now the paired bars let you compare Site 1 and Site 2 directly."
-    );
+    // setChallengeFeedback(
+    //   "partDFeedback",
+    //   "success",
+    //   "Both sites match the table.",
+    //   " Now the paired bars let you compare Site 1 and Site 2 directly."
+    // );
 
     window.setTimeout(function() {
       document.getElementById("partDAnalysisPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -2844,7 +2863,7 @@ function partDRenderStopAndCheckGraph() {
     section.classList.add("partd-edit-site1");
 
     document.getElementById("partDSiteSwitcher").hidden = false;
-    document.getElementById("partDEditingNote").hidden = false;
+    // document.getElementById("partDEditingNote").hidden = false;
     document.getElementById("partDBuilderControls").hidden = false;
     document.getElementById("checkPartDBarsButton").hidden = false;
     document.getElementById("partDBuilderComplete").hidden = true;
@@ -2885,12 +2904,12 @@ function partDRenderStopAndCheckGraph() {
     partDRenderActiveSiteControls();
     partDRefreshSiteButtonStates();
 
-    setChallengeFeedback(
-      "partDFeedback",
-      "",
-      "Start with either site.",
-      " Choose Site 1 or Site 2, then use the table to set its five bar heights. Switch whenever you like."
-    );
+    // setChallengeFeedback(
+    //   "partDFeedback",
+    //   "",
+    //   "Start with either site.",
+    //   " Choose Site 1 or Site 2, then use the table to set its five bar heights. Switch whenever you like."
+    // );
     setChallengeFeedback(
       "partDAnalysisFeedback",
       "",
