@@ -158,7 +158,6 @@
 }
 .challenge-step-label {
   display: inline-block;
-  margin: 0 0 12px;
   padding: 6px 10px;
   background: var(--soft-blue);
   border: 2px solid var(--charcoal);
@@ -275,23 +274,31 @@
 /* ---------- Bar graph practice ---------- */
 .bar-builder-controls {
   display: grid;
-  gap: 12px;
+  gap: 5px;
   margin-top: 14px;
 }
 .bar-builder-row {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr) 42px;
+  grid-template-rows: 0.6fr 1fr;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
+  text-align: center;
+  gap: 5px;
+  padding: 8px 8px;
   background: var(--paper);
   border: 2px solid var(--charcoal);
   border-radius: 13px;
 }
 .bar-builder-row label {
+  grid-column: 1 / -1;
+  grid-row: 1;
   font-weight: 700;
+  font-size: 15px;
 }
 .bar-builder-row output {
+  grid-row: 2;
+  grid-column: 2;
+  width: 42px;
   display: grid;
   place-items: center;
   min-height: 36px;
@@ -301,6 +308,8 @@
   font-weight: 700;
 }
 .bar-builder-row input[type="range"] {
+  grid-row: 2;
+  grid-column: 1;
   width: 100%;
   accent-color: var(--purple);
 }
@@ -1008,7 +1017,7 @@
 
 .partc-control-card,
 .partc-graph-card {
-  padding: 18px;
+  padding: 10px;
 }
 
 .partc-axis-bank {
@@ -1148,8 +1157,8 @@
 }
 
 .partc-slider-stage {
-  margin-top: 16px;
-  padding: 16px;
+  margin-top: 10px;
+  padding: 10px;
   background: var(--soft-yellow);
   border: 2px solid var(--charcoal);
   border-radius: 15px;
@@ -1159,22 +1168,8 @@
   display: none !important;
 }
 
-.partc-bar-builder-controls {
-  margin-top: 14px;
-}
-
-.partc-bar-builder-controls .bar-builder-row {
-  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr) 48px;
-}
-
-.partc-bar-builder-controls input[type="range"] {
-  width: 100%;
-  accent-color: var(--purple);
-}
-
 .partc-slider-progress {
   display: inline-block;
-  margin-bottom: 7px;
   padding: 5px 9px;
   background: white;
   border: 2px solid var(--charcoal);
@@ -1359,7 +1354,7 @@
 .partd-builder-card,
 .partd-analysis-panel,
 .partd-complete-card {
-  padding: 18px;
+  padding: 12px;
 }
 
 .partd-intro-card {
@@ -1492,32 +1487,11 @@
 .partd-editing-note {
   margin: 0 0 10px;
   padding: 9px 11px;
-  background: var(--paper);
+  background-color: var(--paper);
   border: 2px solid var(--charcoal);
   border-radius: 11px;
   font-size: .88rem;
   line-height: 1.35;
-}
-
-.partd-builder-controls {
-  display: grid;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.partd-builder-controls .bar-builder-row {
-  grid-template-columns: minmax(130px, .95fr) minmax(100px, 1.25fr) 42px;
-  gap: 8px;
-  padding: 8px 9px;
-}
-
-.partd-builder-controls .bar-builder-row label {
-  font-size: .82rem;
-  line-height: 1.2;
-}
-
-.partd-builder-controls .bar-builder-row output {
-  min-height: 34px;
 }
 
 #bar-compare.partd-edit-site1 .partd-builder-controls input[type="range"] {
@@ -1711,10 +1685,6 @@
     grid-template-columns: 1fr;
   }
 
-  .partd-builder-controls .bar-builder-row {
-    grid-template-columns: 1fr;
-  }
-
   .partd-site-switcher {
     grid-template-columns: 1fr 1fr;
   }
@@ -1727,16 +1697,6 @@
   #partDGraphSvg .partd-difference-marker {
     transition: none !important;
   }
-}
-
-
-.partd-builder-card {
-  padding: 18px;
-  background: white;
-}
-
-.partd-graph-card {
-  padding: 18px;
 }
 
 /* ==================================================
@@ -2740,7 +2700,7 @@
   /* Part C: full-width Site 2 table, then controls beside the graph. */
   .partc-workbench {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.1fr);
     gap: 18px;
     align-items: start;
   }
@@ -2800,7 +2760,7 @@
   /* Part D: full-width comparison table, then controls beside the graph. */
   .partd-workbench {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.1fr);
     gap: 18px;
     align-items: start;
   }
@@ -2931,15 +2891,6 @@
     gap: 12px;
   }
 
-  .partb-data-card,
-  .partb-control-panel,
-  .partc-data-card,
-  .partc-control-card,
-  .partd-data-card,
-  .partd-builder-card {
-    padding: 12px;
-  }
-
   .partb-graph-card,
   .partc-graph-card,
   .partd-graph-card {
@@ -2977,11 +2928,6 @@
     font-size: 0.73rem;
   }
 
-  .partc-slider-stage {
-    margin-top: 8px;
-    padding: 9px;
-  }
-
   .partc-bar-builder-controls,
   .partd-builder-controls {
     gap: 6px;
@@ -2990,7 +2936,6 @@
 
   .partc-bar-builder-controls .bar-builder-row,
   .partd-builder-controls .bar-builder-row {
-    grid-template-columns: minmax(95px, 115px) minmax(70px, 1fr) 34px;
     gap: 5px;
     padding: 5px 6px;
   }
