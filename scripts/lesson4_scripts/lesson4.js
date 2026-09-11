@@ -2592,6 +2592,21 @@ function partDRenderStopAndCheckGraph() {
       button.classList.add("selected-answer");
     }
     flashChoice(button, button.dataset.moreLessCorrect === "true" ? "correct-choice" : "try-again-choice");
+
+    if (checkMoreLessComplete()) document.getElementById("barCompareNext").hidden = false;
+  }
+
+  function checkMoreLessComplete() {
+    const moreLessPairs = document.querySelectorAll(".more-less-buttons");
+
+    // Check for each pair of buttons, there is some correct button that is selected 
+    const allSelected = Array.from(moreLessPairs).every((buttonPair) =>
+      Array.from(buttonPair.querySelectorAll('.more-less-button')).some((button) =>
+        button.classList.contains('selected-answer')
+      )
+    );
+
+    return allSelected;
   }
 
   function partDCheckBars() {
