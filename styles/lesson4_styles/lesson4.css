@@ -2667,7 +2667,8 @@
 }
 
 .lesson4-check-button {
-  margin-top: 14px;
+  display: block;
+  margin: 14px auto 0;
 }
 
 .spaced-step-label {
