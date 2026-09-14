@@ -416,6 +416,209 @@
       box-shadow: 0 1px 0 var(--activity-line);
       transform: translateY(2px);
     }
+
+    /* =================================================================
+       Animals scattered on a backdrop photo, spotlight-style: each is a
+       transparent PNG positioned by left/top/width %, with a masked
+       overlay behind it that tints on "found" (click).
+    ================================================================= */
+    .number-line-activity .animal-stage-wrap {
+      width: 100%;
+      margin-top: 14px;
+      background: black;
+      border: 2px solid var(--activity-line);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .number-line-activity .animal-stage {
+      position: relative;
+      aspect-ratio: 1920 / 1080;
+    }
+
+    .number-line-activity .animal-stage .stage-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .number-line-activity .animal-hotspot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      padding: 0;
+      border: none;
+      background: none;
+      line-height: 0;
+      cursor: pointer;
+    }
+
+    .number-line-activity .animal-hotspot img {
+      position: static;
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      transition: transform .15s ease, filter .3s ease;
+    }
+
+    .number-line-activity .animal-hotspot:hover:not(.found) img {
+      transform: scale(1.08);
+      filter:
+        drop-shadow(1px 0 0 white)
+        drop-shadow(-1px 0 0 white)
+        drop-shadow(0 1px 0 white)
+        drop-shadow(0 -1px 0 white);
+    }
+
+    .number-line-activity .animal-hotspot:focus-visible {
+      outline: 3px solid var(--nl-yellow);
+      outline-offset: 4px;
+      border-radius: 6px;
+    }
+
+    .number-line-activity .animal-overlay {
+      position: absolute;
+      inset: -5%;
+      mask-size: contain;
+      -webkit-mask-size: contain;
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
+      mask-position: center;
+      -webkit-mask-position: center;
+      mix-blend-mode: color;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
+    }
+
+    .number-line-activity .animal-hotspot.found .animal-overlay {
+      opacity: 1;
+    }
+
+    .number-line-activity .animal-stage-caption {
+      margin: 10px 0 0;
+      color: var(--nl-muted);
+      font-size: .86rem;
+      text-align: center;
+    }
+
+    /* =================================================================
+       Bar-graph style counters: one cylinder-stack column per animal
+       type, tall as its current found-count. Rebuilt on every click so
+       it always reflects exactly what's currently highlighted.
+    ================================================================= */
+    .number-line-activity .bar-stack-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 28px;
+      min-height: 200px;
+      padding: 0 10px;
+      border-bottom: 3px solid var(--activity-line);
+    }
+
+    .number-line-activity .stack-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .number-line-activity .bar-stack-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      perspective: 700px;
+    }
+
+    .number-line-activity .stack-unit {
+      position: relative;
+      width: var(--cylinder-diameter);
+      height: var(--cylinder-height);
+      opacity: 0;
+      animation: nlBarStackSegmentRise .3s ease-out forwards;
+    }
+
+    .number-line-activity .cylinder {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 46px;
+      height: 22px;
+      transform-style: preserve-3d;
+      transform: translate(-50%, -50%) rotateX(0deg);
+    }
+
+    .number-line-activity .cylinder-strip {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -11px;
+      box-sizing: border-box;
+      border-top: 2px solid var(--activity-line);
+      border-bottom: 2px solid var(--activity-line);
+      transform-style: preserve-3d;
+      backface-visibility: visible;
+    }
+
+    .number-line-activity .cylinder-top {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: var(--cylinder-diameter);
+      height: var(--cylinder-diameter);
+      margin-left: calc(var(--cylinder-diameter) / -2);
+      margin-top: calc(var(--cylinder-diameter) / -2);
+      box-sizing: border-box;
+      border: 2px solid var(--activity-line);
+      border-radius: 50%;
+      transform: translateY(-11px) rotateX(90deg);
+      transform-style: preserve-3d;
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), rgba(255,255,255,.08) 45%, rgba(0,0,0,.12));
+      backface-visibility: visible;
+    }
+
+    .number-line-activity .bar-stack-label {
+      width: fit-content;
+      text-align: center;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .number-line-activity .bar-stack-label span {
+      display: block;
+      margin-top: 2px;
+      color: var(--nl-muted);
+      font-weight: 500;
+      font-size: .76rem;
+    }
+
+    @keyframes nlBarStackSegmentRise {
+      from { opacity: 0; translate: 0 8px; }
+      to { opacity: 1; translate: 0 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .number-line-activity .stack-unit {
+        animation: none;
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .number-line-activity .bar-stack-row {
+        gap: 16px;
+      }
+
+      .number-line-activity .bar-stack-label {
+        width: 60px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -480,6 +683,14 @@
       </p>
     </div>
 
+    <div class="activity-card" aria-labelledby="animal-tally-heading">
+      <h2 id="animal-tally-heading" style="margin: 0 0 4px; font-size: 1.15rem;">Animals spotted</h2>
+      <p style="margin: 0 0 4px; color: var(--nl-muted);">
+        Open a distance panel above and click each animal hiding in the photo — it gets highlighted and adds a block to its bar below.
+      </p>
+      <div class="bar-stack-row"></div>
+    </div>
+
     <!--
       Per-distance content. Edit freely — headings, paragraphs, images, whatever
       you need. The script clones whichever <template> matches the selected
@@ -488,23 +699,93 @@
     -->
     <template class="panel-content" data-distance="0">
       <h3>0 metres</h3>
-      <p>This is the starting point.</p>
+      <p>This is the starting point. Click each animal hiding in the photo:</p>
+      <div class="animal-stage-wrap">
+        <div class="animal-stage">
+          <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
+          <button type="button" class="animal-hotspot" data-animal="Ringtail Possum" style="left: 28%; top: 58%; width: 20%;" aria-label="Ringtail Possum">
+            <img src="../images/lesson4/ringtail_1.png" alt="Ringtail Possum">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="animal-hotspot" data-animal="Powerful Owl" style="left: 70%; top: 25%; width: 16%; transform: translate(-50%, -50%) scaleX(-1);" aria-label="Powerful Owl">
+            <img src="../images/lesson4/powerful_owl_1.png" alt="Powerful Owl">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <p class="animal-stage-caption">2 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="5">
       <h3>5 metres</h3>
-      <p>The person is 5 metres from the start.</p>
+      <p>The person is 5 metres from the start. Click each animal hiding in the photo:</p>
+      <div class="animal-stage-wrap">
+        <div class="animal-stage">
+          <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
+          <button type="button" class="animal-hotspot" data-animal="Leadbeater's Possum" style="left: 22%; top: 30%; width: 18%;" aria-label="Leadbeater's Possum">
+            <img src="../images/lesson4/leadbeaters_possum_1.png" alt="Leadbeater's Possum">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="animal-hotspot" data-animal="Feral Cat" style="left: 65%; top: 62%; width: 20%;" aria-label="Feral Cat">
+            <img src="../images/lesson4/feral_cat_1.png" alt="Feral Cat">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <p class="animal-stage-caption">2 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="10">
       <h3>10 metres</h3>
-      <p>The person is halfway to 20 metres.</p>
+      <p>The person is halfway to 20 metres. Click each animal hiding in the photo:</p>
+      <div class="animal-stage-wrap">
+        <div class="animal-stage">
+          <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
+          <button type="button" class="animal-hotspot" data-animal="Yellow-bellied Glider" style="left: 20%; top: 22%; width: 18%; transform: translate(-50%, -50%) scaleX(-1);" aria-label="Yellow-bellied Glider">
+            <img src="../images/lesson4/YBGlider_1.png" alt="Yellow-bellied Glider">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="animal-hotspot" data-animal="Ringtail Possum" style="left: 74%; top: 55%; width: 18%;" aria-label="Ringtail Possum">
+            <img src="../images/lesson4/ringtail_2.png" alt="Ringtail Possum">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <p class="animal-stage-caption">2 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="15">
       <h3>15 metres</h3>
-      <p>5 metres remain before reaching 20 metres.</p>
+      <p>5 metres remain before reaching 20 metres. Click each animal hiding in the photo:</p>
+      <div class="animal-stage-wrap">
+        <div class="animal-stage">
+          <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
+          <button type="button" class="animal-hotspot" data-animal="Powerful Owl" style="left: 30%; top: 22%; width: 16%;" aria-label="Powerful Owl">
+            <img src="../images/lesson4/powerful_owl_1.png" alt="Powerful Owl">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="animal-hotspot" data-animal="Deer" style="left: 62%; top: 60%; width: 26%;" aria-label="Deer">
+            <img src="../images/lesson4/male_deer_1.png" alt="Deer">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <p class="animal-stage-caption">2 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="20">
       <h3>20 metres</h3>
-      <p>This is the furthest labelled point.</p>
+      <p>This is the furthest labelled point. Click each animal hiding in the photo:</p>
+      <div class="animal-stage-wrap">
+        <div class="animal-stage">
+          <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
+          <button type="button" class="animal-hotspot" data-animal="Leadbeater's Possum" style="left: 25%; top: 48%; width: 16%;" aria-label="Leadbeater's Possum">
+            <img src="../images/lesson4/leadbeaters_possum_2.png" alt="Leadbeater's Possum">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="animal-hotspot" data-animal="Yellow-bellied Glider" style="left: 70%; top: 25%; width: 18%;" aria-label="Yellow-bellied Glider">
+            <img src="../images/lesson4/YBGlider_2.png" alt="Yellow-bellied Glider">
+            <span class="animal-overlay" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <p class="animal-stage-caption">2 animals to find here.</p>
     </template>
   </section>
   <!-- ============ MODULAR ACTIVITY END ============ -->
@@ -531,14 +812,167 @@
         const backArrow = activity.querySelector(".line-arrow--back");
         const forwardArrow = activity.querySelector(".line-arrow--forward");
         const resetButton = activity.querySelector(".reset-activity-button");
+        const barRow = activity.querySelector(".bar-stack-row");
 
         // null = nothing chosen yet; person sits at its resting 0 m position
         // but no panel is open and the badge shows the initial prompt.
         let selected = null;
         let closeTimer = null;
 
-        function resetAnimalCounts() {
+        /* ---------------------------------------------------------------
+           Spotlight-style animal hotspots, scattered across each distance's
+           backdrop photo (in the <template> markup). Because a fresh clone
+           of the template is inserted every time a panel opens, "found"
+           state has to be tracked outside the DOM (keyed by a stable id
+           assigned once here) so it survives closing and reopening a panel.
+           Clicking an animal toggles it found/unfound and keeps a shared
+           per-species count, which the cylinder bar chart below is
+           rebuilt from on every change.
+        --------------------------------------------------------------- */
+        const barColours = ["#ffd747", "#7c4dff", "#5cc8ff", "#b7e9a8", "#ff8a65", "#c792ea", "#4fd1c5"];
+        const hotspotSpecies = new Map(); // hotspotId -> species name
+        const hotspotFound = new Map(); // hotspotId -> boolean
+        const speciesInfo = new Map(); // species name -> { colour, count }
+        let nextHotspotSeq = 0;
+
+        templates.forEach((template) => {
+          template.content.querySelectorAll(".animal-hotspot").forEach((hotspot) => {
+            const id = "nl-hotspot-" + (nextHotspotSeq += 1);
+            hotspot.dataset.hotspotId = id;
+
+            const name = hotspot.dataset.animal;
+            hotspotSpecies.set(id, name);
+            hotspotFound.set(id, false);
+
+            if (!speciesInfo.has(name)) {
+              speciesInfo.set(name, { colour: barColours[speciesInfo.size % barColours.length], count: 0 });
+            }
+          });
+        });
+
+        function createCylinder(parent, colour) {
+          const cylinder = document.createElement("div");
+          cylinder.className = "cylinder";
+
+          const stripCount = 12;
+          const diameter = 46;
+          const height = 7;
+          const radius = diameter / 2;
+          const circumference = 2 * Math.PI * radius;
+          const stripWidth = (circumference / stripCount) * 1.12;
+
+          parent.style.setProperty("--cylinder-diameter", diameter + "px");
+          parent.style.setProperty("--cylinder-height", height + "px");
+
+          for (let i = 0; i < stripCount; i += 1) {
+            const strip = document.createElement("div");
+            strip.className = "cylinder-strip";
+            const angle = (360 / stripCount) * i;
+
+            strip.style.width = stripWidth + "px";
+            strip.style.height = height + "px";
+            strip.style.marginLeft = -(stripWidth / 2) + "px";
+            strip.style.backgroundColor = colour;
+            strip.style.transform = "rotateY(" + angle + "deg) translateZ(" + radius + "px)";
+
+            const brightness = 0.72 + 0.28 * Math.max(0, Math.cos((angle * Math.PI) / 180));
+            strip.style.filter = "brightness(" + brightness + ")";
+
+            cylinder.appendChild(strip);
+          }
+
+          const top = document.createElement("div");
+          top.className = "cylinder-top";
+          top.style.backgroundColor = colour;
+          cylinder.appendChild(top);
+
+          parent.appendChild(cylinder);
         }
+
+        function renderBarChart() {
+          if (!barRow) return;
+          barRow.innerHTML = "";
+
+          speciesInfo.forEach((data, name) => {
+            const group = document.createElement("div");
+            group.className = "stack-group";
+
+            const column = document.createElement("div");
+            column.className = "bar-stack-column";
+
+            for (let i = 0; i < data.count; i += 1) {
+              const unit = document.createElement("div");
+              unit.className = "stack-unit";
+              unit.style.animationDelay = i * 0.05 + "s";
+              createCylinder(unit, data.colour);
+              column.appendChild(unit);
+            }
+
+            const label = document.createElement("div");
+            label.className = "bar-stack-label";
+            label.innerHTML = name + "<span>" + data.count + "</span>";
+
+            group.appendChild(column);
+            group.appendChild(label);
+            barRow.appendChild(group);
+          });
+        }
+
+        // Sets up the tint overlay (masked to that hotspot's own sprite, so
+        // any image works) and restores found/unfound state onto whichever
+        // clone of the template was just inserted into panelBody.
+        function wireUpHotspots(container) {
+          container.querySelectorAll(".animal-hotspot").forEach((hotspot) => {
+            const id = hotspot.dataset.hotspotId;
+            const sprite = hotspot.querySelector("img");
+            const overlay = hotspot.querySelector(".animal-overlay");
+
+            if (sprite && overlay) {
+              overlay.style.maskImage = 'url("' + sprite.getAttribute("src") + '")';
+              overlay.style.webkitMaskImage = 'url("' + sprite.getAttribute("src") + '")';
+              const data = speciesInfo.get(hotspotSpecies.get(id));
+              if (data) overlay.style.background = data.colour;
+            }
+
+            hotspot.classList.toggle("found", Boolean(hotspotFound.get(id)));
+          });
+        }
+
+        // Delegated listener: panelBody's contents are replaced every time
+        // a new distance is opened, so this is attached once on the parent
+        // rather than re-bound on every clone.
+        if (panelBody) {
+          panelBody.addEventListener("click", (event) => {
+            const hotspot = event.target.closest(".animal-hotspot");
+            if (!hotspot || !panelBody.contains(hotspot)) return;
+
+            const id = hotspot.dataset.hotspotId;
+            const name = hotspotSpecies.get(id);
+            const data = speciesInfo.get(name);
+            if (!data) return;
+
+            const nowFound = !hotspotFound.get(id);
+            hotspotFound.set(id, nowFound);
+            hotspot.classList.toggle("found", nowFound);
+            data.count += nowFound ? 1 : -1;
+
+            renderBarChart();
+          });
+        }
+
+        function resetAnimalTracking() {
+          hotspotFound.forEach((_value, id) => hotspotFound.set(id, false));
+          speciesInfo.forEach((data) => {
+            data.count = 0;
+          });
+          if (panelBody) {
+            panelBody.querySelectorAll(".animal-hotspot.found").forEach((h) => h.classList.remove("found"));
+          }
+          renderBarChart();
+        }
+
+        renderBarChart();
+
         function percentFor(distance) {
           return ((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE)) * 100;
         }
@@ -571,6 +1005,7 @@
           panelBody.innerHTML = "";
           if (template) {
             panelBody.appendChild(template.content.cloneNode(true));
+            wireUpHotspots(panelBody);
           }
         }
 
@@ -661,7 +1096,7 @@
         if (resetButton) {
           resetButton.addEventListener("click", () => {
             closeAll();
-            resetAnimalCounts();
+            resetAnimalTracking();
 
             // closeAll() only clears the selection/panel — also put the
             // person marker back at its resting 0 m spot and re-disable
