@@ -330,6 +330,29 @@
       text-align: center;
     }
 
+    .number-line-activity .graph-complete-feedback {
+      margin: -8px 0 20px;
+      padding: 14px 16px;
+      background: var(--nl-green);
+      border: 3px solid var(--activity-line);
+      border-radius: 18px;
+      box-shadow: var(--nl-shadow-small);
+      color: var(--nl-text);
+      font-weight: 700;
+      line-height: 1.5;
+      text-align: center;
+      animation: nlGraphCompletePop .35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes nlGraphCompletePop {
+      from { opacity: 0; transform: scale(.85) translateY(-6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .number-line-activity .graph-complete-feedback { animation: none; }
+    }
+
     @media (max-width: 640px) {
       .number-line-activity .instruction-card {
         grid-template-columns: 1fr;
@@ -637,7 +660,6 @@
       justify-content: flex-end;
       height: var(--row-height, 200px);
       perspective: 700px;
-      transition: opacity .2s ease;
     }
 
     /* ---- y-axis: sits to the left of the bars, close in, its line
@@ -741,6 +763,10 @@
 
     .number-line-activity .bar-stack-chart.is-graph-mode .line-graph-overlay {
       opacity: 1;
+      /* The overlay itself stays click-through (pointer-events: none above)
+         so it never blocks the cylinders/labels underneath; only the
+         plotted points opt back in below. */
+      pointer-events: auto;
     }
 
     .number-line-activity .line-graph-path {
@@ -751,10 +777,42 @@
       stroke-linejoin: round;
     }
 
+    /* Every distance's point is plotted and clickable from the start;
+       clicking one connects it into the line in the order points are
+       clicked. Unclicked points are hollow so it's clear which ones
+       still need connecting. */
     .number-line-activity .line-graph-point {
       fill: white;
       stroke: var(--activity-purple);
       stroke-width: 3;
+      cursor: pointer;
+      transition: fill .15s ease, stroke-width .15s ease;
+    }
+
+    .number-line-activity .line-graph-point:hover,
+    .number-line-activity .line-graph-point:focus-visible {
+      stroke-width: 4;
+      outline: none;
+    }
+
+    .number-line-activity .line-graph-point.is-connected {
+      fill: var(--activity-purple);
+    }
+
+    .number-line-activity .line-graph-point.is-shake {
+      animation: nlGraphPointShake .3s ease;
+    }
+
+    @keyframes nlGraphPointShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .number-line-activity .line-graph-point.is-shake {
+        animation: none;
+      }
     }
 
     .number-line-activity .graph-toggle-row {
@@ -778,6 +836,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+      z-index: 1;
     }
 
     .number-line-activity .graph-toggle-button:hover:not(:disabled),
@@ -974,7 +1033,7 @@
       </p>
     </div>
 
-    <div class="activity-card" aria-labelledby="animal-tally-heading">
+    <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading">
       <h2 id="animal-tally-heading" style="margin: 0 0 4px; font-size: 1.15rem;">Count by distance</h2>
       <p style="margin: 0 0 4px; color: var(--nl-muted);">
         Choose an animal above, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
@@ -990,6 +1049,10 @@
           <button type="button" class="hide-counters-button" hidden>Hide Counters</button>
         </div>
       </div>
+    </div>
+
+    <div class="graph-complete-feedback" role="status" aria-live="polite" hidden>
+      🎉 Line graph complete! You've connected every point for this animal.
     </div>
 
     <!--
@@ -1159,6 +1222,7 @@
         const graphToggleButton = activity.querySelector(".graph-toggle-button");
         const countersHiddenButton = activity.querySelector(".hide-counters-button");
         const progressEl = activity.querySelector(".species-progress");
+        const graphCompleteFeedback = activity.querySelector(".graph-complete-feedback");
         const speciesButtons = Array.from(activity.querySelectorAll(".species-select-button"));
         const SVG_NS = "http://www.w3.org/2000/svg";
 
@@ -1316,31 +1380,111 @@
         const lineOverlaySvg = document.createElementNS(SVG_NS, "svg");
         lineOverlaySvg.classList.add("line-graph-overlay");
 
+        // Instead of drawing the whole line automatically, every point is
+        // plotted but the line between them only grows as the user clicks
+        // points — click one, then another, and a segment connects them,
+        // in the order they were clicked (not necessarily left to right).
+        // connectedOrder holds that click order as a list of distances.
+        let connectedOrder = [];
+        const pointsByDistance = new Map();
+
+        // currentPolyline/currentColumnEntries track the graph currently on
+        // screen so redrawPolyline() and checkGraphComplete() (called from
+        // the per-point click handlers) don't need it threaded through.
+        let currentPolyline = null;
+        let currentColumnEntries = [];
+
         function renderLineOverlay(columnEntries) {
           lineOverlaySvg.innerHTML = "";
+          currentColumnEntries = columnEntries;
           if (!chartWrap || !columnEntries.length) return;
 
           const wrapRect = barRow.getBoundingClientRect();
-          const points = columnEntries.map(({ column, count }) => {
+          columnEntries.forEach(({ column, count, distance }) => {
             const rect = column.getBoundingClientRect();
             const x = rect.left - wrapRect.left + rect.width / 2;
             const y = rect.bottom - wrapRect.top - count * activeUnitHeight;
-            return { x, y };
+            pointsByDistance.set(distance, { x, y });
           });
 
           const polyline = document.createElementNS(SVG_NS, "polyline");
           polyline.setAttribute("class", "line-graph-path");
-          polyline.setAttribute("points", points.map((p) => p.x + "," + p.y).join(" "));
           lineOverlaySvg.appendChild(polyline);
+          currentPolyline = polyline;
 
-          points.forEach((p) => {
+          redrawPolyline();
+
+          pointsByDistance.forEach((p, distance) => {
             const circle = document.createElementNS(SVG_NS, "circle");
-            circle.setAttribute("class", "line-graph-point");
+            circle.classList.add("line-graph-point");
+            circle.classList.toggle("is-connected", connectedOrder.includes(distance));
             circle.setAttribute("cx", p.x);
             circle.setAttribute("cy", p.y);
-            circle.setAttribute("r", 6);
+            circle.setAttribute("r", 7);
+            circle.setAttribute("tabindex", "0");
+            circle.setAttribute("role", "button");
+            circle.setAttribute("aria-label", distance + " metres point");
+            circle.addEventListener("click", () => connectGraphPoint(circle, distance));
+            circle.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                connectGraphPoint(circle, distance);
+              }
+            });
+
             lineOverlaySvg.appendChild(circle);
           });
+        }
+
+        function redrawPolyline() {
+          if (!currentPolyline) return;
+          const linePoints = connectedOrder.map((d) => pointsByDistance.get(d)).filter(Boolean);
+          currentPolyline.setAttribute("points", linePoints.map((p) => p.x + "," + p.y).join(" "));
+          checkGraphComplete();
+        }
+
+        // Marks one plotted point as connected (in click order) and asks
+        // the polyline to redraw through everything connected so far.
+        // Clicking an already-connected point does nothing — each point
+        // can only join the line once.
+        function connectGraphPoint(circle, distance) {
+          if (connectedOrder.includes(distance)) return;
+
+          // Once a chain has been started, only the point right next to
+          // (in DISTANCES order) whichever end was clicked most recently
+          // may join it — so points can only ever be linked to their
+          // immediate neighbour, never skipped over or connected out of
+          // order.
+          if (connectedOrder.length > 0) {
+            const lastIndex = DISTANCES.indexOf(connectedOrder[connectedOrder.length - 1]);
+            const clickedIndex = DISTANCES.indexOf(distance);
+            const isAdjacent = Math.abs(clickedIndex - lastIndex) === 1;
+            if (!isAdjacent) {
+              circle.classList.add("is-shake");
+              circle.addEventListener("animationend", () => circle.classList.remove("is-shake"), { once: true });
+              return;
+            }
+          }
+
+          connectedOrder.push(distance);
+          circle.classList.add("is-connected");
+          redrawPolyline();
+        }
+
+        // Every point connected == the graph is done. Shows/hides the
+        // completion banner below the "Count by distance" activity-card.
+        function checkGraphComplete() {
+          const isComplete = currentColumnEntries.length > 0 && connectedOrder.length === currentColumnEntries.length;
+          if (graphCompleteFeedback) graphCompleteFeedback.hidden = !isComplete;
+          return isComplete;
+        }
+
+        // Clears the click-to-connect progress and hides the completion
+        // banner — called anywhere the underlying counts/species change
+        // and any drawn connections stop making sense.
+        function resetGraphConnections() {
+          connectedOrder = [];
+          if (graphCompleteFeedback) graphCompleteFeedback.hidden = true;
         }
 
         function updateProgressAndGraphButton() {
@@ -1354,11 +1498,17 @@
           const { found, max } = totalsFor(selectedSpecies);
           if (progressEl) {
             progressEl.hidden = false;
-            progressEl.textContent = selectedSpecies + ": found " + found + " of " + max;
+            progressEl.textContent = selectedSpecies + ": found " + found + " of " + max
+              + (isGraphMode ? " — click the dots to connect them into a line." : "");
           }
           if (graphToggleButton) {
-            graphToggleButton.disabled = !(max > 0 && found === max);
+            graphToggleButton.disabled = checkAllAnimalsFound(max, found);
           }
+        }
+
+        function checkAllAnimalsFound(max, found) {
+          document.getElementById("number-line-container").hidden = false;
+          return !(max > 0 && found === max);
         }
 
         function renderChart() {
@@ -1409,7 +1559,7 @@
             group.appendChild(label);
             barRow.appendChild(group);
 
-            columnEntries.push({ column, count });
+            columnEntries.push({ column, count, distance });
           });
 
           barRow.appendChild(lineOverlaySvg);
@@ -1456,6 +1606,9 @@
             hotspotFound.set(id, nowFound);
             hotspot.classList.toggle("found", nowFound);
 
+            // The counts (and so the point positions) just changed, so any
+            // connections the user had already drawn no longer mean anything.
+            resetGraphConnections();
             renderChart();
           });
         }
@@ -1464,6 +1617,7 @@
           selectedSpecies = name;
           isGraphMode = false;
           isCountersHidden = false;
+          resetGraphConnections();
           if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
           if (graphToggleButton) graphToggleButton.textContent = "Show line graph";
           if (countersHiddenButton) {
@@ -1498,7 +1652,7 @@
             }
             if (chartWrap) chartWrap.classList.toggle("is-graph-mode", isGraphMode);
             if (chartWrap) chartWrap.classList.toggle("counters-hidden", isGraphMode && isCountersHidden);
-            graphToggleButton.textContent = isGraphMode ? "Show counters" : "Show line graph";
+            graphToggleButton.textContent = isGraphMode ? "Hide Line Graph" : "Show line graph";
             renderChart();
           });
         }
@@ -1508,7 +1662,7 @@
             if (countersHiddenButton.disabled || countersHiddenButton.hidden) return;
             isCountersHidden = !isCountersHidden;
             countersHiddenButton.classList.toggle("is-active", isCountersHidden);
-            countersHiddenButton.textContent = isCountersHidden ? "Normal size" : "Hide Counters";
+            countersHiddenButton.textContent = isCountersHidden ? "Show Counters" : "Hide Counters";
             if (chartWrap) chartWrap.classList.toggle("counters-hidden", isCountersHidden);
             renderChart();
           });
@@ -1523,6 +1677,7 @@
           selectedSpecies = null;
           isGraphMode = false;
           isCountersHidden = false;
+          resetGraphConnections();
           if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
           if (graphToggleButton) graphToggleButton.textContent = "Show line graph";
           if (countersHiddenButton) {
