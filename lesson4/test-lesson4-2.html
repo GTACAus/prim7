@@ -46,31 +46,10 @@
       box-sizing: border-box;
     }
 
-    .number-line-activity .activity-header {
-      margin-bottom: 28px;
-      text-align: center;
-    }
-
-    .number-line-activity .activity-label {
-      margin: 0 0 8px;
-      color: var(--activity-purple);
-      font-size: .78rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
     .number-line-activity h1 {
       margin: 0;
       font-size: clamp(2rem, 5vw, 3.4rem);
       line-height: 1.05;
-    }
-
-    .number-line-activity .activity-summary {
-      max-width: 680px;
-      margin: 14px auto 0;
-      color: var(--nl-muted);
-      line-height: 1.6;
     }
 
     .number-line-activity .activity-card {
@@ -404,21 +383,45 @@
         display: none;
       }
     }
+
+    /* ---- Reset button, next to the distance badge ---- */
+    .number-line-activity .instruction-card-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .number-line-activity .reset-activity-button {
+      padding: 10px 14px;
+      background: white;
+      border: 2px solid var(--activity-line);
+      border-radius: 14px;
+      box-shadow: 0 3px 0 var(--activity-line);
+      color: var(--nl-text);
+      font-family: inherit;
+      font-size: .92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+    }
+
+    .number-line-activity .reset-activity-button:hover,
+    .number-line-activity .reset-activity-button:focus-visible {
+      background: var(--nl-soft-blue);
+      outline: none;
+    }
+
+    .number-line-activity .reset-activity-button:active {
+      box-shadow: 0 1px 0 var(--activity-line);
+      transform: translateY(2px);
+    }
   </style>
 </head>
 <body>
 
   <!-- ============ MODULAR ACTIVITY START ============ -->
   <section class="number-line-activity" aria-labelledby="activity-instructions">
-    <header class="activity-header">
-      <p class="activity-label">Lesson 4 · Number line</p>
-      <h1>How far did the person travel?</h1>
-      <p class="activity-summary">
-        A number line helps us show distance in order. Use the arrows, or select a
-        labelled point directly, to move the person and explore what each distance means.
-      </p>
-    </header>
-
     <div class="activity-card instruction-card" aria-labelledby="activity-instructions">
       <div>
         <h2 id="activity-instructions">Explore the distances</h2>
@@ -427,7 +430,10 @@
           the path. What changes as the number gets larger?
         </p>
       </div>
-      <div class="distance-badge selected-distance" aria-live="polite">Choose a point</div>
+      <div class="instruction-card-actions">
+        <div class="distance-badge selected-distance" aria-live="polite">Choose a point</div>
+        <button class="reset-activity-button" type="button">↺ Reset activity</button>
+      </div>
     </div>
 
     <div class="activity-card" aria-label="Interactive 0 to 20 metre number line">
@@ -524,12 +530,15 @@
         const note = activity.querySelector(".activity-note");
         const backArrow = activity.querySelector(".line-arrow--back");
         const forwardArrow = activity.querySelector(".line-arrow--forward");
+        const resetButton = activity.querySelector(".reset-activity-button");
 
         // null = nothing chosen yet; person sits at its resting 0 m position
         // but no panel is open and the badge shows the initial prompt.
         let selected = null;
         let closeTimer = null;
 
+        function resetAnimalCounts() {
+        }
         function percentFor(distance) {
           return ((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE)) * 100;
         }
@@ -648,6 +657,20 @@
         panelClose.addEventListener("click", closeAll);
         backArrow.addEventListener("click", () => step(-1));
         forwardArrow.addEventListener("click", () => step(1));
+
+        if (resetButton) {
+          resetButton.addEventListener("click", () => {
+            closeAll();
+            resetAnimalCounts();
+
+            // closeAll() only clears the selection/panel — also put the
+            // person marker back at its resting 0 m spot and re-disable
+            // the back arrow, matching the very first render of the page.
+            selected = null;
+            person.style.left = "0%";
+            updateArrowStates(0);
+          });
+        }
 
         // Initial state: person at 0 m, nothing open, back arrow disabled.
         person.style.left = "0%";
