@@ -3,19 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesson 4 - Number Line Activity</title>
+  <title>Number Line Activity (Modular)</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
   <link href="../styles/lesson4_styles/lesson4.css" rel="stylesheet" type="text/css">
   <link href="../styles/overrides.css" rel="stylesheet" type="text/css">
+  <!--
+    DROP-IN NOTES
+    =============
+    - Fully self-contained: styles are scoped under .number-line-activity and the
+      script only queries inside that wrapper, so this can be pasted into any page.
+      It picks up your site's --purple / --charcoal / etc. custom properties if
+      they exist, and falls back to sensible defaults if not (e.g. previewing
+      standalone).
+    - No IDs are used internally, so more than one instance can live on a page.
+    - Per-distance content lives in <template class="panel-content"> tags further
+      down the markup. Edit those (headings, paragraphs, images, whatever) without
+      touching the JS — the script just clones whichever template matches the
+      selected distance into the panel body.
+  -->
   <style>
     .number-line-activity {
-      --activity-purple: var(--purple);
-      --activity-line: var(--charcoal);
+      --activity-purple: var(--purple, #7c4dff);
+      --activity-line: var(--charcoal, #232323);
+      --nl-paper: var(--paper, #fffaf0);
+      --nl-text: var(--text, #232323);
+      --nl-muted: var(--muted, #6b6b6b);
+      --nl-soft-blue: var(--soft-blue, #e3edff);
+      --nl-soft-yellow: var(--soft-yellow, #fff2c2);
+      --nl-yellow: var(--yellow, #ffd747);
+      --nl-green: var(--green, #b7e9a8);
+      --nl-shadow-small: var(--shadow-small, 0 4px 0 #232323);
       width: min(1120px, 94%);
       margin: 0 auto;
       padding: 34px 0 72px;
-      color: var(--text);
+      color: var(--nl-text);
     }
 
     .number-line-activity *,
@@ -47,16 +69,16 @@
     .number-line-activity .activity-summary {
       max-width: 680px;
       margin: 14px auto 0;
-      color: var(--muted);
+      color: var(--nl-muted);
       line-height: 1.6;
     }
 
     .number-line-activity .activity-card {
       padding: clamp(18px, 4vw, 32px);
-      background: var(--paper);
-      border: 3px solid var(--charcoal);
+      background: var(--nl-paper);
+      border: 3px solid var(--activity-line);
       border-radius: 24px;
-      box-shadow: var(--shadow-small);
+      box-shadow: var(--nl-shadow-small);
     }
 
     .number-line-activity .instruction-card {
@@ -65,7 +87,7 @@
       gap: 18px;
       align-items: center;
       margin-bottom: 28px;
-      background: linear-gradient(110deg, var(--soft-blue), var(--paper));
+      background: linear-gradient(110deg, var(--nl-soft-blue), var(--nl-paper));
     }
 
     .number-line-activity .instruction-card h2 {
@@ -81,18 +103,78 @@
     .number-line-activity .distance-badge {
       min-width: 88px;
       padding: 12px 14px;
-      background: var(--soft-yellow);
-      border: 2px solid var(--charcoal);
+      background: var(--nl-soft-yellow);
+      border: 2px solid var(--activity-line);
       border-radius: 14px;
       font-size: 1.1rem;
       font-weight: 700;
       text-align: center;
     }
 
+    /* ---- Frame: [left arrow] [line stage] [right arrow] ---- */
+
+    .number-line-activity .line-frame {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 2vw, 20px);
+    }
+
+    .number-line-activity .line-arrow {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      padding: 0;
+      background: var(--nl-green);
+      border: 2px solid var(--activity-line);
+      border-radius: 50%;
+      box-shadow: 0 3px 0 var(--activity-line);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, opacity .15s ease;
+    }
+
+    .number-line-activity .line-arrow svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--nl-text);
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .number-line-activity .line-arrow:hover:not(:disabled),
+    .number-line-activity .line-arrow:focus-visible:not(:disabled) {
+      background: var(--nl-soft-yellow);
+      outline: none;
+    }
+
+    .number-line-activity .line-arrow:active:not(:disabled) {
+      box-shadow: 0 1px 0 var(--activity-line);
+      transform: translateY(2px);
+    }
+
+    .number-line-activity .line-arrow:disabled {
+      cursor: not-allowed;
+      opacity: .38;
+      box-shadow: 0 3px 0 var(--activity-line);
+      transform: none;
+    }
+
+    /*
+      This only needs room for the track, labels below it, and the person
+      image above it — the big panel is a separate block sitting above this
+      in .line-panel-box now, not overlapping it via absolute positioning.
+    */
     .number-line-activity .line-stage {
       position: relative;
-      min-height: 285px;
-      padding: 170px 58px 0;
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 130px;
+      padding: 40px 30px 0;
+      margin-top: 22px;
       overflow: visible;
     }
 
@@ -133,7 +215,7 @@
       width: 22px;
       height: 22px;
       padding: 0;
-      background: var(--paper);
+      background: var(--nl-paper);
       border: 4px solid var(--activity-line);
       border-radius: 50%;
       cursor: pointer;
@@ -145,7 +227,7 @@
     .number-line-activity .line-point:hover,
     .number-line-activity .line-point:focus-visible,
     .number-line-activity .line-point.is-selected {
-      background: var(--yellow);
+      background: var(--nl-yellow);
       border-color: var(--activity-purple);
       outline: none;
       transform: translate(-50%, -50%) scale(1.18);
@@ -156,7 +238,7 @@
       top: 27px;
       left: 50%;
       width: max-content;
-      color: var(--text);
+      color: var(--nl-text);
       font-size: .88rem;
       font-weight: 700;
       transform: translateX(-50%);
@@ -165,39 +247,52 @@
     .number-line-activity .person-marker {
       position: absolute;
       bottom: 48px;
-      left: 0;
+      left: 0%;
       width: 54px;
       height: 72px;
       object-fit: contain;
       object-position: bottom center;
       transform: translateX(-50%);
+      transition: left .45s cubic-bezier(.34, 1.4, .5, 1);
+      z-index: 1;
     }
 
-    .number-line-activity .point-panel {
-      position: absolute;
-      bottom: 31px;
-      left: 0;
-      width: min(220px, 42vw);
-      padding: 14px 16px;
+    .line-panel-box {
+      display: flex;
+      flex-direction: column;
+      flex: auto;
+    }
+
+    /*
+      ONE large panel, positioned above the whole .line-stage (not per point).
+      Its transform-origin x is set dynamically in JS to match whichever point
+      was clicked, so it visually grows up out of that point even though its
+      final size/position is a big, centered box rather than a small popover.
+    */
+    .number-line-activity .stage-panel {
+      position: relative;
+      width: min(760px, 94%);
+      min-height: 220px;
+      padding: clamp(20px, 3vw, 30px) clamp(22px, 4vw, 34px);
+      margin: 0 auto 50px;
       background: white;
       border: 3px solid var(--activity-purple);
-      border-radius: 16px;
-      box-shadow: 0 5px 0 var(--charcoal);
+      border-radius: 22px;
+      box-shadow: 0 6px 0 var(--activity-line);
       opacity: 0;
       pointer-events: none;
-      transform: translate(-50%, 14px) scale(.92);
-      transform-origin: bottom center;
-      transition: opacity .2s ease, transform .2s ease;
-      z-index: 3;
+      transform: scaleY(.06) scaleX(.4);
+      transform-origin: 50% 100%;
+      transition: opacity .26s ease, transform .38s cubic-bezier(.22, 1, .32, 1);
     }
 
-    .number-line-activity .point-panel.is-open {
+    .number-line-activity .stage-panel.is-open {
       opacity: 1;
       pointer-events: auto;
-      transform: translate(-50%, 0) scale(1);
+      transform: scaleY(1) scaleX(1);
     }
 
-    .number-line-activity .point-panel::after {
+    .number-line-activity .stage-panel::after {
       position: absolute;
       bottom: -11px;
       left: 50%;
@@ -210,73 +305,46 @@
       transform: translateX(-50%) rotate(45deg);
     }
 
-    .number-line-activity .point-panel h3 {
-      margin: 0 0 5px;
+    .number-line-activity .panel-body h3 {
+      margin: 0 0 10px;
       color: var(--activity-purple);
-      font-size: 1rem;
+      font-size: 1.4rem;
     }
 
-    .number-line-activity .point-panel p {
-      margin: 0;
-      font-size: .9rem;
-      line-height: 1.45;
+    .number-line-activity .panel-body p {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .number-line-activity .panel-body p:last-child {
+      margin-bottom: 0;
     }
 
     .number-line-activity .panel-close {
       position: absolute;
-      top: 5px;
-      right: 7px;
-      padding: 0 4px;
+      top: 10px;
+      right: 14px;
+      padding: 2px 6px;
       background: transparent;
       border: 0;
-      color: var(--muted);
+      color: var(--nl-muted);
       cursor: pointer;
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       line-height: 1;
     }
 
+    .number-line-activity .panel-close:hover,
     .number-line-activity .panel-close:focus-visible {
-      outline: 2px solid var(--activity-purple);
-      outline-offset: 2px;
-    }
-
-    .number-line-activity .line-controls {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    .number-line-activity .line-control {
-      min-width: 118px;
-      padding: 11px 16px;
-      background: var(--green);
-      border: 2px solid var(--charcoal);
-      border-radius: 12px;
-      box-shadow: 0 3px 0 var(--charcoal);
-      color: var(--text);
-      cursor: pointer;
-      font: inherit;
-      font-weight: 700;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-
-    .number-line-activity .line-control:hover,
-    .number-line-activity .line-control:focus-visible {
-      background: var(--soft-yellow);
+      color: var(--activity-purple);
       outline: none;
-    }
-
-    .number-line-activity .line-control:active {
-      box-shadow: 0 1px 0 var(--charcoal);
-      transform: translateY(2px);
     }
 
     .number-line-activity .activity-note {
       margin: 22px 0 0;
       padding: 14px 16px;
-      background: var(--soft-yellow);
-      border: 2px solid var(--charcoal);
+      background: var(--nl-soft-yellow);
+      border: 2px solid var(--activity-line);
       border-radius: 14px;
       line-height: 1.5;
       text-align: center;
@@ -291,15 +359,28 @@
         justify-self: start;
       }
 
-      .number-line-activity .line-stage {
-        min-height: 325px;
-        padding-right: 38px;
-        padding-left: 38px;
+      .number-line-activity .line-frame {
+        gap: 8px;
       }
 
-      .number-line-activity .point-panel {
-        width: min(190px, 58vw);
-        padding: 12px;
+      .number-line-activity .line-arrow {
+        width: 42px;
+        height: 42px;
+      }
+
+      .number-line-activity .line-arrow svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .number-line-activity .line-stage {
+        min-height: 140px;
+        padding: 44px 16px 0;
+      }
+
+      .number-line-activity .stage-panel {
+        width: min(320px, 94%);
+        min-height: 180px;
       }
 
       .number-line-activity .person-marker {
@@ -307,8 +388,17 @@
       }
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .number-line-activity .person-marker,
+      .number-line-activity .stage-panel,
+      .number-line-activity .line-point,
+      .number-line-activity .line-arrow {
+        transition-duration: .01ms !important;
+      }
+    }
+
     @media print {
-      .number-line-activity .point-panel {
+      .number-line-activity .stage-panel {
         opacity: 1;
         position: static;
         display: none;
@@ -317,148 +407,258 @@
   </style>
 </head>
 <body>
-  <main class="number-line-activity">
+
+  <!-- ============ MODULAR ACTIVITY START ============ -->
+  <section class="number-line-activity" aria-labelledby="activity-instructions">
     <header class="activity-header">
       <p class="activity-label">Lesson 4 · Number line</p>
       <h1>How far did the person travel?</h1>
       <p class="activity-summary">
-        A number line helps us show distance in order. Select a labelled point, or use the
-        buttons, to explore what each distance means.
+        A number line helps us show distance in order. Use the arrows, or select a
+        labelled point directly, to move the person and explore what each distance means.
       </p>
     </header>
 
-    <section class="activity-card instruction-card" aria-labelledby="activity-instructions">
+    <div class="activity-card instruction-card" aria-labelledby="activity-instructions">
       <div>
         <h2 id="activity-instructions">Explore the distances</h2>
         <p>
-          Start at <strong>0 metres</strong>. Each labelled point is another 5 metres along the
-          path. What changes as the number gets larger?
+          Start at <strong>0 metres</strong>. Each labelled point is another 5 metres along
+          the path. What changes as the number gets larger?
         </p>
       </div>
-      <div class="distance-badge" id="selected-distance" aria-live="polite">Choose a point</div>
-    </section>
+      <div class="distance-badge selected-distance" aria-live="polite">Choose a point</div>
+    </div>
 
-    <section class="activity-card" aria-label="Interactive 0 to 20 metre number line">
-      <div class="line-stage">
-        <div class="line-track" id="number-line">
-          <img class="person-marker" src="../images/lesson4/test/person.png" alt="Person at the start of the number line">
+    <div class="activity-card" aria-label="Interactive 0 to 20 metre number line">
+      <div class="line-frame">
+        <button class="line-arrow line-arrow--back" type="button" aria-label="Move back 5 metres">
+          <svg viewBox="0 0 24 24"><path d="M15 4 7 12l8 8"/></svg>
+        </button>
 
-          <button class="line-point" type="button" data-distance="0" style="left: 0%;" aria-label="Open content for 0 metres">
-            <span class="line-point-label">0 m</span>
-          </button>
-          <button class="line-point" type="button" data-distance="5" style="left: 25%;" aria-label="Open content for 5 metres">
-            <span class="line-point-label">5 m</span>
-          </button>
-          <button class="line-point" type="button" data-distance="10" style="left: 50%;" aria-label="Open content for 10 metres">
-            <span class="line-point-label">10 m</span>
-          </button>
-          <button class="line-point" type="button" data-distance="15" style="left: 75%;" aria-label="Open content for 15 metres">
-            <span class="line-point-label">15 m</span>
-          </button>
-          <button class="line-point" type="button" data-distance="20" style="left: 100%;" aria-label="Open content for 20 metres">
-            <span class="line-point-label">20 m</span>
-          </button>
-
-          <div class="point-panel" data-panel="0" role="region" aria-label="Content for 0 metres">
-            <button class="panel-close" type="button" aria-label="Close 0 metre content">×</button>
-            <h3>0 metres</h3>
-            <p>Content for 0 m: this is the starting point.</p>
+        <div class="line-panel-box">
+          <!-- Single large panel, lives above the track, not tied to one point's position -->
+          <div class="stage-panel" role="region" aria-label="Selected distance details">
+            <button class="panel-close" type="button" aria-label="Close panel">×</button>
+            <div class="panel-body"></div>
           </div>
-          <div class="point-panel" data-panel="5" role="region" aria-label="Content for 5 metres">
-            <button class="panel-close" type="button" aria-label="Close 5 metre content">×</button>
-            <h3>5 metres</h3>
-            <p>Content for 5 m: the person is 5 metres from the start.</p>
-          </div>
-          <div class="point-panel" data-panel="10" role="region" aria-label="Content for 10 metres">
-            <button class="panel-close" type="button" aria-label="Close 10 metre content">×</button>
-            <h3>10 metres</h3>
-            <p>Content for 10 m: the person is halfway to 20 metres.</p>
-          </div>
-          <div class="point-panel" data-panel="15" role="region" aria-label="Content for 15 metres">
-            <button class="panel-close" type="button" aria-label="Close 15 metre content">×</button>
-            <h3>15 metres</h3>
-            <p>Content for 15 m: 5 metres remain before reaching 20 metres.</p>
-          </div>
-          <div class="point-panel" data-panel="20" role="region" aria-label="Content for 20 metres">
-            <button class="panel-close" type="button" aria-label="Close 20 metre content">×</button>
-            <h3>20 metres</h3>
-            <p>Content for 20 m: this is the furthest labelled point.</p>
+          <div class="line-stage">
+            <div class="line-track number-line">
+              <img class="person-marker" src="../images/lesson4/test/person.png" alt="Person on the number line">
+              <button class="line-point" type="button" data-distance="0" style="left: 1%;" aria-label="Open content for 0 metres">
+                <span class="line-point-label">0 m</span>
+              </button>
+              <button class="line-point" type="button" data-distance="5" style="left: 25%;" aria-label="Open content for 5 metres">
+                <span class="line-point-label">5 m</span>
+              </button>
+              <button class="line-point" type="button" data-distance="10" style="left: 50%;" aria-label="Open content for 10 metres">
+                <span class="line-point-label">10 m</span>
+              </button>
+              <button class="line-point" type="button" data-distance="15" style="left: 75%;" aria-label="Open content for 15 metres">
+                <span class="line-point-label">15 m</span>
+              </button>
+              <button class="line-point" type="button" data-distance="20" style="left: 99%;" aria-label="Open content for 20 metres">
+                <span class="line-point-label">20 m</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        <div class="line-controls" aria-label="Number line controls">
-          <button class="line-control" type="button" data-distance="0">← Start at 0 m</button>
-          <button class="line-control" type="button" data-distance="20">Finish at 20 m →</button>
-        </div>
+        <button class="line-arrow line-arrow--forward" type="button" aria-label="Move forward 5 metres">
+          <svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8"/></svg>
+        </button>
       </div>
 
-      <p class="activity-note" id="activity-note" role="status" aria-live="polite">
-        Select a point to open its content panel.
+      <p class="activity-note" role="status" aria-live="polite">
+        Select a point, or use the arrows, to open its content panel.
       </p>
-    </section>
-  </main>
+    </div>
+
+    <!--
+      Per-distance content. Edit freely — headings, paragraphs, images, whatever
+      you need. The script clones whichever <template> matches the selected
+      distance into .panel-body. Nothing here needs to be a single paragraph;
+      add as much markup as the panel should hold.
+    -->
+    <template class="panel-content" data-distance="0">
+      <h3>0 metres</h3>
+      <p>This is the starting point.</p>
+    </template>
+    <template class="panel-content" data-distance="5">
+      <h3>5 metres</h3>
+      <p>The person is 5 metres from the start.</p>
+    </template>
+    <template class="panel-content" data-distance="10">
+      <h3>10 metres</h3>
+      <p>The person is halfway to 20 metres.</p>
+    </template>
+    <template class="panel-content" data-distance="15">
+      <h3>15 metres</h3>
+      <p>5 metres remain before reaching 20 metres.</p>
+    </template>
+    <template class="panel-content" data-distance="20">
+      <h3>20 metres</h3>
+      <p>This is the furthest labelled point.</p>
+    </template>
+  </section>
+  <!-- ============ MODULAR ACTIVITY END ============ -->
 
   <script>
     (function () {
-      const activity = document.querySelector(".number-line-activity");
-      const points = Array.from(activity.querySelectorAll(".line-point"));
-      const controls = Array.from(activity.querySelectorAll(".line-control"));
-      const panels = Array.from(activity.querySelectorAll(".point-panel"));
-      const badge = activity.querySelector("#selected-distance");
-      const note = activity.querySelector("#activity-note");
+      const MIN_DISTANCE = 0;
+      const MAX_DISTANCE = 20;
+      const STEP = 5;
+      const CLOSE_MS = 260; // keep in sync with .stage-panel transition duration
 
-      function closePanels() {
-        panels.forEach(function (panel) {
+      // Runs once per instance, so multiple copies of this activity can
+      // live on the same page without clashing.
+      function initNumberLineActivity(activity) {
+        const stage = activity.querySelector(".line-stage");
+        const points = Array.from(activity.querySelectorAll(".line-point"));
+        const templates = Array.from(activity.querySelectorAll(".panel-content"));
+        const panel = activity.querySelector(".stage-panel");
+        const panelBody = panel.querySelector(".panel-body");
+        const panelClose = panel.querySelector(".panel-close");
+        const person = activity.querySelector(".person-marker");
+        const badge = activity.querySelector(".selected-distance");
+        const note = activity.querySelector(".activity-note");
+        const backArrow = activity.querySelector(".line-arrow--back");
+        const forwardArrow = activity.querySelector(".line-arrow--forward");
+
+        // null = nothing chosen yet; person sits at its resting 0 m position
+        // but no panel is open and the badge shows the initial prompt.
+        let selected = null;
+        let closeTimer = null;
+
+        function percentFor(distance) {
+          return ((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE)) * 100;
+        }
+
+        function clamp(distance) {
+          return Math.min(MAX_DISTANCE, Math.max(MIN_DISTANCE, distance));
+        }
+
+        function updateArrowStates(baseDistance) {
+          backArrow.disabled = baseDistance <= MIN_DISTANCE;
+          forwardArrow.disabled = baseDistance >= MAX_DISTANCE;
+        }
+
+        // Makes the panel visually "grow" from whichever point was selected,
+        // even though its final size/position is a big box centered above
+        // the stage rather than a small popover tied to that point.
+        function setPanelOriginToPoint(point) {
+          const stageRect = stage.getBoundingClientRect();
+          const pointRect = point.getBoundingClientRect();
+          const panelWidth = panel.offsetWidth || 1;
+          const panelLeftEdge = stageRect.left + (stageRect.width - panelWidth) / 2;
+          const pointCenterX = pointRect.left + pointRect.width / 2;
+          let originX = ((pointCenterX - panelLeftEdge) / panelWidth) * 100;
+          originX = Math.max(0, Math.min(100, originX));
+          panel.style.transformOrigin = originX + "% 100%";
+        }
+
+        function fillPanelContent(distance) {
+          const template = templates.find((t) => t.dataset.distance === String(distance));
+          panelBody.innerHTML = "";
+          if (template) {
+            panelBody.appendChild(template.content.cloneNode(true));
+          }
+        }
+
+        function openPanelFor(distance, point) {
+          setPanelOriginToPoint(point);
+          fillPanelContent(distance);
+          panel.classList.add("is-open");
+        }
+
+        function showPanelFor(distance, point) {
+          if (closeTimer) {
+            window.clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+          if (panel.classList.contains("is-open")) {
+            // Shrink back toward the previously selected point first, then
+            // grow again from the newly selected one.
+            panel.classList.remove("is-open");
+            closeTimer = window.setTimeout(() => {
+              openPanelFor(distance, point);
+              closeTimer = null;
+            }, CLOSE_MS);
+          } else {
+            openPanelFor(distance, point);
+          }
+        }
+
+        function closePanel() {
+          if (closeTimer) {
+            window.clearTimeout(closeTimer);
+            closeTimer = null;
+          }
           panel.classList.remove("is-open");
-        });
-        points.forEach(function (point) {
-          point.classList.remove("is-selected");
-          point.setAttribute("aria-expanded", "false");
-        });
-      }
+        }
 
-      function openDistance(distance, focusPoint) {
-        const value = String(distance);
-        const point = points.find(function (item) {
-          return item.dataset.distance === value;
-        });
-        const panel = panels.find(function (item) {
-          return item.dataset.panel === value;
-        });
+        function moveTo(distance, focusPoint) {
+          const target = clamp(distance);
+          const value = String(target);
+          const point = points.find((p) => p.dataset.distance === value);
+          if (!point) return;
 
-        if (!point || !panel) return;
+          selected = target;
+          person.style.left = percentFor(target) + "%";
 
-        closePanels();
-        point.classList.add("is-selected");
-        point.setAttribute("aria-expanded", "true");
-        panel.classList.add("is-open");
-        badge.textContent = distance + " m selected";
-        note.textContent = "You selected " + distance + " metres. Read the panel above the point.";
+          points.forEach((p) => {
+            p.classList.remove("is-selected");
+            p.setAttribute("aria-expanded", "false");
+          });
+          point.classList.add("is-selected");
+          point.setAttribute("aria-expanded", "true");
 
-        if (focusPoint) point.focus();
-      }
+          badge.textContent = target + " m selected";
+          note.textContent = "You selected " + target + " metres. Read the panel above the line.";
 
-      points.forEach(function (point) {
-        point.setAttribute("aria-expanded", "false");
-        point.addEventListener("click", function () {
-          openDistance(point.dataset.distance, false);
-        });
-      });
+          updateArrowStates(target);
+          showPanelFor(target, point);
+          if (focusPoint) point.focus();
+        }
 
-      controls.forEach(function (control) {
-        control.addEventListener("click", function () {
-          openDistance(control.dataset.distance, true);
-        });
-      });
-
-      panels.forEach(function (panel) {
-        panel.querySelector(".panel-close").addEventListener("click", function () {
-          closePanels();
+        function closeAll() {
+          closePanel();
+          points.forEach((p) => {
+            p.classList.remove("is-selected");
+            p.setAttribute("aria-expanded", "false");
+          });
           badge.textContent = "Choose a point";
-          note.textContent = "Select a point to open its content panel.";
+          note.textContent = "Select a point, or use the arrows, to open its content panel.";
+        }
+
+        function step(direction) {
+          // Treat "no selection yet" as resting at 0 m, since that's where
+          // the person visually starts.
+          const base = selected === null ? 0 : selected;
+          moveTo(base + direction * STEP, true);
+        }
+
+        points.forEach((point) => {
+          point.setAttribute("aria-expanded", "false");
+          point.addEventListener("click", () => {
+            moveTo(Number(point.dataset.distance), false);
+          });
         });
-      });
+
+        panelClose.addEventListener("click", closeAll);
+        backArrow.addEventListener("click", () => step(-1));
+        forwardArrow.addEventListener("click", () => step(1));
+
+        // Initial state: person at 0 m, nothing open, back arrow disabled.
+        person.style.left = "0%";
+        updateArrowStates(0);
+      }
+
+      document
+        .querySelectorAll(".number-line-activity")
+        .forEach(initNumberLineActivity);
     }());
   </script>
+
 </body>
 </html>
