@@ -517,16 +517,35 @@
       }, { passive: false });
 
       card.addEventListener("touchend", function(event) {
-        if (!partBTouchDragging || !partBDraggedCard) return;
+        if (!partCTouchDragging || !partCDraggedCard) return;
+
         event.preventDefault();
+
         const touch = event.changedTouches[0];
-        const zone = partBGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
-        partBClearDropHover();
-        if (zone) partBTryPlaceAxisCard(partBDraggedCard, zone);
-        if (partBDraggedCard) partBDraggedCard.classList.remove("is-dragging");
-        partBRemoveDragGhost();
-        partBDraggedCard = null;
-        partBTouchDragging = false;
+        const zone = partCGetDropZoneAtPoint(
+          touch.clientX,
+          touch.clientY,
+          32
+        );
+
+        const draggedCard = partCDraggedCard;
+
+        /* Always clean up the touch drag first. */
+        partCClearDropHover();
+
+        if (draggedCard) {
+          draggedCard.classList.remove("is-dragging");
+        }
+
+        partCRemoveDragGhost();
+        partCDraggedCard = null;
+        partCTouchDragging = false;
+
+        /* Then process the drop. */
+        if (zone) {
+          partCTryPlaceAxisCard(draggedCard, zone);
+        }
+
       }, { passive: false });
 
       card.addEventListener("touchcancel", function() {
@@ -1522,9 +1541,12 @@ function partBStartAnalysis() {
       document.getElementById("partCUnitCheck").hidden = false;
       document.getElementById("partCStepLabel").textContent = "Step 2 · Check the units";
       // document.getElementById("partCControlHeading").textContent = "Do these axes need units?";
-      document.getElementById("partCControlText").textContent =
-        "You have labelled the variables correctly. Now decide whether these data are measured in a unit such as cm or seconds.";
+      const partCControlText = document.getElementById("partCControlText");
 
+      if (partCControlText) {
+        partCControlText.textContent =
+          "You have labelled the variables correctly. Now decide whether these data are measured in a unit such as cm or seconds.";
+      }
       setChallengeFeedback(
         "partCFeedback",
         "success",
@@ -1723,9 +1745,13 @@ function partBStartAnalysis() {
     // document.getElementById("partCGraphBadge").textContent = "Build";
     document.getElementById("partCStepLabel").textContent = "Step 3 · Use the slider to build the bars";
     // document.getElementById("partCControlHeading").textContent = "Use the averages to set each bar height";
-    document.getElementById("partCControlText").textContent =
-      "Use the Site 2 average column to set all five sliders. Each slider changes one category without changing the others.";
-    // document.getElementById("partCGraphHint").textContent =
+    const partCControlText = document.getElementById("partCControlText");
+
+    if (partCControlText) {
+      partCControlText.textContent =
+        "Use the Site 2 average column to set all five sliders. Each slider changes one category without changing the others.";
+    }    
+// document.getElementById("partCGraphHint").textContent =
       // "The categories and 0-10 scale are now visible. Build all five Site 2 bars from the average column.";
     document.getElementById("bar-follow-up").classList.add("partc-bars-active");
 
@@ -1872,8 +1898,12 @@ function partBStartAnalysis() {
     // document.getElementById("partCGraphBadge").textContent = "Analyse";
     document.getElementById("partCStepLabel").textContent = "Bars complete ✓";
     // document.getElementById("partCControlHeading").textContent = "Your Site 2 graph is complete";
-    document.getElementById("partCControlText").textContent =
-      "You translated every Site 2 average in the table into a bar height. Now use the graph to analyse the survey.";
+    const partCControlText = document.getElementById("partCControlText");
+
+    if (partCControlText) {
+      partCControlText.textContent =
+        "You translated every Site 2 average in the table into a bar height. Now use the graph to analyse the survey.";
+    }
     // document.getElementById("partCGraphHint").textContent = "All five Site 2 averages are now represented as bars.";
 
     setChallengeFeedback(
@@ -2351,7 +2381,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
     //   "<strong>Editing " + partDSiteLabel(partDActiveSite) + ".</strong> Match each slider to the " +
     //   partDSiteLabel(partDActiveSite) + " average in the table.";
 
-    document.getElementById("partDGraphBadge").textContent = partDSiteLabel(partDActiveSite);
+    // document.getElementById("partDGraphBadge").textContent = partDSiteLabel(partDActiveSite);
     // // document.getElementById("partDGraphHint").textContent =
     //   "Editing " + partDSiteLabel(partDActiveSite) + ". Move the sliders to change this site's bars, then switch sites whenever you like.";
 
@@ -2531,6 +2561,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
   */
   function partDHandlePredictionChoice(button) {
     const correct = button.id === "predictionCheckSupported";
+    const feedback = document.getElementById("partDPredictionFeedback");
 
     document.querySelectorAll("#partDCompleteCard .prediction-button").forEach(function(other) {
       other.classList.remove("selected-answer");
@@ -2538,7 +2569,23 @@ function partCHandleLeadbeatersSiteChoice(button) {
 
     if (!correct) {
       flashChoice(button, "try-again-choice");
+
+      if (feedback) {
+        feedback.hidden = false;
+
+        setChallengeFeedback(
+          "partDPredictionFeedback",
+          "try-again",
+          "Look at the evidence again.",
+          " Site 1 had more understory and more Leadbeater's Possums than Site 2. Does that match the reasoned prediction?"
+        );
+      }
+
       return;
+    }
+
+    if (feedback) {
+      feedback.hidden = true;
     }
 
     button.classList.add("selected-answer");
@@ -2665,7 +2712,7 @@ function partDRenderStopAndCheckGraph() {
     document.getElementById("partDBuilderComplete").hidden = false;
     document.getElementById("partDAnalysisPanel").hidden = false;
     document.getElementById("partDAnalysisFeedback").hidden = false;
-    document.getElementById("partDGraphBadge").textContent = "Compare";
+    // document.getElementById("partDGraphBadge").textContent = "Compare";
     // document.getElementById("partDGraphHint").textContent = "Both sites are now on the same scale. Compare the paired bars for each animal.";
 
     // setChallengeFeedback(
@@ -2803,7 +2850,7 @@ function partDRenderStopAndCheckGraph() {
     document.getElementById("partDAnalysisQuestion3").hidden = true;
     document.getElementById("partDAnalysisPanel").hidden = true;
     document.getElementById("partDCompleteCard").hidden = false;
-    document.getElementById("partDGraphBadge").textContent = "Complete ✓";
+    // document.getElementById("partDGraphBadge").textContent = "Complete ✓";
     partDShowLeadbeatersDifferenceMarker();
     partDRenderCompleteSummary();
 
@@ -2865,6 +2912,11 @@ function partDRenderStopAndCheckGraph() {
     document.querySelectorAll("#partDCompleteCard .prediction-button").forEach(function(button) {
       button.classList.remove("selected-answer");
     });
+    const predictionFeedback = document.getElementById("partDPredictionFeedback");
+
+    if (predictionFeedback) {
+      predictionFeedback.hidden = true;
+    }
 
     const partDStopAndCheck = document.getElementById("partDStopAndCheck");
     if (partDStopAndCheck) {
