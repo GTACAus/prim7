@@ -41,11 +41,24 @@
   overflow: hidden;
 }
 .graph-stage-heading {
+  position: relative;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: flex-start;
   gap: 12px;
   margin-bottom: 10px;
+  text-align: center;
+}
+
+.graph-stage-heading > div {
+  width: 100%;
+}
+
+/* Keep the badge on the right without pushing the title off-centre */
+.graph-stage-heading .graph-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .graph-stage-heading h3 {
   margin: 0;
