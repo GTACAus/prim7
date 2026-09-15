@@ -5540,6 +5540,929 @@ function partDRenderStopAndCheckGraph() {
     resetYeastLineGraph();
   }
 
+
+
+  /* ==================================================
+     LINE GRAPH - SECTION E: STEVIA WATER COMPARISON
+
+     Special case: time is placed on the x-axis so two watering
+     conditions can be compared over the same 60-day period.
+     Students calculate each table separately, label one shared graph,
+     then plot/connect 100 mL first and 300 mL second.
+     ================================================== */
+
+  const plantSeriesData = {
+    water100: [
+      { x: 10, trials: [0, 0, 0] },
+      { x: 20, trials: [3, 1, 2] },
+      { x: 30, trials: [8, 5, 5] },
+      { x: 40, trials: [12, 8, 10] },
+      { x: 50, trials: [14, 11, 14] },
+      { x: 60, trials: [17, 12, 16] }
+    ],
+    water300: [
+      { x: 10, trials: [0, 0, 0] },
+      { x: 20, trials: [4, 5, 3] },
+      { x: 30, trials: [12, 11, 10] },
+      { x: 40, trials: [18, 15, 15] },
+      { x: 50, trials: [25, 21, 20] },
+      { x: 60, trials: [31, 28, 25] }
+    ]
+  };
+
+  const plantSeriesMeta = {
+    water100: {
+      label: "100 mL water",
+      shortLabel: "100 mL",
+      averageSelector: "[data-plant100-average]",
+      tableBodyId: "plant100TableBody",
+      calculateButtonId: "plant100CalculateAveragesButton",
+      feedbackId: "plant100TableFeedback",
+      pointsLayerId: "plantPoints100",
+      pathId: "plantPath100",
+      pointClass: "plant-point-100"
+    },
+    water300: {
+      label: "300 mL water",
+      shortLabel: "300 mL",
+      averageSelector: "[data-plant300-average]",
+      tableBodyId: "plant300TableBody",
+      calculateButtonId: "plant300CalculateAveragesButton",
+      feedbackId: "plant300TableFeedback",
+      pointsLayerId: "plantPoints300",
+      pathId: "plantPath300",
+      pointClass: "plant-point-300"
+    }
+  };
+
+  const plantPlot = {
+    left: 120,
+    right: 700,
+    top: 40,
+    bottom: 370,
+    maxY: 30,
+    centres: [160, 260, 360, 460, 560, 660]
+  };
+
+  const plantAxisValues = {
+    "x-variable": null,
+    "x-unit": null,
+    "y-variable": null,
+    "y-unit": null
+  };
+
+  let plantStage = "averages";
+  let plantActiveSeries = "water100";
+  let plantPlotIndex = 0;
+  let plantSelectedAxisCard = null;
+  let plantDraggedAxisCard = null;
+  let plantTouchDragging = false;
+  let plantDragGhost = null;
+  let plantAveragesReady = { water100: false, water300: false };
+  let plantPlottedCounts = { water100: 0, water300: 0 };
+  let plantConnectedOrders = { water100: [], water300: [] };
+
+  function plantAverage(item) {
+    return item.trials.reduce(function(sum, value) { return sum + value; }, 0) / item.trials.length;
+  }
+
+  function plantX(value) {
+    const data = plantSeriesData.water100;
+    const index = data.findIndex(function(item) { return item.x === value; });
+    return index >= 0 ? plantPlot.centres[index] : plantPlot.left;
+  }
+
+  function plantY(value) {
+    return plantPlot.bottom - (value / plantPlot.maxY) *
+      (plantPlot.bottom - plantPlot.top);
+  }
+
+  function plantCardLabel(value) {
+    return {
+      time: "Time",
+      height: "Plant height",
+      water: "Amount of water",
+      days: "days",
+      cm: "cm",
+      ml: "mL"
+    }[value] || value;
+  }
+
+  function plantBuildScaffold() {
+    const grid = document.getElementById("plantGridLayer");
+    const yTicks = document.getElementById("plantYTicksLayer");
+    const xTicks = document.getElementById("plantXTicksLayer");
+    if (!grid || !yTicks || !xTicks) return;
+
+    grid.innerHTML = "";
+    yTicks.innerHTML = "";
+    xTicks.innerHTML = "";
+
+    for (let value = 0; value <= plantPlot.maxY; value += 1) {
+      const y = plantY(value);
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("class", "graph-grid-line");
+      line.setAttribute("x1", plantPlot.left);
+      line.setAttribute("x2", plantPlot.right);
+      line.setAttribute("y1", y);
+      line.setAttribute("y2", y);
+      grid.appendChild(line);
+
+      if (value % 5 === 0) {
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("class", "tick-label");
+        label.setAttribute("x", 103);
+        label.setAttribute("y", y + 4);
+        label.setAttribute("text-anchor", "end");
+        label.textContent = value;
+        yTicks.appendChild(label);
+      }
+    }
+
+    plantSeriesData.water100.forEach(function(item) {
+      const x = plantX(item.x);
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "tick-label");
+      label.setAttribute("x", x);
+      label.setAttribute("y", 394);
+      label.setAttribute("text-anchor", "middle");
+      label.textContent = item.x;
+      xTicks.appendChild(label);
+    });
+  }
+
+  function plantAllAveragesReady() {
+    return plantAveragesReady.water100 && plantAveragesReady.water300;
+  }
+
+  function plantCalculateAverages(seriesKey) {
+    if (plantAveragesReady[seriesKey]) return;
+    const meta = plantSeriesMeta[seriesKey];
+    const data = plantSeriesData[seriesKey];
+
+    document.querySelectorAll(meta.averageSelector).forEach(function(cell, index) {
+      cell.textContent = partBFormatAverage(plantAverage(data[index]));
+      const td = cell.closest("td");
+      if (td) td.classList.add("calculated");
+    });
+
+    plantAveragesReady[seriesKey] = true;
+    const button = document.getElementById(meta.calculateButtonId);
+    if (button) button.disabled = true;
+
+    if (!plantAllAveragesReady()) {
+      const other = seriesKey === "water100" ? "300 mL" : "100 mL";
+      setChallengeFeedback(
+        meta.feedbackId,
+        "success",
+        meta.label + " averages calculated.",
+        " Now calculate the " + other + " condition so both lines can use the same graph."
+      );
+      return;
+    }
+
+    plantStage = "axes";
+    const stage = document.getElementById("plantConstructionStage");
+    if (stage) stage.hidden = false;
+
+    ["water100", "water300"].forEach(function(key) {
+      setChallengeFeedback(
+        plantSeriesMeta[key].feedbackId,
+        "success",
+        "Averages calculated.",
+        " Both watering conditions are ready to graph."
+      );
+    });
+
+    window.setTimeout(function() {
+      if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
+  }
+
+  function plantClearAxisSelection() {
+    document.querySelectorAll("#plantLabelBank .partb-axis-card.selected").forEach(function(card) {
+      card.classList.remove("selected");
+    });
+    plantSelectedAxisCard = null;
+  }
+
+  function plantCreateDragGhost(card) {
+    plantRemoveDragGhost();
+    const ghost = document.createElement("div");
+    ghost.className = "partb-drag-ghost";
+    const clone = card.cloneNode(true);
+    clone.disabled = false;
+    clone.removeAttribute("draggable");
+    clone.classList.remove("selected", "placed", "is-dragging");
+    ghost.appendChild(clone);
+    document.body.appendChild(ghost);
+    plantDragGhost = ghost;
+  }
+
+  function plantMoveDragGhost(point) {
+    if (!plantDragGhost || !point) return;
+    plantDragGhost.style.left = (point.clientX - plantDragGhost.offsetWidth / 2) + "px";
+    plantDragGhost.style.top = (point.clientY - plantDragGhost.offsetHeight / 2) + "px";
+  }
+
+  function plantRemoveDragGhost() {
+    if (!plantDragGhost) return;
+    plantDragGhost.remove();
+    plantDragGhost = null;
+  }
+
+  function plantClearDropHover() {
+    document.querySelectorAll("#lineGraphPlantsSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over");
+    });
+    if (plantDragGhost) plantDragGhost.classList.remove("is-hovering-drop-zone");
+  }
+
+  function plantGetDropZoneAtPoint(clientX, clientY, tolerance) {
+    const extra = typeof tolerance === "number" ? tolerance : 28;
+    const zones = Array.from(document.querySelectorAll("#lineGraphPlantsSvg .partb-axis-drop-zone")).filter(function(zone) {
+      return !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete");
+    });
+
+    let closestZone = null;
+    let closestDistance = Infinity;
+
+    zones.forEach(function(zone) {
+      const hitPad = zone.querySelector(".partb-axis-drop-hit-pad") || zone;
+      const rect = hitPad.getBoundingClientRect();
+      const inside =
+        clientX >= rect.left - extra && clientX <= rect.right + extra &&
+        clientY >= rect.top - extra && clientY <= rect.bottom + extra;
+      if (!inside) return;
+
+      const centreX = rect.left + rect.width / 2;
+      const centreY = rect.top + rect.height / 2;
+      const distance = Math.hypot(clientX - centreX, clientY - centreY);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestZone = zone;
+      }
+    });
+
+    return closestZone;
+  }
+
+  function plantTryPlaceAxisCard(card, zone) {
+    if (!card || !zone || card.disabled || zone.classList.contains("drop-complete")) return;
+
+    const cardType = card.dataset.plantCardType;
+    const cardValue = card.dataset.plantCardValue;
+    const expectedType = zone.dataset.plantCardType;
+    const expectedValue = zone.dataset.plantExpected;
+
+    if (cardType !== expectedType || cardValue !== expectedValue) {
+      zone.classList.remove("drag-over");
+      zone.classList.add("drop-incorrect");
+      window.setTimeout(function() { zone.classList.remove("drop-incorrect"); }, 500);
+      plantClearAxisSelection();
+
+      let hint = " Use the table headings to decide which variable or unit belongs on that axis.";
+      if (cardValue === "water") {
+        hint = " This is the special case: the two water amounts become separate lines. Time goes on the x-axis so both conditions can be compared across the experiment.";
+      }
+
+      setChallengeFeedback(
+        "plantFeedback",
+        "try-again",
+        "That card does not belong there.",
+        hint
+      );
+      return;
+    }
+
+    const text = zone.querySelector(".partb-axis-drop-text");
+    if (text) text.textContent = plantCardLabel(cardValue);
+    zone.classList.remove("drag-over");
+    zone.classList.add("drop-complete");
+    card.classList.remove("selected", "is-dragging");
+    card.classList.add("placed");
+    card.disabled = true;
+    card.setAttribute("draggable", "false");
+    plantAxisValues[zone.dataset.plantAxisSlot] = cardValue;
+    plantSelectedAxisCard = null;
+
+    setChallengeFeedback(
+      "plantFeedback",
+      "success",
+      plantCardLabel(cardValue) + " is in the right place.",
+      " Keep going until both axes have a variable and unit."
+    );
+
+    plantUpdateAxisState();
+  }
+
+  function plantUpdateAxisState() {
+    const xReady = plantAxisValues["x-variable"] === "time" && plantAxisValues["x-unit"] === "days";
+    const yReady = plantAxisValues["y-variable"] === "height" && plantAxisValues["y-unit"] === "cm";
+
+    document.getElementById("plantXAxisVariableDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("plantXAxisUnitDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("plantYAxisVariableDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("plantYAxisUnitDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("plantXAxisLabel").classList.toggle("visible", xReady);
+    document.getElementById("plantYAxisLabel").classList.toggle("visible", yReady);
+
+    if (!xReady || !yReady || plantStage !== "axes") return;
+
+    document.getElementById("plantAxisBuilder").hidden = true;
+    setChallengeFeedback(
+      "plantFeedback",
+      "",
+      "Both axis labels are complete.",
+      " Time is on the x-axis and plant height is on the y-axis. The two water amounts will be shown as separate lines."
+    );
+    plantStartSeries("water100");
+  }
+
+  function plantInitialiseAxisDragAndDrop() {
+    const cards = document.querySelectorAll("#plantLabelBank .partb-axis-card");
+    const zones = document.querySelectorAll("#lineGraphPlantsSvg .partb-axis-drop-zone");
+
+    cards.forEach(function(card) {
+      card.addEventListener("dragstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) {
+          event.preventDefault();
+          return;
+        }
+
+        plantDraggedAxisCard = card;
+        card.classList.add("is-dragging");
+        event.dataTransfer.setData("text/plain", card.id);
+        event.dataTransfer.effectAllowed = "move";
+
+        const transparent = document.createElement("div");
+        transparent.style.position = "absolute";
+        transparent.style.width = "1px";
+        transparent.style.height = "1px";
+        transparent.style.opacity = "0";
+        document.body.appendChild(transparent);
+        event.dataTransfer.setDragImage(transparent, 0, 0);
+        window.setTimeout(function() { transparent.remove(); }, 0);
+
+        plantCreateDragGhost(card);
+        plantMoveDragGhost(event);
+      });
+
+      card.addEventListener("dragend", function() {
+        card.classList.remove("is-dragging");
+        plantClearDropHover();
+        plantRemoveDragGhost();
+        plantDraggedAxisCard = null;
+      });
+
+      card.addEventListener("touchstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) return;
+        plantDraggedAxisCard = card;
+        plantTouchDragging = true;
+        card.classList.add("is-dragging");
+        const touch = event.touches[0];
+        plantCreateDragGhost(card);
+        plantMoveDragGhost(touch);
+        event.preventDefault();
+      }, { passive: false });
+
+      card.addEventListener("touchmove", function(event) {
+        if (!plantTouchDragging || !plantDraggedAxisCard) return;
+        event.preventDefault();
+        const touch = event.touches[0];
+        plantMoveDragGhost(touch);
+        const zone = plantGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        plantClearDropHover();
+        if (zone) {
+          zone.classList.add("drag-over");
+          if (plantDragGhost) plantDragGhost.classList.add("is-hovering-drop-zone");
+        }
+      }, { passive: false });
+
+      card.addEventListener("touchend", function(event) {
+        if (!plantTouchDragging || !plantDraggedAxisCard) return;
+        event.preventDefault();
+
+        const touch = event.changedTouches[0];
+        const zone = plantGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        const draggedCard = plantDraggedAxisCard;
+
+        plantClearDropHover();
+        if (draggedCard) draggedCard.classList.remove("is-dragging");
+        plantRemoveDragGhost();
+        plantDraggedAxisCard = null;
+        plantTouchDragging = false;
+
+        if (zone) plantTryPlaceAxisCard(draggedCard, zone);
+      }, { passive: false });
+
+      card.addEventListener("touchcancel", function() {
+        if (plantDraggedAxisCard) plantDraggedAxisCard.classList.remove("is-dragging");
+        plantClearDropHover();
+        plantRemoveDragGhost();
+        plantDraggedAxisCard = null;
+        plantTouchDragging = false;
+      });
+
+      card.addEventListener("click", function() {
+        if (card.disabled || card.classList.contains("placed")) return;
+        const alreadySelected = plantSelectedAxisCard === card;
+        plantClearAxisSelection();
+        if (!alreadySelected) {
+          plantSelectedAxisCard = card;
+          card.classList.add("selected");
+        }
+      });
+    });
+
+    document.addEventListener("dragover", function(event) {
+      if (!plantDraggedAxisCard) return;
+      event.preventDefault();
+      plantMoveDragGhost(event);
+      const zone = plantGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      plantClearDropHover();
+      if (zone) {
+        zone.classList.add("drag-over");
+        if (plantDragGhost) plantDragGhost.classList.add("is-hovering-drop-zone");
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+      }
+    });
+
+    document.addEventListener("drop", function(event) {
+      if (!plantDraggedAxisCard) return;
+      event.preventDefault();
+      const zone = plantGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      const draggedCard = plantDraggedAxisCard;
+      plantClearDropHover();
+      plantRemoveDragGhost();
+      plantDraggedAxisCard = null;
+      if (zone) plantTryPlaceAxisCard(draggedCard, zone);
+    });
+
+    zones.forEach(function(zone) {
+      zone.addEventListener("click", function() {
+        if (plantSelectedAxisCard) plantTryPlaceAxisCard(plantSelectedAxisCard, zone);
+      });
+      zone.addEventListener("keydown", function(event) {
+        if ((event.key === "Enter" || event.key === " ") && plantSelectedAxisCard) {
+          event.preventDefault();
+          plantTryPlaceAxisCard(plantSelectedAxisCard, zone);
+        }
+      });
+    });
+  }
+
+  function plantUpdateLegend() {
+    const section = document.getElementById("line-graph-plants");
+    if (!section) return;
+    section.classList.toggle("plant-graph-complete", plantStage === "complete");
+    document.querySelectorAll("#line-graph-plants [data-plant-legend]").forEach(function(item) {
+      item.classList.toggle("is-active", plantStage !== "complete" && item.dataset.plantLegend === plantActiveSeries);
+    });
+  }
+
+  function plantUpdateTableHighlights() {
+    Object.keys(plantSeriesMeta).forEach(function(seriesKey) {
+      const meta = plantSeriesMeta[seriesKey];
+      const plotted = plantPlottedCounts[seriesKey];
+      document.querySelectorAll("#" + meta.tableBodyId + " tr").forEach(function(row, rowIndex) {
+        row.classList.toggle("partc-complete-row", rowIndex < plotted || plotted >= plantSeriesData[seriesKey].length);
+        row.classList.toggle(
+          "partc-current-row",
+          plantStage === "plot" && seriesKey === plantActiveSeries && rowIndex === plantPlotIndex
+        );
+      });
+    });
+  }
+
+  function plantStartSeries(seriesKey) {
+    plantActiveSeries = seriesKey;
+    plantStage = "plot";
+    plantPlotIndex = plantPlottedCounts[seriesKey];
+    plantConnectedOrders[seriesKey] = [];
+
+    const meta = plantSeriesMeta[seriesKey];
+    const conditionNumber = seriesKey === "water100" ? 1 : 2;
+    document.getElementById("plantPlotPromptBox").hidden = false;
+    document.getElementById("plantConnectPrompt").hidden = true;
+    document.getElementById("plantStepLabel").textContent =
+      (seriesKey === "water100" ? "Step 3" : "Step 5") + " · Plot the " + meta.shortLabel + " condition";
+    document.getElementById("plantGraphBadge").textContent = meta.shortLabel;
+    document.getElementById("plantVisualHint").textContent =
+      "Condition " + conditionNumber + " of 2: use the highlighted row in " +
+      (seriesKey === "water100" ? "Table 4" : "Table 5") + " and click its coordinate on the graph.";
+
+    plantUpdateTableHighlights();
+    plantUpdateLegend();
+    plantUpdatePlotPrompt();
+  }
+
+  function plantUpdatePlotPrompt() {
+    const data = plantSeriesData[plantActiveSeries];
+    if (plantPlotIndex >= data.length) return;
+    const meta = plantSeriesMeta[plantActiveSeries];
+    const item = data[plantPlotIndex];
+    const average = plantAverage(item);
+    document.getElementById("plantPlotPromptTitle").textContent =
+      meta.shortLabel + " · Point " + (plantPlotIndex + 1) + " of " + data.length +
+      ": plot (" + item.x + ", " + partBFormatAverage(average) + ").";
+    document.getElementById("plantPlotPromptText").textContent =
+      "Move the dotted guides to " + item.x + " days and " + partBFormatAverage(average) +
+      " cm, then click the graph.";
+  }
+
+  function plantSvgPoint(event) {
+    const svg = document.getElementById("lineGraphPlantsSvg");
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const matrix = svg.getScreenCTM();
+    return matrix ? point.matrixTransform(matrix.inverse()) : null;
+  }
+
+  function plantHideCrosshair() {
+    document.getElementById("plantCrossV").classList.remove("visible");
+    document.getElementById("plantCrossH").classList.remove("visible");
+  }
+
+  function plantUpdateCrosshair(event) {
+    if (plantStage !== "plot") return;
+    const point = plantSvgPoint(event);
+    if (!point) return;
+
+    if (
+      point.x < plantPlot.left || point.x > plantPlot.right ||
+      point.y < plantPlot.top || point.y > plantPlot.bottom
+    ) {
+      plantHideCrosshair();
+      return;
+    }
+
+    const vertical = document.getElementById("plantCrossV");
+    const horizontal = document.getElementById("plantCrossH");
+    vertical.setAttribute("x1", point.x);
+    vertical.setAttribute("x2", point.x);
+    horizontal.setAttribute("y1", point.y);
+    horizontal.setAttribute("y2", point.y);
+    vertical.classList.add("visible");
+    horizontal.classList.add("visible");
+  }
+
+  function plantPlacePoint(event) {
+    if (plantStage !== "plot") return;
+    const data = plantSeriesData[plantActiveSeries];
+    if (plantPlotIndex >= data.length) return;
+
+    const point = plantSvgPoint(event);
+    if (!point) return;
+    if (
+      point.x < plantPlot.left || point.x > plantPlot.right ||
+      point.y < plantPlot.top || point.y > plantPlot.bottom
+    ) return;
+
+    const target = data[plantPlotIndex];
+    const average = plantAverage(target);
+    const targetX = plantX(target.x);
+    const targetY = plantY(average);
+    const dx = Math.abs(point.x - targetX);
+    const dy = Math.abs(point.y - targetY);
+    const distance = Math.hypot(dx, dy);
+
+    if (distance > 34) {
+      let hint =
+        " Find " + target.x + " days on the x-axis, then move across to " +
+        partBFormatAverage(average) + " cm on the y-axis.";
+      if (dx <= 26 && dy > 26) {
+        hint = " Your time is close. Check the plant height: " + partBFormatAverage(average) + " cm.";
+      } else if (dy <= 26 && dx > 26) {
+        hint = " Your plant height is close. Check the time: " + target.x + " days.";
+      }
+
+      setChallengeFeedback(
+        "plantFeedback",
+        "try-again",
+        "Use both axes.",
+        hint
+      );
+      return;
+    }
+
+    const meta = plantSeriesMeta[plantActiveSeries];
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("class", "linegraph-point " + meta.pointClass);
+    circle.setAttribute("cx", targetX);
+    circle.setAttribute("cy", targetY);
+    circle.setAttribute("r", 8);
+    circle.dataset.plantPointIndex = plantPlotIndex;
+    circle.dataset.plantSeries = plantActiveSeries;
+    circle.setAttribute(
+      "aria-label",
+      meta.label + ", day " + target.x + ", " + partBFormatAverage(average) + " centimetres average plant height"
+    );
+    circle.addEventListener("click", function(event) {
+      if (plantStage !== "connect" || circle.dataset.plantSeries !== plantActiveSeries) return;
+      event.stopPropagation();
+      plantConnectPoint(Number(circle.dataset.plantPointIndex), circle);
+    });
+    circle.addEventListener("keydown", function(event) {
+      if (plantStage !== "connect" || circle.dataset.plantSeries !== plantActiveSeries) return;
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        plantConnectPoint(Number(circle.dataset.plantPointIndex), circle);
+      }
+    });
+    document.getElementById(meta.pointsLayerId).appendChild(circle);
+
+    plantPlotIndex += 1;
+    plantPlottedCounts[plantActiveSeries] = plantPlotIndex;
+    plantHideCrosshair();
+    plantUpdateTableHighlights();
+
+    if (plantPlotIndex < data.length) {
+      plantUpdatePlotPrompt();
+      setChallengeFeedback(
+        "plantFeedback",
+        "",
+        "Correct point.",
+        " It snapped to the measured coordinate. Now plot the next highlighted row for " + meta.label + "."
+      );
+      return;
+    }
+
+    plantBeginConnect();
+  }
+
+  function plantBeginConnect() {
+    const meta = plantSeriesMeta[plantActiveSeries];
+    plantStage = "connect";
+    plantHideCrosshair();
+    document.getElementById("plantPlotPromptBox").hidden = true;
+    document.getElementById("plantConnectPrompt").hidden = false;
+    document.getElementById("plantConnectPromptTitle").textContent = "Connect the " + meta.shortLabel + " points.";
+    document.getElementById("plantConnectPromptText").textContent =
+      "Click any " + meta.shortLabel + " point to start. Then click neighbouring points until all six are connected.";
+    document.getElementById("plantStepLabel").textContent =
+      (plantActiveSeries === "water100" ? "Step 4" : "Step 6") + " · Connect the " + meta.shortLabel + " line";
+    document.getElementById("plantVisualHint").textContent =
+      "All six " + meta.shortLabel + " averages are plotted. Connect neighbouring points to make this line.";
+
+    document.querySelectorAll("#" + meta.pointsLayerId + " .linegraph-point").forEach(function(point) {
+      point.classList.add("connectable");
+      point.setAttribute("tabindex", "0");
+      point.setAttribute("role", "button");
+      point.setAttribute("aria-label", point.getAttribute("aria-label") + ". Click to connect this point.");
+    });
+
+    plantUpdateTableHighlights();
+    setChallengeFeedback(
+      "plantFeedback",
+      "",
+      meta.shortLabel + " points are plotted.",
+      " Click any point in this condition to start the line, then connect neighbouring points."
+    );
+  }
+
+  function plantConnectPoint(index, circle) {
+    if (plantStage !== "connect") return;
+    const order = plantConnectedOrders[plantActiveSeries];
+    if (order.includes(index)) return;
+
+    let canConnect = false;
+    let prepend = false;
+    if (order.length === 0) {
+      canConnect = true;
+    } else {
+      const first = order[0];
+      const last = order[order.length - 1];
+      if (index === first - 1) {
+        canConnect = true;
+        prepend = true;
+      } else if (index === last + 1) {
+        canConnect = true;
+      }
+    }
+
+    if (!canConnect) {
+      circle.classList.add("connect-error");
+      window.setTimeout(function() { circle.classList.remove("connect-error"); }, 550);
+      setChallengeFeedback(
+        "plantFeedback",
+        "try-again",
+        "Connect neighbouring points.",
+        " Stay on the same watering condition and choose a point beside one end of the line you have already made."
+      );
+      return;
+    }
+
+    if (prepend) order.unshift(index);
+    else order.push(index);
+    circle.classList.add("connected");
+    plantRedrawPath(plantActiveSeries);
+
+    if (order.length === plantSeriesData[plantActiveSeries].length) {
+      plantFinishSeries();
+      return;
+    }
+
+    setChallengeFeedback(
+      "plantFeedback",
+      "",
+      "Point connected.",
+      " Keep joining neighbouring points until all six " + plantSeriesMeta[plantActiveSeries].shortLabel + " points form one line."
+    );
+  }
+
+  function plantRedrawPath(seriesKey) {
+    const data = plantSeriesData[seriesKey];
+    const order = plantConnectedOrders[seriesKey];
+    const points = order.map(function(index) {
+      const item = data[index];
+      return plantX(item.x) + "," + plantY(plantAverage(item));
+    });
+    document.getElementById(plantSeriesMeta[seriesKey].pathId).setAttribute("points", points.join(" "));
+  }
+
+  function plantDisableSeriesPoints(seriesKey) {
+    const meta = plantSeriesMeta[seriesKey];
+    document.querySelectorAll("#" + meta.pointsLayerId + " .linegraph-point").forEach(function(point) {
+      point.classList.remove("connectable");
+      point.removeAttribute("tabindex");
+      point.removeAttribute("role");
+    });
+  }
+
+  function plantFinishSeries() {
+    const finishedSeries = plantActiveSeries;
+    const meta = plantSeriesMeta[finishedSeries];
+    plantDisableSeriesPoints(finishedSeries);
+    document.getElementById("plantConnectPrompt").hidden = true;
+
+    if (finishedSeries === "water100") {
+      setChallengeFeedback(
+        "plantFeedback",
+        "success",
+        "100 mL line complete.",
+        " Keep that line on the graph. Now use Table 5 to plot the 300 mL condition on the same axes."
+      );
+      plantStartSeries("water300");
+      return;
+    }
+
+    plantStage = "complete";
+    plantHideCrosshair();
+    document.getElementById("plantPlotPromptBox").hidden = true;
+    document.getElementById("plantConnectPrompt").hidden = true;
+    document.getElementById("plantComplete").hidden = false;
+    document.getElementById("plantStepLabel").textContent = "Two-line graph complete ✓";
+    document.getElementById("plantGraphBadge").textContent = "Complete ✓";
+    document.getElementById("plantVisualHint").textContent =
+      "Both lines show how average plant height changed over the same 60-day period.";
+    document.getElementById("plantFeedback").hidden = true;
+    document.getElementById("plantPredictionCheck").hidden = false;
+    plantUpdateLegend();
+  }
+
+  function plantHandlePredictionChoice(button) {
+    const correct = button.dataset.plantPrediction === "supported";
+    const feedback = document.getElementById("plantPredictionFeedback");
+
+    document.querySelectorAll("#plantPredictionCheck .prediction-button").forEach(function(other) {
+      other.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    if (!correct) {
+      flashChoice(button, "try-again-choice");
+      feedback.hidden = false;
+      setChallengeFeedback(
+        "plantPredictionFeedback",
+        "try-again",
+        "Compare the two lines again.",
+        " Both groups begin at 0 cm. From day 20 onward, the 300 mL line is above the 100 mL line at every measurement. Does the overall evidence support the prediction?"
+      );
+      return;
+    }
+
+    feedback.hidden = true;
+    button.classList.add("selected-answer");
+  }
+
+  function resetPlantWaterLineGraph() {
+    plantStage = "averages";
+    plantActiveSeries = "water100";
+    plantPlotIndex = 0;
+    plantSelectedAxisCard = null;
+    plantDraggedAxisCard = null;
+    plantTouchDragging = false;
+    plantAveragesReady = { water100: false, water300: false };
+    plantPlottedCounts = { water100: 0, water300: 0 };
+    plantConnectedOrders = { water100: [], water300: [] };
+    plantRemoveDragGhost();
+
+    Object.keys(plantAxisValues).forEach(function(key) {
+      plantAxisValues[key] = null;
+    });
+
+    ["water100", "water300"].forEach(function(seriesKey) {
+      const meta = plantSeriesMeta[seriesKey];
+      document.querySelectorAll(meta.averageSelector).forEach(function(cell) {
+        cell.textContent = "—";
+        const td = cell.closest("td");
+        if (td) td.classList.remove("calculated");
+      });
+      const button = document.getElementById(meta.calculateButtonId);
+      if (button) button.disabled = false;
+      document.getElementById(meta.pointsLayerId).innerHTML = "";
+      document.getElementById(meta.pathId).setAttribute("points", "");
+      document.querySelectorAll("#" + meta.tableBodyId + " tr").forEach(function(row) {
+        row.classList.remove("partc-current-row", "partc-complete-row");
+      });
+    });
+
+    document.getElementById("plantConstructionStage").hidden = true;
+    document.getElementById("plantAxisBuilder").hidden = false;
+    document.getElementById("plantPlotPromptBox").hidden = true;
+    document.getElementById("plantConnectPrompt").hidden = true;
+    document.getElementById("plantComplete").hidden = true;
+    document.getElementById("plantFeedback").hidden = false;
+    document.getElementById("plantPredictionCheck").hidden = true;
+    document.getElementById("plantPredictionFeedback").hidden = true;
+
+    document.querySelectorAll("#plantPredictionCheck .prediction-button").forEach(function(button) {
+      button.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    document.getElementById("plantStepLabel").textContent = "Step 2 · Label the axes and units";
+    document.getElementById("plantVisualHint").textContent =
+      "Label the variables and units before plotting the two watering conditions.";
+    document.getElementById("plantGraphBadge").textContent = "Set up";
+
+    document.querySelectorAll("#plantLabelBank .partb-axis-card").forEach(function(card) {
+      card.classList.remove("selected", "placed", "is-dragging");
+      card.disabled = false;
+      card.setAttribute("draggable", "true");
+    });
+
+    document.querySelectorAll("#lineGraphPlantsSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over", "drop-complete", "drop-incorrect", "axis-complete");
+      const text = zone.querySelector(".partb-axis-drop-text");
+      if (text) text.textContent = text.dataset.placeholder;
+    });
+
+    document.getElementById("plantXAxisLabel").classList.remove("visible");
+    document.getElementById("plantYAxisLabel").classList.remove("visible");
+    plantHideCrosshair();
+
+    setChallengeFeedback(
+      "plant100TableFeedback",
+      "",
+      "Start with Table 4.",
+      " Calculate the average height for Plants 1–3 at each time point."
+    );
+    setChallengeFeedback(
+      "plant300TableFeedback",
+      "",
+      "Then use Table 5.",
+      " Calculate the average height for Plants 4–6 at each time point."
+    );
+    setChallengeFeedback(
+      "plantFeedback",
+      "",
+      "Label the graph first.",
+      " Time belongs on one axis and plant height belongs on the other. The water amounts will be represented by two different lines."
+    );
+
+    plantUpdateLegend();
+  }
+
+  function initialisePlantWaterLineGraph() {
+    if (!document.getElementById("line-graph-plants")) return;
+
+    plantBuildScaffold();
+    plantInitialiseAxisDragAndDrop();
+
+    document.getElementById("plant100CalculateAveragesButton").addEventListener("click", function() {
+      plantCalculateAverages("water100");
+    });
+    document.getElementById("plant300CalculateAveragesButton").addEventListener("click", function() {
+      plantCalculateAverages("water300");
+    });
+    document.getElementById("resetPlantGraphButton").addEventListener("click", resetPlantWaterLineGraph);
+
+    const svg = document.getElementById("lineGraphPlantsSvg");
+    svg.addEventListener("pointermove", plantUpdateCrosshair);
+    svg.addEventListener("pointerleave", plantHideCrosshair);
+    svg.addEventListener("pointerup", plantPlacePoint);
+
+    document.querySelectorAll("#plantPredictionCheck [data-plant-prediction]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        plantHandlePredictionChoice(button);
+      });
+    });
+
+    resetPlantWaterLineGraph();
+  }
+
+
   /* ==================================================
      PAGE INITIALISATION
      ================================================== */
@@ -5580,5 +6503,6 @@ function partDRenderStopAndCheckGraph() {
     initialiseElephantLineGraph();
     initialiseConniwinksLineGraph();
     initialiseYeastLineGraph();
+    initialisePlantWaterLineGraph();
   });
 })();
