@@ -632,18 +632,18 @@
 }
 
 #partBGraphSvg .partb-axis-drop-zone,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-zone {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone {
   cursor: pointer;
 }
 
 #partBGraphSvg .partb-axis-drop-hit-pad,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-hit-pad {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-hit-pad {
   fill: transparent;
   pointer-events: all;
 }
 
 #partBGraphSvg .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-box {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-box {
   fill: rgba(215, 242, 244, .86);
   stroke: var(--blue);
   stroke-width: 2.5;
@@ -653,7 +653,7 @@
 }
 
 #partBGraphSvg .partb-axis-drop-text,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-text {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-text {
   fill: var(--muted);
   font-size: 12px;
   font-weight: 700;
@@ -661,53 +661,53 @@
 }
 
 #partBGraphSvg .partb-axis-drop-zone.drag-over .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-zone.drag-over .partb-axis-drop-box {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.drag-over .partb-axis-drop-box {
   fill: var(--soft-yellow);
   stroke: var(--purple);
   stroke-width: 3.5;
 }
 
 #partBGraphSvg .partb-axis-drop-zone.drop-incorrect .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-zone.drop-incorrect .partb-axis-drop-box {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.drop-incorrect .partb-axis-drop-box {
   fill: var(--soft-orange);
   stroke: var(--orange);
   stroke-width: 3.5;
 }
 
 #partBGraphSvg .partb-axis-drop-zone.drop-complete .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-zone.drop-complete .partb-axis-drop-box {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.drop-complete .partb-axis-drop-box {
   fill: var(--soft-green);
   stroke: var(--green);
   stroke-dasharray: none;
 }
 
 #partBGraphSvg .partb-axis-drop-zone.axis-complete,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-axis-drop-zone.axis-complete {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.axis-complete {
   display: none;
 }
 
 #partBGraphSvg .partb-final-axis-label,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-final-axis-label {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-final-axis-label {
   opacity: 0;
   transition: opacity .25s ease;
 }
 
 #partBGraphSvg .partb-final-axis-label.visible,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-final-axis-label.visible {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-final-axis-label.visible {
   opacity: 1;
 }
 
 #partBGraphSvg .partb-x-choice,
 #partBGraphSvg .partb-y-choice,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-choice,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-y-choice {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-choice,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-y-choice {
   cursor: pointer;
 }
 
 #partBGraphSvg .partb-x-hit,
 #partBGraphSvg .partb-y-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-y-hit {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-hit,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-y-hit {
   fill: transparent;
   pointer-events: all;
 }
@@ -716,44 +716,44 @@
 #partBGraphSvg .partb-y-choice:hover .partb-y-hit,
 #partBGraphSvg .partb-x-choice.active .partb-x-hit,
 #partBGraphSvg .partb-y-choice.active .partb-y-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-choice:hover .partb-x-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-y-choice:hover .partb-y-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-choice.active .partb-x-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-y-choice.active .partb-y-hit {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-choice:hover .partb-x-hit,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-y-choice:hover .partb-y-hit,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-choice.active .partb-x-hit,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-y-choice.active .partb-y-hit {
   fill: rgba(255, 205, 29, .22);
 }
 
 #partBGraphSvg .partb-x-choice.active text,
 #partBGraphSvg .partb-y-choice.active text,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-choice.active text,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-y-choice.active text {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-choice.active text,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-y-choice.active text {
   fill: var(--purple);
   font-weight: 800;
 }
 
 #partBGraphSvg .partb-y-choice.try-again .partb-y-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-choice.try-again .partb-x-hit,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-y-choice.try-again .partb-y-hit {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-choice.try-again .partb-x-hit,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-y-choice.try-again .partb-y-hit {
   fill: rgba(255, 109, 58, .24);
   stroke: var(--orange);
   stroke-width: 2;
 }
 
 #partBGraphSvg .partb-y-choice.try-again text,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-choice.try-again text,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-y-choice.try-again text {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-choice.try-again text,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-y-choice.try-again text {
   fill: var(--orange);
   font-weight: 800;
 }
 
 #partBGraphSvg .partb-x-choice.complete text,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-x-choice.complete text {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-x-choice.complete text {
   fill: var(--green);
   font-weight: 800;
 }
 
 #partBGraphSvg .partb-guide,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-guide {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-guide {
   stroke: var(--purple);
   stroke-width: 2.5;
   stroke-dasharray: 8 7;
@@ -763,12 +763,12 @@
 }
 
 #partBGraphSvg .partb-guide.visible,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-guide.visible {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-guide.visible {
   opacity: .82;
 }
 
 #partBGraphSvg .partb-intersection-point,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-intersection-point {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-intersection-point {
   fill: var(--orange);
   stroke: var(--charcoal);
   stroke-width: 3;
@@ -779,13 +779,13 @@
 }
 
 #partBGraphSvg .partb-intersection-point.visible,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-intersection-point.visible {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-intersection-point.visible {
   opacity: 1;
   animation: graphPointPop .35s ease-out;
 }
 
 #partBGraphSvg .partb-intersection-point.wrong,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .partb-intersection-point.wrong {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-intersection-point.wrong {
   fill: var(--soft-orange);
   stroke: var(--orange);
 }
@@ -2739,11 +2739,13 @@
 }
 
 #lineGraphLabelBank .partb-axis-card[data-line-card-type="unit"],
-#conniwinksLabelBank .partb-axis-card[data-conni-card-type="unit"] {
+#conniwinksLabelBank .partb-axis-card[data-conni-card-type="unit"],
+#yeastLabelBank .partb-axis-card[data-yeast-card-type="unit"],
+#plantLabelBank .partb-axis-card[data-plant-card-type="unit"] {
   border-top-color: var(--green);
 }
 
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .linegraph-path {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .linegraph-path {
   fill: none;
   stroke: var(--purple);
   stroke-width: 5;
@@ -2752,7 +2754,7 @@
   pointer-events: none;
 }
 
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .linegraph-point {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .linegraph-point {
   fill: var(--orange);
   stroke: var(--charcoal);
   stroke-width: 3;
@@ -2761,24 +2763,24 @@
   animation: graphPointPop .35s ease-out;
 }
 
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .linegraph-point.connectable {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .linegraph-point.connectable {
   cursor: pointer;
 }
 
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .linegraph-point.connectable:hover,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .linegraph-point.connectable:focus {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .linegraph-point.connectable:hover,
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .linegraph-point.connectable:focus {
   fill: var(--yellow);
   stroke: var(--purple);
   outline: none;
 }
 
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .linegraph-point.connected {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .linegraph-point.connected {
   fill: var(--soft-green);
   stroke: var(--green);
   stroke-width: 4;
 }
 
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg) .linegraph-point.connect-error {
+:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .linegraph-point.connect-error {
   fill: var(--soft-orange);
   stroke: var(--orange);
   stroke-width: 4;
@@ -2786,19 +2788,122 @@
 
 
 
-/* Section C uses the same Lesson 4 line-graph components as the elephant-snail
-   activity. Only its section accent and free-plot pointer behaviour differ. */
+/* Section C and the yeast practice use the same Lesson 4 line-graph
+   components as the elephant-snail activity. Their free-plot graphs use
+   a moving crosshair before the student places each point. */
 #line-graph-conniwinks .section-title {
   background: var(--lavender);
 }
 
-#line-graph-conniwinks .project-question-grid {
+#line-graph-yeast .section-title {
+  background: var(--soft-yellow);
+}
+
+:is(#line-graph-conniwinks, #line-graph-yeast, #line-graph-plants) .project-question-grid {
   margin-bottom: 20px;
 }
 
-#lineGraphConniwinksSvg {
+:is(#lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) {
   cursor: crosshair;
   touch-action: none;
+}
+
+
+
+/* ==================================================
+   LINE GRAPH - SECTION E: STEVIA WATER COMPARISON
+   Reuses the existing Lesson 4 line-graph cards, tables,
+   axis drag/drop, crosshair, legend and prediction styles.
+   Only the two-table layout and two-series colours are new.
+   ================================================== */
+
+#line-graph-plants .section-title {
+  background: var(--soft-blue);
+}
+
+.plant-tables-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.plant-condition-card {
+  min-width: 0;
+  margin: 0;
+}
+
+.plant-condition-card .partb-data-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.plant-condition-card .partb-data-table th,
+.plant-condition-card .partb-data-table td {
+  padding: 7px 5px;
+  font-size: .78rem;
+  line-height: 1.22;
+}
+
+.partd-swatch.plant-water100 {
+  background: var(--purple);
+}
+
+.partd-swatch.plant-water300 {
+  background: var(--green);
+}
+
+#lineGraphPlantsSvg .plant-line-100 {
+  stroke: var(--purple);
+}
+
+#lineGraphPlantsSvg .plant-line-300 {
+  stroke: var(--green);
+}
+
+#lineGraphPlantsSvg .linegraph-point.plant-point-100 {
+  fill: var(--lavender);
+  stroke: var(--purple);
+}
+
+#lineGraphPlantsSvg .linegraph-point.plant-point-300 {
+  fill: var(--mint);
+  stroke: var(--green);
+}
+
+#lineGraphPlantsSvg .linegraph-point.plant-point-100.connected {
+  fill: var(--purple);
+  stroke: var(--purple);
+}
+
+#lineGraphPlantsSvg .linegraph-point.plant-point-300.connected {
+  fill: var(--green);
+  stroke: var(--green);
+}
+
+#lineGraphPlantsSvg .linegraph-point.connect-error {
+  fill: var(--soft-orange);
+  stroke: var(--orange);
+}
+
+#line-graph-plants .partd-legend-item.is-active {
+  color: var(--text);
+  font-weight: 800;
+}
+
+#line-graph-plants .partd-legend-item:not(.is-active) {
+  opacity: .72;
+}
+
+#line-graph-plants.plant-graph-complete .partd-legend-item {
+  opacity: 1;
+}
+
+@media (max-width: 899px) {
+  .plant-tables-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Small page-specific utilities ---------- */
