@@ -1257,6 +1257,8 @@ function partBStartAnalysis() {
   }
 
   function initialisePartBConstruction() {
+    if (!document.getElementById("bar-construction")) return;
+
     buildPartBTable();
     buildPartBGraphScaffold();
     partBInitialiseAxisDragAndDrop();
@@ -3059,6 +3061,938 @@ function partDRenderStopAndCheckGraph() {
   }
 
 
+
+
+  /* ==================================================
+     LINE GRAPH - TURN A DATA TABLE INTO A GRAPH
+     Elephant snail investigation on lesson4-2.
+
+     Visuals deliberately reuse the Part B graph/card classes.
+     Behaviour follows the same x -> y -> intersection sequence,
+     but stores a point instead of growing a bar. Once all five
+     points exist, students connect adjacent points themselves.
+     ================================================== */
+
+  const lineGraphElephantData = [
+    { x: 1, trials: [8, 9, 13] },
+    { x: 2, trials: [5, 7, 6] },
+    { x: 3, trials: [3, 2, 4] },
+    { x: 4, trials: [2, 1, 0] },
+    { x: 5, trials: [0, 0, 0] }
+  ];
+
+  const lineGraphElephantPlot = {
+    left: 120,
+    right: 710,
+    top: 40,
+    bottom: 370,
+    maxY: 10,
+    centres: [170, 290, 410, 530, 650]
+  };
+
+  const lineGraphAxisValues = {
+    "x-variable": null,
+    "x-unit": null,
+    "y-variable": null,
+    "y-unit": null
+  };
+
+  let lineGraphStage = "averages";
+  let lineGraphPlotIndex = 0;
+  let lineGraphSelectedX = null;
+  let lineGraphSelectedY = null;
+  let lineGraphSelectedAxisCard = null;
+  let lineGraphDraggedAxisCard = null;
+  let lineGraphTouchDragging = false;
+  let lineGraphDragGhost = null;
+  let lineGraphConnectedOrder = [];
+
+  function lineGraphAverage(item) {
+    return item.trials.reduce(function(sum, value) { return sum + value; }, 0) / item.trials.length;
+  }
+
+  function lineGraphY(value) {
+    return lineGraphElephantPlot.bottom - (value / lineGraphElephantPlot.maxY) *
+      (lineGraphElephantPlot.bottom - lineGraphElephantPlot.top);
+  }
+
+  function lineGraphX(value) {
+    return lineGraphElephantPlot.centres[value - 1];
+  }
+
+  function lineGraphCardLabel(value) {
+    return {
+      distance: "Distance from low tide mark",
+      snails: "Number of elephant snails",
+      time: "Time",
+      m: "m",
+      none: "No unit",
+      cm: "cm"
+    }[value] || value;
+  }
+
+  function lineGraphBuildScaffold() {
+    const grid = document.getElementById("lineGraphGridLayer");
+    const yTicks = document.getElementById("lineGraphYTicksLayer");
+    const xTicks = document.getElementById("lineGraphXTicksLayer");
+    if (!grid || !yTicks || !xTicks) return;
+
+    grid.innerHTML = "";
+    yTicks.innerHTML = "";
+    xTicks.innerHTML = "";
+
+    for (let value = 0; value <= lineGraphElephantPlot.maxY; value += 1) {
+      const y = lineGraphY(value);
+
+      const gridLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      gridLine.setAttribute("class", "graph-grid-line");
+      gridLine.setAttribute("x1", lineGraphElephantPlot.left);
+      gridLine.setAttribute("x2", lineGraphElephantPlot.right);
+      gridLine.setAttribute("y1", y);
+      gridLine.setAttribute("y2", y);
+      grid.appendChild(gridLine);
+
+      const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      group.setAttribute("class", "partb-y-choice");
+      group.dataset.linegraphYValue = value;
+      group.setAttribute("tabindex", "0");
+      group.setAttribute("role", "button");
+      group.setAttribute("aria-label", "Choose " + value + " on the y-axis");
+
+      const hit = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      hit.setAttribute("class", "partb-y-hit");
+      hit.setAttribute("x", 68);
+      hit.setAttribute("y", y - 14);
+      hit.setAttribute("width", 48);
+      hit.setAttribute("height", 28);
+      hit.setAttribute("rx", 6);
+
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "tick-label");
+      label.setAttribute("x", 103);
+      label.setAttribute("y", y + 4);
+      label.setAttribute("text-anchor", "end");
+      label.textContent = value;
+
+      group.appendChild(hit);
+      group.appendChild(label);
+      yTicks.appendChild(group);
+    }
+
+    lineGraphElephantData.forEach(function(item) {
+      const x = lineGraphX(item.x);
+      const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      group.setAttribute("class", "partb-x-choice");
+      group.dataset.linegraphXValue = item.x;
+      group.setAttribute("tabindex", "0");
+      group.setAttribute("role", "button");
+      group.setAttribute("aria-label", "Choose " + item.x + " metres on the x-axis");
+
+      const hit = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      hit.setAttribute("class", "partb-x-hit");
+      hit.setAttribute("x", x - 40);
+      hit.setAttribute("y", 371);
+      hit.setAttribute("width", 80);
+      hit.setAttribute("height", 44);
+      hit.setAttribute("rx", 6);
+
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "tick-label");
+      label.setAttribute("x", x);
+      label.setAttribute("y", 394);
+      label.setAttribute("text-anchor", "middle");
+      label.textContent = item.x;
+
+      group.appendChild(hit);
+      group.appendChild(label);
+      xTicks.appendChild(group);
+    });
+
+    document.querySelectorAll("#lineGraphElephantSvg [data-linegraph-x-value]").forEach(function(group) {
+      const activate = function() {
+        lineGraphChooseX(Number(group.dataset.linegraphXValue));
+      };
+      group.addEventListener("click", activate);
+      group.addEventListener("keydown", function(event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          activate();
+        }
+      });
+    });
+
+    document.querySelectorAll("#lineGraphElephantSvg [data-linegraph-y-value]").forEach(function(group) {
+      const activate = function() {
+        lineGraphChooseY(Number(group.dataset.linegraphYValue));
+      };
+      group.addEventListener("click", activate);
+      group.addEventListener("keydown", function(event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          activate();
+        }
+      });
+    });
+  }
+
+  function lineGraphCalculateAverages() {
+    if (lineGraphStage !== "averages") return;
+
+    document.querySelectorAll("[data-linegraph-average]").forEach(function(cell, index) {
+      const average = lineGraphAverage(lineGraphElephantData[index]);
+      cell.textContent = partBFormatAverage(average);
+      const td = cell.closest("td");
+      if (td) td.classList.add("calculated");
+    });
+
+    lineGraphStage = "axes";
+    const button = document.getElementById("lineGraphCalculateAveragesButton");
+    if (button) button.disabled = true;
+
+    const stage = document.getElementById("lineGraphConstructionStage");
+    if (stage) stage.hidden = false;
+
+    setChallengeFeedback(
+      "lineGraphTableFeedback",
+      "success",
+      "Averages calculated.",
+      " The average values are now shown in the final column. Use them to construct the line graph."
+    );
+
+    window.setTimeout(function() {
+      if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
+  }
+
+  function lineGraphClearAxisSelection() {
+    document.querySelectorAll("#lineGraphLabelBank .partb-axis-card.selected").forEach(function(card) {
+      card.classList.remove("selected");
+    });
+    lineGraphSelectedAxisCard = null;
+  }
+
+  function lineGraphCreateDragGhost(card) {
+    lineGraphRemoveDragGhost();
+    const ghost = document.createElement("div");
+    ghost.className = "partb-drag-ghost";
+    const clone = card.cloneNode(true);
+    clone.disabled = false;
+    clone.removeAttribute("draggable");
+    clone.classList.remove("selected", "placed", "is-dragging");
+    ghost.appendChild(clone);
+    document.body.appendChild(ghost);
+    lineGraphDragGhost = ghost;
+  }
+
+  function lineGraphMoveDragGhost(point) {
+    if (!lineGraphDragGhost || !point) return;
+    lineGraphDragGhost.style.left = (point.clientX - lineGraphDragGhost.offsetWidth / 2) + "px";
+    lineGraphDragGhost.style.top = (point.clientY - lineGraphDragGhost.offsetHeight / 2) + "px";
+  }
+
+  function lineGraphRemoveDragGhost() {
+    if (!lineGraphDragGhost) return;
+    lineGraphDragGhost.remove();
+    lineGraphDragGhost = null;
+  }
+
+  function lineGraphClearDropHover() {
+    document.querySelectorAll("#lineGraphElephantSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over");
+    });
+    if (lineGraphDragGhost) lineGraphDragGhost.classList.remove("is-hovering-drop-zone");
+  }
+
+  function lineGraphGetDropZoneAtPoint(clientX, clientY, tolerance) {
+    const extra = typeof tolerance === "number" ? tolerance : 28;
+    const zones = Array.from(document.querySelectorAll("#lineGraphElephantSvg .partb-axis-drop-zone")).filter(function(zone) {
+      return !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete");
+    });
+
+    let closestZone = null;
+    let closestDistance = Infinity;
+
+    zones.forEach(function(zone) {
+      const hitPad = zone.querySelector(".partb-axis-drop-hit-pad") || zone;
+      const rect = hitPad.getBoundingClientRect();
+      const inside =
+        clientX >= rect.left - extra && clientX <= rect.right + extra &&
+        clientY >= rect.top - extra && clientY <= rect.bottom + extra;
+
+      if (!inside) return;
+
+      const centreX = rect.left + rect.width / 2;
+      const centreY = rect.top + rect.height / 2;
+      const distance = Math.hypot(clientX - centreX, clientY - centreY);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestZone = zone;
+      }
+    });
+
+    return closestZone;
+  }
+
+  function lineGraphTryPlaceAxisCard(card, zone) {
+    if (!card || !zone || lineGraphStage !== "axes") return;
+    if (card.disabled || zone.classList.contains("drop-complete") || zone.classList.contains("axis-complete")) return;
+
+    const cardType = card.dataset.lineCardType;
+    const cardValue = card.dataset.lineCardValue;
+    const expectedType = zone.dataset.lineCardType;
+    const expectedValue = zone.dataset.lineExpected;
+
+    if (cardType !== expectedType || cardValue !== expectedValue) {
+      zone.classList.remove("drag-over");
+      zone.classList.add("drop-incorrect");
+      window.setTimeout(function() { zone.classList.remove("drop-incorrect"); }, 500);
+      lineGraphClearAxisSelection();
+
+      setChallengeFeedback(
+        "lineGraphFeedback",
+        "try-again",
+        "That card does not belong there.",
+        " Use the table headings to work out the variable or unit needed in this space."
+      );
+      return;
+    }
+
+    const label = zone.querySelector(".partb-axis-drop-text");
+    if (label) label.textContent = lineGraphCardLabel(cardValue);
+    zone.classList.remove("drag-over");
+    zone.classList.add("drop-complete");
+    card.classList.remove("selected", "is-dragging");
+    card.classList.add("placed");
+    card.disabled = true;
+    card.setAttribute("draggable", "false");
+    lineGraphAxisValues[zone.dataset.lineAxisSlot] = cardValue;
+    lineGraphSelectedAxisCard = null;
+
+    setChallengeFeedback(
+      "lineGraphFeedback",
+      "success",
+      lineGraphCardLabel(cardValue) + " is in the right place.",
+      " Keep going until both axes have a variable and the correct unit choice."
+    );
+
+    lineGraphUpdateAxisState();
+  }
+
+  function lineGraphUpdateAxisState() {
+    const xReady = lineGraphAxisValues["x-variable"] === "distance" && lineGraphAxisValues["x-unit"] === "m";
+    const yReady = lineGraphAxisValues["y-variable"] === "snails" && lineGraphAxisValues["y-unit"] === "none";
+
+    document.getElementById("lineGraphXAxisVariableDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("lineGraphXAxisUnitDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("lineGraphYAxisVariableDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("lineGraphYAxisUnitDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("lineGraphXAxisLabel").classList.toggle("visible", xReady);
+    document.getElementById("lineGraphYAxisLabel").classList.toggle("visible", yReady);
+
+    if (!xReady || !yReady || lineGraphStage !== "axes") return;
+
+    lineGraphStage = "x";
+    document.getElementById("lineGraphAxisBuilder").hidden = true;
+    document.getElementById("lineGraphPlotPromptBox").hidden = false;
+    document.getElementById("lineGraphStepLabel").textContent = "Step 3 · Plot the data points";
+    document.getElementById("lineGraphVisualHint").textContent = "Use each average as a coordinate: choose x, choose y, then mark their intersection.";
+
+    lineGraphSetCurrentRow(0);
+    lineGraphUpdatePlotPrompt();
+
+    setChallengeFeedback(
+      "lineGraphFeedback",
+      "",
+      "Both axis labels are complete.",
+      " The independent variable is on the x-axis and the dependent variable is on the y-axis. Now plot the averages."
+    );
+  }
+
+  function lineGraphInitialiseAxisDragAndDrop() {
+    const cards = document.querySelectorAll("#lineGraphLabelBank .partb-axis-card");
+    const zones = document.querySelectorAll("#lineGraphElephantSvg .partb-axis-drop-zone");
+
+    cards.forEach(function(card) {
+      card.addEventListener("dragstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) {
+          event.preventDefault();
+          return;
+        }
+
+        lineGraphDraggedAxisCard = card;
+        card.classList.add("is-dragging");
+        event.dataTransfer.setData("text/plain", card.id);
+        event.dataTransfer.effectAllowed = "move";
+
+        const transparent = document.createElement("div");
+        transparent.style.position = "absolute";
+        transparent.style.width = "1px";
+        transparent.style.height = "1px";
+        transparent.style.opacity = "0";
+        document.body.appendChild(transparent);
+        event.dataTransfer.setDragImage(transparent, 0, 0);
+        window.setTimeout(function() { transparent.remove(); }, 0);
+
+        lineGraphCreateDragGhost(card);
+        lineGraphMoveDragGhost(event);
+      });
+
+      card.addEventListener("dragend", function() {
+        card.classList.remove("is-dragging");
+        lineGraphClearDropHover();
+        lineGraphRemoveDragGhost();
+        lineGraphDraggedAxisCard = null;
+      });
+
+      card.addEventListener("touchstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) return;
+        lineGraphDraggedAxisCard = card;
+        lineGraphTouchDragging = true;
+        card.classList.add("is-dragging");
+        const touch = event.touches[0];
+        lineGraphCreateDragGhost(card);
+        lineGraphMoveDragGhost(touch);
+        event.preventDefault();
+      }, { passive: false });
+
+      card.addEventListener("touchmove", function(event) {
+        if (!lineGraphTouchDragging || !lineGraphDraggedAxisCard) return;
+        event.preventDefault();
+        const touch = event.touches[0];
+        lineGraphMoveDragGhost(touch);
+        const zone = lineGraphGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        lineGraphClearDropHover();
+        if (zone) {
+          zone.classList.add("drag-over");
+          if (lineGraphDragGhost) lineGraphDragGhost.classList.add("is-hovering-drop-zone");
+        }
+      }, { passive: false });
+
+      card.addEventListener("touchend", function(event) {
+        if (!lineGraphTouchDragging || !lineGraphDraggedAxisCard) return;
+        event.preventDefault();
+
+        const touch = event.changedTouches[0];
+        const zone = lineGraphGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        const draggedCard = lineGraphDraggedAxisCard;
+
+        /* Clean up the floating touch ghost before placement logic runs. */
+        lineGraphClearDropHover();
+        if (draggedCard) draggedCard.classList.remove("is-dragging");
+        lineGraphRemoveDragGhost();
+        lineGraphDraggedAxisCard = null;
+        lineGraphTouchDragging = false;
+
+        if (zone) lineGraphTryPlaceAxisCard(draggedCard, zone);
+      }, { passive: false });
+
+      card.addEventListener("touchcancel", function() {
+        if (lineGraphDraggedAxisCard) lineGraphDraggedAxisCard.classList.remove("is-dragging");
+        lineGraphClearDropHover();
+        lineGraphRemoveDragGhost();
+        lineGraphDraggedAxisCard = null;
+        lineGraphTouchDragging = false;
+      });
+
+      card.addEventListener("click", function() {
+        if (card.disabled || card.classList.contains("placed")) return;
+        const alreadySelected = lineGraphSelectedAxisCard === card;
+        lineGraphClearAxisSelection();
+        if (!alreadySelected) {
+          lineGraphSelectedAxisCard = card;
+          card.classList.add("selected");
+        }
+      });
+    });
+
+    document.addEventListener("dragover", function(event) {
+      if (!lineGraphDraggedAxisCard) return;
+      event.preventDefault();
+      lineGraphMoveDragGhost(event);
+      const zone = lineGraphGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      lineGraphClearDropHover();
+      if (zone) {
+        zone.classList.add("drag-over");
+        if (lineGraphDragGhost) lineGraphDragGhost.classList.add("is-hovering-drop-zone");
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+      }
+    });
+
+    document.addEventListener("drop", function(event) {
+      if (!lineGraphDraggedAxisCard) return;
+      event.preventDefault();
+      const zone = lineGraphGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      const draggedCard = lineGraphDraggedAxisCard;
+      lineGraphClearDropHover();
+      lineGraphRemoveDragGhost();
+      lineGraphDraggedAxisCard = null;
+      if (zone) lineGraphTryPlaceAxisCard(draggedCard, zone);
+    });
+
+    zones.forEach(function(zone) {
+      zone.addEventListener("click", function() {
+        if (lineGraphSelectedAxisCard) lineGraphTryPlaceAxisCard(lineGraphSelectedAxisCard, zone);
+      });
+      zone.addEventListener("keydown", function(event) {
+        if ((event.key === "Enter" || event.key === " ") && lineGraphSelectedAxisCard) {
+          event.preventDefault();
+          lineGraphTryPlaceAxisCard(lineGraphSelectedAxisCard, zone);
+        }
+      });
+    });
+  }
+
+  function lineGraphSetCurrentRow(index) {
+    document.querySelectorAll("#lineGraphElephantTableBody tr").forEach(function(row, rowIndex) {
+      row.classList.toggle("partc-current-row", rowIndex === index);
+      if (rowIndex < index) row.classList.add("partc-complete-row");
+      else row.classList.remove("partc-complete-row");
+    });
+  }
+
+  function lineGraphUpdatePlotPrompt() {
+    if (lineGraphPlotIndex >= lineGraphElephantData.length) return;
+    const item = lineGraphElephantData[lineGraphPlotIndex];
+    const average = lineGraphAverage(item);
+    document.getElementById("lineGraphPlotPromptTitle").textContent =
+      "Point " + (lineGraphPlotIndex + 1) + " of " + lineGraphElephantData.length + ": " + item.x + " m and " + partBFormatAverage(average) + " snails";
+
+    if (lineGraphStage === "x") {
+      document.getElementById("lineGraphPlotPromptText").textContent =
+        "First choose " + item.x + " on the x-axis.";
+    } else if (lineGraphStage === "y") {
+      document.getElementById("lineGraphPlotPromptText").textContent =
+        "Now choose " + partBFormatAverage(average) + " on the y-axis.";
+    } else if (lineGraphStage === "intersection") {
+      document.getElementById("lineGraphPlotPromptText").textContent =
+        "Now click where the two dotted guides intersect.";
+    }
+  }
+
+  function lineGraphSetActiveX(value) {
+    document.querySelectorAll("#lineGraphElephantSvg .partb-x-choice").forEach(function(group) {
+      group.classList.toggle("active", Number(group.dataset.linegraphXValue) === value);
+    });
+  }
+
+  function lineGraphSetActiveY(value) {
+    document.querySelectorAll("#lineGraphElephantSvg .partb-y-choice").forEach(function(group) {
+      group.classList.toggle("active", Number(group.dataset.linegraphYValue) === value);
+    });
+  }
+
+  function lineGraphFlashAxisChoice(selector) {
+    const choice = document.querySelector(selector);
+    if (!choice) return;
+    choice.classList.add("try-again");
+    window.setTimeout(function() { choice.classList.remove("try-again"); }, 550);
+  }
+
+  function lineGraphChooseX(value) {
+    if (lineGraphStage !== "x" || lineGraphPlotIndex >= lineGraphElephantData.length) return;
+    const target = lineGraphElephantData[lineGraphPlotIndex];
+
+    if (value !== target.x) {
+      lineGraphFlashAxisChoice('[data-linegraph-x-value="' + value + '"]');
+      setChallengeFeedback(
+        "lineGraphFeedback",
+        "try-again",
+        "Check the highlighted table row.",
+        " The x-value for this point is " + target.x + " metres."
+      );
+      return;
+    }
+
+    lineGraphSelectedX = value;
+    lineGraphSetActiveX(value);
+    const x = lineGraphX(value);
+    const guide = document.getElementById("lineGraphVerticalGuide");
+    guide.setAttribute("x1", x);
+    guide.setAttribute("x2", x);
+    guide.classList.add("visible");
+
+    lineGraphStage = "y";
+    lineGraphUpdatePlotPrompt();
+    setChallengeFeedback(
+      "lineGraphFeedback",
+      "",
+      "Correct x-value.",
+      " Follow the vertical dotted guide upward, then choose the average count on the y-axis."
+    );
+  }
+
+  function lineGraphChooseY(value) {
+    if (lineGraphStage !== "y" || lineGraphPlotIndex >= lineGraphElephantData.length) return;
+    const target = lineGraphElephantData[lineGraphPlotIndex];
+    const expected = lineGraphAverage(target);
+
+    if (Math.abs(value - expected) > 0.001) {
+      lineGraphFlashAxisChoice('[data-linegraph-y-value="' + value + '"]');
+      setChallengeFeedback(
+        "lineGraphFeedback",
+        "try-again",
+        "Check the average in the highlighted row.",
+        " The y-value for this point is " + partBFormatAverage(expected) + "."
+      );
+      return;
+    }
+
+    lineGraphSelectedY = value;
+    lineGraphSetActiveY(value);
+    const y = lineGraphY(value);
+    const guide = document.getElementById("lineGraphHorizontalGuide");
+    guide.setAttribute("y1", y);
+    guide.setAttribute("y2", y);
+    guide.classList.add("visible");
+
+    lineGraphStage = "intersection";
+    lineGraphUpdatePlotPrompt();
+    setChallengeFeedback(
+      "lineGraphFeedback",
+      "",
+      "Correct y-value.",
+      " Use the vertical and horizontal dotted guides together. Mark the point where they cross."
+    );
+  }
+
+  function lineGraphSvgPoint(event) {
+    const svg = document.getElementById("lineGraphElephantSvg");
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const matrix = svg.getScreenCTM();
+    return matrix ? point.matrixTransform(matrix.inverse()) : null;
+  }
+
+  function lineGraphHandleIntersection(event) {
+    if (lineGraphStage !== "intersection" || lineGraphPlotIndex >= lineGraphElephantData.length) return;
+    if (event.target.closest && event.target.closest(".partb-x-choice, .partb-y-choice, .partb-axis-drop-zone, .linegraph-point")) return;
+
+    const point = lineGraphSvgPoint(event);
+    if (!point) return;
+
+    const target = lineGraphElephantData[lineGraphPlotIndex];
+    const targetX = lineGraphX(target.x);
+    const targetY = lineGraphY(lineGraphAverage(target));
+    const distance = Math.hypot(point.x - targetX, point.y - targetY);
+
+    if (distance > 30) {
+      setChallengeFeedback(
+        "lineGraphFeedback",
+        "try-again",
+        "Find the crossing point.",
+        " Click where the vertical and horizontal dotted guides intersect."
+      );
+      return;
+    }
+
+    const marker = document.getElementById("lineGraphIntersectionPoint");
+    marker.setAttribute("cx", targetX);
+    marker.setAttribute("cy", targetY);
+    marker.classList.add("visible");
+
+    lineGraphAddPermanentPoint(lineGraphPlotIndex, targetX, targetY);
+
+    const xChoice = document.querySelector('[data-linegraph-x-value="' + target.x + '"]');
+    if (xChoice) xChoice.classList.add("complete");
+
+    document.getElementById("lineGraphVerticalGuide").classList.remove("visible");
+    document.getElementById("lineGraphHorizontalGuide").classList.remove("visible");
+    lineGraphSetActiveX(null);
+    lineGraphSetActiveY(null);
+    lineGraphSelectedX = null;
+    lineGraphSelectedY = null;
+
+    window.setTimeout(function() {
+      marker.classList.remove("visible");
+    }, 280);
+
+    lineGraphPlotIndex += 1;
+
+    if (lineGraphPlotIndex < lineGraphElephantData.length) {
+      lineGraphStage = "x";
+      lineGraphSetCurrentRow(lineGraphPlotIndex);
+      lineGraphUpdatePlotPrompt();
+      setChallengeFeedback(
+        "lineGraphFeedback",
+        "",
+        "Point " + lineGraphPlotIndex + " of " + lineGraphElephantData.length + " plotted.",
+        " Move to the next highlighted row and start again with its x-value."
+      );
+      return;
+    }
+
+    lineGraphBeginConnecting();
+  }
+
+  function lineGraphAddPermanentPoint(index, x, y) {
+    const layer = document.getElementById("lineGraphPointsLayer");
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("class", "linegraph-point");
+    circle.setAttribute("cx", x);
+    circle.setAttribute("cy", y);
+    circle.setAttribute("r", 9);
+    circle.setAttribute("tabindex", "0");
+    circle.setAttribute("role", "button");
+    circle.dataset.linegraphPointIndex = index;
+
+    const item = lineGraphElephantData[index];
+    circle.setAttribute(
+      "aria-label",
+      "Point at " + item.x + " metres and " + partBFormatAverage(lineGraphAverage(item)) + " elephant snails"
+    );
+
+    const connect = function() {
+      lineGraphConnectPoint(index, circle);
+    };
+    circle.addEventListener("click", connect);
+    circle.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        connect();
+      }
+    });
+
+    layer.appendChild(circle);
+  }
+
+  function lineGraphBeginConnecting() {
+    lineGraphStage = "connect";
+    lineGraphSetCurrentRow(lineGraphElephantData.length);
+    document.getElementById("lineGraphPlotPromptBox").hidden = true;
+    document.getElementById("lineGraphConnectPrompt").hidden = false;
+    document.getElementById("lineGraphStepLabel").textContent = "Step 4 · Connect the data points";
+    document.getElementById("lineGraphVisualHint").textContent = "All five averages are plotted. Click neighbouring points to build the line yourself.";
+
+    document.querySelectorAll("#lineGraphPointsLayer .linegraph-point").forEach(function(point) {
+      point.classList.add("connectable");
+      point.setAttribute("aria-label", point.getAttribute("aria-label") + ". Click to connect this point.");
+    });
+
+    setChallengeFeedback(
+      "lineGraphFeedback",
+      "",
+      "All five data points are plotted.",
+      " Click any point to start the line, then connect neighbouring points until the whole pattern is joined."
+    );
+  }
+
+  function lineGraphConnectPoint(index, circle) {
+    if (lineGraphStage !== "connect") return;
+    if (lineGraphConnectedOrder.includes(index)) return;
+
+    let canConnect = false;
+    let prepend = false;
+
+    if (lineGraphConnectedOrder.length === 0) {
+      canConnect = true;
+    } else {
+      const first = lineGraphConnectedOrder[0];
+      const last = lineGraphConnectedOrder[lineGraphConnectedOrder.length - 1];
+      if (index === first - 1) {
+        canConnect = true;
+        prepend = true;
+      } else if (index === last + 1) {
+        canConnect = true;
+      }
+    }
+
+    if (!canConnect) {
+      circle.classList.add("connect-error");
+      window.setTimeout(function() { circle.classList.remove("connect-error"); }, 550);
+      setChallengeFeedback(
+        "lineGraphFeedback",
+        "try-again",
+        "Connect neighbouring points.",
+        " A line graph joins each point to the next x-value. Choose a point beside the end of the line you have already made."
+      );
+      return;
+    }
+
+    if (prepend) lineGraphConnectedOrder.unshift(index);
+    else lineGraphConnectedOrder.push(index);
+
+    circle.classList.add("connected");
+    lineGraphRedrawPath();
+
+    if (lineGraphConnectedOrder.length === lineGraphElephantData.length) {
+      lineGraphFinish();
+      return;
+    }
+
+    setChallengeFeedback(
+      "lineGraphFeedback",
+      "",
+      "Point connected.",
+      " Keep joining a neighbouring point until all five are part of one continuous line."
+    );
+  }
+
+  function lineGraphRedrawPath() {
+    const points = lineGraphConnectedOrder.map(function(index) {
+      const item = lineGraphElephantData[index];
+      return lineGraphX(item.x) + "," + lineGraphY(lineGraphAverage(item));
+    });
+    document.getElementById("lineGraphPath").setAttribute("points", points.join(" "));
+  }
+
+  function lineGraphFinish() {
+    lineGraphStage = "complete";
+    document.getElementById("lineGraphConnectPrompt").hidden = true;
+    document.getElementById("lineGraphComplete").hidden = false;
+    document.getElementById("lineGraphStepLabel").textContent = "Line graph complete ✓";
+    document.getElementById("lineGraphVisualHint").textContent = "The connected points show how the average number of elephant snails changes with distance.";
+
+    document.querySelectorAll("#lineGraphPointsLayer .linegraph-point").forEach(function(point) {
+      point.classList.remove("connectable");
+      point.removeAttribute("tabindex");
+      point.removeAttribute("role");
+    });
+
+    /* The completion card now carries the success message, so remove the
+       working feedback box to keep the finished state uncluttered. */
+    document.getElementById("lineGraphFeedback").hidden = true;
+
+    const predictionCheck = document.getElementById("lineGraphPredictionCheck");
+    if (predictionCheck) predictionCheck.hidden = false;
+  }
+
+  function lineGraphHandlePredictionChoice(button) {
+    const correct = button.dataset.linegraphPrediction === "supported";
+    const feedback = document.getElementById("lineGraphPredictionFeedback");
+
+    document.querySelectorAll("#lineGraphPredictionCheck .prediction-button").forEach(function(other) {
+      other.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    if (!correct) {
+      flashChoice(button, "try-again-choice");
+
+      if (feedback) {
+        feedback.hidden = false;
+        setChallengeFeedback(
+          "lineGraphPredictionFeedback",
+          "try-again",
+          "Look at the trend again.",
+          " As distance from the low tide mark increases, what happens to the average number of elephant snails? Does that match the direction of the prediction?"
+        );
+      }
+
+      return;
+    }
+
+    if (feedback) feedback.hidden = true;
+    button.classList.add("selected-answer");
+  }
+
+  function resetLineGraphElephant() {
+    lineGraphStage = "averages";
+    lineGraphPlotIndex = 0;
+    lineGraphSelectedX = null;
+    lineGraphSelectedY = null;
+    lineGraphSelectedAxisCard = null;
+    lineGraphDraggedAxisCard = null;
+    lineGraphTouchDragging = false;
+    lineGraphConnectedOrder = [];
+    lineGraphRemoveDragGhost();
+
+    Object.keys(lineGraphAxisValues).forEach(function(key) {
+      lineGraphAxisValues[key] = null;
+    });
+
+    document.querySelectorAll("[data-linegraph-average]").forEach(function(cell) {
+      cell.textContent = "—";
+      const td = cell.closest("td");
+      if (td) td.classList.remove("calculated");
+    });
+
+    const calculateButton = document.getElementById("lineGraphCalculateAveragesButton");
+    if (calculateButton) calculateButton.disabled = false;
+
+    document.getElementById("lineGraphConstructionStage").hidden = true;
+    document.getElementById("lineGraphAxisBuilder").hidden = false;
+    document.getElementById("lineGraphPlotPromptBox").hidden = true;
+    document.getElementById("lineGraphConnectPrompt").hidden = true;
+    document.getElementById("lineGraphComplete").hidden = true;
+    document.getElementById("lineGraphFeedback").hidden = false;
+
+    const predictionCheck = document.getElementById("lineGraphPredictionCheck");
+    if (predictionCheck) predictionCheck.hidden = true;
+
+    const predictionFeedback = document.getElementById("lineGraphPredictionFeedback");
+    if (predictionFeedback) predictionFeedback.hidden = true;
+
+    document.querySelectorAll("#lineGraphPredictionCheck .prediction-button").forEach(function(button) {
+      button.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    document.getElementById("lineGraphStepLabel").textContent = "Step 2 · Label the axes and units";
+    document.getElementById("lineGraphVisualHint").textContent = "Label the variables and units before plotting the averages.";
+
+    document.querySelectorAll("#lineGraphLabelBank .partb-axis-card").forEach(function(card) {
+      card.classList.remove("selected", "placed", "is-dragging");
+      card.disabled = false;
+      card.setAttribute("draggable", "true");
+    });
+
+    document.querySelectorAll("#lineGraphElephantSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over", "drop-complete", "drop-incorrect", "axis-complete");
+      const text = zone.querySelector(".partb-axis-drop-text");
+      if (text) text.textContent = text.dataset.placeholder;
+    });
+
+    document.getElementById("lineGraphXAxisLabel").classList.remove("visible");
+    document.getElementById("lineGraphYAxisLabel").classList.remove("visible");
+    document.getElementById("lineGraphVerticalGuide").classList.remove("visible");
+    document.getElementById("lineGraphHorizontalGuide").classList.remove("visible");
+    document.getElementById("lineGraphIntersectionPoint").classList.remove("visible", "wrong");
+    document.getElementById("lineGraphPointsLayer").innerHTML = "";
+    document.getElementById("lineGraphPath").setAttribute("points", "");
+
+    document.querySelectorAll("#lineGraphElephantSvg .partb-x-choice, #lineGraphElephantSvg .partb-y-choice").forEach(function(group) {
+      group.classList.remove("active", "complete", "try-again");
+    });
+
+    document.querySelectorAll("#lineGraphElephantTableBody tr").forEach(function(row) {
+      row.classList.remove("partc-current-row", "partc-complete-row");
+    });
+
+    setChallengeFeedback(
+      "lineGraphTableFeedback",
+      "",
+      "Start with the repeated counts.",
+      " The graph will use the average number of elephant snails at each distance."
+    );
+
+    setChallengeFeedback(
+      "lineGraphFeedback",
+      "",
+      "Label the graph first.",
+      " Use the table headings to decide which variable and unit belong on each axis."
+    );
+  }
+
+  function initialiseElephantLineGraph() {
+    if (!document.getElementById("line-graph-elephant")) return;
+
+    lineGraphBuildScaffold();
+    lineGraphInitialiseAxisDragAndDrop();
+
+    document.getElementById("lineGraphCalculateAveragesButton").addEventListener("click", lineGraphCalculateAverages);
+    document.getElementById("lineGraphElephantSvg").addEventListener("click", lineGraphHandleIntersection);
+    document.getElementById("resetLineGraphElephantButton").addEventListener("click", resetLineGraphElephant);
+
+    document.querySelectorAll("#lineGraphPredictionCheck [data-linegraph-prediction]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        lineGraphHandlePredictionChoice(button);
+      });
+    });
+
+    resetLineGraphElephant();
+  }
+
+
   /* ==================================================
      PAGE INITIALISATION
      ================================================== */
@@ -3096,5 +4030,6 @@ function partDRenderStopAndCheckGraph() {
     initialisePartBConstruction();
     initialisePartC();
     initialisePartD();
+    initialiseElephantLineGraph();
   });
 })();
