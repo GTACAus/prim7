@@ -125,7 +125,7 @@
       flex: 1 1 auto;
       min-width: 0;
       min-height: 130px;
-      padding: 40px 30px 0;
+      padding: 20px 30px 0;
       margin-top: 22px;
       overflow: visible;
     }
@@ -198,14 +198,14 @@
 
     .number-line-activity .person-marker {
       position: absolute;
-      bottom: 48px;
+      bottom: 30px;
       left: 0%;
       width: 54px;
       height: 72px;
       object-fit: contain;
       object-position: bottom center;
       transform: translateX(-50%);
-      transition: left .45s cubic-bezier(.34, 1.4, .5, 1);
+      transition: left .45s ease;
       z-index: 1;
     }
 
@@ -223,9 +223,9 @@
     */
     .number-line-activity .stage-panel {
       position: relative;
-      width: min(760px, 94%);
+      width: min(1200px, 94%);
       min-height: 220px;
-      padding: clamp(20px, 3vw, 30px) clamp(22px, 4vw, 34px);
+      padding: clamp(12px, 3vw, 22px) clamp(12px, 4vw, 22px);
       margin: 0 auto 50px;
       /* background: white; */
       border: 3px solid var(--purple);
@@ -342,7 +342,7 @@
 
       .number-line-activity .line-stage {
         min-height: 140px;
-        padding: 44px 16px 0;
+        padding: 20px 16px 0;
       }
 
       .number-line-activity .stage-panel {
@@ -543,13 +543,6 @@
       pointer-events: none;
       opacity: .8;
       filter: grayscale(70%);
-    }
-
-    .number-line-activity .animal-stage-caption {
-      margin: 10px 0 0;
-      color: var(--nl-muted);
-      font-size: .86rem;
-      text-align: center;
     }
 
     /* =================================================================
@@ -925,10 +918,95 @@
   </style>
 </head>
 <body>
+  <div class="page-header-wrapper">
+    <header class="page-header">
+      <button
+        class="general-button home-button"
+        type="button"
+        onclick="window.location.href='../index.html'"
+      >
+        <p class="bounce-symbol">🏠</p>
+        <p>Home</p>
+      </button>
 
-  <!-- ============ MODULAR ACTIVITY START ============ -->
-  
-  <!-- ============ MODULAR ACTIVITY END ============ -->
+      <button
+        class="general-button glossary-button"
+        type="button"
+        onclick="openGlossary()"
+      >
+        <p class="bounce-symbol">📖</p>
+        <p>Vocabulary</p>
+      </button>
+    </header>
+  </div>
+
+  <div class="modal" id="glossaryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="teacher-label">Lesson 4 &middot; Bar Graphs</p>
+          <h2>Glossary Terms</h2>
+        </div>    
+        <button
+          type="button"
+          class="close-button"
+          onclick="closeGlossary()"
+          aria-label="Close glossary"
+        >
+          ×
+        </button>
+      </div>    
+      <div class="vocab-list">
+        <div class="vocab-card">
+          <h3>Graph</h3>
+          <p>A visual way of showing data so patterns, comparisons and relationships are easier to see.</p>
+        </div>    
+        <div class="vocab-card">
+          <h3>X-axis</h3>
+          <p>The horizontal axis. In a fair test line graph, this often shows the independent variable — what was changed.</p>
+        </div>    
+        <div class="vocab-card">
+          <h3>Y-axis</h3>
+          <p>The vertical axis. In a fair test graph, this often shows the dependent variable — what was measured.</p>
+        </div>    
+        <div class="vocab-card">
+          <h3>Line graph</h3>
+          <p>A graph that uses points and lines to show how a measured value changes across ordered or continuous values.</p>
+        </div>    
+        <div class="vocab-card">
+          <h3>Bar graph</h3>
+          <p>A graph that uses separate bars to compare amounts across different categories.</p>
+        </div>    
+      </div>
+    </div>
+  </div>
+
+  <div class="teacher-modal" id="teacherModal">
+    <div class="teacher-panel">
+      <div class="teacher-panel-header">
+        <div>
+          <p class="teacher-label">Teacher tools</p>
+          <h2>Jump to an activity</h2>
+        </div>
+
+        <button type="button" class="teacher-close" onclick="closeTeacherMenu()" aria-label="Close teacher menu">
+          ×
+        </button>
+      </div>
+
+      <div class="teacher-section-list"></div>
+
+      <div class="teacher-actions">
+        <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">Show all sections</button>
+
+        <button type="button" class="teacher-secondary-button" onclick="teacherResetView()">
+          Reset student view
+        </button>
+      </div>
+
+      <p class="teacher-note">Jumping between activities changes navigation only. Reset student view clears every answer on this page.</p>
+    </div>
+  </div>
 
   <div class="page lesson4-page">
 
@@ -936,7 +1014,7 @@
     <header class="lesson-intro" aria-labelledby="lineGraphsLessonTitle">
       <div class="lesson-heading">
         <span class="lesson-label">Lesson 4 &middot; Part B</span>
-        <h1 id="lineGraphsLessonTitle">Line Graphs</h1>
+        <h1 id="teacherTrigger">Line Graphs</h1>
         <p class="lesson-summary">
           Line graphs help scientists show how <strong>one variable changes continuously as another variable changes</strong>,
           making <strong>trends</strong> and <strong>patterns</strong> easier to see.
@@ -1034,8 +1112,9 @@
       COLLEAGUE-OWNED EXPLORE-THE-DISTANCES ACTIVITY BELOW.
       This section is intentionally left unchanged.
     -->
-    <section class="number-line-activity" aria-labelledby="activity-instructions">
-    <div class="activity-card instruction-card" aria-labelledby="activity-instructions">
+    <section id="number-line-activity" class="number-line-activity" aria-labelledby="activity-instructions">
+    <div class="activity-card" aria-label="Interactive 0 to 20 metre number line">
+      <div class="activity-card instruction-card" aria-labelledby="activity-instructions">
       <div>
         <h2 id="activity-instructions">Explore the distances</h2>
         <p>
@@ -1044,8 +1123,6 @@
         </p>
       </div>
     </div>
-
-    <div class="activity-card" aria-label="Interactive 0 to 20 metre number line">
       <div class="diagram-activity">
         <p class="activity-instruction">
           Select a point of the number line below then select an animal to start looking for it at that point.
@@ -1117,7 +1194,7 @@
       </div>
     </div>
 
-    <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading">
+    <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading" hidden>
       <h2 id="animal-tally-heading" style="margin: 0 0 4px; font-size: 1.15rem;">Count by distance</h2>
       <p style="margin: 0 0 4px; color: var(--muted);">
         Choose an animal above, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
@@ -1158,6 +1235,15 @@
       <div class="graph-complete-feedback" role="status" aria-live="polite" >
         Line graph complete! You've connected every point for each animal.
       </div>
+      <button
+        id="number-line-next"
+        class="next-button general-button"
+        onclick="unlockSection('line-graph-elephant', 'number-line-activity')"
+        hidden
+      >
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
     </div>
     
     <!--
@@ -1190,7 +1276,6 @@
           </button>
         </div>
       </div>
-      <p class="animal-stage-caption">4 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="5">
       <h3>5 metres</h3>
@@ -1216,7 +1301,6 @@
           </button>
         </div>
       </div>
-      <p class="animal-stage-caption">4 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="10">
       <h3>10 metres</h3>
@@ -1242,7 +1326,6 @@
           </button>
         </div>
       </div>
-      <p class="animal-stage-caption">4 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="15">
       <h3>15 metres</h3>
@@ -1268,7 +1351,6 @@
           </button>
         </div>
       </div>
-      <p class="animal-stage-caption">4 animals to find here.</p>
     </template>
     <template class="panel-content" data-distance="20">
       <h3>20 metres</h3>
@@ -1294,7 +1376,6 @@
           </button>
         </div>
       </div>
-      <p class="animal-stage-caption">4 animals to find here.</p>
     </template>
   </section>
 
@@ -2276,6 +2357,7 @@
         // const backArrow = activity.querySelector(".line-arrow--back");
         // const forwardArrow = activity.querySelector(".line-arrow--forward");
 
+        const nextButton = document.getElementById("number-line-next");
         const resetButton = document.getElementById("reset-activity-button");
         const chartWrap = activity.querySelector(".bar-stack-chart");
         const barRow = activity.querySelector(".bar-stack-row");
@@ -2610,6 +2692,8 @@
           if (graphCompleteFeedback) {
             graphCompleteFeedback.hidden = !allGraphsComplete;
           }
+          
+          nextButton.hidden = !allGraphsComplete;
 
           return allGraphsComplete;
         }
@@ -2625,6 +2709,8 @@
           if (graphCompleteFeedback) {
             graphCompleteFeedback.hidden = true;
           }
+
+          nextButton.hidden = true;
         }
 
         function resetAllGraphConnections() {
@@ -2635,6 +2721,8 @@
           if (graphCompleteFeedback) {
             graphCompleteFeedback.hidden = true;
           }
+
+          nextButton.hidden = true;
         }
 
         function updateProgressAndGraphButton() {
@@ -3086,11 +3174,33 @@
         // updateArrowStates(0);
       }
 
-      document
-        .querySelectorAll(".number-line-activity")
-        .forEach(initNumberLineActivity);
+      const DEV_MODE = true;
+
+      document.addEventListener("DOMContentLoaded", function() {
+        const sectionIds = [
+          { id: "marin-snail-context", label: "Victorian Marine Snails" },
+          { id: "number-line-activity", label: "Explore How a Line Graph Works" },
+          { id: "line-graph-elephant", label: "Turn a Data Table into a Line Graph" },
+          { id: "line-graph-conniwinks", label: "Build a Line Graph" },
+          { id: "line-graph-yeast", label: "Practise Applying the Principles" },
+        ];
+
+        if (typeof initialiseTeacherMenu === "function") {
+          initialiseTeacherMenu(sectionIds, "bar-practice");
+        }
+
+        if (DEV_MODE && typeof teacherShowAll === "function") {
+          teacherShowAll();
+        }
+
+        document.querySelectorAll(".number-line-activity")
+                .forEach(initNumberLineActivity);
+      });
+
     }());
   </script>
+  <script src="../scripts/common_functions.js"></script>
+  <script src="../scripts/lesson_progress.js"></script>
   <script src="../scripts/lesson4_scripts/lesson4.js"></script>
 
 </body>
