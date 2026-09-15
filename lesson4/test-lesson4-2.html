@@ -80,17 +80,6 @@
       line-height: 1.55;
     }
 
-    .number-line-activity .distance-badge {
-      min-width: 88px;
-      padding: 12px 14px;
-      background: var(--nl-soft-yellow);
-      border: 2px solid var(--activity-line);
-      border-radius: 14px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      text-align: center;
-    }
-
     /* ---- Frame: [left arrow] [line stage] [right arrow] ---- */
 
     .number-line-activity .line-frame {
@@ -321,7 +310,7 @@
     }
 
     .number-line-activity .activity-note {
-      margin: 22px 0 0;
+      margin: 22px 0 20px;
       padding: 14px 16px;
       background: var(--nl-soft-yellow);
       border: 2px solid var(--activity-line);
@@ -356,10 +345,6 @@
     @media (max-width: 640px) {
       .number-line-activity .instruction-card {
         grid-template-columns: 1fr;
-      }
-
-      .number-line-activity .distance-badge {
-        justify-self: start;
       }
 
       .number-line-activity .line-frame {
@@ -416,29 +401,9 @@
       gap: 10px;
     }
 
-    .number-line-activity .reset-activity-button {
-      padding: 10px 14px;
-      background: white;
-      border: 2px solid var(--activity-line);
-      border-radius: 14px;
-      box-shadow: 0 3px 0 var(--activity-line);
-      color: var(--nl-text);
-      font-family: inherit;
-      font-size: .92rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
-    }
-
-    .number-line-activity .reset-activity-button:hover,
-    .number-line-activity .reset-activity-button:focus-visible {
-      background: var(--nl-soft-blue);
-      outline: none;
-    }
-
-    .number-line-activity .reset-activity-button:active {
-      box-shadow: 0 1px 0 var(--activity-line);
-      transform: translateY(2px);
+    .instruction-card-actions > * {
+      align-self: center;
+      max-width: 200px
     }
 
     /* =================================================================
@@ -479,13 +444,14 @@
       font-family: inherit;
       transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
     }
-
+    
     .number-line-activity .species-select-button img {
       width: 100%;
       object-fit: contain;
+      user-select: none;
     }
 
-    .number-line-activity .species-select-button:hover,
+    .number-line-activity .species-select-button:hover:not(:disabled),
     .number-line-activity .species-select-button:focus-visible {
       background: var(--nl-soft-yellow);
       outline: none;
@@ -496,10 +462,19 @@
       transform: translateY(2px);
     }
 
+    .number-line-activity .species-select-button:disabled {
+      cursor: not-allowed;
+      opacity: .38;
+      box-shadow: 0 3px 0 var(--activity-line);
+      transform: none;
+    }
+
     .number-line-activity .species-select-button.is-active {
       background: var(--nl-soft-blue);
       border-color: var(--activity-purple);
-      box-shadow: 0 3px 0 var(--activity-purple);
+      box-shadow: none;
+      transform: translateY(3px);
+      pointer-events: none;
     }
 
     /* =================================================================
@@ -962,29 +937,33 @@
           the path. What changes as the number gets larger?
         </p>
       </div>
-      <div class="instruction-card-actions">
-        <div class="distance-badge selected-distance" aria-live="polite">Choose a point</div>
-        <button class="reset-activity-button" type="button">↺ Reset activity</button>
-      </div>
     </div>
 
     <div class="activity-card" aria-label="Interactive 0 to 20 metre number line">
+      <div class="diagram-activity">
+        <p class="activity-instruction">
+          Select a point of the number line below then select an animal to start looking for it at that point.
+        </p>
+      </div>
+      <p class="activity-note" role="status" aria-live="polite">
+        Select a point to look for the animals at that distance.
+      </p>
       <div class="species-select-row" role="radiogroup" aria-label="Choose which animal to search for">
         <div class="species-select-button-wrap">
-          <button type="button" class="species-select-button" data-species="Ringtail Possum" aria-pressed="false">
-            <img src="../images/lesson4/ringtail_1.png" alt="">
+          <button type="button" class="species-select-button" data-species="Ringtail Possum" aria-pressed="false" disabled>
+            <img class="noselect" src="../images/lesson4/ringtail_1.png" alt="">
           </button>
           <span>Ringtail Possum</span>
         </div>
         <div class="species-select-button-wrap">
-          <button type="button" class="species-select-button" data-species="Powerful Owl" aria-pressed="false">
-            <img src="../images/lesson4/powerful_owl_1.png" alt="">
+          <button type="button" class="species-select-button" data-species="Powerful Owl" aria-pressed="false" disabled>
+            <img class="noselect" src="../images/lesson4/powerful_owl_1.png" alt="">
           </button>
           <span>Powerful Owl</span>
         </div>
         <div class="species-select-button-wrap">
-          <button type="button" class="species-select-button" data-species="Leadbeater's Possum" aria-pressed="false">
-            <img src="../images/lesson4/leadbeaters_possum_1.png" alt="">
+          <button type="button" class="species-select-button" data-species="Leadbeater's Possum" aria-pressed="false" disabled>
+            <img class="noselect" src="../images/lesson4/leadbeaters_possum_1.png" alt="">
           </button>
           <span>Leadbeater's Possum</span>
         </div>
@@ -1027,10 +1006,9 @@
           <svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8"/></svg>
         </button>
       </div>
-
-      <p class="activity-note" role="status" aria-live="polite">
-        Select a point, or use the arrows, to open its content panel.
-      </p>
+      <div class="instruction-card-actions">
+        <button id="reset-activity-button" class="reset-btn general-button" type="button">Reset activity</button>
+      </div>
     </div>
 
     <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading">
@@ -1655,11 +1633,12 @@
         const panelBody = panel.querySelector(".panel-body");
         const panelClose = panel.querySelector(".panel-close");
         const person = activity.querySelector(".person-marker");
-        const badge = activity.querySelector(".selected-distance");
         const note = activity.querySelector(".activity-note");
-        const backArrow = activity.querySelector(".line-arrow--back");
-        const forwardArrow = activity.querySelector(".line-arrow--forward");
-        const resetButton = activity.querySelector(".reset-activity-button");
+
+        // const backArrow = activity.querySelector(".line-arrow--back");
+        // const forwardArrow = activity.querySelector(".line-arrow--forward");
+
+        const resetButton = document.getElementById("reset-activity-button");
         const chartWrap = activity.querySelector(".bar-stack-chart");
         const barRow = activity.querySelector(".bar-stack-row");
         const yAxis = activity.querySelector(".y-axis");
@@ -2204,6 +2183,7 @@
             window.clearTimeout(closeTimer);
             closeTimer = null;
           }
+          panelBody.innerHTML = "";
           panel.classList.remove("is-open");
         }
 
@@ -2214,6 +2194,11 @@
           if (!point) return;
 
           selected = target;
+          
+          speciesButtons.forEach((btn) => {
+            btn.disabled = false;
+          });
+
           person.style.left = percentFor(target) + "%";
 
           points.forEach((p) => {
@@ -2223,7 +2208,6 @@
           point.classList.add("is-selected");
           point.setAttribute("aria-expanded", "true");
 
-          badge.textContent = target + " m selected";
           note.textContent = "You selected " + target + " metres. Read the panel above the line.";
 
           updateArrowStates(target);
@@ -2237,8 +2221,7 @@
             p.classList.remove("is-selected");
             p.setAttribute("aria-expanded", "false");
           });
-          badge.textContent = "Choose a point";
-          note.textContent = "Select a point, or use the arrows, to open its content panel.";
+          note.textContent = "Select a point, to open its content panel.";
         }
 
         function step(direction) {
@@ -2263,6 +2246,10 @@
           resetButton.addEventListener("click", () => {
             closeAll();
             resetAnimalTracking();
+
+            speciesButtons.forEach((btn) => {
+              btn.disabled = true;
+            });
 
             // closeAll() only clears the selection/panel — also put the
             // person marker back at its resting 0 m spot and re-disable
