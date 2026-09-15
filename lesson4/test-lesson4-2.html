@@ -599,11 +599,11 @@
       flex-direction: row;
       align-items: flex-start;
       justify-content: space-between;
-
       flex: 1 1 auto;
       min-width: 0;
       gap: 0;
     }
+
 
     .number-line-activity .bar-stack-row .stack-placeholder {
       margin: 0;
@@ -613,6 +613,7 @@
     }
 
     .number-line-activity .stack-group {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -690,9 +691,9 @@
       transform: translateY(-50%);
     }
 
-    .number-line-activity .bar-stack-chart.is-graph-mode .bar-stack-column::after {
+    .number-line-activity .bar-stack-chart.is-graph-mode .stack-group::after {
       position: absolute;
-      top: 100%;
+      top: var(--row-height);
       left: 50%;
       width: 3px;
       height: 10px;
@@ -720,6 +721,9 @@
     .number-line-activity .line-graph-overlay {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+
       opacity: 0;
       pointer-events: none;
       overflow: visible;
@@ -842,8 +846,10 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 46px;
-      height: 22px;
+
+      width: var(--cylinder-diameter);
+      height: var(--cylinder-height);
+
       transform-style: preserve-3d;
       transform: translate(-50%, -50%) rotateX(0deg);
     }
@@ -852,7 +858,7 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      margin-top: -11px;
+      margin-top: calc(var(--cylinder-height) / -2);
       box-sizing: border-box;
       border-top: 2px solid var(--charcoal);
       border-bottom: 2px solid var(--charcoal);
@@ -871,7 +877,10 @@
       box-sizing: border-box;
       border: 2px solid var(--charcoal);
       border-radius: 50%;
-      transform: translateY(-11px) rotateX(90deg);
+      transform:
+        translateY(calc(var(--cylinder-height) / -2))
+        rotateX(90deg);
+
       transform-style: preserve-3d;
       background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), rgba(255,255,255,.08) 45%, rgba(0,0,0,.12));
       backface-visibility: visible;
@@ -2469,25 +2478,27 @@
 
         function renderLineOverlay(columnEntries) {
           lineOverlaySvg.innerHTML = "";
+          pointsByDistance.clear();
           currentColumnEntries = columnEntries;
           if (!chartWrap || !columnEntries.length) return;
 
           const wrapRect = barRow.getBoundingClientRect();
-          columnEntries.forEach(({ column, count, distance }) => {
-            const rect = column.getBoundingClientRect();
+          columnEntries.forEach(({ group, column, count, distance }) => {
+            const groupRect = group.getBoundingClientRect();
+            const columnRect = column.getBoundingClientRect();
 
             const x =
-              rect.left -
+              groupRect.left -
               wrapRect.left +
-              rect.width / 2;
+              groupRect.width / 2;
 
             const y =
-              rect.bottom -
+              columnRect.bottom -
               wrapRect.top -
               count * activeUnitHeight;
 
             pointsByDistance.set(distance, { x, y });
-          });;
+          });;;
 
           redrawPolyline();
 
@@ -2518,6 +2529,14 @@
             lineOverlaySvg.appendChild(circle);
           });
         }
+
+        const chartResizeObserver = new ResizeObserver(() => {
+          if (isGraphMode && currentColumnEntries.length) {
+            renderLineOverlay(currentColumnEntries);
+          }
+        });
+
+        chartResizeObserver.observe(barRow);
 
         function redrawPolyline() {
           // Remove any existing line segments.
@@ -2728,19 +2747,13 @@
           const colour = speciesColours.get(selectedSpecies) || barColours[0];
           const maxUnits = overallMaxForSpecies(selectedSpecies);
           
-          const MIN_GRAPH_HEIGHT = 240;
-
-          const baseUnitHeight =
-            isGraphMode && isCountersHidden
+          const CYLINDER_UNIT_HEIGHT = 28;
+          const CYLINDER_DIAMETER = 56;
+          activeUnitHeight = isGraphMode && isCountersHidden
               ? CYLINDER_UNIT_HEIGHT * STRETCH_FACTOR
               : CYLINDER_UNIT_HEIGHT;
 
-          const rowHeight = Math.max(
-            MIN_GRAPH_HEIGHT,
-            Math.max(1, maxUnits) * baseUnitHeight
-          );
-
-          activeUnitHeight = rowHeight / maxUnits;
+          const rowHeight = Math.max(1, maxUnits) * activeUnitHeight;
 
           if (chartWrap) {
             chartWrap.style.setProperty("--row-height", rowHeight + "px");
