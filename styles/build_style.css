@@ -80,6 +80,11 @@ body {
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+  user-drag: none;
+  -webkit-user-drag: none; /* for Safari */
+  -moz-user-drag: none; /* for Firefox */
+  -ms-user-drag: none; /* for Internet Explorer */
 }
 
 /* ---------- Scrollbar ----------*/
