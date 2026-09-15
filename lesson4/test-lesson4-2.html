@@ -957,9 +957,9 @@
       </div>
 
       <div class="line-frame">
-        <button class="line-arrow line-arrow--back" type="button" aria-label="Move back 5 metres">
+        <!-- <button class="line-arrow line-arrow--back" type="button" aria-label="Move back 5 metres">
           <svg viewBox="0 0 24 24"><path d="M15 4 7 12l8 8"/></svg>
-        </button>
+        </button> -->
 
         <div class="line-panel-box">
           <!-- Single large panel, lives above the track, not tied to one point's position -->
@@ -989,9 +989,9 @@
           </div>
         </div>
 
-        <button class="line-arrow line-arrow--forward" type="button" aria-label="Move forward 5 metres">
+        <!-- <button class="line-arrow line-arrow--forward" type="button" aria-label="Move forward 5 metres">
           <svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8"/></svg>
-        </button>
+        </button> -->
       </div>
       <div class="instruction-card-actions">
         <button id="reset-activity-button" class="reset-btn general-button" type="button">Reset activity</button>
@@ -1965,6 +1965,43 @@
 
           return !(max > 0 && found === max);
         }
+
+        graphSpeciesButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const name = btn.dataset.graphSpecies;
+
+            selectedSpecies = name;
+
+            isGraphMode = false;
+            isCountersHidden = false;
+            resetGraphConnections();
+
+            if (chartWrap) {
+              chartWrap.classList.remove(
+                "is-graph-mode",
+                "counters-hidden"
+              );
+            }
+
+            if (graphToggleButton) {
+              graphToggleButton.textContent = "Show line graph";
+            }
+
+            if (countersHiddenButton) {
+              countersHiddenButton.classList.remove("is-active");
+              countersHiddenButton.textContent = "Hide Counters";
+            }
+
+            graphSpeciesButtons.forEach((graphBtn) => {
+              graphBtn.classList.toggle(
+                "is-active",
+                graphBtn === btn
+              );
+            });
+
+            renderChart();
+          });
+        });
 
         function showLineGraphSection() {
           const nextSection = document.getElementById("number-line-container");
