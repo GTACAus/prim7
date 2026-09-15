@@ -4761,6 +4761,785 @@ function partDRenderStopAndCheckGraph() {
     resetConniwinksLineGraph();
   }
 
+
+
+  /* ==================================================
+     LINE GRAPH - SECTION 4: YEAST PRACTICE
+
+     Reuses the existing Lesson 4 line-graph cards, table styles,
+     drag/drop targets, free-plot crosshair and manual point-connection
+     pattern. Kept separate from Section C so the working conniwinks
+     activity does not need to be refactored.
+     ================================================== */
+
+  const yeastData = [
+    { x: 10, trials: [7, 7, 4] },
+    { x: 20, trials: [10, 11, 15] },
+    { x: 30, trials: [26, 21, 25] },
+    { x: 40, trials: [21, 14, 19] },
+    { x: 50, trials: [11, 5, 8] }
+  ];
+
+  const yeastPlot = {
+    left: 120,
+    right: 700,
+    top: 40,
+    bottom: 370,
+    maxY: 30,
+    centres: [170, 290, 410, 530, 650]
+  };
+
+  const yeastAxisValues = {
+    "x-variable": null,
+    "x-unit": null,
+    "y-variable": null,
+    "y-unit": null
+  };
+
+  let yeastStage = "averages";
+  let yeastPlotIndex = 0;
+  let yeastSelectedAxisCard = null;
+  let yeastDraggedAxisCard = null;
+  let yeastTouchDragging = false;
+  let yeastDragGhost = null;
+  let yeastConnectedOrder = [];
+
+  function yeastAverage(item) {
+    return item.trials.reduce(function(sum, value) { return sum + value; }, 0) / item.trials.length;
+  }
+
+  function yeastX(value) {
+    const index = yeastData.findIndex(function(item) { return item.x === value; });
+    return index >= 0 ? yeastPlot.centres[index] : yeastPlot.left;
+  }
+
+  function yeastY(value) {
+    return yeastPlot.bottom - (value / yeastPlot.maxY) *
+      (yeastPlot.bottom - yeastPlot.top);
+  }
+
+  function yeastCardLabel(value) {
+    return {
+      temperature: "Temperature",
+      circumference: "Balloon circumference",
+      distance: "Distance",
+      deg: "°C",
+      cm: "cm",
+      s: "seconds"
+    }[value] || value;
+  }
+
+  function yeastBuildScaffold() {
+    const grid = document.getElementById("yeastGridLayer");
+    const yTicks = document.getElementById("yeastYTicksLayer");
+    const xTicks = document.getElementById("yeastXTicksLayer");
+    if (!grid || !yTicks || !xTicks) return;
+
+    grid.innerHTML = "";
+    yTicks.innerHTML = "";
+    xTicks.innerHTML = "";
+
+    /* Fine grid lines make non-tick values such as 6, 12, 18 and 24
+       easier to locate, while labels stay at 5 cm intervals. */
+    for (let value = 0; value <= yeastPlot.maxY; value += 1) {
+      const y = yeastY(value);
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("class", "graph-grid-line");
+      line.setAttribute("x1", yeastPlot.left);
+      line.setAttribute("x2", yeastPlot.right);
+      line.setAttribute("y1", y);
+      line.setAttribute("y2", y);
+      grid.appendChild(line);
+
+      if (value % 5 === 0) {
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("class", "tick-label");
+        label.setAttribute("x", 103);
+        label.setAttribute("y", y + 4);
+        label.setAttribute("text-anchor", "end");
+        label.textContent = value;
+        yTicks.appendChild(label);
+      }
+    }
+
+    yeastData.forEach(function(item) {
+      const x = yeastX(item.x);
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "tick-label");
+      label.setAttribute("x", x);
+      label.setAttribute("y", 394);
+      label.setAttribute("text-anchor", "middle");
+      label.textContent = item.x;
+      xTicks.appendChild(label);
+    });
+  }
+
+  function yeastCalculateAverages() {
+    if (yeastStage !== "averages") return;
+
+    document.querySelectorAll("[data-yeast-average]").forEach(function(cell, index) {
+      cell.textContent = partBFormatAverage(yeastAverage(yeastData[index]));
+      const td = cell.closest("td");
+      if (td) td.classList.add("calculated");
+    });
+
+    yeastStage = "axes";
+    const button = document.getElementById("yeastCalculateAveragesButton");
+    if (button) button.disabled = true;
+
+    const stage = document.getElementById("yeastConstructionStage");
+    if (stage) stage.hidden = false;
+
+    setChallengeFeedback(
+      "yeastTableFeedback",
+      "success",
+      "Averages calculated.",
+      " The average values are now shown in the final column. Use them to build your line graph."
+    );
+
+    window.setTimeout(function() {
+      if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
+  }
+
+  function yeastClearAxisSelection() {
+    document.querySelectorAll("#yeastLabelBank .partb-axis-card.selected").forEach(function(card) {
+      card.classList.remove("selected");
+    });
+    yeastSelectedAxisCard = null;
+  }
+
+  function yeastCreateDragGhost(card) {
+    yeastRemoveDragGhost();
+    const ghost = document.createElement("div");
+    ghost.className = "partb-drag-ghost";
+    const clone = card.cloneNode(true);
+    clone.disabled = false;
+    clone.removeAttribute("draggable");
+    clone.classList.remove("selected", "placed", "is-dragging");
+    ghost.appendChild(clone);
+    document.body.appendChild(ghost);
+    yeastDragGhost = ghost;
+  }
+
+  function yeastMoveDragGhost(point) {
+    if (!yeastDragGhost || !point) return;
+    yeastDragGhost.style.left = (point.clientX - yeastDragGhost.offsetWidth / 2) + "px";
+    yeastDragGhost.style.top = (point.clientY - yeastDragGhost.offsetHeight / 2) + "px";
+  }
+
+  function yeastRemoveDragGhost() {
+    if (!yeastDragGhost) return;
+    yeastDragGhost.remove();
+    yeastDragGhost = null;
+  }
+
+  function yeastClearDropHover() {
+    document.querySelectorAll("#lineGraphYeastSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over");
+    });
+    if (yeastDragGhost) yeastDragGhost.classList.remove("is-hovering-drop-zone");
+  }
+
+  function yeastGetDropZoneAtPoint(clientX, clientY, tolerance) {
+    const extra = typeof tolerance === "number" ? tolerance : 28;
+    const zones = Array.from(document.querySelectorAll("#lineGraphYeastSvg .partb-axis-drop-zone")).filter(function(zone) {
+      return !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete");
+    });
+
+    let closestZone = null;
+    let closestDistance = Infinity;
+
+    zones.forEach(function(zone) {
+      const hitPad = zone.querySelector(".partb-axis-drop-hit-pad") || zone;
+      const rect = hitPad.getBoundingClientRect();
+      const inside =
+        clientX >= rect.left - extra && clientX <= rect.right + extra &&
+        clientY >= rect.top - extra && clientY <= rect.bottom + extra;
+      if (!inside) return;
+
+      const centreX = rect.left + rect.width / 2;
+      const centreY = rect.top + rect.height / 2;
+      const distance = Math.hypot(clientX - centreX, clientY - centreY);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestZone = zone;
+      }
+    });
+
+    return closestZone;
+  }
+
+  function yeastTryPlaceAxisCard(card, zone) {
+    if (!card || !zone || card.disabled || zone.classList.contains("drop-complete")) return;
+
+    const cardType = card.dataset.yeastCardType;
+    const cardValue = card.dataset.yeastCardValue;
+    const expectedType = zone.dataset.yeastCardType;
+    const expectedValue = zone.dataset.yeastExpected;
+
+    if (cardType !== expectedType || cardValue !== expectedValue) {
+      zone.classList.remove("drag-over");
+      zone.classList.add("drop-incorrect");
+      window.setTimeout(function() { zone.classList.remove("drop-incorrect"); }, 500);
+      yeastClearAxisSelection();
+
+      setChallengeFeedback(
+        "yeastFeedback",
+        "try-again",
+        "That card does not belong there.",
+        " Use the testable question and table headings to decide which variable or unit belongs on that axis."
+      );
+      return;
+    }
+
+    const text = zone.querySelector(".partb-axis-drop-text");
+    if (text) text.textContent = yeastCardLabel(cardValue);
+    zone.classList.remove("drag-over");
+    zone.classList.add("drop-complete");
+    card.classList.remove("selected", "is-dragging");
+    card.classList.add("placed");
+    card.disabled = true;
+    card.setAttribute("draggable", "false");
+    yeastAxisValues[zone.dataset.yeastAxisSlot] = cardValue;
+    yeastSelectedAxisCard = null;
+
+    setChallengeFeedback(
+      "yeastFeedback",
+      "success",
+      yeastCardLabel(cardValue) + " is in the right place.",
+      " Keep going until both axes have a variable and unit."
+    );
+
+    yeastUpdateAxisState();
+  }
+
+  function yeastUpdateAxisState() {
+    const xReady = yeastAxisValues["x-variable"] === "temperature" && yeastAxisValues["x-unit"] === "deg";
+    const yReady = yeastAxisValues["y-variable"] === "circumference" && yeastAxisValues["y-unit"] === "cm";
+
+    document.getElementById("yeastXAxisVariableDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("yeastXAxisUnitDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("yeastYAxisVariableDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("yeastYAxisUnitDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("yeastXAxisLabel").classList.toggle("visible", xReady);
+    document.getElementById("yeastYAxisLabel").classList.toggle("visible", yReady);
+
+    if (!xReady || !yReady || yeastStage !== "axes") return;
+
+    yeastStage = "plot";
+    document.getElementById("yeastAxisBuilder").hidden = true;
+    document.getElementById("yeastPlotPromptBox").hidden = false;
+    document.getElementById("yeastStepLabel").textContent = "Step 3 · Plot the data points";
+    document.getElementById("yeastVisualHint").textContent =
+      "Move the dotted guides around the graph, then click the coordinate for the highlighted row.";
+
+    yeastSetCurrentRow(0);
+    yeastUpdatePlotPrompt();
+
+    setChallengeFeedback(
+      "yeastFeedback",
+      "",
+      "Both axis labels are complete.",
+      " Temperature is on the x-axis and balloon circumference is on the y-axis. Now plot the averages."
+    );
+  }
+
+  function yeastInitialiseAxisDragAndDrop() {
+    const cards = document.querySelectorAll("#yeastLabelBank .partb-axis-card");
+    const zones = document.querySelectorAll("#lineGraphYeastSvg .partb-axis-drop-zone");
+
+    cards.forEach(function(card) {
+      card.addEventListener("dragstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) {
+          event.preventDefault();
+          return;
+        }
+
+        yeastDraggedAxisCard = card;
+        card.classList.add("is-dragging");
+        event.dataTransfer.setData("text/plain", card.id);
+        event.dataTransfer.effectAllowed = "move";
+
+        const transparent = document.createElement("div");
+        transparent.style.position = "absolute";
+        transparent.style.width = "1px";
+        transparent.style.height = "1px";
+        transparent.style.opacity = "0";
+        document.body.appendChild(transparent);
+        event.dataTransfer.setDragImage(transparent, 0, 0);
+        window.setTimeout(function() { transparent.remove(); }, 0);
+
+        yeastCreateDragGhost(card);
+        yeastMoveDragGhost(event);
+      });
+
+      card.addEventListener("dragend", function() {
+        card.classList.remove("is-dragging");
+        yeastClearDropHover();
+        yeastRemoveDragGhost();
+        yeastDraggedAxisCard = null;
+      });
+
+      card.addEventListener("touchstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) return;
+        yeastDraggedAxisCard = card;
+        yeastTouchDragging = true;
+        card.classList.add("is-dragging");
+        const touch = event.touches[0];
+        yeastCreateDragGhost(card);
+        yeastMoveDragGhost(touch);
+        event.preventDefault();
+      }, { passive: false });
+
+      card.addEventListener("touchmove", function(event) {
+        if (!yeastTouchDragging || !yeastDraggedAxisCard) return;
+        event.preventDefault();
+        const touch = event.touches[0];
+        yeastMoveDragGhost(touch);
+        const zone = yeastGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        yeastClearDropHover();
+        if (zone) {
+          zone.classList.add("drag-over");
+          if (yeastDragGhost) yeastDragGhost.classList.add("is-hovering-drop-zone");
+        }
+      }, { passive: false });
+
+      card.addEventListener("touchend", function(event) {
+        if (!yeastTouchDragging || !yeastDraggedAxisCard) return;
+        event.preventDefault();
+
+        const touch = event.changedTouches[0];
+        const zone = yeastGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        const draggedCard = yeastDraggedAxisCard;
+
+        /* iPad-safe cleanup: remove the floating ghost before placing the card. */
+        yeastClearDropHover();
+        if (draggedCard) draggedCard.classList.remove("is-dragging");
+        yeastRemoveDragGhost();
+        yeastDraggedAxisCard = null;
+        yeastTouchDragging = false;
+
+        if (zone) yeastTryPlaceAxisCard(draggedCard, zone);
+      }, { passive: false });
+
+      card.addEventListener("touchcancel", function() {
+        if (yeastDraggedAxisCard) yeastDraggedAxisCard.classList.remove("is-dragging");
+        yeastClearDropHover();
+        yeastRemoveDragGhost();
+        yeastDraggedAxisCard = null;
+        yeastTouchDragging = false;
+      });
+
+      card.addEventListener("click", function() {
+        if (card.disabled || card.classList.contains("placed")) return;
+        const alreadySelected = yeastSelectedAxisCard === card;
+        yeastClearAxisSelection();
+        if (!alreadySelected) {
+          yeastSelectedAxisCard = card;
+          card.classList.add("selected");
+        }
+      });
+    });
+
+    document.addEventListener("dragover", function(event) {
+      if (!yeastDraggedAxisCard) return;
+      event.preventDefault();
+      yeastMoveDragGhost(event);
+      const zone = yeastGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      yeastClearDropHover();
+      if (zone) {
+        zone.classList.add("drag-over");
+        if (yeastDragGhost) yeastDragGhost.classList.add("is-hovering-drop-zone");
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+      }
+    });
+
+    document.addEventListener("drop", function(event) {
+      if (!yeastDraggedAxisCard) return;
+      event.preventDefault();
+      const zone = yeastGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      const draggedCard = yeastDraggedAxisCard;
+      yeastClearDropHover();
+      yeastRemoveDragGhost();
+      yeastDraggedAxisCard = null;
+      if (zone) yeastTryPlaceAxisCard(draggedCard, zone);
+    });
+
+    zones.forEach(function(zone) {
+      zone.addEventListener("click", function() {
+        if (yeastSelectedAxisCard) yeastTryPlaceAxisCard(yeastSelectedAxisCard, zone);
+      });
+      zone.addEventListener("keydown", function(event) {
+        if ((event.key === "Enter" || event.key === " ") && yeastSelectedAxisCard) {
+          event.preventDefault();
+          yeastTryPlaceAxisCard(yeastSelectedAxisCard, zone);
+        }
+      });
+    });
+  }
+
+  function yeastSetCurrentRow(index) {
+    document.querySelectorAll("#yeastTableBody tr").forEach(function(row, rowIndex) {
+      row.classList.toggle("partc-current-row", rowIndex === index);
+      if (rowIndex < index) row.classList.add("partc-complete-row");
+      else row.classList.remove("partc-complete-row");
+    });
+  }
+
+  function yeastUpdatePlotPrompt() {
+    if (yeastPlotIndex >= yeastData.length) return;
+    const item = yeastData[yeastPlotIndex];
+    const average = yeastAverage(item);
+    document.getElementById("yeastPlotPromptTitle").textContent =
+      "Point " + (yeastPlotIndex + 1) + " of " + yeastData.length +
+      ": plot (" + item.x + ", " + partBFormatAverage(average) + ").";
+    document.getElementById("yeastPlotPromptText").textContent =
+      "Move the dotted guides until they cross at the highlighted row's temperature and average circumference, then click the graph.";
+  }
+
+  function yeastSvgPoint(event) {
+    const svg = document.getElementById("lineGraphYeastSvg");
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const matrix = svg.getScreenCTM();
+    return matrix ? point.matrixTransform(matrix.inverse()) : null;
+  }
+
+  function yeastHideCrosshair() {
+    document.getElementById("yeastCrossV").classList.remove("visible");
+    document.getElementById("yeastCrossH").classList.remove("visible");
+  }
+
+  function yeastUpdateCrosshair(event) {
+    if (yeastStage !== "plot" || yeastPlotIndex >= yeastData.length) return;
+    const point = yeastSvgPoint(event);
+    if (!point) return;
+
+    if (
+      point.x < yeastPlot.left || point.x > yeastPlot.right ||
+      point.y < yeastPlot.top || point.y > yeastPlot.bottom
+    ) {
+      yeastHideCrosshair();
+      return;
+    }
+
+    const vertical = document.getElementById("yeastCrossV");
+    const horizontal = document.getElementById("yeastCrossH");
+    vertical.setAttribute("x1", point.x);
+    vertical.setAttribute("x2", point.x);
+    horizontal.setAttribute("y1", point.y);
+    horizontal.setAttribute("y2", point.y);
+    vertical.classList.add("visible");
+    horizontal.classList.add("visible");
+  }
+
+  function yeastPlacePoint(event) {
+    if (yeastStage !== "plot" || yeastPlotIndex >= yeastData.length) return;
+
+    const point = yeastSvgPoint(event);
+    if (!point) return;
+
+    if (
+      point.x < yeastPlot.left || point.x > yeastPlot.right ||
+      point.y < yeastPlot.top || point.y > yeastPlot.bottom
+    ) return;
+
+    const target = yeastData[yeastPlotIndex];
+    const average = yeastAverage(target);
+    const targetX = yeastX(target.x);
+    const targetY = yeastY(average);
+    const dx = Math.abs(point.x - targetX);
+    const dy = Math.abs(point.y - targetY);
+    const distance = Math.hypot(dx, dy);
+
+    if (distance > 34) {
+      let hint =
+        " Find " + target.x + " on the x-axis, then move across to " +
+        partBFormatAverage(average) + " on the y-axis.";
+      if (dx <= 26 && dy > 26) {
+        hint = " Your x-position is close. Check the y-value: " + partBFormatAverage(average) + " cm.";
+      } else if (dy <= 26 && dx > 26) {
+        hint = " Your y-position is close. Check the x-value: " + target.x + " °C.";
+      }
+
+      setChallengeFeedback(
+        "yeastFeedback",
+        "try-again",
+        "Use both axes.",
+        hint
+      );
+      return;
+    }
+
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("class", "linegraph-point");
+    circle.setAttribute("cx", targetX);
+    circle.setAttribute("cy", targetY);
+    circle.setAttribute("r", 8);
+    circle.dataset.yeastPointIndex = yeastPlotIndex;
+    circle.setAttribute(
+      "aria-label",
+      target.x + " degrees Celsius, " +
+      partBFormatAverage(average) + " centimetres average balloon circumference"
+    );
+    circle.addEventListener("click", function(event) {
+      if (yeastStage !== "connect") return;
+      event.stopPropagation();
+      yeastConnectPoint(Number(circle.dataset.yeastPointIndex), circle);
+    });
+    circle.addEventListener("keydown", function(event) {
+      if (yeastStage !== "connect") return;
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        yeastConnectPoint(Number(circle.dataset.yeastPointIndex), circle);
+      }
+    });
+    document.getElementById("yeastPointsLayer").appendChild(circle);
+
+    yeastPlotIndex += 1;
+    yeastHideCrosshair();
+    yeastSetCurrentRow(yeastPlotIndex);
+
+    if (yeastPlotIndex < yeastData.length) {
+      yeastUpdatePlotPrompt();
+      setChallengeFeedback(
+        "yeastFeedback",
+        "",
+        "Correct point.",
+        " It snapped to the measured coordinate. Now plot the next highlighted row."
+      );
+      return;
+    }
+
+    yeastBeginConnect();
+  }
+
+  function yeastBeginConnect() {
+    yeastStage = "connect";
+    yeastHideCrosshair();
+    document.getElementById("yeastPlotPromptBox").hidden = true;
+    document.getElementById("yeastConnectPrompt").hidden = false;
+    document.getElementById("yeastStepLabel").textContent = "Step 4 · Connect the data points";
+    document.getElementById("yeastVisualHint").textContent =
+      "All five averages are plotted. Click neighbouring points to build the line yourself.";
+
+    document.querySelectorAll("#yeastPointsLayer .linegraph-point").forEach(function(point) {
+      point.classList.add("connectable");
+      point.setAttribute("tabindex", "0");
+      point.setAttribute("role", "button");
+      point.setAttribute("aria-label", point.getAttribute("aria-label") + ". Click to connect this point.");
+    });
+
+    setChallengeFeedback(
+      "yeastFeedback",
+      "",
+      "All five data points are plotted.",
+      " Click any point to start the line, then connect neighbouring points until the whole pattern is joined."
+    );
+  }
+
+  function yeastConnectPoint(index, circle) {
+    if (yeastStage !== "connect") return;
+    if (yeastConnectedOrder.includes(index)) return;
+
+    let canConnect = false;
+    let prepend = false;
+
+    if (yeastConnectedOrder.length === 0) {
+      canConnect = true;
+    } else {
+      const first = yeastConnectedOrder[0];
+      const last = yeastConnectedOrder[yeastConnectedOrder.length - 1];
+      if (index === first - 1) {
+        canConnect = true;
+        prepend = true;
+      } else if (index === last + 1) {
+        canConnect = true;
+      }
+    }
+
+    if (!canConnect) {
+      circle.classList.add("connect-error");
+      window.setTimeout(function() { circle.classList.remove("connect-error"); }, 550);
+      setChallengeFeedback(
+        "yeastFeedback",
+        "try-again",
+        "Connect neighbouring points.",
+        " A line graph joins each point to the next x-value. Choose a point beside the end of the line you have already made."
+      );
+      return;
+    }
+
+    if (prepend) yeastConnectedOrder.unshift(index);
+    else yeastConnectedOrder.push(index);
+
+    circle.classList.add("connected");
+    yeastRedrawPath();
+
+    if (yeastConnectedOrder.length === yeastData.length) {
+      yeastFinish();
+      return;
+    }
+
+    setChallengeFeedback(
+      "yeastFeedback",
+      "",
+      "Point connected.",
+      " Keep joining a neighbouring point until all five are part of one continuous line."
+    );
+  }
+
+  function yeastRedrawPath() {
+    const points = yeastConnectedOrder.map(function(index) {
+      const item = yeastData[index];
+      return yeastX(item.x) + "," + yeastY(yeastAverage(item));
+    });
+    document.getElementById("yeastPath").setAttribute("points", points.join(" "));
+  }
+
+  function yeastFinish() {
+    yeastStage = "complete";
+    document.getElementById("yeastConnectPrompt").hidden = true;
+    document.getElementById("yeastComplete").hidden = false;
+    document.getElementById("yeastStepLabel").textContent = "Line graph complete ✓";
+    document.getElementById("yeastVisualHint").textContent =
+      "The connected points show how average balloon circumference changes with temperature.";
+
+    document.querySelectorAll("#yeastPointsLayer .linegraph-point").forEach(function(point) {
+      point.classList.remove("connectable");
+      point.removeAttribute("tabindex");
+      point.removeAttribute("role");
+    });
+
+    document.getElementById("yeastFeedback").hidden = true;
+    document.getElementById("yeastPredictionCheck").hidden = false;
+  }
+
+  function yeastHandlePredictionChoice(button) {
+    const correct = button.dataset.yeastPrediction === "partly-supported";
+    const feedback = document.getElementById("yeastPredictionFeedback");
+
+    document.querySelectorAll("#yeastPredictionCheck .prediction-button").forEach(function(other) {
+      other.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    if (!correct) {
+      flashChoice(button, "try-again-choice");
+      feedback.hidden = false;
+      setChallengeFeedback(
+        "yeastPredictionFeedback",
+        "try-again",
+        "Look at the whole trend again.",
+        " Balloon circumference increases from 6 cm at 10 °C to 24 cm at 30 °C, then decreases to 18 cm at 40 °C and 8 cm at 50 °C. Is the prediction true across the whole temperature range?"
+      );
+      return;
+    }
+
+    feedback.hidden = true;
+    button.classList.add("selected-answer");
+  }
+
+  function resetYeastLineGraph() {
+    yeastStage = "averages";
+    yeastPlotIndex = 0;
+    yeastSelectedAxisCard = null;
+    yeastDraggedAxisCard = null;
+    yeastTouchDragging = false;
+    yeastConnectedOrder = [];
+    yeastRemoveDragGhost();
+
+    Object.keys(yeastAxisValues).forEach(function(key) {
+      yeastAxisValues[key] = null;
+    });
+
+    document.querySelectorAll("[data-yeast-average]").forEach(function(cell) {
+      cell.textContent = "—";
+      const td = cell.closest("td");
+      if (td) td.classList.remove("calculated");
+    });
+
+    const calculateButton = document.getElementById("yeastCalculateAveragesButton");
+    if (calculateButton) calculateButton.disabled = false;
+
+    document.getElementById("yeastConstructionStage").hidden = true;
+    document.getElementById("yeastAxisBuilder").hidden = false;
+    document.getElementById("yeastPlotPromptBox").hidden = true;
+    document.getElementById("yeastConnectPrompt").hidden = true;
+    document.getElementById("yeastComplete").hidden = true;
+    document.getElementById("yeastFeedback").hidden = false;
+    document.getElementById("yeastPredictionCheck").hidden = true;
+    document.getElementById("yeastPredictionFeedback").hidden = true;
+
+    document.querySelectorAll("#yeastPredictionCheck .prediction-button").forEach(function(button) {
+      button.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    document.getElementById("yeastStepLabel").textContent = "Step 2 · Label the axes and units";
+    document.getElementById("yeastVisualHint").textContent =
+      "Label the variables and units before plotting the averages.";
+
+    document.querySelectorAll("#yeastLabelBank .partb-axis-card").forEach(function(card) {
+      card.classList.remove("selected", "placed", "is-dragging");
+      card.disabled = false;
+      card.setAttribute("draggable", "true");
+    });
+
+    document.querySelectorAll("#lineGraphYeastSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over", "drop-complete", "drop-incorrect", "axis-complete");
+      const text = zone.querySelector(".partb-axis-drop-text");
+      if (text) text.textContent = text.dataset.placeholder;
+    });
+
+    document.getElementById("yeastXAxisLabel").classList.remove("visible");
+    document.getElementById("yeastYAxisLabel").classList.remove("visible");
+    yeastHideCrosshair();
+    document.getElementById("yeastPointsLayer").innerHTML = "";
+    document.getElementById("yeastPath").setAttribute("points", "");
+
+    document.querySelectorAll("#yeastTableBody tr").forEach(function(row) {
+      row.classList.remove("partc-current-row", "partc-complete-row");
+    });
+
+    setChallengeFeedback(
+      "yeastTableFeedback",
+      "",
+      "Start with the repeated measurements.",
+      " The graph will use the average balloon circumference at each temperature."
+    );
+
+    setChallengeFeedback(
+      "yeastFeedback",
+      "",
+      "Label the graph first.",
+      " Use the table headings to decide which variable and unit belong on each axis."
+    );
+  }
+
+  function initialiseYeastLineGraph() {
+    if (!document.getElementById("line-graph-yeast")) return;
+
+    yeastBuildScaffold();
+    yeastInitialiseAxisDragAndDrop();
+
+    document.getElementById("yeastCalculateAveragesButton").addEventListener("click", yeastCalculateAverages);
+    document.getElementById("resetYeastButton").addEventListener("click", resetYeastLineGraph);
+
+    const svg = document.getElementById("lineGraphYeastSvg");
+    svg.addEventListener("pointermove", yeastUpdateCrosshair);
+    svg.addEventListener("pointerleave", yeastHideCrosshair);
+    svg.addEventListener("pointerup", yeastPlacePoint);
+
+    document.querySelectorAll("#yeastPredictionCheck [data-yeast-prediction]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        yeastHandlePredictionChoice(button);
+      });
+    });
+
+    resetYeastLineGraph();
+  }
+
   /* ==================================================
      PAGE INITIALISATION
      ================================================== */
@@ -4800,5 +5579,6 @@ function partDRenderStopAndCheckGraph() {
     initialisePartD();
     initialiseElephantLineGraph();
     initialiseConniwinksLineGraph();
+    initialiseYeastLineGraph();
   });
 })();
