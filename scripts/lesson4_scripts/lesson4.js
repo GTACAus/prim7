@@ -517,34 +517,30 @@
       }, { passive: false });
 
       card.addEventListener("touchend", function(event) {
-        if (!partCTouchDragging || !partCDraggedCard) return;
+        if (!partBTouchDragging || !partBDraggedCard) return;
 
         event.preventDefault();
 
         const touch = event.changedTouches[0];
-        const zone = partCGetDropZoneAtPoint(
+        const zone = partBGetDropZoneAtPoint(
           touch.clientX,
           touch.clientY,
           32
         );
 
-        const draggedCard = partCDraggedCard;
+        partBClearDropHover();
 
-        /* Always clean up the touch drag first. */
-        partCClearDropHover();
-
-        if (draggedCard) {
-          draggedCard.classList.remove("is-dragging");
-        }
-
-        partCRemoveDragGhost();
-        partCDraggedCard = null;
-        partCTouchDragging = false;
-
-        /* Then process the drop. */
         if (zone) {
-          partCTryPlaceAxisCard(draggedCard, zone);
+          partBTryPlaceAxisCard(partBDraggedCard, zone);
         }
+
+        if (partBDraggedCard) {
+          partBDraggedCard.classList.remove("is-dragging");
+        }
+
+        partBRemoveDragGhost();
+        partBDraggedCard = null;
+        partBTouchDragging = false;
 
       }, { passive: false });
 
@@ -1657,15 +1653,34 @@ function partBStartAnalysis() {
 
       card.addEventListener("touchend", function(event) {
         if (!partCTouchDragging || !partCDraggedCard) return;
+
         event.preventDefault();
+
         const touch = event.changedTouches[0];
-        const zone = partCGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        const zone = partCGetDropZoneAtPoint(
+          touch.clientX,
+          touch.clientY,
+          32
+        );
+
+        const draggedCard = partCDraggedCard;
+
+        /* Always clean up the touch drag first. */
         partCClearDropHover();
-        if (zone) partCTryPlaceAxisCard(partCDraggedCard, zone);
-        if (partCDraggedCard) partCDraggedCard.classList.remove("is-dragging");
+
+        if (draggedCard) {
+          draggedCard.classList.remove("is-dragging");
+        }
+
         partCRemoveDragGhost();
         partCDraggedCard = null;
         partCTouchDragging = false;
+
+        /* Then process the drop. */
+        if (zone) {
+          partCTryPlaceAxisCard(draggedCard, zone);
+        }
+
       }, { passive: false });
 
       card.addEventListener("touchcancel", function() {
