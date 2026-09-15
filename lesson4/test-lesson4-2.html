@@ -23,23 +23,6 @@
       selected distance into the panel body.
   -->
   <style>
-    .number-line-activity {
-      --activity-purple: var(--purple, #7c4dff);
-      --activity-line: var(--charcoal, #232323);
-      --nl-paper: var(--paper, #fffaf0);
-      --nl-text: var(--text, #232323);
-      --nl-muted: var(--muted, #6b6b6b);
-      --nl-soft-blue: var(--soft-blue, #e3edff);
-      --nl-soft-yellow: var(--soft-yellow, #fff2c2);
-      --nl-yellow: var(--yellow, #ffd747);
-      --nl-green: var(--green, #b7e9a8);
-      --nl-shadow-small: var(--shadow-small, 0 4px 0 #232323);
-      width: min(1120px, 94%);
-      margin: 0 auto;
-      padding: 34px 0 72px;
-      color: var(--nl-text);
-    }
-
     .number-line-activity *,
     .number-line-activity *::before,
     .number-line-activity *::after {
@@ -54,10 +37,10 @@
 
     .number-line-activity .activity-card {
       padding: clamp(18px, 4vw, 32px);
-      background: var(--nl-paper);
-      border: 3px solid var(--activity-line);
+      background: var(--paper);
+      border: 3px solid var(--charcoal);
       border-radius: 24px;
-      box-shadow: var(--nl-shadow-small);
+      box-shadow: var(--shadow-small);
       margin-bottom: 20px;
     }
 
@@ -67,7 +50,7 @@
       gap: 18px;
       align-items: center;
       margin-bottom: 28px;
-      background: var(--nl-soft-blue);
+      background: var(--soft-blue);
     }
 
     .number-line-activity .instruction-card h2 {
@@ -96,10 +79,10 @@
       width: 52px;
       height: 52px;
       padding: 0;
-      background: var(--nl-green);
-      border: 2px solid var(--activity-line);
+      background: var(--green);
+      border: 2px solid var(--charcoal);
       border-radius: 50%;
-      box-shadow: 0 3px 0 var(--activity-line);
+      box-shadow: 0 3px 0 var(--charcoal);
       cursor: pointer;
       transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, opacity .15s ease;
     }
@@ -107,7 +90,7 @@
     .number-line-activity .line-arrow svg {
       width: 22px;
       height: 22px;
-      stroke: var(--nl-text);
+      stroke: var(--text);
       stroke-width: 3;
       fill: none;
       stroke-linecap: round;
@@ -116,19 +99,19 @@
 
     .number-line-activity .line-arrow:hover:not(:disabled),
     .number-line-activity .line-arrow:focus-visible:not(:disabled) {
-      background: var(--nl-soft-yellow);
+      background: var(--soft-yellow);
       outline: none;
     }
 
     .number-line-activity .line-arrow:active:not(:disabled) {
-      box-shadow: 0 1px 0 var(--activity-line);
+      box-shadow: 0 1px 0 var(--charcoal);
       transform: translateY(2px);
     }
 
     .number-line-activity .line-arrow:disabled {
       cursor: not-allowed;
       opacity: .38;
-      box-shadow: 0 3px 0 var(--activity-line);
+      box-shadow: 0 3px 0 var(--charcoal);
       transform: none;
     }
 
@@ -150,7 +133,7 @@
     .number-line-activity .line-track {
       position: relative;
       height: 8px;
-      background: var(--activity-line);
+      background: var(--charcoal);
       border-radius: 999px;
     }
 
@@ -168,13 +151,13 @@
 
     .number-line-activity .line-track::before {
       left: -2px;
-      border-right: 18px solid var(--activity-line);
+      border-right: 18px solid var(--charcoal);
       transform: translate(-100%, -50%);
     }
 
     .number-line-activity .line-track::after {
       right: -2px;
-      border-left: 18px solid var(--activity-line);
+      border-left: 18px solid var(--charcoal);
       transform: translate(100%, -50%);
     }
 
@@ -184,8 +167,8 @@
       width: 22px;
       height: 22px;
       padding: 0;
-      background: var(--nl-paper);
-      border: 4px solid var(--activity-line);
+      background: var(--paper);
+      border: 4px solid var(--charcoal);
       border-radius: 50%;
       cursor: pointer;
       transform: translate(-50%, -50%);
@@ -196,8 +179,8 @@
     .number-line-activity .line-point:hover,
     .number-line-activity .line-point:focus-visible,
     .number-line-activity .line-point.is-selected {
-      background: var(--nl-yellow);
-      border-color: var(--activity-purple);
+      background: var(--yellow);
+      border-color: var(--purple);
       outline: none;
       transform: translate(-50%, -50%) scale(1.18);
     }
@@ -207,7 +190,7 @@
       top: 27px;
       left: 50%;
       width: max-content;
-      color: var(--nl-text);
+      color: var(--text);
       font-size: .88rem;
       font-weight: 700;
       transform: translateX(-50%);
@@ -245,9 +228,9 @@
       padding: clamp(20px, 3vw, 30px) clamp(5px, 4vw, 15px);
       margin: 0 auto 50px;
       /* background: white; */
-      border: 3px solid var(--activity-purple);
+      border: 3px solid var(--purple);
       border-radius: 22px;
-      /* box-shadow: 0 6px 0 var(--activity-line); */
+      /* box-shadow: 0 6px 0 var(--charcoal); */
       opacity: 0;
       pointer-events: none;
       transform: scaleY(.06) scaleX(.4);
@@ -269,8 +252,8 @@
       width: 18px;
       height: 18px;
       background: white;
-      border-right: 3px solid var(--activity-purple);
-      border-bottom: 3px solid var(--activity-purple);
+      border-right: 3px solid var(--purple);
+      border-bottom: 3px solid var(--purple);
       content: "";
       transform: translateX(-50%) rotate(45deg);
       z-index: 1;
@@ -278,7 +261,7 @@
 
     .number-line-activity .panel-body h3 {
         margin: 10px 20px;
-      color: var(--activity-purple);
+      color: var(--purple);
       font-size: 1.4rem;
     }
 
@@ -299,7 +282,7 @@
       padding: 2px 6px;
       background: transparent;
       border: 0;
-      color: var(--nl-muted);
+      color: var(--muted);
       cursor: pointer;
       font-size: 1.5rem;
       line-height: 1;
@@ -307,15 +290,15 @@
 
     .number-line-activity .panel-close:hover,
     .number-line-activity .panel-close:focus-visible {
-      color: var(--activity-purple);
+      color: var(--purple);
       outline: none;
     }
 
     .number-line-activity .activity-note {
       margin: 22px 0 20px;
       padding: 14px 16px;
-      background: var(--nl-soft-yellow);
-      border: 2px solid var(--activity-line);
+      background: var(--soft-yellow);
+      border: 2px solid var(--charcoal);
       border-radius: 14px;
       line-height: 1.5;
       text-align: center;
@@ -324,11 +307,11 @@
     .number-line-activity .graph-complete-feedback {
       margin: -8px 0 20px;
       padding: 14px 16px;
-      background: var(--nl-green);
-      border: 3px solid var(--activity-line);
+      background: var(--green);
+      border: 3px solid var(--charcoal);
       border-radius: 18px;
-      box-shadow: var(--nl-shadow-small);
-      color: var(--nl-text);
+      box-shadow: var(--shadow-small);
+      color: var(--text);
       font-weight: 700;
       line-height: 1.5;
       text-align: center;
@@ -438,10 +421,10 @@
       height: 120px;
       padding: 10px;
       overflow: hidden;
-      background: var(--nl-paper);
-      border: 2px solid var(--activity-line);
+      background: var(--paper);
+      border: 2px solid var(--charcoal);
       border-radius: 50%;
-      box-shadow: 0 3px 0 var(--activity-line);
+      box-shadow: 0 3px 0 var(--charcoal);
       cursor: pointer;
       font-family: inherit;
       transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
@@ -455,25 +438,25 @@
 
     .number-line-activity .species-select-button:hover:not(:disabled),
     .number-line-activity .species-select-button:focus-visible {
-      background: var(--nl-soft-yellow);
+      background: var(--soft-yellow);
       outline: none;
     }
 
     .number-line-activity .species-select-button:active {
-      box-shadow: 0 1px 0 var(--activity-line);
+      box-shadow: 0 1px 0 var(--charcoal);
       transform: translateY(2px);
     }
 
     .number-line-activity .species-select-button:disabled {
       cursor: not-allowed;
       opacity: .38;
-      box-shadow: 0 3px 0 var(--activity-line);
+      box-shadow: 0 3px 0 var(--charcoal);
       transform: none;
     }
 
     .number-line-activity .species-select-button.is-active {
-      background: var(--nl-soft-blue);
-      border-color: var(--activity-purple);
+      background: var(--soft-blue);
+      border-color: var(--purple);
       box-shadow: none;
       transform: translateY(3px);
       pointer-events: none;
@@ -488,7 +471,7 @@
       width: 100%;
       margin-top: 14px;
       background: black;
-      border: 2px solid var(--activity-line);
+      border: 2px solid var(--charcoal);
       border-radius: 14px;
       overflow: hidden;
     }
@@ -536,7 +519,7 @@
     }
 
     .number-line-activity .animal-hotspot:focus-visible {
-      outline: 3px solid var(--nl-yellow);
+      outline: 3px solid var(--yellow);
       outline-offset: 4px;
       border-radius: 6px;
     }
@@ -578,7 +561,7 @@
     ================================================================= */
     .number-line-activity .species-progress {
       margin: 0 0 10px;
-      color: var(--nl-muted);
+      color: var(--muted);
       font-weight: 700;
     }
     
@@ -587,7 +570,7 @@
       align-items: flex-start;
       gap: 10px;
       padding: 0 10px;
-      border-bottom: 3px solid var(--activity-line);
+      border-bottom: 3px solid var(--charcoal);
     }
     .number-line-activity .graph-area {
       display: flex;
@@ -610,7 +593,7 @@
     .number-line-activity .bar-stack-row .stack-placeholder {
       margin: 0;
       padding: 40px 0;
-      color: var(--nl-muted);
+      color: var(--muted);
       text-align: center;
     }
 
@@ -658,7 +641,7 @@
       right: 0;
       bottom: -4px;
       width: 3px;
-      background: var(--activity-line);
+      background: var(--charcoal);
       content: "";
     }
 
@@ -670,7 +653,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      color: var(--nl-muted);
+      color: var(--muted);
       font-size: .72rem;
       font-weight: 700;
     }
@@ -681,7 +664,7 @@
       right: -12px;
       width: 9px;
       height: 3px;
-      background: var(--activity-line);
+      background: var(--charcoal);
       content: "";
       transform: translateY(-50%);
     }
@@ -700,7 +683,7 @@
       left: 50%;
       width: 3px;
       height: 10px;
-      background: var(--activity-line);
+      background: var(--charcoal);
       content: "";
       transform: translateX(-50%);
     }
@@ -740,7 +723,7 @@
 
     .number-line-activity .line-graph-path {
       fill: none;
-      stroke: var(--activity-purple);
+      stroke: var(--purple);
       stroke-width: 3;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -752,7 +735,7 @@
        still need connecting. */
     .number-line-activity .line-graph-point {
       fill: white;
-      stroke: var(--activity-purple);
+      stroke: var(--purple);
       stroke-width: 3;
       cursor: pointer;
       transition: fill .15s ease, stroke-width .15s ease;
@@ -765,7 +748,7 @@
     }
 
     .number-line-activity .line-graph-point.is-connected {
-      fill: var(--activity-purple);
+      fill: var(--purple);
     }
 
     .number-line-activity .line-graph-point.is-shake {
@@ -796,10 +779,10 @@
     .number-line-activity .hide-counters-button {
       padding: 10px 16px;
       background: white;
-      border: 2px solid var(--activity-line);
+      border: 2px solid var(--charcoal);
       border-radius: 14px;
-      box-shadow: 0 3px 0 var(--activity-line);
-      color: var(--nl-text);
+      box-shadow: 0 3px 0 var(--charcoal);
+      color: var(--text);
       font-family: inherit;
       font-size: .92rem;
       font-weight: 700;
@@ -812,13 +795,13 @@
     .number-line-activity .graph-toggle-button:focus-visible:not(:disabled),
     .number-line-activity .hide-counters-button:hover:not(:disabled),
     .number-line-activity .hide-counters-button:focus-visible:not(:disabled) {
-      background: var(--nl-soft-blue);
+      background: var(--soft-blue);
       outline: none;
     }
 
     .number-line-activity .graph-toggle-button:active:not(:disabled),
     .number-line-activity .hide-counters-button:active:not(:disabled) {
-      box-shadow: 0 1px 0 var(--activity-line);
+      box-shadow: 0 1px 0 var(--charcoal);
       transform: translateY(2px);
     }
 
@@ -829,9 +812,9 @@
     }
 
     .number-line-activity .hide-counters-button.is-active {
-      background: var(--nl-soft-blue);
-      border-color: var(--activity-purple);
-      box-shadow: 0 3px 0 var(--activity-purple);
+      background: var(--soft-blue);
+      border-color: var(--purple);
+      box-shadow: 0 3px 0 var(--purple);
     }
 
     .number-line-activity .stack-unit {
@@ -858,8 +841,8 @@
       top: 50%;
       margin-top: -11px;
       box-sizing: border-box;
-      border-top: 2px solid var(--activity-line);
-      border-bottom: 2px solid var(--activity-line);
+      border-top: 2px solid var(--charcoal);
+      border-bottom: 2px solid var(--charcoal);
       transform-style: preserve-3d;
       backface-visibility: visible;
     }
@@ -873,7 +856,7 @@
       margin-left: calc(var(--cylinder-diameter) / -2);
       margin-top: calc(var(--cylinder-diameter) / -2);
       box-sizing: border-box;
-      border: 2px solid var(--activity-line);
+      border: 2px solid var(--charcoal);
       border-radius: 50%;
       transform: translateY(-11px) rotateX(90deg);
       transform-style: preserve-3d;
@@ -891,7 +874,7 @@
     .number-line-activity .bar-stack-label span {
       display: block;
       margin-top: 2px;
-      color: var(--nl-muted);
+      color: var(--muted);
       font-weight: 500;
       font-size: .76rem;
     }
@@ -922,7 +905,11 @@
 <body>
 
   <!-- ============ MODULAR ACTIVITY START ============ -->
-  <section class="number-line-activity" aria-labelledby="activity-instructions">
+  
+  <!-- ============ MODULAR ACTIVITY END ============ -->
+
+  <div class="page lesson4-page">
+    <section class="number-line-activity" aria-labelledby="activity-instructions">
     <div class="activity-card instruction-card" aria-labelledby="activity-instructions">
       <div>
         <h2 id="activity-instructions">Explore the distances</h2>
@@ -942,7 +929,7 @@
       <p class="activity-note" role="status" aria-live="polite">
         Select a point to look for the animals at that distance.
       </p>
-      <div class="species-select-row" role="radiogroup" aria-label="Choose which animal to search for">
+      <div id="number-line-animal-buttons" class="species-select-row" role="radiogroup" aria-label="Choose which animal to search for">
         <div class="species-select-button-wrap">
           <button type="button" class="species-select-button" data-species="Ringtail Possum" aria-pressed="false" disabled>
             <img class="noselect" src="../images/lesson4/ringtail_1.png" alt="">
@@ -1007,9 +994,31 @@
 
     <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading" hidden>
       <h2 id="animal-tally-heading" style="margin: 0 0 4px; font-size: 1.15rem;">Count by distance</h2>
-      <p style="margin: 0 0 4px; color: var(--nl-muted);">
+      <p style="margin: 0 0 4px; color: var(--muted);">
         Choose an animal above, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
       </p>
+      
+      <div id="graph-species-buttons" class="species-select-row">
+        <div class="species-select-button-wrap">
+          <button type="button" class="species-select-button" data-species="Ringtail Possum" aria-pressed="false">
+            <img class="noselect" src="../images/lesson4/ringtail_1.png" alt="">
+          </button>
+          <span>Ringtail Possum</span>
+        </div>
+        <div class="species-select-button-wrap">
+          <button type="button" class="species-select-button" data-species="Powerful Owl" aria-pressed="false">
+            <img class="noselect" src="../images/lesson4/powerful_owl_1.png" alt="">
+          </button>
+          <span>Powerful Owl</span>
+        </div>
+        <div class="species-select-button-wrap">
+          <button type="button" class="species-select-button" data-species="Leadbeater's Possum" aria-pressed="false">
+            <img class="noselect" src="../images/lesson4/leadbeaters_possum_1.png" alt="">
+          </button>
+          <span>Leadbeater's Possum</span>
+        </div>
+      </div>
+
       <div class="graph-area">
         <p class="species-progress" hidden></p>
         <div class="bar-stack-chart">
@@ -1159,9 +1168,6 @@
       </div>
     </template>
   </section>
-  <!-- ============ MODULAR ACTIVITY END ============ -->
-
-  <div class="page lesson4-page">
 
   <!-- ============ LINE GRAPH: TURN A DATA TABLE INTO A GRAPH ============ -->
   <section class="section student-challenge linegraph-build-section"
@@ -1431,7 +1437,17 @@
         const countersHiddenButton = activity.querySelector(".hide-counters-button");
         const progressEl = activity.querySelector(".species-progress");
         const graphCompleteFeedback = activity.querySelector(".graph-complete-feedback");
-        const speciesButtons = Array.from(activity.querySelectorAll(".species-select-button"));
+        
+        const speciesButtons = Array.from(
+          document.getElementById("number-line-animal-buttons")
+                  .querySelectorAll(".species-select-button")
+        );
+
+        const graphSpeciesButtons = Array.from(
+          document.getElementById("graph-species-buttons").querySelectorAll(".species-select-button")
+        );
+
+        const numberLineContainer = activity.querySelector("#number-line-container");
         const SVG_NS = "http://www.w3.org/2000/svg";
 
         // null = nothing chosen yet; person sits at its resting 0 m position
@@ -1465,6 +1481,11 @@
         // roomier without drifting out of sync with the axis.
         const STRETCH_FACTOR = 2.4;
         const DISTANCES = [];
+        const TARGET_SPECIES = [
+          "Ringtail Possum",
+          "Powerful Owl",
+          "Leadbeater's Possum"
+        ];
         for (let d = MIN_DISTANCE; d <= MAX_DISTANCE; d += STEP) DISTANCES.push(String(d));
 
         const hotspotSpecies = new Map(); // hotspotId -> species name
@@ -1723,17 +1744,28 @@
           }
         }
 
+        function allTargetSpeciesFound() {
+          return TARGET_SPECIES.every((name) => {
+            const { found, max } = totalsFor(name);
+
+            return max > 0 && found === max;
+          });
+        }
+
         function checkAllAnimalsFound(max, found) {
-          const isAllFound = max > 0 && found === max;
-          if (isAllFound) showLineGraphSection();
-          return !isAllFound;
+          if (allTargetSpeciesFound()) {
+            showLineGraphSection();
+          }
+
+          return !(max > 0 && found === max);
         }
 
         function showLineGraphSection() {
-          document.getElementById("number-line-container").hidden = false;
+          const nextSection = document.getElementById("number-line-container");
+          nextSection.hidden = false;
 
           requestAnimationFrame(() => {
-            const targetY = activityCard.getBoundingClientRect().top + window.scrollY - 20;
+            const targetY = nextSection.getBoundingClientRect().top + window.scrollY - 20;
             
             window.scrollTo({
               top: targetY,
@@ -2042,7 +2074,7 @@
             p.classList.remove("is-selected");
             p.setAttribute("aria-expanded", "false");
           });
-          note.textContent = "Select a point, to open its content panel.";
+          note.textContent = "Select a point to look for the animals at that distance.";
         }
 
         function step(direction) {
