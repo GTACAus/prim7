@@ -998,7 +998,7 @@
       </div>
     </div>
 
-    <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading">
+    <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading" hidden>
       <h2 id="animal-tally-heading" style="margin: 0 0 4px; font-size: 1.15rem;">Count by distance</h2>
       <p style="margin: 0 0 4px; color: var(--muted);">
         Choose an animal above, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
@@ -2209,10 +2209,10 @@
           return Math.min(MAX_DISTANCE, Math.max(MIN_DISTANCE, distance));
         }
 
-        function updateArrowStates(baseDistance) {
-          backArrow.disabled = baseDistance <= MIN_DISTANCE;
-          forwardArrow.disabled = baseDistance >= MAX_DISTANCE;
-        }
+        // function updateArrowStates(baseDistance) {
+        //   backArrow.disabled = baseDistance <= MIN_DISTANCE;
+        //   forwardArrow.disabled = baseDistance >= MAX_DISTANCE;
+        // }
 
         // Makes the panel visually "grow" from whichever point was selected,
         // even though its final size/position is a big box centered above
@@ -2293,7 +2293,7 @@
 
           note.textContent = "You selected " + target + " metres. Read the panel above the line.";
 
-          updateArrowStates(target);
+          // updateArrowStates(target);
           showPanelFor(target, point);
           if (focusPoint) point.focus();
         }
@@ -2322,8 +2322,9 @@
         });
 
         panelClose.addEventListener("click", closeAll);
-        backArrow.addEventListener("click", () => step(-1));
-        forwardArrow.addEventListener("click", () => step(1));
+
+        // backArrow.addEventListener("click", () => step(-1));
+        // forwardArrow.addEventListener("click", () => step(1));
 
         if (resetButton) {
           resetButton.addEventListener("click", () => {
@@ -2339,13 +2340,13 @@
             // the back arrow, matching the very first render of the page.
             selected = null;
             person.style.left = "0%";
-            updateArrowStates(0);
+            // updateArrowStates(0);
           });
         }
 
         // Initial state: person at 0 m, nothing open, back arrow disabled.
         person.style.left = "0%";
-        updateArrowStates(0);
+        // updateArrowStates(0);
       }
 
       document
