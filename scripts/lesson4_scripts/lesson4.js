@@ -3993,6 +3993,774 @@ function partDRenderStopAndCheckGraph() {
   }
 
 
+
+
+  /* ==================================================
+     LINE GRAPH - SECTION C: STRIPED CONNIWINKS
+
+     Reuses the same Lesson 4 table, cards, drag/drop targets,
+     graph styles, point styles and manual point-connection pattern
+     as the elephant-snail activity. The plotting interaction is
+     intentionally different: students move a dotted crosshair over
+     the graph and click the coordinate for the highlighted table row.
+     ================================================== */
+
+  const conniwinksData = [
+    { x: 1, trials: [2, 4, 0] },
+    { x: 2, trials: [4, 8, 3] },
+    { x: 3, trials: [8, 8, 5] },
+    { x: 4, trials: [23, 13, 12] },
+    { x: 5, trials: [13, 4, 1] }
+  ];
+
+  const conniwinksPlot = {
+    left: 120,
+    right: 700,
+    top: 40,
+    bottom: 370,
+    maxY: 20,
+    centres: [170, 290, 410, 530, 650]
+  };
+
+  const conniwinksAxisValues = {
+    "x-variable": null,
+    "x-unit": null,
+    "y-variable": null,
+    "y-unit": null
+  };
+
+  let conniwinksStage = "averages";
+  let conniwinksPlotIndex = 0;
+  let conniwinksSelectedAxisCard = null;
+  let conniwinksDraggedAxisCard = null;
+  let conniwinksTouchDragging = false;
+  let conniwinksDragGhost = null;
+  let conniwinksConnectedOrder = [];
+
+  function conniwinksAverage(item) {
+    return item.trials.reduce(function(sum, value) { return sum + value; }, 0) / item.trials.length;
+  }
+
+  function conniwinksX(value) {
+    return conniwinksPlot.centres[value - 1];
+  }
+
+  function conniwinksY(value) {
+    return conniwinksPlot.bottom - (value / conniwinksPlot.maxY) *
+      (conniwinksPlot.bottom - conniwinksPlot.top);
+  }
+
+  function conniwinksCardLabel(value) {
+    return {
+      distance: "Distance from low tide mark",
+      conniwinks: "Number of striped conniwinks",
+      time: "Time",
+      m: "m",
+      none: "No unit",
+      cm: "cm"
+    }[value] || value;
+  }
+
+  function conniwinksBuildScaffold() {
+    const grid = document.getElementById("conniwinksGridLayer");
+    const yTicks = document.getElementById("conniwinksYTicksLayer");
+    const xTicks = document.getElementById("conniwinksXTicksLayer");
+    if (!grid || !yTicks || !xTicks) return;
+
+    grid.innerHTML = "";
+    yTicks.innerHTML = "";
+    xTicks.innerHTML = "";
+
+    /* Minor grid lines at every whole count make values such as 5 and 7
+       locatable without crowding the y-axis with 21 labels. */
+    for (let value = 0; value <= conniwinksPlot.maxY; value += 1) {
+      const y = conniwinksY(value);
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("class", "graph-grid-line");
+      line.setAttribute("x1", conniwinksPlot.left);
+      line.setAttribute("x2", conniwinksPlot.right);
+      line.setAttribute("y1", y);
+      line.setAttribute("y2", y);
+      grid.appendChild(line);
+
+      if (value % 2 === 0) {
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("class", "tick-label");
+        label.setAttribute("x", 103);
+        label.setAttribute("y", y + 4);
+        label.setAttribute("text-anchor", "end");
+        label.textContent = value;
+        yTicks.appendChild(label);
+      }
+    }
+
+    conniwinksData.forEach(function(item) {
+      const x = conniwinksX(item.x);
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "tick-label");
+      label.setAttribute("x", x);
+      label.setAttribute("y", 394);
+      label.setAttribute("text-anchor", "middle");
+      label.textContent = item.x;
+      xTicks.appendChild(label);
+    });
+  }
+
+  function conniwinksCalculateAverages() {
+    if (conniwinksStage !== "averages") return;
+
+    document.querySelectorAll("[data-conni-average]").forEach(function(cell, index) {
+      cell.textContent = partBFormatAverage(conniwinksAverage(conniwinksData[index]));
+      const td = cell.closest("td");
+      if (td) td.classList.add("calculated");
+    });
+
+    conniwinksStage = "axes";
+    const button = document.getElementById("conniwinksCalculateAveragesButton");
+    if (button) button.disabled = true;
+
+    const stage = document.getElementById("conniwinksConstructionStage");
+    if (stage) stage.hidden = false;
+
+    setChallengeFeedback(
+      "conniwinksTableFeedback",
+      "success",
+      "Averages calculated.",
+      " The average values are now shown in the final column. Use them to build your own line graph."
+    );
+
+    window.setTimeout(function() {
+      if (stage) stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
+  }
+
+  function conniwinksClearAxisSelection() {
+    document.querySelectorAll("#conniwinksLabelBank .partb-axis-card.selected").forEach(function(card) {
+      card.classList.remove("selected");
+    });
+    conniwinksSelectedAxisCard = null;
+  }
+
+  function conniwinksCreateDragGhost(card) {
+    conniwinksRemoveDragGhost();
+    const ghost = document.createElement("div");
+    ghost.className = "partb-drag-ghost";
+    const clone = card.cloneNode(true);
+    clone.disabled = false;
+    clone.removeAttribute("draggable");
+    clone.classList.remove("selected", "placed", "is-dragging");
+    ghost.appendChild(clone);
+    document.body.appendChild(ghost);
+    conniwinksDragGhost = ghost;
+  }
+
+  function conniwinksMoveDragGhost(point) {
+    if (!conniwinksDragGhost || !point) return;
+    conniwinksDragGhost.style.left = (point.clientX - conniwinksDragGhost.offsetWidth / 2) + "px";
+    conniwinksDragGhost.style.top = (point.clientY - conniwinksDragGhost.offsetHeight / 2) + "px";
+  }
+
+  function conniwinksRemoveDragGhost() {
+    if (!conniwinksDragGhost) return;
+    conniwinksDragGhost.remove();
+    conniwinksDragGhost = null;
+  }
+
+  function conniwinksClearDropHover() {
+    document.querySelectorAll("#lineGraphConniwinksSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over");
+    });
+    if (conniwinksDragGhost) conniwinksDragGhost.classList.remove("is-hovering-drop-zone");
+  }
+
+  function conniwinksGetDropZoneAtPoint(clientX, clientY, tolerance) {
+    const extra = typeof tolerance === "number" ? tolerance : 28;
+    const zones = Array.from(document.querySelectorAll("#lineGraphConniwinksSvg .partb-axis-drop-zone")).filter(function(zone) {
+      return !zone.classList.contains("drop-complete") && !zone.classList.contains("axis-complete");
+    });
+
+    let closestZone = null;
+    let closestDistance = Infinity;
+
+    zones.forEach(function(zone) {
+      const hitPad = zone.querySelector(".partb-axis-drop-hit-pad") || zone;
+      const rect = hitPad.getBoundingClientRect();
+      const inside =
+        clientX >= rect.left - extra && clientX <= rect.right + extra &&
+        clientY >= rect.top - extra && clientY <= rect.bottom + extra;
+      if (!inside) return;
+
+      const centreX = rect.left + rect.width / 2;
+      const centreY = rect.top + rect.height / 2;
+      const distance = Math.hypot(clientX - centreX, clientY - centreY);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestZone = zone;
+      }
+    });
+
+    return closestZone;
+  }
+
+  function conniwinksTryPlaceAxisCard(card, zone) {
+    if (!card || !zone || card.disabled || zone.classList.contains("drop-complete")) return;
+
+    const cardType = card.dataset.conniCardType;
+    const cardValue = card.dataset.conniCardValue;
+    const expectedType = zone.dataset.conniCardType;
+    const expectedValue = zone.dataset.conniExpected;
+
+    if (cardType !== expectedType || cardValue !== expectedValue) {
+      zone.classList.remove("drag-over");
+      zone.classList.add("drop-incorrect");
+      window.setTimeout(function() { zone.classList.remove("drop-incorrect"); }, 500);
+      conniwinksClearAxisSelection();
+
+      setChallengeFeedback(
+        "conniwinksFeedback",
+        "try-again",
+        "That card does not belong there.",
+        " Use the testable question and table headings to decide which variable or unit belongs on that axis."
+      );
+      return;
+    }
+
+    const text = zone.querySelector(".partb-axis-drop-text");
+    if (text) text.textContent = conniwinksCardLabel(cardValue);
+    zone.classList.remove("drag-over");
+    zone.classList.add("drop-complete");
+    card.classList.remove("selected", "is-dragging");
+    card.classList.add("placed");
+    card.disabled = true;
+    card.setAttribute("draggable", "false");
+    conniwinksAxisValues[zone.dataset.conniAxisSlot] = cardValue;
+    conniwinksSelectedAxisCard = null;
+
+    setChallengeFeedback(
+      "conniwinksFeedback",
+      "success",
+      conniwinksCardLabel(cardValue) + " is in the right place.",
+      " Keep going until both axes have a variable and the correct unit choice."
+    );
+
+    conniwinksUpdateAxisState();
+  }
+
+  function conniwinksUpdateAxisState() {
+    const xReady = conniwinksAxisValues["x-variable"] === "distance" && conniwinksAxisValues["x-unit"] === "m";
+    const yReady = conniwinksAxisValues["y-variable"] === "conniwinks" && conniwinksAxisValues["y-unit"] === "none";
+
+    document.getElementById("conniwinksXAxisVariableDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("conniwinksXAxisUnitDrop").classList.toggle("axis-complete", xReady);
+    document.getElementById("conniwinksYAxisVariableDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("conniwinksYAxisUnitDrop").classList.toggle("axis-complete", yReady);
+    document.getElementById("conniwinksXAxisLabel").classList.toggle("visible", xReady);
+    document.getElementById("conniwinksYAxisLabel").classList.toggle("visible", yReady);
+
+    if (!xReady || !yReady || conniwinksStage !== "axes") return;
+
+    conniwinksStage = "plot";
+    document.getElementById("conniwinksAxisBuilder").hidden = true;
+    document.getElementById("conniwinksPlotPromptBox").hidden = false;
+    document.getElementById("conniwinksStepLabel").textContent = "Step 3 · Plot the data points";
+    document.getElementById("conniwinksVisualHint").textContent = "Move the dotted guides around the graph, then click the coordinate for the highlighted row.";
+
+    conniwinksSetCurrentRow(0);
+    conniwinksUpdatePlotPrompt();
+
+    setChallengeFeedback(
+      "conniwinksFeedback",
+      "",
+      "Both axis labels are complete.",
+      " The independent variable is on the x-axis and the dependent variable is on the y-axis. Now plot the averages."
+    );
+  }
+
+  function conniwinksInitialiseAxisDragAndDrop() {
+    const cards = document.querySelectorAll("#conniwinksLabelBank .partb-axis-card");
+    const zones = document.querySelectorAll("#lineGraphConniwinksSvg .partb-axis-drop-zone");
+
+    cards.forEach(function(card) {
+      card.addEventListener("dragstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) {
+          event.preventDefault();
+          return;
+        }
+
+        conniwinksDraggedAxisCard = card;
+        card.classList.add("is-dragging");
+        event.dataTransfer.setData("text/plain", card.id);
+        event.dataTransfer.effectAllowed = "move";
+
+        const transparent = document.createElement("div");
+        transparent.style.position = "absolute";
+        transparent.style.width = "1px";
+        transparent.style.height = "1px";
+        transparent.style.opacity = "0";
+        document.body.appendChild(transparent);
+        event.dataTransfer.setDragImage(transparent, 0, 0);
+        window.setTimeout(function() { transparent.remove(); }, 0);
+
+        conniwinksCreateDragGhost(card);
+        conniwinksMoveDragGhost(event);
+      });
+
+      card.addEventListener("dragend", function() {
+        card.classList.remove("is-dragging");
+        conniwinksClearDropHover();
+        conniwinksRemoveDragGhost();
+        conniwinksDraggedAxisCard = null;
+      });
+
+      card.addEventListener("touchstart", function(event) {
+        if (card.disabled || card.classList.contains("placed")) return;
+        conniwinksDraggedAxisCard = card;
+        conniwinksTouchDragging = true;
+        card.classList.add("is-dragging");
+        const touch = event.touches[0];
+        conniwinksCreateDragGhost(card);
+        conniwinksMoveDragGhost(touch);
+        event.preventDefault();
+      }, { passive: false });
+
+      card.addEventListener("touchmove", function(event) {
+        if (!conniwinksTouchDragging || !conniwinksDraggedAxisCard) return;
+        event.preventDefault();
+        const touch = event.touches[0];
+        conniwinksMoveDragGhost(touch);
+        const zone = conniwinksGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        conniwinksClearDropHover();
+        if (zone) {
+          zone.classList.add("drag-over");
+          if (conniwinksDragGhost) conniwinksDragGhost.classList.add("is-hovering-drop-zone");
+        }
+      }, { passive: false });
+
+      card.addEventListener("touchend", function(event) {
+        if (!conniwinksTouchDragging || !conniwinksDraggedAxisCard) return;
+        event.preventDefault();
+
+        const touch = event.changedTouches[0];
+        const zone = conniwinksGetDropZoneAtPoint(touch.clientX, touch.clientY, 32);
+        const draggedCard = conniwinksDraggedAxisCard;
+
+        /* Match the iPad-safe cleanup order used by the existing line graph. */
+        conniwinksClearDropHover();
+        if (draggedCard) draggedCard.classList.remove("is-dragging");
+        conniwinksRemoveDragGhost();
+        conniwinksDraggedAxisCard = null;
+        conniwinksTouchDragging = false;
+
+        if (zone) conniwinksTryPlaceAxisCard(draggedCard, zone);
+      }, { passive: false });
+
+      card.addEventListener("touchcancel", function() {
+        if (conniwinksDraggedAxisCard) conniwinksDraggedAxisCard.classList.remove("is-dragging");
+        conniwinksClearDropHover();
+        conniwinksRemoveDragGhost();
+        conniwinksDraggedAxisCard = null;
+        conniwinksTouchDragging = false;
+      });
+
+      card.addEventListener("click", function() {
+        if (card.disabled || card.classList.contains("placed")) return;
+        const alreadySelected = conniwinksSelectedAxisCard === card;
+        conniwinksClearAxisSelection();
+        if (!alreadySelected) {
+          conniwinksSelectedAxisCard = card;
+          card.classList.add("selected");
+        }
+      });
+    });
+
+    document.addEventListener("dragover", function(event) {
+      if (!conniwinksDraggedAxisCard) return;
+      event.preventDefault();
+      conniwinksMoveDragGhost(event);
+      const zone = conniwinksGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      conniwinksClearDropHover();
+      if (zone) {
+        zone.classList.add("drag-over");
+        if (conniwinksDragGhost) conniwinksDragGhost.classList.add("is-hovering-drop-zone");
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+      }
+    });
+
+    document.addEventListener("drop", function(event) {
+      if (!conniwinksDraggedAxisCard) return;
+      event.preventDefault();
+      const zone = conniwinksGetDropZoneAtPoint(event.clientX, event.clientY, 28);
+      const draggedCard = conniwinksDraggedAxisCard;
+      conniwinksClearDropHover();
+      conniwinksRemoveDragGhost();
+      conniwinksDraggedAxisCard = null;
+      if (zone) conniwinksTryPlaceAxisCard(draggedCard, zone);
+    });
+
+    zones.forEach(function(zone) {
+      zone.addEventListener("click", function() {
+        if (conniwinksSelectedAxisCard) conniwinksTryPlaceAxisCard(conniwinksSelectedAxisCard, zone);
+      });
+      zone.addEventListener("keydown", function(event) {
+        if ((event.key === "Enter" || event.key === " ") && conniwinksSelectedAxisCard) {
+          event.preventDefault();
+          conniwinksTryPlaceAxisCard(conniwinksSelectedAxisCard, zone);
+        }
+      });
+    });
+  }
+
+  function conniwinksSetCurrentRow(index) {
+    document.querySelectorAll("#conniwinksTableBody tr").forEach(function(row, rowIndex) {
+      row.classList.toggle("partc-current-row", rowIndex === index);
+      if (rowIndex < index) row.classList.add("partc-complete-row");
+      else row.classList.remove("partc-complete-row");
+    });
+  }
+
+  function conniwinksUpdatePlotPrompt() {
+    if (conniwinksPlotIndex >= conniwinksData.length) return;
+    const item = conniwinksData[conniwinksPlotIndex];
+    const average = conniwinksAverage(item);
+    document.getElementById("conniwinksPlotPromptTitle").textContent =
+      "Point " + (conniwinksPlotIndex + 1) + " of " + conniwinksData.length + ": plot (" + item.x + ", " + partBFormatAverage(average) + ").";
+    document.getElementById("conniwinksPlotPromptText").textContent =
+      "Move the dotted guides until they cross at the highlighted row's x-value and average, then click the graph.";
+  }
+
+  function conniwinksSvgPoint(event) {
+    const svg = document.getElementById("lineGraphConniwinksSvg");
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const matrix = svg.getScreenCTM();
+    return matrix ? point.matrixTransform(matrix.inverse()) : null;
+  }
+
+  function conniwinksHideCrosshair() {
+    document.getElementById("conniwinksCrossV").classList.remove("visible");
+    document.getElementById("conniwinksCrossH").classList.remove("visible");
+  }
+
+  function conniwinksUpdateCrosshair(event) {
+    if (conniwinksStage !== "plot" || conniwinksPlotIndex >= conniwinksData.length) return;
+    const point = conniwinksSvgPoint(event);
+    if (!point) return;
+
+    if (
+      point.x < conniwinksPlot.left || point.x > conniwinksPlot.right ||
+      point.y < conniwinksPlot.top || point.y > conniwinksPlot.bottom
+    ) {
+      conniwinksHideCrosshair();
+      return;
+    }
+
+    const vertical = document.getElementById("conniwinksCrossV");
+    const horizontal = document.getElementById("conniwinksCrossH");
+    vertical.setAttribute("x1", point.x);
+    vertical.setAttribute("x2", point.x);
+    horizontal.setAttribute("y1", point.y);
+    horizontal.setAttribute("y2", point.y);
+    vertical.classList.add("visible");
+    horizontal.classList.add("visible");
+  }
+
+  function conniwinksPlacePoint(event) {
+    if (conniwinksStage !== "plot" || conniwinksPlotIndex >= conniwinksData.length) return;
+
+    const point = conniwinksSvgPoint(event);
+    if (!point) return;
+
+    if (
+      point.x < conniwinksPlot.left || point.x > conniwinksPlot.right ||
+      point.y < conniwinksPlot.top || point.y > conniwinksPlot.bottom
+    ) return;
+
+    const target = conniwinksData[conniwinksPlotIndex];
+    const average = conniwinksAverage(target);
+    const targetX = conniwinksX(target.x);
+    const targetY = conniwinksY(average);
+    const dx = Math.abs(point.x - targetX);
+    const dy = Math.abs(point.y - targetY);
+    const distance = Math.hypot(dx, dy);
+
+    if (distance > 34) {
+      let hint = " Find " + target.x + " on the x-axis, then move across to " + partBFormatAverage(average) + " on the y-axis.";
+      if (dx <= 26 && dy > 26) {
+        hint = " Your x-position is close. Check the y-value: " + partBFormatAverage(average) + ".";
+      } else if (dy <= 26 && dx > 26) {
+        hint = " Your y-position is close. Check the x-value: " + target.x + " m.";
+      }
+
+      setChallengeFeedback(
+        "conniwinksFeedback",
+        "try-again",
+        "Use both axes.",
+        hint
+      );
+      return;
+    }
+
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("class", "linegraph-point");
+    circle.setAttribute("cx", targetX);
+    circle.setAttribute("cy", targetY);
+    circle.setAttribute("r", 8);
+    circle.dataset.conniPointIndex = conniwinksPlotIndex;
+    circle.setAttribute("aria-label", target.x + " metres, " + partBFormatAverage(average) + " striped conniwinks");
+    circle.addEventListener("click", function(event) {
+      if (conniwinksStage !== "connect") return;
+      event.stopPropagation();
+      conniwinksConnectPoint(Number(circle.dataset.conniPointIndex), circle);
+    });
+    circle.addEventListener("keydown", function(event) {
+      if (conniwinksStage !== "connect") return;
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        conniwinksConnectPoint(Number(circle.dataset.conniPointIndex), circle);
+      }
+    });
+    document.getElementById("conniwinksPointsLayer").appendChild(circle);
+
+    conniwinksPlotIndex += 1;
+    conniwinksHideCrosshair();
+    conniwinksSetCurrentRow(conniwinksPlotIndex);
+
+    if (conniwinksPlotIndex < conniwinksData.length) {
+      conniwinksUpdatePlotPrompt();
+      setChallengeFeedback(
+        "conniwinksFeedback",
+        "",
+        "Correct point.",
+        " It snapped to the measured coordinate. Now plot the next highlighted row."
+      );
+      return;
+    }
+
+    conniwinksBeginConnect();
+  }
+
+  function conniwinksBeginConnect() {
+    conniwinksStage = "connect";
+    conniwinksHideCrosshair();
+    document.getElementById("conniwinksPlotPromptBox").hidden = true;
+    document.getElementById("conniwinksConnectPrompt").hidden = false;
+    document.getElementById("conniwinksStepLabel").textContent = "Step 4 · Connect the data points";
+    document.getElementById("conniwinksVisualHint").textContent = "All five averages are plotted. Click neighbouring points to build the line yourself.";
+
+    document.querySelectorAll("#conniwinksPointsLayer .linegraph-point").forEach(function(point) {
+      point.classList.add("connectable");
+      point.setAttribute("tabindex", "0");
+      point.setAttribute("role", "button");
+      point.setAttribute("aria-label", point.getAttribute("aria-label") + ". Click to connect this point.");
+    });
+
+    setChallengeFeedback(
+      "conniwinksFeedback",
+      "",
+      "All five data points are plotted.",
+      " Click any point to start the line, then connect neighbouring points until the whole pattern is joined."
+    );
+  }
+
+  function conniwinksConnectPoint(index, circle) {
+    if (conniwinksStage !== "connect") return;
+    if (conniwinksConnectedOrder.includes(index)) return;
+
+    let canConnect = false;
+    let prepend = false;
+
+    if (conniwinksConnectedOrder.length === 0) {
+      canConnect = true;
+    } else {
+      const first = conniwinksConnectedOrder[0];
+      const last = conniwinksConnectedOrder[conniwinksConnectedOrder.length - 1];
+      if (index === first - 1) {
+        canConnect = true;
+        prepend = true;
+      } else if (index === last + 1) {
+        canConnect = true;
+      }
+    }
+
+    if (!canConnect) {
+      circle.classList.add("connect-error");
+      window.setTimeout(function() { circle.classList.remove("connect-error"); }, 550);
+      setChallengeFeedback(
+        "conniwinksFeedback",
+        "try-again",
+        "Connect neighbouring points.",
+        " A line graph joins each point to the next x-value. Choose a point beside the end of the line you have already made."
+      );
+      return;
+    }
+
+    if (prepend) conniwinksConnectedOrder.unshift(index);
+    else conniwinksConnectedOrder.push(index);
+
+    circle.classList.add("connected");
+    conniwinksRedrawPath();
+
+    if (conniwinksConnectedOrder.length === conniwinksData.length) {
+      conniwinksFinish();
+      return;
+    }
+
+    setChallengeFeedback(
+      "conniwinksFeedback",
+      "",
+      "Point connected.",
+      " Keep joining a neighbouring point until all five are part of one continuous line."
+    );
+  }
+
+  function conniwinksRedrawPath() {
+    const points = conniwinksConnectedOrder.map(function(index) {
+      const item = conniwinksData[index];
+      return conniwinksX(item.x) + "," + conniwinksY(conniwinksAverage(item));
+    });
+    document.getElementById("conniwinksPath").setAttribute("points", points.join(" "));
+  }
+
+  function conniwinksFinish() {
+    conniwinksStage = "complete";
+    document.getElementById("conniwinksConnectPrompt").hidden = true;
+    document.getElementById("conniwinksComplete").hidden = false;
+    document.getElementById("conniwinksStepLabel").textContent = "Line graph complete ✓";
+    document.getElementById("conniwinksVisualHint").textContent = "The connected points show how the average number of striped conniwinks changes with distance.";
+
+    document.querySelectorAll("#conniwinksPointsLayer .linegraph-point").forEach(function(point) {
+      point.classList.remove("connectable");
+      point.removeAttribute("tabindex");
+      point.removeAttribute("role");
+    });
+
+    document.getElementById("conniwinksFeedback").hidden = true;
+    document.getElementById("conniwinksPredictionCheck").hidden = false;
+  }
+
+  function conniwinksHandlePredictionChoice(button) {
+    const correct = button.dataset.conniPrediction === "not-supported";
+    const feedback = document.getElementById("conniwinksPredictionFeedback");
+
+    document.querySelectorAll("#conniwinksPredictionCheck .prediction-button").forEach(function(other) {
+      other.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    if (!correct) {
+      flashChoice(button, "try-again-choice");
+      feedback.hidden = false;
+      setChallengeFeedback(
+        "conniwinksPredictionFeedback",
+        "try-again",
+        "Look at the whole trend again.",
+        " The averages rise from 2 at 1 m to 16 at 4 m, then fall to 6 at 5 m. Does that show a consistent decrease as distance increases?"
+      );
+      return;
+    }
+
+    feedback.hidden = true;
+    button.classList.add("selected-answer");
+  }
+
+  function resetConniwinksLineGraph() {
+    conniwinksStage = "averages";
+    conniwinksPlotIndex = 0;
+    conniwinksSelectedAxisCard = null;
+    conniwinksDraggedAxisCard = null;
+    conniwinksTouchDragging = false;
+    conniwinksConnectedOrder = [];
+    conniwinksRemoveDragGhost();
+
+    Object.keys(conniwinksAxisValues).forEach(function(key) {
+      conniwinksAxisValues[key] = null;
+    });
+
+    document.querySelectorAll("[data-conni-average]").forEach(function(cell) {
+      cell.textContent = "—";
+      const td = cell.closest("td");
+      if (td) td.classList.remove("calculated");
+    });
+
+    const calculateButton = document.getElementById("conniwinksCalculateAveragesButton");
+    if (calculateButton) calculateButton.disabled = false;
+
+    document.getElementById("conniwinksConstructionStage").hidden = true;
+    document.getElementById("conniwinksAxisBuilder").hidden = false;
+    document.getElementById("conniwinksPlotPromptBox").hidden = true;
+    document.getElementById("conniwinksConnectPrompt").hidden = true;
+    document.getElementById("conniwinksComplete").hidden = true;
+    document.getElementById("conniwinksFeedback").hidden = false;
+    document.getElementById("conniwinksPredictionCheck").hidden = true;
+    document.getElementById("conniwinksPredictionFeedback").hidden = true;
+
+    document.querySelectorAll("#conniwinksPredictionCheck .prediction-button").forEach(function(button) {
+      button.classList.remove("selected-answer", "try-again-choice", "correct-choice");
+    });
+
+    document.getElementById("conniwinksStepLabel").textContent = "Step 2 · Label the axes and units";
+    document.getElementById("conniwinksVisualHint").textContent = "Label the variables and units before plotting the averages.";
+
+    document.querySelectorAll("#conniwinksLabelBank .partb-axis-card").forEach(function(card) {
+      card.classList.remove("selected", "placed", "is-dragging");
+      card.disabled = false;
+      card.setAttribute("draggable", "true");
+    });
+
+    document.querySelectorAll("#lineGraphConniwinksSvg .partb-axis-drop-zone").forEach(function(zone) {
+      zone.classList.remove("drag-over", "drop-complete", "drop-incorrect", "axis-complete");
+      const text = zone.querySelector(".partb-axis-drop-text");
+      if (text) text.textContent = text.dataset.placeholder;
+    });
+
+    document.getElementById("conniwinksXAxisLabel").classList.remove("visible");
+    document.getElementById("conniwinksYAxisLabel").classList.remove("visible");
+    conniwinksHideCrosshair();
+    document.getElementById("conniwinksPointsLayer").innerHTML = "";
+    document.getElementById("conniwinksPath").setAttribute("points", "");
+
+    document.querySelectorAll("#conniwinksTableBody tr").forEach(function(row) {
+      row.classList.remove("partc-current-row", "partc-complete-row");
+    });
+
+    setChallengeFeedback(
+      "conniwinksTableFeedback",
+      "",
+      "Start with the repeated counts.",
+      " The graph will use the average number of striped conniwinks at each distance."
+    );
+
+    setChallengeFeedback(
+      "conniwinksFeedback",
+      "",
+      "Label the graph first.",
+      " Use the table headings to decide which variable and unit belong on each axis."
+    );
+  }
+
+  function initialiseConniwinksLineGraph() {
+    if (!document.getElementById("line-graph-conniwinks")) return;
+
+    conniwinksBuildScaffold();
+    conniwinksInitialiseAxisDragAndDrop();
+
+    document.getElementById("conniwinksCalculateAveragesButton").addEventListener("click", conniwinksCalculateAverages);
+    document.getElementById("resetConniwinksButton").addEventListener("click", resetConniwinksLineGraph);
+
+    const svg = document.getElementById("lineGraphConniwinksSvg");
+    svg.addEventListener("pointermove", conniwinksUpdateCrosshair);
+    svg.addEventListener("pointerleave", conniwinksHideCrosshair);
+    svg.addEventListener("pointerup", conniwinksPlacePoint);
+
+    document.querySelectorAll("#conniwinksPredictionCheck [data-conni-prediction]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        conniwinksHandlePredictionChoice(button);
+      });
+    });
+
+    resetConniwinksLineGraph();
+  }
+
   /* ==================================================
      PAGE INITIALISATION
      ================================================== */
@@ -4031,5 +4799,6 @@ function partDRenderStopAndCheckGraph() {
     initialisePartC();
     initialisePartD();
     initialiseElephantLineGraph();
+    initialiseConniwinksLineGraph();
   });
 })();
