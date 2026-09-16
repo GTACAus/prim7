@@ -581,6 +581,8 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    transition: height .7s ease;
+
 }
 
     .bar-stack-row::before {
@@ -592,6 +594,7 @@
     background: var(--charcoal);
     content: "";
     z-index: 0;
+    transition: top .7s ease;
 }
 
     .bar-stack-row {
@@ -633,6 +636,7 @@
 
     width: 100%;
     height: var(--row-height, 200px);
+    transition: height .7s ease;
 
     perspective: 700px;
 }
@@ -649,7 +653,7 @@
     margin-right: 4px;
     opacity: 0;
     overflow: visible;
-    transition: opacity .2s ease, width .2s ease, margin-right .2s ease, height .2s ease;
+    transition: opacity .2s ease, width .2s ease, margin-right .2s ease, height .7s ease;
 }
 
     .bar-stack-chart.is-graph-mode .y-axis {
@@ -679,6 +683,7 @@
     color: var(--muted);
     font-size: .72rem;
     font-weight: 700;
+    transition: bottom .7s ease;
 }
 
     .y-axis-tick::after {
@@ -692,15 +697,9 @@
     transform: translateY(-50%);
 }
 
-    .bar-stack-chart.is-graph-mode .stack-group::after {
-    position: absolute;
-    top: var(--row-height);
-    left: 50%;
-    width: 3px;
-    height: 10px;
-    background: var(--charcoal);
-    content: "";
-    transform: translateX(-50%);
+    .x-axis-tick-mark {
+    fill: var(--charcoal);
+    transition: x .7s ease, y .7s ease;
 }
 
 /* ---- Line-graph overlay: shown instead of the cylinders once toggled.
@@ -728,7 +727,7 @@
     opacity: 0;
     pointer-events: none;
     overflow: visible;
-    transition: opacity .2s ease;
+    transition: opacity .2s ease, top .7s ease;
 }
 
     .bar-stack-chart.is-graph-mode .line-graph-overlay {
@@ -745,6 +744,9 @@
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
+    /* x1/y1/x2/y2 aren't real CSS properties on <line>, so a CSS
+       transition here would be silently ignored — the endpoints are
+       animated by hand in JS instead (see animateSvgAttrs). */
 }
 
 /* Every distance's point is plotted and clickable from the start;
@@ -756,7 +758,7 @@
     stroke: var(--purple);
     stroke-width: 3;
     cursor: pointer;
-    transition: fill .15s ease, stroke-width .15s ease;
+    transition: fill .15s ease, stroke-width .15s ease, cx .7s ease, cy .7s ease;
 }
 
     .line-graph-point:hover,
@@ -892,6 +894,7 @@
     text-align: center;
     font-size: .82rem;
     font-weight: 700;
+    transition: top .7s ease;
 }
 
     .bar-stack-label span {

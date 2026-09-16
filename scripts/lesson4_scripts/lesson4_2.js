@@ -3482,7 +3482,7 @@
        on the y-axis.
     --------------------------------------------------------------- */
     const barColours = ["#ffd747", "#7c4dff", "#5cc8ff", "#b7e9a8", "#ff8a65", "#c792ea", "#4fd1c5"];
-    const CYLINDER_UNIT_HEIGHT = 5;
+    const CYLINDER_UNIT_HEIGHT = 10;
     const CYLINDER_DIAMETER = 80;
     // How much taller the chart gets, per animal, once "Hide counters"
     // is on — everything (row height, y-axis ticks, plotted points)
@@ -3561,13 +3561,30 @@
 
     function buildYAxis(maxUnits) {
       if (!yAxis) return;
-      yAxis.innerHTML = "";
+
+      // Reuse existing tick elements rather than wiping and rebuilding
+      // them every render: a brand-new element has no "before" state,
+      // so the CSS transition on `bottom` has nothing to animate from
+      // and the tick just snaps into place. Updating an existing
+      // element's `bottom` instead lets it glide smoothly in step with
+      // the axis height transition.
+      const existingTicks = Array.from(yAxis.querySelectorAll(".y-axis-tick"));
+
       for (let i = 0; i <= maxUnits; i += 1) {
-        const tick = document.createElement("div");
-        tick.className = "y-axis-tick";
-        tick.style.bottom = i * activeUnitHeight + "px";
+        const bottom = i * activeUnitHeight + "px";
+        let tick = existingTicks[i];
+        if (!tick) {
+          tick = document.createElement("div");
+          tick.className = "y-axis-tick";
+          yAxis.appendChild(tick);
+        }
+        tick.style.bottom = bottom;
         tick.textContent = String(i);
-        yAxis.appendChild(tick);
+      }
+
+      // Drop any leftover ticks from a taller previous axis.
+      for (let i = maxUnits + 1; i < existingTicks.length; i += 1) {
+        existingTicks[i].remove();
       }
     }
 
@@ -3633,18 +3650,85 @@
     }
     const pointsByDistance = new Map();
 
+    // Circles persist across renders (keyed by distance) instead of
+    // being destroyed and recreated every time renderLineOverlay runs.
+    // A brand-new SVG element has no "before" cx/cy for the browser to
+    // transition from, so it just snaps straight to its final spot;
+    // reusing the same element lets the CSS transition on cx/cy glide
+    // it there instead, in step with the chart's height transition.
+    const circlesByDistance = new Map();
+
+    // Connecting-line segments persist the same way, keyed by the pair
+    // of distances they join.
+    const linesByKey = new Map();
+
+    // CSS transitions only work on the SVG geometry attributes the spec
+    // actually exposes as CSS properties (cx/cy/r on <circle>, x/y/width/
+    // height on <rect>). x1/y1/x2/y2 on <line> are NOT among them, so
+    // `transition: x1 ...` in CSS is silently ignored. This hand-rolls
+    // the same easing for attributes CSS can't animate.
+    function animateSvgAttrs(el, targets, duration) {
+      if (el._animFrame) {
+        cancelAnimationFrame(el._animFrame);
+        el._animFrame = null;
+      }
+
+      const froms = {};
+      let hasFrom = false;
+      Object.keys(targets).forEach((attr) => {
+        const current = el.getAttribute(attr);
+        if (current !== null && current !== "") {
+          froms[attr] = parseFloat(current);
+          hasFrom = true;
+        }
+      });
+
+      // Nothing to animate from (brand new element) — just place it.
+      if (!hasFrom) {
+        Object.keys(targets).forEach((attr) => el.setAttribute(attr, targets[attr]));
+        return;
+      }
+
+      const start = performance.now();
+
+      function step(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+        Object.keys(targets).forEach((attr) => {
+          const from = froms[attr] === undefined ? targets[attr] : froms[attr];
+          const to = targets[attr];
+          el.setAttribute(attr, from + (to - from) * eased);
+        });
+
+        el._animFrame = t < 1 ? requestAnimationFrame(step) : null;
+      }
+
+      el._animFrame = requestAnimationFrame(step);
+    }
+
+    // The little x-axis tick mark under each column (only shown in
+    // graph mode) used to be a ::after pseudo-element on .stack-group,
+    // but .stack-group is torn down and rebuilt fresh by renderChart()
+    // every render, so the pseudo-element always started from scratch
+    // with no "before" position to transition from. Drawing it here
+    // instead, as a persistent SVG line inside the same overlay that
+    // already holds the points/segments, lets it glide like they do.
+    const xAxisTicksByDistance = new Map();
+
     // currentPolyline/currentColumnEntries track the graph currently on
     // screen so redrawPolyline() and checkGraphComplete() (called from
     // the per-point click handlers) don't need it threaded through.
     let currentColumnEntries = [];
 
     function renderLineOverlay(columnEntries) {
-      lineOverlaySvg.innerHTML = "";
       pointsByDistance.clear();
       currentColumnEntries = columnEntries;
       if (!chartWrap || !columnEntries.length) return;
 
       const wrapRect = barRow.getBoundingClientRect();
+      const groundYByDistance = new Map();
+
       columnEntries.forEach(({ group, column, count, distance }) => {
         const groupRect = group.getBoundingClientRect();
         const columnRect = column.getBoundingClientRect();
@@ -3654,41 +3738,79 @@
           wrapRect.left +
           groupRect.width / 2;
 
-        const y =
-          columnRect.bottom -
-          wrapRect.top -
-          count * activeUnitHeight;
+        const groundY = columnRect.bottom - wrapRect.top;
+
+        const y = groundY - count * activeUnitHeight;
 
         pointsByDistance.set(distance, { x, y });
-      });;;
+        groundYByDistance.set(distance, { x, groundY });
+      });
 
       redrawPolyline();
 
-      pointsByDistance.forEach((p, distance) => {
-        const circle = document.createElementNS(SVG_NS, "circle");
-        circle.classList.add("line-graph-point");
-        const connectedOrder = getConnectedOrder();
+      const TICK_WIDTH = 3;
+      const TICK_HEIGHT = 10;
 
-        circle.classList.toggle(
-          "is-connected",
-          connectedOrder.includes(distance)
-        );
-        
+      groundYByDistance.forEach(({ x, groundY }, distance) => {
+        let tick = xAxisTicksByDistance.get(distance);
+        if (!tick) {
+          // A <rect> rather than a <line>: x/y/width/height are real,
+          // CSS-transitionable SVG geometry properties (x1/y1/x2/y2 on
+          // a <line> are not — see animateSvgAttrs above), so this can
+          // just use a plain CSS transition like the points do.
+          tick = document.createElementNS(SVG_NS, "rect");
+          tick.classList.add("x-axis-tick-mark");
+          tick.setAttribute("width", TICK_WIDTH);
+          tick.setAttribute("height", TICK_HEIGHT);
+          xAxisTicksByDistance.set(distance, tick);
+          lineOverlaySvg.appendChild(tick);
+        }
+        tick.setAttribute("x", x - TICK_WIDTH / 2);
+        tick.setAttribute("y", groundY);
+      });
+
+      xAxisTicksByDistance.forEach((tick, distance) => {
+        if (!groundYByDistance.has(distance)) {
+          tick.remove();
+          xAxisTicksByDistance.delete(distance);
+        }
+      });
+
+      const connectedOrder = getConnectedOrder();
+
+      pointsByDistance.forEach((p, distance) => {
+        let circle = circlesByDistance.get(distance);
+
+        if (!circle) {
+          circle = document.createElementNS(SVG_NS, "circle");
+          circle.classList.add("line-graph-point");
+          circle.setAttribute("r", 7);
+          circle.setAttribute("tabindex", "0");
+          circle.setAttribute("role", "button");
+          circle.setAttribute("aria-label", distance + " metres point");
+          circle.addEventListener("click", () => connectGraphPoint(circle, distance));
+          circle.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              connectGraphPoint(circle, distance);
+            }
+          });
+          circlesByDistance.set(distance, circle);
+          lineOverlaySvg.appendChild(circle);
+        }
+
+        circle.classList.toggle("is-connected", connectedOrder.includes(distance));
         circle.setAttribute("cx", p.x);
         circle.setAttribute("cy", p.y);
-        circle.setAttribute("r", 7);
-        circle.setAttribute("tabindex", "0");
-        circle.setAttribute("role", "button");
-        circle.setAttribute("aria-label", distance + " metres point");
-        circle.addEventListener("click", () => connectGraphPoint(circle, distance));
-        circle.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            connectGraphPoint(circle, distance);
-          }
-        });
+      });
 
-        lineOverlaySvg.appendChild(circle);
+      // Drop circles for distances that no longer have a point (only
+      // relevant if DISTANCES itself ever changes at runtime).
+      circlesByDistance.forEach((circle, distance) => {
+        if (!pointsByDistance.has(distance)) {
+          circle.remove();
+          circlesByDistance.delete(distance);
+        }
       });
     }
 
@@ -3701,12 +3823,8 @@
     chartResizeObserver.observe(barRow);
 
     function redrawPolyline() {
-      // Remove any existing line segments.
-      lineOverlaySvg
-        .querySelectorAll(".line-graph-path")
-        .forEach((line) => line.remove());
-
       const connectedOrder = getConnectedOrder();
+      const neededKeys = new Set();
 
       // Check every adjacent pair of graph points.
       for (let i = 0; i < DISTANCES.length - 1; i += 1) {
@@ -3723,21 +3841,33 @@
 
           if (!p1 || !p2) continue;
 
-          const line = document.createElementNS(SVG_NS, "line");
+          const key = leftDistance + "->" + rightDistance;
+          neededKeys.add(key);
 
-          line.setAttribute("class", "line-graph-path");
-          line.setAttribute("x1", p1.x);
-          line.setAttribute("y1", p1.y);
-          line.setAttribute("x2", p2.x);
-          line.setAttribute("y2", p2.y);
+          // Reuse an existing segment rather than recreating it, so a
+          // segment that's already on screen glides to its new
+          // endpoints (via the CSS transition on x1/y1/x2/y2) instead
+          // of popping straight to its final position every render.
+          let line = linesByKey.get(key);
+          if (!line) {
+            line = document.createElementNS(SVG_NS, "line");
+            line.setAttribute("class", "line-graph-path");
+            linesByKey.set(key, line);
+            // Put the line behind the circles.
+            lineOverlaySvg.insertBefore(line, lineOverlaySvg.firstChild);
+          }
 
-          // Put the line behind the circles.
-          lineOverlaySvg.insertBefore(
-            line,
-            lineOverlaySvg.firstChild
-          );
+          animateSvgAttrs(line, { x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y }, 700);
         }
       }
+
+      // Remove any segment that's no longer connected.
+      linesByKey.forEach((line, key) => {
+        if (!neededKeys.has(key)) {
+          line.remove();
+          linesByKey.delete(key);
+        }
+      });
 
       checkGraphComplete();
     }
@@ -3930,18 +4060,43 @@
       numberLineContainer.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
+    // Persistent per-distance {group, column, label, units} so renderChart()
+    // can update an existing column's height/count in place instead of
+    // destroying and recreating it every render. A destroyed-and-rebuilt
+    // element has no "before" state, so nothing about it (its own height
+    // transition, or anything laid out relative to it, like the label
+    // sitting below it) can ever animate — that's what was making the
+    // labels and everything else in the chart jump instead of glide.
+    const columnEntriesByDistance = new Map();
+    let lastRenderedSpecies = undefined;
+
+    function resetColumnEntries() {
+      barRow.innerHTML = "";
+      columnEntriesByDistance.clear();
+    }
+
     function renderChart() {
       if (!barRow) return;
-      barRow.innerHTML = "";
 
       if (!selectedSpecies) {
+        resetColumnEntries();
         const placeholder = document.createElement("p");
         placeholder.className = "stack-placeholder";
         placeholder.textContent = "Choose an animal above to start counting.";
         barRow.appendChild(placeholder);
         if (yAxis) yAxis.innerHTML = "";
+        lastRenderedSpecies = null;
         updateProgressAndGraphButton();
         return;
+      }
+
+      // A fresh species has a completely different dataset (and colour),
+      // so there's nothing meaningful to animate between the two — start
+      // its columns from scratch rather than trying to reuse the last
+      // species' cylinders (which would otherwise keep their old colour).
+      if (selectedSpecies !== lastRenderedSpecies) {
+        resetColumnEntries();
+        lastRenderedSpecies = selectedSpecies;
       }
 
       const colour = speciesColours.get(selectedSpecies) || barColours[0];
@@ -3964,31 +4119,46 @@
       DISTANCES.forEach((distance) => {
         const count = foundAtDistance(selectedSpecies, distance);
 
-        const group = document.createElement("div");
-        group.className = "stack-group";
+        let entry = columnEntriesByDistance.get(distance);
+        if (!entry) {
+          const group = document.createElement("div");
+          group.className = "stack-group";
 
-        const column = document.createElement("div");
-        column.className = "bar-stack-column";
+          const column = document.createElement("div");
+          column.className = "bar-stack-column";
 
-        for (let i = 0; i < count; i += 1) {
+          const label = document.createElement("div");
+          label.className = "bar-stack-label";
+
+          group.appendChild(column);
+          group.appendChild(label);
+          barRow.appendChild(group);
+
+          entry = { group, column, label, units: [] };
+          columnEntriesByDistance.set(distance, entry);
+        }
+
+        // Add only the newly-found units (each still gets its pop-in
+        // animation) and drop any that are no longer found, instead of
+        // rebuilding the whole stack.
+        while (entry.units.length < count) {
+          const i = entry.units.length;
           const unit = document.createElement("div");
           unit.className = "stack-unit";
           unit.style.animationDelay = i * 0.05 + "s";
           createCylinder(unit, colour);
-          column.appendChild(unit);
+          entry.column.appendChild(unit);
+          entry.units.push(unit);
+        }
+        while (entry.units.length > count) {
+          entry.units.pop().remove();
         }
 
-        const label = document.createElement("div");
-        label.className = "bar-stack-label";
-        label.innerHTML = distance + " m<span>" + count + "</span>";
-
-        group.appendChild(column);
-        group.appendChild(label);
-        barRow.appendChild(group);
+        entry.label.innerHTML = distance + " m<span>" + count + "</span>";
 
         columnEntries.push({
-          group,
-          column,
+          group: entry.group,
+          column: entry.column,
           count,
           distance
         });
