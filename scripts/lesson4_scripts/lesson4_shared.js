@@ -2,7 +2,7 @@
    LESSON 4 SHARED FUNCTIONS
 
    Used by both lesson4.js (lesson4.html) and
-   lesson4_2.js (test-lesson4-2.html). Load this file
+   lesson4_2.js (lesson4-2.html). Load this file
    before either of those scripts.
    ================================================== */
 

@@ -1,14 +1,6 @@
 
 
 (function initialiseLesson4_2() {
-    const sectionIds = [
-        { id: "marine-snail-context", label: "Victorian Marine Snails" },
-        { id: "number-line-activity", label: "Explore How a Line Graph Works" },
-        { id: "line-graph-elephant", label: "Turn a Data Table into a Line Graph" },
-        { id: "line-graph-conniwinks", label: "Build a Line Graph" },
-        { id: "line-graph-yeast", label: "Practise Applying the Principles" },
-    ];
-
   /* ==================================================
      LINE GRAPH - TURN A DATA TABLE INTO A GRAPH
      Elephant snail investigation on lesson4-2.
@@ -3411,7 +3403,7 @@
 
   /* ==================================================
      NUMBER LINE ACTIVITY
-     Moved from the inline <script> in test-lesson4-2.html.
+     Moved from the inline <script> in lesson4-2.html.
      Distance/species exploration with the panel + graph.
      ================================================== */
 
@@ -4463,9 +4455,22 @@
   // when students should unlock Parts A-D progressively.
   const DEV_MODE = false;
 
+  const sectionIds = [
+      { id: "marine-snail-context", label: "Victorian Marine Snails" },
+      { id: "number-line-activity", label: "Explore How a Line Graph Works" },
+      { id: "line-graph-elephant", label: "Turn a Data Table into a Line Graph" },
+      { id: "line-graph-conniwinks", label: "Build a Line Graph" },
+      { id: "line-graph-yeast", label: "Practise Applying the Principles" },
+  ];
+
+  const teacherBackLink = {
+      label: "← Back to Part A",
+      href: "lesson4.html",
+  };
+
   document.addEventListener("DOMContentLoaded", function() {
     if (typeof initialiseTeacherMenu === "function") {
-      initialiseTeacherMenu(sectionIds, "marine-snail-context");
+      initialiseTeacherMenu(sectionIds, "marine-snail-context", teacherBackLink);
     }
 
     if (DEV_MODE && typeof teacherShowAll === "function") {
