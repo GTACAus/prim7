@@ -1,12 +1,6 @@
 "use strict";
 
 (function initialiseLesson4() {
-  const lesson4SectionIds = [
-    { id: "bar-practice", label: "Collect and visualise animal data" },
-    { id: "bar-construction", label: "Construct a bar graph" },
-    { id: "bar-follow-up", label: "Part C: Survey Site 2" },
-    { id: "bar-compare", label: "Part D: Compare Site 1 and Site 2" }
-  ];
   /* ==================================================
      STUDENT PRACTICE CHALLENGES
      ================================================== */
@@ -3039,9 +3033,21 @@ function partDRenderStopAndCheckGraph() {
   // when students should unlock Parts A-D progressively.
   const DEV_MODE = false;
 
+  const lesson4SectionIds = [
+    { id: "bar-practice", label: "Collect and visualise animal data" },
+    { id: "bar-construction", label: "Construct a bar graph" },
+    { id: "bar-follow-up", label: "Part C: Survey Site 2" },
+    { id: "bar-compare", label: "Part D: Compare Site 1 and Site 2" }
+  ];
+
+  const teacherBackLink = {
+      label: "← To Part B",
+      href: "lesson4-2.html",
+  };
+
   document.addEventListener("DOMContentLoaded", function() {
     if (typeof initialiseTeacherMenu === "function") {
-      initialiseTeacherMenu(lesson4SectionIds, "bar-practice");
+      initialiseTeacherMenu(lesson4SectionIds, "bar-practice", teacherBackLink);
     }
 
     if (DEV_MODE && typeof teacherShowAll === "function") {
