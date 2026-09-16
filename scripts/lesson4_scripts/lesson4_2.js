@@ -3837,22 +3837,6 @@
       // new distance, so any .species-progress element found earlier is
       // stale/detached by the time this runs.
       const progressEl = panelBody.querySelectorAll(".species-progress");
-      progressEl.animate({
-        {
-          opacity: "0";
-          transform: "translateY(0) scale(0.5)"
-        },
-        {
-          opacity: "1";
-          transform: "translateY(-6px)"
-        },
-        {
-          transform: "translateY(2px) scale(1)"
-        },
-        {
-          transform: "translateY(0)"
-        },
-      });
 
       if (!selectedSpecies) {
         for (const speciesProgress of progressEl) {
@@ -3864,9 +3848,32 @@
       const { found, max } = totalsFor(selectedSpecies);
 
       for (const speciesProgress of progressEl) {
+        
+        const title = speciesProgress.querySelector(".species-progress-title");
+        const count = speciesProgress.querySelector(".species-progress-count");
         speciesProgress.hidden = false;
-        speciesProgress.textContent = selectedSpecies + ": found " + found + " of " + max
+        title.textContent = selectedSpecies + ": found ";
+        count.textContent = found + " of " + max
           + (isGraphMode ? " — click the dots to connect them into a line." : "");
+
+        count.animate([
+          {
+            opacity: 0,
+            transform: "translateY(0) scale(0.5)"
+          },
+          {
+            opacity: 1,
+            transform: "translateY(-6px)"
+          },
+          {
+            transform: "translateY(2px) scale(1)"
+          },
+          {
+            transform: "translateY(0)"
+          },
+        ], {
+          duration: 500
+        });
       }
       if (graphToggleButton) {
         graphToggleButton.disabled = checkAllAnimalsFound(max, found);
