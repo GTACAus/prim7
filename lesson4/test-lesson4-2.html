@@ -7,11 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
   <link href="../styles/lesson4_styles/lesson4.css" rel="stylesheet" type="text/css">
+  <link href="../styles/lesson4_styles/number-line-activity.css" rel="stylesheet" type="text/css">
   <link href="../styles/overrides.css" rel="stylesheet" type="text/css">
   <!--
     DROP-IN NOTES
     =============
-    - Fully self-contained: styles are scoped under .number-line-activity and the
+    - Fully self-contained: styles are scoped under  and the
       script only queries inside that wrapper, so this can be pasted into any page.
       It picks up your site's --purple / --charcoal / etc. custom properties if
       they exist, and falls back to sensible defaults if not (e.g. previewing
@@ -22,900 +23,6 @@
       touching the JS — the script just clones whichever template matches the
       selected distance into the panel body.
   -->
-  <style>
-    .number-line-activity *,
-    .number-line-activity *::before,
-    .number-line-activity *::after {
-      box-sizing: border-box;
-    }
-
-    .number-line-activity h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      line-height: 1.05;
-    }
-
-    .number-line-activity .activity-card {
-      padding: clamp(18px, 4vw, 32px);
-      background: var(--paper);
-      border: 3px solid var(--charcoal);
-      border-radius: 24px;
-      box-shadow: var(--shadow-small);
-      margin-bottom: 20px;
-    }
-
-    .number-line-activity .instruction-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 18px;
-      align-items: center;
-      margin-bottom: 28px;
-      background: var(--soft-blue);
-    }
-
-    .number-line-activity .instruction-card h2 {
-      margin: 0 0 6px;
-      font-size: 1.25rem;
-    }
-
-    .number-line-activity .instruction-card p {
-      margin: 0;
-      line-height: 1.55;
-    }
-
-    /* ---- Frame: [left arrow] [line stage] [right arrow] ---- */
-
-    .number-line-activity .line-frame {
-      display: flex;
-      align-items: center;
-      gap: clamp(8px, 2vw, 20px);
-    }
-
-    .number-line-activity .line-arrow {
-      display: flex;
-      flex: 0 0 auto;
-      align-items: center;
-      justify-content: center;
-      width: 52px;
-      height: 52px;
-      padding: 0;
-      background: var(--green);
-      border: 2px solid var(--charcoal);
-      border-radius: 50%;
-      box-shadow: 0 3px 0 var(--charcoal);
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, opacity .15s ease;
-    }
-
-    .number-line-activity .line-arrow svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--text);
-      stroke-width: 3;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .number-line-activity .line-arrow:hover:not(:disabled),
-    .number-line-activity .line-arrow:focus-visible:not(:disabled) {
-      background: var(--soft-yellow);
-      outline: none;
-    }
-
-    .number-line-activity .line-arrow:active:not(:disabled) {
-      box-shadow: 0 1px 0 var(--charcoal);
-      transform: translateY(2px);
-    }
-
-    .number-line-activity .line-arrow:disabled {
-      cursor: not-allowed;
-      opacity: .38;
-      box-shadow: 0 3px 0 var(--charcoal);
-      transform: none;
-    }
-
-    /*
-      This only needs room for the track, labels below it, and the person
-      image above it — the big panel is a separate block sitting above this
-      in .line-panel-box now, not overlapping it via absolute positioning.
-    */
-    .number-line-activity .line-stage {
-      position: relative;
-      flex: 1 1 auto;
-      min-width: 0;
-      min-height: 130px;
-      padding: 20px 30px 0;
-      margin-top: 22px;
-      overflow: visible;
-    }
-
-    .number-line-activity .line-track {
-      position: relative;
-      height: 8px;
-      background: var(--charcoal);
-      border-radius: 999px;
-    }
-
-    .number-line-activity .line-track::before,
-    .number-line-activity .line-track::after {
-      position: absolute;
-      top: 50%;
-      width: 0;
-      height: 0;
-      border-top: 13px solid transparent;
-      border-bottom: 13px solid transparent;
-      content: "";
-      transform: translateY(-50%);
-    }
-
-    .number-line-activity .line-track::before {
-      left: -2px;
-      border-right: 18px solid var(--charcoal);
-      transform: translate(-100%, -50%);
-    }
-
-    .number-line-activity .line-track::after {
-      right: -2px;
-      border-left: 18px solid var(--charcoal);
-      transform: translate(100%, -50%);
-    }
-
-    .number-line-activity .line-point {
-      position: absolute;
-      top: 50%;
-      width: 22px;
-      height: 22px;
-      padding: 0;
-      background: var(--paper);
-      border: 4px solid var(--charcoal);
-      border-radius: 50%;
-      cursor: pointer;
-      transform: translate(-50%, -50%);
-      transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
-      z-index: 2;
-    }
-
-    .number-line-activity .line-point:hover,
-    .number-line-activity .line-point:focus-visible,
-    .number-line-activity .line-point.is-selected {
-      background: var(--yellow);
-      border-color: var(--purple);
-      outline: none;
-      transform: translate(-50%, -50%) scale(1.18);
-    }
-
-    .number-line-activity .line-point-label {
-      position: absolute;
-      top: 27px;
-      left: 50%;
-      width: max-content;
-      color: var(--text);
-      font-size: .88rem;
-      font-weight: 700;
-      transform: translateX(-50%);
-    }
-
-    .number-line-activity .person-marker {
-      position: absolute;
-      bottom: 30px;
-      left: 0%;
-      width: 54px;
-      height: 72px;
-      object-fit: contain;
-      object-position: bottom center;
-      transform: translateX(-50%);
-      transition: left .45s ease;
-      z-index: 1;
-    }
-
-    .line-panel-box {
-      display: flex;
-      flex-direction: column;
-      flex: auto;
-    }
-
-    /*
-      ONE large panel, positioned above the whole .line-stage (not per point).
-      Its transform-origin x is set dynamically in JS to match whichever point
-      was clicked, so it visually grows up out of that point even though its
-      final size/position is a big, centered box rather than a small popover.
-    */
-    .number-line-activity .stage-panel {
-      position: relative;
-      width: min(1200px, 94%);
-      min-height: 220px;
-      padding: clamp(12px, 3vw, 22px) clamp(12px, 4vw, 22px);
-      margin: 0 auto 50px;
-      /* background: white; */
-      border: 3px solid var(--purple);
-      border-radius: 22px;
-      /* box-shadow: 0 6px 0 var(--charcoal); */
-      opacity: 0;
-      pointer-events: none;
-      transform: scaleY(.06) scaleX(.4);
-      transform-origin: 50% 100%;
-      transition: opacity .26s ease, transform .38s cubic-bezier(.22, 1, .32, 1);
-    }
-
-    .number-line-activity .stage-panel.is-open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scaleY(1) scaleX(1);
-    }
-
-    .number-line-activity .stage-panel::after {
-      position: absolute;
-      bottom: -11px;
-      left: 50%;
-      width: 18px;
-      height: 18px;
-      background: white;
-      border-right: 3px solid var(--purple);
-      border-bottom: 3px solid var(--purple);
-      content: "";
-      transform: translateX(-50%) rotate(45deg);
-    }
-
-    .number-line-activity .panel-body h3 {
-        margin: 10px 20px;
-      color: var(--purple);
-      font-size: 1.4rem;
-    }
-
-    .number-line-activity .panel-body p {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      line-height: 1.55;
-    }
-
-    .number-line-activity .panel-body p:last-child {
-      margin-bottom: 0;
-    }
-
-    .number-line-activity .panel-close {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      padding: 2px 6px;
-      background: transparent;
-      border: 0;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 1.5rem;
-      line-height: 1;
-    }
-
-    .number-line-activity .panel-close:hover,
-    .number-line-activity .panel-close:focus-visible {
-      color: var(--purple);
-      outline: none;
-    }
-
-    .number-line-activity .activity-note {
-      margin: 22px 0 20px;
-      padding: 14px 16px;
-      background: var(--soft-yellow);
-      border: 2px solid var(--charcoal);
-      border-radius: 14px;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    .number-line-activity .graph-complete-feedback {
-      /* display: block; */
-      margin: 10px 0 20px;
-      padding: 14px 16px;
-      background: var(--soft-green);
-      border: 3px solid var(--charcoal);
-      border-radius: 18px;
-      box-shadow: var(--shadow-small);
-      color: var(--text);
-      font-weight: 700;
-      line-height: 1.5;
-      text-align: center;
-      animation: pop-fade-in .5s ease;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .number-line-activity .graph-complete-feedback { animation: none; }
-    }
-
-    @media (max-width: 640px) {
-      .number-line-activity .instruction-card {
-        grid-template-columns: 1fr;
-      }
-
-      .number-line-activity .line-frame {
-        gap: 8px;
-      }
-
-      .number-line-activity .line-arrow {
-        width: 42px;
-        height: 42px;
-      }
-
-      .number-line-activity .line-arrow svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .number-line-activity .line-stage {
-        min-height: 140px;
-        padding: 20px 16px 0;
-      }
-
-      .number-line-activity .stage-panel {
-        width: min(320px, 94%);
-        min-height: 180px;
-      }
-
-      .number-line-activity .person-marker {
-        width: 46px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .number-line-activity .person-marker,
-      .number-line-activity .stage-panel,
-      .number-line-activity .line-point,
-      .number-line-activity .line-arrow {
-        transition-duration: .01ms !important;
-      }
-    }
-
-    @media print {
-      .number-line-activity .stage-panel {
-        opacity: 1;
-        position: static;
-        display: none;
-      }
-    }
-
-    /* ---- Reset button, next to the distance badge ---- */
-    .number-line-activity .instruction-card-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 10px;
-    }
-
-    .instruction-card-actions > * {
-      align-self: center;
-      max-width: 200px
-    }
-
-    /* =================================================================
-       Species picker: pick one of 3 animals to search for. Only hotspots
-       matching the active species stay clickable everywhere else.
-    ================================================================= */
-    .number-line-activity .species-select-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .number-line-activity .species-select-button-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .number-line-activity .species-select-button-wrap span {
-      font-size: 1rem;
-      font-weight: 900;
-      text-align: center;
-    }
-
-    .number-line-activity .species-select-button {
-      width: 120px;
-      height: 120px;
-      padding: 10px;
-      overflow: hidden;
-      background: var(--paper);
-      border: 2px solid var(--charcoal);
-      border-radius: 50%;
-      box-shadow: 0 3px 0 var(--charcoal);
-      cursor: pointer;
-      font-family: inherit;
-      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
-    }
-    
-    .number-line-activity .species-select-button img {
-      width: 100%;
-      object-fit: contain;
-      user-select: none;
-    }
-
-    .number-line-activity .species-select-button:hover:not(:disabled),
-    .number-line-activity .species-select-button:focus-visible {
-      background: var(--soft-yellow);
-      outline: none;
-    }
-
-    .number-line-activity .species-select-button:active {
-      box-shadow: 0 1px 0 var(--charcoal);
-      transform: translateY(2px);
-    }
-
-    .number-line-activity .species-select-button:disabled {
-      cursor: not-allowed;
-      opacity: .38;
-      box-shadow: 0 3px 0 var(--charcoal);
-      transform: none;
-    }
-
-    .number-line-activity .species-select-button.is-active {
-      background: var(--soft-blue);
-      border-color: var(--purple);
-      box-shadow: none;
-      transform: translateY(3px);
-      pointer-events: none;
-    }
-
-    /* =================================================================
-       Animals scattered on a backdrop photo, spotlight-style: each is a
-       transparent PNG positioned by left/top/width %, with a masked
-       overlay behind it that tints on "found" (click).
-    ================================================================= */
-    .number-line-activity .animal-stage-wrap {
-      width: 100%;
-      margin-top: 14px;
-      background: black;
-      border: 2px solid var(--charcoal);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .number-line-activity .animal-stage {
-      position: relative;
-      aspect-ratio: 1920 / 1080;
-    }
-
-    .number-line-activity .animal-stage .stage-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .number-line-activity .animal-hotspot {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      padding: 0;
-      border: none;
-      background: none;
-      line-height: 0;
-      cursor: pointer;
-    }
-
-    .number-line-activity .animal-hotspot img {
-      position: static;
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      transition: transform .15s ease, filter .3s ease;
-    }
-
-    .number-line-activity .animal-hotspot:hover:not(.found) img {
-      transform: scale(1.08);
-      filter:
-        drop-shadow(1px 0 0 white)
-        drop-shadow(-1px 0 0 white)
-        drop-shadow(0 1px 0 white)
-        drop-shadow(0 -1px 0 white);
-    }
-
-    .number-line-activity .animal-hotspot:focus-visible {
-      outline: 3px solid var(--yellow);
-      outline-offset: 4px;
-      border-radius: 6px;
-    }
-
-    .number-line-activity .animal-overlay {
-      position: absolute;
-      inset: -5%;
-      mask-size: contain;
-      -webkit-mask-size: contain;
-      mask-repeat: no-repeat;
-      -webkit-mask-repeat: no-repeat;
-      mask-position: center;
-      -webkit-mask-position: center;
-      mix-blend-mode: color;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .3s ease;
-    }
-
-    .number-line-activity .animal-hotspot.found .animal-overlay {
-      opacity: 1;
-    }
-
-    /* Every animal that isn't the currently-selected species (or none
-       selected yet): visible for context, but not clickable. */
-    .number-line-activity .animal-hotspot.is-inactive {
-      pointer-events: none;
-      opacity: .8;
-      filter: grayscale(70%);
-    }
-
-    /* =================================================================
-       Per-distance counters for the selected species: one cylinder-stack
-       column per distance (0/5/10/15/20 m), tall as how many of that
-       animal were found there. Rebuilt on every click and every species
-       switch. Column height and the y-axis both read from the same fixed
-       --row-height custom property, and every cylinder "coin" is the
-       same --cylinder-height as the JS constant that draws them, so the
-       axis and the bars can never fall out of sync with each other.
-    ================================================================= */
-    .number-line-activity .species-progress {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-    
-    .number-line-activity .bar-stack-chart {
-      display: flex;
-      align-items: flex-start;
-      gap: 0;
-      width: min(900px, 92%);
-      padding: 0;
-    }
-    .number-line-activity .graph-area {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .number-line-activity .bar-stack-row::before {
-      position: absolute;
-      top: var(--row-height);
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--charcoal);
-      content: "";
-      z-index: 0;
-    }
-
-    .number-line-activity .bar-stack-row {
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: space-between;
-      flex: 1 1 auto;
-      min-width: 0;
-      gap: 0;
-    }
-
-
-    .number-line-activity .bar-stack-row .stack-placeholder {
-      margin: 0;
-      padding: 40px 0;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .number-line-activity .stack-group {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-
-      flex: 1;
-      min-width: 0;
-    }
-
-    .number-line-activity .bar-stack-column {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-
-      width: 100%;
-      height: var(--row-height, 200px);
-
-      perspective: 700px;
-    }
-
-    /* ---- y-axis: sits to the left of the bars, close in, its line
-       running flush down into the chart's bottom border so the two form
-       one continuous corner, the way a plotted axis normally looks. One
-       tick per whole animal, spaced exactly --cylinder-height apart. ---- */
-    .number-line-activity .y-axis {
-      position: relative;
-      flex: 0 0 auto;
-      width: 0;
-      height: var(--row-height, 200px);
-      margin-right: 4px;
-      opacity: 0;
-      overflow: visible;
-      transition: opacity .2s ease, width .2s ease, margin-right .2s ease, height .2s ease;
-    }
-
-    .number-line-activity .bar-stack-chart.is-graph-mode .y-axis {
-      width: 44px;
-      margin-right: 0;
-      opacity: 1;
-    }
-
-    .number-line-activity .y-axis::after {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: -4px;
-      width: 4px;
-      background: var(--charcoal);
-      content: "";
-    }
-
-    .number-line-activity .y-axis-tick {
-      position: absolute;
-      right: 12px;
-      left: 0;
-      height: 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      color: var(--muted);
-      font-size: .72rem;
-      font-weight: 700;
-    }
-
-    .number-line-activity .y-axis-tick::after {
-      position: absolute;
-      top: 0;
-      right: -12px;
-      width: 9px;
-      height: 3px;
-      background: var(--charcoal);
-      content: "";
-      transform: translateY(-50%);
-    }
-
-    .number-line-activity .bar-stack-chart.is-graph-mode .stack-group::after {
-      position: absolute;
-      top: var(--row-height);
-      left: 50%;
-      width: 3px;
-      height: 10px;
-      background: var(--charcoal);
-      content: "";
-      transform: translateX(-50%);
-    }
-
-    /* ---- Line-graph overlay: shown instead of the cylinders once toggled.
-       "Hide Counters" reuses this same rule (cylinders are already hidden)
-       and just gives the chart more vertical room via a taller
-       --row-height, computed in JS, so the line reads more clearly. The
-       distance labels stay visible underneath for reference. ---- */
-    .number-line-activity .bar-stack-chart.counters-hidden .bar-stack-column {
-      opacity: 0;
-    }
-
-    /* The exact count under each column is redundant once the line graph
-       (with its own y-axis) is showing, so hide it and keep just the
-       distance label. */
-    .number-line-activity .bar-stack-chart.is-graph-mode .bar-stack-label span {
-      display: none;
-    }
-
-    .number-line-activity .line-graph-overlay {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-
-      opacity: 0;
-      pointer-events: none;
-      overflow: visible;
-      transition: opacity .2s ease;
-    }
-
-    .number-line-activity .bar-stack-chart.is-graph-mode .line-graph-overlay {
-      opacity: 1;
-      /* The overlay itself stays click-through (pointer-events: none above)
-         so it never blocks the cylinders/labels underneath; only the
-         plotted points opt back in below. */
-      pointer-events: auto;
-    }
-
-    .number-line-activity .line-graph-path {
-      fill: none;
-      stroke: var(--purple);
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* Every distance's point is plotted and clickable from the start;
-       clicking one connects it into the line in the order points are
-       clicked. Unclicked points are hollow so it's clear which ones
-       still need connecting. */
-    .number-line-activity .line-graph-point {
-      fill: white;
-      stroke: var(--purple);
-      stroke-width: 3;
-      cursor: pointer;
-      transition: fill .15s ease, stroke-width .15s ease;
-    }
-
-    .number-line-activity .line-graph-point:hover,
-    .number-line-activity .line-graph-point:focus-visible {
-      stroke-width: 4;
-      outline: none;
-    }
-
-    .number-line-activity .line-graph-point.is-connected {
-      fill: var(--purple);
-    }
-
-    .number-line-activity .line-graph-point.is-shake {
-      animation: nlGraphPointShake .3s ease;
-    }
-
-    @keyframes nlGraphPointShake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-3px); }
-      75% { transform: translateX(3px); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .number-line-activity .line-graph-point.is-shake {
-        animation: none;
-      }
-    }
-
-    .number-line-activity .graph-toggle-row {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .number-line-activity .graph-toggle-button,
-    .number-line-activity .hide-counters-button {
-      padding: 10px 16px;
-      background: white;
-      border: 2px solid var(--charcoal);
-      border-radius: 14px;
-      box-shadow: 0 3px 0 var(--charcoal);
-      color: var(--text);
-      font-family: inherit;
-      font-size: .92rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
-      z-index: 1;
-    }
-
-    .number-line-activity .graph-toggle-button:hover:not(:disabled),
-    .number-line-activity .graph-toggle-button:focus-visible:not(:disabled),
-    .number-line-activity .hide-counters-button:hover:not(:disabled),
-    .number-line-activity .hide-counters-button:focus-visible:not(:disabled) {
-      background: var(--soft-blue);
-      outline: none;
-    }
-
-    .number-line-activity .graph-toggle-button:active:not(:disabled),
-    .number-line-activity .hide-counters-button:active:not(:disabled) {
-      box-shadow: 0 1px 0 var(--charcoal);
-      transform: translateY(2px);
-    }
-
-    .number-line-activity .graph-toggle-button:disabled,
-    .number-line-activity .hide-counters-button:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-    }
-
-    .number-line-activity .hide-counters-button.is-active {
-      background: var(--soft-blue);
-      border-color: var(--purple);
-      box-shadow: 0 3px 0 var(--purple);
-    }
-
-    .number-line-activity .stack-unit {
-      position: relative;
-      width: var(--cylinder-diameter);
-      height: var(--cylinder-height);
-      opacity: 0;
-      animation: nlBarStackSegmentRise .3s ease-out forwards;
-    }
-
-    .number-line-activity .cylinder {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-
-      width: var(--cylinder-diameter);
-      height: var(--cylinder-height);
-
-      transform-style: preserve-3d;
-      transform: translate(-50%, -50%) rotateX(0deg);
-    }
-
-    .number-line-activity .cylinder-strip {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      margin-top: calc(var(--cylinder-height) / -2);
-      box-sizing: border-box;
-      border-top: 2px solid var(--charcoal);
-      border-bottom: 2px solid var(--charcoal);
-      transform-style: preserve-3d;
-      backface-visibility: visible;
-    }
-
-    .number-line-activity .cylinder-top {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: var(--cylinder-diameter);
-      height: var(--cylinder-diameter);
-      margin-left: calc(var(--cylinder-diameter) / -2);
-      margin-top: calc(var(--cylinder-diameter) / -2);
-      box-sizing: border-box;
-      border: 2px solid var(--charcoal);
-      border-radius: 50%;
-      transform:
-        translateY(calc(var(--cylinder-height) / -2))
-        rotateX(90deg);
-
-      transform-style: preserve-3d;
-      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), rgba(255,255,255,.08) 45%, rgba(0,0,0,.12));
-      backface-visibility: visible;
-    }
-
-    .number-line-activity .bar-stack-label {
-      width: fit-content;
-      text-align: center;
-      font-size: .82rem;
-      font-weight: 700;
-    }
-
-    .number-line-activity .bar-stack-label span {
-      display: block;
-      margin-top: 2px;
-      color: var(--muted);
-      font-weight: 500;
-      font-size: .76rem;
-    }
-
-    @keyframes nlBarStackSegmentRise {
-      from { opacity: 0; translate: 0 8px; }
-      to { opacity: 1; translate: 0 0; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .number-line-activity .stack-unit {
-        animation: none;
-        opacity: 1;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .number-line-activity .bar-stack-row {
-        gap: 16px;
-      }
-
-      .number-line-activity .bar-stack-label {
-        width: 60px;
-      }
-    }
-  </style>
 </head>
 <body>
   <div class="page-header-wrapper">
@@ -1112,26 +219,26 @@
       COLLEAGUE-OWNED EXPLORE-THE-DISTANCES ACTIVITY BELOW.
       This section is intentionally left unchanged.
     -->
-    <section id="number-line-activity" class="number-line-activity" aria-labelledby="activity-instructions">
-    <div class="activity-card" aria-label="Interactive 0 to 20 metre number line">
-      <div class="activity-card instruction-card" aria-labelledby="activity-instructions">
-      <div>
-        <h2 id="activity-instructions">Explore the distances</h2>
-        <p>
-          Start at <strong>0 metres</strong>. Each labelled point is another 5 metres along
-          the path. What changes as the number gets larger?
-        </p>
-      </div>
-    </div>
-      <div class="diagram-activity">
-        <p class="activity-instruction">
-          Select a point of the number line below then select an animal to start looking for it at that point.
-        </p>
-      </div>
+    <section id="number-line-activity" class="section" aria-labelledby="activity-instructions" data-progress-reset>
+      <h2 class="section-title">Explore the distances</h2>
+    <div class="diagram-activity" aria-label="Interactive 0 to 20 metre number line">
+      <span class="challenge-step-label">Step 1 · Collect the data</span>
+      <p>
+        Start at <strong>0 metres</strong>. Each labelled point is another 5 metres along
+        the path. What changes as the number gets larger?
+      </p>
+      <p class="activity-instruction">
+        Select a point of the number line below then select an animal to start looking for it at that point.
+      </p>
       <p class="activity-note" role="status" aria-live="polite">
         Select a point to look for the animals at that distance.
       </p>
-      <div id="number-line-animal-buttons" class="species-select-row" role="radiogroup" aria-label="Choose which animal to search for">
+      <div
+        id="number-line-animal-buttons"
+        class="species-select-row"
+        role="radiogroup"
+        aria-label="Choose which animal to search for"
+      >
         <div class="species-select-button-wrap">
           <button type="button" class="species-select-button" data-species="Ringtail Possum" aria-pressed="false" disabled>
             <img class="noselect" src="../images/lesson4/ringtail_1.png" alt="">
@@ -1194,10 +301,10 @@
       </div>
     </div>
 
-    <div id="number-line-container" class="activity-card" aria-labelledby="animal-tally-heading" hidden>
-      <h2 id="animal-tally-heading" style="margin: 0 0 4px; font-size: 1.15rem;">Count by distance</h2>
-      <p style="margin: 0 0 4px; color: var(--muted);">
-        Choose an animal above, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
+    <div id="number-line-container" class="diagram-activity" aria-labelledby="animal-tally-heading" >
+      <h2 id="animal-tally-heading" class="challenge-step-label">Step 2 · Count by distance</h2>
+      <p>
+        Choose an animal below, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
       </p>
       
       <div id="graph-species-buttons" class="species-select-row">
@@ -1222,7 +329,6 @@
       </div>
 
       <div class="graph-area">
-        <p class="species-progress" hidden></p>
         <div class="bar-stack-chart">
           <div class="y-axis"></div>
           <div class="bar-stack-row"></div>
@@ -1232,7 +338,7 @@
           <button type="button" class="hide-counters-button" hidden>Hide Counters</button>
         </div>
       </div>
-      <div class="graph-complete-feedback" role="status" aria-live="polite" >
+      <div class="graph-complete-feedback" role="status" aria-live="polite" hidden>
         Line graph complete! You've connected every point for each animal.
       </div>
       <button
@@ -1255,6 +361,7 @@
     <template class="panel-content" data-distance="0">
       <h3>0 metres</h3>
       <p>This is the starting point. Click each animal hiding in the photo:</p>
+      <p class="species-progress pop-in"></p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
@@ -1280,6 +387,8 @@
     <template class="panel-content" data-distance="5">
       <h3>5 metres</h3>
       <p>The person is 5 metres from the start. Click each animal hiding in the photo:</p>
+      <p class="species-progress pop-in"></p>
+
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
@@ -1305,6 +414,7 @@
     <template class="panel-content" data-distance="10">
       <h3>10 metres</h3>
       <p>The person is halfway to 20 metres. Click each animal hiding in the photo:</p>
+      <p class="species-progress pop-in"></p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
@@ -1330,6 +440,7 @@
     <template class="panel-content" data-distance="15">
       <h3>15 metres</h3>
       <p>5 metres remain before reaching 20 metres. Click each animal hiding in the photo:</p>
+      <p class="species-progress pop-in"></p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">
@@ -1355,6 +466,7 @@
     <template class="panel-content" data-distance="20">
       <h3>20 metres</h3>
       <p>This is the furthest labelled point. Click each animal hiding in the photo:</p>
+      <p class="species-progress pop-in"></p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/habitat_day.png" alt="Survey site backdrop">

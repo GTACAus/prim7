@@ -1,0 +1,872 @@
+
+.instruction-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 28px;
+    background: var(--soft-blue);
+}
+
+.instruction-card h2 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+}
+
+.instruction-card p {
+    margin: 0;
+    line-height: 1.55;
+}
+
+/* ---- Frame: [left arrow] [line stage] [right arrow] ---- */
+
+.line-frame {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 2vw, 20px);
+}
+
+    .line-arrow {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    background: var(--green);
+    border: 2px solid var(--charcoal);
+    border-radius: 50%;
+    box-shadow: 0 3px 0 var(--charcoal);
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, opacity .15s ease;
+}
+
+    .line-arrow svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--text);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+    .line-arrow:hover:not(:disabled),
+    .line-arrow:focus-visible:not(:disabled) {
+    background: var(--soft-yellow);
+    outline: none;
+}
+
+    .line-arrow:active:not(:disabled) {
+    box-shadow: 0 1px 0 var(--charcoal);
+    transform: translateY(2px);
+}
+
+    .line-arrow:disabled {
+    cursor: not-allowed;
+    opacity: .38;
+    box-shadow: 0 3px 0 var(--charcoal);
+    transform: none;
+}
+
+/*
+    This only needs room for the track, labels below it, and the person
+    image above it — the big panel is a separate block sitting above this
+    in .line-panel-box now, not overlapping it via absolute positioning.
+*/
+    .line-stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 130px;
+    padding: 20px 30px 0;
+    margin-top: 22px;
+    overflow: visible;
+}
+
+    .line-track {
+    position: relative;
+    height: 8px;
+    background: var(--charcoal);
+    border-radius: 999px;
+}
+
+    .line-track::before,
+    .line-track::after {
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    content: "";
+    transform: translateY(-50%);
+}
+
+    .line-track::before {
+    left: -2px;
+    border-right: 18px solid var(--charcoal);
+    transform: translate(-100%, -50%);
+}
+
+    .line-track::after {
+    right: -2px;
+    border-left: 18px solid var(--charcoal);
+    transform: translate(100%, -50%);
+}
+
+    .line-point {
+    position: absolute;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    background: var(--paper);
+    border: 4px solid var(--charcoal);
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+    z-index: 2;
+}
+
+    .line-point:hover,
+    .line-point:focus-visible,
+    .line-point.is-selected {
+    background: var(--yellow);
+    border-color: var(--purple);
+    outline: none;
+    transform: translate(-50%, -50%) scale(1.18);
+}
+
+    .line-point-label {
+    position: absolute;
+    top: 27px;
+    left: 50%;
+    width: max-content;
+    color: var(--text);
+    font-size: .88rem;
+    font-weight: 700;
+    transform: translateX(-50%);
+}
+
+    .person-marker {
+    position: absolute;
+    bottom: 30px;
+    left: 0%;
+    width: 54px;
+    height: 72px;
+    object-fit: contain;
+    object-position: bottom center;
+    transform: translateX(-50%);
+    transition: left .45s ease;
+    z-index: 1;
+}
+
+.line-panel-box {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+}
+
+/*
+    ONE large panel, positioned above the whole .line-stage (not per point).
+    Its transform-origin x is set dynamically in JS to match whichever point
+    was clicked, so it visually grows up out of that point even though its
+    final size/position is a big, centered box rather than a small popover.
+*/
+    .stage-panel {
+    position: relative;
+    width: min(1200px, 94%);
+    min-height: 220px;
+    padding: clamp(12px, 3vw, 22px) clamp(12px, 4vw, 22px);
+    margin: 0 auto 50px;
+    /* background: white; */
+    border: 3px solid var(--purple);
+    border-radius: 22px;
+    /* box-shadow: 0 6px 0 var(--charcoal); */
+    opacity: 0;
+    pointer-events: none;
+    transform: scaleY(.06) scaleX(.4);
+    transform-origin: 50% 100%;
+    transition: opacity .26s ease, transform .38s cubic-bezier(.22, 1, .32, 1);
+}
+
+    .stage-panel.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scaleY(1) scaleX(1);
+}
+
+    .stage-panel::after {
+    position: absolute;
+    bottom: -11px;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-right: 3px solid var(--purple);
+    border-bottom: 3px solid var(--purple);
+    content: "";
+    transform: translateX(-50%) rotate(45deg);
+}
+
+    .panel-body h3 {
+    margin: 10px 20px;
+    color: var(--purple);
+    font-size: 1.4rem;
+}
+
+    .panel-body p {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+    .panel-body p:last-child {
+    margin-bottom: 0;
+}
+
+    .panel-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    padding: 2px 6px;
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+    .panel-close:hover,
+    .panel-close:focus-visible {
+    color: var(--purple);
+    outline: none;
+}
+
+    .activity-note {
+    margin: 22px 0 20px;
+    padding: 14px 16px;
+    background: var(--soft-yellow);
+    border: 2px solid var(--charcoal);
+    border-radius: 14px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+    .graph-complete-feedback {
+    /* display: block; */
+    margin: 10px 0 20px;
+    padding: 14px 16px;
+    background: var(--soft-green);
+    border: 3px solid var(--charcoal);
+    border-radius: 18px;
+    box-shadow: var(--shadow-small);
+    color: var(--text);
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    animation: pop-fade-in .5s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .graph-complete-feedback { animation: none; }
+}
+
+@media (max-width: 640px) {
+    .instruction-card {
+    grid-template-columns: 1fr;
+    }
+
+    .line-frame {
+    gap: 8px;
+    }
+
+    .line-arrow {
+    width: 42px;
+    height: 42px;
+    }
+
+    .line-arrow svg {
+    width: 18px;
+    height: 18px;
+    }
+
+    .line-stage {
+    min-height: 140px;
+    padding: 20px 16px 0;
+    }
+
+    .stage-panel {
+    width: min(320px, 94%);
+    min-height: 180px;
+    }
+
+    .person-marker {
+    width: 46px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .person-marker,
+    .stage-panel,
+    .line-point,
+    .line-arrow {
+    transition-duration: .01ms !important;
+    }
+}
+
+@media print {
+    .stage-panel {
+    opacity: 1;
+    position: static;
+    display: none;
+    }
+}
+
+/* ---- Reset button, next to the distance badge ---- */
+    .instruction-card-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+
+.instruction-card-actions > * {
+    align-self: center;
+    max-width: 200px
+}
+
+/* =================================================================
+    Species picker: pick one of 3 animals to search for. Only hotspots
+    matching the active species stay clickable everywhere else.
+================================================================= */
+    .species-select-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+    .species-select-button-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+    .species-select-button-wrap span {
+    font-size: 1rem;
+    font-weight: 900;
+    text-align: center;
+}
+
+    .species-select-button {
+    width: 120px;
+    height: 120px;
+    padding: 10px;
+    overflow: hidden;
+    background: var(--paper);
+    border: 2px solid var(--charcoal);
+    border-radius: 50%;
+    box-shadow: 0 3px 0 var(--charcoal);
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+    .species-select-button img {
+    width: 100%;
+    object-fit: contain;
+    user-select: none;
+}
+
+    .species-select-button:hover:not(:disabled),
+    .species-select-button:focus-visible {
+    background: var(--soft-yellow);
+    outline: none;
+}
+
+    .species-select-button:active {
+    box-shadow: 0 1px 0 var(--charcoal);
+    transform: translateY(2px);
+}
+
+    .species-select-button:disabled {
+    cursor: not-allowed;
+    opacity: .38;
+    box-shadow: 0 3px 0 var(--charcoal);
+    transform: none;
+}
+
+    .species-select-button.is-active {
+    background: var(--soft-blue);
+    border-color: var(--purple);
+    box-shadow: none;
+    transform: translateY(3px);
+    pointer-events: none;
+}
+
+/* =================================================================
+    Animals scattered on a backdrop photo, spotlight-style: each is a
+    transparent PNG positioned by left/top/width %, with a masked
+    overlay behind it that tints on "found" (click).
+================================================================= */
+    .animal-stage-wrap {
+    width: 100%;
+    margin-top: 14px;
+    background: black;
+    border: 2px solid var(--charcoal);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+    .animal-stage {
+    position: relative;
+    aspect-ratio: 1920 / 1080;
+}
+
+    .animal-stage .stage-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+    .animal-hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding: 0;
+    border: none;
+    background: none;
+    line-height: 0;
+    cursor: pointer;
+}
+
+    .animal-hotspot img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform .15s ease, filter .3s ease;
+}
+
+    .animal-hotspot:hover:not(.found) img {
+    transform: scale(1.08);
+    filter:
+    drop-shadow(1px 0 0 white)
+    drop-shadow(-1px 0 0 white)
+    drop-shadow(0 1px 0 white)
+    drop-shadow(0 -1px 0 white);
+}
+
+    .animal-hotspot:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 4px;
+    border-radius: 6px;
+}
+
+    .animal-overlay {
+    position: absolute;
+    inset: -5%;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+    mix-blend-mode: color;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+}
+
+    .animal-hotspot.found .animal-overlay {
+    opacity: 1;
+}
+
+/* Every animal that isn't the currently-selected species (or none
+    selected yet): visible for context, but not clickable. */
+    .animal-hotspot.is-inactive {
+    pointer-events: none;
+    opacity: .8;
+    filter: grayscale(70%);
+}
+
+/* =================================================================
+    Per-distance counters for the selected species: one cylinder-stack
+    column per distance (0/5/10/15/20 m), tall as how many of that
+    animal were found there. Rebuilt on every click and every species
+    switch. Column height and the y-axis both read from the same fixed
+    --row-height custom property, and every cylinder "coin" is the
+    same --cylinder-height as the JS constant that draws them, so the
+    axis and the bars can never fall out of sync with each other.
+================================================================= */
+    .species-progress {
+        margin: 0 0 10px;
+        color: var(--muted);
+        font-weight: 700;
+    }
+
+    .bar-stack-chart {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    width: min(900px, 92%);
+    padding: 0;
+}
+    .graph-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+    .bar-stack-row::before {
+    position: absolute;
+    top: var(--row-height);
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--charcoal);
+    content: "";
+    z-index: 0;
+}
+
+    .bar-stack-row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 0;
+}
+
+
+    .bar-stack-row .stack-placeholder {
+    margin: 0;
+    padding: 40px 0;
+    color: var(--muted);
+    text-align: center;
+}
+
+    .stack-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    flex: 1;
+    min-width: 0;
+}
+
+    .bar-stack-column {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 100%;
+    height: var(--row-height, 200px);
+
+    perspective: 700px;
+}
+
+/* ---- y-axis: sits to the left of the bars, close in, its line
+    running flush down into the chart's bottom border so the two form
+    one continuous corner, the way a plotted axis normally looks. One
+    tick per whole animal, spaced exactly --cylinder-height apart. ---- */
+    .y-axis {
+    position: relative;
+    flex: 0 0 auto;
+    width: 0;
+    height: var(--row-height, 200px);
+    margin-right: 4px;
+    opacity: 0;
+    overflow: visible;
+    transition: opacity .2s ease, width .2s ease, margin-right .2s ease, height .2s ease;
+}
+
+    .bar-stack-chart.is-graph-mode .y-axis {
+    width: 44px;
+    margin-right: 0;
+    opacity: 1;
+}
+
+    .y-axis::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: -4px;
+    width: 4px;
+    background: var(--charcoal);
+    content: "";
+}
+
+    .y-axis-tick {
+    position: absolute;
+    right: 12px;
+    left: 0;
+    height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--muted);
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+    .y-axis-tick::after {
+    position: absolute;
+    top: 0;
+    right: -12px;
+    width: 9px;
+    height: 3px;
+    background: var(--charcoal);
+    content: "";
+    transform: translateY(-50%);
+}
+
+    .bar-stack-chart.is-graph-mode .stack-group::after {
+    position: absolute;
+    top: var(--row-height);
+    left: 50%;
+    width: 3px;
+    height: 10px;
+    background: var(--charcoal);
+    content: "";
+    transform: translateX(-50%);
+}
+
+/* ---- Line-graph overlay: shown instead of the cylinders once toggled.
+    "Hide Counters" reuses this same rule (cylinders are already hidden)
+    and just gives the chart more vertical room via a taller
+    --row-height, computed in JS, so the line reads more clearly. The
+    distance labels stay visible underneath for reference. ---- */
+    .bar-stack-chart.counters-hidden .bar-stack-column {
+    opacity: 0;
+}
+
+/* The exact count under each column is redundant once the line graph
+    (with its own y-axis) is showing, so hide it and keep just the
+    distance label. */
+    .bar-stack-chart.is-graph-mode .bar-stack-label span {
+    display: none;
+}
+
+    .line-graph-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    pointer-events: none;
+    overflow: visible;
+    transition: opacity .2s ease;
+}
+
+    .bar-stack-chart.is-graph-mode .line-graph-overlay {
+    opacity: 1;
+    /* The overlay itself stays click-through (pointer-events: none above)
+        so it never blocks the cylinders/labels underneath; only the
+        plotted points opt back in below. */
+    pointer-events: auto;
+}
+
+    .line-graph-path {
+    fill: none;
+    stroke: var(--purple);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Every distance's point is plotted and clickable from the start;
+    clicking one connects it into the line in the order points are
+    clicked. Unclicked points are hollow so it's clear which ones
+    still need connecting. */
+    .line-graph-point {
+    fill: white;
+    stroke: var(--purple);
+    stroke-width: 3;
+    cursor: pointer;
+    transition: fill .15s ease, stroke-width .15s ease;
+}
+
+    .line-graph-point:hover,
+    .line-graph-point:focus-visible {
+    stroke-width: 4;
+    outline: none;
+}
+
+    .line-graph-point.is-connected {
+    fill: var(--purple);
+}
+
+    .line-graph-point.is-shake {
+    animation: nlGraphPointShake .3s ease;
+}
+
+@keyframes nlGraphPointShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .line-graph-point.is-shake {
+    animation: none;
+    }
+}
+
+    .graph-toggle-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+    .graph-toggle-button,
+    .hide-counters-button {
+    padding: 10px 16px;
+    background: white;
+    border: 2px solid var(--charcoal);
+    border-radius: 14px;
+    box-shadow: 0 3px 0 var(--charcoal);
+    color: var(--text);
+    font-family: inherit;
+    font-size: .92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+    z-index: 1;
+}
+
+    .graph-toggle-button:hover:not(:disabled),
+    .graph-toggle-button:focus-visible:not(:disabled),
+    .hide-counters-button:hover:not(:disabled),
+    .hide-counters-button:focus-visible:not(:disabled) {
+    background: var(--soft-blue);
+    outline: none;
+}
+
+    .graph-toggle-button:active:not(:disabled),
+    .hide-counters-button:active:not(:disabled) {
+    box-shadow: 0 1px 0 var(--charcoal);
+    transform: translateY(2px);
+}
+
+    .graph-toggle-button:disabled,
+    .hide-counters-button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+    .hide-counters-button.is-active {
+    background: var(--soft-blue);
+    border-color: var(--purple);
+    box-shadow: 0 3px 0 var(--purple);
+}
+
+    .stack-unit {
+    position: relative;
+    width: var(--cylinder-diameter);
+    height: var(--cylinder-height);
+    opacity: 0;
+    animation: nlBarStackSegmentRise .3s ease-out forwards;
+}
+
+    .cylinder {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    width: var(--cylinder-diameter);
+    height: var(--cylinder-height);
+
+    transform-style: preserve-3d;
+    transform: translate(-50%, -50%) rotateX(0deg);
+}
+
+    .cylinder-strip {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: calc(var(--cylinder-height) / -2);
+    box-sizing: border-box;
+    border-top: 2px solid var(--charcoal);
+    border-bottom: 2px solid var(--charcoal);
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+}
+
+    .cylinder-top {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--cylinder-diameter);
+    height: var(--cylinder-diameter);
+    margin-left: calc(var(--cylinder-diameter) / -2);
+    margin-top: calc(var(--cylinder-diameter) / -2);
+    box-sizing: border-box;
+    border: 2px solid var(--charcoal);
+    border-radius: 50%;
+    transform:
+    translateY(calc(var(--cylinder-height) / -2))
+    rotateX(90deg);
+
+    transform-style: preserve-3d;
+    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.45), rgba(255,255,255,.08) 45%, rgba(0,0,0,.12));
+    backface-visibility: visible;
+}
+
+    .bar-stack-label {
+    width: fit-content;
+    text-align: center;
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+    .bar-stack-label span {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: .76rem;
+}
+
+@keyframes nlBarStackSegmentRise {
+    from { opacity: 0; translate: 0 8px; }
+    to { opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stack-unit {
+    animation: none;
+    opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .bar-stack-row {
+    gap: 16px;
+    }
+
+    .bar-stack-label {
+    width: 60px;
+    }
+}

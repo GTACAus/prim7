@@ -8,6 +8,31 @@
         { id: "line-graph-conniwinks", label: "Build a Line Graph" },
         { id: "line-graph-yeast", label: "Practise Applying the Principles" },
     ];
+
+    function setChallengeFeedback(elementId, type, title, message) {
+        const box = document.getElementById(elementId);
+        if (!box) return;
+
+        box.classList.remove("success", "try-again");
+        if (type === "success") box.classList.add("success");
+        if (type === "try-again") box.classList.add("try-again");
+
+        box.innerHTML = "";
+        const strong = document.createElement("strong");
+        strong.textContent = title;
+        box.appendChild(strong);
+        box.appendChild(document.createTextNode(message));
+    }
+
+    function flashChoice(button, className) {
+        if (!button) return;
+        button.classList.remove("correct-choice", "try-again-choice");
+        void button.offsetWidth;
+        button.classList.add(className);
+        window.setTimeout(function() {
+        button.classList.remove(className);
+        }, 650);
+    }
   /* ==================================================
      LINE GRAPH - TURN A DATA TABLE INTO A GRAPH
      Elephant snail investigation on lesson4-2.
@@ -3443,7 +3468,7 @@
     const yAxis = activity.querySelector(".y-axis");
     const graphToggleButton = activity.querySelector(".graph-toggle-button");
     const countersHiddenButton = activity.querySelector(".hide-counters-button");
-    const progressEl = activity.querySelector(".species-progress");
+
     const graphCompleteFeedback = activity.querySelector(".graph-complete-feedback");
     
     const speciesButtons = Array.from(
@@ -3482,7 +3507,7 @@
     --------------------------------------------------------------- */
     const barColours = ["#ffd747", "#7c4dff", "#5cc8ff", "#b7e9a8", "#ff8a65", "#c792ea", "#4fd1c5"];
     const CYLINDER_UNIT_HEIGHT = 20;
-    const CYLINDER_DIAMETER = 46;
+    const CYLINDER_DIAMETER = 80;
     // How much taller the chart gets, per animal, once "Hide counters"
     // is on — everything (row height, y-axis ticks, plotted points)
     // reads from this same multiplier so the line graph just gets
@@ -3807,15 +3832,40 @@
     function updateProgressAndGraphButton() {
       if (countersHiddenButton) countersHiddenButton.hidden = !isGraphMode;
 
+      // Queried fresh each call: panelBody is emptied and refilled from a
+      // <template class="panel-content"> every time the panel opens for a
+      // new distance, so any .species-progress element found earlier is
+      // stale/detached by the time this runs.
+      const progressEl = panelBody.querySelectorAll(".species-progress");
+      progressEl.animate({
+        {
+          opacity: "0";
+          transform: "translateY(0) scale(0.5)"
+        },
+        {
+          opacity: "1";
+          transform: "translateY(-6px)"
+        },
+        {
+          transform: "translateY(2px) scale(1)"
+        },
+        {
+          transform: "translateY(0)"
+        },
+      });
+
       if (!selectedSpecies) {
-        if (progressEl) progressEl.hidden = true;
+        for (const speciesProgress of progressEl) {
+          speciesProgress.hidden = true;
+        }
         if (graphToggleButton) graphToggleButton.disabled = true;
         return;
       }
       const { found, max } = totalsFor(selectedSpecies);
-      if (progressEl) {
-        progressEl.hidden = false;
-        progressEl.textContent = selectedSpecies + ": found " + found + " of " + max
+
+      for (const speciesProgress of progressEl) {
+        speciesProgress.hidden = false;
+        speciesProgress.textContent = selectedSpecies + ": found " + found + " of " + max
           + (isGraphMode ? " — click the dots to connect them into a line." : "");
       }
       if (graphToggleButton) {
@@ -3893,8 +3943,8 @@
       });
 
       renderChart();
-
-      
+      const scrollY = numberLineContainer.scrollTop - 20;
+      numberLineContainer.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function renderChart() {
@@ -3914,8 +3964,6 @@
       const colour = speciesColours.get(selectedSpecies) || barColours[0];
       const maxUnits = overallMaxForSpecies(selectedSpecies);
       
-      const CYLINDER_UNIT_HEIGHT = 28;
-      const CYLINDER_DIAMETER = 56;
       activeUnitHeight = isGraphMode && isCountersHidden
           ? CYLINDER_UNIT_HEIGHT * STRETCH_FACTOR
           : CYLINDER_UNIT_HEIGHT;
@@ -4135,7 +4183,7 @@
     function fillPanelContent(distance) {
       const template = templates.find((t) => t.dataset.distance === String(distance));
       panelBody.innerHTML = "";
-      if (template) {
+      if (template) {       
         panelBody.appendChild(template.content.cloneNode(true));
         wireUpHotspots(panelBody);
       }
@@ -4144,6 +4192,7 @@
     function openPanelFor(distance, point) {
       setPanelOriginToPoint(point);
       fillPanelContent(distance);
+      updateProgressAndGraphButton();
       panel.classList.add("is-open");
     }
 
@@ -4259,7 +4308,7 @@
 
   // Preserve the current working-page behaviour. Set to false before release
   // when students should unlock Parts A-D progressively.
-  const DEV_MODE = true;
+  const DEV_MODE = false;
 
   document.addEventListener("DOMContentLoaded", function() {
     if (typeof initialiseTeacherMenu === "function") {
