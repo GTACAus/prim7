@@ -9,30 +9,6 @@
         { id: "line-graph-yeast", label: "Practise Applying the Principles" },
     ];
 
-    function setChallengeFeedback(elementId, type, title, message) {
-        const box = document.getElementById(elementId);
-        if (!box) return;
-
-        box.classList.remove("success", "try-again");
-        if (type === "success") box.classList.add("success");
-        if (type === "try-again") box.classList.add("try-again");
-
-        box.innerHTML = "";
-        const strong = document.createElement("strong");
-        strong.textContent = title;
-        box.appendChild(strong);
-        box.appendChild(document.createTextNode(message));
-    }
-
-    function flashChoice(button, className) {
-        if (!button) return;
-        button.classList.remove("correct-choice", "try-again-choice");
-        void button.offsetWidth;
-        button.classList.add(className);
-        window.setTimeout(function() {
-        button.classList.remove(className);
-        }, 650);
-    }
   /* ==================================================
      LINE GRAPH - TURN A DATA TABLE INTO A GRAPH
      Elephant snail investigation on lesson4-2.
@@ -3506,13 +3482,13 @@
        on the y-axis.
     --------------------------------------------------------------- */
     const barColours = ["#ffd747", "#7c4dff", "#5cc8ff", "#b7e9a8", "#ff8a65", "#c792ea", "#4fd1c5"];
-    const CYLINDER_UNIT_HEIGHT = 20;
+    const CYLINDER_UNIT_HEIGHT = 5;
     const CYLINDER_DIAMETER = 80;
     // How much taller the chart gets, per animal, once "Hide counters"
     // is on — everything (row height, y-axis ticks, plotted points)
     // reads from this same multiplier so the line graph just gets
     // roomier without drifting out of sync with the axis.
-    const STRETCH_FACTOR = 2.4;
+    const STRETCH_FACTOR = 4;
     const DISTANCES = [];
     const TARGET_SPECIES = speciesButtons.map(
       (btn) => btn.dataset.species

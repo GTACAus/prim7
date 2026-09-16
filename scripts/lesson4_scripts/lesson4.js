@@ -11,31 +11,6 @@
      STUDENT PRACTICE CHALLENGES
      ================================================== */
 
-  function setChallengeFeedback(elementId, type, title, message) {
-    const box = document.getElementById(elementId);
-    if (!box) return;
-
-    box.classList.remove("success", "try-again");
-    if (type === "success") box.classList.add("success");
-    if (type === "try-again") box.classList.add("try-again");
-
-    box.innerHTML = "";
-    const strong = document.createElement("strong");
-    strong.textContent = title;
-    box.appendChild(strong);
-    box.appendChild(document.createTextNode(message));
-  }
-
-  function flashChoice(button, className) {
-    if (!button) return;
-    button.classList.remove("correct-choice", "try-again-choice");
-    void button.offsetWidth;
-    button.classList.add(className);
-    window.setTimeout(function() {
-      button.classList.remove(className);
-    }, 650);
-  }
-
   /* ==================================================
      PART A - POST-SURVEY INTERPRETATION
      ================================================== */
@@ -115,10 +90,6 @@
 
   function partBAverage(item) {
     return item.nights.reduce(function(sum, value) { return sum + value; }, 0) / item.nights.length;
-  }
-
-  function partBFormatAverage(value) {
-    return Number.isInteger(value) ? String(value) : value.toFixed(1);
   }
 
   function partBY(value) {
