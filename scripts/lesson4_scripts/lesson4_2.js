@@ -803,7 +803,6 @@
     document.querySelectorAll("#lineGraphPredictionCheck .prediction-button").forEach(function(other) {
       other.classList.remove("selected-answer", "try-again-choice", "correct-choice");
     });
-
     if (!correct) {
       flashChoice(button, "try-again-choice");
 
@@ -819,7 +818,8 @@
 
       return;
     }
-
+    const nextButton = document.getElementById("graph-elephant-next");
+    if (nextButton) nextButton.hidden = false;
     if (feedback) feedback.hidden = true;
     button.classList.add("selected-answer");
   }
@@ -1597,6 +1597,8 @@
       return;
     }
 
+    const nextButton = document.getElementById("graph-conniwinks-next");
+    if (nextButton) nextButton.hidden = false;
     feedback.hidden = true;
     button.classList.add("selected-answer");
   }
@@ -2375,6 +2377,8 @@
       return;
     }
 
+    const nextButton = document.getElementById("graph-yeast-next");
+    if (nextButton) nextButton.hidden = false;
     feedback.hidden = true;
     button.classList.add("selected-answer");
   }
@@ -3903,19 +3907,19 @@
     // Every point connected == the graph is done. Shows/hides the
     // completion banner below the "Count by distance" activity-card.
     function checkGraphComplete() {
-      const allGraphsComplete = TARGET_SPECIES.every((name) => {
+      const graphComplete = TARGET_SPECIES.some((name) => {
         const connections = graphConnections.get(name) || [];
 
         return connections.length === DISTANCES.length;
       });
 
       if (graphCompleteFeedback) {
-        graphCompleteFeedback.hidden = !allGraphsComplete;
+        graphCompleteFeedback.hidden = !graphComplete;
       }
       
-      nextButton.hidden = !allGraphsComplete;
+      nextButton.hidden = !graphComplete;
 
-      return allGraphsComplete;
+      return graphComplete;
     }
 
     // Clears the click-to-connect progress and hides the completion
@@ -4612,7 +4616,7 @@
 
   // Preserve the current working-page behaviour. Set to false before release
   // when students should unlock Parts A-D progressively.
-  const DEV_MODE = false;
+  const DEV_MODE = true;
 
   const sectionIds = [
       { id: "marine-snail-context", label: "Victorian Marine Snails" },
@@ -4620,6 +4624,7 @@
       { id: "line-graph-elephant", label: "Turn a Data Table into a Line Graph" },
       { id: "line-graph-conniwinks", label: "Build a Line Graph" },
       { id: "line-graph-yeast", label: "Practise Applying the Principles" },
+      { id: "line-graph-plants", label: "Plotting Time on the x-axis" },
   ];
 
   const teacherBackLink = {

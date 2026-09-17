@@ -77,28 +77,29 @@
 */
     .line-stage {
     position: relative;
-    /* flex: 1 1 auto; */
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 1fr;
     min-width: 0;
-    min-height: 130px;
-    padding: 20px 30px 0;
-    margin-top: 50px;
+    aspect-ratio: 2172 / 724;   /* matches Rockplatform.png exactly */
+    margin-bottom: 20px;
+    padding: 0 30px;
     overflow: visible;
+    border: 2px solid var(--charcoal);
+    border-radius: 16px;
     grid-row: 2;
     grid-column: 2;
     width: 100%;
-}
-
-.line-stage-background {
-    position: absolute;
-    top: -150px;
-    left: -15px;
-    width: 100%;
-    z-index: 0;
+    background-image: url("../../images/lesson4/number_line_activity/Rockplatform.png");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
     .line-track {
     position: relative;
+    align-self: self-start;
     height: 8px;
+    margin-top: 30px;
     background: var(--yellow);
     border-radius: 999px;
     z-index: 1;
@@ -174,9 +175,8 @@
 }
 
     .person-marker {
-    position: absolute;
-    bottom: 30px;
-    left: 0%;
+    position: relative;
+    align-self: self-end;
     width: 54px;
     height: 72px;
     object-fit: contain;
@@ -345,7 +345,6 @@
     .line-stage {
     grid-row: 3 !important;
     grid-column: 1 !important;
-    min-height: 140px;
     padding: 20px 16px 0;
     }
 
