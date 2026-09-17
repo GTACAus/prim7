@@ -163,7 +163,7 @@
     object-fit: contain;
     object-position: bottom center;
     transform: translateX(-50%);
-    transition: left .45s ease;
+    transition: left 3s ease;
     z-index: 1;
 }
 

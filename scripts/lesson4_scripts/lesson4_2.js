@@ -3455,6 +3455,7 @@
     // but no panel is open and the badge shows the initial prompt.
     let selected = null;
     let closeTimer = null;
+    let personArriveHandler = null;
 
     /* ---------------------------------------------------------------
        Spotlight-style animal hotspots, scattered across each distance's
@@ -4380,8 +4381,6 @@
         btn.disabled = false;
       });
 
-      person.style.left = percentFor(target) + "%";
-
       points.forEach((p) => {
         p.classList.remove("is-selected");
         p.setAttribute("aria-expanded", "false");
@@ -4392,7 +4391,10 @@
       note.textContent = "You selected " + target + " metres. Read the panel above the line.";
 
       // updateArrowStates(target);
-      showPanelFor(target, point);
+      // Walk the person marker to the new point first; the panel only
+      // opens once they arrive (movePerson swaps to the "investigating"
+      // gif and calls showPanelFor at that point).
+      movePerson(PersonMove.WALKING, target, point);
       if (focusPoint) point.focus();
     }
 
@@ -4410,6 +4412,79 @@
       // the person visually starts.
       const base = selected === null ? 0 : selected;
       moveTo(base + direction * STEP, true);
+    }
+
+    const PersonMove = Object.freeze({
+      IDLE: 0,
+      WALKING: 1,
+      PLACING: 2,
+    });
+
+    const PERSON_IMAGE_BASE = "../images/lesson4/number_line_activity/";
+
+    const PERSON_IMAGES = {
+      [PersonMove.IDLE]: "person.png",
+      [PersonMove.WALKING]: "person_walking.gif",
+      [PersonMove.PLACING]: "person_investigating.gif",
+    };
+
+    const INVESTIGATE_GIF_DURATION_MS = 1300; // sum of person_investigating.gif's frame delays
+    const PERSON_TRANSLATE_OFFSET = 20;
+    let lastTarget = 0;
+
+    // target is a distance in metres (0-20), not a pixel offset - the
+    // marker is positioned with the same percentFor() used everywhere
+    // else on the number line, so it lines up with the line-points.
+    function movePerson(movement, target, point) {
+      let direction = Math.sign((target - lastTarget));
+      lastTarget = target;
+      console.log(direction);
+
+      switch (movement) {
+        case PersonMove.WALKING: {
+          // A rapid second click before the person has finished arriving
+          // should not leave a stale "arrived" callback pending.
+          if (personArriveHandler) {
+            person.removeEventListener("transitionend", personArriveHandler);
+            personArriveHandler = null;
+          }
+
+          person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.WALKING];
+          person.style.left = percentFor(target) + "%";
+          person.style.transform = `scaleX(${direction}) translateX(${-direction * PERSON_TRANSLATE_OFFSET}px)`;
+
+          personArriveHandler = (event) => {
+            if (event.propertyName !== "left") return;
+            person.removeEventListener("transitionend", personArriveHandler);
+            personArriveHandler = null;
+            movePerson(PersonMove.PLACING, target, point);
+          };
+          person.addEventListener("transitionend", personArriveHandler);
+          break;
+        }
+
+        case PersonMove.PLACING: {
+          person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.PLACING];
+          window.setTimeout(() => {
+            showPanelFor(target, point);
+          }, INVESTIGATE_GIF_DURATION_MS);
+          break;
+        }
+
+        case PersonMove.IDLE:
+        default: {
+          // Also used by reset - cancel any in-flight "arrived" callback
+          // so a reset mid-walk can't reopen the panel afterwards.
+          if (personArriveHandler) {
+            person.removeEventListener("transitionend", personArriveHandler);
+            personArriveHandler = null;
+          }
+          person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.IDLE];
+          person.style.left = percentFor(target) + "%";
+          person.style.transform = `0px`;
+          break;
+        }
+      }
     }
 
     points.forEach((point) => {
@@ -4434,16 +4509,17 @@
         });
 
         // closeAll() only clears the selection/panel — also put the
-        // person marker back at its resting 0 m spot and re-disable
-        // the back arrow, matching the very first render of the page.
+        // person marker back at its resting 0 m spot (snapping, not
+        // walking, and back to the idle image) and re-disable the
+        // back arrow, matching the very first render of the page.
         selected = null;
-        person.style.left = "0%";
+        movePerson(PersonMove.STOP, 0);
         // updateArrowStates(0);
       });
     }
 
-    // Initial state: person at 0 m, nothing open, back arrow disabled.
-    person.style.left = "0%";
+    // Initial state: person at 0 m, idle image, nothing open, back arrow disabled.
+    movePerson(PersonMove.STOP, 0);
     // updateArrowStates(0);
   }
 
