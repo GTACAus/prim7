@@ -3655,49 +3655,40 @@
     // of distances they join.
     const linesByKey = new Map();
 
-    // CSS transitions only work on the SVG geometry attributes the spec
-    // actually exposes as CSS properties (cx/cy/r on <circle>, x/y/width/
-    // height on <rect>). x1/y1/x2/y2 on <line> are NOT among them, so
-    // `transition: x1 ...` in CSS is silently ignored. This hand-rolls
-    // the same easing for attributes CSS can't animate.
-    function animateSvgAttrs(el, targets, duration) {
-      if (el._animFrame) {
-        cancelAnimationFrame(el._animFrame);
-        el._animFrame = null;
-      }
+    // Every attempt so far to animate the overlay (points/segments/tick
+    // marks) on its own timer — a CSS transition, or a hand-rolled
+    // requestAnimationFrame tween — ended up either detached from or
+    // lagging the actual chart, because renderLineOverlay() gets called
+    // repeatedly *during* the chart's own --row-height transition (see
+    // the ResizeObserver below), and restarting a fixed-duration
+    // animation against a new target on every one of those calls never
+    // settles into one smooth motion — it either fights the previous
+    // leg (drifting/"detached") or, restarted from wherever it
+    // currently sits, needs a fresh full duration to cover only a
+    // sliver of remaining distance each time ("lag behind").
+    //
+    // The fix: don't run a separate animation at all. Instead, while
+    // the chart's height transition is running, sample the *real*,
+    // already-correctly-interpolated layout every animation frame (via
+    // getBoundingClientRect, same as always) and place the overlay
+    // elements at exactly that position, with no transition of their
+    // own. Since the browser is doing 100% of the actual interpolation
+    // natively, reading and mirroring it every frame can't drift or
+    // lag — there's nothing being approximated.
+    let overlayTrackFrame = null;
+    const OVERLAY_TRACK_MS = 750; // a little past the .7s height transition
 
-      const froms = {};
-      let hasFrom = false;
-      Object.keys(targets).forEach((attr) => {
-        const current = el.getAttribute(attr);
-        if (current !== null && current !== "") {
-          froms[attr] = parseFloat(current);
-          hasFrom = true;
-        }
-      });
-
-      // Nothing to animate from (brand new element) — just place it.
-      if (!hasFrom) {
-        Object.keys(targets).forEach((attr) => el.setAttribute(attr, targets[attr]));
-        return;
-      }
-
+    function trackOverlayDuringTransition(columnEntries) {
+      if (overlayTrackFrame) cancelAnimationFrame(overlayTrackFrame);
       const start = performance.now();
 
       function step(now) {
-        const t = Math.min(1, (now - start) / duration);
-        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-        Object.keys(targets).forEach((attr) => {
-          const from = froms[attr] === undefined ? targets[attr] : froms[attr];
-          const to = targets[attr];
-          el.setAttribute(attr, from + (to - from) * eased);
-        });
-
-        el._animFrame = t < 1 ? requestAnimationFrame(step) : null;
+        applyOverlayGeometry(columnEntries);
+        overlayTrackFrame =
+          now - start < OVERLAY_TRACK_MS ? requestAnimationFrame(step) : null;
       }
 
-      el._animFrame = requestAnimationFrame(step);
+      overlayTrackFrame = requestAnimationFrame(step);
     }
 
     // The little x-axis tick mark under each column (only shown in
@@ -3714,13 +3705,17 @@
     // the per-point click handlers) don't need it threaded through.
     let currentColumnEntries = [];
 
-    function renderLineOverlay(columnEntries) {
+    const TICK_WIDTH = 3;
+
+    // Pure geometry pass: measure current layout and place the already-
+    // existing overlay elements (never creates/removes anything). Cheap
+    // enough to call every animation frame from trackOverlayDuringTransition.
+    function applyOverlayGeometry(columnEntries) {
       pointsByDistance.clear();
-      currentColumnEntries = columnEntries;
       if (!chartWrap || !columnEntries.length) return;
 
       const wrapRect = barRow.getBoundingClientRect();
-      const groundYByDistance = new Map();
+      const tickTargetsByDistance = new Map();
 
       columnEntries.forEach(({ group, column, count, distance }) => {
         const groupRect = group.getBoundingClientRect();
@@ -3736,44 +3731,55 @@
         const y = groundY - count * activeUnitHeight;
 
         pointsByDistance.set(distance, { x, y });
-        groundYByDistance.set(distance, { x, groundY });
+        tickTargetsByDistance.set(distance, { x: x - TICK_WIDTH / 2, y: groundY });
+      });
+
+      tickTargetsByDistance.forEach((target, distance) => {
+        const tick = xAxisTicksByDistance.get(distance);
+        if (!tick) return;
+        tick.setAttribute("x", target.x);
+        tick.setAttribute("y", target.y);
+      });
+
+      pointsByDistance.forEach((p, distance) => {
+        const circle = circlesByDistance.get(distance);
+        if (!circle) return;
+        circle.setAttribute("cx", p.x);
+        circle.setAttribute("cy", p.y);
       });
 
       redrawPolyline();
+    }
 
-      const TICK_WIDTH = 3;
-      const TICK_HEIGHT = 10;
+    // Structural pass: creates/removes the persistent circle/tick/line
+    // elements to match the current data (called once per actual data
+    // change — a hotspot found, species switched, mode toggled — not
+    // every frame), then measures and places everything, and finally
+    // keeps re-measuring for the duration of the chart's own height
+    // transition so the overlay tracks it exactly instead of jumping
+    // straight to the final position.
+    function renderLineOverlay(columnEntries) {
+      currentColumnEntries = columnEntries;
+      if (!chartWrap || !columnEntries.length) {
+        pointsByDistance.clear();
+        return;
+      }
 
-      groundYByDistance.forEach(({ x, groundY }, distance) => {
-        let tick = xAxisTicksByDistance.get(distance);
-        if (!tick) {
-          // A <rect> rather than a <line>: x/y/width/height are real,
-          // CSS-transitionable SVG geometry properties (x1/y1/x2/y2 on
-          // a <line> are not — see animateSvgAttrs above), so this can
-          // just use a plain CSS transition like the points do.
-          tick = document.createElementNS(SVG_NS, "rect");
+      const distances = columnEntries.map((entry) => entry.distance);
+      const distanceSet = new Set(distances);
+      const connectedOrder = getConnectedOrder();
+
+      distances.forEach((distance) => {
+        if (!xAxisTicksByDistance.has(distance)) {
+          const tick = document.createElementNS(SVG_NS, "rect");
           tick.classList.add("x-axis-tick-mark");
           tick.setAttribute("width", TICK_WIDTH);
-          tick.setAttribute("height", TICK_HEIGHT);
+          tick.setAttribute("height", 10);
           xAxisTicksByDistance.set(distance, tick);
           lineOverlaySvg.appendChild(tick);
         }
-        tick.setAttribute("x", x - TICK_WIDTH / 2);
-        tick.setAttribute("y", groundY);
-      });
 
-      xAxisTicksByDistance.forEach((tick, distance) => {
-        if (!groundYByDistance.has(distance)) {
-          tick.remove();
-          xAxisTicksByDistance.delete(distance);
-        }
-      });
-
-      const connectedOrder = getConnectedOrder();
-
-      pointsByDistance.forEach((p, distance) => {
         let circle = circlesByDistance.get(distance);
-
         if (!circle) {
           circle = document.createElementNS(SVG_NS, "circle");
           circle.classList.add("line-graph-point");
@@ -3791,25 +3797,31 @@
           circlesByDistance.set(distance, circle);
           lineOverlaySvg.appendChild(circle);
         }
-
         circle.classList.toggle("is-connected", connectedOrder.includes(distance));
-        circle.setAttribute("cx", p.x);
-        circle.setAttribute("cy", p.y);
       });
 
-      // Drop circles for distances that no longer have a point (only
+      // Drop ticks/circles for distances that no longer apply (only
       // relevant if DISTANCES itself ever changes at runtime).
+      xAxisTicksByDistance.forEach((tick, distance) => {
+        if (!distanceSet.has(distance)) {
+          tick.remove();
+          xAxisTicksByDistance.delete(distance);
+        }
+      });
       circlesByDistance.forEach((circle, distance) => {
-        if (!pointsByDistance.has(distance)) {
+        if (!distanceSet.has(distance)) {
           circle.remove();
           circlesByDistance.delete(distance);
         }
       });
+
+      applyOverlayGeometry(columnEntries);
+      trackOverlayDuringTransition(columnEntries);
     }
 
     const chartResizeObserver = new ResizeObserver(() => {
       if (isGraphMode && currentColumnEntries.length) {
-        renderLineOverlay(currentColumnEntries);
+        applyOverlayGeometry(currentColumnEntries);
       }
     });
 
@@ -3837,10 +3849,12 @@
           const key = leftDistance + "->" + rightDistance;
           neededKeys.add(key);
 
-          // Reuse an existing segment rather than recreating it, so a
-          // segment that's already on screen glides to its new
-          // endpoints (via the CSS transition on x1/y1/x2/y2) instead
-          // of popping straight to its final position every render.
+          // Reuse an existing segment rather than recreating it. Its
+          // endpoints are just set directly here — this whole function
+          // runs on every sampled frame of the chart's height transition
+          // (see applyOverlayGeometry/trackOverlayDuringTransition), so
+          // the smooth motion comes from being re-measured and re-drawn
+          // every frame, not from animating this one call's values.
           let line = linesByKey.get(key);
           if (!line) {
             line = document.createElementNS(SVG_NS, "line");
@@ -3850,7 +3864,10 @@
             lineOverlaySvg.insertBefore(line, lineOverlaySvg.firstChild);
           }
 
-          animateSvgAttrs(line, { x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y }, 700);
+          line.setAttribute("x1", p1.x);
+          line.setAttribute("y1", p1.y);
+          line.setAttribute("x2", p2.x);
+          line.setAttribute("y2", p2.y);
         }
       }
 
@@ -3980,7 +3997,8 @@
     }
 
     function allTargetSpeciesFound() {
-      return TARGET_SPECIES.every((name) => {
+      return TARGET_SPECIES.some((name) => {
+        console.log(name);
         const { found, max } = totalsFor(name);
 
         return max > 0 && found === max;
