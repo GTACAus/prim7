@@ -4431,14 +4431,20 @@
     const INVESTIGATE_GIF_DURATION_MS = 1300; // sum of person_investigating.gif's frame delays
     const PERSON_TRANSLATE_OFFSET = 20;
     let lastTarget = 0;
+    let lastDirection = 1;
 
     // target is a distance in metres (0-20), not a pixel offset - the
     // marker is positioned with the same percentFor() used everywhere
     // else on the number line, so it lines up with the line-points.
     function movePerson(movement, target, point) {
-      let direction = Math.sign((target - lastTarget));
+      // Math.sign(0) is 0, which would zero out the scaleX() flip below -
+      // when the target hasn't actually moved, keep facing whichever way
+      // the person was last facing instead of collapsing to width 0.
+      const rawDirection = Math.sign(target - lastTarget);
+      const direction = rawDirection !== 0 ? rawDirection : (lastDirection || 1);
+      const isAlreadyThere = target === lastTarget;
       lastTarget = target;
-      console.log(direction);
+      lastDirection = direction;
 
       switch (movement) {
         case PersonMove.WALKING: {
@@ -4452,6 +4458,14 @@
           person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.WALKING];
           person.style.left = percentFor(target) + "%";
           person.style.transform = `scaleX(${direction}) translateX(${-direction * PERSON_TRANSLATE_OFFSET}px)`;
+
+          // Clicking the point the person is already standing on doesn't
+          // change `left`, so no transition runs and "transitionend" would
+          // never fire - go straight to PLACING instead of waiting for it.
+          if (isAlreadyThere) {
+            movePerson(PersonMove.PLACING, target, point);
+            break;
+          }
 
           personArriveHandler = (event) => {
             if (event.propertyName !== "left") return;
