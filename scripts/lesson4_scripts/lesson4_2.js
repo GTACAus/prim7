@@ -4391,10 +4391,9 @@
       note.textContent = "You selected " + target + " metres. Read the panel above the line.";
 
       // updateArrowStates(target);
-      // Walk the person marker to the new point first; the panel only
-      // opens once they arrive (movePerson swaps to the "investigating"
-      // gif and calls showPanelFor at that point).
-      movePerson(PersonMove.WALKING, target, point);
+      // Hand off to the person-marker state machine - it decides whether
+      // this needs a walk, an instant placement, or nothing at all.
+      movePerson(target, point);
       if (focusPoint) point.focus();
     }
 
@@ -4416,89 +4415,141 @@
 
     const PersonMove = Object.freeze({
       IDLE: 0,
-      WALKING: 1,
-      PLACING: 2,
+      STANDING: 1,
+      WALKING: 2,
+      PLACING: 3,
     });
 
     const PERSON_IMAGE_BASE = "../images/lesson4/number_line_activity/";
 
     const PERSON_IMAGES = {
       [PersonMove.IDLE]: "person.png",
+      [PersonMove.STANDING]: "person_standing.gif",
       [PersonMove.WALKING]: "person_walking.gif",
       [PersonMove.PLACING]: "person_investigating.gif",
     };
 
+    const STANDING_GIF_DURATION_MS = 1300; // sum of person_standing.gif's frame delays
     const INVESTIGATE_GIF_DURATION_MS = 1300; // sum of person_investigating.gif's frame delays
     const PERSON_TRANSLATE_OFFSET = 20;
-    let lastTarget = 0;
-    let lastDirection = 1;
 
-    // target is a distance in metres (0-20), not a pixel offset - the
-    // marker is positioned with the same percentFor() used everywhere
-    // else on the number line, so it lines up with the line-points.
-    function movePerson(movement, target, point) {
+    // --- Person-marker state machine -----------------------------------
+    // States: IDLE (the very first resting state, at 0 m, before anything
+    // has been clicked) -> STANDING (plays its gif once, then hands off)
+    // -> WALKING (mid-transition) -> PLACING (arrived, panel open) ->
+    // click a new point -> STANDING -> WALKING -> PLACING -> ...
+    // Rules baked into movePerson():
+    //   - IDLE + click the point already stood on (0 m, at the very
+    //     start) -> straight to PLACING, no walk.
+    //   - PLACING + click the *same* point that's open -> no state change.
+    //   - Any other click -> STANDING (waits for its gif to finish) ->
+    //     WALKING -> PLACING.
+    let personState = PersonMove.IDLE;
+    let currentDistance = 0; // updated the instant a walk starts, not on arrival - always "where the marker is currently headed"
+    let lastDirection = 1;   // which way the marker is currently facing
+    let personStandingTimer = null;
+
+    function clearPendingPersonTimers() {
+      if (personArriveHandler) {
+        person.removeEventListener("transitionend", personArriveHandler);
+        personArriveHandler = null;
+      }
+      if (personStandingTimer) {
+        window.clearTimeout(personStandingTimer);
+        personStandingTimer = null;
+      }
+    }
+
+    function enterIdle() {
+      clearPendingPersonTimers();
+      personState = PersonMove.IDLE;
+      person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.IDLE];
+    }
+
+    function enterStanding(target, point) {
+      clearPendingPersonTimers();
+      personState = PersonMove.STANDING;
+      person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.STANDING];
+
+      // Let the standing gif play through once before moving on to the walk.
+      personStandingTimer = window.setTimeout(() => {
+        personStandingTimer = null;
+        enterWalking(target, point);
+      }, STANDING_GIF_DURATION_MS);
+    }
+
+    function enterWalking(target, point) {
+      // Retargeting mid-walk (or arriving from STANDING/IDLE) shouldn't
+      // leave a stale "arrived" callback from a previous target pending.
+      clearPendingPersonTimers();
+      personState = PersonMove.WALKING;
+
       // Math.sign(0) is 0, which would zero out the scaleX() flip below -
       // when the target hasn't actually moved, keep facing whichever way
       // the person was last facing instead of collapsing to width 0.
-      const rawDirection = Math.sign(target - lastTarget);
+      // currentDistance is compared against BEFORE being updated below, so
+      // retargeting mid-walk (currentDistance still holds the *previous*
+      // target, not the original starting point) gives the direction of
+      // the leg actually being walked right now, not the very first one.
+      const rawDirection = Math.sign(target - currentDistance);
       const direction = rawDirection !== 0 ? rawDirection : (lastDirection || 1);
-      const isAlreadyThere = target === lastTarget;
-      lastTarget = target;
       lastDirection = direction;
+      currentDistance = target;
 
-      switch (movement) {
-        case PersonMove.WALKING: {
-          // A rapid second click before the person has finished arriving
-          // should not leave a stale "arrived" callback pending.
-          if (personArriveHandler) {
-            person.removeEventListener("transitionend", personArriveHandler);
-            personArriveHandler = null;
-          }
+      person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.WALKING];
+      person.style.transform = `scaleX(${direction}) translateX(${-direction * PERSON_TRANSLATE_OFFSET}px)`;
+      person.style.left = percentFor(target) + "%";
 
-          person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.WALKING];
-          person.style.left = percentFor(target) + "%";
-          person.style.transform = `scaleX(${direction}) translateX(${-direction * PERSON_TRANSLATE_OFFSET}px)`;
+      personArriveHandler = (event) => {
+        if (event.propertyName !== "left") return;
+        person.removeEventListener("transitionend", personArriveHandler);
+        personArriveHandler = null;
+        enterPlacing(target, point);
+      };
+      person.addEventListener("transitionend", personArriveHandler);
+    }
 
-          // Clicking the point the person is already standing on doesn't
-          // change `left`, so no transition runs and "transitionend" would
-          // never fire - go straight to PLACING instead of waiting for it.
-          if (isAlreadyThere) {
-            movePerson(PersonMove.PLACING, target, point);
-            break;
-          }
+    function enterPlacing(target, point) {
+      personState = PersonMove.PLACING;
+      currentDistance = target;
+      person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.PLACING];
+      window.setTimeout(() => {
+        showPanelFor(target, point);
+      }, INVESTIGATE_GIF_DURATION_MS);
+    }
 
-          personArriveHandler = (event) => {
-            if (event.propertyName !== "left") return;
-            person.removeEventListener("transitionend", personArriveHandler);
-            personArriveHandler = null;
-            movePerson(PersonMove.PLACING, target, point);
-          };
-          person.addEventListener("transitionend", personArriveHandler);
-          break;
-        }
-
-        case PersonMove.PLACING: {
-          person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.PLACING];
-          window.setTimeout(() => {
-            showPanelFor(target, point);
-          }, INVESTIGATE_GIF_DURATION_MS);
-          break;
-        }
-
-        case PersonMove.IDLE:
-        default: {
-          // Also used by reset - cancel any in-flight "arrived" callback
-          // so a reset mid-walk can't reopen the panel afterwards.
-          if (personArriveHandler) {
-            person.removeEventListener("transitionend", personArriveHandler);
-            personArriveHandler = null;
-          }
-          person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.IDLE];
-          person.style.left = percentFor(target) + "%";
-          person.style.transform = `0px`;
-          break;
-        }
+    // Entry point - call this whenever the user picks a distance (a
+    // number-line click, or a reset). Walks the state machine described
+    // above; target is a distance in metres (0-20), not a pixel offset.
+    function movePerson(target, point) {
+      if (personState === PersonMove.PLACING && target === currentDistance) {
+        return; // already open on this point - no state change
       }
+
+      if (personState === PersonMove.IDLE && target === currentDistance) {
+        enterPlacing(target, point); // the very first click, already at this point - skip the walk
+        return;
+      }
+
+      if (personState === PersonMove.IDLE || personState === PersonMove.WALKING) {
+        // Already IDLE-to-first-click, or already mid-walk: just (re)walk
+        // straight to the new target - no need to replay the standing gif.
+        enterWalking(target, point);
+        return;
+      }
+
+      enterStanding(target, point);
+    }
+
+    // Hard reset - snaps back to 0 m instantly (no walk animation), back
+    // to IDLE (not STANDING - that state only ever occurs when leaving a
+    // PLACING), and cancels anything in flight. Used on page load and by
+    // the reset button.
+    function resetPerson() {
+      enterIdle();
+      currentDistance = 0;
+      person.style.left = percentFor(0) + "%";
+      person.style.transform = "";
     }
 
     points.forEach((point) => {
@@ -4527,13 +4578,13 @@
         // walking, and back to the idle image) and re-disable the
         // back arrow, matching the very first render of the page.
         selected = null;
-        movePerson(PersonMove.STOP, 0);
+        resetPerson();
         // updateArrowStates(0);
       });
     }
 
-    // Initial state: person at 0 m, idle image, nothing open, back arrow disabled.
-    movePerson(PersonMove.STOP, 0);
+    // Initial state: person at 0 m, standing image, nothing open, back arrow disabled.
+    resetPerson();
     // updateArrowStates(0);
   }
 
