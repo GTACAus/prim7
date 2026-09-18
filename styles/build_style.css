@@ -1276,7 +1276,6 @@ input[type="checkbox"]:active {
 .general-button:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 var(--line);
-  cursor: grabbing;
 }
 
 .watch-video-button {

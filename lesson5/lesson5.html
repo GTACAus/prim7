@@ -146,7 +146,7 @@
 
     .field-guide-button {
       min-width: 120px;
-      background: var(--soft-yellow) !important;
+      --background-colour: var(--yellow);
       color: var(--charcoal) !important;
     }
 
@@ -411,7 +411,7 @@
     }
 
     .start-button {
-      background: var(--yellow) !important;
+      --background-colour: var(--yellow);
       color: var(--charcoal) !important;
       font-size: 1.05rem;
     }
@@ -664,21 +664,83 @@
       color: white;
     }
 
-    .expedition-check {
-      background: var(--green) !important;
+    .expedition-button {
+      position: relative;
+      padding: 12px 22px;
+
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.15) 100%),
+        color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 70%, transparent) !important;
+      color: white;
+
+      border: none;
+      border-radius: 99px;
+
+      box-shadow:
+        0 4px 0 color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 55%, black 45%),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.18);
+
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+
+      transition:
+        color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease,
+        filter 0.15s ease;
     }
 
-    .expedition-reset {
-      background: var(--orange) !important;
+    .expedition-button:active {
+      transform: scale(1) translateY(2px);
     }
 
-    .expedition-next {
-      background: var(--blue) !important;
+    .expedition-button:not(:disabled):hover {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.12) 100%),
+        var(--background-colour, var(--exp-cyan)) !important;
+      transform: scale(1.03);
+      animation: glow-pulse 1.8s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% {
+        box-shadow:
+          0 4px 0 color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 55%, black 45%),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5),
+          inset 0 -4px 6px rgba(0, 0, 0, 0.18),
+          0 0 6px 1px color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 60%, transparent);
+      }
+      50% {
+        box-shadow:
+          0 4px 0 color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 55%, black 45%),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5),
+          inset 0 -4px 6px rgba(0, 0, 0, 0.18),
+          0 0 20px 7px color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 75%, transparent);
+      }
+    }
+
+    #checkButton {
+      --background-colour: var(--green);
+    }
+
+    #resetButton {
+      --background-colour: var(--orange);
+    }
+
+    #nextButton {
+      --background-colour: var(--blue);
       color: var(--charcoal) !important;
     }
 
-    .stage-controls .general-button:disabled {
+    .stage-controls .expedition-button:disabled {
       opacity: 0.35;
+      filter: grayscale(1);
       cursor: not-allowed;
       transform: none;
       box-shadow: 0 4px 0 var(--charcoal);
@@ -1174,7 +1236,7 @@
 
     .capture-button {
       width: 100%;
-      background: var(--blue) !important;
+      --background-colour: var(--blue);
       color: var(--charcoal) !important;
       font-size: 1rem;
     }
@@ -1604,8 +1666,8 @@
       margin-top: 16px;
     }
 
-    .resource-button-row .general-button {
-      background: var(--soft-blue) !important;
+    .resource-button-row .expedition-button {
+      --background-colour: var(--soft-blue);
       color: var(--charcoal) !important;
     }
 
@@ -1760,7 +1822,7 @@
         grid-column: 1 / -1;
       }
 
-      .stage-controls .general-button {
+      .stage-controls .expedition-button {
         width: 100%;
         padding-inline: 10px;
       }
@@ -1799,7 +1861,7 @@
         <h2>Deep Sea Explorers</h2>
       </div>
 
-      <button type="button" class="general-button field-guide-button" onclick="openGlossary()">
+      <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
         Field guide
       </button>
     </header>
@@ -1864,7 +1926,7 @@
                 Move through each mission one stage at a time. CHECK confirms the current stage,
                 RESET clears the current response, and NEXT advances only after the stage is complete.
               </p>
-              <button type="button" class="general-button start-button" onclick="startExpedition()">
+              <button type="button" class="expedition-button start-button" onclick="startExpedition()">
                 Start expedition
               </button>
             </div>
@@ -2070,7 +2132,7 @@
                   </div>
 
                   <div class="resource-button-row">
-                    <button type="button" class="general-button" onclick="openEquipmentSymbols()">Scientific symbols reference</button>
+                    <button type="button" class="expedition-button" onclick="openEquipmentSymbols()">Scientific symbols reference</button>
                   </div>
 
                   <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to use scientific symbols in an experiment diagram.</p>
@@ -2335,7 +2397,7 @@
                           <p>
                             Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
                           </p>
-                          <button type="button" class="general-button capture-button" onclick="takeMission5Photo()">
+                          <button type="button" class="expedition-button capture-button" onclick="takeMission5Photo()">
                             Capture image
                           </button>
                         </article>
@@ -2407,15 +2469,15 @@
             <strong>Stand by.</strong> Start the expedition to load Mission 1.
           </div>
 
-          <button type="button" class="general-button expedition-check" id="checkButton" onclick="checkCurrentMission()" disabled>
+          <button type="button" class="expedition-button expedition-check" id="checkButton" onclick="checkCurrentMission()" disabled>
             Check ✓
           </button>
 
-          <button type="button" class="general-button reset-btn expedition-reset" id="resetButton" onclick="resetCurrentMission()" disabled>
+          <button type="button" class="expedition-button" id="resetButton" onclick="resetCurrentMission()" disabled>
             Reset ↻
           </button>
 
-          <button type="button" class="general-button expedition-next" id="nextButton" onclick="goNextMission()" disabled>
+          <button type="button" class="expedition-button" id="nextButton" onclick="goNextMission()" disabled>
             Next →
           </button>
         </footer>
