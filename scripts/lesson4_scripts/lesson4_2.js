@@ -3586,42 +3586,24 @@
     }
 
     function createCylinder(parent, colour) {
-      const cylinder = document.createElement("div");
-      cylinder.className = "cylinder";
+      // Simple flat "coin" rectangle, shaded with a gradient to read as
+      // subtly 3D without the cost/complexity of the old rotated-strip
+      // cylinder. Same footprint (width = diameter, height = unit height)
+      // as before, so the surrounding layout math is unaffected.
+      const block = document.createElement("div");
+      block.className = "cylinder";
 
-      const stripCount = 12;
       const diameter = CYLINDER_DIAMETER;
       const height = CYLINDER_UNIT_HEIGHT;
-      const radius = diameter / 2;
-      const circumference = 2 * Math.PI * radius;
-      const stripWidth = (circumference / stripCount) * 1.12;
 
       parent.style.setProperty("--cylinder-diameter", diameter + "px");
       parent.style.setProperty("--cylinder-height", height + "px");
+      
+      block.style.width = diameter + "px";
+      block.style.height = height + "px";
+      block.style.setProperty("--colour", colour);
 
-      for (let i = 0; i < stripCount; i += 1) {
-        const strip = document.createElement("div");
-        strip.className = "cylinder-strip";
-        const angle = (360 / stripCount) * i;
-
-        strip.style.width = stripWidth + "px";
-        strip.style.height = height + "px";
-        strip.style.marginLeft = -(stripWidth / 2) + "px";
-        strip.style.backgroundColor = colour;
-        strip.style.transform = "rotateY(" + angle + "deg) translateZ(" + radius + "px)";
-
-        const brightness = 0.72 + 0.28 * Math.max(0, Math.cos((angle * Math.PI) / 180));
-        strip.style.filter = "brightness(" + brightness + ")";
-
-        cylinder.appendChild(strip);
-      }
-
-      const top = document.createElement("div");
-      top.className = "cylinder-top";
-      top.style.backgroundColor = colour;
-      cylinder.appendChild(top);
-
-      parent.appendChild(cylinder);
+      parent.appendChild(block);
     }
 
     // Persistent SVG overlay for the line graph: created once, then
