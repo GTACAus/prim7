@@ -46,6 +46,7 @@
 
     body {
       min-height: 100vh;
+      overflow-x: hidden;
       background:
         radial-gradient(circle at 18% 4%, rgba(57, 211, 255, 0.16), transparent 26rem),
         radial-gradient(circle at 86% 12%, rgba(78, 50, 232, 0.16), transparent 24rem),
@@ -64,8 +65,6 @@
     }
 
     .expedition-page.page {
-    width: min(1500px, 96vw);
-    min-height: 100vh;
     padding: 18px 0 30px;
 
     font-family: "IBM Plex Mono", monospace;
@@ -382,13 +381,51 @@
     font-family: "Share Tech Mono", monospace;
     }
 
+    /* ---------- Scroll-driven zoom for #expedition-main ---------- */
+
+    .expedition-zoom-stage {
+      position: relative;
+      height: 100vh;
+    }
+
+    .expedition-zoom-stage.no-zoom {
+      height: auto;
+    }
+
+    #expedition-main {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 100vh;
+      will-change: width, height, margin-left;
+    }
+
+    .expedition-zoom-stage.no-zoom #expedition-main {
+      position: static;
+      width: auto !important;
+      height: auto !important;
+      margin-left: 0 !important;
+      max-height: none;
+    }
+
+    /* The fixed page header slides up out of the way in step with the
+       same scroll progress that drives the zoom above. */
+    .page-header {
+      will-change: transform;
+    }
+
     /* ---------- Main game shell ---------- */
 
     .game-shell {
       display: grid;
       grid-template-columns: 245px minmax(0, 1fr) 235px;
+      grid-template-rows: minmax(0, 1fr);
       gap: 12px;
-      min-height: 720px;
+      flex: 1 1 auto;
+      min-height: 0;
     }
 
     .console-panel {
@@ -438,6 +475,7 @@
       display: grid;
       gap: 6px;
       padding: 10px;
+      overflow-y: auto;
     }
 
     .mission-button {
@@ -565,7 +603,7 @@
 
     .stage-screen {
       position: relative;
-      min-height: 600px;
+      min-height: 0;
       overflow: auto;
       background:
         linear-gradient(rgba(5, 18, 35, 0.72), rgba(5, 18, 35, 0.88)),
@@ -973,6 +1011,7 @@
 
     .science-body {
       padding: 14px;
+      overflow-y: auto;
     }
 
     .science-lock {
@@ -1989,10 +2028,6 @@
     }
 
     @media (max-width: 800px) {
-      .expedition-page.page {
-        width: 94vw;
-      }
-
       .expedition-banner {
         grid-template-columns: 72px 1fr;
         padding: 16px;
@@ -2267,667 +2302,599 @@
           </section>
         </div>
     </div>
-    <header class="expedition-banner" id="teacherTrigger" aria-label="Expedition Log header">
-      <div class="submarine-mark" aria-hidden="true">⚓</div>
-
-      <div class="banner-copy">
-        <p class="banner-kicker">PRIM7 field interface prototype</p>
-        <h1>Expedition Log</h1>
-        <h2>Deep Sea Explorers</h2>
-      </div>
-
-      <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
-        Field guide
-      </button>
-    </header>
-
-    <div class="game-shell">
-      <!-- ==================================================
-           LEFT: mission navigation / game progress
-           ================================================== -->
-      <aside class="console-panel mission-nav" aria-label="Mission log">
-        <h2 class="console-heading"><span class="light" aria-hidden="true"></span>Mission log</h2>
-
-        <nav class="mission-list" id="missionList">
-          <button class="mission-button" data-mission="mission-1" data-number="01" type="button">
-            <strong>Mission 1</strong>
-            <span>Briefing</span>
-          </button>
-
-          <button class="mission-button" data-mission="mission-2" data-number="02" type="button" disabled>
-            <strong>Mission 2</strong>
-            <span>What is a Scientific Diagram?</span>
-          </button>
-
-          <button class="mission-button" data-mission="mission-3" data-number="03" type="button" disabled>
-            <strong>Mission 3</strong>
-            <span>Experiment Set-Up: Rust Prevention</span>
-          </button>
-
-          <button class="mission-button" data-mission="mission-4" data-number="04" type="button" disabled>
-            <strong>Mission 4</strong>
-            <span>What is a Scientific Drawing?</span>
-          </button>
-
-          <button class="mission-button" data-mission="mission-5" data-number="05" type="button" disabled>
-            <strong>Mission 5</strong>
-            <span>Unknown Species Detected</span>
-          </button>
-        </nav>
-
-        <div class="substage-nav" id="substageNav" hidden aria-label="Current mission stages"></div>
-
-        <div class="mission-nav-footer">
-          <strong>Expedition depth</strong>
-          <div class="depth-meter">
-            <span id="depthLabel">0%</span>
-            <div class="depth-track" aria-hidden="true">
-              <div class="depth-fill" id="depthFill"></div>
+    <div class="expedition-zoom-stage">
+    <div id="expedition-main">
+      <header class="expedition-banner" id="teacherTrigger" aria-label="Expedition Log header">
+        <div class="submarine-mark" aria-hidden="true">⚓</div>
+        <div class="banner-copy">
+          <p class="banner-kicker">PRIM7 field interface prototype</p>
+          <h1>Expedition Log</h1>
+          <h2>Deep Sea Explorers</h2>
+        </div>
+        <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
+          Field guide
+        </button>
+      </header>
+      <div class="game-shell">
+        <!-- ==================================================
+             LEFT: mission navigation / game progress
+             ================================================== -->
+        <aside class="console-panel mission-nav" aria-label="Mission log">
+          <h2 class="console-heading"><span class="light" aria-hidden="true"></span>Mission log</h2>
+          <nav class="mission-list" id="missionList">
+            <button class="mission-button" data-mission="mission-1" data-number="01" type="button">
+              <strong>Mission 1</strong>
+              <span>Briefing</span>
+            </button>
+            <button class="mission-button" data-mission="mission-2" data-number="02" type="button" disabled>
+              <strong>Mission 2</strong>
+              <span>What is a Scientific Diagram?</span>
+            </button>
+            <button class="mission-button" data-mission="mission-3" data-number="03" type="button" disabled>
+              <strong>Mission 3</strong>
+              <span>Experiment Set-Up: Rust Prevention</span>
+            </button>
+            <button class="mission-button" data-mission="mission-4" data-number="04" type="button" disabled>
+              <strong>Mission 4</strong>
+              <span>What is a Scientific Drawing?</span>
+            </button>
+            <button class="mission-button" data-mission="mission-5" data-number="05" type="button" disabled>
+              <strong>Mission 5</strong>
+              <span>Unknown Species Detected</span>
+            </button>
+          </nav>
+          <div class="substage-nav" id="substageNav" hidden aria-label="Current mission stages"></div>
+          <div class="mission-nav-footer">
+            <strong>Expedition depth</strong>
+            <div class="depth-meter">
+              <span id="depthLabel">0%</span>
+              <div class="depth-track" aria-hidden="true">
+                <div class="depth-fill" id="depthFill"></div>
+              </div>
             </div>
           </div>
-        </div>
-      </aside>
-
-      <!-- ==================================================
-           CENTRE: one reusable stage; missions swap inside it
-           ================================================== -->
-      <section class="console-panel stage-panel" aria-label="Mission stage">
-        <div class="stage-screen" id="stageScreen">
-          <section class="start-screen" id="startScreen">
-            <div class="start-card pop-in">
-              <p class="start-eyebrow">Expedition systems online</p>
-              <h3>Click start to dive into the deep</h3>
-              <p>
-                Move through each mission one stage at a time. CHECK confirms the current stage,
-                RESET clears the current response, and NEXT advances only after the stage is complete.
-              </p>
-              <button type="button" class="expedition-button start-button" onclick="startExpedition()">
-                Start expedition
-              </button>
-            </div>
-          </section>
-
-          <!-- ==================================================
-               MISSION 1: BRIEFING (4 stages)
-               ================================================== -->
-          <section class="section expedition-mission" id="mission-1" data-mission-index="0">
-
-            <div class="mission-stage" data-stage-id="m1-exploration">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 1: briefing</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 01</p>
-                    <span class="stage-progress-chip">Stage 1 of 4</span>
+        </aside>
+        <!-- ==================================================
+             CENTRE: one reusable stage; missions swap inside it
+             ================================================== -->
+        <section class="console-panel stage-panel" aria-label="Mission stage">
+          <div class="stage-screen" id="stageScreen">
+            <section class="start-screen" id="startScreen">
+              <div class="start-card pop-in">
+                <p class="start-eyebrow">Expedition systems online</p>
+                <h3>Click start to dive into the deep</h3>
+                <p>
+                  Move through each mission one stage at a time. CHECK confirms the current stage,
+                  RESET clears the current response, and NEXT advances only after the stage is complete.
+                </p>
+                <button type="button" class="expedition-button start-button" onclick="startExpedition()">
+                  Start expedition
+                </button>
+              </div>
+            </section>
+            <!-- ==================================================
+                 MISSION 1: BRIEFING (4 stages)
+                 ================================================== -->
+            <section class="section expedition-mission" id="mission-1" data-mission-index="0">
+              <div class="mission-stage" data-stage-id="m1-exploration">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 1: briefing</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
                   </div>
-                  <h3>What is deep sea exploration?</h3>
-                  <p class="mission-subtitle">
-                    We know more about the surface of Mars than we do about the deepest parts of our own ocean.
-                    Scientists use specially built submarines, remotely operated vehicles and underwater cameras to
-                    explore a world of darkness, cold temperatures and crushing pressure.
-                  </p>
-
-                  <div class="story-grid">
-                    <figure class="media-card">
-                      <img src="./lesson5_assets/deep-sea-camera.png" alt="Deep-sea camera used to observe the ocean floor">
-                      <figcaption>Deep-sea camera</figcaption>
-                    </figure>
-                    <figure class="media-card">
-                      <img src="./lesson5_assets/hercules-rov.png" alt="Remotely operated vehicle Hercules underwater">
-                      <figcaption>Remotely operated vehicle “Hercules”</figcaption>
-                    </figure>
-                  </div>
-
-                  <div class="story-copy" style="margin-top:16px;">
-                    <h4>What could go wrong?</h4>
-                    <p>
-                      Technology does not always work perfectly in the deep ocean. Cameras can fail, footage can be corrupted,
-                      and extreme pressure can damage equipment. When this happens, scientists may need other ways to record what they observed.
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 01</p>
+                      <span class="stage-progress-chip">Stage 1 of 4</span>
+                    </div>
+                    <h3>What is deep sea exploration?</h3>
+                    <p class="mission-subtitle">
+                      We know more about the surface of Mars than we do about the deepest parts of our own ocean.
+                      Scientists use specially built submarines, remotely operated vehicles and underwater cameras to
+                      explore a world of darkness, cold temperatures and crushing pressure.
                     </p>
-                  </div>
-
-                  <p class="activity-prompt">When you have reviewed the briefing, press <strong>CHECK</strong>.</p>
-                  <div class="variable-feedback stage-feedback" data-feedback="m1-exploration" role="status" aria-live="polite"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mission-stage" data-stage-id="m1-failure">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 1: briefing</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 01</p>
-                    <span class="stage-progress-chip">Stage 2 of 4</span>
-                  </div>
-                  <h3>What to do when it goes wrong?</h3>
-                  <p class="mission-subtitle">
-                    When camera footage is corrupted, the skill of scientific drawing can help preserve an observation.
-                    You will build this skill before completing the expedition.
-                  </p>
-
-                  <div class="media-compare">
-                    <figure class="media-card">
-                      <img src="./lesson5_assets/damaged-footage.png" alt="Corrupted underwater footage">
-                      <figcaption>Damaged footage</figcaption>
-                    </figure>
-                    <figure class="media-card">
-                      <img src="./lesson5_assets/hd-footage.png" alt="Clear underwater footage of the same organism">
-                      <figcaption>HD footage</figcaption>
-                    </figure>
-                  </div>
-
-                  <p class="activity-prompt">Press <strong>CHECK</strong> when you understand why an accurate visual record matters.</p>
-                  <div class="variable-feedback stage-feedback" data-feedback="m1-failure" role="status" aria-live="polite"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mission-stage" data-stage-id="m1-fish-1">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 1: image quality test</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 01</p>
-                    <span class="stage-progress-chip">Stage 3 of 4</span>
-                  </div>
-                  <h3>Quality of underwater photos</h3>
-                  <p class="mission-subtitle">
-                    This image was taken from the Visdeurbel in the Netherlands. It is not a deep-sea image, but it shows how difficult
-                    it can be to identify an organism from underwater footage. Click the fish you think is shown, then press CHECK.
-                  </p>
-
-                  <div class="fish-question-image">
-                    <img src="./lesson5_assets/visdeurbel-fish-1.png" alt="Underwater image of a fish with dark vertical stripes">
-                  </div>
-
-                  <div class="choice-grid" data-choice-group="fish1">
-                    <button type="button" class="choice-card media-choice" data-value="perch">
-                      <img class="choice-image" src="./lesson5_assets/perch.png" alt="Perch reference image">
-                      <h4>A. Perch</h4>
-                    </button>
-                    <button type="button" class="choice-card media-choice" data-value="pike-perch">
-                      <img class="choice-image" src="./lesson5_assets/pike-perch.png" alt="Pike-perch reference image">
-                      <h4>B. Pike-Perch</h4>
-                    </button>
-                    <button type="button" class="choice-card media-choice" data-value="rudd">
-                      <img class="choice-image" src="./lesson5_assets/rudd.png" alt="Rudd reference image">
-                      <h4>C. Rudd</h4>
-                    </button>
-                  </div>
-
-                  <div class="variable-feedback stage-feedback" data-feedback="m1-fish-1" role="status" aria-live="polite"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mission-stage" data-stage-id="m1-fish-2">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 1: image quality test</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 01</p>
-                    <span class="stage-progress-chip">Stage 4 of 4</span>
-                  </div>
-                  <h3>Quality of underwater photos</h3>
-                  <p class="mission-subtitle">
-                    Here is another image from the Visdeurbel. Click the fish you think is shown, then press CHECK.
-                    Once you answer correctly, NEXT will unlock the next mission.
-                  </p>
-
-                  <div class="fish-question-image">
-                    <img src="./lesson5_assets/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a large fish">
-                  </div>
-
-                  <div class="choice-grid" data-choice-group="fish2">
-                    <button type="button" class="choice-card media-choice" data-value="white-bream">
-                      <img class="choice-image" src="./lesson5_assets/white-bream.png" alt="White bream reference image">
-                      <h4>A. White bream</h4>
-                    </button>
-                    <button type="button" class="choice-card media-choice" data-value="carp">
-                      <img class="choice-image" src="./lesson5_assets/carp.png" alt="Carp reference image">
-                      <h4>B. Carp</h4>
-                    </button>
-                    <button type="button" class="choice-card media-choice" data-value="catfish">
-                      <img class="choice-image" src="./lesson5_assets/catfish.png" alt="Catfish reference image">
-                      <h4>C. Catfish</h4>
-                    </button>
-                  </div>
-
-                  <div class="variable-feedback stage-feedback" data-feedback="m1-fish-2" role="status" aria-live="polite"></div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- ==================================================
-               MISSION 2: SCIENTIFIC DIAGRAM (2 stages)
-               ================================================== -->
-          <section class="section expedition-mission locked" id="mission-2" data-mission-index="1">
-
-            <div class="mission-stage" data-stage-id="m2-symbols">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 2: scientific diagram</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 02</p>
-                    <span class="stage-progress-chip">Stage 1 of 2</span>
-                  </div>
-                  <h3>What is a scientific diagram?</h3>
-                  <p class="mission-subtitle">
-                    A scientific diagram is a drawing of an experiment set-up. Some scientific equipment has standard symbols,
-                    creating a common visual language that scientists can interpret consistently.
-                  </p>
-
-                  <div class="symbol-compare">
-                    <div class="symbol-visual">
-                      <img src="./lesson5_assets/beaker-photo.jpeg" alt="Photograph of a laboratory beaker" style="max-height:200px; width:auto; max-width:100%;">
+                    <div class="story-grid">
+                      <figure class="media-card">
+                        <img src="./lesson5_assets/deep-sea-camera.png" alt="Deep-sea camera used to observe the ocean floor">
+                        <figcaption>Deep-sea camera</figcaption>
+                      </figure>
+                      <figure class="media-card">
+                        <img src="./lesson5_assets/hercules-rov.png" alt="Remotely operated vehicle Hercules underwater">
+                        <figcaption>Remotely operated vehicle “Hercules”</figcaption>
+                      </figure>
                     </div>
-                    <div class="symbol-visual" aria-label="Simple scientific symbol of a beaker">
-                      <svg viewBox="0 0 220 220" role="img" aria-label="Beaker symbol">
-                        <path d="M58 34 L58 160 Q58 184 110 184 Q162 184 162 160 L162 34" fill="none" stroke="#30332f" stroke-width="5" stroke-linecap="round"/>
-                        <path d="M58 34 Q110 20 162 34" fill="none" stroke="#30332f" stroke-width="5"/>
-                      </svg>
+                    <div class="story-copy" style="margin-top:16px;">
+                      <h4>What could go wrong?</h4>
+                      <p>
+                        Technology does not always work perfectly in the deep ocean. Cameras can fail, footage can be corrupted,
+                        and extreme pressure can damage equipment. When this happens, scientists may need other ways to record what they observed.
+                      </p>
                     </div>
+                    <p class="activity-prompt">When you have reviewed the briefing, press <strong>CHECK</strong>.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m1-exploration" role="status" aria-live="polite"></div>
                   </div>
-
-                  <div class="resource-button-row">
-                    <button type="button" class="expedition-button" onclick="openEquipmentSymbols()">Scientific symbols reference</button>
-                  </div>
-
-                  <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to use scientific symbols in an experiment diagram.</p>
-                  <div class="variable-feedback stage-feedback" data-feedback="m2-symbols" role="status" aria-live="polite"></div>
                 </div>
               </div>
-            </div>
-
-            <div class="mission-stage" data-stage-id="m2-example">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 2: example experiment</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <div class="mission-stage" data-stage-id="m1-failure">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 1: briefing</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 01</p>
+                      <span class="stage-progress-chip">Stage 2 of 4</span>
+                    </div>
+                    <h3>What to do when it goes wrong?</h3>
+                    <p class="mission-subtitle">
+                      When camera footage is corrupted, the skill of scientific drawing can help preserve an observation.
+                      You will build this skill before completing the expedition.
+                    </p>
+                    <div class="media-compare">
+                      <figure class="media-card">
+                        <img src="./lesson5_assets/damaged-footage.png" alt="Corrupted underwater footage">
+                        <figcaption>Damaged footage</figcaption>
+                      </figure>
+                      <figure class="media-card">
+                        <img src="./lesson5_assets/hd-footage.png" alt="Clear underwater footage of the same organism">
+                        <figcaption>HD footage</figcaption>
+                      </figure>
+                    </div>
+                    <p class="activity-prompt">Press <strong>CHECK</strong> when you understand why an accurate visual record matters.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m1-failure" role="status" aria-live="polite"></div>
+                  </div>
                 </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 02</p>
-                    <span class="stage-progress-chip">Stage 2 of 2</span>
+              </div>
+              <div class="mission-stage" data-stage-id="m1-fish-1">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 1: image quality test</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
                   </div>
-                  <h3>Example experiment</h3>
-                  <p class="mission-subtitle">Which drawing is the most accurate for any scientist to interpret?</p>
-
-                  <div class="story-copy">
-                    <h4>Example experiment — photograph</h4>
-                    <p>This is a structural placeholder for the final experiment photograph from the storyboard.</p>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 01</p>
+                      <span class="stage-progress-chip">Stage 3 of 4</span>
+                    </div>
+                    <h3>Quality of underwater photos</h3>
+                    <p class="mission-subtitle">
+                      This image was taken from the Visdeurbel in the Netherlands. It is not a deep-sea image, but it shows how difficult
+                      it can be to identify an organism from underwater footage. Click the fish you think is shown, then press CHECK.
+                    </p>
+                    <div class="fish-question-image">
+                      <img src="./lesson5_assets/visdeurbel-fish-1.png" alt="Underwater image of a fish with dark vertical stripes">
+                    </div>
+                    <div class="choice-grid" data-choice-group="fish1">
+                      <button type="button" class="choice-card media-choice" data-value="perch">
+                        <img class="choice-image" src="./lesson5_assets/perch.png" alt="Perch reference image">
+                        <h4>A. Perch</h4>
+                      </button>
+                      <button type="button" class="choice-card media-choice" data-value="pike-perch">
+                        <img class="choice-image" src="./lesson5_assets/pike-perch.png" alt="Pike-perch reference image">
+                        <h4>B. Pike-Perch</h4>
+                      </button>
+                      <button type="button" class="choice-card media-choice" data-value="rudd">
+                        <img class="choice-image" src="./lesson5_assets/rudd.png" alt="Rudd reference image">
+                        <h4>C. Rudd</h4>
+                      </button>
+                    </div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m1-fish-1" role="status" aria-live="polite"></div>
                   </div>
-
-                  <div class="drawing-choice-grid" data-choice-group="diagramExample">
-                    <button type="button" class="choice-card" data-value="drawing-one">
-                      <div class="mini-visual" aria-hidden="true">
-                        <svg class="scientific-sketch" viewBox="0 0 240 120">
-                          <path d="M34 18 L34 86 Q34 100 64 100 Q94 100 94 86 L94 18" fill="none" stroke="#30332f" stroke-width="3"/>
-                          <line x1="94" y1="60" x2="150" y2="60" stroke="#30332f" stroke-width="3"/>
-                          <rect x="150" y="40" width="48" height="40" fill="none" stroke="#30332f" stroke-width="3"/>
+                </div>
+              </div>
+              <div class="mission-stage" data-stage-id="m1-fish-2">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 1: image quality test</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 01</p>
+                      <span class="stage-progress-chip">Stage 4 of 4</span>
+                    </div>
+                    <h3>Quality of underwater photos</h3>
+                    <p class="mission-subtitle">
+                      Here is another image from the Visdeurbel. Click the fish you think is shown, then press CHECK.
+                      Once you answer correctly, NEXT will unlock the next mission.
+                    </p>
+                    <div class="fish-question-image">
+                      <img src="./lesson5_assets/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a large fish">
+                    </div>
+                    <div class="choice-grid" data-choice-group="fish2">
+                      <button type="button" class="choice-card media-choice" data-value="white-bream">
+                        <img class="choice-image" src="./lesson5_assets/white-bream.png" alt="White bream reference image">
+                        <h4>A. White bream</h4>
+                      </button>
+                      <button type="button" class="choice-card media-choice" data-value="carp">
+                        <img class="choice-image" src="./lesson5_assets/carp.png" alt="Carp reference image">
+                        <h4>B. Carp</h4>
+                      </button>
+                      <button type="button" class="choice-card media-choice" data-value="catfish">
+                        <img class="choice-image" src="./lesson5_assets/catfish.png" alt="Catfish reference image">
+                        <h4>C. Catfish</h4>
+                      </button>
+                    </div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m1-fish-2" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- ==================================================
+                 MISSION 2: SCIENTIFIC DIAGRAM (2 stages)
+                 ================================================== -->
+            <section class="section expedition-mission locked" id="mission-2" data-mission-index="1">
+              <div class="mission-stage" data-stage-id="m2-symbols">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 2: scientific diagram</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 02</p>
+                      <span class="stage-progress-chip">Stage 1 of 2</span>
+                    </div>
+                    <h3>What is a scientific diagram?</h3>
+                    <p class="mission-subtitle">
+                      A scientific diagram is a drawing of an experiment set-up. Some scientific equipment has standard symbols,
+                      creating a common visual language that scientists can interpret consistently.
+                    </p>
+                    <div class="symbol-compare">
+                      <div class="symbol-visual">
+                        <img src="./lesson5_assets/beaker-photo.jpeg" alt="Photograph of a laboratory beaker" style="max-height:200px; width:auto; max-width:100%;">
+                      </div>
+                      <div class="symbol-visual" aria-label="Simple scientific symbol of a beaker">
+                        <svg viewBox="0 0 220 220" role="img" aria-label="Beaker symbol">
+                          <path d="M58 34 L58 160 Q58 184 110 184 Q162 184 162 160 L162 34" fill="none" stroke="#30332f" stroke-width="5" stroke-linecap="round"/>
+                          <path d="M58 34 Q110 20 162 34" fill="none" stroke="#30332f" stroke-width="5"/>
                         </svg>
                       </div>
-                      <h4>Drawing One</h4>
-                      <p>Simple standard-style shapes and clear connections.</p>
-                    </button>
-                    <button type="button" class="choice-card" data-value="drawing-two">
-                      <div class="mini-visual" aria-hidden="true">🧪 ✨ 🔩 💦</div>
-                      <h4>Drawing Two</h4>
-                      <p>A more decorative representation with extra visual detail.</p>
-                    </button>
+                    </div>
+                    <div class="resource-button-row">
+                      <button type="button" class="expedition-button" onclick="openEquipmentSymbols()">Scientific symbols reference</button>
+                    </div>
+                    <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to use scientific symbols in an experiment diagram.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m2-symbols" role="status" aria-live="polite"></div>
                   </div>
-
-                  <span class="prototype-note">Storyboard note: the final experiment photograph/drawings are not yet specified in the supplied deck, so this prototype checks that a selection was made rather than enforcing a final correct answer.</span>
-                  <div class="variable-feedback stage-feedback" data-feedback="m2-example" role="status" aria-live="polite"></div>
                 </div>
               </div>
-            </div>
-          </section>
-
-          <!-- ==================================================
-               MISSION 3: RUST PREVENTION
-               The updated deck still lists this mission in the
-               mission log but does not yet provide its full frame.
-               ================================================== -->
-          <section class="section expedition-mission locked" id="mission-3" data-mission-index="2">
-            <div class="mission-stage" data-stage-id="m3-rust">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 3: rust prevention</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 03</p>
-                    <span class="stage-progress-chip">Stage 1 of 1</span>
+              <div class="mission-stage" data-stage-id="m2-example">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 2: example experiment</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
                   </div>
-                  <h3>Experiment Set-Up: Rust Prevention</h3>
-                  <p class="mission-subtitle">
-                    The updated storyboard continues to list this mission but does not yet include its detailed frame.
-                    This fair-test interaction is retained as a working placeholder until that content is supplied.
-                  </p>
-
-                  <p class="activity-prompt">Choose the strongest experimental set-up.</p>
-                  <div class="choice-grid" data-choice-group="rust">
-                    <button type="button" class="choice-card" data-value="fair-test">
-                      <div class="mini-visual" aria-hidden="true">🔩 ↔️ 💧</div>
-                      <h4>A. Same steel nails, two water conditions</h4>
-                      <p>Keep nail type, time and temperature the same. Change only water exposure.</p>
-                    </button>
-                    <button type="button" class="choice-card" data-value="mixed-variables">
-                      <div class="mini-visual" aria-hidden="true">🔩 🪙 🧪</div>
-                      <h4>B. Different metals in different liquids</h4>
-                      <p>Several variables change at the same time.</p>
-                    </button>
-                    <button type="button" class="choice-card" data-value="no-comparison">
-                      <div class="mini-visual" aria-hidden="true">🔩</div>
-                      <h4>C. Observe one nail</h4>
-                      <p>There is no comparison condition.</p>
-                    </button>
-                  </div>
-
-                  <div class="variable-feedback stage-feedback" data-feedback="m3-rust" role="status" aria-live="polite"></div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- ==================================================
-               MISSION 4: SCIENTIFIC DRAWING (2 stages)
-               Note: later storyboard frames currently label this
-               content "Mission 3" while the persistent mission log
-               lists it as Mission 4. This page keeps the mission-log
-               numbering until the storyboard is reconciled.
-               ================================================== -->
-          <section class="section expedition-mission locked" id="mission-4" data-mission-index="3">
-
-            <div class="mission-stage" data-stage-id="m4-rules">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 4: scientific drawing</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 04</p>
-                    <span class="stage-progress-chip">Stage 1 of 2</span>
-                  </div>
-                  <h3>Scientific drawing checklist</h3>
-                  <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
-
-                  <div class="rules-grid" id="drawingRules">
-                    <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
-                    <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
-                    <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
-                    <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
-                    <label class="rule-card"><input type="checkbox" value="label-lines"><span><strong>Plain label lines — no arrows</strong><p>Connect labels cleanly to the relevant structure.</p></span></label>
-                  </div>
-
-                  <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
-                  <div class="variable-feedback stage-feedback" data-feedback="m4-rules" role="status" aria-live="polite"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mission-stage" data-stage-id="m4-compare">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // mission 4: drawing comparison</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 04</p>
-                    <span class="stage-progress-chip">Stage 2 of 2</span>
-                  </div>
-                  <h3>How do we draw our observations as a scientist?</h3>
-                  <p class="mission-subtitle">Use the checklist you just reviewed. Which drawing best represents the damaged footage as a scientific drawing?</p>
-
-                  <div class="fish-question-image">
-                    <img src="./lesson5_assets/damaged-footage.png" alt="Damaged underwater footage used as the observation source">
-                  </div>
-
-                  <div class="drawing-choice-grid" data-choice-group="drawing">
-                    <button type="button" class="choice-card" data-value="drawing-one">
-                      <img src="./lesson5_assets/drawing-one.png" alt="Highly rendered coloured drawing with arrows and labels">
-                      <h4>Drawing One</h4>
-                    </button>
-                    <button type="button" class="choice-card" data-value="drawing-two">
-                      <img src="./lesson5_assets/drawing-two.png" alt="Simple line drawing with labels connected by plain lines">
-                      <h4>Drawing Two</h4>
-                    </button>
-                  </div>
-
-                  <div class="variable-feedback stage-feedback" data-feedback="m4-compare" role="status" aria-live="polite"></div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- ==================================================
-               MISSION 5: UNKNOWN SPECIES
-               Final application: sonar -> observation -> camera
-               failure -> scientific drawing -> self-check.
-               ================================================== -->
-          <section class="section expedition-mission locked" id="mission-5" data-mission-index="4">
-            <div class="mission-stage" data-stage-id="m5-finale">
-              <div class="mission-window">
-                <div class="mission-window-bar">
-                  <strong>Deep field terminal // unknown contact</strong>
-                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                </div>
-                <div class="mission-window-body">
-                  <div class="stage-progress-row">
-                    <p class="mission-label">Mission 05</p>
-                    <span class="stage-progress-chip">Final application</span>
-                  </div>
-                  <h3>Unknown Species Detected</h3>
-                  <p class="mission-subtitle">
-                    Sonar has detected movement near the expedition vehicle. Locate a contact, observe the organism,
-                    and create a scientific record if the camera system cannot capture it.
-                  </p>
-
-                  <!-- SONAR PHASE
-                       The CSS radar below is a working placeholder. If the team later
-                       makes a Canva GIF, it can replace the radar artwork while the
-                       .sonar-contact buttons remain as clickable HTML overlays. -->
-                  <div class="m5-phase" data-m5-phase="sonar">
-                    <div class="m5-panel">
-                      <div class="m5-status-strip">
-                        <span><span class="m5-status-light"></span>Sonar array online</span>
-                        <span>Scan sector 05</span>
-                      </div>
-
-                      <div class="sonar-layout">
-                        <div class="sonar-radar" id="mission5Sonar" aria-label="Sonar display with several detected contacts">
-                          <span class="sonar-crosshair-x" aria-hidden="true"></span>
-                          <span class="sonar-crosshair-y" aria-hidden="true"></span>
-                          <span class="sonar-sweep" aria-hidden="true"></span>
-                          <span class="sonar-centre" aria-hidden="true"></span>
-
-                          <button type="button" class="sonar-contact" data-contact="A" style="--contact-x: 28%; --contact-y: 37%; --contact-delay: -0.2s" aria-label="Investigate sonar contact A" onclick="selectSonarContact('A', this)"></button>
-                          <button type="button" class="sonar-contact" data-contact="B" style="--contact-x: 69%; --contact-y: 26%; --contact-delay: -0.9s" aria-label="Investigate sonar contact B" onclick="selectSonarContact('B', this)"></button>
-                          <button type="button" class="sonar-contact" data-contact="C" style="--contact-x: 76%; --contact-y: 67%; --contact-delay: -1.4s" aria-label="Investigate sonar contact C" onclick="selectSonarContact('C', this)"></button>
-                          <button type="button" class="sonar-contact" data-contact="D" style="--contact-x: 41%; --contact-y: 76%; --contact-delay: -0.55s" aria-label="Investigate sonar contact D" onclick="selectSonarContact('D', this)"></button>
-                          <button type="button" class="sonar-contact" data-contact="E" style="--contact-x: 55%; --contact-y: 49%; --contact-delay: -1.1s" aria-label="Investigate sonar contact E" onclick="selectSonarContact('E', this)"></button>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 02</p>
+                      <span class="stage-progress-chip">Stage 2 of 2</span>
+                    </div>
+                    <h3>Example experiment</h3>
+                    <p class="mission-subtitle">Which drawing is the most accurate for any scientist to interpret?</p>
+                    <div class="story-copy">
+                      <h4>Example experiment — photograph</h4>
+                      <p>This is a structural placeholder for the final experiment photograph from the storyboard.</p>
+                    </div>
+                    <div class="drawing-choice-grid" data-choice-group="diagramExample">
+                      <button type="button" class="choice-card" data-value="drawing-one">
+                        <div class="mini-visual" aria-hidden="true">
+                          <svg class="scientific-sketch" viewBox="0 0 240 120">
+                            <path d="M34 18 L34 86 Q34 100 64 100 Q94 100 94 86 L94 18" fill="none" stroke="#30332f" stroke-width="3"/>
+                            <line x1="94" y1="60" x2="150" y2="60" stroke="#30332f" stroke-width="3"/>
+                            <rect x="150" y="40" width="48" height="40" fill="none" stroke="#30332f" stroke-width="3"/>
+                          </svg>
                         </div>
-
-                        <article class="sonar-instructions">
-                          <h4>Multiple contacts detected</h4>
-                          <p>
-                            The sonar cannot identify what is moving through the water. Choose one contact to investigate.
-                          </p>
-                          <p>
-                            Once a contact is acquired, that organism stays assigned to your expedition even if the page is refreshed or the mission is reset.
-                          </p>
-                          <div class="sonar-legend">
-                            <span>● Yellow pulse = possible biological contact</span>
-                            <span>◎ Sweep = active sonar scan</span>
+                        <h4>Drawing One</h4>
+                        <p>Simple standard-style shapes and clear connections.</p>
+                      </button>
+                      <button type="button" class="choice-card" data-value="drawing-two">
+                        <div class="mini-visual" aria-hidden="true">🧪 ✨ 🔩 💦</div>
+                        <h4>Drawing Two</h4>
+                        <p>A more decorative representation with extra visual detail.</p>
+                      </button>
+                    </div>
+                    <span class="prototype-note">Storyboard note: the final experiment photograph/drawings are not yet specified in the supplied deck, so this prototype checks that a selection was made rather than enforcing a final correct answer.</span>
+                    <div class="variable-feedback stage-feedback" data-feedback="m2-example" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- ==================================================
+                 MISSION 3: RUST PREVENTION
+                 The updated deck still lists this mission in the
+                 mission log but does not yet provide its full frame.
+                 ================================================== -->
+            <section class="section expedition-mission locked" id="mission-3" data-mission-index="2">
+              <div class="mission-stage" data-stage-id="m3-rust">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 3: rust prevention</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 03</p>
+                      <span class="stage-progress-chip">Stage 1 of 1</span>
+                    </div>
+                    <h3>Experiment Set-Up: Rust Prevention</h3>
+                    <p class="mission-subtitle">
+                      The updated storyboard continues to list this mission but does not yet include its detailed frame.
+                      This fair-test interaction is retained as a working placeholder until that content is supplied.
+                    </p>
+                    <p class="activity-prompt">Choose the strongest experimental set-up.</p>
+                    <div class="choice-grid" data-choice-group="rust">
+                      <button type="button" class="choice-card" data-value="fair-test">
+                        <div class="mini-visual" aria-hidden="true">🔩 ↔️ 💧</div>
+                        <h4>A. Same steel nails, two water conditions</h4>
+                        <p>Keep nail type, time and temperature the same. Change only water exposure.</p>
+                      </button>
+                      <button type="button" class="choice-card" data-value="mixed-variables">
+                        <div class="mini-visual" aria-hidden="true">🔩 🪙 🧪</div>
+                        <h4>B. Different metals in different liquids</h4>
+                        <p>Several variables change at the same time.</p>
+                      </button>
+                      <button type="button" class="choice-card" data-value="no-comparison">
+                        <div class="mini-visual" aria-hidden="true">🔩</div>
+                        <h4>C. Observe one nail</h4>
+                        <p>There is no comparison condition.</p>
+                      </button>
+                    </div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-rust" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- ==================================================
+                 MISSION 4: SCIENTIFIC DRAWING (2 stages)
+                 Note: later storyboard frames currently label this
+                 content "Mission 3" while the persistent mission log
+                 lists it as Mission 4. This page keeps the mission-log
+                 numbering until the storyboard is reconciled.
+                 ================================================== -->
+            <section class="section expedition-mission locked" id="mission-4" data-mission-index="3">
+              <div class="mission-stage" data-stage-id="m4-rules">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 4: scientific drawing</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 04</p>
+                      <span class="stage-progress-chip">Stage 1 of 2</span>
+                    </div>
+                    <h3>Scientific drawing checklist</h3>
+                    <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
+                    <div class="rules-grid" id="drawingRules">
+                      <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="label-lines"><span><strong>Plain label lines — no arrows</strong><p>Connect labels cleanly to the relevant structure.</p></span></label>
+                    </div>
+                    <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m4-rules" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mission-stage" data-stage-id="m4-compare">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 4: drawing comparison</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 04</p>
+                      <span class="stage-progress-chip">Stage 2 of 2</span>
+                    </div>
+                    <h3>How do we draw our observations as a scientist?</h3>
+                    <p class="mission-subtitle">Use the checklist you just reviewed. Which drawing best represents the damaged footage as a scientific drawing?</p>
+                    <div class="fish-question-image">
+                      <img src="./lesson5_assets/damaged-footage.png" alt="Damaged underwater footage used as the observation source">
+                    </div>
+                    <div class="drawing-choice-grid" data-choice-group="drawing">
+                      <button type="button" class="choice-card" data-value="drawing-one">
+                        <img src="./lesson5_assets/drawing-one.png" alt="Highly rendered coloured drawing with arrows and labels">
+                        <h4>Drawing One</h4>
+                      </button>
+                      <button type="button" class="choice-card" data-value="drawing-two">
+                        <img src="./lesson5_assets/drawing-two.png" alt="Simple line drawing with labels connected by plain lines">
+                        <h4>Drawing Two</h4>
+                      </button>
+                    </div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m4-compare" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- ==================================================
+                 MISSION 5: UNKNOWN SPECIES
+                 Final application: sonar -> observation -> camera
+                 failure -> scientific drawing -> self-check.
+                 ================================================== -->
+            <section class="section expedition-mission locked" id="mission-5" data-mission-index="4">
+              <div class="mission-stage" data-stage-id="m5-finale">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // unknown contact</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 05</p>
+                      <span class="stage-progress-chip">Final application</span>
+                    </div>
+                    <h3>Unknown Species Detected</h3>
+                    <p class="mission-subtitle">
+                      Sonar has detected movement near the expedition vehicle. Locate a contact, observe the organism,
+                      and create a scientific record if the camera system cannot capture it.
+                    </p>
+                    <!-- SONAR PHASE
+                         The CSS radar below is a working placeholder. If the team later
+                         makes a Canva GIF, it can replace the radar artwork while the
+                         .sonar-contact buttons remain as clickable HTML overlays. -->
+                    <div class="m5-phase" data-m5-phase="sonar">
+                      <div class="m5-panel">
+                        <div class="m5-status-strip">
+                          <span><span class="m5-status-light"></span>Sonar array online</span>
+                          <span>Scan sector 05</span>
+                        </div>
+                        <div class="sonar-layout">
+                          <div class="sonar-radar" id="mission5Sonar" aria-label="Sonar display with several detected contacts">
+                            <span class="sonar-crosshair-x" aria-hidden="true"></span>
+                            <span class="sonar-crosshair-y" aria-hidden="true"></span>
+                            <span class="sonar-sweep" aria-hidden="true"></span>
+                            <span class="sonar-centre" aria-hidden="true"></span>
+                            <button type="button" class="sonar-contact" data-contact="A" style="--contact-x: 28%; --contact-y: 37%; --contact-delay: -0.2s" aria-label="Investigate sonar contact A" onclick="selectSonarContact('A', this)"></button>
+                            <button type="button" class="sonar-contact" data-contact="B" style="--contact-x: 69%; --contact-y: 26%; --contact-delay: -0.9s" aria-label="Investigate sonar contact B" onclick="selectSonarContact('B', this)"></button>
+                            <button type="button" class="sonar-contact" data-contact="C" style="--contact-x: 76%; --contact-y: 67%; --contact-delay: -1.4s" aria-label="Investigate sonar contact C" onclick="selectSonarContact('C', this)"></button>
+                            <button type="button" class="sonar-contact" data-contact="D" style="--contact-x: 41%; --contact-y: 76%; --contact-delay: -0.55s" aria-label="Investigate sonar contact D" onclick="selectSonarContact('D', this)"></button>
+                            <button type="button" class="sonar-contact" data-contact="E" style="--contact-x: 55%; --contact-y: 49%; --contact-delay: -1.1s" aria-label="Investigate sonar contact E" onclick="selectSonarContact('E', this)"></button>
                           </div>
-                        </article>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="m5-phase" data-m5-phase="tracking" hidden>
-                    <div class="m5-panel tracking-card">
-                      <div class="tracking-spinner" aria-hidden="true"></div>
-                      <h4>Tracking selected contact...</h4>
-                      <p>Matching sonar movement with the live observation feed.</p>
-                    </div>
-                  </div>
-
-                  <div class="m5-phase" data-m5-phase="observe" hidden>
-                    <div class="m5-panel">
-                      <div class="m5-status-strip">
-                        <span><span class="m5-status-light"></span>Live observation feed</span>
-                        <span id="mission5ContactLabel">Contact acquired</span>
-                      </div>
-
-                      <div class="creature-console">
-                        <div class="creature-feed">
-                          <span class="live-badge">Live feed</span>
-                          <img data-m5-creature-image src="" alt="Deep-sea organism selected for observation">
+                          <article class="sonar-instructions">
+                            <h4>Multiple contacts detected</h4>
+                            <p>
+                              The sonar cannot identify what is moving through the water. Choose one contact to investigate.
+                            </p>
+                            <p>
+                              Once a contact is acquired, that organism stays assigned to your expedition even if the page is refreshed or the mission is reset.
+                            </p>
+                            <div class="sonar-legend">
+                              <span>● Yellow pulse = possible biological contact</span>
+                              <span>◎ Sweep = active sonar scan</span>
+                            </div>
+                          </article>
                         </div>
-
-                        <article class="camera-side-card">
-                          <h4>Visual contact acquired</h4>
+                      </div>
+                    </div>
+                    <div class="m5-phase" data-m5-phase="tracking" hidden>
+                      <div class="m5-panel tracking-card">
+                        <div class="tracking-spinner" aria-hidden="true"></div>
+                        <h4>Tracking selected contact...</h4>
+                        <p>Matching sonar movement with the live observation feed.</p>
+                      </div>
+                    </div>
+                    <div class="m5-phase" data-m5-phase="observe" hidden>
+                      <div class="m5-panel">
+                        <div class="m5-status-strip">
+                          <span><span class="m5-status-light"></span>Live observation feed</span>
+                          <span id="mission5ContactLabel">Contact acquired</span>
+                        </div>
+                        <div class="creature-console">
+                          <div class="creature-feed">
+                            <span class="live-badge">Live feed</span>
+                            <img data-m5-creature-image src="" alt="Deep-sea organism selected for observation">
+                          </div>
+                          <article class="camera-side-card">
+                            <h4>Visual contact acquired</h4>
+                            <p>
+                              Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
+                            </p>
+                            <button type="button" class="expedition-button capture-button" onclick="takeMission5Photo()">
+                              Capture image
+                            </button>
+                          </article>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="m5-phase" data-m5-phase="capture" hidden>
+                      <div class="m5-panel tracking-card">
+                        <div style="font-size:4rem" aria-hidden="true">📷</div>
+                        <h4>Capturing image...</h4>
+                        <p>Writing observation frame to the expedition record.</p>
+                      </div>
+                    </div>
+                    <div class="m5-phase" data-m5-phase="drawing" hidden>
+                      <div class="camera-failure-message pop-in">
+                        <strong>⚠ Camera capture failed</strong>
+                        The image could not be saved. The live observation feed is still available, so make a scientific drawing while the organism remains in view.
+                      </div>
+                      <div class="drawing-mission-grid">
+                        <div class="creature-feed">
+                          <span class="failure-badge">Recording failed · live feed only</span>
+                          <img data-m5-creature-image src="" alt="Deep-sea organism selected for scientific drawing">
+                        </div>
+                        <article class="drawing-instructions-card">
+                          <h4>Create the expedition record</h4>
                           <p>
-                            Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
+                            Draw the organism from observation. Use the <strong>Science Check</strong> panel to review the same scientific-drawing rules from Mission 4.
                           </p>
-                          <button type="button" class="expedition-button capture-button" onclick="takeMission5Photo()">
-                            Capture image
-                          </button>
+                          <p>
+                            The computer is not judging your drawing. The checklist is your self-assessment before you complete the expedition.
+                          </p>
+                          <label class="drawing-finish-check">
+                            <input type="checkbox" id="mission5DrawingFinished" onchange="setMission5DrawingFinished(this.checked)">
+                            <span>I have finished my scientific drawing.</span>
+                          </label>
                         </article>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="m5-phase" data-m5-phase="capture" hidden>
-                    <div class="m5-panel tracking-card">
-                      <div style="font-size:4rem" aria-hidden="true">📷</div>
-                      <h4>Capturing image...</h4>
-                      <p>Writing observation frame to the expedition record.</p>
-                    </div>
-                  </div>
-
-                  <div class="m5-phase" data-m5-phase="drawing" hidden>
-                    <div class="camera-failure-message pop-in">
-                      <strong>⚠ Camera capture failed</strong>
-                      The image could not be saved. The live observation feed is still available, so make a scientific drawing while the organism remains in view.
-                    </div>
-
-                    <div class="drawing-mission-grid">
-                      <div class="creature-feed">
-                        <span class="failure-badge">Recording failed · live feed only</span>
-                        <img data-m5-creature-image src="" alt="Deep-sea organism selected for scientific drawing">
-                      </div>
-
-                      <article class="drawing-instructions-card">
-                        <h4>Create the expedition record</h4>
-                        <p>
-                          Draw the organism from observation. Use the <strong>Science Check</strong> panel to review the same scientific-drawing rules from Mission 4.
-                        </p>
-                        <p>
-                          The computer is not judging your drawing. The checklist is your self-assessment before you complete the expedition.
-                        </p>
-
-                        <label class="drawing-finish-check">
-                          <input type="checkbox" id="mission5DrawingFinished" onchange="setMission5DrawingFinished(this.checked)">
-                          <span>I have finished my scientific drawing.</span>
-                        </label>
-                      </article>
-                    </div>
-                  </div>
-
-                  <div class="m5-phase" data-m5-phase="complete" hidden>
-                    <div class="m5-complete-card pop-in">
-                      <img data-m5-creature-image src="" alt="Deep-sea organism from the completed expedition">
-                      <div>
-                        <p class="mission-label">Expedition complete</p>
-                        <h4>Scientific record secured</h4>
-                        <p>
-                          The camera failed, but your scientific drawing preserved an observation of the organism.
-                        </p>
-                        <span class="m5-species-reveal" id="mission5SpeciesName">Field guide match</span>
-                        <p id="mission5SpeciesNote"></p>
+                    <div class="m5-phase" data-m5-phase="complete" hidden>
+                      <div class="m5-complete-card pop-in">
+                        <img data-m5-creature-image src="" alt="Deep-sea organism from the completed expedition">
+                        <div>
+                          <p class="mission-label">Expedition complete</p>
+                          <h4>Scientific record secured</h4>
+                          <p>
+                            The camera failed, but your scientific drawing preserved an observation of the organism.
+                          </p>
+                          <span class="m5-species-reveal" id="mission5SpeciesName">Field guide match</span>
+                          <p id="mission5SpeciesNote"></p>
+                        </div>
                       </div>
                     </div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m5-finale" role="status" aria-live="polite"></div>
                   </div>
-
-                  <div class="variable-feedback stage-feedback" data-feedback="m5-finale" role="status" aria-live="polite"></div>
                 </div>
               </div>
+            </section>
+          </div>
+          <footer class="stage-controls" aria-label="Mission controls">
+            <div class="control-status" id="controlStatus">
+              <strong>Stand by.</strong> Start the expedition to load Mission 1.
             </div>
-          </section>
-        </div>
-
-        <footer class="stage-controls" aria-label="Mission controls">
-          <div class="control-status" id="controlStatus">
-            <strong>Stand by.</strong> Start the expedition to load Mission 1.
+            <button type="button" class="expedition-button" id="checkButton" onclick="checkCurrentMission()" disabled>
+              Check ✓
+            </button>
+            <button type="button" class="expedition-button" id="resetButton" onclick="resetCurrentMission()" disabled>
+              Reset ↻
+            </button>
+            <button type="button" class="expedition-button" id="nextButton" onclick="goNextMission()" disabled>
+              Next →
+            </button>
+          </footer>
+        </section>
+        <!-- ==================================================
+             RIGHT: global science-check panel
+             ================================================== -->
+        <aside class="console-panel science-panel" id="sciencePanel" aria-label="Science check">
+          <h2 class="console-heading">🔬 Science check</h2>
+          <div class="science-body">
+            <div class="science-lock">
+              <div class="lock-icon" aria-hidden="true">🔒</div>
+              <strong>Field drawing checklist locked</strong>
+              <p>Unlocks after Mission 3.</p>
+            </div>
+            <p class="science-mode-note" id="scienceModeNote">
+              <strong>Reference mode.</strong> These criteria unlock after Mission 3. You will tick them yourself during the final drawing mission.
+            </p>
+            <div class="checkpoint-list" id="checkpointList">
+              <label class="checkpoint"><input type="checkbox" data-science-check value="clear-lines" disabled> Use clear, simple lines</label>
+              <label class="checkpoint"><input type="checkbox" data-science-check value="main-features" disabled> Draw main features only</label>
+              <label class="checkpoint"><input type="checkbox" data-science-check value="limited-shading" disabled> Limited / no shading</label>
+              <label class="checkpoint"><input type="checkbox" data-science-check value="clear-labels" disabled> Include clear labels</label>
+              <label class="checkpoint"><input type="checkbox" data-science-check value="plain-label-lines" disabled> Plain label lines — no arrows</label>
+            </div>
           </div>
-
-          <button type="button" class="expedition-button" id="checkButton" onclick="checkCurrentMission()" disabled>
-            Check ✓
-          </button>
-
-          <button type="button" class="expedition-button" id="resetButton" onclick="resetCurrentMission()" disabled>
-            Reset ↻
-          </button>
-
-          <button type="button" class="expedition-button" id="nextButton" onclick="goNextMission()" disabled>
-            Next →
-          </button>
-        </footer>
-      </section>
-
-      <!-- ==================================================
-           RIGHT: global science-check panel
-           ================================================== -->
-      <aside class="console-panel science-panel" id="sciencePanel" aria-label="Science check">
-        <h2 class="console-heading">🔬 Science check</h2>
-
-        <div class="science-body">
-          <div class="science-lock">
-            <div class="lock-icon" aria-hidden="true">🔒</div>
-            <strong>Field drawing checklist locked</strong>
-            <p>Unlocks after Mission 3.</p>
+          <div class="science-footer" id="scienceFooter">
+            <strong>Science Check:</strong> a persistent reference panel that becomes an interactive self-assessment during the final drawing mission.
           </div>
-
-          <p class="science-mode-note" id="scienceModeNote">
-            <strong>Reference mode.</strong> These criteria unlock after Mission 3. You will tick them yourself during the final drawing mission.
-          </p>
-
-          <div class="checkpoint-list" id="checkpointList">
-            <label class="checkpoint"><input type="checkbox" data-science-check value="clear-lines" disabled> Use clear, simple lines</label>
-            <label class="checkpoint"><input type="checkbox" data-science-check value="main-features" disabled> Draw main features only</label>
-            <label class="checkpoint"><input type="checkbox" data-science-check value="limited-shading" disabled> Limited / no shading</label>
-            <label class="checkpoint"><input type="checkbox" data-science-check value="clear-labels" disabled> Include clear labels</label>
-            <label class="checkpoint"><input type="checkbox" data-science-check value="plain-label-lines" disabled> Plain label lines — no arrows</label>
-          </div>
-        </div>
-
-        <div class="science-footer" id="scienceFooter">
-          <strong>Science Check:</strong> a persistent reference panel that becomes an interactive self-assessment during the final drawing mission.
-        </div>
-      </aside>
+        </aside>
+      </div>
+    </div>
     </div>
   </main>
 
@@ -3870,6 +3837,131 @@
 
       renderExpedition();
     });
+  </script>
+
+  <!-- ==================================================
+       SCROLL-DRIVEN ZOOM
+       #expedition-main grows by real width/height/margin-left (set by
+       this script as plain pixel values), not a CSS transform - a
+       transform only changes how a box is painted, it doesn't reflow
+       anything inside it, which is what was cropping the frame before.
+       Growing the real box means its children - the grid game shell,
+       the banner, the console panels - reflow to fill it exactly the
+       same way they already respond to a normal window resize, so
+       nothing needs to spill past an edge to "fill" the window.
+       Width grows from its normal centered-column width out to the
+       full viewport width, and height from its natural content height
+       up to (but capped at) the viewport height - #expedition-main's
+       own `max-height: 100vh` is a hard backstop so it can never end
+       up taller than the window regardless of what's computed here.
+       Progress starts accumulating the moment the frame's top edge
+       starts entering the viewport from the bottom - not once it has
+       reached the top of the page - and keeps advancing through the
+       whole pinned scroll range. The fixed page header slides up out
+       of view on the same progress value. Everything is a direct
+       function of scroll position, so scrolling back up reverses it
+       exactly.
+       ================================================== -->
+  <script>
+    (function () {
+      const stage = document.querySelector(".expedition-zoom-stage");
+      const target = document.getElementById("expedition-main");
+      const header = document.querySelector(".page-header");
+      if (!stage || !target) return;
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) {
+        stage.classList.add("no-zoom");
+        return;
+      }
+
+      // How far it stretches. 1 = grows all the way to the edges of the
+      // window; e.g. 0.85 stops at 85% of the window's width/height
+      // (still centered) instead of going fully edge-to-edge.
+      let MAX_WIDTH_FRACTION = 0.97;
+      let MAX_HEIGHT_FRACTION = 0.96;
+
+      let naturalLeft = 0;
+      let naturalWidth = 0;
+      let naturalHeight = 0;
+      let ticking = false;
+
+      function measure() {
+        // Clear any overrides before measuring so the rect reflects the
+        // untouched, content-driven box (position: sticky keeps the
+        // element pinned regardless of these inline styles, so this is
+        // safe to call at any scroll position, not just at the top).
+        target.style.width = "";
+        target.style.marginLeft = "";
+        target.style.height = "";
+        const rect = target.getBoundingClientRect();
+        naturalLeft = rect.left;
+        naturalWidth = rect.width;
+        naturalHeight = rect.height;
+        updateZoom();
+      }
+
+      function updateZoom() {
+        ticking = false;
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const stageRect = stage.getBoundingClientRect();
+
+        // Progress is purely "how far has the frame's top travelled from
+        // the bottom of the viewport (progress 0) to the top of the
+        // viewport (progress 1)" - exactly one viewport height of scroll,
+        // by definition. It deliberately ignores .expedition-zoom-stage's
+        // own height/offsetHeight, so the zoom always finishes the instant
+        // the frame reaches the top of the page - no extra "stuck at the
+        // top" scrolling afterwards, no matter what the stage's CSS
+        // height is set to (keep that height at 100vh so there's no
+        // left-over empty scroll track once it gets there).
+        let progress = (viewportHeight - stageRect.top) / viewportHeight;
+        progress = Math.min(1, Math.max(0, progress));
+
+        // Left/right edges slide from their natural position toward a
+        // target box that is MAX_WIDTH_FRACTION of the viewport wide and
+        // centered in it (MAX_WIDTH_FRACTION = 1 puts that target flush
+        // against both edges). Width/margin-left fall out of those.
+        const naturalRight = naturalLeft + naturalWidth;
+        const targetWidth = viewportWidth * MAX_WIDTH_FRACTION;
+        const targetLeft = (viewportWidth - targetWidth) / 2;
+        const targetRight = targetLeft + targetWidth;
+        const leftEdge = naturalLeft + (targetLeft - naturalLeft) * progress;
+        const rightEdge = naturalRight + (targetRight - naturalRight) * progress;
+
+        target.style.width = (rightEdge - leftEdge) + "px";
+        target.style.marginLeft = (leftEdge - naturalLeft) + "px";
+
+        // Height grows toward MAX_HEIGHT_FRACTION of the viewport height,
+        // capped so it can never end up taller than the window itself -
+        // if the natural height is already taller than that target this
+        // just holds it at the target height for the whole range.
+        const targetHeight = viewportHeight * MAX_HEIGHT_FRACTION;
+        const height = Math.min(
+          naturalHeight + (targetHeight - naturalHeight) * progress,
+          viewportHeight
+        );
+        target.style.height = height + "px";
+
+        if (header) {
+          header.style.transform = "translateY(" + (-200 * progress).toFixed(2) + "%)";
+        }
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(updateZoom);
+        }
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", measure);
+
+      measure();
+    })();
   </script>
 </body>
 </html>
