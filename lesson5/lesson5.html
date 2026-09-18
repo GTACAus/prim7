@@ -100,7 +100,6 @@
       border: 2px solid var(--exp-cyan);
       border-radius: 14px;
 
-      box-shadow: 0 3px 0 var(--exp-cyan-soft);
     }
 
     .expedition-intro .lesson-label {
@@ -186,6 +185,101 @@
       border-radius: 50%;
       color: var(--exp-navy);
       font-weight: 700;
+    }
+
+    /* ---------- Dark modals (glossary, equipment symbols, PDF, teacher) ---------- */
+
+    #glossaryModal,
+    #equipmentSymbolsModal,
+    #pdfModal,
+    #teacherModal {
+      background: rgba(3, 16, 30, 0.72);
+    }
+
+    #glossaryModal .modal-content,
+    #equipmentSymbolsModal .modal-content,
+    #pdfModal .modal-content,
+    #teacherModal .teacher-panel {
+      background: var(--exp-navy);
+      border: 2px solid var(--exp-cyan);
+      box-shadow: var(--exp-shadow);
+      color: var(--exp-white);
+    }
+
+    #glossaryModal .modal-header h2,
+    #equipmentSymbolsModal .modal-header h2,
+    #pdfModal .modal-header h2,
+    #teacherModal .teacher-panel-header h2 {
+      color: white;
+    }
+
+    #glossaryModal .teacher-label,
+    #glossaryModal .intro-eyebrow,
+    #equipmentSymbolsModal .intro-eyebrow,
+    #pdfModal .teacher-label,
+    #teacherModal .teacher-label {
+      color: var(--exp-cyan) !important;
+    }
+
+    #glossaryModal .close-button,
+    #equipmentSymbolsModal .close-button,
+    #pdfModal .close-button,
+    #teacherModal .teacher-close {
+      background: var(--exp-panel);
+      color: var(--exp-cyan-soft);
+      border: 2px solid var(--exp-cyan);
+    }
+
+    #glossaryModal .vocab-card,
+    #equipmentSymbolsModal .equipment-symbol-row {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(117, 221, 232, 0.35);
+    }
+
+    #glossaryModal .vocab-card h3 {
+      color: var(--exp-cyan);
+    }
+
+    #glossaryModal .vocab-card p {
+      color: var(--exp-muted);
+    }
+
+    #equipmentSymbolsModal .equipment-symbol-row strong {
+      color: white;
+    }
+
+    #equipmentSymbolsModal .equipment-symbol-row svg path,
+    #equipmentSymbolsModal .equipment-symbol-row svg circle {
+      stroke: var(--exp-cyan-soft);
+    }
+
+    #pdfModal .pdf-modal-actions .general-button {
+      --background-colour: var(--exp-cyan);
+      color: var(--exp-navy) !important;
+    }
+
+    #teacherModal .teacher-note {
+      color: var(--exp-muted);
+    }
+
+    #teacherModal .teacher-section-list button {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(117, 221, 232, 0.35);
+      color: var(--exp-white);
+    }
+
+    #teacherModal .teacher-section-list button:hover {
+      background: rgba(57, 211, 255, 0.18);
+    }
+
+    #teacherModal .teacher-secondary-button {
+      background: var(--exp-panel);
+      border-color: var(--exp-cyan);
+      color: white;
+    }
+
+    #teacherModal .teacher-secondary-button:hover {
+      background: rgba(57, 211, 255, 0.25);
     }
 
     /* ---------- Top banner ---------- */
@@ -1971,10 +2065,174 @@
         padding: 16px;
       }
     }
+
+    .home-button, .glossary-button {
+      background: var(--exp-navy) !important;
+      color: var(--exp-white) !important;
+      box-shadow: 0 4px 0 var(--exp-cyan-soft);
+      border: 2px solid var(--exp-cyan-soft) !important;
+      border-top: 5px solid var(--exp-white) !important;
+    }
+
+    .home-button:hover, .glossary-button:hover {
+      color: var(--charcoal) !important;
+      box-shadow: 0 6px 0 var(--exp-cyan-soft);
+    }
   </style>
 </head>
 
 <body>
+  <div class="page-header-wrapper">
+    <header class="page-header">
+      <button
+        class="general-button home-button"
+        type="button"
+        onclick="window.location.href='../index.html'"
+      >
+        <p class="bounce-symbol">🏠</p>
+        <p>Home</p>
+      </button>
+
+      <button
+        class="general-button glossary-button"
+        type="button"
+        onclick="openGlossary()"
+      >
+        <p class="bounce-symbol">📖</p>
+        <p>Vocabulary</p>
+      </button>
+    </header>
+  </div>
+
+  <!-- Shared glossary modal: opened by common_functions.js -->
+  <div class="modal" id="glossaryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="teacher-label">Lesson 4 &middot; Bar Graphs</p>
+          <h2>Glossary Terms</h2>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          onclick="closeGlossary()"
+          aria-label="Close glossary"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="vocab-list">
+        <div class="vocab-card">
+          <h3>Graph</h3>
+          <p>A visual way of showing data so patterns, comparisons and relationships are easier to see.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>X-axis</h3>
+          <p>The horizontal axis. In a fair test line graph, this often shows the independent variable — what was changed.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>Y-axis</h3>
+          <p>The vertical axis. In a fair test graph, this often shows the dependent variable — what was measured.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>Line graph</h3>
+          <p>A graph that uses points and lines to show how a measured value changes across ordered or continuous values.</p>
+        </div>
+
+        <div class="vocab-card">
+          <h3>Bar graph</h3>
+          <p>A graph that uses separate bars to compare amounts across different categories.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Shared PDF modal: uses the same openPdfModal/closePdfModal behaviour as Lesson 3. -->
+  <div
+    class="modal pdf-modal"
+    id="pdfModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pdfModalTitle"
+  >
+    <div class="modal-content pdf-modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="teacher-label">Project Possum resource</p>
+          <h2 id="pdfModalTitle">Reference sheet</h2>
+        </div>
+        <button
+          type="button"
+          class="close-button"
+          onclick="closePdfModal()"
+          aria-label="Close PDF"
+        >
+          &times;
+        </button>
+      </div>
+
+      <iframe
+        id="pdfModalFrame"
+        class="pdf-modal-frame"
+        title="Document preview"
+      ></iframe>
+
+      <img
+        id="pdfModalImage"
+        class="pdf-modal-image"
+        alt="Project Possum reference sheet"
+      />
+
+      <div class="pdf-modal-actions">
+        <a
+          id="pdfModalDownload"
+          class="general-button"
+          href="#"
+          download
+        >
+          Download PDF
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================
+      HIDDEN TEACHER MENU
+      Opened by clicking the lesson title five times.
+      ================================================== -->
+  <div class="teacher-modal" id="teacherModal">
+    <div class="teacher-panel">
+      <div class="teacher-panel-header">
+        <div>
+          <p class="teacher-label">Teacher tools</p>
+          <h2>Jump to an activity</h2>
+        </div>
+
+        <button type="button" class="teacher-close" onclick="closeTeacherMenu()" aria-label="Close teacher menu">
+          ×
+        </button>
+      </div>
+
+      <div class="teacher-section-list"></div>
+
+      <div class="teacher-actions">
+        <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">Show all sections</button>
+
+        <button type="button" class="teacher-secondary-button" onclick="teacherResetView()">
+          Reset student view
+        </button>
+      </div>
+
+      <p class="teacher-note">Jumping between activities changes navigation only. Reset student view clears every answer on this page.</p>
+    </div>
+  </div>
   <main class="page expedition-page">
     <div class="expedition-intro">
       <header class="lesson-intro">
