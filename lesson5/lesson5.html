@@ -32,6 +32,7 @@
     :root {
       --exp-navy: #06182e;
       --exp-navy-2: #0a2747;
+      --exp-navy-dark: rgba(3, 16, 30, 0.95);
       --exp-panel: #0d3157;
       --exp-cyan: #39d3ff;
       --exp-cyan-soft: #d8f7ff;
@@ -40,6 +41,7 @@
       --exp-muted: #aac6d8;
       --exp-line: #75dde8;
       --exp-shadow: 0 8px 0 rgba(0, 0, 0, 0.32);
+      --exp-teal: rgba(57, 211, 255, 0.12);
     }
 
     body {
@@ -67,6 +69,123 @@
     padding: 18px 0 30px;
 
     font-family: "IBM Plex Mono", monospace;
+    }
+
+    
+    /* ---------- Lesson intro (dark theme) ---------- */
+    
+    .expedition-intro {
+      color: var(--exp-white);
+    }
+    
+    .intro-grid .intro-card {
+      background: var(--exp-navy-dark);
+    }
+
+    .formula-card {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .formula-step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      align-items: center;
+      gap: 12px;
+
+      padding: 12px 14px;
+
+      background: var(--exp-teal);
+      border: 2px solid var(--exp-cyan);
+      border-radius: 14px;
+
+      box-shadow: 0 3px 0 var(--exp-cyan-soft);
+    }
+
+    .expedition-intro .lesson-label {
+      background: var(--exp-panel);
+      color: var(--exp-cyan-soft);
+      border-color: var(--exp-cyan);
+      box-shadow: 0 3px 0 var(--exp-sea);
+    }
+
+    .expedition-intro .lesson-heading h1 {
+      color: white;
+    }
+
+    .expedition-intro .lesson-summary {
+      color: var(--exp-muted);
+    }
+
+    .expedition-intro .worksheet-button {
+      background: var(--exp-cyan);
+      color: var(--exp-navy);
+      border-color: var(--exp-cyan);
+      box-shadow: 0 4px 0 var(--exp-sea);
+    }
+
+    .expedition-intro .worksheet-button:hover {
+      background: var(--exp-cyan-soft);
+      box-shadow: 0 6px 0 var(--exp-sea);
+    }
+
+    .expedition-intro .worksheet-button:active {
+      box-shadow: 0 1px 0 var(--exp-sea);
+    }
+
+    .expedition-intro .intro-card {
+      border: 3px solid var(--exp-cyan);
+      box-shadow: var(--exp-shadow);
+    }
+
+    .expedition-intro .intro-card::before {
+      /* border-top-color: var(--exp-line); */
+    }
+
+    .expedition-intro .intro-card p,
+    .expedition-intro .intro-card h2 {
+      color: var(--exp-white);
+    }
+
+    .expedition-intro .intro-eyebrow {
+      color: var(--exp-cyan) !important;
+    }
+
+    .expedition-intro .success-heading {
+      color: var(--exp-white) !important;
+    }
+
+    .expedition-intro .learning-objective-text {
+      background: var(--exp-teal);
+      border-color: var(--exp-cyan);
+      color: var(--exp-white) !important;
+    }
+
+    .expedition-intro .objective-list li {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(117, 221, 232, 0.35);
+      color: var(--exp-white);
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .expedition-intro .objective-list li::before {
+      background: var(--exp-cyan);
+      border-color: var(--exp-cyan);
+      color: var(--exp-navy);
+    }
+
+    .expedition-intro .formula-step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      background: var(--exp-cyan);
+      border-radius: 50%;
+      color: var(--exp-navy);
+      font-weight: 700;
     }
 
     /* ---------- Top banner ---------- */
@@ -181,7 +300,7 @@
     .console-panel {
       position: relative;
       min-width: 0;
-      background: rgba(3, 16, 30, 0.95);
+      background: var(--exp-navy-dark);
       border: 3px solid var(--exp-cyan);
       border-radius: 22px;
       box-shadow: var(--exp-shadow);
@@ -669,7 +788,11 @@
       padding: 12px 22px;
 
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.15) 100%),
+        linear-gradient(180deg,
+                      rgba(255, 255, 255, 0.35) 0%,
+                      rgba(255, 255, 255, 0) 45%,
+                      rgba(0, 0, 0, 0.15) 100%
+        ),
         color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 70%, transparent) !important;
       color: white;
 
@@ -695,17 +818,18 @@
         filter 0.15s ease;
     }
 
-    .expedition-button:active {
-      transform: scale(1) translateY(2px);
-    }
-
+    
     .expedition-button:not(:disabled):hover {
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.12) 100%),
-        var(--background-colour, var(--exp-cyan)) !important;
+      linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.12) 100%),
+      var(--background-colour, var(--exp-cyan)) !important;
       transform: scale(1.03);
       animation: glow-pulse 1.8s ease-in-out infinite;
       cursor: pointer;
+    }
+    
+    .expedition-button:active {
+      transform: scale(1.0) !important;
     }
 
     @keyframes glow-pulse {
@@ -1852,6 +1976,89 @@
 
 <body>
   <main class="page expedition-page">
+    <div class="expedition-intro">
+      <header class="lesson-intro">
+          <div class="lesson-heading">
+            <span class="lesson-label">Lesson 5</span>
+            <h1 id="teacherTrigger">
+              Using Bar Graphs to Visualise Data
+            </h1>
+            <p class="lesson-summary">
+              Bar graphs help scientists turn fair-test data into a visual comparison, making
+              <strong>patterns</strong> and
+              <strong>differences between categories</strong> easier to see.
+            </p>
+            <a
+              class="worksheet-button general-button"
+              href="../worksheets/l4-worksheet.pdf"
+              download
+            >
+              <p class="bounce-symbol">📄</p>
+              <p>Download worksheet</p>
+            </a>
+          </div>
+        </header>
+        <div class="intro-grid">
+          <section class="intro-card objectives-card">
+            <p class="intro-eyebrow">Learning objective</p>
+            <p class="learning-objective-text">
+              We are learning how to represent <strong>fair test data</strong> in a <strong>bar graph</strong>.
+            </p>
+            <p class="success-heading">Success criteria</p>
+            <ol class="objective-list">
+              <li>I am learning how to <strong>collect and visualise data</strong>.</li>
+              <li>I can <strong>label axes</strong> and <strong>plot data points</strong> on a bar graph.</li>
+              <li>I can use a bar graph to <strong>analyse the results of a fair test</strong>.</li>
+            </ol>
+          </section>
+          <section class="intro-card observation-card">
+            <p class="intro-eyebrow">Think like a scientist</p>
+            <h2>Constructing a bar graph</h2>
+            <!-- <p>How to construct a <strong>bar graph</strong> to represent fair test data:</p> -->
+            <div class="formula-card">
+              <div class="formula-step">
+                <div class="formula-step-number" id="formula-step-independent">1</div>
+                <div>
+                  <strong>On the horizontal x-axis:</strong>
+                  <ul>
+                    <li>The categories or groups you are changing or comparing.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="formula-step">
+                <div class="formula-step-number" id="formula-step-dependent">2</div>
+                <div>
+                  <strong>On the vertical y-axis:</strong>
+                  <ul>
+                    <li>The dependent variable - the thing you measure.</li>
+                    <li>If the test is repeated, use the average value.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="formula-step">
+                <div class="formula-step-number" id="formula-step-units">3</div>
+                <div>
+                  <strong>Draw a bar for each category</strong>
+                  <ul>
+                    <li>The height of the bar shows the y-axis value for each group or category.</li>
+                    <li>Keep every bar the same width.</li>
+                    <!-- <li>Leave the same amount of space between each bar.</li> -->
+                  </ul>
+                </div>
+              </div>
+              <div class="formula-step">
+                <div class="formula-step-number">4</div>
+                <div>
+                  <strong>Give your graph a title</strong>
+                  <ul>
+                    <li>The title explains what your fair test is investigating.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+    </div>
     <header class="expedition-banner" id="teacherTrigger" aria-label="Expedition Log header">
       <div class="submarine-mark" aria-hidden="true">⚓</div>
 
@@ -2469,7 +2676,7 @@
             <strong>Stand by.</strong> Start the expedition to load Mission 1.
           </div>
 
-          <button type="button" class="expedition-button expedition-check" id="checkButton" onclick="checkCurrentMission()" disabled>
+          <button type="button" class="expedition-button" id="checkButton" onclick="checkCurrentMission()" disabled>
             Check ✓
           </button>
 
