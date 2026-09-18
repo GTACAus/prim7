@@ -23,7 +23,9 @@
 .line-frame {
     display: flex;
     align-items: center;
+    justify-items: center;
     gap: clamp(8px, 2vw, 20px);
+    width: 100%;
 }
 
     .line-arrow {
@@ -79,10 +81,9 @@
     position: relative;
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 5fr 2fr;
     min-width: 0;
     aspect-ratio: 2172 / 724;   /* matches Rockplatform.png exactly */
-    margin-bottom: 20px;
     padding: 0 30px;
     overflow: visible;
     border: 2px solid var(--charcoal);
@@ -99,7 +100,6 @@
     position: relative;
     align-self: self-start;
     height: 8px;
-    margin-top: 30px;
     background: var(--yellow);
     border-radius: 999px;
     z-index: 1;
@@ -189,10 +189,13 @@
 .line-panel-box {
     display: grid;
     grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
     align-items: start;
+    justify-items: center;
     gap: 16px;
     width: 100%;
+    max-width: 800px;      /* optional: caps how wide it gets, tune to taste */
+    margin-inline: auto;   /* centers the box itself within its parent */
 }
 
 /*
@@ -203,12 +206,12 @@
 */
     .stage-panel {
     position: relative;
-    width: min(1200px, 94%);
+    width: 100%;
     min-height: 220px;
-    padding: clamp(6px, 1.2vw, 12px) clamp(6px, 1.5vw, 12px);
+    /* padding: clamp(6px, 1.2vw, 12px) clamp(6px, 1.5vw, 12px); */
     margin: 0 auto 50px;
     /* background: white; */
-    border: 3px solid var(--purple);
+    /* border: 3px solid var(--purple); */
     border-radius: 22px;
     /* box-shadow: 0 6px 0 var(--charcoal); */
     opacity: 0;
@@ -239,22 +242,6 @@
     border-bottom: 3px solid var(--purple);
     content: "";
     transform: translateX(-50%) rotate(45deg);
-}
-
-    .panel-body h3 {
-    margin: 10px 20px;
-    color: var(--purple);
-    font-size: 1.4rem;
-}
-
-    .panel-body p {
-    margin: 0 0 10px;
-    font-size: 1rem;
-    line-height: 1.55;
-}
-
-    .panel-body p:last-child {
-    margin-bottom: 0;
 }
 
     .panel-close {
@@ -322,36 +309,6 @@
     .line-arrow svg {
     width: 18px;
     height: 18px;
-    }
-
-    .line-panel-box {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    }
-
-    #number-line-animal-buttons {
-    grid-row: 1 !important;
-    grid-column: 1 !important;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    justify-content: center;
-    }
-
-    .stage-panel {
-    grid-row: 2 !important;
-    grid-column: 1 !important;
-    }
-
-    .line-stage {
-    grid-row: 3 !important;
-    grid-column: 1 !important;
-    padding: 20px 16px 0;
-    }
-
-    .stage-panel {
-    min-height: 180px;
-    margin: 0 auto;
-    padding: 8px 6px;
     }
 
     .animal-stage-wrap {
@@ -575,13 +532,16 @@
     same --cylinder-height as the JS constant that draws them, so the
     axis and the bars can never fall out of sync with each other.
 ================================================================= */
-    .species-progress {
+    #species-progress {
+        grid-row: 3;
+        grid-column: 2;
+        justify-self: center;
         margin: 0 0 10px;
         color: var(--muted);
         font-weight: 700;
     }
 
-    .species-progress span {
+    #species-progress span {
         transition: opacity 0.5s ease, transform 0.5s ease;
     }
 

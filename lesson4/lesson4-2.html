@@ -307,6 +307,10 @@
               </button>
             </div>
           </div>
+          <p id="species-progress">
+            <span class="species-progress-title"></span>
+            <span class="species-progress-count"></span>
+          </p>
         </div>
 
         <!-- <button class="line-arrow line-arrow--forward" type="button" aria-label="Move forward 5 metres">
@@ -375,12 +379,6 @@
       add as much markup as the panel should hold.
     -->
     <template class="panel-content" data-distance="0">
-      <h3>0 metres</h3>
-      <p>This is the starting point. Click each animal hiding in the photo:</p>
-      <p class="species-progress">
-        <span class="species-progress-title"></span>
-        <span class="species-progress-count"></span>
-      </p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/number_line_activity/Seasnails Scoring/Q1.png" alt="Survey site backdrop">
@@ -440,13 +438,6 @@
       </div>
     </template>
     <template class="panel-content" data-distance="5">
-      <h3>5 metres</h3>
-      <p>The person is 5 metres from the start. Click each animal hiding in the photo:</p>
-      <p class="species-progress">
-        <span class="species-progress-title"></span>
-        <span class="species-progress-count"></span>
-      </p>
-
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/number_line_activity/Seasnails Scoring/Q2.png" alt="Survey site backdrop">
@@ -518,12 +509,6 @@
       </div>
     </template>
     <template class="panel-content" data-distance="10">
-      <h3>10 metres</h3>
-      <p>The person is halfway to 20 metres. Click each animal hiding in the photo:</p>
-      <p class="species-progress">
-        <span class="species-progress-title"></span>
-        <span class="species-progress-count"></span>
-      </p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/number_line_activity/Seasnails Scoring/Q3.png" alt="Survey site backdrop">
@@ -619,12 +604,6 @@
       </div>
     </template>
     <template class="panel-content" data-distance="15">
-      <h3>15 metres</h3>
-      <p>5 metres remain before reaching 20 metres. Click each animal hiding in the photo:</p>
-      <p class="species-progress">
-        <span class="species-progress-title"></span>
-        <span class="species-progress-count"></span>
-      </p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/number_line_activity/Seasnails Scoring/Q4.png" alt="Survey site backdrop">
@@ -760,12 +739,6 @@
       </div>
     </template>
     <template class="panel-content" data-distance="20">
-      <h3>20 metres</h3>
-      <p>This is the furthest labelled point. Click each animal hiding in the photo:</p>
-      <p class="species-progress">
-        <span class="species-progress-title"></span>
-        <span class="species-progress-count"></span>
-      </p>
       <div class="animal-stage-wrap">
         <div class="animal-stage">
           <img class="stage-bg" src="../images/lesson4/number_line_activity/Seasnails Scoring/Q5.png" alt="Survey site backdrop">
@@ -1528,7 +1501,7 @@
     <button
       id="graph-yeast-next"
       class="next-button general-button"
-      onclick="unlockSection('line-graph-yeast', 'line-graph-conniwinks')"
+      onclick="unlockSection('line-graph-plants', 'line-graph-yeast')"
       
     >
       Next
