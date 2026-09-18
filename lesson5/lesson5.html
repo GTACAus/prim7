@@ -1,0 +1,3398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PRIM7 Expedition Log - Concept Skeleton</title>
+
+  <!--
+    SHARED PRIM7 LAYER
+    In the real repo, change these two paths to the normal shared-file locations.
+    The concept package keeps copies beside this page so it can run immediately.
+  -->
+  <link rel="stylesheet" href="../styles/build_style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap"
+  rel="stylesheet"
+>
+  <script src="../scripts/common_functions.js" defer></script>
+
+  <style>
+    /* ==================================================
+       EXPEDITION LOG - PAGE-SPECIFIC CONCEPT STYLES
+
+       Intentionally lives in this HTML for the prototype.
+       Shared Prim7 variables/components still come from
+       build_style.css above.
+       ================================================== */
+
+    :root {
+      --exp-navy: #06182e;
+      --exp-navy-2: #0a2747;
+      --exp-panel: #0d3157;
+      --exp-cyan: #39d3ff;
+      --exp-cyan-soft: #d8f7ff;
+      --exp-sea: #0aaed9;
+      --exp-white: #f8fdff;
+      --exp-muted: #aac6d8;
+      --exp-line: #75dde8;
+      --exp-shadow: 0 8px 0 rgba(0, 0, 0, 0.32);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 4%, rgba(57, 211, 255, 0.16), transparent 26rem),
+        radial-gradient(circle at 86% 12%, rgba(78, 50, 232, 0.16), transparent 24rem),
+        linear-gradient(180deg, #05101f 0%, #071a30 48%, #04101e 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        radial-gradient(circle at 20px 20px, rgba(117, 221, 232, 0.45) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+
+    .expedition-page.page {
+    width: min(1500px, 96vw);
+    min-height: 100vh;
+    padding: 18px 0 30px;
+
+    font-family: "IBM Plex Mono", monospace;
+    }
+
+    /* ---------- Top banner ---------- */
+
+    .expedition-banner {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      align-items: center;
+      gap: 18px;
+      min-height: 132px;
+      padding: 18px 24px;
+      margin-bottom: 12px;
+      background:
+        linear-gradient(90deg, rgba(4, 20, 40, 0.96), rgba(20, 24, 92, 0.94), rgba(4, 20, 40, 0.96));
+      border: 3px solid var(--exp-cyan);
+      border-radius: 24px;
+      box-shadow: var(--exp-shadow);
+      color: white;
+    }
+
+    .expedition-banner::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--green), var(--blue), var(--purple), var(--orange));
+    }
+
+    .submarine-mark {
+      width: 100px;
+      aspect-ratio: 1.5;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: linear-gradient(145deg, #91efff, #0aaed9 60%, #0679a6);
+      border: 3px solid rgba(255,255,255,0.8);
+      box-shadow: inset 0 -10px 0 rgba(0,0,0,0.12), 0 5px 0 rgba(0,0,0,0.25);
+      font-size: 2.6rem;
+      transform: rotate(-4deg);
+    }
+
+    .banner-copy {
+      text-align: center;
+    }
+
+    .banner-kicker {
+      margin: 0 0 4px;
+      color: var(--exp-cyan);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .expedition-banner h1 {
+      margin: 0;
+      color: white;
+      font-family: "Oxanium", sans-serif;
+      font-size: clamp(2.3rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 5px 0 rgba(0,0,0,0.32);
+    }
+
+    .expedition-banner h2 {
+      margin: 8px 0 0;
+      color: var(--exp-cyan);
+      font-size: clamp(1rem, 2vw, 1.55rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .field-guide-button {
+      min-width: 120px;
+      background: var(--soft-yellow) !important;
+      color: var(--charcoal) !important;
+    }
+
+    .expedition-banner h1,
+    .expedition-banner h2,
+    .console-heading,
+    .mission-label,
+    .mission-window h3,
+    .start-card h3 {
+    font-family: "Oxanium", sans-serif;
+    font-weight: 700;
+    }
+
+    .mission-window-bar,
+    .banner-kicker,
+    .substage-nav-title,
+    .m5-status-strip,
+    .live-badge,
+    .failure-badge {
+    font-family: "Share Tech Mono", monospace;
+    }
+
+    /* ---------- Main game shell ---------- */
+
+    .game-shell {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr) 235px;
+      gap: 12px;
+      min-height: 720px;
+    }
+
+    .console-panel {
+      position: relative;
+      min-width: 0;
+      background: rgba(3, 16, 30, 0.95);
+      border: 3px solid var(--exp-cyan);
+      border-radius: 22px;
+      box-shadow: var(--exp-shadow);
+      color: white;
+      overflow: hidden;
+    }
+
+    .console-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 52px;
+      margin: 0;
+      padding: 12px 15px;
+      border-bottom: 2px solid rgba(117, 221, 232, 0.35);
+      background: rgba(255,255,255,0.025);
+      color: white;
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .console-heading .light {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 18px 0 0 var(--yellow), 36px 0 0 var(--orange);
+      margin-right: 34px;
+    }
+
+    /* ---------- Left mission log ---------- */
+
+    .mission-nav {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mission-list {
+      display: grid;
+      gap: 6px;
+      padding: 10px;
+    }
+
+    .mission-button {
+      position: relative;
+      width: 100%;
+      min-height: 70px;
+      padding: 11px 12px 11px 50px;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      color: var(--exp-muted);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .mission-button::before {
+      content: attr(data-number);
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      translate: 0 -50%;
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid currentColor;
+      font-weight: 800;
+      font-size: 0.75rem;
+    }
+
+    .mission-button:hover:not(:disabled) {
+      background: rgba(117, 221, 232, 0.12);
+      border-color: rgba(117, 221, 232, 0.5);
+      color: white;
+      transform: translateX(2px);
+    }
+
+    .mission-button.active {
+      background: var(--soft-yellow);
+      color: var(--charcoal);
+      border-color: var(--yellow);
+      box-shadow: inset 6px 0 0 var(--yellow);
+    }
+
+    .mission-button.complete {
+      color: white;
+      background: rgba(0, 199, 122, 0.16);
+      border-color: rgba(0, 199, 122, 0.65);
+    }
+
+    .mission-button.complete::after {
+      content: "✓";
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      color: var(--mint);
+      font-weight: 900;
+    }
+
+    .mission-button:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+    }
+
+    .mission-button strong,
+    .mission-button span {
+      display: block;
+    }
+
+    .mission-button strong {
+      margin-bottom: 2px;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .mission-button span {
+      font-size: 0.83rem;
+      line-height: 1.25;
+    }
+
+    .mission-nav-footer {
+      margin-top: auto;
+      padding: 14px;
+      color: var(--exp-muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      border-top: 2px solid rgba(117, 221, 232, 0.18);
+    }
+
+    .depth-meter {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .depth-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .depth-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--blue), var(--purple));
+      transition: width 0.35s ease;
+    }
+
+    /* ---------- Main stage ---------- */
+
+    .stage-panel {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      overflow: hidden;
+    }
+
+    .stage-screen {
+      position: relative;
+      min-height: 600px;
+      overflow: auto;
+      background:
+        linear-gradient(rgba(5, 18, 35, 0.72), rgba(5, 18, 35, 0.88)),
+        radial-gradient(circle at 60% 10%, rgba(57,211,255,0.12), transparent 28rem);
+    }
+
+    .start-screen {
+      min-height: 600px;
+      display: grid;
+      place-items: center;
+      padding: 38px;
+      text-align: center;
+    }
+
+    /* The prototype uses the HTML hidden attribute to swap the start
+       screen out for the active mission. Keep this after .start-screen
+       so the author stylesheet cannot accidentally force it visible. */
+    .start-screen[hidden] {
+      display: none !important;
+    }
+
+    .start-card {
+      width: min(760px, 92%);
+      padding: 42px 28px;
+      border: 3px solid var(--exp-cyan);
+      border-radius: 28px;
+      background:
+        linear-gradient(145deg, rgba(10,174,217,0.96), rgba(78,50,232,0.88));
+      box-shadow: 0 10px 0 rgba(0,0,0,0.34);
+    }
+
+    .start-card .start-eyebrow {
+      margin: 0 0 12px;
+      color: var(--soft-yellow);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .start-card h3 {
+      margin: 0 auto 14px;
+      max-width: 680px;
+      color: white;
+      font-family: "Arial Black", Impact, sans-serif;
+      font-size: clamp(2rem, 5vw, 4.4rem);
+      line-height: 1.06;
+      text-transform: uppercase;
+      text-shadow: 0 4px 0 rgba(0,0,0,0.25);
+    }
+
+    .start-card p {
+      max-width: 620px;
+      margin: 0 auto 24px;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.6;
+    }
+
+    .start-button {
+      background: var(--yellow) !important;
+      color: var(--charcoal) !important;
+      font-size: 1.05rem;
+    }
+
+    .expedition-mission.section {
+      display: none;
+      min-height: 600px;
+      margin: 0;
+      padding: 26px;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      color: white;
+    }
+
+    .expedition-mission.active {
+      display: block;
+    }
+
+    .mission-window {
+      width: min(920px, 100%);
+      margin: 0 auto;
+      overflow: hidden;
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      background: var(--paper);
+      color: var(--text);
+      box-shadow: 0 8px 0 rgba(0,0,0,0.3);
+    }
+
+    .mission-window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 13px;
+      background: var(--soft-blue);
+      border-bottom: 3px solid var(--charcoal);
+    }
+
+    .mission-window-bar strong {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .window-dots span {
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--charcoal);
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .window-dots span:nth-child(2) { background: var(--yellow); }
+    .window-dots span:nth-child(3) { background: var(--orange); }
+
+    .mission-window-body {
+      padding: 24px;
+    }
+
+    .mission-label {
+      display: inline-block;
+      margin: 0 0 9px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--purple);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mission-window h3 {
+      margin: 0 0 7px;
+      color: var(--charcoal);
+      font-size: clamp(1.55rem, 3vw, 2.3rem);
+    }
+
+    .mission-subtitle {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .content-card,
+    .choice-card,
+    .specimen-card {
+      position: relative;
+      padding: 18px;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 4px 0 rgba(48,51,47,0.22);
+    }
+
+    .content-card h4,
+    .choice-card h4,
+    .specimen-card h4 {
+      margin: 0 0 7px;
+      font-size: 1rem;
+    }
+
+    .content-card p,
+    .choice-card p,
+    .specimen-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .content-card.accent-blue { border-top: 8px solid var(--blue); }
+    .content-card.accent-yellow { border-top: 8px solid var(--yellow); }
+    .content-card.accent-purple { border-top: 8px solid var(--purple); }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .choice-card {
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 0 rgba(48,51,47,0.22);
+    }
+
+    .choice-card.selected {
+      background: var(--soft-yellow);
+      border-color: var(--purple);
+      box-shadow: 0 5px 0 var(--purple);
+    }
+
+    .choice-card.correct {
+      background: var(--soft-green);
+      border-color: var(--green);
+    }
+
+    .choice-card.incorrect {
+      background: var(--soft-orange);
+      border-color: var(--orange);
+    }
+
+    .mini-visual {
+      min-height: 112px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      border: 2px dashed rgba(48,51,47,0.45);
+      border-radius: 14px;
+      background: var(--cream);
+      font-size: 3rem;
+    }
+
+    .scientific-sketch {
+      width: 100%;
+      height: 110px;
+    }
+
+    .scientific-sketch * {
+      vector-effect: non-scaling-stroke;
+    }
+
+    .activity-prompt {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 2px solid var(--charcoal);
+      border-left: 9px solid var(--yellow);
+      border-radius: 14px;
+      background: var(--soft-yellow);
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .variable-feedback {
+      display: none;
+      gap: 5px;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 3px solid var(--charcoal);
+      border-radius: 14px;
+      line-height: 1.45;
+    }
+
+    .variable-feedback:not(:empty) {
+      display: grid;
+    }
+
+    .feedback-success {
+      background: var(--soft-green);
+      border-left: 9px solid var(--green);
+    }
+
+    .feedback-try-again {
+      background: var(--soft-orange);
+      border-left: 9px solid var(--orange);
+    }
+
+    .ball-pair-feedback-title {
+      font-weight: 800;
+    }
+
+    .ball-pair-feedback-text {
+      color: var(--muted);
+    }
+
+    /* ---------- Bottom controls ---------- */
+
+    .stage-controls {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 82px;
+      padding: 12px 14px;
+      border-top: 3px solid var(--exp-cyan);
+      background: #03101f;
+    }
+
+    .control-status {
+      min-width: 0;
+      color: var(--exp-muted);
+      font-size: 0.83rem;
+      line-height: 1.4;
+    }
+
+    .control-status strong {
+      color: white;
+    }
+
+    .expedition-check {
+      background: var(--green) !important;
+    }
+
+    .expedition-reset {
+      background: var(--orange) !important;
+    }
+
+    .expedition-next {
+      background: var(--blue) !important;
+      color: var(--charcoal) !important;
+    }
+
+    .stage-controls .general-button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 4px 0 var(--charcoal);
+    }
+
+    /* ---------- Right science check ---------- */
+
+    .science-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .science-body {
+      padding: 14px;
+    }
+
+    .science-lock {
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 10px;
+      text-align: center;
+      color: white;
+    }
+
+    .lock-icon {
+      width: 82px;
+      height: 82px;
+      display: grid;
+      place-items: center;
+      border: 3px solid white;
+      border-radius: 20px;
+      font-size: 2.6rem;
+    }
+
+    .science-lock p {
+      margin: 0;
+      color: var(--exp-muted);
+      line-height: 1.5;
+    }
+
+    .checkpoint-list {
+      display: none;
+      gap: 11px;
+    }
+
+    .science-panel.unlocked .science-lock {
+      display: none;
+    }
+
+    .science-panel.unlocked .checkpoint-list {
+      display: grid;
+    }
+
+    .checkpoint {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 9px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-size: 0.8rem;
+      line-height: 1.3;
+    }
+
+    .checkpoint input[type="checkbox"] {
+      margin: 0;
+    }
+
+    .science-footer {
+      padding: 13px;
+      border-top: 2px solid rgba(117,221,232,0.18);
+      color: var(--exp-muted);
+      font-size: 0.74rem;
+      line-height: 1.45;
+    }
+
+    .science-footer strong {
+      color: var(--soft-yellow);
+    }
+
+    /* ---------- Mission 5 specimen ---------- */
+
+    .specimen-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .specimen-viewport {
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(57,211,255,0.22), transparent 8rem),
+        linear-gradient(180deg, #052744, #020b14);
+    }
+
+    .specimen-viewport svg {
+      width: min(330px, 86%);
+      height: auto;
+      filter: drop-shadow(0 0 18px rgba(57,211,255,0.28));
+    }
+
+    .observation-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .observation-chip {
+      padding: 8px 10px;
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      background: white;
+      color: var(--charcoal);
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .observation-chip.selected {
+      background: var(--soft-green);
+      border-color: var(--green);
+    }
+
+    /* ---------- Mission 5: unknown-species finale ---------- */
+
+    .m5-phase[hidden] {
+      display: none !important;
+    }
+
+    .m5-panel {
+      margin-top: 18px;
+      padding: 18px;
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 5px 0 rgba(48, 51, 47, 0.22);
+    }
+
+    .m5-status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      border: 2px solid var(--charcoal);
+      border-radius: 12px;
+      background: var(--soft-blue);
+      color: var(--charcoal);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .m5-status-light {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(0, 199, 122, 0.14);
+      vertical-align: -1px;
+    }
+
+    .sonar-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(230px, 0.85fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .sonar-radar {
+      position: relative;
+      width: min(520px, 100%);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 4px solid var(--exp-cyan);
+      border-radius: 50%;
+      background:
+        linear-gradient(rgba(57, 211, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 211, 255, 0.08) 1px, transparent 1px),
+        radial-gradient(circle, rgba(57, 211, 255, 0.14) 0 2px, transparent 3px),
+        radial-gradient(circle at center, #073f52 0%, #04273a 48%, #021421 100%);
+      background-size: 36px 36px, 36px 36px, 100% 100%, 100% 100%;
+      box-shadow:
+        inset 0 0 40px rgba(57, 211, 255, 0.2),
+        0 0 0 5px rgba(57, 211, 255, 0.08);
+    }
+
+    .sonar-radar::before,
+    .sonar-radar::after {
+      content: "";
+      position: absolute;
+      inset: 16.66%;
+      border: 1px solid rgba(117, 221, 232, 0.38);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .sonar-radar::after {
+      inset: 33.33%;
+    }
+
+    .sonar-crosshair-x,
+    .sonar-crosshair-y {
+      position: absolute;
+      z-index: 1;
+      background: rgba(117, 221, 232, 0.26);
+      pointer-events: none;
+    }
+
+    .sonar-crosshair-x {
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+    }
+
+    .sonar-crosshair-y {
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+    }
+
+    .sonar-sweep {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg 314deg,
+        rgba(69, 244, 211, 0.03) 318deg,
+        rgba(69, 244, 211, 0.36) 352deg,
+        rgba(117, 221, 232, 0.75) 359deg,
+        transparent 360deg
+      );
+      animation: sonar-sweep 3.4s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes sonar-sweep {
+      to { transform: rotate(360deg); }
+    }
+
+    .sonar-centre {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 3;
+      width: 10px;
+      height: 10px;
+      translate: -50% -50%;
+      border-radius: 50%;
+      background: var(--exp-cyan);
+      box-shadow: 0 0 16px var(--exp-cyan);
+      pointer-events: none;
+    }
+
+    .sonar-contact {
+      position: absolute;
+      left: var(--contact-x);
+      top: var(--contact-y);
+      z-index: 5;
+      width: 28px;
+      height: 28px;
+      translate: -50% -50%;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .sonar-contact::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: var(--soft-yellow);
+      box-shadow:
+        0 0 8px var(--yellow),
+        0 0 18px rgba(255, 205, 29, 0.85);
+      animation: sonar-contact-pulse 1.7s ease-in-out infinite;
+      animation-delay: var(--contact-delay, 0s);
+    }
+
+    .sonar-contact::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border: 1px solid rgba(255, 240, 168, 0.5);
+      border-radius: 50%;
+      animation: sonar-ring-pulse 1.7s ease-out infinite;
+      animation-delay: var(--contact-delay, 0s);
+    }
+
+    .sonar-contact:hover::before,
+    .sonar-contact:focus-visible::before {
+      inset: 5px;
+      background: white;
+    }
+
+    .sonar-contact.selected::before {
+      inset: 3px;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green), 0 0 28px rgba(0, 199, 122, 0.9);
+    }
+
+    @keyframes sonar-contact-pulse {
+      0%, 100% { transform: scale(0.72); opacity: 0.58; }
+      50% { transform: scale(1.18); opacity: 1; }
+    }
+
+    @keyframes sonar-ring-pulse {
+      0% { transform: scale(0.45); opacity: 0.8; }
+      100% { transform: scale(1.55); opacity: 0; }
+    }
+
+    .sonar-instructions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 18px;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: var(--soft-blue);
+    }
+
+    .sonar-instructions h4 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+    }
+
+    .sonar-instructions p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .sonar-legend {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 2px dashed rgba(48, 51, 47, 0.26);
+      color: var(--charcoal);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .tracking-card {
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 16px;
+      text-align: center;
+      background:
+        radial-gradient(circle at center, rgba(57, 211, 255, 0.16), transparent 14rem),
+        #031827;
+      color: white;
+    }
+
+    .tracking-spinner {
+      width: 92px;
+      height: 92px;
+      border: 8px solid rgba(117, 221, 232, 0.16);
+      border-top-color: var(--exp-cyan);
+      border-radius: 50%;
+      animation: mission5-spin 0.85s linear infinite;
+    }
+
+    @keyframes mission5-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .tracking-card h4,
+    .tracking-card p {
+      margin: 0;
+    }
+
+    .tracking-card p {
+      color: var(--exp-muted);
+    }
+
+    .creature-console {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .creature-feed {
+      position: relative;
+      min-height: 390px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 4px solid var(--exp-cyan);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 50% 36%, rgba(57, 211, 255, 0.18), transparent 12rem),
+        linear-gradient(180deg, #082d48, #020b14);
+      box-shadow: inset 0 0 38px rgba(0, 0, 0, 0.38);
+    }
+
+    .creature-feed::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0 5px,
+        rgba(255, 255, 255, 0.025) 6px
+      );
+    }
+
+    .creature-feed img {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 390px;
+      object-fit: contain;
+      padding: 14px;
+      filter: saturate(0.92) contrast(1.04);
+      animation: creature-feed-in 0.55s ease-out;
+    }
+
+    @keyframes creature-feed-in {
+      from { opacity: 0; transform: scale(0.94); filter: blur(8px); }
+      to { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    .live-badge,
+    .failure-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 3;
+      padding: 7px 10px;
+      border: 2px solid white;
+      border-radius: 999px;
+      background: rgba(0, 199, 122, 0.88);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .failure-badge {
+      background: rgba(255, 109, 58, 0.94);
+    }
+
+    .camera-side-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: var(--paper);
+    }
+
+    .camera-side-card h4 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+
+    .camera-side-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .capture-button {
+      width: 100%;
+      background: var(--blue) !important;
+      color: var(--charcoal) !important;
+      font-size: 1rem;
+    }
+
+    .capture-button::before {
+      content: "📷 ";
+    }
+
+    .camera-failure-message {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      padding: 16px 18px;
+      border: 3px solid var(--charcoal);
+      border-left: 10px solid var(--orange);
+      border-radius: 16px;
+      background: var(--soft-orange);
+    }
+
+    .camera-failure-message::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      translate: -105% 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.58), transparent);
+      animation: failure-scan 1.2s ease-out 1;
+      pointer-events: none;
+    }
+
+    @keyframes failure-scan {
+      to { translate: 105% 0; }
+    }
+
+    .camera-failure-message strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--charcoal);
+      font-size: 1.05rem;
+    }
+
+    .drawing-mission-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .drawing-instructions-card {
+      padding: 20px;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: var(--soft-yellow);
+    }
+
+    .drawing-instructions-card h4 {
+      margin: 0 0 8px;
+      font-size: 1.22rem;
+    }
+
+    .drawing-instructions-card p {
+      margin: 0 0 12px;
+      color: var(--charcoal);
+      line-height: 1.55;
+    }
+
+    .drawing-finish-check {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: center;
+      margin-top: 16px;
+      padding: 13px 14px;
+      border: 2px solid var(--charcoal);
+      border-radius: 14px;
+      background: white;
+      color: var(--charcoal);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .m5-complete-card {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
+      gap: 20px;
+      align-items: center;
+      padding: 22px;
+      border: 3px solid var(--charcoal);
+      border-radius: 20px;
+      background: linear-gradient(145deg, var(--soft-green), var(--soft-blue));
+      box-shadow: 0 5px 0 var(--charcoal);
+    }
+
+    .m5-complete-card img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      border: 3px solid var(--charcoal);
+      border-radius: 16px;
+      background: #031827;
+    }
+
+    .m5-complete-card h4 {
+      margin: 0 0 8px;
+      font-size: 1.55rem;
+    }
+
+    .m5-complete-card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .m5-species-reveal {
+      display: inline-block;
+      margin: 4px 0 10px;
+      padding: 7px 11px;
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      background: var(--yellow);
+      color: var(--charcoal);
+      font-weight: 900;
+    }
+
+    .science-panel:not(.unlocked) .science-mode-note {
+      display: none;
+    }
+
+    .science-panel.final-drawing-active .checkpoint {
+      background: rgba(215, 245, 233, 0.12);
+    }
+
+    .science-panel .checkpoint input:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .science-mode-note {
+      margin: 0 0 12px;
+      padding: 10px 11px;
+      border: 2px solid rgba(117, 221, 232, 0.28);
+      border-radius: 12px;
+      background: rgba(117, 221, 232, 0.07);
+      color: var(--exp-muted);
+      font-size: 0.77rem;
+      line-height: 1.45;
+    }
+
+    .science-mode-note strong {
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      .sonar-layout,
+      .creature-console,
+      .drawing-mission-grid,
+      .m5-complete-card {
+        grid-template-columns: 1fr;
+      }
+
+      .creature-feed img {
+        height: 330px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sonar-sweep,
+      .sonar-contact::before,
+      .sonar-contact::after,
+      .tracking-spinner,
+      .creature-feed img,
+      .camera-failure-message::after {
+        animation: none !important;
+      }
+    }
+
+    /* ---------- Mission substages / updated storyboard ---------- */
+
+    .substage-nav {
+      margin: 0 10px 10px;
+      padding: 10px;
+      border: 2px solid rgba(117, 221, 232, 0.18);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .substage-nav[hidden] {
+      display: none !important;
+    }
+
+    .substage-nav-title {
+      margin: 0 0 7px;
+      color: var(--exp-cyan);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .substage-button {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 0 0 5px;
+      padding: 8px 9px 8px 28px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: var(--exp-muted);
+      font: inherit;
+      font-size: 0.75rem;
+      line-height: 1.25;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .substage-button:last-child {
+      margin-bottom: 0;
+    }
+
+    .substage-button::before {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      translate: 0 -50%;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+    }
+
+    .substage-button:hover:not(:disabled) {
+      background: rgba(117,221,232,0.1);
+      color: white;
+    }
+
+    .substage-button.active {
+      background: rgba(255,205,29,0.16);
+      color: var(--soft-yellow);
+    }
+
+    .substage-button.complete {
+      color: var(--mint);
+    }
+
+    .substage-button.complete::before {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .substage-button:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+
+    .mission-stage {
+      display: none;
+    }
+
+    .mission-stage.active {
+      display: block;
+      animation: pop-fade-in 0.35s ease;
+    }
+
+    .stage-progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .stage-progress-chip,
+    .prototype-note {
+      display: inline-block;
+      padding: 7px 10px;
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      background: var(--soft-blue);
+      color: var(--charcoal);
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .prototype-note {
+      margin-top: 14px;
+      border-radius: 12px;
+      background: var(--soft-purple);
+      line-height: 1.45;
+    }
+
+    .story-grid,
+    .media-compare,
+    .symbol-compare,
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .story-copy,
+    .story-media,
+    .reference-card,
+    .rule-card {
+      padding: 18px;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 4px 0 rgba(48,51,47,0.2);
+    }
+
+    .story-copy h4,
+    .reference-card h4,
+    .rule-card h4 {
+      margin: 0 0 8px;
+    }
+
+    .story-copy p,
+    .reference-card p,
+    .rule-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .story-media {
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+      overflow: hidden;
+      background: #041625;
+    }
+
+    .story-media.light {
+      background: white;
+    }
+
+    .story-media img,
+    .reference-card img,
+    .choice-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 330px;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    .media-card {
+      overflow: hidden;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 4px 0 rgba(48,51,47,0.2);
+    }
+
+    .media-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      background: #071a30;
+    }
+
+    .media-card figcaption {
+      padding: 10px 12px;
+      color: var(--charcoal);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .fish-question-image {
+      width: min(720px, 100%);
+      margin: 18px auto;
+      overflow: hidden;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: #071a30;
+      box-shadow: 0 5px 0 var(--charcoal);
+    }
+
+    .fish-question-image img {
+      display: block;
+      width: 100%;
+      max-height: 370px;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    .choice-card.media-choice {
+      padding: 12px;
+      text-align: center;
+    }
+
+    .choice-card.media-choice .choice-image {
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      background: #050f18;
+    }
+
+    .choice-card.media-choice h4 {
+      margin-bottom: 4px;
+    }
+
+    .symbol-visual {
+      min-height: 210px;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: white;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      box-shadow: 0 4px 0 rgba(48,51,47,0.2);
+    }
+
+    .symbol-visual svg {
+      width: min(220px, 86%);
+      height: 200px;
+    }
+
+    .resource-button-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .resource-button-row .general-button {
+      background: var(--soft-blue) !important;
+      color: var(--charcoal) !important;
+    }
+
+    .rule-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: start;
+      gap: 12px;
+    }
+
+    .rule-card input[type="checkbox"] {
+      margin-top: 2px;
+    }
+
+    .rule-card strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .drawing-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .drawing-choice-grid .choice-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      margin-bottom: 12px;
+      border: 2px solid rgba(48,51,47,0.25);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .equipment-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .equipment-symbol-row {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      background: white;
+    }
+
+    .equipment-symbol-row strong {
+      font-size: 0.9rem;
+    }
+
+    .equipment-symbol-row svg {
+      width: 90px;
+      height: 70px;
+    }
+
+    @media (max-width: 800px) {
+      .story-grid,
+      .media-compare,
+      .symbol-compare,
+      .rules-grid,
+      .drawing-choice-grid,
+      .equipment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-card.media-choice .choice-image {
+        height: 190px;
+      }
+    }
+
+    /* ---------- Responsive ---------- */
+
+    @media (max-width: 1100px) {
+      .game-shell {
+        grid-template-columns: 210px minmax(0, 1fr);
+      }
+
+      .science-panel {
+        grid-column: 1 / -1;
+        min-height: auto;
+      }
+
+      .science-body {
+        min-height: auto;
+      }
+
+      .science-lock {
+        min-height: 160px;
+      }
+
+      .checkpoint-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 800px) {
+      .expedition-page.page {
+        width: 94vw;
+      }
+
+      .expedition-banner {
+        grid-template-columns: 72px 1fr;
+        padding: 16px;
+      }
+
+      .submarine-mark {
+        width: 66px;
+        font-size: 1.8rem;
+      }
+
+      .field-guide-button {
+        grid-column: 1 / -1;
+        justify-self: center;
+      }
+
+      .game-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .mission-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .mission-nav-footer {
+        display: none;
+      }
+
+      .stage-screen,
+      .start-screen,
+      .expedition-mission.section {
+        min-height: auto;
+      }
+
+      .content-grid,
+      .choice-grid,
+      .specimen-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stage-controls {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .control-status {
+        grid-column: 1 / -1;
+      }
+
+      .stage-controls .general-button {
+        width: 100%;
+        padding-inline: 10px;
+      }
+
+      .checkpoint-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .mission-list,
+      .checkpoint-list {
+        grid-template-columns: 1fr;
+      }
+
+      .expedition-banner h1 {
+        font-size: 2rem;
+      }
+
+      .mission-window-body,
+      .expedition-mission.section {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page expedition-page">
+    <header class="expedition-banner" id="teacherTrigger" aria-label="Expedition Log header">
+      <div class="submarine-mark" aria-hidden="true">⚓</div>
+
+      <div class="banner-copy">
+        <p class="banner-kicker">PRIM7 field interface prototype</p>
+        <h1>Expedition Log</h1>
+        <h2>Deep Sea Explorers</h2>
+      </div>
+
+      <button type="button" class="general-button field-guide-button" onclick="openGlossary()">
+        Field guide
+      </button>
+    </header>
+
+    <div class="game-shell">
+      <!-- ==================================================
+           LEFT: mission navigation / game progress
+           ================================================== -->
+      <aside class="console-panel mission-nav" aria-label="Mission log">
+        <h2 class="console-heading"><span class="light" aria-hidden="true"></span>Mission log</h2>
+
+        <nav class="mission-list" id="missionList">
+          <button class="mission-button" data-mission="mission-1" data-number="01" type="button">
+            <strong>Mission 1</strong>
+            <span>Briefing</span>
+          </button>
+
+          <button class="mission-button" data-mission="mission-2" data-number="02" type="button" disabled>
+            <strong>Mission 2</strong>
+            <span>What is a Scientific Diagram?</span>
+          </button>
+
+          <button class="mission-button" data-mission="mission-3" data-number="03" type="button" disabled>
+            <strong>Mission 3</strong>
+            <span>Experiment Set-Up: Rust Prevention</span>
+          </button>
+
+          <button class="mission-button" data-mission="mission-4" data-number="04" type="button" disabled>
+            <strong>Mission 4</strong>
+            <span>What is a Scientific Drawing?</span>
+          </button>
+
+          <button class="mission-button" data-mission="mission-5" data-number="05" type="button" disabled>
+            <strong>Mission 5</strong>
+            <span>Unknown Species Detected</span>
+          </button>
+        </nav>
+
+        <div class="substage-nav" id="substageNav" hidden aria-label="Current mission stages"></div>
+
+        <div class="mission-nav-footer">
+          <strong>Expedition depth</strong>
+          <div class="depth-meter">
+            <span id="depthLabel">0%</span>
+            <div class="depth-track" aria-hidden="true">
+              <div class="depth-fill" id="depthFill"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ==================================================
+           CENTRE: one reusable stage; missions swap inside it
+           ================================================== -->
+      <section class="console-panel stage-panel" aria-label="Mission stage">
+        <div class="stage-screen" id="stageScreen">
+          <section class="start-screen" id="startScreen">
+            <div class="start-card pop-in">
+              <p class="start-eyebrow">Expedition systems online</p>
+              <h3>Click start to dive into the deep</h3>
+              <p>
+                Move through each mission one stage at a time. CHECK confirms the current stage,
+                RESET clears the current response, and NEXT advances only after the stage is complete.
+              </p>
+              <button type="button" class="general-button start-button" onclick="startExpedition()">
+                Start expedition
+              </button>
+            </div>
+          </section>
+
+          <!-- ==================================================
+               MISSION 1: BRIEFING (4 stages)
+               ================================================== -->
+          <section class="section expedition-mission" id="mission-1" data-mission-index="0">
+
+            <div class="mission-stage" data-stage-id="m1-exploration">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 1: briefing</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 01</p>
+                    <span class="stage-progress-chip">Stage 1 of 4</span>
+                  </div>
+                  <h3>What is deep sea exploration?</h3>
+                  <p class="mission-subtitle">
+                    We know more about the surface of Mars than we do about the deepest parts of our own ocean.
+                    Scientists use specially built submarines, remotely operated vehicles and underwater cameras to
+                    explore a world of darkness, cold temperatures and crushing pressure.
+                  </p>
+
+                  <div class="story-grid">
+                    <figure class="media-card">
+                      <img src="./lesson5_assets/deep-sea-camera.png" alt="Deep-sea camera used to observe the ocean floor">
+                      <figcaption>Deep-sea camera</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                      <img src="./lesson5_assets/hercules-rov.png" alt="Remotely operated vehicle Hercules underwater">
+                      <figcaption>Remotely operated vehicle “Hercules”</figcaption>
+                    </figure>
+                  </div>
+
+                  <div class="story-copy" style="margin-top:16px;">
+                    <h4>What could go wrong?</h4>
+                    <p>
+                      Technology does not always work perfectly in the deep ocean. Cameras can fail, footage can be corrupted,
+                      and extreme pressure can damage equipment. When this happens, scientists may need other ways to record what they observed.
+                    </p>
+                  </div>
+
+                  <p class="activity-prompt">When you have reviewed the briefing, press <strong>CHECK</strong>.</p>
+                  <div class="variable-feedback stage-feedback" data-feedback="m1-exploration" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mission-stage" data-stage-id="m1-failure">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 1: briefing</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 01</p>
+                    <span class="stage-progress-chip">Stage 2 of 4</span>
+                  </div>
+                  <h3>What to do when it goes wrong?</h3>
+                  <p class="mission-subtitle">
+                    When camera footage is corrupted, the skill of scientific drawing can help preserve an observation.
+                    You will build this skill before completing the expedition.
+                  </p>
+
+                  <div class="media-compare">
+                    <figure class="media-card">
+                      <img src="./lesson5_assets/damaged-footage.png" alt="Corrupted underwater footage">
+                      <figcaption>Damaged footage</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                      <img src="./lesson5_assets/hd-footage.png" alt="Clear underwater footage of the same organism">
+                      <figcaption>HD footage</figcaption>
+                    </figure>
+                  </div>
+
+                  <p class="activity-prompt">Press <strong>CHECK</strong> when you understand why an accurate visual record matters.</p>
+                  <div class="variable-feedback stage-feedback" data-feedback="m1-failure" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mission-stage" data-stage-id="m1-fish-1">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 1: image quality test</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 01</p>
+                    <span class="stage-progress-chip">Stage 3 of 4</span>
+                  </div>
+                  <h3>Quality of underwater photos</h3>
+                  <p class="mission-subtitle">
+                    This image was taken from the Visdeurbel in the Netherlands. It is not a deep-sea image, but it shows how difficult
+                    it can be to identify an organism from underwater footage. Click the fish you think is shown, then press CHECK.
+                  </p>
+
+                  <div class="fish-question-image">
+                    <img src="./lesson5_assets/visdeurbel-fish-1.png" alt="Underwater image of a fish with dark vertical stripes">
+                  </div>
+
+                  <div class="choice-grid" data-choice-group="fish1">
+                    <button type="button" class="choice-card media-choice" data-value="perch">
+                      <img class="choice-image" src="./lesson5_assets/perch.png" alt="Perch reference image">
+                      <h4>A. Perch</h4>
+                    </button>
+                    <button type="button" class="choice-card media-choice" data-value="pike-perch">
+                      <img class="choice-image" src="./lesson5_assets/pike-perch.png" alt="Pike-perch reference image">
+                      <h4>B. Pike-Perch</h4>
+                    </button>
+                    <button type="button" class="choice-card media-choice" data-value="rudd">
+                      <img class="choice-image" src="./lesson5_assets/rudd.png" alt="Rudd reference image">
+                      <h4>C. Rudd</h4>
+                    </button>
+                  </div>
+
+                  <div class="variable-feedback stage-feedback" data-feedback="m1-fish-1" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mission-stage" data-stage-id="m1-fish-2">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 1: image quality test</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 01</p>
+                    <span class="stage-progress-chip">Stage 4 of 4</span>
+                  </div>
+                  <h3>Quality of underwater photos</h3>
+                  <p class="mission-subtitle">
+                    Here is another image from the Visdeurbel. Click the fish you think is shown, then press CHECK.
+                    Once you answer correctly, NEXT will unlock the next mission.
+                  </p>
+
+                  <div class="fish-question-image">
+                    <img src="./lesson5_assets/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a large fish">
+                  </div>
+
+                  <div class="choice-grid" data-choice-group="fish2">
+                    <button type="button" class="choice-card media-choice" data-value="white-bream">
+                      <img class="choice-image" src="./lesson5_assets/white-bream.png" alt="White bream reference image">
+                      <h4>A. White bream</h4>
+                    </button>
+                    <button type="button" class="choice-card media-choice" data-value="carp">
+                      <img class="choice-image" src="./lesson5_assets/carp.png" alt="Carp reference image">
+                      <h4>B. Carp</h4>
+                    </button>
+                    <button type="button" class="choice-card media-choice" data-value="catfish">
+                      <img class="choice-image" src="./lesson5_assets/catfish.png" alt="Catfish reference image">
+                      <h4>C. Catfish</h4>
+                    </button>
+                  </div>
+
+                  <div class="variable-feedback stage-feedback" data-feedback="m1-fish-2" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==================================================
+               MISSION 2: SCIENTIFIC DIAGRAM (2 stages)
+               ================================================== -->
+          <section class="section expedition-mission locked" id="mission-2" data-mission-index="1">
+
+            <div class="mission-stage" data-stage-id="m2-symbols">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 2: scientific diagram</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 02</p>
+                    <span class="stage-progress-chip">Stage 1 of 2</span>
+                  </div>
+                  <h3>What is a scientific diagram?</h3>
+                  <p class="mission-subtitle">
+                    A scientific diagram is a drawing of an experiment set-up. Some scientific equipment has standard symbols,
+                    creating a common visual language that scientists can interpret consistently.
+                  </p>
+
+                  <div class="symbol-compare">
+                    <div class="symbol-visual">
+                      <img src="./lesson5_assets/beaker-photo.jpeg" alt="Photograph of a laboratory beaker" style="max-height:200px; width:auto; max-width:100%;">
+                    </div>
+                    <div class="symbol-visual" aria-label="Simple scientific symbol of a beaker">
+                      <svg viewBox="0 0 220 220" role="img" aria-label="Beaker symbol">
+                        <path d="M58 34 L58 160 Q58 184 110 184 Q162 184 162 160 L162 34" fill="none" stroke="#30332f" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M58 34 Q110 20 162 34" fill="none" stroke="#30332f" stroke-width="5"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="resource-button-row">
+                    <button type="button" class="general-button" onclick="openEquipmentSymbols()">Scientific symbols reference</button>
+                  </div>
+
+                  <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to use scientific symbols in an experiment diagram.</p>
+                  <div class="variable-feedback stage-feedback" data-feedback="m2-symbols" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mission-stage" data-stage-id="m2-example">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 2: example experiment</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 02</p>
+                    <span class="stage-progress-chip">Stage 2 of 2</span>
+                  </div>
+                  <h3>Example experiment</h3>
+                  <p class="mission-subtitle">Which drawing is the most accurate for any scientist to interpret?</p>
+
+                  <div class="story-copy">
+                    <h4>Example experiment — photograph</h4>
+                    <p>This is a structural placeholder for the final experiment photograph from the storyboard.</p>
+                  </div>
+
+                  <div class="drawing-choice-grid" data-choice-group="diagramExample">
+                    <button type="button" class="choice-card" data-value="drawing-one">
+                      <div class="mini-visual" aria-hidden="true">
+                        <svg class="scientific-sketch" viewBox="0 0 240 120">
+                          <path d="M34 18 L34 86 Q34 100 64 100 Q94 100 94 86 L94 18" fill="none" stroke="#30332f" stroke-width="3"/>
+                          <line x1="94" y1="60" x2="150" y2="60" stroke="#30332f" stroke-width="3"/>
+                          <rect x="150" y="40" width="48" height="40" fill="none" stroke="#30332f" stroke-width="3"/>
+                        </svg>
+                      </div>
+                      <h4>Drawing One</h4>
+                      <p>Simple standard-style shapes and clear connections.</p>
+                    </button>
+                    <button type="button" class="choice-card" data-value="drawing-two">
+                      <div class="mini-visual" aria-hidden="true">🧪 ✨ 🔩 💦</div>
+                      <h4>Drawing Two</h4>
+                      <p>A more decorative representation with extra visual detail.</p>
+                    </button>
+                  </div>
+
+                  <span class="prototype-note">Storyboard note: the final experiment photograph/drawings are not yet specified in the supplied deck, so this prototype checks that a selection was made rather than enforcing a final correct answer.</span>
+                  <div class="variable-feedback stage-feedback" data-feedback="m2-example" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==================================================
+               MISSION 3: RUST PREVENTION
+               The updated deck still lists this mission in the
+               mission log but does not yet provide its full frame.
+               ================================================== -->
+          <section class="section expedition-mission locked" id="mission-3" data-mission-index="2">
+            <div class="mission-stage" data-stage-id="m3-rust">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 3: rust prevention</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 03</p>
+                    <span class="stage-progress-chip">Stage 1 of 1</span>
+                  </div>
+                  <h3>Experiment Set-Up: Rust Prevention</h3>
+                  <p class="mission-subtitle">
+                    The updated storyboard continues to list this mission but does not yet include its detailed frame.
+                    This fair-test interaction is retained as a working placeholder until that content is supplied.
+                  </p>
+
+                  <p class="activity-prompt">Choose the strongest experimental set-up.</p>
+                  <div class="choice-grid" data-choice-group="rust">
+                    <button type="button" class="choice-card" data-value="fair-test">
+                      <div class="mini-visual" aria-hidden="true">🔩 ↔️ 💧</div>
+                      <h4>A. Same steel nails, two water conditions</h4>
+                      <p>Keep nail type, time and temperature the same. Change only water exposure.</p>
+                    </button>
+                    <button type="button" class="choice-card" data-value="mixed-variables">
+                      <div class="mini-visual" aria-hidden="true">🔩 🪙 🧪</div>
+                      <h4>B. Different metals in different liquids</h4>
+                      <p>Several variables change at the same time.</p>
+                    </button>
+                    <button type="button" class="choice-card" data-value="no-comparison">
+                      <div class="mini-visual" aria-hidden="true">🔩</div>
+                      <h4>C. Observe one nail</h4>
+                      <p>There is no comparison condition.</p>
+                    </button>
+                  </div>
+
+                  <div class="variable-feedback stage-feedback" data-feedback="m3-rust" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==================================================
+               MISSION 4: SCIENTIFIC DRAWING (2 stages)
+               Note: later storyboard frames currently label this
+               content "Mission 3" while the persistent mission log
+               lists it as Mission 4. This page keeps the mission-log
+               numbering until the storyboard is reconciled.
+               ================================================== -->
+          <section class="section expedition-mission locked" id="mission-4" data-mission-index="3">
+
+            <div class="mission-stage" data-stage-id="m4-rules">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 4: scientific drawing</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 04</p>
+                    <span class="stage-progress-chip">Stage 1 of 2</span>
+                  </div>
+                  <h3>Scientific drawing checklist</h3>
+                  <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
+
+                  <div class="rules-grid" id="drawingRules">
+                    <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
+                    <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
+                    <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
+                    <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
+                    <label class="rule-card"><input type="checkbox" value="label-lines"><span><strong>Plain label lines — no arrows</strong><p>Connect labels cleanly to the relevant structure.</p></span></label>
+                  </div>
+
+                  <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
+                  <div class="variable-feedback stage-feedback" data-feedback="m4-rules" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mission-stage" data-stage-id="m4-compare">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // mission 4: drawing comparison</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 04</p>
+                    <span class="stage-progress-chip">Stage 2 of 2</span>
+                  </div>
+                  <h3>How do we draw our observations as a scientist?</h3>
+                  <p class="mission-subtitle">Use the checklist you just reviewed. Which drawing best represents the damaged footage as a scientific drawing?</p>
+
+                  <div class="fish-question-image">
+                    <img src="./lesson5_assets/damaged-footage.png" alt="Damaged underwater footage used as the observation source">
+                  </div>
+
+                  <div class="drawing-choice-grid" data-choice-group="drawing">
+                    <button type="button" class="choice-card" data-value="drawing-one">
+                      <img src="./lesson5_assets/drawing-one.png" alt="Highly rendered coloured drawing with arrows and labels">
+                      <h4>Drawing One</h4>
+                    </button>
+                    <button type="button" class="choice-card" data-value="drawing-two">
+                      <img src="./lesson5_assets/drawing-two.png" alt="Simple line drawing with labels connected by plain lines">
+                      <h4>Drawing Two</h4>
+                    </button>
+                  </div>
+
+                  <div class="variable-feedback stage-feedback" data-feedback="m4-compare" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==================================================
+               MISSION 5: UNKNOWN SPECIES
+               Final application: sonar -> observation -> camera
+               failure -> scientific drawing -> self-check.
+               ================================================== -->
+          <section class="section expedition-mission locked" id="mission-5" data-mission-index="4">
+            <div class="mission-stage" data-stage-id="m5-finale">
+              <div class="mission-window">
+                <div class="mission-window-bar">
+                  <strong>Deep field terminal // unknown contact</strong>
+                  <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="mission-window-body">
+                  <div class="stage-progress-row">
+                    <p class="mission-label">Mission 05</p>
+                    <span class="stage-progress-chip">Final application</span>
+                  </div>
+                  <h3>Unknown Species Detected</h3>
+                  <p class="mission-subtitle">
+                    Sonar has detected movement near the expedition vehicle. Locate a contact, observe the organism,
+                    and create a scientific record if the camera system cannot capture it.
+                  </p>
+
+                  <!-- SONAR PHASE
+                       The CSS radar below is a working placeholder. If the team later
+                       makes a Canva GIF, it can replace the radar artwork while the
+                       .sonar-contact buttons remain as clickable HTML overlays. -->
+                  <div class="m5-phase" data-m5-phase="sonar">
+                    <div class="m5-panel">
+                      <div class="m5-status-strip">
+                        <span><span class="m5-status-light"></span>Sonar array online</span>
+                        <span>Scan sector 05</span>
+                      </div>
+
+                      <div class="sonar-layout">
+                        <div class="sonar-radar" id="mission5Sonar" aria-label="Sonar display with several detected contacts">
+                          <span class="sonar-crosshair-x" aria-hidden="true"></span>
+                          <span class="sonar-crosshair-y" aria-hidden="true"></span>
+                          <span class="sonar-sweep" aria-hidden="true"></span>
+                          <span class="sonar-centre" aria-hidden="true"></span>
+
+                          <button type="button" class="sonar-contact" data-contact="A" style="--contact-x: 28%; --contact-y: 37%; --contact-delay: -0.2s" aria-label="Investigate sonar contact A" onclick="selectSonarContact('A', this)"></button>
+                          <button type="button" class="sonar-contact" data-contact="B" style="--contact-x: 69%; --contact-y: 26%; --contact-delay: -0.9s" aria-label="Investigate sonar contact B" onclick="selectSonarContact('B', this)"></button>
+                          <button type="button" class="sonar-contact" data-contact="C" style="--contact-x: 76%; --contact-y: 67%; --contact-delay: -1.4s" aria-label="Investigate sonar contact C" onclick="selectSonarContact('C', this)"></button>
+                          <button type="button" class="sonar-contact" data-contact="D" style="--contact-x: 41%; --contact-y: 76%; --contact-delay: -0.55s" aria-label="Investigate sonar contact D" onclick="selectSonarContact('D', this)"></button>
+                          <button type="button" class="sonar-contact" data-contact="E" style="--contact-x: 55%; --contact-y: 49%; --contact-delay: -1.1s" aria-label="Investigate sonar contact E" onclick="selectSonarContact('E', this)"></button>
+                        </div>
+
+                        <article class="sonar-instructions">
+                          <h4>Multiple contacts detected</h4>
+                          <p>
+                            The sonar cannot identify what is moving through the water. Choose one contact to investigate.
+                          </p>
+                          <p>
+                            Once a contact is acquired, that organism stays assigned to your expedition even if the page is refreshed or the mission is reset.
+                          </p>
+                          <div class="sonar-legend">
+                            <span>● Yellow pulse = possible biological contact</span>
+                            <span>◎ Sweep = active sonar scan</span>
+                          </div>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="m5-phase" data-m5-phase="tracking" hidden>
+                    <div class="m5-panel tracking-card">
+                      <div class="tracking-spinner" aria-hidden="true"></div>
+                      <h4>Tracking selected contact...</h4>
+                      <p>Matching sonar movement with the live observation feed.</p>
+                    </div>
+                  </div>
+
+                  <div class="m5-phase" data-m5-phase="observe" hidden>
+                    <div class="m5-panel">
+                      <div class="m5-status-strip">
+                        <span><span class="m5-status-light"></span>Live observation feed</span>
+                        <span id="mission5ContactLabel">Contact acquired</span>
+                      </div>
+
+                      <div class="creature-console">
+                        <div class="creature-feed">
+                          <span class="live-badge">Live feed</span>
+                          <img data-m5-creature-image src="" alt="Deep-sea organism selected for observation">
+                        </div>
+
+                        <article class="camera-side-card">
+                          <h4>Visual contact acquired</h4>
+                          <p>
+                            Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
+                          </p>
+                          <button type="button" class="general-button capture-button" onclick="takeMission5Photo()">
+                            Capture image
+                          </button>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="m5-phase" data-m5-phase="capture" hidden>
+                    <div class="m5-panel tracking-card">
+                      <div style="font-size:4rem" aria-hidden="true">📷</div>
+                      <h4>Capturing image...</h4>
+                      <p>Writing observation frame to the expedition record.</p>
+                    </div>
+                  </div>
+
+                  <div class="m5-phase" data-m5-phase="drawing" hidden>
+                    <div class="camera-failure-message pop-in">
+                      <strong>⚠ Camera capture failed</strong>
+                      The image could not be saved. The live observation feed is still available, so make a scientific drawing while the organism remains in view.
+                    </div>
+
+                    <div class="drawing-mission-grid">
+                      <div class="creature-feed">
+                        <span class="failure-badge">Recording failed · live feed only</span>
+                        <img data-m5-creature-image src="" alt="Deep-sea organism selected for scientific drawing">
+                      </div>
+
+                      <article class="drawing-instructions-card">
+                        <h4>Create the expedition record</h4>
+                        <p>
+                          Draw the organism from observation. Use the <strong>Science Check</strong> panel to review the same scientific-drawing rules from Mission 4.
+                        </p>
+                        <p>
+                          The computer is not judging your drawing. The checklist is your self-assessment before you complete the expedition.
+                        </p>
+
+                        <label class="drawing-finish-check">
+                          <input type="checkbox" id="mission5DrawingFinished" onchange="setMission5DrawingFinished(this.checked)">
+                          <span>I have finished my scientific drawing.</span>
+                        </label>
+                      </article>
+                    </div>
+                  </div>
+
+                  <div class="m5-phase" data-m5-phase="complete" hidden>
+                    <div class="m5-complete-card pop-in">
+                      <img data-m5-creature-image src="" alt="Deep-sea organism from the completed expedition">
+                      <div>
+                        <p class="mission-label">Expedition complete</p>
+                        <h4>Scientific record secured</h4>
+                        <p>
+                          The camera failed, but your scientific drawing preserved an observation of the organism.
+                        </p>
+                        <span class="m5-species-reveal" id="mission5SpeciesName">Field guide match</span>
+                        <p id="mission5SpeciesNote"></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="variable-feedback stage-feedback" data-feedback="m5-finale" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="stage-controls" aria-label="Mission controls">
+          <div class="control-status" id="controlStatus">
+            <strong>Stand by.</strong> Start the expedition to load Mission 1.
+          </div>
+
+          <button type="button" class="general-button expedition-check" id="checkButton" onclick="checkCurrentMission()" disabled>
+            Check ✓
+          </button>
+
+          <button type="button" class="general-button reset-btn expedition-reset" id="resetButton" onclick="resetCurrentMission()" disabled>
+            Reset ↻
+          </button>
+
+          <button type="button" class="general-button expedition-next" id="nextButton" onclick="goNextMission()" disabled>
+            Next →
+          </button>
+        </footer>
+      </section>
+
+      <!-- ==================================================
+           RIGHT: global science-check panel
+           ================================================== -->
+      <aside class="console-panel science-panel" id="sciencePanel" aria-label="Science check">
+        <h2 class="console-heading">🔬 Science check</h2>
+
+        <div class="science-body">
+          <div class="science-lock">
+            <div class="lock-icon" aria-hidden="true">🔒</div>
+            <strong>Field drawing checklist locked</strong>
+            <p>Unlocks after Mission 3.</p>
+          </div>
+
+          <p class="science-mode-note" id="scienceModeNote">
+            <strong>Reference mode.</strong> These criteria unlock after Mission 3. You will tick them yourself during the final drawing mission.
+          </p>
+
+          <div class="checkpoint-list" id="checkpointList">
+            <label class="checkpoint"><input type="checkbox" data-science-check value="clear-lines" disabled> Use clear, simple lines</label>
+            <label class="checkpoint"><input type="checkbox" data-science-check value="main-features" disabled> Draw main features only</label>
+            <label class="checkpoint"><input type="checkbox" data-science-check value="limited-shading" disabled> Limited / no shading</label>
+            <label class="checkpoint"><input type="checkbox" data-science-check value="clear-labels" disabled> Include clear labels</label>
+            <label class="checkpoint"><input type="checkbox" data-science-check value="plain-label-lines" disabled> Plain label lines — no arrows</label>
+          </div>
+        </div>
+
+        <div class="science-footer" id="scienceFooter">
+          <strong>Science Check:</strong> a persistent reference panel that becomes an interactive self-assessment during the final drawing mission.
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Reuses the shared glossary modal structure + common_functions.js open/close functions. -->
+  <div class="modal" id="glossaryModal" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="intro-eyebrow">Expedition field guide</p>
+          <h2>Key science language</h2>
+        </div>
+        <button type="button" class="close-button" aria-label="Close glossary" onclick="closeGlossary()">×</button>
+      </div>
+
+      <div class="vocab-list">
+        <article class="vocab-card">
+          <h3>Scientific diagram</h3>
+          <p>A simplified representation of an experimental set-up using clear conventions and equipment symbols.</p>
+        </article>
+        <article class="vocab-card">
+          <h3>Scientific drawing</h3>
+          <p>A clear, accurate line drawing used to record an observation.</p>
+        </article>
+        <article class="vocab-card">
+          <h3>Fair test</h3>
+          <p>An investigation where the variable being tested is changed while relevant conditions are kept the same.</p>
+        </article>
+        <article class="vocab-card">
+          <h3>Observation</h3>
+          <p>Information collected by carefully noticing and recording features or changes.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="equipmentSymbolsModal" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="intro-eyebrow">Scientific symbols</p>
+          <h2>Equipment symbol reference</h2>
+        </div>
+        <button type="button" class="close-button" aria-label="Close equipment symbols" onclick="closeEquipmentSymbols()">×</button>
+      </div>
+
+      <div class="equipment-grid">
+        <div class="equipment-symbol-row"><strong>Beaker</strong><svg viewBox="0 0 100 80"><path d="M25 10 V58 Q25 70 50 70 Q75 70 75 58 V10 M25 10 Q50 4 75 10" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+        <div class="equipment-symbol-row"><strong>Test tube</strong><svg viewBox="0 0 100 80"><path d="M42 8 V58 Q42 70 50 70 Q58 70 58 58 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+        <div class="equipment-symbol-row"><strong>Conical flask</strong><svg viewBox="0 0 100 80"><path d="M43 8 V28 L24 66 H76 L57 28 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+        <div class="equipment-symbol-row"><strong>Measuring cylinder</strong><svg viewBox="0 0 100 80"><path d="M42 8 V66 M58 8 V66 M34 66 H66" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+        <div class="equipment-symbol-row"><strong>Tripod</strong><svg viewBox="0 0 100 80"><circle cx="50" cy="22" r="16" fill="none" stroke="#30332f" stroke-width="3"/><path d="M38 35 L25 70 M50 38 V72 M62 35 L75 70" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+        <div class="equipment-symbol-row"><strong>Bunsen burner</strong><svg viewBox="0 0 100 80"><path d="M46 14 H54 V56 H46 Z M35 56 H65 V68 H35 Z" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==================================================
+       EXPEDITION LOG - UPDATED PAGE-SPECIFIC PROTOTYPE LOGIC
+
+       Architecture:
+         MISSION CONFIG -> STAGE CONFIG -> STATE -> EVENTS -> RENDER
+
+       Shared helpers reused from common_functions.js:
+         - unlockSection()
+         - setActivityFeedback()
+         - openGlossary()/closeGlossary()
+         - growModalFromTrigger()
+         - saveCurrentPageData()/clearPageSavedData() hooks
+       ================================================== */
+
+    const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v3";
+
+    const missionConfig = [
+      {
+        id: "mission-1",
+        title: "Briefing",
+        stages: [
+          { id: "m1-exploration", label: "What is deep sea exploration?", type: "read" },
+          { id: "m1-failure", label: "What to do when it goes wrong?", type: "read" },
+          { id: "m1-fish-1", label: "Quality of underwater photos · 1", type: "choice", choiceGroup: "fish1", correctValue: "perch" },
+          { id: "m1-fish-2", label: "Quality of underwater photos · 2", type: "choice", choiceGroup: "fish2", correctValue: "carp" }
+        ]
+      },
+      {
+        id: "mission-2",
+        title: "Scientific Diagram",
+        stages: [
+          { id: "m2-symbols", label: "Scientific symbols", type: "read" },
+          { id: "m2-example", label: "Example experiment", type: "selection", choiceGroup: "diagramExample" }
+        ]
+      },
+      {
+        id: "mission-3",
+        title: "Rust Prevention",
+        stages: [
+          { id: "m3-rust", label: "Experiment set-up", type: "choice", choiceGroup: "rust", correctValue: "fair-test" }
+        ]
+      },
+      {
+        id: "mission-4",
+        title: "Scientific Drawing",
+        stages: [
+          { id: "m4-rules", label: "Scientific drawing checklist", type: "checklist", requiredCount: 5 },
+          { id: "m4-compare", label: "Compare drawings", type: "choice", choiceGroup: "drawing", correctValue: "drawing-two" }
+        ]
+      },
+      {
+        id: "mission-5",
+        title: "Unknown Species",
+        stages: [
+          { id: "m5-finale", label: "Unknown species detected", type: "finale", requiredCount: 5 }
+        ]
+      }
+    ];
+
+    /*
+      Final-mission organism pool.
+      Frogfish and sawshark are deliberately left out of this first pool because
+      the storyboard itself flags them as borderline examples for the deep-sea framing.
+      The chosen species is saved in sessionStorage and is not rerolled by Reset.
+    */
+    const mission5SpeciesPool = [
+      { id: "red-lipped-batfish", name: "Red-lipped Batfish", image: "./lesson5_assets/red-lipped-batfish.png", note: "Found on the ocean floor around the Galápagos Islands, to about 76 m in the current concept notes." },
+      { id: "goblin-shark", name: "Goblin Shark", image: "./lesson5_assets/goblin-shark.png", note: "A rare shark recorded from about 270 m and deeper." },
+      { id: "dumbo-octopus", name: "Dumbo Octopus", image: "./lesson5_assets/dumbo-octopus.png", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
+      { id: "sea-pig", name: "Sea Pig", image: "./lesson5_assets/sea-pig.png", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
+      { id: "sea-angel", name: "Sea Angel", image: "./lesson5_assets/sea-angel.png", note: "A tiny sea slug found in cold, deep polar waters." },
+      { id: "pink-seethrough-fantasia", name: "Pink Seethrough Fantasia", image: "./lesson5_assets/pink-seethrough-fantasia.png", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
+      { id: "blobfish", name: "Blobfish", image: "./lesson5_assets/blobfish.png", note: "Found at depths of roughly 600–1,200 m." },
+      { id: "barreleye-fish", name: "Barreleye Fish", image: "./lesson5_assets/barreleye-fish.png", note: "Found at depths of roughly 400–2,500 m." },
+      { id: "deepsea-anglerfish", name: "Deep-sea Anglerfish", image: "./lesson5_assets/deepsea-anglerfish.png", note: "Found at depths of roughly 200–2,000 m." },
+      { id: "flapjack-octopus", name: "Flapjack Octopus", image: "./lesson5_assets/flapjack-octopus.png", note: "Found from roughly 100–2,000 m." },
+      { id: "lumpfish", name: "Lumpfish", image: "./lesson5_assets/lumpfish.png", note: "Some are found at depths reaching about 1,700 m." },
+      { id: "predatory-sea-anemone", name: "Predatory Sea Anemone", image: "./lesson5_assets/predatory-sea-anemone.png", note: "Deep-sea anemones can occur at depths of several thousand metres." }
+    ];
+
+    let expeditionState = createFreshExpeditionState();
+
+    function createFreshExpeditionState() {
+      return {
+        started: false,
+        currentMissionIndex: 0,
+        currentStageIndex: 0,
+        unlockedMissionIndex: 0,
+        unlockedStageIndices: [0, 0, 0, 0, 0],
+        completedMissions: [false, false, false, false, false],
+        completedStages: {},
+        selections: {
+          fish1: "",
+          fish2: "",
+          diagramExample: "",
+          rust: "",
+          drawing: "",
+          drawingRules: [],
+          observations: []
+        },
+        mission5: {
+          phase: "sonar",
+          speciesId: "",
+          contactId: "",
+          drawingFinished: false,
+          scienceChecks: []
+        }
+      };
+    }
+
+    function getCurrentMission() {
+      return missionConfig[expeditionState.currentMissionIndex] || null;
+    }
+
+    function getCurrentStage() {
+      const mission = getCurrentMission();
+      return mission ? mission.stages[expeditionState.currentStageIndex] || null : null;
+    }
+
+    function loadExpeditionState() {
+      const saved = sessionStorage.getItem(EXPEDITION_STATE_KEY);
+      if (!saved) return;
+
+      try {
+        const parsed = JSON.parse(saved);
+        const fresh = createFreshExpeditionState();
+        expeditionState = {
+          ...fresh,
+          ...parsed,
+          selections: {
+            ...fresh.selections,
+            ...(parsed.selections || {})
+          },
+          mission5: {
+            ...fresh.mission5,
+            ...(parsed.mission5 || {})
+          }
+        };
+
+        /* Tracking is intentionally transient. A reload resumes at observation. */
+        if (expeditionState.mission5.phase === "tracking") {
+          expeditionState.mission5.phase = expeditionState.mission5.speciesId ? "observe" : "sonar";
+        }
+        if (expeditionState.mission5.phase === "capture") {
+          expeditionState.mission5.phase = "drawing";
+        }
+      } catch (error) {
+        console.warn("Could not restore Expedition Log state.", error);
+      }
+    }
+
+    function saveCurrentPageData() {
+      sessionStorage.setItem(EXPEDITION_STATE_KEY, JSON.stringify(expeditionState));
+    }
+
+    function clearPageSavedData() {
+      sessionStorage.removeItem(EXPEDITION_STATE_KEY);
+    }
+
+    function startExpedition() {
+      expeditionState.started = true;
+      expeditionState.currentMissionIndex = 0;
+      expeditionState.currentStageIndex = 0;
+      saveCurrentPageData();
+      renderExpedition();
+    }
+
+    function setActiveMission(missionId) {
+      const index = missionConfig.findIndex(function(mission) {
+        return mission.id === missionId;
+      });
+
+      if (index < 0 || index > expeditionState.unlockedMissionIndex) return;
+
+      expeditionState.started = true;
+      expeditionState.currentMissionIndex = index;
+      expeditionState.currentStageIndex = Math.min(
+        expeditionState.unlockedStageIndices[index] || 0,
+        missionConfig[index].stages.length - 1
+      );
+      saveCurrentPageData();
+      renderExpedition();
+    }
+
+    function setActiveStage(stageIndex) {
+      const missionIndex = expeditionState.currentMissionIndex;
+      const maxUnlocked = expeditionState.unlockedStageIndices[missionIndex] || 0;
+      const mission = getCurrentMission();
+
+      if (!mission || stageIndex < 0 || stageIndex > maxUnlocked || stageIndex >= mission.stages.length) {
+        return;
+      }
+
+      expeditionState.currentStageIndex = stageIndex;
+      saveCurrentPageData();
+      renderExpedition();
+    }
+
+    function registerChoice(button) {
+      const group = button.closest("[data-choice-group]");
+      if (!group) return;
+
+      const groupName = group.dataset.choiceGroup;
+      const value = button.dataset.value;
+
+      group.querySelectorAll(".choice-card").forEach(function(card) {
+        card.classList.remove("selected", "correct", "incorrect");
+        card.setAttribute("aria-pressed", "false");
+      });
+
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
+      expeditionState.selections[groupName] = value;
+
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderControls();
+    }
+
+    function syncDrawingRules() {
+      expeditionState.selections.drawingRules = Array.from(
+        document.querySelectorAll('#drawingRules input[type="checkbox"]:checked')
+      ).map(function(input) {
+        return input.value;
+      });
+
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderControls();
+    }
+
+    function toggleObservationChip(button) {
+      const label = button.textContent.trim();
+      const observations = expeditionState.selections.observations;
+      const existingIndex = observations.indexOf(label);
+
+      if (existingIndex >= 0) {
+        observations.splice(existingIndex, 1);
+      } else {
+        observations.push(label);
+      }
+
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderSelections();
+      renderControls();
+    }
+
+    function validateCurrentStage(stage) {
+      if (!stage) return false;
+
+      if (stage.type === "read") return true;
+
+      if (stage.type === "selection") {
+        return Boolean(expeditionState.selections[stage.choiceGroup]);
+      }
+
+      if (stage.type === "choice") {
+        return expeditionState.selections[stage.choiceGroup] === stage.correctValue;
+      }
+
+      if (stage.type === "checklist") {
+        return expeditionState.selections.drawingRules.length >= stage.requiredCount;
+      }
+
+      if (stage.type === "observations") {
+        return expeditionState.selections.observations.length >= stage.requiredCount;
+      }
+
+      if (stage.type === "finale") {
+        return (
+          expeditionState.mission5.phase === "drawing" &&
+          expeditionState.mission5.drawingFinished &&
+          expeditionState.mission5.scienceChecks.length >= stage.requiredCount
+        );
+      }
+
+      return false;
+    }
+
+    function checkCurrentMission() {
+      const mission = getCurrentMission();
+      const stage = getCurrentStage();
+      const feedback = getStageFeedback(stage && stage.id);
+
+      if (!mission || !stage || !feedback) return;
+
+      const isCorrect = validateCurrentStage(stage);
+
+      if (!isCorrect) {
+        let message = "Review the current stage and try again.";
+
+        if (stage.type === "choice") {
+          message = "That does not match the current scientific criteria. Review the options and try again.";
+        } else if (stage.type === "checklist") {
+          message = "Review all five scientific-drawing rules and tick each one before continuing.";
+        } else if (stage.type === "observations") {
+          message = "Select at least three observable features before completing the final mission.";
+        } else if (stage.type === "finale") {
+          message = "Finish your scientific drawing and tick all five Science Check criteria before completing the expedition.";
+        } else if (stage.type === "selection") {
+          message = "Choose one of the available options before checking this stage.";
+        }
+
+        setActivityFeedback(feedback, "try-again", "Not quite yet", message);
+        markSelectedAnswer(stage, false);
+        renderControls();
+        return;
+      }
+
+      expeditionState.completedStages[stage.id] = true;
+
+      if (stage.type === "finale") {
+        expeditionState.mission5.phase = "complete";
+      }
+
+      const isLastStage = expeditionState.currentStageIndex === mission.stages.length - 1;
+      if (isLastStage) {
+        expeditionState.completedMissions[expeditionState.currentMissionIndex] = true;
+      }
+
+      const successMessage = isLastStage
+        ? (expeditionState.currentMissionIndex === missionConfig.length - 1
+            ? "You have reached the end of the current concept flow."
+            : "This mission is complete. NEXT will unlock the next mission.")
+        : "This stage is complete. NEXT will move to the next part of the same mission.";
+
+      setActivityFeedback(
+        feedback,
+        "success",
+        isLastStage ? "Mission complete" : "Stage complete",
+        successMessage
+      );
+
+      markSelectedAnswer(stage, true);
+      saveCurrentPageData();
+      renderExpedition();
+    }
+
+    function markSelectedAnswer(stage, isCorrect) {
+      if (!stage || !stage.choiceGroup || stage.type === "selection") return;
+
+      const group = document.querySelector('[data-choice-group="' + stage.choiceGroup + '"]');
+      if (!group) return;
+
+      const selected = group.querySelector(".choice-card.selected");
+      if (!selected) return;
+
+      selected.classList.remove("correct", "incorrect");
+      selected.classList.add(isCorrect ? "correct" : "incorrect");
+    }
+
+    function goNextMission() {
+      const mission = getCurrentMission();
+      const stage = getCurrentStage();
+      if (!mission || !stage || !expeditionState.completedStages[stage.id]) return;
+
+      const missionIndex = expeditionState.currentMissionIndex;
+      const stageIndex = expeditionState.currentStageIndex;
+      const isLastStage = stageIndex === mission.stages.length - 1;
+
+      if (!isLastStage) {
+        const nextStageIndex = stageIndex + 1;
+        expeditionState.unlockedStageIndices[missionIndex] = Math.max(
+          expeditionState.unlockedStageIndices[missionIndex],
+          nextStageIndex
+        );
+        expeditionState.currentStageIndex = nextStageIndex;
+        saveCurrentPageData();
+        renderExpedition();
+        return;
+      }
+
+      if (!expeditionState.completedMissions[missionIndex] || missionIndex >= missionConfig.length - 1) {
+        return;
+      }
+
+      const current = missionConfig[missionIndex];
+      const next = missionConfig[missionIndex + 1];
+
+      if (typeof unlockSection === "function") {
+        unlockSection(next.id, current.id);
+      } else {
+        const nextElement = document.getElementById(next.id);
+        const currentElement = document.getElementById(current.id);
+        if (nextElement) nextElement.classList.remove("locked");
+        if (currentElement) currentElement.classList.add("completed");
+      }
+
+      expeditionState.unlockedMissionIndex = Math.max(
+        expeditionState.unlockedMissionIndex,
+        missionIndex + 1
+      );
+      expeditionState.currentMissionIndex = missionIndex + 1;
+      expeditionState.currentStageIndex = 0;
+      expeditionState.unlockedStageIndices[missionIndex + 1] = Math.max(
+        expeditionState.unlockedStageIndices[missionIndex + 1] || 0,
+        0
+      );
+
+      saveCurrentPageData();
+      window.setTimeout(renderExpedition, 120);
+    }
+
+    function resetCurrentMission() {
+      const mission = getCurrentMission();
+      const stage = getCurrentStage();
+      if (!mission || !stage) return;
+
+      expeditionState.completedStages[stage.id] = false;
+
+      if (expeditionState.currentStageIndex === mission.stages.length - 1) {
+        expeditionState.completedMissions[expeditionState.currentMissionIndex] = false;
+      }
+
+      if (stage.choiceGroup) {
+        expeditionState.selections[stage.choiceGroup] = "";
+      }
+
+      if (stage.type === "checklist") {
+        expeditionState.selections.drawingRules = [];
+      }
+
+      if (stage.type === "observations") {
+        expeditionState.selections.observations = [];
+      }
+
+      if (stage.type === "finale") {
+        expeditionState.mission5.phase = "sonar";
+        expeditionState.mission5.contactId = "";
+        expeditionState.mission5.drawingFinished = false;
+        expeditionState.mission5.scienceChecks = [];
+        /* speciesId is deliberately preserved so Reset does not reroll the organism. */
+      }
+
+      const stageElement = document.querySelector('[data-stage-id="' + stage.id + '"]');
+      if (stageElement) {
+        stageElement.querySelectorAll(".choice-card").forEach(function(card) {
+          card.classList.remove("selected", "correct", "incorrect");
+          card.setAttribute("aria-pressed", "false");
+        });
+
+        stageElement.querySelectorAll('input[type="checkbox"]').forEach(function(input) {
+          input.checked = false;
+        });
+      }
+
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderExpedition();
+    }
+
+    function getStageFeedback(stageId) {
+      if (!stageId) return null;
+      return document.querySelector('[data-feedback="' + stageId + '"]');
+    }
+
+    function clearCurrentStageFeedback() {
+      const stage = getCurrentStage();
+      const feedback = getStageFeedback(stage && stage.id);
+      if (!feedback) return;
+      feedback.innerHTML = "";
+      feedback.className = "variable-feedback stage-feedback";
+    }
+
+    function getMission5Species() {
+      if (!expeditionState.mission5.speciesId) return null;
+      return mission5SpeciesPool.find(function(species) {
+        return species.id === expeditionState.mission5.speciesId;
+      }) || null;
+    }
+
+    function chooseMission5SpeciesOnce() {
+      const existing = getMission5Species();
+      if (existing) return existing;
+
+      const index = Math.floor(Math.random() * mission5SpeciesPool.length);
+      const species = mission5SpeciesPool[index];
+      expeditionState.mission5.speciesId = species.id;
+      return species;
+    }
+
+    function selectSonarContact(contactId, button) {
+      const stage = getCurrentStage();
+      if (!stage || stage.id !== "m5-finale" || expeditionState.mission5.phase !== "sonar") return;
+
+      chooseMission5SpeciesOnce();
+      expeditionState.mission5.contactId = contactId;
+      expeditionState.mission5.phase = "tracking";
+      saveCurrentPageData();
+      renderExpedition();
+
+      window.setTimeout(function() {
+        if (
+          expeditionState.mission5.phase === "tracking" &&
+          expeditionState.mission5.contactId === contactId
+        ) {
+          expeditionState.mission5.phase = "observe";
+          saveCurrentPageData();
+          renderExpedition();
+        }
+      }, 1150);
+    }
+
+    function takeMission5Photo() {
+      const stage = getCurrentStage();
+      if (!stage || stage.id !== "m5-finale" || expeditionState.mission5.phase !== "observe") return;
+
+      expeditionState.mission5.phase = "capture";
+      expeditionState.mission5.drawingFinished = false;
+      expeditionState.mission5.scienceChecks = [];
+      saveCurrentPageData();
+      renderExpedition();
+
+      window.setTimeout(function() {
+        if (expeditionState.mission5.phase === "capture") {
+          expeditionState.mission5.phase = "drawing";
+          saveCurrentPageData();
+          renderExpedition();
+
+          const drawingCheck = document.getElementById("mission5DrawingFinished");
+          if (drawingCheck) drawingCheck.focus({ preventScroll: true });
+        }
+      }, 900);
+    }
+
+    function setMission5DrawingFinished(isFinished) {
+      expeditionState.mission5.drawingFinished = Boolean(isFinished);
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderControls();
+    }
+
+    function syncMission5ScienceChecks() {
+      expeditionState.mission5.scienceChecks = Array.from(
+        document.querySelectorAll('[data-science-check]:checked')
+      ).map(function(input) {
+        return input.value;
+      });
+
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderControls();
+      renderScienceCheck();
+    }
+
+    function renderMission5() {
+      const mission5 = expeditionState.mission5;
+      if (!mission5) return;
+
+      const phase = mission5.phase || "sonar";
+      document.querySelectorAll("[data-m5-phase]").forEach(function(panel) {
+        panel.hidden = panel.dataset.m5Phase !== phase;
+      });
+
+      document.querySelectorAll(".sonar-contact").forEach(function(contact) {
+        contact.classList.toggle("selected", contact.dataset.contact === mission5.contactId);
+      });
+
+      const species = getMission5Species();
+      document.querySelectorAll("[data-m5-creature-image]").forEach(function(image) {
+        if (!species) {
+          image.removeAttribute("src");
+          return;
+        }
+        image.src = species.image;
+        image.alt = species.name + " selected for the expedition observation";
+      });
+
+      const contactLabel = document.getElementById("mission5ContactLabel");
+      if (contactLabel) {
+        contactLabel.textContent = mission5.contactId
+          ? "Contact " + mission5.contactId + " acquired"
+          : "Contact acquired";
+      }
+
+      const drawingFinished = document.getElementById("mission5DrawingFinished");
+      if (drawingFinished) {
+        drawingFinished.checked = Boolean(mission5.drawingFinished);
+      }
+
+      const speciesName = document.getElementById("mission5SpeciesName");
+      const speciesNote = document.getElementById("mission5SpeciesNote");
+      if (speciesName) {
+        speciesName.textContent = species ? "Field guide match: " + species.name : "Field guide match";
+      }
+      if (speciesNote) {
+        speciesNote.textContent = species ? species.note : "";
+      }
+    }
+
+    function renderExpedition() {
+      renderStage();
+      renderMissionNavigation();
+      renderSubstageNavigation();
+      renderScienceCheck();
+      renderMission5();
+      renderSelections();
+      renderControls();
+      renderDepth();
+    }
+
+    function renderStage() {
+      const startScreen = document.getElementById("startScreen");
+
+      document.querySelectorAll(".expedition-mission").forEach(function(section, index) {
+        section.classList.remove("active");
+
+        if (index <= expeditionState.unlockedMissionIndex) {
+          section.classList.remove("locked");
+        } else {
+          section.classList.add("locked");
+        }
+
+        section.classList.toggle("completed", Boolean(expeditionState.completedMissions[index]));
+        section.querySelectorAll(".mission-stage").forEach(function(stage) {
+          stage.classList.remove("active");
+        });
+      });
+
+      if (!expeditionState.started) {
+        startScreen.hidden = false;
+        return;
+      }
+
+      startScreen.hidden = true;
+
+      const mission = getCurrentMission();
+      const stage = getCurrentStage();
+      const missionElement = mission && document.getElementById(mission.id);
+      const stageElement = stage && document.querySelector('[data-stage-id="' + stage.id + '"]');
+
+      if (missionElement) missionElement.classList.add("active");
+      if (stageElement) stageElement.classList.add("active");
+    }
+
+    function renderMissionNavigation() {
+      document.querySelectorAll(".mission-button").forEach(function(button, index) {
+        button.disabled = !expeditionState.started || index > expeditionState.unlockedMissionIndex;
+        button.classList.toggle(
+          "active",
+          expeditionState.started && index === expeditionState.currentMissionIndex
+        );
+        button.classList.toggle("complete", Boolean(expeditionState.completedMissions[index]));
+      });
+    }
+
+    function renderSubstageNavigation() {
+      const container = document.getElementById("substageNav");
+      const mission = getCurrentMission();
+
+      if (!container || !expeditionState.started || !mission) {
+        if (container) container.hidden = true;
+        return;
+      }
+
+      container.hidden = false;
+      container.innerHTML = '<p class="substage-nav-title">Current mission</p>';
+
+      const maxUnlocked = expeditionState.unlockedStageIndices[expeditionState.currentMissionIndex] || 0;
+
+      mission.stages.forEach(function(stage, index) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "substage-button";
+        button.textContent = stage.label;
+        button.disabled = index > maxUnlocked;
+        button.classList.toggle("active", index === expeditionState.currentStageIndex);
+        button.classList.toggle("complete", Boolean(expeditionState.completedStages[stage.id]));
+        button.addEventListener("click", function() {
+          setActiveStage(index);
+        });
+        container.appendChild(button);
+      });
+    }
+
+    function renderScienceCheck() {
+      const panel = document.getElementById("sciencePanel");
+      const note = document.getElementById("scienceModeNote");
+      const footer = document.getElementById("scienceFooter");
+      if (!panel) return;
+
+      const shouldUnlock = expeditionState.completedMissions[2] || expeditionState.unlockedMissionIndex >= 3;
+      const finalDrawingActive = (
+        expeditionState.currentMissionIndex === 4 &&
+        expeditionState.started &&
+        expeditionState.mission5.phase === "drawing"
+      );
+
+      panel.classList.toggle("unlocked", shouldUnlock);
+      panel.classList.toggle("final-drawing-active", finalDrawingActive);
+
+      document.querySelectorAll("[data-science-check]").forEach(function(input) {
+        input.disabled = !finalDrawingActive;
+        input.checked = expeditionState.mission5.scienceChecks.includes(input.value);
+      });
+
+      if (note) {
+        if (finalDrawingActive) {
+          note.innerHTML = "<strong>Self-assessment mode.</strong> Tick each criterion as you check your final scientific drawing.";
+        } else {
+          note.innerHTML = "<strong>Reference mode.</strong> These criteria unlock after Mission 3. You will tick them yourself during the final drawing mission.";
+        }
+      }
+
+      if (footer) {
+        footer.innerHTML = finalDrawingActive
+          ? "<strong>Final mission:</strong> the checklist is now interactive. The software is recording your self-check, not judging the drawing itself."
+          : "<strong>Science Check:</strong> use these criteria as a reference until the final drawing mission.";
+      }
+    }
+
+    function renderSelections() {
+      ["fish1", "fish2", "diagramExample", "rust", "drawing"].forEach(function(groupName) {
+        const value = expeditionState.selections[groupName];
+        const group = document.querySelector('[data-choice-group="' + groupName + '"]');
+        if (!group) return;
+
+        group.querySelectorAll(".choice-card").forEach(function(card) {
+          const selected = card.dataset.value === value;
+          card.classList.toggle("selected", selected);
+          card.setAttribute("aria-pressed", selected ? "true" : "false");
+        });
+      });
+
+      document.querySelectorAll('#drawingRules input[type="checkbox"]').forEach(function(input) {
+        input.checked = expeditionState.selections.drawingRules.includes(input.value);
+      });
+
+    }
+
+    function stageHasInput(stage) {
+      if (!stage) return false;
+      if (stage.type === "read" || stage.type === "checklist") return true;
+      if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
+      if (stage.type === "finale") {
+        return (
+          expeditionState.mission5.phase === "drawing" &&
+          expeditionState.mission5.drawingFinished &&
+          expeditionState.mission5.scienceChecks.length >= stage.requiredCount
+        );
+      }
+      if (stage.choiceGroup) return Boolean(expeditionState.selections[stage.choiceGroup]);
+      return true;
+    }
+
+    function stageHasResettableInput(stage) {
+      if (!stage) return false;
+      if (stage.type === "read") return Boolean(expeditionState.completedStages[stage.id]);
+      if (stage.type === "checklist") return expeditionState.selections.drawingRules.length > 0;
+      if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
+      if (stage.type === "finale") {
+        return (
+          expeditionState.mission5.phase !== "sonar" ||
+          Boolean(expeditionState.completedStages[stage.id])
+        );
+      }
+      if (stage.choiceGroup) return Boolean(expeditionState.selections[stage.choiceGroup]);
+      return false;
+    }
+
+    function renderControls() {
+      const checkButton = document.getElementById("checkButton");
+      const resetButton = document.getElementById("resetButton");
+      const nextButton = document.getElementById("nextButton");
+      const status = document.getElementById("controlStatus");
+
+      if (!expeditionState.started) {
+        checkButton.disabled = true;
+        resetButton.disabled = true;
+        nextButton.disabled = true;
+        status.innerHTML = "<strong>Stand by.</strong> Start the expedition to load Mission 1.";
+        return;
+      }
+
+      const mission = getCurrentMission();
+      const stage = getCurrentStage();
+      const completed = Boolean(stage && expeditionState.completedStages[stage.id]);
+      const isLastStage = mission && expeditionState.currentStageIndex === mission.stages.length - 1;
+      const isFinalMission = expeditionState.currentMissionIndex === missionConfig.length - 1;
+
+      checkButton.textContent = stage.type === "finale" ? "Complete ✓" : "Check ✓";
+
+      if (stage.type === "finale" && !completed) {
+        const phase = expeditionState.mission5.phase;
+        const readyToComplete = stageHasInput(stage);
+
+        checkButton.disabled = !readyToComplete;
+        resetButton.disabled = phase === "sonar" && !expeditionState.mission5.speciesId;
+        nextButton.disabled = true;
+
+        if (phase === "sonar") {
+          status.innerHTML = "<strong>Unknown Species · Sonar scan.</strong> Select one detected contact to investigate.";
+        } else if (phase === "tracking") {
+          status.innerHTML = "<strong>Tracking contact.</strong> Stand by while the observation feed locks on.";
+        } else if (phase === "observe") {
+          status.innerHTML = "<strong>Visual contact acquired.</strong> Observe the organism, then attempt to capture an image.";
+        } else if (phase === "capture") {
+          status.innerHTML = "<strong>Capturing image.</strong> Writing the observation frame to the expedition record...";
+        } else if (phase === "drawing") {
+          const checked = expeditionState.mission5.scienceChecks.length;
+          status.innerHTML = "<strong>Camera failure — make a scientific drawing.</strong> Science Check: " + checked + "/5 criteria checked.";
+        }
+        return;
+      }
+
+      checkButton.disabled = completed || !stageHasInput(stage);
+      resetButton.disabled = !stageHasResettableInput(stage) && !completed;
+      nextButton.disabled = !completed || (isLastStage && isFinalMission);
+
+      if (completed) {
+        if (!isLastStage) {
+          status.innerHTML = "<strong>Stage logged.</strong> Press NEXT to continue through " + mission.title + ".";
+        } else if (isFinalMission) {
+          status.innerHTML = "<strong>Expedition complete.</strong> This is where the final save/export or teacher review action can be added.";
+        } else {
+          status.innerHTML = "<strong>Mission logged.</strong> Press NEXT to unlock the next mission.";
+        }
+      } else {
+        status.innerHTML = "<strong>" + mission.title + " · " + stage.label + ".</strong> Complete this stage, then press CHECK.";
+      }
+    }
+
+    function renderDepth() {
+      const completedCount = expeditionState.completedMissions.filter(Boolean).length;
+      const percent = Math.round((completedCount / missionConfig.length) * 100);
+      document.getElementById("depthLabel").textContent = percent + "%";
+      document.getElementById("depthFill").style.width = percent + "%";
+    }
+
+    function openEquipmentSymbols() {
+      const modal = document.getElementById("equipmentSymbolsModal");
+      if (!modal) return;
+      modal.style.display = "block";
+      modal.setAttribute("aria-hidden", "false");
+      if (typeof growModalFromTrigger === "function") {
+        growModalFromTrigger(modal);
+      }
+    }
+
+    function closeEquipmentSymbols() {
+      const modal = document.getElementById("equipmentSymbolsModal");
+      if (!modal) return;
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      loadExpeditionState();
+
+      document.querySelectorAll(".mission-button").forEach(function(button) {
+        button.addEventListener("click", function() {
+          setActiveMission(button.dataset.mission);
+        });
+      });
+
+      document.querySelectorAll(".choice-card").forEach(function(button) {
+        button.setAttribute("aria-pressed", "false");
+        button.addEventListener("click", function() {
+          registerChoice(button);
+        });
+      });
+
+      document.querySelectorAll('#drawingRules input[type="checkbox"]').forEach(function(input) {
+        input.addEventListener("change", syncDrawingRules);
+      });
+
+      document.querySelectorAll("[data-science-check]").forEach(function(input) {
+        input.addEventListener("change", syncMission5ScienceChecks);
+      });
+
+      const equipmentModal = document.getElementById("equipmentSymbolsModal");
+      if (equipmentModal) {
+        equipmentModal.addEventListener("click", function(event) {
+          if (event.target === equipmentModal) closeEquipmentSymbols();
+        });
+      }
+
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") closeEquipmentSymbols();
+      });
+
+      renderExpedition();
+    });
+  </script>
+</body>
+</html>
