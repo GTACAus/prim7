@@ -2728,6 +2728,87 @@
    drop zones, guides, feedback and table styles above.
    ================================================== */
 
+/* Slightly larger step labels and instructions in the line-graph activities */
+:is(
+  #line-graph-elephant,
+  #line-graph-conniwinks,
+  #line-graph-yeast,
+  #line-graph-plants
+) .challenge-step-label {
+  font-size: 0.9rem;
+  padding: 7px 11px;
+}
+
+/* Step 1 table instructions + Step 2 axis instructions */
+:is(
+  #line-graph-elephant,
+  #line-graph-conniwinks,
+  #line-graph-yeast,
+  #line-graph-plants
+) .linegraph-data-card > p,
+:is(
+  #line-graph-elephant,
+  #line-graph-conniwinks,
+  #line-graph-yeast,
+  #line-graph-plants
+) .partb-control-panel > div > p {
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+/* Instructions that appear during the plotting/building steps */
+:is(
+  #line-graph-elephant,
+  #line-graph-conniwinks,
+  #line-graph-yeast,
+  #line-graph-plants
+) .partb-builder-prompt {
+  font-size: 1.02rem;
+}
+
+
+/* Slightly larger numbers on the x- and y-axes */
+:is(
+  #lineGraphElephantSvg,
+  #lineGraphConniwinksSvg,
+  #lineGraphYeastSvg,
+  #lineGraphPlantsSvg
+) .tick-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Keep all line-graph data tables compact and easy to scan. */
+:is(
+  #line-graph-elephant,
+  #line-graph-conniwinks,
+  #line-graph-yeast,
+  #line-graph-plants
+) .linegraph-data-table {
+  width: min(820px, 100%);
+  margin: 0 auto;
+  table-layout: fixed;
+}
+
+/* First column gets a little more room, but stays centred.
+   The remaining four columns share the rest evenly. */
+:is(
+  #line-graph-elephant,
+  #line-graph-conniwinks,
+  #line-graph-yeast,
+  #line-graph-plants
+) .linegraph-data-table th:first-child,
+:is(
+  #line-graph-elephant,
+  #line-graph-conniwinks,
+  #line-graph-yeast,
+  #line-graph-plants
+) .linegraph-data-table td:first-child {
+  width: 28%;
+  text-align: center;
+  vertical-align: middle;
+}
+
 /* Match the Lesson 4 activity-section title treatment used by Project Possum. */
 #line-graph-elephant .section-title {
   background: var(--mint);

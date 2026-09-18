@@ -12,11 +12,11 @@
      ================================================== */
 
   const lineGraphElephantData = [
-    { x: 1, trials: [8, 9, 13] },
-    { x: 2, trials: [5, 7, 6] },
-    { x: 3, trials: [3, 2, 4] },
-    { x: 4, trials: [2, 1, 0] },
-    { x: 5, trials: [0, 0, 0] }
+    { x: 0, trials: [8, 9, 13] },
+    { x: 5, trials: [5, 7, 6] },
+    { x: 10, trials: [3, 2, 4] },
+    { x: 15, trials: [2, 1, 0] },
+    { x: 20, trials: [0, 0, 0] }
   ];
 
   const lineGraphElephantPlot = {
@@ -24,8 +24,7 @@
     right: 710,
     top: 40,
     bottom: 370,
-    maxY: 10,
-    centres: [170, 290, 410, 530, 650]
+    maxY: 10
   };
 
   const lineGraphAxisValues = {
@@ -55,7 +54,8 @@
   }
 
   function lineGraphX(value) {
-    return lineGraphElephantPlot.centres[value - 1];
+    return lineGraphElephantPlot.left +
+      (value / 20) * (lineGraphElephantPlot.right - lineGraphElephantPlot.left);
   }
 
   function lineGraphCardLabel(value) {
@@ -64,7 +64,7 @@
       snails: "Number of elephant snails",
       time: "Time",
       m: "m",
-      none: "No unit",
+      "per-m2": "Number per m²",
       cm: "cm"
     }[value] || value;
   }
@@ -319,7 +319,7 @@
 
   function lineGraphUpdateAxisState() {
     const xReady = lineGraphAxisValues["x-variable"] === "distance" && lineGraphAxisValues["x-unit"] === "m";
-    const yReady = lineGraphAxisValues["y-variable"] === "snails" && lineGraphAxisValues["y-unit"] === "none";
+    const yReady = lineGraphAxisValues["y-variable"] === "snails" && lineGraphAxisValues["y-unit"] === "per-m2";
 
     document.getElementById("lineGraphXAxisVariableDrop").classList.toggle("axis-complete", xReady);
     document.getElementById("lineGraphXAxisUnitDrop").classList.toggle("axis-complete", xReady);
@@ -494,7 +494,7 @@
     const item = lineGraphElephantData[lineGraphPlotIndex];
     const average = lineGraphAverage(item);
     document.getElementById("lineGraphPlotPromptTitle").textContent =
-      "Point " + (lineGraphPlotIndex + 1) + " of " + lineGraphElephantData.length + ": " + item.x + " m and " + partBFormatAverage(average) + " snails";
+      "Point " + (lineGraphPlotIndex + 1) + " of " + lineGraphElephantData.length + ": " + item.x + " m and " + partBFormatAverage(average) + " snails per m²";
 
     if (lineGraphStage === "x") {
       document.getElementById("lineGraphPlotPromptText").textContent =
@@ -678,7 +678,8 @@
     const item = lineGraphElephantData[index];
     circle.setAttribute(
       "aria-label",
-      "Point at " + item.x + " metres and " + partBFormatAverage(lineGraphAverage(item)) + " elephant snails"
+      "Point at " + item.x + " metres and " +
+partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     );
 
     const connect = function() {
@@ -944,11 +945,11 @@
      ================================================== */
 
   const conniwinksData = [
-    { x: 1, trials: [2, 4, 0] },
-    { x: 2, trials: [4, 8, 3] },
-    { x: 3, trials: [8, 8, 5] },
-    { x: 4, trials: [23, 13, 12] },
-    { x: 5, trials: [13, 4, 1] }
+    { x: 0, trials: [2, 4, 0] },
+    { x: 5, trials: [4, 8, 3] },
+    { x: 10, trials: [8, 8, 5] },
+    { x: 15, trials: [23, 13, 12] },
+    { x: 20, trials: [13, 4, 1] }
   ];
 
   const conniwinksPlot = {
@@ -956,8 +957,7 @@
     right: 700,
     top: 40,
     bottom: 370,
-    maxY: 20,
-    centres: [170, 290, 410, 530, 650]
+    maxY: 20
   };
 
   const conniwinksAxisValues = {
@@ -980,7 +980,8 @@
   }
 
   function conniwinksX(value) {
-    return conniwinksPlot.centres[value - 1];
+    return conniwinksPlot.left +
+      (value / 20) * (conniwinksPlot.right - conniwinksPlot.left);
   }
 
   function conniwinksY(value) {
@@ -994,7 +995,7 @@
       conniwinks: "Number of striped conniwinks",
       time: "Time",
       m: "m",
-      none: "No unit",
+      "per-m2": "Number per m²",
       cm: "cm"
     }[value] || value;
   }
@@ -1186,7 +1187,7 @@
 
   function conniwinksUpdateAxisState() {
     const xReady = conniwinksAxisValues["x-variable"] === "distance" && conniwinksAxisValues["x-unit"] === "m";
-    const yReady = conniwinksAxisValues["y-variable"] === "conniwinks" && conniwinksAxisValues["y-unit"] === "none";
+    const yReady = conniwinksAxisValues["y-variable"] === "conniwinks" && conniwinksAxisValues["y-unit"] === "per-m2";
 
     document.getElementById("conniwinksXAxisVariableDrop").classList.toggle("axis-complete", xReady);
     document.getElementById("conniwinksXAxisUnitDrop").classList.toggle("axis-complete", xReady);
@@ -1592,7 +1593,7 @@
         "conniwinksPredictionFeedback",
         "try-again",
         "Look at the whole trend again.",
-        " The averages rise from 2 at 1 m to 16 at 4 m, then fall to 6 at 5 m. Does that show a consistent decrease as distance increases?"
+        " The averages rise from 2 at 0 m to 16 at 15 m, then fall to 6 at 20 m. Does that show a consistent decrease as distance increases?"
       );
       return;
     }
@@ -3938,42 +3939,45 @@
       // <template class="panel-content"> every time the panel opens for a
       // new distance, so any .species-progress element found earlier is
       // stale/detached by the time this runs.
-      const speciesProgress = document.getElementById("species-progress");
+      const progressEl = panelBody.querySelectorAll(".species-progress");
 
       if (!selectedSpecies) {
-        speciesProgress.hidden = true;
-
+        for (const speciesProgress of progressEl) {
+          speciesProgress.hidden = true;
+        }
         if (graphToggleButton) graphToggleButton.disabled = true;
         return;
       }
       const { found, max } = totalsFor(selectedSpecies);
 
-      const title = speciesProgress.querySelector(".species-progress-title");
-      const count = speciesProgress.querySelector(".species-progress-count");
-      speciesProgress.hidden = false;
-      title.textContent = selectedSpecies + ": found ";
-      count.textContent = found + " of " + max
-        + (isGraphMode ? " — click the dots to connect them into a line." : "");
+      for (const speciesProgress of progressEl) {
+        
+        const title = speciesProgress.querySelector(".species-progress-title");
+        const count = speciesProgress.querySelector(".species-progress-count");
+        speciesProgress.hidden = false;
+        title.textContent = selectedSpecies + ": found ";
+        count.textContent = found + " of " + max
+          + (isGraphMode ? " — click the dots to connect them into a line." : "");
 
-      count.animate([
-        {
-          opacity: 0,
-          transform: "translateY(0) scale(0.5)"
-        },
-        {
-          opacity: 1,
-          transform: "translateY(-6px)"
-        },
-        {
-          transform: "translateY(2px) scale(1)"
-        },
-        {
-          transform: "translateY(0)"
-        },
-      ], {
-        duration: 500
-      });
-
+        count.animate([
+          {
+            opacity: 0,
+            transform: "translateY(0) scale(0.5)"
+          },
+          {
+            opacity: 1,
+            transform: "translateY(-6px)"
+          },
+          {
+            transform: "translateY(2px) scale(1)"
+          },
+          {
+            transform: "translateY(0)"
+          },
+        ], {
+          duration: 500
+        });
+      }
       if (graphToggleButton) {
         graphToggleButton.disabled = checkAllAnimalsFound(max, found);
       }
@@ -3981,6 +3985,7 @@
 
     function allTargetSpeciesFound() {
       return TARGET_SPECIES.some((name) => {
+        console.log(name);
         const { found, max } = totalsFor(name);
 
         return max > 0 && found === max;
