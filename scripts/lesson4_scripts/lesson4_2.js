@@ -494,7 +494,7 @@
     const item = lineGraphElephantData[lineGraphPlotIndex];
     const average = lineGraphAverage(item);
     document.getElementById("lineGraphPlotPromptTitle").textContent =
-      "Point " + (lineGraphPlotIndex + 1) + " of " + lineGraphElephantData.length + ": " + item.x + " m and " + partBFormatAverage(average) + " snails";
+      "Point " + (lineGraphPlotIndex + 1) + " of " + lineGraphElephantData.length + ": " + item.x + " m and " + partBFormatAverage(average) + " snails per m²";
 
     if (lineGraphStage === "x") {
       document.getElementById("lineGraphPlotPromptText").textContent =
@@ -678,7 +678,8 @@
     const item = lineGraphElephantData[index];
     circle.setAttribute(
       "aria-label",
-      "Point at " + item.x + " metres and " + partBFormatAverage(lineGraphAverage(item)) + " elephant snails"
+      "Point at " + item.x + " metres and " +
+partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     );
 
     const connect = function() {
@@ -1592,7 +1593,7 @@
         "conniwinksPredictionFeedback",
         "try-again",
         "Look at the whole trend again.",
-        " The averages rise from 2 at 1 m to 16 at 4 m, then fall to 6 at 5 m. Does that show a consistent decrease as distance increases?"
+        " The averages rise from 2 at 0 m to 16 at 15 m, then fall to 6 at 20 m. Does that show a consistent decrease as distance increases?"
       );
       return;
     }
