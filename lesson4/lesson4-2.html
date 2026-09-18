@@ -237,127 +237,109 @@
     -->
     <section id="number-line-activity" class="section locked" aria-labelledby="activity-instructions" data-progress-reset>
       <h2 class="section-title">Explore the distances</h2>
-    <div class="diagram-activity" aria-label="Interactive 0 to 20 metre number line">
-      <span class="challenge-step-label">Step 1 · Collect the data</span>
-      <p>
-        Start at <strong>0 metres</strong>. Each labelled point is another 5 metres along
-        the path. What changes as the number gets larger?
-      </p>
-      <p class="activity-instruction">
-        Select a point of the number line below then select an animal to start looking for it at that point.
-      </p>
-      <p class="activity-note" role="status" aria-live="polite">
-        Select a point to look for the animals at that distance.
-      </p>
-      
-      <div class="line-frame">
-        <!-- <button class="line-arrow line-arrow--back" type="button" aria-label="Move back 5 metres">
-          <svg viewBox="0 0 24 24"><path d="M15 4 7 12l8 8"/></svg>
-        </button> -->
 
-        <div class="line-panel-box">
-          <div
-            id="number-line-animal-buttons"
-            class="species-select-row"
-            role="radiogroup"
-            aria-label="Choose which animal to search for"
-          >
-            <div class="species-select-button-wrap">
-              <button type="button" class="species-select-button" data-species="Striped Conniwink" aria-pressed="false" disabled>
-                <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/conniwink1.png" alt="">
-              </button>
-              <span>Striped Conniwink</span>
+      <div class="diagram-activity number-line-workspace" aria-label="Interactive 0 to 20 metre number line">
+        <span class="challenge-step-label">Step 1 · Collect the data</span>
+        <p>
+          Start at <strong>0 metres</strong>. Each labelled point is another 5 metres along
+          the path. What changes as the number gets larger?
+        </p>
+        <p class="activity-instruction">
+          Select a point on the number line, then choose an animal to look for at that distance.
+          The same animal stays selected as you move along the rock platform.
+        </p>
+        <p class="activity-note" role="status" aria-live="polite">
+          Select a point to look for the animals at that distance.
+        </p>
+
+        <div class="line-frame">
+          <div class="line-panel-box">
+            <div
+              id="number-line-animal-buttons"
+              class="species-select-row"
+              role="radiogroup"
+              aria-label="Choose which animal to search for and graph"
+            >
+              <div class="species-select-button-wrap">
+                <button type="button" class="species-select-button" data-species="Striped Conniwink" aria-pressed="false" disabled>
+                  <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/conniwink1.png" alt="">
+                </button>
+                <span>Striped Conniwink</span>
+              </div>
+              <div class="species-select-button-wrap">
+                <button type="button" class="species-select-button" data-species="Smooth Limpet" aria-pressed="false" disabled>
+                  <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/limpet1.png" alt="">
+                </button>
+                <span>Smooth Limpet</span>
+              </div>
+              <div class="species-select-button-wrap">
+                <button type="button" class="species-select-button" data-species="Elephant Snail" aria-pressed="false" disabled>
+                  <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/Elephantsnail1.png" alt="">
+                </button>
+                <span>Elephant Snail</span>
+              </div>
             </div>
-            <div class="species-select-button-wrap">
-              <button type="button" class="species-select-button" data-species="Smooth Limpet" aria-pressed="false" disabled>
-                <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/limpet1.png" alt="">
-              </button>
-              <span>Smooth Limpet</span>
+
+            <div class="stage-panel" role="region" aria-label="Selected distance details">
+              <button class="panel-close" type="button" aria-label="Close panel">×</button>
+              <div class="panel-body"></div>
             </div>
-            <div class="species-select-button-wrap">
-              <button type="button" class="species-select-button" data-species="Elephant Snail" aria-pressed="false" disabled>
-                <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/Elephantsnail1.png" alt="">
-              </button>
-              <span>Elephant Snail</span>
+
+            <div class="line-stage">
+              <img class="person-marker noselect" src="../images/lesson4/number_line_activity/person.png" alt="Person on the number line">
+              <div class="line-track number-line">
+                <button class="line-point" type="button" data-distance="0" style="left: 10%;" aria-label="Open content for 0 metres">
+                  <span class="line-point-label">0 m</span>
+                </button>
+                <button class="line-point" type="button" data-distance="5" style="left: 30%;" aria-label="Open content for 5 metres">
+                  <span class="line-point-label">5 m</span>
+                </button>
+                <button class="line-point" type="button" data-distance="10" style="left: 50%;" aria-label="Open content for 10 metres">
+                  <span class="line-point-label">10 m</span>
+                </button>
+                <button class="line-point" type="button" data-distance="15" style="left: 70%;" aria-label="Open content for 15 metres">
+                  <span class="line-point-label">15 m</span>
+                </button>
+                <button class="line-point" type="button" data-distance="20" style="left: 90%;" aria-label="Open content for 20 metres">
+                  <span class="line-point-label">20 m</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="number-line-container" class="number-line-inline-results" aria-labelledby="animal-tally-heading">
+              <div class="number-line-results-heading">
+                <span id="animal-tally-heading" class="challenge-step-label">Step 2 · Count by distance</span>
+                <p>Counts for the selected animal appear under the matching distance.</p>
+              </div>
+
+              <div class="graph-area">
+                <div class="bar-stack-chart is-empty">
+                  <div class="y-axis"></div>
+                  <div class="bar-stack-row"></div>
+                </div>
+
+                <div class="graph-build-prompt" hidden>
+                  <span class="challenge-step-label">Step 3 · Make the line graph</span>
+                  <p class="graph-build-instruction">Finish finding the selected animal first.</p>
+                  <div class="graph-toggle-row">
+                    <button type="button" class="graph-toggle-button" disabled>Show data points</button>
+                    <button type="button" class="hide-counters-button" hidden>Hide counters</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="graph-complete-feedback" role="status" aria-live="polite" hidden>
+                Line graph complete! You've connected all five data points.
+              </div>
             </div>
           </div>
-          <!-- Single large panel, lives above the track, not tied to one point's position -->
-          <div class="stage-panel" role="region" aria-label="Selected distance details">
-            <button class="panel-close" type="button" aria-label="Close panel">×</button>
-            <div class="panel-body"></div>
-          </div>
-          <div class="line-stage">
-            <img class="person-marker noselect" src="../images/lesson4/number_line_activity/person.png" alt="Person on the number line">
-            <div class="line-track number-line">
-              <button class="line-point" type="button" data-distance="0" style="left: 1%;" aria-label="Open content for 0 metres">
-                <span class="line-point-label">0 m</span>
-              </button>
-              <button class="line-point" type="button" data-distance="5" style="left: 25%;" aria-label="Open content for 5 metres">
-                <span class="line-point-label">5 m</span>
-              </button>
-              <button class="line-point" type="button" data-distance="10" style="left: 50%;" aria-label="Open content for 10 metres">
-                <span class="line-point-label">10 m</span>
-              </button>
-              <button class="line-point" type="button" data-distance="15" style="left: 75%;" aria-label="Open content for 15 metres">
-                <span class="line-point-label">15 m</span>
-              </button>
-              <button class="line-point" type="button" data-distance="20" style="left: 99%;" aria-label="Open content for 20 metres">
-                <span class="line-point-label">20 m</span>
-              </button>
-            </div>
-          </div>
         </div>
 
-        <!-- <button class="line-arrow line-arrow--forward" type="button" aria-label="Move forward 5 metres">
-          <svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8"/></svg>
-        </button> -->
-      </div>
-      <div class="instruction-card-actions">
-        <button id="reset-activity-button" class="reset-btn general-button" type="button">Reset activity</button>
-      </div>
-    </div>
-
-    <div id="number-line-container" class="diagram-activity" aria-labelledby="animal-tally-heading">
-      <h2 id="animal-tally-heading" class="challenge-step-label">Step 2 · Count by distance</h2>
-      <p>
-        Choose an animal below, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
-      </p>
-      
-      <div id="graph-species-buttons" class="species-select-row">
-        <div class="species-select-button-wrap">
-          <button type="button" class="species-select-button" data-species="Striped Conniwink" aria-pressed="false">
-            <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/conniwink1.png" alt="">
-          </button>
-          <span>Striped Conniwink</span>
-        </div>
-        <div class="species-select-button-wrap">
-          <button type="button" class="species-select-button" data-species="Smooth Limpet" aria-pressed="false">
-            <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/limpet1.png" alt="">
-          </button>
-          <span>Smooth Limpet</span>
-        </div>
-        <div class="species-select-button-wrap">
-          <button type="button" class="species-select-button" data-species="Elephant Snail" aria-pressed="false">
-            <img class="noselect" src="../images/lesson4/number_line_activity/Seasnails Scoring/Animals Images To use/Elephantsnail1.png" alt="">
-          </button>
-          <span>Elephant Snail</span>
+        <div class="instruction-card-actions">
+          <button id="reset-activity-button" class="reset-btn general-button" type="button">Reset activity</button>
         </div>
       </div>
 
-      <div class="graph-area">
-        <div class="bar-stack-chart">
-          <div class="y-axis"></div>
-          <div class="bar-stack-row"></div>
-        </div>
-        <div class="graph-toggle-row">
-          <button type="button" class="graph-toggle-button" disabled>Show line graph</button>
-          <button type="button" class="hide-counters-button" hidden>Hide Counters</button>
-        </div>
-      </div>
-      <div class="graph-complete-feedback" role="status" aria-live="polite" hidden>
-        Line graph complete! You've connected every point for each animal.
-      </div>
-    </div>
     <button
       id="number-line-next"
       class="next-button general-button"

@@ -900,3 +900,325 @@
     width: 60px;
     }
 }
+
+/* =================================================================
+   NUMBER LINE ACTIVITY - COMPACT INTEGRATED LAYOUT
+   Keeps the original activity logic/visual language, but uses one
+   species picker and aligns the 5 distance points with the 5 graph
+   columns beneath them.
+   ================================================================= */
+
+.number-line-workspace .line-frame {
+    align-items: flex-start;
+}
+
+.number-line-workspace .line-panel-box {
+    grid-template-columns: minmax(120px, 170px) minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 14px 18px;
+    width: 100%;
+    max-width: 920px;
+}
+
+/* The same three buttons control both searching and graphing. */
+.number-line-workspace #number-line-animal-buttons {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    align-self: start;
+    padding-top: 2px;
+}
+
+.number-line-workspace #number-line-animal-buttons .species-select-button {
+    width: clamp(68px, 7vw, 84px);
+    height: clamp(68px, 7vw, 84px);
+    padding: 6px;
+}
+
+.number-line-workspace #number-line-animal-buttons .species-select-button-wrap {
+    gap: 6px;
+}
+
+.number-line-workspace #number-line-animal-buttons .species-select-button-wrap span {
+    max-width: 135px;
+    font-size: .86rem;
+    line-height: 1.2;
+}
+
+/* A closed investigation panel should take up no vertical space at all. */
+.number-line-workspace .stage-panel:not(.is-open) {
+    display: none;
+}
+
+.number-line-workspace .stage-panel.is-open {
+    display: block;
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+}
+
+/* The pop-out arrow was designed for the old animated panel and becomes
+   visually misleading now that the panel simply opens compactly. */
+.number-line-workspace .stage-panel::after {
+    display: none;
+}
+
+/* Keep the search photo useful without letting it dominate the whole page. */
+.number-line-workspace .animal-stage-wrap {
+    width: min(440px, 92%);
+    margin: 8px auto 0;
+}
+
+/* Prevent hidden animals appearing before the survey backdrop is ready. */
+.number-line-workspace .animal-stage .stage-bg {
+    opacity: 0;
+}
+
+.number-line-workspace .animal-stage.is-ready .stage-bg {
+    opacity: 1;
+    transition: opacity .16s ease;
+}
+
+.number-line-workspace .animal-stage:not(.is-ready) .animal-hotspot {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.number-line-workspace .animal-stage:not(.is-ready)::before {
+    content: "Loading survey image…";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    background: var(--paper);
+    color: var(--muted);
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.number-line-workspace .animal-stage.has-load-error::before {
+    content: "Survey image could not be loaded.";
+    background: var(--soft-orange);
+    color: var(--text);
+}
+
+/* The number-line track uses the full right-column width. The 10/30/50/70/90
+   point positions therefore match the centres of five equal graph columns. */
+.number-line-workspace .line-stage {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    padding-inline: 0;
+}
+
+.number-line-workspace .line-track {
+    width: 100%;
+}
+
+/* Step 2 stays directly under the walking track instead of becoming a
+   second full-width card with another set of animal buttons. */
+.number-line-workspace .number-line-inline-results {
+    grid-column: 2;
+    grid-row: 3;
+    width: 100%;
+    min-width: 0;
+    margin-top: 2px;
+    padding-top: 14px;
+    border-top: 2px dashed rgba(48, 51, 47, .35);
+}
+
+.number-line-results-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.number-line-results-heading .challenge-step-label {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.number-line-results-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .88rem;
+    line-height: 1.35;
+    text-align: right;
+}
+
+.number-line-workspace .graph-area,
+.number-line-workspace .bar-stack-chart {
+    width: 100%;
+}
+
+.number-line-workspace .bar-stack-chart {
+    position: relative;
+    max-width: none;
+}
+
+.number-line-workspace .bar-stack-row {
+    width: 100%;
+    gap: 0;
+}
+
+/* Keep the y-axis out of the flex layout so switching to line-graph mode
+   does not shift the five x positions sideways. */
+.number-line-workspace .y-axis {
+    position: absolute;
+    top: 0;
+    left: -42px;
+    z-index: 4;
+    width: 38px;
+    margin-right: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.number-line-workspace .bar-stack-chart.is-graph-mode .y-axis {
+    width: 38px;
+    margin-right: 0;
+    opacity: 1;
+}
+
+/* Visually connect the person's current distance with the matching count. */
+.number-line-workspace .stack-group {
+    border-radius: 10px;
+    transition: background-color .18s ease, box-shadow .18s ease;
+}
+
+.number-line-workspace .stack-group.is-current-distance {
+    background: rgba(255, 240, 168, .58);
+    box-shadow: inset 0 0 0 2px rgba(255, 205, 29, .7);
+}
+
+.number-line-workspace .bar-stack-row .stack-placeholder {
+    width: 100%;
+    padding: 26px 10px;
+}
+
+@media (max-width: 900px) {
+    .number-line-workspace .line-panel-box {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto auto auto;
+        gap: 12px;
+    }
+
+    .number-line-workspace #number-line-animal-buttons {
+        grid-column: 1;
+        grid-row: 1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 0;
+    }
+
+    .number-line-workspace .stage-panel.is-open {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .number-line-workspace .line-stage {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .number-line-workspace .number-line-inline-results {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    .number-line-results-heading {
+        display: block;
+    }
+
+    .number-line-results-heading p {
+        margin-top: 7px;
+        text-align: left;
+    }
+
+    .number-line-workspace .y-axis {
+        left: 0;
+    }
+}
+
+/* =================================================================
+   NUMBER LINE ACTIVITY - V3 POLISH
+   Clear empty/reset state, a simple reveal-points -> connect-points
+   flow, more breathing room around controls, and better alignment of
+   the species picker while a quadrat is open.
+   ================================================================= */
+
+/* The empty/reset state is a prompt, not a half-built graph. */
+.number-line-workspace .bar-stack-chart.is-empty .bar-stack-row::before {
+    display: none;
+}
+
+.number-line-workspace .bar-stack-chart.is-empty {
+    min-height: 58px;
+}
+
+/* Step 3 appears only after every animal of the selected species has
+   been found, so students do not see a disabled graph button early. */
+.number-line-workspace .graph-build-prompt {
+    width: min(680px, 100%);
+    margin: 20px auto 4px;
+    padding: 14px 16px;
+    background: var(--soft-blue);
+    border: 2px solid var(--charcoal);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.number-line-workspace .graph-build-prompt[hidden] {
+    display: none !important;
+}
+
+.number-line-workspace .graph-build-prompt .challenge-step-label {
+    margin-bottom: 8px;
+}
+
+.number-line-workspace .graph-build-instruction {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.45;
+}
+
+.number-line-workspace .graph-build-prompt .graph-toggle-row {
+    margin-top: 12px;
+}
+
+/* Give the graph controls their own space instead of visually merging
+   with the reset control below the activity. */
+.number-line-workspace .number-line-inline-results {
+    padding-bottom: 10px;
+}
+
+.number-line-workspace .instruction-card-actions {
+    margin-top: 28px;
+}
+
+/* While the large quadrat panel is open, centre the animal selector
+   beside that panel rather than leaving it pinned to the panel's top. */
+@media (min-width: 901px) {
+    .number-line-workspace .line-panel-box:has(.stage-panel.is-open) #number-line-animal-buttons {
+        grid-row: 1;
+        align-self: center;
+    }
+}
+
+/* Make the next point visually obvious during the connect-the-points
+   step. The JS also rejects out-of-order clicks with a short shake. */
+.number-line-workspace .line-graph-point.is-next:not(.is-connected) {
+    fill: var(--soft-yellow);
+    stroke-width: 5;
+    filter: drop-shadow(0 0 3px var(--yellow));
+}

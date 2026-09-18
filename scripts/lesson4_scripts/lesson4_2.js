@@ -3441,6 +3441,8 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     const yAxis = activity.querySelector(".y-axis");
     const graphToggleButton = activity.querySelector(".graph-toggle-button");
     const countersHiddenButton = activity.querySelector(".hide-counters-button");
+    const graphBuildPrompt = activity.querySelector(".graph-build-prompt");
+    const graphBuildInstruction = activity.querySelector(".graph-build-instruction");
 
     const graphCompleteFeedback = activity.querySelector(".graph-complete-feedback");
     
@@ -3449,11 +3451,6 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
               .querySelectorAll(".species-select-button")
     );
 
-    const graphSpeciesButtons = Array.from(
-      document.getElementById("graph-species-buttons").querySelectorAll(".species-select-button")
-    );
-
-    const numberLineContainer = activity.querySelector("#number-line-container");
     const SVG_NS = "http://www.w3.org/2000/svg";
 
     // null = nothing chosen yet; person sits at its resting 0 m position
@@ -3475,9 +3472,9 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
        shows, for the selected species only, how many were found at
        each distance point (0/5/10/15/20 m) — one cylinder-stack column
        per distance. Once every hotspot for the selected species has
-       been found, the "Show line graph" button unlocks and swaps the
-       columns for a plotted line: distance on the x-axis, count found
-       on the y-axis.
+       been found, a short Step 3 prompt appears. Students first reveal
+       the data points, then click those points from left to right to
+       connect the line: distance on the x-axis, count found on the y-axis.
     --------------------------------------------------------------- */
     const barColours = ["#ffd747", "#7c4dff", "#5cc8ff", "#b7e9a8", "#ff8a65", "#c792ea", "#4fd1c5"];
     const CYLINDER_UNIT_HEIGHT = 10;
@@ -3502,6 +3499,25 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     let isGraphMode = false;
     let isCountersHidden = false;
     let activeUnitHeight = CYLINDER_UNIT_HEIGHT;
+
+    // Start loading the large survey backdrops before a student opens a
+    // distance panel. The actual hotspots remain hidden until the matching
+    // backdrop has loaded, so the animal positions cannot flash first.
+    const preloadedNumberLineImages = [];
+
+    function preloadNumberLineImage(src) {
+      if (!src) return;
+      const image = new Image();
+      image.decoding = "async";
+      image.src = src;
+      preloadedNumberLineImages.push(image);
+    }
+
+    preloadNumberLineImage("../images/lesson4/number_line_activity/Rockplatform.png");
+    templates.forEach((template) => {
+      const background = template.content.querySelector(".stage-bg");
+      if (background) preloadNumberLineImage(background.getAttribute("src"));
+    });
 
     speciesButtons.forEach((btn, i) => {
       speciesColours.set(btn.dataset.species, barColours[i % barColours.length]);
@@ -3785,6 +3801,12 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
           lineOverlaySvg.appendChild(circle);
         }
         circle.classList.toggle("is-connected", connectedOrder.includes(distance));
+        circle.classList.toggle(
+          "is-next",
+          isGraphMode &&
+            connectedOrder.length < DISTANCES.length &&
+            distance === DISTANCES[connectedOrder.length]
+        );
       });
 
       // Drop ticks/circles for distances that no longer apply (only
@@ -3869,40 +3891,73 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       checkGraphComplete();
     }
 
-    // Marks one plotted point as connected (in click order) and asks
-    // the polyline to redraw through everything connected so far.
-    // Clicking an already-connected point does nothing — each point
-    // can only join the line once.
-    function connectGraphPoint(circle, distance) {
+    function refreshGraphPointGuidance() {
       const connectedOrder = getConnectedOrder();
+      const nextDistance = connectedOrder.length < DISTANCES.length
+        ? DISTANCES[connectedOrder.length]
+        : null;
 
-      // Don't select the same point twice.
+      circlesByDistance.forEach((circle, distance) => {
+        circle.classList.toggle("is-connected", connectedOrder.includes(distance));
+        circle.classList.toggle(
+          "is-next",
+          isGraphMode && nextDistance !== null && distance === nextDistance
+        );
+      });
+    }
+
+    // Students connect the graph in x-axis order. This keeps the interaction
+    // simple and makes the line appear in the same left-to-right direction
+    // that they read the distance scale.
+    function connectGraphPoint(circle, distance) {
+      if (!selectedSpecies || !isGraphMode) return;
+
+      const connectedOrder = getConnectedOrder();
+      const expectedDistance = DISTANCES[connectedOrder.length];
+
       if (connectedOrder.includes(distance)) return;
+
+      if (distance !== expectedDistance) {
+        circle.classList.remove("is-shake");
+        void circle.getBoundingClientRect();
+        circle.classList.add("is-shake");
+        window.setTimeout(() => circle.classList.remove("is-shake"), 320);
+
+        if (graphBuildInstruction) {
+          graphBuildInstruction.textContent =
+            "Connect the points from left to right. Click " + expectedDistance + " m next.";
+        }
+        return;
+      }
 
       connectedOrder.push(distance);
       graphConnections.set(selectedSpecies, connectedOrder);
 
-      circle.classList.add("is-connected");
-
+      refreshGraphPointGuidance();
       redrawPolyline();
+      updateProgressAndGraphButton();
     }
 
     // Every point connected == the graph is done. Shows/hides the
     // completion banner below the "Count by distance" activity-card.
     function checkGraphComplete() {
-      const graphComplete = TARGET_SPECIES.some((name) => {
+      const anyGraphComplete = TARGET_SPECIES.some((name) => {
         const connections = graphConnections.get(name) || [];
-
         return connections.length === DISTANCES.length;
       });
 
-      if (graphCompleteFeedback) {
-        graphCompleteFeedback.hidden = !graphComplete;
-      }
-      
-      nextButton.hidden = !graphComplete;
+      const currentGraphComplete = Boolean(
+        selectedSpecies &&
+        (graphConnections.get(selectedSpecies) || []).length === DISTANCES.length
+      );
 
-      return graphComplete;
+      if (graphCompleteFeedback) {
+        graphCompleteFeedback.hidden = !currentGraphComplete;
+      }
+
+      nextButton.hidden = !anyGraphComplete;
+
+      return currentGraphComplete;
     }
 
     // Clears the click-to-connect progress and hides the completion
@@ -3933,8 +3988,6 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     }
 
     function updateProgressAndGraphButton() {
-      if (countersHiddenButton) countersHiddenButton.hidden = !isGraphMode;
-
       // Queried fresh each call: panelBody is emptied and refilled from a
       // <template class="panel-content"> every time the panel opens for a
       // new distance, so any .species-progress element found earlier is
@@ -3945,117 +3998,90 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         for (const speciesProgress of progressEl) {
           speciesProgress.hidden = true;
         }
-        if (graphToggleButton) graphToggleButton.disabled = true;
+
+        if (graphBuildPrompt) graphBuildPrompt.hidden = true;
+        if (graphToggleButton) {
+          graphToggleButton.disabled = true;
+          graphToggleButton.hidden = false;
+          graphToggleButton.textContent = "Show data points";
+        }
+        if (countersHiddenButton) {
+          countersHiddenButton.hidden = true;
+          countersHiddenButton.classList.remove("is-active");
+          countersHiddenButton.textContent = "Hide counters";
+        }
         return;
       }
+
       const { found, max } = totalsFor(selectedSpecies);
+      const allFound = max > 0 && found === max;
+      const connectedOrder = getConnectedOrder();
+      const graphComplete = connectedOrder.length === DISTANCES.length;
 
       for (const speciesProgress of progressEl) {
-        
         const title = speciesProgress.querySelector(".species-progress-title");
         const count = speciesProgress.querySelector(".species-progress-count");
         speciesProgress.hidden = false;
         title.textContent = selectedSpecies + ": found ";
-        count.textContent = found + " of " + max
-          + (isGraphMode ? " — click the dots to connect them into a line." : "");
+        count.textContent = found + " of " + max;
 
         count.animate([
-          {
-            opacity: 0,
-            transform: "translateY(0) scale(0.5)"
-          },
-          {
-            opacity: 1,
-            transform: "translateY(-6px)"
-          },
-          {
-            transform: "translateY(2px) scale(1)"
-          },
-          {
-            transform: "translateY(0)"
-          },
-        ], {
-          duration: 500
-        });
+          { opacity: 0, transform: "translateY(0) scale(0.5)" },
+          { opacity: 1, transform: "translateY(-6px)" },
+          { transform: "translateY(2px) scale(1)" },
+          { transform: "translateY(0)" },
+        ], { duration: 500 });
       }
-      if (graphToggleButton) {
-        graphToggleButton.disabled = checkAllAnimalsFound(max, found);
+
+      if (graphBuildPrompt) graphBuildPrompt.hidden = !allFound;
+
+      if (!allFound) {
+        if (graphToggleButton) {
+          graphToggleButton.disabled = true;
+          graphToggleButton.hidden = false;
+          graphToggleButton.textContent = "Show data points";
+        }
+        if (countersHiddenButton) countersHiddenButton.hidden = true;
+        return;
       }
-    }
 
-    function allTargetSpeciesFound() {
-      return TARGET_SPECIES.some((name) => {
-        console.log(name);
-        const { found, max } = totalsFor(name);
+      if (!isGraphMode) {
+        if (graphBuildInstruction) {
+          graphBuildInstruction.textContent =
+            "You found every " + selectedSpecies + ". Now show those five counts as data points.";
+        }
+        if (graphToggleButton) {
+          graphToggleButton.disabled = false;
+          graphToggleButton.hidden = false;
+          graphToggleButton.textContent = "Show data points";
+        }
+        if (countersHiddenButton) countersHiddenButton.hidden = true;
+        return;
+      }
 
-        return max > 0 && found === max;
-      });
+      if (graphToggleButton) graphToggleButton.hidden = true;
+
+      if (graphComplete) {
+        if (graphBuildInstruction) {
+          graphBuildInstruction.textContent =
+            "Great — the counters and the line show the same data. Hide the counters to see the line more clearly.";
+        }
+        if (countersHiddenButton) {
+          countersHiddenButton.hidden = false;
+          countersHiddenButton.textContent = isCountersHidden ? "Show counters" : "Hide counters";
+        }
+      } else {
+        const nextDistance = DISTANCES[connectedOrder.length];
+        if (graphBuildInstruction) {
+          graphBuildInstruction.textContent =
+            "Click the highlighted points from left to right to connect the line. Start with " + nextDistance + " m.";
+        }
+        if (countersHiddenButton) countersHiddenButton.hidden = true;
+      }
     }
 
     function checkAllAnimalsFound(max, found) {
-      if (allTargetSpeciesFound()) {
-        showLineGraphSection();
-      }
-
       return !(max > 0 && found === max);
-    }
-
-    graphSpeciesButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const name = btn.dataset.species;
-
-        selectedSpecies = name;
-
-        isGraphMode = false;
-        isCountersHidden = false;
-
-        if (chartWrap) {
-          chartWrap.classList.remove(
-            "is-graph-mode",
-            "counters-hidden"
-          );
-        }
-
-        if (graphToggleButton) {
-          graphToggleButton.textContent = "Show line graph";
-        }
-
-        if (countersHiddenButton) {
-          countersHiddenButton.classList.remove("is-active");
-          countersHiddenButton.textContent = "Hide Counters";
-        }
-
-        graphSpeciesButtons.forEach((graphBtn) => {
-          graphBtn.classList.toggle(
-            "is-active",
-            graphBtn === btn
-          );
-        });
-
-        renderChart();
-      });
-    });
-
-    function showLineGraphSection() {
-      if (!numberLineContainer) return;
-
-      const wasHidden = numberLineContainer.hidden;
-      numberLineContainer.hidden = false;
-
-      if (!wasHidden) return;
-
-      selectedSpecies = TARGET_SPECIES[0];
-
-      graphSpeciesButtons.forEach((btn) => {
-        btn.classList.toggle(
-          "is-active",
-          btn.dataset.species === selectedSpecies
-        );
-      });
-
-      renderChart();
-      const scrollY = numberLineContainer.scrollTop - 20;
-      numberLineContainer.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     // Persistent per-distance {group, column, label, units} so renderChart()
@@ -4068,6 +4094,15 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     const columnEntriesByDistance = new Map();
     let lastRenderedSpecies = undefined;
 
+    function updateSelectedDistanceHighlight() {
+      columnEntriesByDistance.forEach((entry, distance) => {
+        entry.group.classList.toggle(
+          "is-current-distance",
+          selected !== null && String(selected) === String(distance)
+        );
+      });
+    }
+
     function resetColumnEntries() {
       barRow.innerHTML = "";
       columnEntriesByDistance.clear();
@@ -4078,15 +4113,22 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
 
       if (!selectedSpecies) {
         resetColumnEntries();
+        if (chartWrap) {
+          chartWrap.classList.add("is-empty");
+          chartWrap.classList.remove("is-graph-mode", "counters-hidden");
+          chartWrap.style.removeProperty("--row-height");
+        }
         const placeholder = document.createElement("p");
         placeholder.className = "stack-placeholder";
-        placeholder.textContent = "Choose an animal above to start counting.";
+        placeholder.textContent = "Select a distance, then choose an animal on the left. Its counts will appear here.";
         barRow.appendChild(placeholder);
         if (yAxis) yAxis.innerHTML = "";
         lastRenderedSpecies = null;
         updateProgressAndGraphButton();
         return;
       }
+
+      if (chartWrap) chartWrap.classList.remove("is-empty");
 
       // A fresh species has a completely different dataset (and colour),
       // so there's nothing meaningful to animate between the two — start
@@ -4121,6 +4163,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         if (!entry) {
           const group = document.createElement("div");
           group.className = "stack-group";
+          group.dataset.distance = distance;
 
           const column = document.createElement("div");
           column.className = "bar-stack-column";
@@ -4153,6 +4196,10 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         }
 
         entry.label.innerHTML = distance + " m<span>" + count + "</span>";
+        entry.group.classList.toggle(
+          "is-current-distance",
+          selected !== null && String(selected) === String(distance)
+        );
 
         columnEntries.push({
           group: entry.group,
@@ -4165,6 +4212,44 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       barRow.appendChild(lineOverlaySvg);
       renderLineOverlay(columnEntries);
       updateProgressAndGraphButton();
+    }
+
+    function revealAnimalStageWhenReady(container) {
+      const animalStage = container.querySelector(".animal-stage");
+      const background = animalStage && animalStage.querySelector(".stage-bg");
+      if (!animalStage || !background) return;
+
+      animalStage.classList.remove("is-ready", "has-load-error");
+      animalStage.setAttribute("aria-busy", "true");
+
+      const reveal = () => {
+        const finish = () => {
+          window.requestAnimationFrame(() => {
+            animalStage.classList.add("is-ready");
+            animalStage.removeAttribute("aria-busy");
+          });
+        };
+
+        if (typeof background.decode === "function") {
+          background.decode().catch(() => {}).then(finish);
+        } else {
+          finish();
+        }
+      };
+
+      const fail = () => {
+        animalStage.classList.add("has-load-error");
+        animalStage.removeAttribute("aria-busy");
+      };
+
+      if (background.complete) {
+        if (background.naturalWidth > 0) reveal();
+        else fail();
+        return;
+      }
+
+      background.addEventListener("load", reveal, { once: true });
+      background.addEventListener("error", fail, { once: true });
     }
 
     // Sets up the tint overlay (masked to that hotspot's own sprite, so
@@ -4207,7 +4292,12 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         hotspot.classList.toggle("found", nowFound);
 
         // The counts (and so the point positions) just changed, so any
-        // connections the user had already drawn no longer mean anything.
+        // graph construction based on the previous counts no longer means
+        // anything. Return to the counter view and let the student reveal
+        // the points again once this species is complete.
+        isGraphMode = false;
+        isCountersHidden = false;
+        if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
         resetGraphConnections();
         renderChart();
       });
@@ -4219,10 +4309,14 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       isCountersHidden = false;
       resetGraphConnections();
       if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
-      if (graphToggleButton) graphToggleButton.textContent = "Show line graph";
+      if (graphToggleButton) {
+        graphToggleButton.hidden = false;
+        graphToggleButton.textContent = "Show data points";
+      }
       if (countersHiddenButton) {
+        countersHiddenButton.hidden = true;
         countersHiddenButton.classList.remove("is-active");
-        countersHiddenButton.textContent = "Hide Counters";
+        countersHiddenButton.textContent = "Hide counters";
       }
 
       speciesButtons.forEach((btn) => {
@@ -4241,18 +4335,25 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
 
     if (graphToggleButton) {
       graphToggleButton.addEventListener("click", () => {
-        if (graphToggleButton.disabled) return;
-        isGraphMode = !isGraphMode;
-        if (!isGraphMode) {
-          isCountersHidden = false;
-          if (countersHiddenButton) {
-            countersHiddenButton.classList.remove("is-active");
-            countersHiddenButton.textContent = "Hide Counters";
-          }
+        if (graphToggleButton.disabled || isGraphMode) return;
+
+        // This is intentionally one-way: first reveal the plotted points,
+        // then let the student construct the line. We don't call this
+        // "Show line graph" before a line actually exists.
+        isGraphMode = true;
+        isCountersHidden = false;
+        resetGraphConnections();
+
+        if (chartWrap) {
+          chartWrap.classList.add("is-graph-mode");
+          chartWrap.classList.remove("counters-hidden");
         }
-        if (chartWrap) chartWrap.classList.toggle("is-graph-mode", isGraphMode);
-        if (chartWrap) chartWrap.classList.toggle("counters-hidden", isGraphMode && isCountersHidden);
-        graphToggleButton.textContent = isGraphMode ? "Hide Line Graph" : "Show line graph";
+        if (countersHiddenButton) {
+          countersHiddenButton.hidden = true;
+          countersHiddenButton.classList.remove("is-active");
+          countersHiddenButton.textContent = "Hide counters";
+        }
+
         renderChart();
       });
     }
@@ -4262,7 +4363,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         if (countersHiddenButton.disabled || countersHiddenButton.hidden) return;
         isCountersHidden = !isCountersHidden;
         countersHiddenButton.classList.toggle("is-active", isCountersHidden);
-        countersHiddenButton.textContent = isCountersHidden ? "Show Counters" : "Hide Counters";
+        countersHiddenButton.textContent = isCountersHidden ? "Show counters" : "Hide counters";
         if (chartWrap) chartWrap.classList.toggle("counters-hidden", isCountersHidden);
         renderChart();
       });
@@ -4278,25 +4379,26 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       isGraphMode = false;
       isCountersHidden = false;
       resetAllGraphConnections()
-      if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
-      if (graphToggleButton) graphToggleButton.textContent = "Show line graph";
+      if (chartWrap) {
+        chartWrap.classList.remove("is-graph-mode", "counters-hidden");
+        chartWrap.classList.add("is-empty");
+        chartWrap.style.removeProperty("--row-height");
+      }
+      if (graphBuildPrompt) graphBuildPrompt.hidden = true;
+      if (graphToggleButton) {
+        graphToggleButton.hidden = false;
+        graphToggleButton.textContent = "Show data points";
+      }
       if (countersHiddenButton) {
+        countersHiddenButton.hidden = true;
         countersHiddenButton.classList.remove("is-active");
-        countersHiddenButton.textContent = "Hide Counters";
+        countersHiddenButton.textContent = "Hide counters";
       }
       speciesButtons.forEach((btn) => {
         btn.classList.remove("is-active");
         btn.setAttribute("aria-pressed", "false");
         btn.disabled = true;
       });
-
-      graphSpeciesButtons.forEach((btn) => {
-        btn.classList.remove("is-active");
-      });
-
-      if (numberLineContainer) {
-        numberLineContainer.hidden = true;
-      }
 
       if (panelBody) wireUpHotspots(panelBody);
       renderChart();
@@ -4310,6 +4412,17 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
 
     function clamp(distance) {
       return Math.min(MAX_DISTANCE, Math.max(MIN_DISTANCE, distance));
+    }
+
+    function personLeftForPoint(point, fallbackDistance) {
+      if (!point) return percentFor(fallbackDistance);
+
+      const stageRect = stage.getBoundingClientRect();
+      const pointRect = point.getBoundingClientRect();
+      if (!stageRect.width || !pointRect.width) return percentFor(fallbackDistance);
+
+      const pointCentre = pointRect.left + pointRect.width / 2;
+      return ((pointCentre - stageRect.left) / stageRect.width) * 100;
     }
 
     // function updateArrowStates(baseDistance) {
@@ -4337,6 +4450,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       if (template) {       
         panelBody.appendChild(template.content.cloneNode(true));
         wireUpHotspots(panelBody);
+        revealAnimalStageWhenReady(panelBody);
       }
     }
 
@@ -4381,6 +4495,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       if (!point) return;
 
       selected = target;
+      updateSelectedDistanceHighlight();
       
       speciesButtons.forEach((btn) => {
         btn.disabled = false;
@@ -4434,9 +4549,12 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       [PersonMove.PLACING]: "person_investigating.gif",
     };
 
+    Object.values(PERSON_IMAGES).forEach((filename) => {
+      preloadNumberLineImage(PERSON_IMAGE_BASE + filename);
+    });
+
     const STANDING_GIF_DURATION_MS = 1300; // sum of person_standing.gif's frame delays
     const INVESTIGATE_GIF_DURATION_MS = 1300; // sum of person_investigating.gif's frame delays
-    const PERSON_TRANSLATE_OFFSET = 20;
 
     // --- Person-marker state machine -----------------------------------
     // States: IDLE (the very first resting state, at 0 m, before anything
@@ -4502,8 +4620,8 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       currentDistance = target;
 
       person.src = PERSON_IMAGE_BASE + PERSON_IMAGES[PersonMove.WALKING];
-      person.style.transform = `scaleX(${direction}) translateX(${-direction * PERSON_TRANSLATE_OFFSET}px)`;
-      person.style.left = percentFor(target) + "%";
+      person.style.transform = `translateX(-50%) scaleX(${direction})`;
+      person.style.left = personLeftForPoint(point, target) + "%";
 
       personArriveHandler = (event) => {
         if (event.propertyName !== "left") return;
@@ -4528,7 +4646,8 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     // above; target is a distance in metres (0-20), not a pixel offset.
     function movePerson(target, point) {
       if (personState === PersonMove.PLACING && target === currentDistance) {
-        return; // already open on this point - no state change
+        if (!panel.classList.contains("is-open")) showPanelFor(target, point);
+        return;
       }
 
       if (personState === PersonMove.IDLE && target === currentDistance) {
@@ -4553,8 +4672,9 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     function resetPerson() {
       enterIdle();
       currentDistance = 0;
-      person.style.left = percentFor(0) + "%";
-      person.style.transform = "";
+      const firstPoint = points.find((point) => point.dataset.distance === String(MIN_DISTANCE));
+      person.style.left = personLeftForPoint(firstPoint, MIN_DISTANCE) + "%";
+      person.style.transform = "translateX(-50%)";
     }
 
     points.forEach((point) => {
