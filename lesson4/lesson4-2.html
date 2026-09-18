@@ -223,13 +223,20 @@
           alt="Animated diagram showing the rock platform changing between low tide and high tide"
         />
       </div>
+      <button
+        class="next-button general-button"
+        onclick="unlockSection('number-line-activity', 'marine-snail-context')"
+      >
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
     </section>
 
     <!--
       COLLEAGUE-OWNED EXPLORE-THE-DISTANCES ACTIVITY BELOW.
       This section is intentionally left unchanged.
     -->
-    <section id="number-line-activity" class="section" aria-labelledby="activity-instructions" data-progress-reset>
+    <section id="number-line-activity" class="section locked" aria-labelledby="activity-instructions" data-progress-reset>
       <h2 class="section-title">Explore the distances</h2>
     <div class="diagram-activity" aria-label="Interactive 0 to 20 metre number line">
       <span class="challenge-step-label">Step 1 · Collect the data</span>
@@ -281,8 +288,8 @@
             <div class="panel-body"></div>
           </div>
           <div class="line-stage">
+            <img class="person-marker noselect" src="../images/lesson4/number_line_activity/person.png" alt="Person on the number line">
             <div class="line-track number-line">
-              <img class="person-marker noselect" src="../images/lesson4/number_line_activity/person.png" alt="Person on the number line">
               <button class="line-point" type="button" data-distance="0" style="left: 1%;" aria-label="Open content for 0 metres">
                 <span class="line-point-label">0 m</span>
               </button>
@@ -311,7 +318,7 @@
       </div>
     </div>
 
-    <div id="number-line-container" class="diagram-activity" aria-labelledby="animal-tally-heading" >
+    <div id="number-line-container" class="diagram-activity" aria-labelledby="animal-tally-heading" hidden>
       <h2 id="animal-tally-heading" class="challenge-step-label">Step 2 · Count by distance</h2>
       <p>
         Choose an animal below, then open each distance panel and click every one you find there — this chart shows how many turned up at each distance.
@@ -351,17 +358,16 @@
       <div class="graph-complete-feedback" role="status" aria-live="polite" hidden>
         Line graph complete! You've connected every point for each animal.
       </div>
-      <button
-        id="number-line-next"
-        class="next-button general-button"
-        onclick="unlockSection('line-graph-elephant', 'number-line-activity')"
-        hidden
-      >
-        Next
-      </button>
-      <p class="completed-note">Completed — next activity unlocked.</p>
     </div>
-    
+    <button
+      id="number-line-next"
+      class="next-button general-button"
+      onclick="unlockSection('line-graph-elephant', 'number-line-activity')"
+      hidden
+    >
+      Next
+    </button>
+    <p class="completed-note">Completed — next activity unlocked.</p>
     <!--
       Per-distance content. Edit freely — headings, paragraphs, images, whatever
       you need. The script clones whichever <template> matches the selected
@@ -845,7 +851,7 @@
   </section>
 
   <!-- ============ LINE GRAPH: TURN A DATA TABLE INTO A GRAPH ============ -->
-  <section class="section student-challenge linegraph-build-section"
+  <section class="section student-challenge linegraph-build-section locked"
           id="line-graph-elephant"
           aria-labelledby="lineGraphElephantTitle">
 
@@ -1074,12 +1080,20 @@
           </div>
         </div>
       </div>
-
+      <button
+        id="graph-elephant-next"
+        class="next-button general-button"
+        onclick="unlockSection('line-graph-conniwinks', 'line-graph-elephant')"
+        hidden
+      >
+        Next
+      </button>
+      <p class="completed-note">Completed — next activity unlocked.</p>
   </section>
   <!-- ============ LINE GRAPH ACTIVITY END ============ -->
 
   <!-- ============ SECTION C: YOUR TURN - STRIPED CONNIWINKS ============ -->
-  <section class="section student-challenge linegraph-build-section"
+  <section class="section student-challenge linegraph-build-section locked"
           id="line-graph-conniwinks"
           aria-labelledby="lineGraphConniwinksTitle">
 
@@ -1277,13 +1291,21 @@
         </div>
       </div>
     </div>
-
+    <button
+      id="graph-conniwinks-next"
+      class="next-button general-button"
+      onclick="unlockSection('line-graph-yeast', 'line-graph-conniwinks')"
+      hidden
+    >
+      Next
+    </button>
+    <p class="completed-note">Completed — next activity unlocked.</p>
   </section>
   <!-- ============ SECTION C END ============ -->
 
 
   <!-- ============ SECTION 4: PRACTISE - YEAST ACTIVITY ============ -->
-  <section class="section student-challenge linegraph-build-section"
+  <section class="section student-challenge linegraph-build-section locked"
           id="line-graph-yeast"
           aria-labelledby="lineGraphYeastTitle">
 
@@ -1503,12 +1525,19 @@
         </div>
       </div>
     </div>
-
+    <button
+      id="graph-yeast-next"
+      class="next-button general-button"
+      onclick="unlockSection('line-graph-yeast', 'line-graph-conniwinks')"
+      
+    >
+      Next
+    </button>
   </section>
   <!-- ============ SECTION 4 END ============ -->
 
   <!-- ============ SECTION E: SPECIAL CASE - TIME ON THE X-AXIS ============ -->
-  <section class="section student-challenge linegraph-build-section"
+  <section class="section student-challenge linegraph-build-section locked"
           id="line-graph-plants"
           aria-labelledby="lineGraphPlantsTitle">
 
