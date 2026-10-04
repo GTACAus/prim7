@@ -2227,16 +2227,15 @@
           <div class="lesson-heading">
             <span class="lesson-label">Lesson 5</span>
             <h1 id="teacherTrigger">
-              Using Bar Graphs to Visualise Data
+              Scientific Drawings
             </h1>
             <p class="lesson-summary">
-              Bar graphs help scientists turn fair-test data into a visual comparison, making
-              <strong>patterns</strong> and
-              <strong>differences between categories</strong> easier to see.
+              Scientific drawings help scientists to record and communicate their observations.
+              In this lesson, we will learn how to create a scientific drawing of a specimen.
             </p>
             <a
               class="worksheet-button general-button"
-              href="../worksheets/l4-worksheet.pdf"
+              href="../worksheets/l5-worksheet.pdf"
               download
             >
               <p class="bounce-symbol">📄</p>
@@ -2248,57 +2247,36 @@
           <section class="intro-card objectives-card">
             <p class="intro-eyebrow">Learning objective</p>
             <p class="learning-objective-text">
-              We are learning how to represent <strong>fair test data</strong> in a <strong>bar graph</strong>.
+              We are learning how to create <strong>scientific drawings</strong> of specimens.
             </p>
             <p class="success-heading">Success criteria</p>
             <ol class="objective-list">
-              <li>I am learning how to <strong>collect and visualise data</strong>.</li>
-              <li>I can <strong>label axes</strong> and <strong>plot data points</strong> on a bar graph.</li>
-              <li>I can use a bar graph to <strong>analyse the results of a fair test</strong>.</li>
+              <li>I am learning how to observe and record details in my drawings.</li>
+              <li>I can label parts of a specimen in my drawing.</li>
+              <li>I can use a scientific drawing to communicate my observations.</li>
             </ol>
           </section>
           <section class="intro-card observation-card">
             <p class="intro-eyebrow">Think like a scientist</p>
-            <h2>Constructing a bar graph</h2>
-            <!-- <p>How to construct a <strong>bar graph</strong> to represent fair test data:</p> -->
+            <h2>Constructing a scientific drawing</h2>
+            <p>How to construct a <strong>scientific drawing</strong> to represent observations:</p>
             <div class="formula-card">
               <div class="formula-step">
-                <div class="formula-step-number" id="formula-step-independent">1</div>
+                <div class="formula-step-number">1</div>
                 <div>
-                  <strong>On the horizontal x-axis:</strong>
-                  <ul>
-                    <li>The categories or groups you are changing or comparing.</li>
-                  </ul>
+                  <strong>Identify the specimen</strong>
                 </div>
               </div>
               <div class="formula-step">
-                <div class="formula-step-number" id="formula-step-dependent">2</div>
+                <div class="formula-step-number">2</div>
                 <div>
-                  <strong>On the vertical y-axis:</strong>
-                  <ul>
-                    <li>The dependent variable - the thing you measure.</li>
-                    <li>If the test is repeated, use the average value.</li>
-                  </ul>
+                  <strong>Observe and record details</strong>
                 </div>
               </div>
               <div class="formula-step">
-                <div class="formula-step-number" id="formula-step-units">3</div>
+                <div class="formula-step-number">3</div>
                 <div>
-                  <strong>Draw a bar for each category</strong>
-                  <ul>
-                    <li>The height of the bar shows the y-axis value for each group or category.</li>
-                    <li>Keep every bar the same width.</li>
-                    <!-- <li>Leave the same amount of space between each bar.</li> -->
-                  </ul>
-                </div>
-              </div>
-              <div class="formula-step">
-                <div class="formula-step-number">4</div>
-                <div>
-                  <strong>Give your graph a title</strong>
-                  <ul>
-                    <li>The title explains what your fair test is investigating.</li>
-                  </ul>
+                  <strong>Label the parts of the specimen</strong>
                 </div>
               </div>
             </div>
@@ -2307,7 +2285,7 @@
     </div>
     <div class="expedition-zoom-stage">
     <div id="expedition-main">
-      <header class="expedition-banner" id="teacherTrigger" aria-label="Expedition Log header">
+      <header class="expedition-banner" aria-label="Expedition Log header">
         <div class="submarine-mark" aria-hidden="true">⚓</div>
         <div class="banner-copy">
           <p class="banner-kicker">PRIM7 field interface prototype</p>
@@ -3594,7 +3572,10 @@
 
     function renderMissionNavigation() {
       document.querySelectorAll(".mission-button").forEach(function(button, index) {
-        button.disabled = !expeditionState.started || index > expeditionState.unlockedMissionIndex;
+        const unlocked = index <= expeditionState.unlockedMissionIndex;
+        const available = expeditionState.started || expeditionState.unlockedMissionIndex > 0;
+        button.disabled = !unlocked || !available;
+        if (!button.disabled) button.removeAttribute("disabled");
         button.classList.toggle(
           "active",
           expeditionState.started && index === expeditionState.currentMissionIndex
@@ -3803,7 +3784,69 @@
       modal.setAttribute("aria-hidden", "true");
     }
 
+    /* ==================================================
+     PAGE INITIALISATION
+     ================================================== */
+
+    // Preserve the current working-page behaviour. Set to false before release
+    // when students should unlock Parts A-D progressively.
+    const DEV_MODE = false;
+
+    const sectionIds = [
+      { id: "mission-1", label: "Briefing" },
+      { id: "mission-2", label: "What is a scientific diagram?" },
+      { id: "mission-3", label: "Experiment Set-Up: Rust Prevention" },
+      { id: "mission-4", label: "What is a scientific drawing?" },
+      { id: "mission-5", label: "Unknown Species Detected" }
+    ];
+
+    /* Teacher menu overrides: this page uses missions, not locked sections. */
+    function teacherUnlockMissions(upToIndex) {
+      for (let i = 0; i <= upToIndex; i++) {
+        expeditionState.unlockedMissionIndex = Math.max(expeditionState.unlockedMissionIndex, i);
+        if (i < upToIndex) {
+          expeditionState.unlockedStageIndices[i] = missionConfig[i].stages.length - 1;
+          expeditionState.completedMissions[i] = true;
+          console.log("Teacher menu: unlocked mission " + missionConfig[i].id + " and all its stages.");
+        }
+      }
+      document.getElementById("expedition-main").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function lesson5TeacherJump(sectionId) {
+      const index = missionConfig.findIndex(function(mission) {
+        return mission.id === sectionId;
+      });
+      if (index < 0) return;
+
+      teacherUnlockMissions(index);
+      closeTeacherMenu();
+      setActiveMission(sectionId);
+    }
+
+    function lesson5TeacherShowAll() {
+      teacherUnlockMissions(missionConfig.length - 1);
+      missionConfig.forEach(function(mission, i) {
+        expeditionState.unlockedStageIndices[i] = mission.stages.length - 1;
+      });
+      closeTeacherMenu();
+      saveCurrentPageData();
+      renderExpedition();
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
+      /* common_functions.js is deferred and runs after this script, so override its versions here. */
+      window.teacherJump = lesson5TeacherJump;
+      window.teacherShowAll = lesson5TeacherShowAll;
+
+      if (typeof initialiseTeacherMenu === "function") {
+        initialiseTeacherMenu(sectionIds, "mission-1");
+      }
+
+      if (DEV_MODE && typeof teacherShowAll === "function") {
+        teacherShowAll();
+      }
+
       loadExpeditionState();
 
       document.querySelectorAll(".mission-button").forEach(function(button) {
