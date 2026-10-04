@@ -421,7 +421,10 @@
 
     .game-shell {
       display: grid;
-      grid-template-columns: 245px minmax(0, 1fr) 235px;
+      grid-template-columns:
+        minmax(245px, 0.3fr)
+        minmax(0, 1fr)
+        minmax(235px, 0.3fr);
       grid-template-rows: minmax(0, 1fr);
       gap: 12px;
       flex: 1 1 auto;
@@ -2395,11 +2398,11 @@
                     </p>
                     <div class="story-grid">
                       <figure class="media-card">
-                        <img src="./lesson5_assets/deep-sea-camera.png" alt="Deep-sea camera used to observe the ocean floor">
+                        <img src="../images/lesson5/deep-sea-camera.png" alt="Deep-sea camera used to observe the ocean floor">
                         <figcaption>Deep-sea camera</figcaption>
                       </figure>
                       <figure class="media-card">
-                        <img src="./lesson5_assets/hercules-rov.png" alt="Remotely operated vehicle Hercules underwater">
+                        <img src="../images/lesson5/hercules-rov.jpg" alt="Remotely operated vehicle Hercules underwater">
                         <figcaption>Remotely operated vehicle “Hercules”</figcaption>
                       </figure>
                     </div>
@@ -2433,11 +2436,11 @@
                     </p>
                     <div class="media-compare">
                       <figure class="media-card">
-                        <img src="./lesson5_assets/damaged-footage.png" alt="Corrupted underwater footage">
+                        <img src="../images/lesson5/damaged-footage.png" alt="Corrupted underwater footage">
                         <figcaption>Damaged footage</figcaption>
                       </figure>
                       <figure class="media-card">
-                        <img src="./lesson5_assets/hd-footage.png" alt="Clear underwater footage of the same organism">
+                        <img src="../images/lesson5/hd-footage.png" alt="Clear underwater footage of the same organism">
                         <figcaption>HD footage</figcaption>
                       </figure>
                     </div>
@@ -2463,19 +2466,19 @@
                       it can be to identify an organism from underwater footage. Click the fish you think is shown, then press CHECK.
                     </p>
                     <div class="fish-question-image">
-                      <img src="./lesson5_assets/visdeurbel-fish-1.png" alt="Underwater image of a fish with dark vertical stripes">
+                      <img src="../images/lesson5/visdeurbel-fish-1.png" alt="Underwater image of a fish with dark vertical stripes">
                     </div>
                     <div class="choice-grid" data-choice-group="fish1">
                       <button type="button" class="choice-card media-choice" data-value="perch">
-                        <img class="choice-image" src="./lesson5_assets/perch.png" alt="Perch reference image">
+                        <img class="choice-image" src="../images/lesson5/perch.png" alt="Perch reference image">
                         <h4>A. Perch</h4>
                       </button>
                       <button type="button" class="choice-card media-choice" data-value="pike-perch">
-                        <img class="choice-image" src="./lesson5_assets/pike-perch.png" alt="Pike-perch reference image">
+                        <img class="choice-image" src="../images/lesson5/pike-perch.png" alt="Pike-perch reference image">
                         <h4>B. Pike-Perch</h4>
                       </button>
                       <button type="button" class="choice-card media-choice" data-value="rudd">
-                        <img class="choice-image" src="./lesson5_assets/rudd.png" alt="Rudd reference image">
+                        <img class="choice-image" src="../images/lesson5/rudd.png" alt="Rudd reference image">
                         <h4>C. Rudd</h4>
                       </button>
                     </div>
@@ -2500,19 +2503,19 @@
                       Once you answer correctly, NEXT will unlock the next mission.
                     </p>
                     <div class="fish-question-image">
-                      <img src="./lesson5_assets/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a large fish">
+                      <img src="../images/lesson5/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a large fish">
                     </div>
                     <div class="choice-grid" data-choice-group="fish2">
                       <button type="button" class="choice-card media-choice" data-value="white-bream">
-                        <img class="choice-image" src="./lesson5_assets/white-bream.png" alt="White bream reference image">
+                        <img class="choice-image" src="../images/lesson5/white-bream.png" alt="White bream reference image">
                         <h4>A. White bream</h4>
                       </button>
                       <button type="button" class="choice-card media-choice" data-value="carp">
-                        <img class="choice-image" src="./lesson5_assets/carp.png" alt="Carp reference image">
+                        <img class="choice-image" src="../images/lesson5/carp.png" alt="Carp reference image">
                         <h4>B. Carp</h4>
                       </button>
                       <button type="button" class="choice-card media-choice" data-value="catfish">
-                        <img class="choice-image" src="./lesson5_assets/catfish.png" alt="Catfish reference image">
+                        <img class="choice-image" src="../images/lesson5/catfish.png" alt="Catfish reference image">
                         <h4>C. Catfish</h4>
                       </button>
                     </div>
@@ -2543,7 +2546,7 @@
                     </p>
                     <div class="symbol-compare">
                       <div class="symbol-visual">
-                        <img src="./lesson5_assets/beaker-photo.jpeg" alt="Photograph of a laboratory beaker" style="max-height:200px; width:auto; max-width:100%;">
+                        <img src="../images/lesson5/beaker-photo.jpeg" alt="Photograph of a laboratory beaker" style="max-height:200px; width:auto; max-width:100%;">
                       </div>
                       <div class="symbol-visual" aria-label="Simple scientific symbol of a beaker">
                         <svg viewBox="0 0 220 220" role="img" aria-label="Beaker symbol">
@@ -2693,15 +2696,15 @@
                     <h3>How do we draw our observations as a scientist?</h3>
                     <p class="mission-subtitle">Use the checklist you just reviewed. Which drawing best represents the damaged footage as a scientific drawing?</p>
                     <div class="fish-question-image">
-                      <img src="./lesson5_assets/damaged-footage.png" alt="Damaged underwater footage used as the observation source">
+                      <img src="../images/lesson5/damaged-footage.png" alt="Damaged underwater footage used as the observation source">
                     </div>
                     <div class="drawing-choice-grid" data-choice-group="drawing">
                       <button type="button" class="choice-card" data-value="drawing-one">
-                        <img src="./lesson5_assets/drawing-one.png" alt="Highly rendered coloured drawing with arrows and labels">
+                        <img src="../images/lesson5/drawing-one.png" alt="Highly rendered coloured drawing with arrows and labels">
                         <h4>Drawing One</h4>
                       </button>
                       <button type="button" class="choice-card" data-value="drawing-two">
-                        <img src="./lesson5_assets/drawing-two.png" alt="Simple line drawing with labels connected by plain lines">
+                        <img src="../images/lesson5/drawing-two.png" alt="Simple line drawing with labels connected by plain lines">
                         <h4>Drawing Two</h4>
                       </button>
                     </div>
@@ -3019,18 +3022,18 @@
       The chosen species is saved in sessionStorage and is not rerolled by Reset.
     */
     const mission5SpeciesPool = [
-      { id: "red-lipped-batfish", name: "Red-lipped Batfish", image: "./lesson5_assets/red-lipped-batfish.png", note: "Found on the ocean floor around the Galápagos Islands, to about 76 m in the current concept notes." },
-      { id: "goblin-shark", name: "Goblin Shark", image: "./lesson5_assets/goblin-shark.png", note: "A rare shark recorded from about 270 m and deeper." },
-      { id: "dumbo-octopus", name: "Dumbo Octopus", image: "./lesson5_assets/dumbo-octopus.png", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
-      { id: "sea-pig", name: "Sea Pig", image: "./lesson5_assets/sea-pig.png", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
-      { id: "sea-angel", name: "Sea Angel", image: "./lesson5_assets/sea-angel.png", note: "A tiny sea slug found in cold, deep polar waters." },
-      { id: "pink-seethrough-fantasia", name: "Pink Seethrough Fantasia", image: "./lesson5_assets/pink-seethrough-fantasia.png", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
-      { id: "blobfish", name: "Blobfish", image: "./lesson5_assets/blobfish.png", note: "Found at depths of roughly 600–1,200 m." },
-      { id: "barreleye-fish", name: "Barreleye Fish", image: "./lesson5_assets/barreleye-fish.png", note: "Found at depths of roughly 400–2,500 m." },
-      { id: "deepsea-anglerfish", name: "Deep-sea Anglerfish", image: "./lesson5_assets/deepsea-anglerfish.png", note: "Found at depths of roughly 200–2,000 m." },
-      { id: "flapjack-octopus", name: "Flapjack Octopus", image: "./lesson5_assets/flapjack-octopus.png", note: "Found from roughly 100–2,000 m." },
-      { id: "lumpfish", name: "Lumpfish", image: "./lesson5_assets/lumpfish.png", note: "Some are found at depths reaching about 1,700 m." },
-      { id: "predatory-sea-anemone", name: "Predatory Sea Anemone", image: "./lesson5_assets/predatory-sea-anemone.png", note: "Deep-sea anemones can occur at depths of several thousand metres." }
+      { id: "red-lipped-batfish", name: "Red-lipped Batfish", image: "../images/lesson5/red-lipped-batfish.jpg", note: "Found on the ocean floor around the Galápagos Islands, to about 76 m in the current concept notes." },
+      { id: "goblin-shark", name: "Goblin Shark", image: "../images/lesson5/goblin-shark.avif", note: "A rare shark recorded from about 270 m and deeper." },
+      { id: "dumbo-octopus", name: "Dumbo Octopus", image: "../images/lesson5/dumbo-octopus.jpg", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
+      { id: "sea-pig", name: "Sea Pig", image: "../images/lesson5/sea-pig.webp", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
+      { id: "sea-angel", name: "Sea Angel", image: "../images/lesson5/sea-angel.jpg", note: "A tiny sea slug found in cold, deep polar waters." },
+      { id: "pink-seethrough-fantasia", name: "Pink Seethrough Fantasia", image: "../images/lesson5/pink-seethrough-fantasia.jpg", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
+      { id: "blobfish", name: "Blobfish", image: "../images/lesson5/blobfish.jpg", note: "Found at depths of roughly 600–1,200 m." },
+      { id: "barreleye-fish", name: "Barreleye Fish", image: "../images/lesson5/barreleye-fish.webp", note: "Found at depths of roughly 400–2,500 m." },
+      { id: "deepsea-anglerfish", name: "Deep-sea Anglerfish", image: "../images/lesson5/deepsea-anglerfish.jpg", note: "Found at depths of roughly 200–2,000 m." },
+      { id: "flapjack-octopus", name: "Flapjack Octopus", image: "../images/lesson5/flapjack-octopus.avif", note: "Found from roughly 100–2,000 m." },
+      { id: "lumpfish", name: "Lumpfish", image: "../images/lesson5/lumpfish.jpg", note: "Some are found at depths reaching about 1,700 m." },
+      { id: "predatory-sea-anemone", name: "Predatory Sea Anemone", image: "../images/lesson5/predatory-sea-anemone.jpg", note: "Deep-sea anemones can occur at depths of several thousand metres." }
     ];
 
     let expeditionState = createFreshExpeditionState();
