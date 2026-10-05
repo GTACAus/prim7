@@ -921,6 +921,7 @@
     .expedition-button {
       position: relative;
       padding: 12px 22px;
+      width: 120px;
 
       background:
         linear-gradient(180deg,
@@ -988,13 +989,26 @@
       --background-colour: var(--green);
     }
 
+    #checkButton::before {
+      content: "✓";
+    }
+
     #resetButton {
       --background-colour: var(--orange);
+    }
+
+    #resetButton::before {
+      content: "↻";
     }
 
     #nextButton {
       --background-colour: var(--blue);
       color: var(--charcoal) !important;
+    }
+    
+    #nextButton::before {
+      content: ">>";
+      color: white;
     }
 
     .stage-controls .expedition-button:disabled {
@@ -1003,6 +1017,22 @@
       cursor: not-allowed;
       transform: none;
       box-shadow: 0 4px 0 var(--charcoal);
+    }
+
+    .expedition-button::before {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      translate: -50% -50%;
+      display: grid;
+      place-items: center;
+      line-height: 1;
+      font-size: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.35);
+      opacity: 0.35;
     }
 
     /* ---------- Right science check ---------- */
@@ -2838,13 +2868,13 @@
               <strong>Stand by.</strong> Start the expedition to load Mission 1.
             </div>
             <button type="button" class="expedition-button" id="checkButton" onclick="checkCurrentMission()" disabled>
-              Check ✓
+              Check
             </button>
             <button type="button" class="expedition-button" id="resetButton" onclick="resetCurrentMission()" disabled>
-              Reset ↻
+              Reset
             </button>
             <button type="button" class="expedition-button" id="nextButton" onclick="goNextMission()" disabled>
-              Next →
+              Next
             </button>
           </footer>
         </section>
@@ -3718,7 +3748,7 @@
       const isLastStage = mission && expeditionState.currentStageIndex === mission.stages.length - 1;
       const isFinalMission = expeditionState.currentMissionIndex === missionConfig.length - 1;
 
-      checkButton.textContent = stage.type === "finale" ? "Complete ✓" : "Check ✓";
+      checkButton.textContent = stage.type === "finale" ? "Complete" : "Check";
 
       if (stage.type === "finale" && !completed) {
         const phase = expeditionState.mission5.phase;
