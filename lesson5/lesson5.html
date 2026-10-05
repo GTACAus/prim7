@@ -44,6 +44,46 @@
       --exp-teal: rgba(57, 211, 255, 0.12);
     }
 
+    /* Dark-theme scrollbars (page and all scrollable panels) */
+    html {
+      background-color: #05101f;
+      color-scheme: dark;
+    }
+
+    /* Firefox only: Chrome ignores the ::-webkit-scrollbar rules below if these are set */
+    @supports not selector(::-webkit-scrollbar) {
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(117, 221, 232, 0.45) transparent;
+      }
+    }
+
+    *::-webkit-scrollbar-button {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: rgba(117, 221, 232, 0.4);
+      border-radius: 99px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: rgba(117, 221, 232, 0.7);
+      background-clip: padding-box;
+    }
+
     body {
       min-height: 100vh;
       overflow-x: hidden;
@@ -69,7 +109,6 @@
 
     font-family: "IBM Plex Mono", monospace;
     }
-
     
     /* ---------- Lesson intro (dark theme) ---------- */
     
@@ -780,6 +819,7 @@
     .specimen-card h4 {
       margin: 0 0 7px;
       font-size: 1rem;
+      color: var(--charcoal);
     }
 
     .content-card p,
@@ -920,8 +960,9 @@
 
     .expedition-button {
       position: relative;
+      width: fit-content;
+      min-width: 120px;
       padding: 12px 22px;
-      width: 120px;
 
       background:
         linear-gradient(180deg,
@@ -1477,6 +1518,21 @@
       animation: creature-feed-in 0.55s ease-out;
     }
 
+    /* Glitch frame inside the creature feed: match the image's object-fit: contain + 14px padding */
+    .creature-feed .glitch-frame {
+      z-index: 1;
+      width: 100%;
+      height: 390px;
+    }
+
+    .creature-feed .glitch-frame::before,
+    .creature-feed .glitch-frame::after {
+      inset: 14px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 2;
+    }
+
     @keyframes creature-feed-in {
       from { opacity: 0; transform: scale(0.94); filter: blur(8px); }
       to { opacity: 1; transform: scale(1); filter: blur(0); }
@@ -1890,6 +1946,76 @@
       aspect-ratio: 16 / 10;
       object-fit: cover;
       background: #071a30;
+    }
+
+    /* Glitch overlay: the full image stays visible; two tinted, sliced copies flicker on top */
+    .glitch-frame {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glitch-frame::before,
+    .glitch-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--glitch-src);
+      background-size: cover;
+      background-position: center;
+      mix-blend-mode: screen;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .glitch-frame::before {
+      filter: saturate(3) hue-rotate(300deg) brightness(1.2);
+      animation: glitch-a 5s steps(1, end) infinite;
+    }
+
+    .glitch-frame::after {
+      filter: saturate(3) hue-rotate(150deg) brightness(1.2);
+      animation: glitch-b 5s steps(1, end) infinite;
+    }
+
+    /* @keyframes glitch-a {
+      0% { opacity: 0.9; clip-path: inset(10% 0 72% 0); transform: translateX(-12px); }
+      20% { opacity: 0.9; clip-path: inset(48% 0 38% 0); transform: translateX(14px); }
+      40% { opacity: 0.8; clip-path: inset(70% 0 12% 0); transform: translateX(-8px); }
+      60% { opacity: 0.7; clip-path: inset(0 0 0 0); transform: translateX(-4px); }
+      80% { opacity: 0.9; clip-path: inset(25% 0 60% 0); transform: translateX(10px); }
+      100% { opacity: 0.8; clip-path: inset(85% 0 4% 0); transform: translateX(-16px); }
+    }
+
+    @keyframes glitch-b {
+      0% { opacity: 0; }
+      15% { opacity: 0.9; clip-path: inset(30% 0 52% 0); transform: translateX(12px); }
+      30% { opacity: 0.9; clip-path: inset(62% 0 22% 0); transform: translateX(-14px); }
+      45% { opacity: 0.7; clip-path: inset(0 0 0 0); transform: translateX(4px); }
+      60% { opacity: 0.9; clip-path: inset(5% 0 82% 0); transform: translateX(-10px); }
+      75% { opacity: 0.8; clip-path: inset(40% 0 45% 0); transform: translateX(16px); }
+      100% { opacity: 0.8; clip-path: inset(78% 0 10% 0); transform: translateX(8px); }
+    } */
+
+
+    @keyframes glitch-a {
+      0%, 85%, 100% { opacity: 0; }
+      3% { opacity: 0.9; clip-path: inset(38% 0 42% 0); transform: translateX(-16px); }
+      30% { opacity: 0.7; clip-path: inset(0); transform: translateX(-10px); }
+      60% { opacity: 0.7; clip-path: inset(0); transform: translateX(4px); }
+    }
+
+    @keyframes glitch-b {
+      0%, 4%, 88%, 100% { opacity: 0; }
+      5% { opacity: 0.7; clip-path: inset(0); transform: translateX(10px); }
+      38% { opacity: 0.9; clip-path: inset(52% 0 30% 0); transform: translateX(16px); }
+      68% { opacity: 0.7; clip-path: inset(0); transform: translateX(-4px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .glitch-frame::before,
+      .glitch-frame::after {
+        animation: none;
+      }
     }
 
     .media-card figcaption {
@@ -2444,11 +2570,11 @@
                     </p>
                     <div class="media-compare">
                       <figure class="media-card">
-                        <img src="../images/lesson5/damaged-footage.png" alt="Corrupted underwater footage">
+                        <img data-glitch src="../images/lesson5/camera-footage.webp" alt="Corrupted underwater footage">
                         <figcaption>Damaged footage</figcaption>
                       </figure>
                       <figure class="media-card">
-                        <img src="../images/lesson5/hd-footage.png" alt="Clear underwater footage of the same organism">
+                        <img src="../images/lesson5/camera-footage.webp" alt="Clear underwater footage of the same organism">
                         <figcaption>HD footage</figcaption>
                       </figure>
                     </div>
@@ -2703,8 +2829,8 @@
                     </div>
                     <h3>How do we draw our observations as a scientist?</h3>
                     <p class="mission-subtitle">Use the checklist you just reviewed. Which drawing best represents the damaged footage as a scientific drawing?</p>
-                    <div class="fish-question-image">
-                      <img src="../images/lesson5/damaged-footage.png" alt="Damaged underwater footage used as the observation source">
+                    <div class="fish-question-image glitch-frame" style="--glitch-src: url(../images/lesson5/camera-footage.webp)">
+                      <img src="../images/lesson5/camera-footage.webp" alt="Damaged underwater footage used as the observation source">
                     </div>
                     <div class="drawing-choice-grid" data-choice-group="drawing">
                       <button type="button" class="choice-card" data-value="drawing-one">
@@ -2826,7 +2952,7 @@
                       <div class="drawing-mission-grid">
                         <div class="creature-feed">
                           <span class="failure-badge">Recording failed · live feed only</span>
-                          <img data-m5-creature-image src="" alt="Deep-sea organism selected for scientific drawing">
+                          <img data-m5-creature-image data-glitch src="" alt="Deep-sea organism selected for scientific drawing">
                         </div>
                         <article class="drawing-instructions-card">
                           <h4>Create the expedition record</h4>
@@ -2964,6 +3090,45 @@
   </div>
 
   <script>
+    /*
+      Apply the glitch overlay to any image.
+        applyGlitchOverlay(img)            - wraps the <img> in a .glitch-frame
+        applyGlitchOverlay(frame)          - uses the first <img> inside an existing .glitch-frame
+        applyGlitchOverlay(el, "path.png") - explicit image URL
+      Or simply add the data-glitch attribute to an <img>: <img data-glitch src="...">
+    */
+    function applyGlitchOverlay(element, imageUrl) {
+      if (!element) return;
+
+      let frame = element;
+      let img = element.tagName === "IMG" ? element : element.querySelector("img");
+
+      if (element.tagName === "IMG") {
+        if (element.parentElement && element.parentElement.classList.contains("glitch-frame")) {
+          frame = element.parentElement;
+        } else {
+          frame = document.createElement("div");
+          element.parentNode.insertBefore(frame, element);
+          frame.appendChild(element);
+        }
+      }
+
+      frame.classList.add("glitch-frame");
+
+      const src = imageUrl || (img && (img.currentSrc || img.src));
+      if (src) {
+        frame.style.setProperty("--glitch-src", "url(\"" + src + "\")");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll("img[data-glitch]").forEach(function(img) {
+        applyGlitchOverlay(img);
+      });
+    });
+  </script>
+  <script>
+
     /* ==================================================
        EXPEDITION LOG - UPDATED PAGE-SPECIFIC PROTOTYPE LOGIC
 
@@ -3531,6 +3696,9 @@
         }
         image.src = species.image;
         image.alt = species.name + " selected for the expedition observation";
+        if (image.hasAttribute("data-glitch")) {
+          applyGlitchOverlay(image);
+        }
       });
 
       const contactLabel = document.getElementById("mission5ContactLabel");
