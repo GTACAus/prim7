@@ -11,6 +11,7 @@
     The concept package keeps copies beside this page so it can run immediately.
   -->
   <link rel="stylesheet" href="../styles/build_style.css">
+  <link rel="stylesheet" href="../styles/lesson5_styles/drag_and_drop.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -2470,7 +2471,7 @@
             </button>
             <button class="mission-button" data-mission="mission-3" data-number="03" type="button" disabled>
               <strong>Mission 3</strong>
-              <span>Experiment Set-Up: Rust Prevention</span>
+              <span>Drawing Rules &amp; Experiment Diagram</span>
             </button>
             <button class="mission-button" data-mission="mission-4" data-number="04" type="button" disabled>
               <strong>Mission 4</strong>
@@ -2740,46 +2741,80 @@
               </div>
             </section>
             <!-- ==================================================
-                 MISSION 3: RUST PREVENTION
-                 The updated deck still lists this mission in the
-                 mission log but does not yet provide its full frame.
+                 MISSION 3: SCIENTIFIC DRAWING PRACTICE (2 stages)
+                 Stage 1: general rules checklist
+                 Stage 2: drag-and-drop recreation of an experiment
                  ================================================== -->
             <section class="section expedition-mission locked" id="mission-3" data-mission-index="2">
-              <div class="mission-stage" data-stage-id="m3-rust">
+              <div class="mission-stage" data-stage-id="m3-rules">
                 <div class="mission-window">
                   <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: rust prevention</strong>
+                    <strong>Deep field terminal // mission 3: drawing rules</strong>
                     <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
                   </div>
                   <div class="mission-window-body">
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 03</p>
-                      <span class="stage-progress-chip">Stage 1 of 1</span>
+                      <span class="stage-progress-chip">Stage 1 of 2</span>
                     </div>
-                    <h3>Experiment Set-Up: Rust Prevention</h3>
-                    <p class="mission-subtitle">
-                      The updated storyboard continues to list this mission but does not yet include its detailed frame.
-                      This fair-test interaction is retained as a working placeholder until that content is supplied.
-                    </p>
-                    <p class="activity-prompt">Choose the strongest experimental set-up.</p>
-                    <div class="choice-grid" data-choice-group="rust">
-                      <button type="button" class="choice-card" data-value="fair-test">
-                        <div class="mini-visual" aria-hidden="true">🔩 ↔️ 💧</div>
-                        <h4>A. Same steel nails, two water conditions</h4>
-                        <p>Keep nail type, time and temperature the same. Change only water exposure.</p>
-                      </button>
-                      <button type="button" class="choice-card" data-value="mixed-variables">
-                        <div class="mini-visual" aria-hidden="true">🔩 🪙 🧪</div>
-                        <h4>B. Different metals in different liquids</h4>
-                        <p>Several variables change at the same time.</p>
-                      </button>
-                      <button type="button" class="choice-card" data-value="no-comparison">
-                        <div class="mini-visual" aria-hidden="true">🔩</div>
-                        <h4>C. Observe one nail</h4>
-                        <p>There is no comparison condition.</p>
-                      </button>
+                    <h3>General rules for scientific drawings</h3>
+                    <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
+                    <div class="rules-grid" id="drawingRules">
+                      <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
+                      <label class="rule-card"><input type="checkbox" value="label-lines"><span><strong>Plain label lines — no arrows</strong><p>Connect labels cleanly to the relevant structure.</p></span></label>
                     </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m3-rust" role="status" aria-live="polite"></div>
+                    <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-rules" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mission-stage" data-stage-id="m3-dragdrop">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 3: experiment diagram</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 03</p>
+                      <span class="stage-progress-chip">Stage 2 of 2</span>
+                    </div>
+                    <h3>Recreate the experiment</h3>
+                    <p class="mission-subtitle">Look at the experiment on the left. Drag the equipment symbols into the box on the right to build a scientific diagram of it.</p>
+                    <div class="dd-activity" id="m3DragDrop">
+                      <div class="dd-board">
+                        <div class="dd-reference">
+                          <span class="dd-caption">Experiment</span>
+                          <!-- TODO: replace the placeholder text with <img src="../images/lesson5/..." alt="..."> -->
+                          <span>Experiment image coming soon</span>
+                    </div>
+                        <div class="dd-target">
+                          <span class="dd-caption">Your diagram</span>
+                          <!-- TODO: move each slot to its final position with --dd-x / --dd-y (percent of the box)
+                               and update each slot's data-dd-answer (currently tray order) to the correct item. -->
+                          <div data-dd-slot="slot-1" data-dd-answer="beaker" style="--dd-x: 20%; --dd-y: 28%" aria-label="Diagram slot 1"></div>
+                          <div data-dd-slot="slot-2" data-dd-answer="test-tube" style="--dd-x: 50%; --dd-y: 28%" aria-label="Diagram slot 2"></div>
+                          <div data-dd-slot="slot-3" data-dd-answer="conical-flask" style="--dd-x: 80%; --dd-y: 28%" aria-label="Diagram slot 3"></div>
+                          <div data-dd-slot="slot-4" data-dd-answer="measuring-cylinder" style="--dd-x: 20%; --dd-y: 72%" aria-label="Diagram slot 4"></div>
+                          <div data-dd-slot="slot-5" data-dd-answer="tripod" style="--dd-x: 50%; --dd-y: 72%" aria-label="Diagram slot 5"></div>
+                          <div data-dd-slot="slot-6" data-dd-answer="bunsen-burner" style="--dd-x: 80%; --dd-y: 72%" aria-label="Diagram slot 6"></div>
+                  </div>
+                </div>
+                      <div class="dd-tray" data-dd-tray aria-label="Equipment symbols">
+                        <!-- Symbols copied from #equipmentSymbolsModal -->
+                        <div data-dd-item="beaker" title="Beaker" aria-label="Beaker"><svg viewBox="0 0 100 80"><path d="M25 10 V58 Q25 70 50 70 Q75 70 75 58 V10 M25 10 Q50 4 75 10" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+                        <div data-dd-item="test-tube" title="Test tube" aria-label="Test tube"><svg viewBox="0 0 100 80"><path d="M42 8 V58 Q42 70 50 70 Q58 70 58 58 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+                        <div data-dd-item="conical-flask" title="Conical flask" aria-label="Conical flask"><svg viewBox="0 0 100 80"><path d="M43 8 V28 L24 66 H76 L57 28 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+                        <div data-dd-item="measuring-cylinder" title="Measuring cylinder" aria-label="Measuring cylinder"><svg viewBox="0 0 100 80"><path d="M42 8 V66 M58 8 V66 M34 66 H66" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+                        <div data-dd-item="tripod" title="Tripod" aria-label="Tripod"><svg viewBox="0 0 100 80"><circle cx="50" cy="22" r="16" fill="none" stroke="#30332f" stroke-width="3"/><path d="M38 35 L25 70 M50 38 V72 M62 35 L75 70" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+                        <div data-dd-item="bunsen-burner" title="Bunsen burner" aria-label="Bunsen burner"><svg viewBox="0 0 100 80"><path d="M46 14 H54 V56 H46 Z M35 56 H65 V68 H35 Z" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+              </div>
+                    </div>
+                    <span class="prototype-note">Placeholder: the experiment image and final slot positions are not set yet. For now the correct answer is the symbols in tray order (slot 1 = beaker, slot 2 = test tube, and so on).</span>
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-dragdrop" role="status" aria-live="polite"></div>
                   </div>
                 </div>
               </div>
@@ -2792,31 +2827,6 @@
                  numbering until the storyboard is reconciled.
                  ================================================== -->
             <section class="section expedition-mission locked" id="mission-4" data-mission-index="3">
-              <div class="mission-stage" data-stage-id="m4-rules">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 4: scientific drawing</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 04</p>
-                      <span class="stage-progress-chip">Stage 1 of 2</span>
-                    </div>
-                    <h3>Scientific drawing checklist</h3>
-                    <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
-                    <div class="rules-grid" id="drawingRules">
-                      <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="label-lines"><span><strong>Plain label lines — no arrows</strong><p>Connect labels cleanly to the relevant structure.</p></span></label>
-                    </div>
-                    <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m4-rules" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
               <div class="mission-stage" data-stage-id="m4-compare">
                 <div class="mission-window">
                   <div class="mission-window-bar">
@@ -2826,7 +2836,7 @@
                   <div class="mission-window-body">
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 04</p>
-                      <span class="stage-progress-chip">Stage 2 of 2</span>
+                      <span class="stage-progress-chip">Stage 1 of 1</span>
                     </div>
                     <h3>How do we draw our observations as a scientist?</h3>
                     <p class="mission-subtitle">Use the checklist you just reviewed. Which drawing best represents the damaged footage as a scientific drawing?</p>
@@ -3128,6 +3138,7 @@
       });
     });
   </script>
+  <script src="../scripts/lesson5_scripts/drag_and_drop.js"></script>
   <script>
 
     /* ==================================================
@@ -3144,7 +3155,7 @@
          - saveCurrentPageData()/clearPageSavedData() hooks
        ================================================== */
 
-    const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v3";
+    const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v4";
 
     const missionConfig = [
       {
@@ -3167,16 +3178,16 @@
       },
       {
         id: "mission-3",
-        title: "Rust Prevention",
+        title: "Drawing Practice",
         stages: [
-          { id: "m3-rust", label: "Experiment set-up", type: "choice", choiceGroup: "rust", correctValue: "fair-test" }
+          { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist", requiredCount: 5 },
+          { id: "m3-dragdrop", label: "Recreate the experiment", type: "dragdrop" }
         ]
       },
       {
         id: "mission-4",
         title: "Scientific Drawing",
         stages: [
-          { id: "m4-rules", label: "Scientific drawing checklist", type: "checklist", requiredCount: 5 },
           { id: "m4-compare", label: "Compare drawings", type: "choice", choiceGroup: "drawing", correctValue: "drawing-two" }
         ]
       },
@@ -3211,6 +3222,7 @@
     ];
 
     let expeditionState = createFreshExpeditionState();
+    let m3DragDrop = null; /* DragDropActivity instance, created on DOMContentLoaded */
 
     function createFreshExpeditionState() {
       return {
@@ -3225,7 +3237,7 @@
           fish1: "",
           fish2: "",
           diagramExample: "",
-          rust: "",
+          dragDrop: {},
           drawing: "",
           drawingRules: [],
           observations: []
@@ -3395,6 +3407,10 @@
         return expeditionState.selections.drawingRules.length >= stage.requiredCount;
       }
 
+      if (stage.type === "dragdrop") {
+        return Boolean(m3DragDrop) && m3DragDrop.isComplete() && m3DragDrop.isCorrect();
+      }
+
       if (stage.type === "observations") {
         return expeditionState.selections.observations.length >= stage.requiredCount;
       }
@@ -3426,6 +3442,10 @@
           message = "That does not match the current scientific criteria. Review the options and try again.";
         } else if (stage.type === "checklist") {
           message = "Review all five scientific-drawing rules and tick each one before continuing.";
+        } else if (stage.type === "dragdrop") {
+          message = m3DragDrop && m3DragDrop.isComplete()
+            ? "Some symbols are in the wrong place. Compare your diagram with the experiment and try again."
+            : "Drag every equipment symbol into the diagram box before checking.";
         } else if (stage.type === "observations") {
           message = "Select at least three observable features before completing the final mission.";
         } else if (stage.type === "finale") {
@@ -3551,6 +3571,11 @@
 
       if (stage.type === "checklist") {
         expeditionState.selections.drawingRules = [];
+      }
+
+      if (stage.type === "dragdrop") {
+        expeditionState.selections.dragDrop = {};
+        if (m3DragDrop) m3DragDrop.reset();
       }
 
       if (stage.type === "observations") {
@@ -3818,7 +3843,7 @@
       const footer = document.getElementById("scienceFooter");
       if (!panel) return;
 
-      const shouldUnlock = expeditionState.completedMissions[2] || expeditionState.unlockedMissionIndex >= 3;
+      const shouldUnlock = expeditionState.completedMissions[1] || expeditionState.unlockedMissionIndex >= 3;
       const finalDrawingActive = (
         expeditionState.currentMissionIndex === 4 &&
         expeditionState.started &&
@@ -3849,7 +3874,7 @@
     }
 
     function renderSelections() {
-      ["fish1", "fish2", "diagramExample", "rust", "drawing"].forEach(function(groupName) {
+      ["fish1", "fish2", "diagramExample", "drawing"].forEach(function(groupName) {
         const value = expeditionState.selections[groupName];
         const group = document.querySelector('[data-choice-group="' + groupName + '"]');
         if (!group) return;
@@ -3870,6 +3895,7 @@
     function stageHasInput(stage) {
       if (!stage) return false;
       if (stage.type === "read" || stage.type === "checklist") return true;
+      if (stage.type === "dragdrop") return Object.keys(expeditionState.selections.dragDrop).length > 0;
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -3886,6 +3912,7 @@
       if (!stage) return false;
       if (stage.type === "read") return Boolean(expeditionState.completedStages[stage.id]);
       if (stage.type === "checklist") return expeditionState.selections.drawingRules.length > 0;
+      if (stage.type === "dragdrop") return Object.keys(expeditionState.selections.dragDrop).length > 0;
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -3994,7 +4021,7 @@
     const sectionIds = [
       { id: "mission-1", label: "Briefing" },
       { id: "mission-2", label: "What is a scientific diagram?" },
-      { id: "mission-3", label: "Experiment Set-Up: Rust Prevention" },
+      { id: "mission-3", label: "Drawing Rules & Experiment Diagram" },
       { id: "mission-4", label: "What is a scientific drawing?" },
       { id: "mission-5", label: "Unknown Species Detected" }
     ];
@@ -4068,6 +4095,19 @@
       document.querySelectorAll("[data-science-check]").forEach(function(input) {
         input.addEventListener("change", syncMission5ScienceChecks);
       });
+
+      const dragDropRoot = document.getElementById("m3DragDrop");
+      if (dragDropRoot) {
+        m3DragDrop = new DragDropActivity(dragDropRoot, {
+          onChange: function(placements) {
+            expeditionState.selections.dragDrop = placements;
+            clearCurrentStageFeedback();
+            saveCurrentPageData();
+            renderControls();
+          }
+        });
+        m3DragDrop.setPlacements(expeditionState.selections.dragDrop);
+      }
 
       const equipmentModal = document.getElementById("equipmentSymbolsModal");
       if (equipmentModal) {

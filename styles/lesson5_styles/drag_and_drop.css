@@ -1,0 +1,220 @@
+/* ==================================================
+   GENERIC DRAG AND DROP ACTIVITY STYLES
+   Pair with scripts/lesson5_scripts/drag_and_drop.js
+
+   Behavioural classes the script toggles (reusable anywhere):
+     .dd-hover        slot currently under a dragged item
+     .dd-filled       slot that holds an item
+     .dd-placed       item that is sitting in a slot
+     .dd-dragging     the original item while its ghost is being dragged
+     .dd-selected     item picked up by click / keyboard
+     .dd-ghost        the floating copy that follows the pointer
+     .dd-is-dragging / .dd-has-selection   on the activity root
+
+   Layout helpers for the "reference | build area + tray" arrangement:
+     .dd-board, .dd-reference, .dd-target, .dd-tray
+   Position a slot inside .dd-target with --dd-x / --dd-y (percent, centre of the slot).
+   Override --dd-item-size on the root to resize every icon and slot.
+   ================================================== */
+
+.dd-activity {
+  --dd-item-size: 68px;
+  --dd-ink: var(--charcoal, #30332f);
+  --dd-accent: var(--exp-cyan, #39d3ff);
+  margin-top: 18px;
+}
+
+/* ---------- two-box board ---------- */
+
+.dd-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dd-reference,
+.dd-target {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 3px solid var(--dd-ink);
+  border-radius: 18px;
+  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.2);
+  overflow: hidden;
+}
+
+.dd-reference {
+  display: grid;
+  place-items: center;
+  background: #071a30;
+  color: var(--exp-muted, #aac6d8);
+  font-weight: 700;
+  text-align: center;
+}
+
+.dd-reference img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dd-target {
+  background:
+    repeating-linear-gradient(0deg, rgba(48, 51, 47, 0.06) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(48, 51, 47, 0.06) 0 1px, transparent 1px 28px),
+    white;
+}
+
+.dd-caption {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  z-index: 1;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dd-ink);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.dd-reference .dd-caption {
+  color: var(--exp-muted, #aac6d8);
+}
+
+/* ---------- slots ---------- */
+
+[data-dd-slot] {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: var(--dd-item-size);
+  height: var(--dd-item-size);
+  border: 3px dashed rgba(48, 51, 47, 0.45);
+  border-radius: 50%;
+  background: rgba(57, 211, 255, 0.08);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.dd-target [data-dd-slot] {
+  position: absolute;
+  left: var(--dd-x, 50%);
+  top: var(--dd-y, 50%);
+  transform: translate(-50%, -50%);
+}
+
+[data-dd-slot].dd-filled {
+  border-style: solid;
+  border-color: transparent;
+  background: transparent;
+}
+
+[data-dd-slot].dd-hover,
+.dd-has-selection [data-dd-slot]:not(.dd-filled):hover {
+  border-style: solid;
+  border-color: var(--dd-accent);
+  background: rgba(57, 211, 255, 0.28);
+}
+
+.dd-target [data-dd-slot].dd-hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+[data-dd-slot]:focus-visible,
+[data-dd-item]:focus-visible {
+  outline: 3px solid var(--dd-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- items ---------- */
+
+.dd-tray {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  min-height: calc(var(--dd-item-size) + 28px);
+  margin-top: 18px;
+  padding: 14px;
+  border: 3px solid var(--dd-ink);
+  border-radius: 18px;
+  background: var(--soft-blue, #dff3ff);
+  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.2);
+}
+
+[data-dd-item] {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: var(--dd-item-size);
+  height: var(--dd-item-size);
+  border: 3px solid var(--dd-ink);
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.3);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+[data-dd-item]:hover {
+  transform: translateY(-2px);
+}
+
+[data-dd-item] svg,
+[data-dd-item] img {
+  width: 78%;
+  height: 78%;
+  pointer-events: none;
+}
+
+[data-dd-item].dd-placed {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+[data-dd-item].dd-selected {
+  border-color: var(--dd-accent);
+  box-shadow: 0 0 0 4px rgba(57, 211, 255, 0.45);
+}
+
+[data-dd-item].dd-dragging {
+  opacity: 0.3;
+}
+
+.dd-is-dragging [data-dd-item] {
+  cursor: grabbing;
+}
+
+.dd-ghost {
+  position: fixed;
+  z-index: 10000;
+  margin: 0;
+  pointer-events: none;
+  cursor: grabbing;
+  transform: scale(1.12) rotate(-4deg);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 800px) {
+  .dd-board {
+    grid-template-columns: 1fr;
+  }
+
+  .dd-activity {
+    --dd-item-size: 58px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-dd-slot],
+  [data-dd-item] {
+    transition: none;
+  }
+}
