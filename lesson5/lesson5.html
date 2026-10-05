@@ -177,7 +177,7 @@
     }
 
     .expedition-intro .intro-card::before {
-      /* border-top-color: var(--exp-line); */
+      border-top-color: var(--exp-cyan);
     }
 
     .expedition-intro .intro-card p,
@@ -396,9 +396,8 @@
     }
 
     .field-guide-button {
-      min-width: 120px;
       --background-colour: var(--yellow);
-      color: var(--charcoal) !important;
+      color: var(--exp-navy-dark) !important;
     }
 
     .expedition-banner h1,
@@ -1952,6 +1951,7 @@
     .glitch-frame {
       position: relative;
       overflow: hidden;
+      filter: blur(1px);
     }
 
     .glitch-frame::before,
@@ -1962,18 +1962,19 @@
       background-image: var(--glitch-src);
       background-size: cover;
       background-position: center;
-      mix-blend-mode: screen;
+      /* mix-blend-mode: color-dodge; */
+      mix-blend-mode: overlay;
       opacity: 0;
       pointer-events: none;
     }
 
     .glitch-frame::before {
-      filter: saturate(3) hue-rotate(300deg) brightness(1.2);
+      filter: saturate(3) hue-rotate(300deg) brightness(1.2) blur(0);
       animation: glitch-a 5s steps(1, end) infinite;
     }
 
     .glitch-frame::after {
-      filter: saturate(3) hue-rotate(150deg) brightness(1.2);
+      filter: saturate(3) hue-rotate(150deg) brightness(1.2) blur(0);
       animation: glitch-b 5s steps(1, end) infinite;
     }
 
