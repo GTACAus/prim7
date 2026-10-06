@@ -962,7 +962,7 @@
       position: relative;
       width: fit-content;
       min-width: 120px;
-      padding: 12px 22px;
+      padding: 8px 22px;
 
       background:
         linear-gradient(180deg,
@@ -998,8 +998,8 @@
     
     .expedition-button:not(:disabled):hover {
       background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.12) 100%),
-      var(--background-colour, var(--exp-cyan)) !important;
+        linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.12) 100%),
+        var(--background-colour, var(--exp-cyan)) !important;
       transform: scale(1.03);
       animation: glow-pulse 1.8s ease-in-out infinite;
       cursor: pointer;
@@ -2744,7 +2744,6 @@
                       <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
                       <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
                       <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="label-lines"><span><strong>Plain label lines — no arrows</strong><p>Connect labels cleanly to the relevant structure.</p></span></label>
                     </div>
                     <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
                     <div class="variable-feedback stage-feedback" data-feedback="m3-rules" role="status" aria-live="polite"></div>
@@ -3183,7 +3182,7 @@
         id: "mission-3",
         title: "Drawing Practice",
         stages: [
-          { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist", requiredCount: 5 },
+          { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist", requiredCount: 4 },
           { id: "m3-dragdrop", label: "Recreate the experiment", type: "dragdrop" }
         ]
       },
@@ -3425,7 +3424,11 @@
       }
 
       if (stage.type === "checklist") {
-        return expeditionState.selections.drawingRules.length >= stage.requiredCount;
+        const allChecked = Array.from(document.querySelectorAll('#drawingRules input[type="checkbox"]'))
+          .every(function(checkbox) {
+            return checkbox.checked;
+          });
+        return allChecked;
       }
 
       if (stage.type === "dragdrop") {
