@@ -2639,80 +2639,6 @@
                   </div>
                 </div>
               </div>
-              <div class="mission-stage" data-stage-id="m1-fish-1">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 1: image quality test</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 3 of 4</span>
-                    </div>
-                    <h3>Quality of underwater photos</h3>
-                    <p class="mission-subtitle">
-                      This image was taken from the Visdeurbel in the Netherlands. It is not a deep-sea image, but it shows how difficult
-                      it can be to identify an organism from underwater footage. Click the fish you think is shown, then press CHECK.
-                    </p>
-                    <div class="fish-question-image">
-                      <img src="../images/lesson5/visdeurbel-fish-1.png" alt="Underwater image of a fish with dark vertical stripes">
-                    </div>
-                    <div class="choice-grid" data-choice-group="fish1">
-                      <button type="button" class="choice-card media-choice" data-value="perch">
-                        <img class="choice-image" src="../images/lesson5/perch.png" alt="Perch reference image">
-                        <h4>A. Perch</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="pike-perch">
-                        <img class="choice-image" src="../images/lesson5/pike-perch.png" alt="Pike-perch reference image">
-                        <h4>B. Pike-Perch</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="rudd">
-                        <img class="choice-image" src="../images/lesson5/rudd.png" alt="Rudd reference image">
-                        <h4>C. Rudd</h4>
-                      </button>
-                    </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m1-fish-1" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mission-stage" data-stage-id="m1-fish-2">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 1: image quality test</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 4 of 4</span>
-                    </div>
-                    <h3>Quality of underwater photos</h3>
-                    <p class="mission-subtitle">
-                      Here is another image from the Visdeurbel. Click the fish you think is shown, then press CHECK.
-                      Once you answer correctly, NEXT will unlock the next mission.
-                    </p>
-                    <div class="fish-question-image">
-                      <img src="../images/lesson5/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a large fish">
-                    </div>
-                    <div class="choice-grid" data-choice-group="fish2">
-                      <button type="button" class="choice-card media-choice" data-value="white-bream">
-                        <img class="choice-image" src="../images/lesson5/white-bream.png" alt="White bream reference image">
-                        <h4>A. White bream</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="carp">
-                        <img class="choice-image" src="../images/lesson5/carp.png" alt="Carp reference image">
-                        <h4>B. Carp</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="catfish">
-                        <img class="choice-image" src="../images/lesson5/catfish.png" alt="Catfish reference image">
-                        <h4>C. Catfish</h4>
-                      </button>
-                    </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m1-fish-2" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
             </section>
             <!-- ==================================================
                  MISSION 2: SCIENTIFIC DIAGRAM (2 stages)
@@ -3243,8 +3169,6 @@
         stages: [
           { id: "m1-exploration", label: "What is deep sea exploration?", type: "read" },
           { id: "m1-failure", label: "What to do when it goes wrong?", type: "read" },
-          { id: "m1-fish-1", label: "Quality of underwater photos · 1", type: "choice", choiceGroup: "fish1", correctValue: "perch" },
-          { id: "m1-fish-2", label: "Quality of underwater photos · 2", type: "choice", choiceGroup: "fish2", correctValue: "carp" }
         ]
       },
       {
