@@ -1561,6 +1561,16 @@
       background: rgba(255, 109, 58, 0.94);
     }
 
+
+
+    .captured-badge {
+      background: rgba(10, 174, 217, 0.92);
+    }
+
+    .creature-feed img.captured-still {
+      filter: blur(1.1px) saturate(0.82) contrast(0.96);
+    }
+
     .camera-side-card {
       display: flex;
       flex-direction: column;
@@ -2328,6 +2338,332 @@
       color: var(--charcoal) !important;
       box-shadow: 0 6px 0 var(--exp-cyan-soft);
     }
+
+
+    /* ---------- Mission 4: shallow-water camera trials ---------- */
+
+    .m4-preamble {
+      margin: 0 0 16px;
+      padding: 14px 16px;
+      border: 3px solid var(--charcoal);
+      border-left: 10px solid var(--blue);
+      border-radius: 14px;
+      background: var(--soft-blue);
+      color: var(--charcoal);
+      line-height: 1.55;
+    }
+
+    .m4-feature-cues {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 18px;
+    }
+
+    .m4-feature-cues span {
+      padding: 7px 10px;
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      background: white;
+      color: var(--charcoal);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .shallow-fish-question {
+      margin-top: 18px;
+      padding: 18px;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 4px 0 rgba(48, 51, 47, 0.2);
+    }
+
+    .shallow-fish-question > h4 {
+      margin: 0 0 4px;
+      color: var(--charcoal);
+    }
+
+    .shallow-fish-question > p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .m4-clownfish-choice svg {
+      display: block;
+      width: 100%;
+      height: 210px;
+      margin-bottom: 12px;
+      border: 2px solid rgba(48,51,47,0.22);
+      border-radius: 12px;
+      background: #fbfbf8;
+    }
+
+    .m4-batfish-dd .dd-board {
+      grid-template-columns: 1fr;
+    }
+
+    .m4-batfish-target {
+      position: relative;
+      width: 100%;
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #f8fbfc;
+    }
+
+    .m4-batfish-diagram {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0;
+    }
+
+    /*
+      The generated batfish diagram already contains the orange leader lines
+      and empty label boxes. These HTML drop zones sit directly over those
+      printed boxes so the generic DragDropActivity can handle the interaction.
+    */
+    .m4-batfish-target [data-dd-slot] {
+      position: absolute !important;
+      left: var(--dd-x) !important;
+      top: var(--dd-y) !important;
+      z-index: 3;
+      width: var(--dd-w, 24%) !important;
+      height: var(--dd-h, 8.5%) !important;
+      min-width: 0 !important;
+      min-height: 44px !important;
+      translate: 0 0 !important;
+      transform: translate(-50%, -50%) !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px !important;
+      border: 2px dashed rgba(10, 174, 217, 0.42) !important;
+      border-radius: 14px !important;
+      background: rgba(255, 255, 255, 0.56) !important;
+      box-shadow: none !important;
+    }
+
+    .m4-batfish-target [data-dd-slot]:hover,
+    .m4-batfish-target [data-dd-slot]:focus-visible,
+    .m4-batfish-target [data-dd-slot].dd-hover {
+      border-color: var(--blue) !important;
+      background: rgba(216, 247, 255, 0.86) !important;
+      outline: none;
+    }
+
+    .m4-batfish-target [data-dd-slot].dd-filled {
+      border-color: var(--green) !important;
+      background: rgba(215, 245, 233, 0.9) !important;
+    }
+
+    .m4-batfish-target [data-dd-slot] .m4-label-token {
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+      padding: 6px 8px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.97);
+      display: grid;
+      place-items: center;
+      line-height: 1.15;
+      white-space: normal;
+    }
+
+    .m4-asset-placeholder {
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 8px;
+      padding: 24px;
+      border: 3px dashed rgba(48,51,47,0.38);
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+      background: var(--cream);
+    }
+
+    .m4-asset-placeholder strong {
+      color: var(--charcoal);
+    }
+
+    .m4-label-tray {
+      margin-top: 14px;
+    }
+
+    .m4-label-token {
+      min-width: 120px;
+      padding: 10px 14px;
+      border: 2px solid var(--charcoal);
+      border-radius: 999px;
+      background: white;
+      color: var(--charcoal);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .frogfish-labelling-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .frogfish-image-stage {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: #06182e;
+    }
+
+    .frogfish-image-stage > img {
+      display: block;
+      width: 100%;
+      height: 420px;
+      object-fit: contain;
+    }
+
+    .frogfish-placeholder {
+      min-height: 420px;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .frogfish-hotspot {
+      position: absolute;
+      left: var(--frog-x);
+      top: var(--frog-y);
+      width: 34px;
+      height: 34px;
+      translate: -50% -50%;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 3px solid white;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: var(--charcoal);
+      box-shadow: 0 0 0 4px rgba(57,211,255,0.26), 0 4px 0 rgba(0,0,0,0.28);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .frogfish-hotspot::before {
+      content: attr(data-number);
+    }
+
+    .frogfish-hotspot:hover,
+    .frogfish-hotspot.active {
+      background: white;
+      transform: scale(1.12);
+    }
+
+    .frogfish-hotspot.filled {
+      background: var(--soft-green);
+      border-color: var(--green);
+    }
+
+    .frogfish-hotspot.answer-correct {
+      background: var(--green);
+      color: white;
+      border-color: white;
+    }
+
+    .frogfish-hotspot.answer-incorrect {
+      background: var(--orange);
+      color: white;
+      border-color: white;
+    }
+
+    .frogfish-label-panel {
+      padding: 18px;
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: var(--soft-blue);
+    }
+
+    .frogfish-label-panel label,
+    .frogfish-step-label {
+      display: block;
+      margin: 0 0 8px;
+      color: var(--charcoal);
+      font-weight: 800;
+    }
+
+    .frogfish-input-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    #frogfishLabelInput {
+      min-width: 0;
+      padding: 12px 13px;
+      border: 2px solid var(--charcoal);
+      border-radius: 12px;
+      background: white;
+      color: var(--charcoal);
+      font: inherit;
+    }
+
+    #frogfishSaveLabel {
+      min-width: 110px;
+      --background-colour: var(--green);
+    }
+
+    .frogfish-saved-labels {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 2px dashed rgba(48,51,47,0.24);
+    }
+
+    .frogfish-label-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      padding: 9px 10px;
+      border: 2px solid rgba(48,51,47,0.2);
+      border-radius: 10px;
+      background: white;
+      color: var(--charcoal);
+      font-size: 0.82rem;
+    }
+
+    .frogfish-label-row strong {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      text-align: right;
+    }
+
+    @media (max-width: 800px) {
+      .frogfish-labelling-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .frogfish-input-row {
+        grid-template-columns: 1fr;
+      }
+
+      #frogfishSaveLabel {
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 
@@ -2525,11 +2861,11 @@
             </button>
             <button class="mission-button" data-mission="mission-3" data-number="03" type="button" disabled>
               <strong>Mission 3</strong>
-              <span>Drawing Rules &amp; Experiment Diagram</span>
+              <span>Rust Prevention</span>
             </button>
             <button class="mission-button" data-mission="mission-4" data-number="04" type="button" disabled>
               <strong>Mission 4</strong>
-              <span>What is a Scientific Drawing?</span>
+              <span>Shallow-Water Camera Trials</span>
             </button>
             <button class="mission-button" data-mission="mission-5" data-number="05" type="button" disabled>
               <strong>Mission 5</strong>
@@ -2566,7 +2902,7 @@
               </div>
             </section>
             <!-- ==================================================
-                 MISSION 1: BRIEFING (4 stages)
+                 MISSION 1: BRIEFING (2 stages)
                  ================================================== -->
             <section class="section expedition-mission" id="mission-1" data-mission-index="0">
               <div class="mission-stage" data-stage-id="m1-exploration">
@@ -2578,7 +2914,7 @@
                   <div class="mission-window-body">
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 1 of 4</span>
+                      <span class="stage-progress-chip">Stage 1 of 2</span>
                     </div>
                     <h3>What is deep sea exploration?</h3>
                     <p class="mission-subtitle">
@@ -2608,6 +2944,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="mission-stage" data-stage-id="m1-failure">
                 <div class="mission-window">
                   <div class="mission-window-bar">
@@ -2617,12 +2954,12 @@
                   <div class="mission-window-body">
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 2 of 4</span>
+                      <span class="stage-progress-chip">Stage 2 of 2</span>
                     </div>
                     <h3>What to do when it goes wrong?</h3>
                     <p class="mission-subtitle">
-                      When camera footage is corrupted, the skill of scientific drawing can help preserve an observation.
-                      You will build this skill before completing the expedition.
+                      When camera footage is corrupted, scientists need to understand the problem, repair the equipment,
+                      and still be able to make an accurate record of what they observe.
                     </p>
                     <div class="media-compare">
                       <figure class="media-card">
@@ -2634,82 +2971,8 @@
                         <figcaption>HD footage</figcaption>
                       </figure>
                     </div>
-                    <p class="activity-prompt">Press <strong>CHECK</strong> when you understand why an accurate visual record matters.</p>
+                    <p class="activity-prompt">Press <strong>CHECK</strong> when you understand why reliable equipment and accurate observations matter.</p>
                     <div class="variable-feedback stage-feedback" data-feedback="m1-failure" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mission-stage" data-stage-id="m1-fish-1">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 1: image quality test</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 3 of 4</span>
-                    </div>
-                    <h3>Quality of underwater photos</h3>
-                    <p class="mission-subtitle">
-                      This image was taken from the Visdeurbel in the Netherlands. It is not a deep-sea image, but it shows how difficult
-                      it can be to identify an organism from underwater footage. Click the fish you think is shown, then press CHECK.
-                    </p>
-                    <div class="fish-question-image">
-                      <img src="../images/lesson5/visdeurbel-fish-1.png" alt="Underwater image of a fish with dark vertical stripes">
-                    </div>
-                    <div class="choice-grid" data-choice-group="fish1">
-                      <button type="button" class="choice-card media-choice" data-value="perch">
-                        <img class="choice-image" src="../images/lesson5/perch.png" alt="Perch reference image">
-                        <h4>A. Perch</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="pike-perch">
-                        <img class="choice-image" src="../images/lesson5/pike-perch.png" alt="Pike-perch reference image">
-                        <h4>B. Pike-Perch</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="rudd">
-                        <img class="choice-image" src="../images/lesson5/rudd.png" alt="Rudd reference image">
-                        <h4>C. Rudd</h4>
-                      </button>
-                    </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m1-fish-1" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mission-stage" data-stage-id="m1-fish-2">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 1: image quality test</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 4 of 4</span>
-                    </div>
-                    <h3>Quality of underwater photos</h3>
-                    <p class="mission-subtitle">
-                      Here is another image from the Visdeurbel. Click the fish you think is shown, then press CHECK.
-                      Once you answer correctly, NEXT will unlock the next mission.
-                    </p>
-                    <div class="fish-question-image">
-                      <img src="../images/lesson5/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a large fish">
-                    </div>
-                    <div class="choice-grid" data-choice-group="fish2">
-                      <button type="button" class="choice-card media-choice" data-value="white-bream">
-                        <img class="choice-image" src="../images/lesson5/white-bream.png" alt="White bream reference image">
-                        <h4>A. White bream</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="carp">
-                        <img class="choice-image" src="../images/lesson5/carp.png" alt="Carp reference image">
-                        <h4>B. Carp</h4>
-                      </button>
-                      <button type="button" class="choice-card media-choice" data-value="catfish">
-                        <img class="choice-image" src="../images/lesson5/catfish.png" alt="Catfish reference image">
-                        <h4>C. Catfish</h4>
-                      </button>
-                    </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m1-fish-2" role="status" aria-live="polite"></div>
                   </div>
                 </div>
               </div>
@@ -2795,127 +3058,320 @@
               </div>
             </section>
             <!-- ==================================================
-                 MISSION 3: SCIENTIFIC DRAWING PRACTICE (2 stages)
-                 Stage 1: general rules checklist
-                 Stage 2: drag-and-drop recreation of an experiment
+                 MISSION 3: RUST PREVENTION
+                 The camera housing has been damaged by corrosion. Students
+                 choose the fairest test for investigating rust prevention.
                  ================================================== -->
             <section class="section expedition-mission locked" id="mission-3" data-mission-index="2">
-              <div class="mission-stage" data-stage-id="m3-rules">
+              <div class="mission-stage" data-stage-id="m3-rust">
                 <div class="mission-window">
                   <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: drawing rules</strong>
+                    <strong>Deep field terminal // mission 3: rust prevention</strong>
                     <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
                   </div>
                   <div class="mission-window-body">
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 03</p>
-                      <span class="stage-progress-chip">Stage 1 of 2</span>
+                      <span class="stage-progress-chip">Stage 1 of 1</span>
                     </div>
-                    <h3>General rules for scientific drawings</h3>
-                    <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
-                    <div class="rules-grid" id="drawingRules">
-                      <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="label-lines"><span><strong>Plain label lines — no arrows</strong><p>Connect labels cleanly to the relevant structure.</p></span></label>
+                    <h3>Repair the camera: investigate rust prevention</h3>
+                    <p class="mission-subtitle">
+                      Parts of the camera housing have been affected by rust. Before the camera returns to the water,
+                      choose the experimental set-up that gives scientists the fairest comparison.
+                    </p>
+                    <p class="activity-prompt">Choose the strongest fair-test set-up, then press <strong>CHECK</strong>.</p>
+                    <div class="choice-grid" data-choice-group="rust">
+                      <button type="button" class="choice-card" data-value="fair-test">
+                        <div class="mini-visual" aria-hidden="true">🔩 ↔️ 💧</div>
+                        <h4>A. Same steel nails, two water conditions</h4>
+                        <p>Keep nail type, time and temperature the same. Change only the condition being tested.</p>
+                      </button>
+                      <button type="button" class="choice-card" data-value="mixed-variables">
+                        <div class="mini-visual" aria-hidden="true">🔩 🪙 🧪</div>
+                        <h4>B. Different metals in different liquids</h4>
+                        <p>Several variables change at the same time.</p>
+                      </button>
+                      <button type="button" class="choice-card" data-value="no-comparison">
+                        <div class="mini-visual" aria-hidden="true">🔩</div>
+                        <h4>C. Observe one nail</h4>
+                        <p>There is no comparison condition.</p>
+                      </button>
                     </div>
-                    <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m3-rules" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mission-stage" data-stage-id="m3-dragdrop">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: experiment diagram</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 03</p>
-                      <span class="stage-progress-chip">Stage 2 of 2</span>
-                    </div>
-                    <h3>Recreate the experiment</h3>
-                    <p class="mission-subtitle">Look at the experiment on the left. Drag the equipment symbols into the box on the right to build a scientific diagram of it.</p>
-                    <div class="dd-activity" id="m3DragDrop">
-                      <div class="dd-board">
-                        <div class="dd-reference">
-                          <span class="dd-caption">Experiment</span>
-                          <!-- TODO: replace the placeholder text with <img src="../images/lesson5/..." alt="..."> -->
-                          <span>Experiment image coming soon</span>
-                    </div>
-                        <div class="dd-target">
-                          <span class="dd-caption">Your diagram</span>
-                          <!-- TODO: move each slot to its final position with --dd-x / --dd-y (percent of the box)
-                               and update each slot's data-dd-answer (currently tray order) to the correct item. -->
-                          <div data-dd-slot="slot-1" data-dd-answer="beaker" style="--dd-x: 20%; --dd-y: 28%" aria-label="Diagram slot 1"></div>
-                          <div data-dd-slot="slot-2" data-dd-answer="test-tube" style="--dd-x: 50%; --dd-y: 28%" aria-label="Diagram slot 2"></div>
-                          <div data-dd-slot="slot-3" data-dd-answer="conical-flask" style="--dd-x: 80%; --dd-y: 28%" aria-label="Diagram slot 3"></div>
-                          <div data-dd-slot="slot-4" data-dd-answer="measuring-cylinder" style="--dd-x: 20%; --dd-y: 72%" aria-label="Diagram slot 4"></div>
-                          <div data-dd-slot="slot-5" data-dd-answer="tripod" style="--dd-x: 50%; --dd-y: 72%" aria-label="Diagram slot 5"></div>
-                          <div data-dd-slot="slot-6" data-dd-answer="bunsen-burner" style="--dd-x: 80%; --dd-y: 72%" aria-label="Diagram slot 6"></div>
-                  </div>
-                </div>
-                      <div class="dd-tray" data-dd-tray aria-label="Equipment symbols">
-                        <!-- Symbols copied from #equipmentSymbolsModal -->
-                        <div data-dd-item="beaker" title="Beaker" aria-label="Beaker"><svg viewBox="0 0 100 80"><path d="M25 10 V58 Q25 70 50 70 Q75 70 75 58 V10 M25 10 Q50 4 75 10" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="test-tube" title="Test tube" aria-label="Test tube"><svg viewBox="0 0 100 80"><path d="M42 8 V58 Q42 70 50 70 Q58 70 58 58 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="conical-flask" title="Conical flask" aria-label="Conical flask"><svg viewBox="0 0 100 80"><path d="M43 8 V28 L24 66 H76 L57 28 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="measuring-cylinder" title="Measuring cylinder" aria-label="Measuring cylinder"><svg viewBox="0 0 100 80"><path d="M42 8 V66 M58 8 V66 M34 66 H66" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="tripod" title="Tripod" aria-label="Tripod"><svg viewBox="0 0 100 80"><circle cx="50" cy="22" r="16" fill="none" stroke="#30332f" stroke-width="3"/><path d="M38 35 L25 70 M50 38 V72 M62 35 L75 70" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="bunsen-burner" title="Bunsen burner" aria-label="Bunsen burner"><svg viewBox="0 0 100 80"><path d="M46 14 H54 V56 H46 Z M35 56 H65 V68 H35 Z" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-              </div>
-                    </div>
-                    <span class="prototype-note">Placeholder: the experiment image and final slot positions are not set yet. For now the correct answer is the symbols in tray order (slot 1 = beaker, slot 2 = test tube, and so on).</span>
-                    <div class="variable-feedback stage-feedback" data-feedback="m3-dragdrop" role="status" aria-live="polite"></div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-rust" role="status" aria-live="polite"></div>
                   </div>
                 </div>
               </div>
             </section>
             <!-- ==================================================
-                 MISSION 4: SCIENTIFIC DRAWING (2 stages)
-                 Note: later storyboard frames currently label this
-                 content "Mission 3" while the persistent mission log
-                 lists it as Mission 4. This page keeps the mission-log
-                 numbering until the storyboard is reconciled.
+                 MISSION 4: SHALLOW-WATER CAMERA TRIALS (4 activities)
+                 Activity 1: identify fish using visible features
+                 Activity 2: choose a good scientific drawing
+                 Activity 3: drag-and-drop labels on a batfish drawing
+                 Activity 4: independently label a frogfish
                  ================================================== -->
             <section class="section expedition-mission locked" id="mission-4" data-mission-index="3">
-              <div class="mission-stage" data-stage-id="m4-compare">
+
+              <!-- ACTIVITY 1 ------------------------------------------------ -->
+              <div class="mission-stage" data-stage-id="m4-identify">
                 <div class="mission-window">
                   <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 4: drawing comparison</strong>
+                    <strong>Deep field terminal // mission 4: shallow-water camera test</strong>
                     <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
                   </div>
                   <div class="mission-window-body">
                     <div class="stage-progress-row">
-                      <p class="mission-label">Mission 04</p>
-                      <span class="stage-progress-chip">Stage 1 of 1</span>
+                      <p class="mission-label">Mission 04 · Activity 1</p>
+                      <span class="stage-progress-chip">Activity 1 of 4</span>
                     </div>
-                    <h3>How do we draw our observations as a scientist?</h3>
-                    <p class="mission-subtitle">Use the checklist you just reviewed. Which drawing best represents the damaged footage as a scientific drawing?</p>
-                    <div class="fish-question-image glitch-frame" style="--glitch-src: url(../images/lesson5/camera-footage.webp)">
-                      <img src="../images/lesson5/camera-footage.webp" alt="Damaged underwater footage used as the observation source">
+                    <h3>Camera repaired — test it in shallow water</h3>
+                    <div class="m4-preamble">
+                      <strong>System update:</strong> The camera repairs are complete. Before taking it back into the deep sea,
+                      test it in shallow water where the animals are easier to observe. The image may still be difficult to read,
+                      so identify each fish by comparing <strong>observable features</strong> rather than relying on its name.
                     </div>
-                    <div class="drawing-choice-grid" data-choice-group="drawing">
-                      <button type="button" class="choice-card" data-value="drawing-one">
-                        <img src="../images/lesson5/drawing-one.png" alt="Highly rendered coloured drawing with arrows and labels">
-                        <h4>Drawing One</h4>
+
+                    <div class="m4-feature-cues" aria-label="Features to compare">
+                      <span>Body shape</span><span>Fin shape &amp; position</span><span>Mouth shape</span><span>Markings</span>
+                    </div>
+
+                    <article class="shallow-fish-question">
+                      <h4>Observation A</h4>
+                      <p>Which reference fish best matches the underwater image?</p>
+                      <div class="fish-question-image">
+                        <img src="../images/lesson5/visdeurbel-fish-1.png" alt="Low-visibility underwater image of a fish with visible vertical markings">
+                      </div>
+                      <div class="choice-grid" data-choice-group="shallowFish1">
+                        <button type="button" class="choice-card media-choice" data-value="perch">
+                          <img class="choice-image" src="../images/lesson5/perch.png" alt="Reference fish A">
+                          <h4>Reference A</h4>
+                        </button>
+                        <button type="button" class="choice-card media-choice" data-value="pike-perch">
+                          <img class="choice-image" src="../images/lesson5/pike-perch.png" alt="Reference fish B">
+                          <h4>Reference B</h4>
+                        </button>
+                        <button type="button" class="choice-card media-choice" data-value="rudd">
+                          <img class="choice-image" src="../images/lesson5/rudd.png" alt="Reference fish C">
+                          <h4>Reference C</h4>
+                        </button>
+                      </div>
+                    </article>
+
+                    <article class="shallow-fish-question">
+                      <h4>Observation B</h4>
+                      <p>Now use the same strategy on a second image. Ignore the species name and compare the visible structures.</p>
+                      <div class="fish-question-image">
+                        <img src="../images/lesson5/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a second fish">
+                      </div>
+                      <div class="choice-grid" data-choice-group="shallowFish2">
+                        <button type="button" class="choice-card media-choice" data-value="white-bream">
+                          <img class="choice-image" src="../images/lesson5/white-bream.png" alt="Reference fish A">
+                          <h4>Reference A</h4>
+                        </button>
+                        <button type="button" class="choice-card media-choice" data-value="carp">
+                          <img class="choice-image" src="../images/lesson5/carp.png" alt="Reference fish B">
+                          <h4>Reference B</h4>
+                        </button>
+                        <button type="button" class="choice-card media-choice" data-value="catfish">
+                          <img class="choice-image" src="../images/lesson5/catfish.png" alt="Reference fish C">
+                          <h4>Reference C</h4>
+                        </button>
+                      </div>
+                    </article>
+
+                    <p class="activity-prompt">Choose one reference for <strong>both</strong> observations, then press <strong>CHECK</strong>.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m4-identify" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTIVITY 2 ------------------------------------------------ -->
+              <div class="mission-stage" data-stage-id="m4-clownfish">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 4: scientific drawing test</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 04 · Activity 2</p>
+                      <span class="stage-progress-chip">Activity 2 of 4</span>
+                    </div>
+                    <h3>Which clownfish is drawn like a scientist?</h3>
+                    <p class="mission-subtitle">
+                      A scientific drawing should show the important observable structures clearly. It is not an artwork:
+                      colour, decorative shading and unnecessary detail can make the record harder to interpret.
+                    </p>
+
+                    <div class="drawing-choice-grid" data-choice-group="clownfishDiagram">
+                      <button type="button" class="choice-card m4-clownfish-choice" data-value="colour">
+                        <svg viewBox="0 0 320 180" role="img" aria-label="Clownfish drawing option A with colour">
+                          <ellipse cx="155" cy="92" rx="92" ry="50" fill="#f58220" stroke="#30332f" stroke-width="4"/>
+                          <polygon points="239,92 300,48 288,92 300,136" fill="#f58220" stroke="#30332f" stroke-width="4"/>
+                          <path d="M110 48 Q130 92 110 136 M168 43 Q188 92 168 141" fill="none" stroke="white" stroke-width="20"/>
+                          <circle cx="101" cy="79" r="6" fill="#30332f"/>
+                        </svg>
+                        <h4>Drawing A</h4>
+                        <p>A colourful representation.</p>
                       </button>
-                      <button type="button" class="choice-card" data-value="drawing-two">
-                        <img src="../images/lesson5/drawing-two.png" alt="Simple line drawing with labels connected by plain lines">
-                        <h4>Drawing Two</h4>
+
+                      <button type="button" class="choice-card m4-clownfish-choice" data-value="over-detailed">
+                        <svg viewBox="0 0 320 180" role="img" aria-label="Clownfish drawing option B with heavy texture and shading">
+                          <ellipse cx="155" cy="92" rx="92" ry="50" fill="none" stroke="#30332f" stroke-width="4"/>
+                          <polygon points="239,92 300,48 288,92 300,136" fill="none" stroke="#30332f" stroke-width="4"/>
+                          <circle cx="101" cy="79" r="6" fill="#30332f"/>
+                          <g stroke="#777" stroke-width="1.6" opacity="0.9">
+                            <path d="M80 65 L218 118 M76 78 L214 131 M84 52 L225 105 M90 44 L230 94 M74 96 L205 140"/>
+                            <path d="M85 126 L219 60 M74 112 L205 50 M100 140 L230 72 M120 143 L238 86"/>
+                          </g>
+                          <path d="M112 47 Q132 92 112 137 M168 43 Q188 92 168 141" fill="none" stroke="#30332f" stroke-width="5"/>
+                        </svg>
+                        <h4>Drawing B</h4>
+                        <p>Lots of texture and decorative detail.</p>
+                      </button>
+
+                      <button type="button" class="choice-card m4-clownfish-choice" data-value="scientific">
+                        <svg viewBox="0 0 320 180" role="img" aria-label="Clownfish drawing option C using clear simple lines and main observable features">
+                          <ellipse cx="155" cy="92" rx="92" ry="50" fill="none" stroke="#30332f" stroke-width="4"/>
+                          <polygon points="239,92 300,48 288,92 300,136" fill="none" stroke="#30332f" stroke-width="4"/>
+                          <path d="M106 47 Q128 92 106 137 M167 43 Q188 92 167 141" fill="none" stroke="#30332f" stroke-width="4"/>
+                          <path d="M128 44 Q150 14 174 43 M126 140 Q150 165 175 140" fill="none" stroke="#30332f" stroke-width="3"/>
+                          <circle cx="101" cy="79" r="5" fill="#30332f"/>
+                        </svg>
+                        <h4>Drawing C</h4>
+                        <p>Clear lines and the main visible features only.</p>
                       </button>
                     </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m4-compare" role="status" aria-live="polite"></div>
+
+                    <p class="activity-prompt">Choose the best scientific drawing, then press <strong>CHECK</strong>.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m4-clownfish" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTIVITY 3 ------------------------------------------------ -->
+              <div class="mission-stage" data-stage-id="m4-batfish-labels">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 4: guided labelling</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 04 · Activity 3</p>
+                      <span class="stage-progress-chip">Activity 3 of 4</span>
+                    </div>
+                    <h3>Label the red-lipped batfish</h3>
+                    <p class="mission-subtitle">
+                      The labels are provided for you this time. Follow each leader line from the fish to an empty box,
+                      then drag the correct label into that box. This is guided practice before you label the next organism independently.
+                    </p>
+
+                    <div class="dd-activity m4-batfish-dd" id="m4BatfishDragDrop">
+                      <div class="dd-board">
+                        <div class="dd-target m4-batfish-target">
+                          <span class="dd-caption">Scientific drawing</span>
+                          <img
+                            class="m4-batfish-diagram"
+                            src="../images/lesson5/red-lipped-batfish-diagram.png"
+                            alt="Front-view scientific drawing of a red-lipped batfish with five leader lines and empty label boxes"
+                            onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+                          >
+                          <div class="m4-asset-placeholder" hidden>
+                            <strong>Batfish diagram missing</strong>
+                            <span>Add the supplied file as <code>../images/lesson5/red-lipped-batfish-diagram.png</code>.</span>
+                          </div>
+
+                          <!-- Drop zones are aligned to the five empty boxes already drawn into the 4:3 image. -->
+                          <div data-dd-slot="batfish-eye" data-dd-answer="eye" style="--dd-x: 16.2%; --dd-y: 23.7%; --dd-w: 24.7%;" aria-label="Drop the label for the eye here"></div>
+                          <div data-dd-slot="batfish-dorsal" data-dd-answer="dorsal-fin" style="--dd-x: 79.7%; --dd-y: 16.0%; --dd-w: 25.0%;" aria-label="Drop the label for the dorsal fin here"></div>
+                          <div data-dd-slot="batfish-snout" data-dd-answer="snout" style="--dd-x: 83.0%; --dd-y: 36.8%; --dd-w: 23.0%;" aria-label="Drop the label for the snout here"></div>
+                          <div data-dd-slot="batfish-pectoral" data-dd-answer="pectoral-fin" style="--dd-x: 16.0%; --dd-y: 84.6%; --dd-w: 24.5%;" aria-label="Drop the label for the pectoral fin here"></div>
+                          <div data-dd-slot="batfish-mouth" data-dd-answer="mouth" style="--dd-x: 82.5%; --dd-y: 80.5%; --dd-w: 22.5%;" aria-label="Drop the label for the mouth and red lips here"></div>
+                        </div>
+                      </div>
+
+                      <div class="dd-tray m4-label-tray" data-dd-tray aria-label="Batfish labels">
+                        <div class="m4-label-token" data-dd-item="eye">Eye</div>
+                        <div class="m4-label-token" data-dd-item="mouth">Mouth (red lips)</div>
+                        <div class="m4-label-token" data-dd-item="snout">Snout</div>
+                        <div class="m4-label-token" data-dd-item="dorsal-fin">Dorsal fin</div>
+                        <div class="m4-label-token" data-dd-item="pectoral-fin">Pectoral fin</div>
+                      </div>
+                    </div>
+
+                    <p class="activity-prompt">
+                      Place all five labels in the boxes at the ends of the leader lines, then press <strong>CHECK</strong>.
+                    </p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m4-batfish-labels" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTIVITY 4 ------------------------------------------------ -->
+              <div class="mission-stage" data-stage-id="m4-frogfish-labels">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 4: independent labelling</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 04 · Activity 4</p>
+                      <span class="stage-progress-chip">Activity 4 of 4</span>
+                    </div>
+                    <h3>Now label the frogfish yourself</h3>
+                    <p class="mission-subtitle">
+                      The scaffold is gone. Click each numbered point on the frogfish, decide which visible structure it indicates,
+                      and type the label yourself. Your labels should describe structures you can actually observe.
+                    </p>
+
+                    <div class="frogfish-labelling-grid">
+                      <div class="frogfish-image-stage" id="frogfishImageStage">
+                        <img
+                          src="../images/lesson5/frogfish.jpg"
+                          alt="Frogfish observation used for independent labelling"
+                          onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+                        >
+                        <div class="m4-asset-placeholder frogfish-placeholder" hidden>
+                          <strong>Frogfish image placeholder</strong>
+                          <span>Add the final image as <code>../images/lesson5/frogfish.jpg</code>, then fine-tune the hotspot positions.</span>
+                        </div>
+
+                        <!-- TODO: fine-tune these percentages to the final frogfish image. -->
+                        <button type="button" class="frogfish-hotspot" data-frogfish-target="lure" data-number="1" style="--frog-x: 46%; --frog-y: 16%" aria-label="Label point 1"></button>
+                        <button type="button" class="frogfish-hotspot" data-frogfish-target="eye" data-number="2" style="--frog-x: 59%; --frog-y: 35%" aria-label="Label point 2"></button>
+                        <button type="button" class="frogfish-hotspot" data-frogfish-target="mouth" data-number="3" style="--frog-x: 69%; --frog-y: 52%" aria-label="Label point 3"></button>
+                        <button type="button" class="frogfish-hotspot" data-frogfish-target="pectoral-fin" data-number="4" style="--frog-x: 28%; --frog-y: 67%" aria-label="Label point 4"></button>
+                      </div>
+
+                      <aside class="frogfish-label-panel">
+                        <p class="frogfish-step-label" id="frogfishStepLabel">Select a numbered point on the image.</p>
+                        <label for="frogfishLabelInput">What structure is this?</label>
+                        <div class="frogfish-input-row">
+                          <input type="text" id="frogfishLabelInput" autocomplete="off" placeholder="Type your label" disabled>
+                          <button type="button" class="expedition-button" id="frogfishSaveLabel" disabled>Save label</button>
+                        </div>
+
+                        <div class="frogfish-saved-labels" aria-label="Your frogfish labels">
+                          <div class="frogfish-label-row" data-frogfish-summary="lure"><span>Point 1</span><strong>Not labelled</strong></div>
+                          <div class="frogfish-label-row" data-frogfish-summary="eye"><span>Point 2</span><strong>Not labelled</strong></div>
+                          <div class="frogfish-label-row" data-frogfish-summary="mouth"><span>Point 3</span><strong>Not labelled</strong></div>
+                          <div class="frogfish-label-row" data-frogfish-summary="pectoral-fin"><span>Point 4</span><strong>Not labelled</strong></div>
+                        </div>
+                      </aside>
+                    </div>
+
+                    <p class="activity-prompt">Label all four points, then press <strong>CHECK</strong>. The labels are not shown in advance.</p>
+                    <span class="prototype-note">Current answer key: lure / eye / mouth / pectoral fin. These are easy to change when the final frogfish image and exact hotspot positions are confirmed.</span>
+                    <div class="variable-feedback stage-feedback" data-feedback="m4-frogfish-labels" role="status" aria-live="polite"></div>
                   </div>
                 </div>
               </div>
             </section>
             <!-- ==================================================
                  MISSION 5: UNKNOWN SPECIES
-                 Final application: sonar -> observation -> camera
-                 failure -> scientific drawing -> self-check.
+                 Final application: sonar -> live observation -> camera capture
+                 -> scientific drawing -> self-check.
                  ================================================== -->
             <section class="section expedition-mission locked" id="mission-5" data-mission-index="4">
               <div class="mission-stage" data-stage-id="m5-finale">
@@ -2932,7 +3388,7 @@
                     <h3>Unknown Species Detected</h3>
                     <p class="mission-subtitle">
                       Sonar has detected movement near the expedition vehicle. Locate a contact, observe the organism,
-                      and create a scientific record if the camera system cannot capture it.
+                      capture a reference image, then use your observation to create a scientific record.
                     </p>
                     <!-- SONAR PHASE
                          The CSS radar below is a working placeholder. If the team later
@@ -3234,7 +3690,7 @@
          - saveCurrentPageData()/clearPageSavedData() hooks
        ================================================== */
 
-    const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v4";
+    const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v6";
 
     const missionConfig = [
       {
@@ -3242,9 +3698,7 @@
         title: "Briefing",
         stages: [
           { id: "m1-exploration", label: "What is deep sea exploration?", type: "read" },
-          { id: "m1-failure", label: "What to do when it goes wrong?", type: "read" },
-          { id: "m1-fish-1", label: "Quality of underwater photos · 1", type: "choice", choiceGroup: "fish1", correctValue: "perch" },
-          { id: "m1-fish-2", label: "Quality of underwater photos · 2", type: "choice", choiceGroup: "fish2", correctValue: "carp" }
+          { id: "m1-failure", label: "What to do when it goes wrong?", type: "read" }
         ]
       },
       {
@@ -3257,17 +3711,48 @@
       },
       {
         id: "mission-3",
-        title: "Drawing Practice",
+        title: "Rust Prevention",
         stages: [
-          { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist", requiredCount: 5 },
-          { id: "m3-dragdrop", label: "Recreate the experiment", type: "dragdrop" }
+          { id: "m3-rust", label: "Repair the camera", type: "choice", choiceGroup: "rust", correctValue: "fair-test" }
         ]
       },
       {
         id: "mission-4",
-        title: "Scientific Drawing",
+        title: "Shallow-Water Camera Trials",
         stages: [
-          { id: "m4-compare", label: "Compare drawings", type: "choice", choiceGroup: "drawing", correctValue: "drawing-two" }
+          {
+            id: "m4-identify",
+            label: "Identify from visible features",
+            type: "choice-set",
+            answers: { shallowFish1: "perch", shallowFish2: "carp" },
+            tryAgainMessage: "Compare the visible evidence again: body shape, fin shape and position, mouth shape and markings. The species names are deliberately hidden so the decision has to come from observable features."
+          },
+          {
+            id: "m4-clownfish",
+            label: "Choose a scientific drawing",
+            type: "choice",
+            choiceGroup: "clownfishDiagram",
+            correctValue: "scientific",
+            tryAgainMessage: "A strong scientific drawing uses clear simple lines, shows the important observable features, and avoids colour, decorative shading and unnecessary detail."
+          },
+          {
+            id: "m4-batfish-labels",
+            label: "Guided batfish labelling",
+            type: "dragdrop",
+            tryAgainMessage: "Follow each leader line back to the structure it points to, then place all five labels in the matching boxes."
+          },
+          {
+            id: "m4-frogfish-labels",
+            label: "Independent frogfish labelling",
+            type: "label-input",
+            labelAnswers: {
+              lure: ["lure", "illicium", "fishing lure"],
+              eye: ["eye"],
+              mouth: ["mouth"],
+              "pectoral-fin": ["pectoral fin", "pectoral fins"]
+            },
+            tryAgainMessage: "One or more labels do not match the indicated structure. Revisit the image and label only what you can observe."
+          }
         ]
       },
       {
@@ -3282,8 +3767,8 @@
 
     /*
       Final-mission organism pool.
-      Frogfish and sawshark are deliberately left out of this first pool because
-      the storyboard itself flags them as borderline examples for the deep-sea framing.
+      Red-lipped batfish and frogfish now belong to the shallow-water Mission 4 sequence,
+      while sawshark remains outside this first deep-sea pool.
       The chosen species is saved in sessionStorage and is not rerolled by Reset.
     */
     /*
@@ -3315,7 +3800,7 @@
     }
 
     let expeditionState = createFreshExpeditionState();
-    let m3DragDrop = null; /* DragDropActivity instance, created on DOMContentLoaded */
+    let m4BatfishDragDrop = null; /* DragDropActivity instance, created on DOMContentLoaded */
 
     function createFreshExpeditionState() {
       return {
@@ -3327,8 +3812,6 @@
         completedMissions: [false, false, false, false, false],
         completedStages: {},
         selections: {
-          fish1: "",
-          fish2: "",
           diagramExample: "",
           dragDrop: {},
           drawing: "",
@@ -3487,6 +3970,122 @@
       renderControls();
     }
 
+
+    function normaliseScientificLabel(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, " ")
+        .replace(/[-_]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function validateFrogfishLabels(stage) {
+      const answers = (stage && stage.labelAnswers) || {};
+      const submitted = expeditionState.selections.frogfishLabels || {};
+      const targets = Object.keys(answers);
+
+      if (!targets.length || targets.some(function(target) { return !submitted[target]; })) {
+        return false;
+      }
+
+      return targets.every(function(target) {
+        const value = normaliseScientificLabel(submitted[target]);
+        return answers[target].some(function(answer) {
+          return normaliseScientificLabel(answer) === value;
+        });
+      });
+    }
+
+    function selectFrogfishLabelTarget(target) {
+      const stage = getCurrentStage();
+      if (!stage || stage.id !== "m4-frogfish-labels") return;
+
+      expeditionState.selections.frogfishActiveTarget = target;
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderFrogfishLabels(true);
+    }
+
+    function saveFrogfishLabel() {
+      const target = expeditionState.selections.frogfishActiveTarget;
+      const input = document.getElementById("frogfishLabelInput");
+      if (!target || !input) return;
+
+      const value = typeof getValidStudentInput === "function"
+        ? getValidStudentInput(input)
+        : input.value.trim();
+
+      if (!value) return;
+
+      expeditionState.selections.frogfishLabels[target] = value;
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderFrogfishLabels(false);
+      renderControls();
+    }
+
+    function renderFrogfishLabels(focusInput) {
+      const labels = expeditionState.selections.frogfishLabels || {};
+      const activeTarget = expeditionState.selections.frogfishActiveTarget || "";
+      const input = document.getElementById("frogfishLabelInput");
+      const saveButton = document.getElementById("frogfishSaveLabel");
+      const stepLabel = document.getElementById("frogfishStepLabel");
+
+      document.querySelectorAll("[data-frogfish-target]").forEach(function(button) {
+        const target = button.dataset.frogfishTarget;
+        button.classList.toggle("active", target === activeTarget);
+        button.classList.toggle("filled", Boolean(labels[target]));
+      });
+
+      document.querySelectorAll("[data-frogfish-summary]").forEach(function(row) {
+        const target = row.dataset.frogfishSummary;
+        const output = row.querySelector("strong");
+        if (output) output.textContent = labels[target] || "Not labelled";
+      });
+
+      if (!input || !saveButton || !stepLabel) return;
+
+      if (!activeTarget) {
+        input.value = "";
+        input.disabled = true;
+        saveButton.disabled = true;
+        stepLabel.textContent = "Select a numbered point on the image.";
+        return;
+      }
+
+      const activeButton = document.querySelector('[data-frogfish-target="' + activeTarget + '"]');
+      const number = activeButton ? activeButton.dataset.number : "";
+      stepLabel.textContent = number ? "Point " + number + " selected." : "Point selected.";
+      input.disabled = false;
+      saveButton.disabled = false;
+      input.value = labels[activeTarget] || "";
+
+      if (focusInput) {
+        window.setTimeout(function() {
+          input.focus({ preventScroll: true });
+          input.select();
+        }, 0);
+      }
+    }
+
+    function markFrogfishLabelAnswers(stage, isCorrect) {
+      const answers = (stage && stage.labelAnswers) || {};
+      const submitted = expeditionState.selections.frogfishLabels || {};
+
+      document.querySelectorAll("[data-frogfish-target]").forEach(function(button) {
+        const target = button.dataset.frogfishTarget;
+        button.classList.remove("answer-correct", "answer-incorrect");
+        if (!submitted[target]) return;
+
+        const value = normaliseScientificLabel(submitted[target]);
+        const correct = (answers[target] || []).some(function(answer) {
+          return normaliseScientificLabel(answer) === value;
+        });
+        button.classList.add(correct ? "answer-correct" : "answer-incorrect");
+      });
+    }
+
     function validateCurrentStage(stage) {
       if (!stage) return false;
 
@@ -3500,12 +4099,22 @@
         return expeditionState.selections[stage.choiceGroup] === getStageCorrectValue(stage);
       }
 
+      if (stage.type === "choice-set") {
+        return Object.keys(stage.answers || {}).every(function(groupName) {
+          return expeditionState.selections[groupName] === stage.answers[groupName];
+        });
+      }
+
+      if (stage.type === "label-input") {
+        return validateFrogfishLabels(stage);
+      }
+
       if (stage.type === "checklist") {
         return expeditionState.selections.drawingRules.length >= stage.requiredCount;
       }
 
       if (stage.type === "dragdrop") {
-        return Boolean(m3DragDrop) && m3DragDrop.isComplete() && m3DragDrop.isCorrect();
+        return Boolean(m4BatfishDragDrop) && m4BatfishDragDrop.isComplete() && m4BatfishDragDrop.isCorrect();
       }
 
       if (stage.type === "observations") {
@@ -3546,9 +4155,9 @@
         } else if (stage.type === "checklist") {
           message = "Review all five scientific-drawing rules and tick each one before continuing.";
         } else if (stage.type === "dragdrop") {
-          message = m3DragDrop && m3DragDrop.isComplete()
-            ? "Some symbols are in the wrong place. Compare your diagram with the experiment and try again."
-            : "Drag every equipment symbol into the diagram box before checking.";
+          message = m4BatfishDragDrop && m4BatfishDragDrop.isComplete()
+            ? "Some labels are on the wrong structures. Recheck the batfish diagram and try again."
+            : "Place every batfish label onto a drop point before checking.";
         } else if (stage.type === "observations") {
           message = "Select at least three observable features before completing the final mission.";
         } else if (stage.type === "finale") {
@@ -3559,6 +4168,7 @@
 
         setActivityFeedback(feedback, "try-again", "Not quite yet", message);
         markSelectedAnswer(stage, false);
+        if (stage.type === "label-input") markFrogfishLabelAnswers(stage, false);
         renderControls();
         return;
       }
@@ -3597,12 +4207,28 @@
       );
 
       markSelectedAnswer(stage, true);
+      if (stage.type === "label-input") markFrogfishLabelAnswers(stage, true);
       saveCurrentPageData();
       renderExpedition();
     }
 
     function markSelectedAnswer(stage, isCorrect) {
-      if (!stage || !stage.choiceGroup || stage.type === "selection") return;
+      if (!stage) return;
+
+      if (stage.type === "choice-set") {
+        Object.keys(stage.answers || {}).forEach(function(groupName) {
+          const group = document.querySelector('[data-choice-group="' + groupName + '"]');
+          if (!group) return;
+          const selected = group.querySelector(".choice-card.selected");
+          if (!selected) return;
+          const correct = selected.dataset.value === stage.answers[groupName];
+          selected.classList.remove("correct", "incorrect");
+          selected.classList.add(correct ? "correct" : "incorrect");
+        });
+        return;
+      }
+
+      if (!stage.choiceGroup || stage.type === "selection") return;
 
       const group = document.querySelector('[data-choice-group="' + stage.choiceGroup + '"]');
       if (!group) return;
@@ -3681,13 +4307,24 @@
         expeditionState.selections[stage.choiceGroup] = "";
       }
 
+      if (stage.type === "choice-set") {
+        Object.keys(stage.answers || {}).forEach(function(groupName) {
+          expeditionState.selections[groupName] = "";
+        });
+      }
+
+      if (stage.type === "label-input") {
+        expeditionState.selections.frogfishLabels = {};
+        expeditionState.selections.frogfishActiveTarget = "";
+      }
+
       if (stage.type === "checklist") {
         expeditionState.selections.drawingRules = [];
       }
 
       if (stage.type === "dragdrop") {
-        expeditionState.selections.dragDrop = {};
-        if (m3DragDrop) m3DragDrop.reset();
+        expeditionState.selections.batfishLabels = {};
+        if (m4BatfishDragDrop) m4BatfishDragDrop.reset();
       }
 
       if (stage.type === "observations") {
@@ -3716,6 +4353,9 @@
 
         stageElement.querySelectorAll('input[type="checkbox"]').forEach(function(input) {
           input.checked = false;
+        });
+        stageElement.querySelectorAll(".frogfish-hotspot").forEach(function(button) {
+          button.classList.remove("active", "filled", "answer-correct", "answer-incorrect");
         });
       }
 
@@ -4034,6 +4674,7 @@
       renderScienceCheck();
       renderMission5();
       renderSelections();
+      renderFrogfishLabels(false);
       renderControls();
       renderDepth();
     }
@@ -4165,7 +4806,9 @@
     function stageHasInput(stage) {
       if (!stage) return false;
       if (stage.type === "read" || stage.type === "checklist") return true;
-      if (stage.type === "dragdrop") return Object.keys(expeditionState.selections.dragDrop).length > 0;
+      if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
+      if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
+      if (stage.type === "dragdrop") return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -4181,7 +4824,9 @@
       if (!stage) return false;
       if (stage.type === "read") return Boolean(expeditionState.completedStages[stage.id]);
       if (stage.type === "checklist") return expeditionState.selections.drawingRules.length > 0;
-      if (stage.type === "dragdrop") return Object.keys(expeditionState.selections.dragDrop).length > 0;
+      if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
+      if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
+      if (stage.type === "dragdrop") return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -4291,8 +4936,8 @@
     const sectionIds = [
       { id: "mission-1", label: "Briefing" },
       { id: "mission-2", label: "What is a scientific diagram?" },
-      { id: "mission-3", label: "Drawing Rules & Experiment Diagram" },
-      { id: "mission-4", label: "What is a scientific drawing?" },
+      { id: "mission-3", label: "Rust Prevention" },
+      { id: "mission-4", label: "Shallow-Water Camera Trials" },
       { id: "mission-5", label: "Unknown Species Detected" }
     ];
 
@@ -4364,17 +5009,37 @@
 
       populateSciencePanelFromChecklist();
 
-      const dragDropRoot = document.getElementById("m3DragDrop");
+      const dragDropRoot = document.getElementById("m4BatfishDragDrop");
       if (dragDropRoot) {
-        m3DragDrop = new DragDropActivity(dragDropRoot, {
+        m4BatfishDragDrop = new DragDropActivity(dragDropRoot, {
           onChange: function(placements) {
-            expeditionState.selections.dragDrop = placements;
+            expeditionState.selections.batfishLabels = placements;
             clearCurrentStageFeedback();
             saveCurrentPageData();
             renderControls();
           }
         });
-        m3DragDrop.setPlacements(expeditionState.selections.dragDrop);
+        m4BatfishDragDrop.setPlacements(expeditionState.selections.batfishLabels || {});
+      }
+
+      document.querySelectorAll("[data-frogfish-target]").forEach(function(button) {
+        button.addEventListener("click", function() {
+          selectFrogfishLabelTarget(button.dataset.frogfishTarget);
+        });
+      });
+
+      const frogfishSaveButton = document.getElementById("frogfishSaveLabel");
+      const frogfishInput = document.getElementById("frogfishLabelInput");
+      if (frogfishSaveButton) {
+        frogfishSaveButton.addEventListener("click", saveFrogfishLabel);
+      }
+      if (frogfishInput) {
+        frogfishInput.addEventListener("keydown", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            saveFrogfishLabel();
+          }
+        });
       }
 
       const equipmentModal = document.getElementById("equipmentSymbolsModal");
