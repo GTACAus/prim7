@@ -1724,6 +1724,11 @@
       background: rgba(215, 245, 233, 0.12);
     }
 
+    .science-panel .checkpoint input:disabled:checked {
+      opacity: 1;
+      cursor: default;
+    }
+
     .science-panel .checkpoint input:disabled {
       opacity: 0.48;
       cursor: not-allowed;
@@ -3362,7 +3367,7 @@
                         <article class="drawing-instructions-card">
                           <h4>Create the expedition record</h4>
                           <p>
-                            Draw the organism from observation. Use the <strong>Science Check</strong> panel to review the same scientific-drawing rules from Mission 4.
+                            Draw the organism from observation. Use the <strong>Science Check</strong> panel to review the same scientific-drawing rules from Mission 3.
                           </p>
                           <p>
                             The computer is not judging your drawing. The checklist is your self-assessment before you complete the expedition.
@@ -3418,21 +3423,16 @@
             <div class="science-lock">
               <div class="lock-icon" aria-hidden="true">🔒</div>
               <strong>Field drawing checklist locked</strong>
-              <p>Unlocks after Mission 3.</p>
+              <p>Unlocks after you complete the Mission 3 checklist.</p>
             </div>
-            <p class="science-mode-note" id="scienceModeNote">
-              <strong>Reference mode.</strong> These criteria unlock after Mission 3. You will tick them yourself during the final drawing mission.
+            <p class="science-mode-note" id="scienceModeNote" hidden>
+              Reference only.
             </p>
             <div class="checkpoint-list" id="checkpointList">
-              <label class="checkpoint"><input type="checkbox" data-science-check value="clear-lines" disabled> Use clear, simple lines</label>
-              <label class="checkpoint"><input type="checkbox" data-science-check value="main-features" disabled> Draw main features only</label>
-              <label class="checkpoint"><input type="checkbox" data-science-check value="limited-shading" disabled> Limited / no shading</label>
-              <label class="checkpoint"><input type="checkbox" data-science-check value="clear-labels" disabled> Include clear labels</label>
-              <label class="checkpoint"><input type="checkbox" data-science-check value="plain-label-lines" disabled> Plain label lines — no arrows</label>
             </div>
           </div>
           <div class="science-footer" id="scienceFooter">
-            <strong>Science Check:</strong> a persistent reference panel that becomes an interactive self-assessment during the final drawing mission.
+            <strong>Science Check:</strong> the scientific-drawing rules you reviewed in Mission 3.
           </div>
         </aside>
       </div>
@@ -3969,8 +3969,7 @@
       if (stage.type === "finale") {
         return (
           expeditionState.mission5.phase === "drawing" &&
-          expeditionState.mission5.drawingFinished &&
-          expeditionState.mission5.scienceChecks.length >= stage.requiredCount
+          expeditionState.mission5.drawingFinished
         );
       }
 
@@ -4002,7 +4001,7 @@
         } else if (stage.type === "observations") {
           message = "Select at least three observable features before completing the final mission.";
         } else if (stage.type === "finale") {
-          message = "Finish your scientific drawing and tick all five Science Check criteria before completing the expedition.";
+          message = "Finish your scientific drawing and tick the box to say it is done before completing the expedition.";
         } else if (stage.type === "selection") {
           message = "Choose one of the available options before checking this stage.";
         }
@@ -4272,19 +4271,6 @@
       renderControls();
     }
 
-    function syncMission5ScienceChecks() {
-      expeditionState.mission5.scienceChecks = Array.from(
-        document.querySelectorAll('[data-science-check]:checked')
-      ).map(function(input) {
-        return input.value;
-      });
-
-      clearCurrentStageFeedback();
-      saveCurrentPageData();
-      renderControls();
-      renderScienceCheck();
-    }
-
     function renderMission5() {
       const mission5 = expeditionState.mission5;
       if (!mission5) return;
@@ -4422,40 +4408,33 @@
       });
     }
 
+    /* Builds the Science Check panel from the Mission 3 checklist: same rule text, all ticked, disabled (visual only). */
+    function populateSciencePanelFromChecklist() {
+      const list = document.getElementById("checkpointList");
+      if (!list) return;
+
+      list.innerHTML = "";
+      document.querySelectorAll("#drawingRules .rule-card strong").forEach(function(ruleTitle) {
+        const label = document.createElement("label");
+        label.className = "checkpoint";
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = true;
+        input.disabled = true;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + ruleTitle.textContent.trim()));
+        list.appendChild(label);
+      });
+    }
+
+    /* The panel unlocks once the Mission 3 checklist stage has been completed. */
     function renderScienceCheck() {
       const panel = document.getElementById("sciencePanel");
-      const note = document.getElementById("scienceModeNote");
-      const footer = document.getElementById("scienceFooter");
       if (!panel) return;
 
-      const shouldUnlock = expeditionState.completedMissions[2] || expeditionState.unlockedMissionIndex >= 3;
-      const finalDrawingActive = (
-        expeditionState.currentMissionIndex === 4 &&
-        expeditionState.started &&
-        expeditionState.mission5.phase === "drawing"
-      );
-
-      panel.classList.toggle("unlocked", shouldUnlock);
-      panel.classList.toggle("final-drawing-active", finalDrawingActive);
-
-      document.querySelectorAll("[data-science-check]").forEach(function(input) {
-        input.disabled = !finalDrawingActive;
-        input.checked = expeditionState.mission5.scienceChecks.includes(input.value);
-      });
-
-      if (note) {
-        if (finalDrawingActive) {
-          note.innerHTML = "<strong>Self-assessment mode.</strong> Tick each criterion as you check your final scientific drawing.";
-        } else {
-          note.innerHTML = "<strong>Reference mode.</strong> These criteria unlock after Mission 3. You will tick them yourself during the final drawing mission.";
-        }
-      }
-
-      if (footer) {
-        footer.innerHTML = finalDrawingActive
-          ? "<strong>Final mission:</strong> the checklist is now interactive. The software is recording your self-check, not judging the drawing itself."
-          : "<strong>Science Check:</strong> use these criteria as a reference until the final drawing mission.";
-      }
+      panel.classList.toggle("unlocked", Boolean(expeditionState.completedStages["m3-rules"]));
     }
 
     function renderSelections() {
@@ -4487,8 +4466,7 @@
       if (stage.type === "finale") {
         return (
           expeditionState.mission5.phase === "drawing" &&
-          expeditionState.mission5.drawingFinished &&
-          expeditionState.mission5.scienceChecks.length >= stage.requiredCount
+          expeditionState.mission5.drawingFinished
         );
       }
       if (stage.choiceGroup) return Boolean(expeditionState.selections[stage.choiceGroup]);
@@ -4552,8 +4530,7 @@
         } else if (phase === "capture") {
           status.innerHTML = "<strong>Capturing image.</strong> Writing the observation frame to the expedition record...";
         } else if (phase === "drawing") {
-          const checked = expeditionState.mission5.scienceChecks.length;
-          status.innerHTML = "<strong>Captured frame ready — make a scientific drawing.</strong> Science Check: " + checked + "/5 criteria checked.";
+          status.innerHTML = "<strong>Camera failure — make a scientific drawing.</strong> Use the Science Check rules, then tick the box when you are finished.";
         }
         return;
       }
@@ -4677,9 +4654,11 @@
         });
       });
 
-      document.querySelectorAll("[data-science-check]").forEach(function(input) {
-        input.addEventListener("change", syncMission5ScienceChecks);
+      document.querySelectorAll('#drawingRules input[type="checkbox"]').forEach(function(input) {
+        input.addEventListener("change", syncDrawingRules);
       });
+
+      populateSciencePanelFromChecklist();
 
       const dragDropRoot = document.getElementById("m4BatfishDragDrop");
       if (dragDropRoot) {
