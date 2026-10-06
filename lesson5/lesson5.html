@@ -3691,7 +3691,7 @@
         id: "mission-3",
         title: "Drawing Practice",
         stages: [
-          { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist", requiredCount: 4 },
+          { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist" },
           { id: "m3-dragdrop", label: "Recreate the experiment", type: "dragdrop" }
         ]
       },
@@ -4071,11 +4071,11 @@
       }
 
       if (stage.type === "checklist") {
-        const allChecked = Array.from(document.querySelectorAll('#drawingRules input[type="checkbox"]'))
-          .every(function(checkbox) {
-            return checkbox.checked;
-          });
-        return allChecked;
+        return Array.from(
+          document.querySelectorAll('#drawingRules input[type="checkbox"]')
+        ).every(function(checkbox) {
+          return checkbox.checked;
+        });
       }
 
       if (stage.type === "dragdrop") {
