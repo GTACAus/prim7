@@ -2356,17 +2356,75 @@
 
     .m4-batfish-target {
       position: relative;
-      min-height: 420px;
+      width: 100%;
+      min-height: 0;
+      aspect-ratio: 4 / 3;
       overflow: hidden;
       background: #f8fbfc;
     }
 
     .m4-batfish-diagram {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
       display: block;
       width: 100%;
-      height: 390px;
+      height: 100%;
       object-fit: contain;
-      padding: 34px;
+      padding: 0;
+    }
+
+    /*
+      The generated batfish diagram already contains the orange leader lines
+      and empty label boxes. These HTML drop zones sit directly over those
+      printed boxes so the generic DragDropActivity can handle the interaction.
+    */
+    .m4-batfish-target [data-dd-slot] {
+      position: absolute !important;
+      left: var(--dd-x) !important;
+      top: var(--dd-y) !important;
+      z-index: 3;
+      width: var(--dd-w, 24%) !important;
+      height: var(--dd-h, 8.5%) !important;
+      min-width: 0 !important;
+      min-height: 44px !important;
+      translate: 0 0 !important;
+      transform: translate(-50%, -50%) !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px !important;
+      border: 2px dashed rgba(10, 174, 217, 0.42) !important;
+      border-radius: 14px !important;
+      background: rgba(255, 255, 255, 0.56) !important;
+      box-shadow: none !important;
+    }
+
+    .m4-batfish-target [data-dd-slot]:hover,
+    .m4-batfish-target [data-dd-slot]:focus-visible,
+    .m4-batfish-target [data-dd-slot].dd-hover {
+      border-color: var(--blue) !important;
+      background: rgba(216, 247, 255, 0.86) !important;
+      outline: none;
+    }
+
+    .m4-batfish-target [data-dd-slot].dd-filled {
+      border-color: var(--green) !important;
+      background: rgba(215, 245, 233, 0.9) !important;
+    }
+
+    .m4-batfish-target [data-dd-slot] .m4-label-token {
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+      padding: 6px 8px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.97);
+      display: grid;
+      place-items: center;
+      line-height: 1.15;
+      white-space: normal;
     }
 
     .m4-asset-placeholder {
@@ -3155,8 +3213,8 @@
                     </div>
                     <h3>Label the red-lipped batfish</h3>
                     <p class="mission-subtitle">
-                      The structures are provided for you this time. Drag each label to the matching point on the scientific drawing.
-                      This is the guided practice before you label the next organism independently.
+                      The labels are provided for you this time. Follow each leader line from the fish to an empty box,
+                      then drag the correct label into that box. This is guided practice before you label the next organism independently.
                     </p>
 
                     <div class="dd-activity m4-batfish-dd" id="m4BatfishDragDrop">
@@ -3166,31 +3224,35 @@
                           <img
                             class="m4-batfish-diagram"
                             src="../images/lesson5/red-lipped-batfish-diagram.png"
-                            alt="Scientific drawing of a red-lipped batfish for labelling"
+                            alt="Front-view scientific drawing of a red-lipped batfish with five leader lines and empty label boxes"
                             onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
                           >
                           <div class="m4-asset-placeholder" hidden>
-                            <strong>Batfish diagram placeholder</strong>
-                            <span>Add your PNG/JPG as <code>../images/lesson5/red-lipped-batfish-diagram.png</code>.</span>
+                            <strong>Batfish diagram missing</strong>
+                            <span>Add the supplied file as <code>../images/lesson5/red-lipped-batfish-diagram.png</code>.</span>
                           </div>
 
-                          <!-- TODO: adjust --dd-x / --dd-y after the final batfish diagram is supplied. -->
-                          <div data-dd-slot="batfish-eye" data-dd-answer="eye" style="--dd-x: 61%; --dd-y: 31%" aria-label="Label point near the eye"></div>
-                          <div data-dd-slot="batfish-mouth" data-dd-answer="mouth" style="--dd-x: 51%; --dd-y: 47%" aria-label="Label point near the mouth"></div>
-                          <div data-dd-slot="batfish-pectoral" data-dd-answer="pectoral-fin" style="--dd-x: 25%; --dd-y: 58%" aria-label="Label point near the pectoral fin"></div>
-                          <div data-dd-slot="batfish-pelvic" data-dd-answer="pelvic-fin" style="--dd-x: 69%; --dd-y: 72%" aria-label="Label point near the pelvic fin"></div>
+                          <!-- Drop zones are aligned to the five empty boxes already drawn into the 4:3 image. -->
+                          <div data-dd-slot="batfish-eye" data-dd-answer="eye" style="--dd-x: 16.2%; --dd-y: 23.7%; --dd-w: 24.7%;" aria-label="Drop the label for the eye here"></div>
+                          <div data-dd-slot="batfish-dorsal" data-dd-answer="dorsal-fin" style="--dd-x: 79.7%; --dd-y: 16.0%; --dd-w: 25.0%;" aria-label="Drop the label for the dorsal fin here"></div>
+                          <div data-dd-slot="batfish-snout" data-dd-answer="snout" style="--dd-x: 83.0%; --dd-y: 36.8%; --dd-w: 23.0%;" aria-label="Drop the label for the snout here"></div>
+                          <div data-dd-slot="batfish-pectoral" data-dd-answer="pectoral-fin" style="--dd-x: 16.0%; --dd-y: 84.6%; --dd-w: 24.5%;" aria-label="Drop the label for the pectoral fin here"></div>
+                          <div data-dd-slot="batfish-mouth" data-dd-answer="mouth" style="--dd-x: 82.5%; --dd-y: 80.5%; --dd-w: 22.5%;" aria-label="Drop the label for the mouth and red lips here"></div>
                         </div>
                       </div>
 
                       <div class="dd-tray m4-label-tray" data-dd-tray aria-label="Batfish labels">
                         <div class="m4-label-token" data-dd-item="eye">Eye</div>
-                        <div class="m4-label-token" data-dd-item="mouth">Mouth</div>
+                        <div class="m4-label-token" data-dd-item="mouth">Mouth (red lips)</div>
+                        <div class="m4-label-token" data-dd-item="snout">Snout</div>
+                        <div class="m4-label-token" data-dd-item="dorsal-fin">Dorsal fin</div>
                         <div class="m4-label-token" data-dd-item="pectoral-fin">Pectoral fin</div>
-                        <div class="m4-label-token" data-dd-item="pelvic-fin">Pelvic fin</div>
                       </div>
                     </div>
 
-                    <span class="prototype-note">The four labels and drop-point positions are working placeholders. Once the final batfish scientific drawing is supplied, only the image path, label text and the four <code>--dd-x / --dd-y</code> positions need to be adjusted.</span>
+                    <p class="activity-prompt">
+                      Place all five labels in the boxes at the ends of the leader lines, then press <strong>CHECK</strong>.
+                    </p>
                     <div class="variable-feedback stage-feedback" data-feedback="m4-batfish-labels" role="status" aria-live="polite"></div>
                   </div>
                 </div>
@@ -3549,7 +3611,7 @@
          - saveCurrentPageData()/clearPageSavedData() hooks
        ================================================== */
 
-    const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v5";
+    const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v6";
 
     const missionConfig = [
       {
@@ -3598,7 +3660,7 @@
             id: "m4-batfish-labels",
             label: "Guided batfish labelling",
             type: "dragdrop",
-            tryAgainMessage: "Place every provided label on the matching structure in the batfish scientific drawing."
+            tryAgainMessage: "Follow each leader line back to the structure it points to, then place all five labels in the matching boxes."
           },
           {
             id: "m4-frogfish-labels",
