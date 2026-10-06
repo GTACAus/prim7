@@ -416,7 +416,7 @@
     .substage-nav-title,
     .m5-status-strip,
     .live-badge,
-    .failure-badge {
+    .image-captured-badge {
     font-family: "Share Tech Mono", monospace;
     }
 
@@ -517,7 +517,7 @@
       display: grid;
       gap: 6px;
       padding: 10px;
-      overflow-y: auto;
+      overflow-y: scroll;
     }
 
     .mission-button {
@@ -778,7 +778,7 @@
       padding: 5px 10px;
       border-radius: 999px;
       background: var(--purple);
-      color: white;
+      color: white !important;
       font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 0.08em;
@@ -1251,9 +1251,9 @@
 
     .sonar-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(230px, 0.85fr);
+      grid-template-columns: minmax(350px, 1.15fr) minmax(230px, 0.85fr);
       gap: 18px;
-      align-items: stretch;
+      align-items: center;
     }
 
     .sonar-radar {
@@ -1507,6 +1507,8 @@
     }
 
     .creature-feed img {
+      --swim-away-duration: 1s;
+
       position: relative;
       z-index: 1;
       display: block;
@@ -1539,7 +1541,7 @@
     }
 
     .live-badge,
-    .failure-badge {
+    .image-captured-badge {
       position: absolute;
       top: 12px;
       left: 12px;
@@ -1555,7 +1557,7 @@
       text-transform: uppercase;
     }
 
-    .failure-badge {
+    .image-captured-badge {
       background: rgba(255, 109, 58, 0.94);
     }
 
@@ -1567,6 +1569,25 @@
       border: 3px solid var(--charcoal);
       border-radius: 18px;
       background: var(--paper);
+    }
+
+    .m5-complete-card[hidden],
+    .camera-side-card[hidden] {
+      display: none;
+    }
+
+    /* Observation GIF swims off to the left when the 10 second window ends */
+    .creature-feed img.swim-away {
+      animation: creature-swim-away var(--swim-away-duration) ease-in forwards;
+    }
+
+    .creature-feed img.gone {
+      visibility: hidden;
+    }
+
+    @keyframes creature-swim-away {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(-125%); opacity: 0; }
     }
 
     .camera-side-card h4 {
@@ -1588,7 +1609,7 @@
     }
 
     .capture-button::before {
-      content: "📷 ";
+      content: "📷";
     }
 
     .camera-failure-message {
@@ -1669,6 +1690,7 @@
       gap: 20px;
       align-items: center;
       padding: 22px;
+      margin-top: 15px;
       border: 3px solid var(--charcoal);
       border-radius: 20px;
       background: linear-gradient(145deg, var(--soft-green), var(--soft-blue));
@@ -1739,8 +1761,7 @@
       color: white;
     }
 
-    @media (max-width: 900px) {
-      .sonar-layout,
+    @media (max-width: 1280px) {
       .creature-console,
       .drawing-mission-grid,
       .m5-complete-card {
@@ -1749,6 +1770,12 @@
 
       .creature-feed img {
         height: 330px;
+      }
+    }
+
+    @media (max-width: 1280px) and (min-width: 1100px) {
+      .sonar-layout {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1771,6 +1798,7 @@
       border: 2px solid rgba(117, 221, 232, 0.18);
       border-radius: 14px;
       background: rgba(255,255,255,0.025);
+      overflow-y: scroll;
     }
 
     .substage-nav[hidden] {
@@ -2172,50 +2200,71 @@
 
     @media (max-width: 1100px) {
       .game-shell {
-        grid-template-columns: 210px minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) 210px;
       }
 
-      .science-panel {
+      .mission-nav {
+        display: grid;
+        grid-row: 2;
         grid-column: 1 / -1;
-        min-height: auto;
+        grid-template-columns: 2fr 1fr;
+        height: 250px;
       }
 
-      .science-body {
-        min-height: auto;
+      .mission-nav .console-heading {
+        grid-column: 1 / -1;
+      }
+
+      .mission-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-column: 1;
+      }
+
+      .mission-button {
+        height: 20px;
+      }
+
+      .substage-nav {
+        grid-column: 2;
       }
 
       .science-lock {
         min-height: 160px;
       }
 
-      .checkpoint-list {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
+      
     }
 
     @media (max-width: 800px) {
-      .expedition-banner {
-        grid-template-columns: 72px 1fr;
-        padding: 16px;
-      }
-
-      .submarine-mark {
-        width: 66px;
-        font-size: 1.8rem;
-      }
-
-      .field-guide-button {
-        grid-column: 1 / -1;
-        justify-self: center;
-      }
-
       .game-shell {
-        grid-template-columns: 1fr;
+        grid-template-rows: 2fr 1fr;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stage-panel {
+        grid-column: 1 / -1;
+      }
+
+      .mission-nav {
+        height: 100%;
+        grid-column: 1;
+        grid-row: 2;
+        grid-template-columns: 1fr 1fr
       }
 
       .mission-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
       }
+
+      .mission-nav-footer {
+        display: none;
+      }
+
+      .science-panel {
+        grid-column: 2;
+        grid-row: 2;
+      }
+      /*
 
       .mission-nav-footer {
         display: none;
@@ -2247,15 +2296,15 @@
       }
 
       .checkpoint-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+        grid-template-columns: repeat(2, minmax(0, 1fr)); 
+      }*/
     }
 
     @media (max-width: 520px) {
-      .mission-list,
+      /* .mission-list,
       .checkpoint-list {
         grid-template-columns: 1fr;
-      }
+      } */
 
       .expedition-banner h1 {
         font-size: 2rem;
@@ -2939,15 +2988,24 @@
                         <div class="creature-console">
                           <div class="creature-feed">
                             <span class="live-badge">Live feed</span>
-                            <img data-m5-creature-image src="" alt="Deep-sea organism selected for observation">
+                            <img id="mission5LiveGif" data-m5-media="gif" src="" alt="Deep-sea organism selected for observation">
                           </div>
-                          <article class="camera-side-card">
+                          <article class="camera-side-card" id="mission5CaptureCard">
                             <h4>Visual contact acquired</h4>
                             <p>
                               Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
                             </p>
                             <button type="button" class="expedition-button capture-button" onclick="takeMission5Photo()">
                               Capture image
+                            </button>
+                          </article>
+                          <article class="camera-side-card" id="mission5AwayCard" hidden>
+                            <h4>Contact lost</h4>
+                            <p>
+                              The organism swam out of range before an image could be captured. Return to the sonar to find another animal.
+                            </p>
+                            <button type="button" class="expedition-button capture-button" onclick="findAnotherMission5Animal()">
+                              Find another animal
                             </button>
                           </article>
                         </div>
@@ -2961,14 +3019,14 @@
                       </div>
                     </div>
                     <div class="m5-phase" data-m5-phase="drawing" hidden>
-                      <div class="camera-failure-message pop-in">
+                      <!-- <div class="camera-failure-message pop-in">
                         <strong>⚠ Camera capture failed</strong>
                         The image could not be saved. The live observation feed is still available, so make a scientific drawing while the organism remains in view.
-                      </div>
+                      </div> -->
                       <div class="drawing-mission-grid">
                         <div class="creature-feed">
-                          <span class="failure-badge">Recording failed · live feed only</span>
-                          <img data-m5-creature-image data-glitch src="" alt="Deep-sea organism selected for scientific drawing">
+                          <span class="image-captured-badge">Image Captured</span>
+                          <img data-m5-media="static" src="" alt="Static image of the deep-sea organism for scientific drawing">
                         </div>
                         <article class="drawing-instructions-card">
                           <h4>Create the expedition record</h4>
@@ -2985,21 +3043,42 @@
                         </article>
                       </div>
                     </div>
-                    <div class="m5-phase" data-m5-phase="complete" hidden>
-                      <div class="m5-complete-card pop-in">
-                        <img data-m5-creature-image src="" alt="Deep-sea organism from the completed expedition">
-                        <div>
-                          <p class="mission-label">Expedition complete</p>
-                          <h4>Scientific record secured</h4>
-                          <p>
-                            The camera failed, but your scientific drawing preserved an observation of the organism.
-                          </p>
-                          <span class="m5-species-reveal" id="mission5SpeciesName">Field guide match</span>
-                          <p id="mission5SpeciesNote"></p>
-                        </div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m5-finale" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mission-stage" data-stage-id="m5-identify">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // species identification</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 05</p>
+                      <span class="stage-progress-chip">Identify the species</span>
+                    </div>
+                    <h3>Which animal did you see?</h3>
+                    <p class="mission-subtitle">
+                      This is the image the camera recorded. Click the animal you think matches it, then press CHECK.
+                    </p>
+                    <div class="fish-question-image">
+                      <img data-m5-media="static" src="" alt="Static image of the organism recorded by the camera">
+                    </div>
+                    <div class="choice-grid" data-choice-group="species" id="mission5SpeciesChoices"></div>
+                    <div class="m5-complete-card pop-in" id="mission5IdentifyResult" hidden>
+                      <img data-m5-media="static" src="" alt="Deep-sea organism from the completed expedition">
+                      <div>
+                        <p class="mission-label">Expedition complete</p>
+                        <h4>Scientific record secured</h4>
+                        <p>
+                          The camera failed, but your scientific drawing preserved an observation of the organism.
+                        </p>
+                        <span class="m5-species-reveal" id="mission5SpeciesName">Field guide match</span>
+                        <p id="mission5SpeciesNote"></p>
                       </div>
                     </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m5-finale" role="status" aria-live="polite"></div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m5-identify" role="status" aria-live="polite"></div>
                   </div>
                 </div>
               </div>
@@ -3195,7 +3274,8 @@
         id: "mission-5",
         title: "Unknown Species",
         stages: [
-          { id: "m5-finale", label: "Unknown species detected", type: "finale", requiredCount: 5 }
+          { id: "m5-finale", label: "Unknown species detected", type: "finale", requiredCount: 5 },
+          { id: "m5-identify", label: "Identify the species", type: "choice", choiceGroup: "species", correctFrom: "mission5Species" }
         ]
       }
     ];
@@ -3206,20 +3286,33 @@
       the storyboard itself flags them as borderline examples for the deep-sea framing.
       The chosen species is saved in sessionStorage and is not rerolled by Reset.
     */
+    /*
+      Each id doubles as the file name:
+        static image     = ../images/lesson5/<id>.<ext>
+        observation gif  = ../images/lesson5/animations/<id>.gif
+    */
+    const MISSION5_OBSERVE_SECONDS = 10;
     const mission5SpeciesPool = [
-      { id: "red-lipped-batfish", name: "Red-lipped Batfish", image: "../images/lesson5/red-lipped-batfish.jpg", note: "Found on the ocean floor around the Galápagos Islands, to about 76 m in the current concept notes." },
-      { id: "goblin-shark", name: "Goblin Shark", image: "../images/lesson5/goblin-shark.avif", note: "A rare shark recorded from about 270 m and deeper." },
-      { id: "dumbo-octopus", name: "Dumbo Octopus", image: "../images/lesson5/dumbo-octopus.jpg", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
-      { id: "sea-pig", name: "Sea Pig", image: "../images/lesson5/sea-pig.webp", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
-      { id: "sea-angel", name: "Sea Angel", image: "../images/lesson5/sea-angel.jpg", note: "A tiny sea slug found in cold, deep polar waters." },
-      { id: "pink-seethrough-fantasia", name: "Pink Seethrough Fantasia", image: "../images/lesson5/pink-seethrough-fantasia.jpg", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
-      { id: "blobfish", name: "Blobfish", image: "../images/lesson5/blobfish.jpg", note: "Found at depths of roughly 600–1,200 m." },
-      { id: "barreleye-fish", name: "Barreleye Fish", image: "../images/lesson5/barreleye-fish.webp", note: "Found at depths of roughly 400–2,500 m." },
-      { id: "deepsea-anglerfish", name: "Deep-sea Anglerfish", image: "../images/lesson5/deepsea-anglerfish.jpg", note: "Found at depths of roughly 200–2,000 m." },
-      { id: "flapjack-octopus", name: "Flapjack Octopus", image: "../images/lesson5/flapjack-octopus.avif", note: "Found from roughly 100–2,000 m." },
-      { id: "lumpfish", name: "Lumpfish", image: "../images/lesson5/lumpfish.jpg", note: "Some are found at depths reaching about 1,700 m." },
-      { id: "predatory-sea-anemone", name: "Predatory Sea Anemone", image: "../images/lesson5/predatory-sea-anemone.jpg", note: "Deep-sea anemones can occur at depths of several thousand metres." }
+      { id: "goblin-shark", ext: "avif", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper." },
+      { id: "dumbo-octopus", ext: "jpg", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
+      { id: "sea-pig", ext: "webp", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
+      { id: "sea-angel", ext: "jpg", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters." },
+      { id: "pink-seethrough-fantasia", ext: "jpg", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
+      { id: "blobfish", ext: "jpg", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m." },
+      { id: "barreleye-fish", ext: "webp", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m." },
+      { id: "deepsea-anglerfish", ext: "jpg", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
+      { id: "flapjack-octopus", ext: "avif", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m." },
+      { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
+      { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." }
     ];
+
+    function getMission5StaticSrc(species) {
+      return "../images/lesson5/" + species.id + "." + species.ext;
+    }
+
+    function getMission5GifSrc(species) {
+      return "../images/lesson5/animations/" + species.id + ".gif";
+    }
 
     let expeditionState = createFreshExpeditionState();
     let m3DragDrop = null; /* DragDropActivity instance, created on DOMContentLoaded */
@@ -3239,13 +3332,17 @@
           diagramExample: "",
           dragDrop: {},
           drawing: "",
+          species: "",
           drawingRules: [],
           observations: []
         },
         mission5: {
           phase: "sonar",
           speciesId: "",
+          skippedSpeciesIds: [],
+          optionIds: [],
           contactId: "",
+          observeEnded: false,
           drawingFinished: false,
           scienceChecks: []
         }
@@ -3285,7 +3382,7 @@
         if (expeditionState.mission5.phase === "tracking") {
           expeditionState.mission5.phase = expeditionState.mission5.speciesId ? "observe" : "sonar";
         }
-        if (expeditionState.mission5.phase === "capture") {
+        if (expeditionState.mission5.phase === "capture" || expeditionState.mission5.phase === "complete") {
           expeditionState.mission5.phase = "drawing";
         }
       } catch (error) {
@@ -3400,7 +3497,7 @@
       }
 
       if (stage.type === "choice") {
-        return expeditionState.selections[stage.choiceGroup] === stage.correctValue;
+        return expeditionState.selections[stage.choiceGroup] === getStageCorrectValue(stage);
       }
 
       if (stage.type === "checklist") {
@@ -3425,6 +3522,11 @@
       return false;
     }
 
+    function getStageCorrectValue(stage) {
+      if (stage.correctFrom === "mission5Species") return expeditionState.mission5.speciesId;
+      return stage.correctValue;
+    }
+
     function checkCurrentMission() {
       const mission = getCurrentMission();
       const stage = getCurrentStage();
@@ -3437,7 +3539,9 @@
       if (!isCorrect) {
         let message = "Review the current stage and try again.";
 
-        if (stage.type === "choice") {
+        if (stage.id === "m5-identify") {
+          message = "That is not the animal in the image. Look at the shape and colours again and try another option.";
+        } else if (stage.type === "choice") {
           message = "That does not match the current scientific criteria. Review the options and try again.";
         } else if (stage.type === "checklist") {
           message = "Review all five scientific-drawing rules and tick each one before continuing.";
@@ -3462,7 +3566,16 @@
       expeditionState.completedStages[stage.id] = true;
 
       if (stage.type === "finale") {
-        expeditionState.mission5.phase = "complete";
+        /* Complete moves straight on to the identification sub-stage. */
+        const nextStageIndex = expeditionState.currentStageIndex + 1;
+        expeditionState.unlockedStageIndices[expeditionState.currentMissionIndex] = Math.max(
+          expeditionState.unlockedStageIndices[expeditionState.currentMissionIndex],
+          nextStageIndex
+        );
+        expeditionState.currentStageIndex = nextStageIndex;
+        saveCurrentPageData();
+        renderExpedition();
+        return;
       }
 
       const isLastStage = expeditionState.currentStageIndex === mission.stages.length - 1;
@@ -3584,8 +3697,13 @@
       if (stage.type === "finale") {
         expeditionState.mission5.phase = "sonar";
         expeditionState.mission5.contactId = "";
+        expeditionState.mission5.observeEnded = false;
         expeditionState.mission5.drawingFinished = false;
         expeditionState.mission5.scienceChecks = [];
+        expeditionState.completedStages["m5-identify"] = false;
+        expeditionState.selections.species = "";
+        expeditionState.unlockedStageIndices[expeditionState.currentMissionIndex] = 0;
+        expeditionState.completedMissions[expeditionState.currentMissionIndex] = false;
         /* speciesId is deliberately preserved so Reset does not reroll the organism. */
       }
 
@@ -3630,10 +3748,149 @@
       const existing = getMission5Species();
       if (existing) return existing;
 
-      const index = Math.floor(Math.random() * mission5SpeciesPool.length);
-      const species = mission5SpeciesPool[index];
+      /* Avoid animals the student has already watched swim away, unless none are left. */
+      let candidates = mission5SpeciesPool.filter(function(species) {
+        return !expeditionState.mission5.skippedSpeciesIds.includes(species.id);
+      });
+      if (!candidates.length) {
+        expeditionState.mission5.skippedSpeciesIds = [];
+        candidates = mission5SpeciesPool;
+      }
+
+      const species = candidates[Math.floor(Math.random() * candidates.length)];
       expeditionState.mission5.speciesId = species.id;
+      expeditionState.mission5.optionIds = [];
       return species;
+    }
+
+    /* Correct species plus two random distractors, shuffled. Stored so a refresh keeps the same options. */
+    function ensureMission5Options() {
+      const mission5 = expeditionState.mission5;
+      if (!mission5.speciesId) return [];
+      if (mission5.optionIds.length === 3 && mission5.optionIds.includes(mission5.speciesId)) {
+        return mission5.optionIds;
+      }
+
+      const others = mission5SpeciesPool
+        .filter(function(species) { return species.id !== mission5.speciesId; })
+        .map(function(species) { return species.id; })
+        .sort(function() { return Math.random() - 0.5; })
+        .slice(0, 2);
+
+      mission5.optionIds = others.concat(mission5.speciesId).sort(function() { return Math.random() - 0.5; });
+      return mission5.optionIds;
+    }
+
+    function renderMission5Options() {
+      const grid = document.getElementById("mission5SpeciesChoices");
+      if (!grid) return;
+
+      const optionIds = ensureMission5Options();
+      const built = grid.dataset.built || "";
+      if (built === optionIds.join(",")) return;
+
+      grid.dataset.built = optionIds.join(",");
+      grid.innerHTML = "";
+
+      optionIds.forEach(function(id, index) {
+        const species = mission5SpeciesPool.find(function(item) { return item.id === id; });
+        if (!species) return;
+
+        const letter = String.fromCharCode(65 + index);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-card media-choice";
+        button.dataset.value = species.id;
+        button.setAttribute("aria-pressed", "false");
+
+        const image = document.createElement("img");
+        image.className = "choice-image";
+        image.src = getMission5StaticSrc(species);
+        image.alt = "Option " + letter;
+
+        const label = document.createElement("h4");
+        label.textContent = "Option " + letter;
+
+        button.appendChild(image);
+        button.appendChild(label);
+        button.addEventListener("click", function() {
+          registerChoice(button);
+        });
+        grid.appendChild(button);
+      });
+    }
+
+    /*
+      Blur used on the "camera failed" image. To switch to the glitch effect, replace the body with:
+        applyGlitchOverlay(img);
+    */
+    function applyMission5ImageEffect(img) {
+      if (!img) return;
+      img.style.filter = "blur(3px)";
+    }
+
+    let mission5ObserveTimer = null;
+    let mission5SwimTimer = null;
+
+    function clearMission5Timers() {
+      window.clearTimeout(mission5ObserveTimer);
+      window.clearTimeout(mission5SwimTimer);
+      mission5ObserveTimer = null;
+      mission5SwimTimer = null;
+    }
+
+    /* Restarts the gif from its first frame and starts the 10 second observation window. */
+    function startMission5Observation() {
+      const species = getMission5Species();
+      const gif = document.getElementById("mission5LiveGif");
+      clearMission5Timers();
+      if (!species || !gif) return;
+
+      gif.classList.remove("swim-away", "gone");
+      gif.src = getMission5GifSrc(species) + "?t=" + Date.now();
+      gif.dataset.speciesId = species.id;
+
+      mission5ObserveTimer = window.setTimeout(endMission5Observation, MISSION5_OBSERVE_SECONDS * 1000);
+    }
+
+    function endMission5Observation() {
+      mission5ObserveTimer = null;
+      if (expeditionState.mission5.phase !== "observe") return;
+      
+      const gif = document.getElementById("mission5LiveGif");
+      const mission5_swim_away_seconds = parseInt(
+        getComputedStyle(gif).getPropertyValue('--swim-away-duration').trim()
+      );
+
+      expeditionState.mission5.observeEnded = true;
+      saveCurrentPageData();
+
+      if (gif) gif.classList.add("swim-away");
+      document.querySelector("#mission5CaptureCard button").disabled = true;
+
+      mission5SwimTimer = window.setTimeout(function() {
+        mission5SwimTimer = null;
+        renderMission5();
+        renderControls();
+      }, mission5_swim_away_seconds * 1000);
+    }
+
+    function findAnotherMission5Animal() {
+      const mission5 = expeditionState.mission5;
+      if (mission5.phase !== "observe") return;
+
+      clearMission5Timers();
+      if (mission5.speciesId && !mission5.skippedSpeciesIds.includes(mission5.speciesId)) {
+        mission5.skippedSpeciesIds.push(mission5.speciesId);
+      }
+      mission5.speciesId = "";
+      mission5.optionIds = [];
+      mission5.contactId = "";
+      mission5.observeEnded = false;
+      expeditionState.selections.species = "";
+      mission5.phase = "sonar";
+      saveCurrentPageData();
+      renderExpedition();
     }
 
     function selectSonarContact(contactId, button) {
@@ -3642,6 +3899,7 @@
 
       chooseMission5SpeciesOnce();
       expeditionState.mission5.contactId = contactId;
+      expeditionState.mission5.observeEnded = false;
       expeditionState.mission5.phase = "tracking";
       saveCurrentPageData();
       renderExpedition();
@@ -3660,8 +3918,13 @@
 
     function takeMission5Photo() {
       const stage = getCurrentStage();
-      if (!stage || stage.id !== "m5-finale" || expeditionState.mission5.phase !== "observe") return;
+      if (
+        !stage || stage.id !== "m5-finale" ||
+        expeditionState.mission5.phase !== "observe" ||
+        expeditionState.mission5.observeEnded
+      ) return;
 
+      clearMission5Timers();
       expeditionState.mission5.phase = "capture";
       expeditionState.mission5.drawingFinished = false;
       expeditionState.mission5.scienceChecks = [];
@@ -3701,17 +3964,46 @@
       });
 
       const species = getMission5Species();
-      document.querySelectorAll("[data-m5-creature-image]").forEach(function(image) {
+      document.querySelectorAll("[data-m5-media]").forEach(function(image) {
+        const kind = image.dataset.m5Media;
+
         if (!species) {
           image.removeAttribute("src");
+          delete image.dataset.speciesId;
           return;
         }
-        image.src = species.image;
-        image.alt = species.name + " selected for the expedition observation";
-        if (image.hasAttribute("data-glitch")) {
-          applyGlitchOverlay(image);
-        }
+
+        /* The gif is (re)started by startMission5Observation so re-renders never restart it. */
+        if (kind === "gif") return;
+
+        const src = getMission5StaticSrc(species);
+        if (!image.src.endsWith(src.replace("..", ""))) image.src = src;
+        if (kind === "blur") applyMission5ImageEffect(image);
       });
+
+      /* Observation window: gif plays for 10 s, then swims away and offers a return to the sonar. */
+      const captureCard = document.getElementById("mission5CaptureCard");
+      const awayCard = document.getElementById("mission5AwayCard");
+      const liveGif = document.getElementById("mission5LiveGif");
+      const observing = phase === "observe" && Boolean(species);
+      const swimming = mission5SwimTimer !== null;
+
+      if (observing && !mission5.observeEnded && mission5ObserveTimer === null) {
+        startMission5Observation();
+        if (captureCard) captureCard.querySelector("button").disabled = false;
+      }
+      if (!observing) clearMission5Timers();
+
+      if (liveGif && observing && mission5.observeEnded && !swimming) {
+        liveGif.classList.remove("swim-away");
+        liveGif.classList.add("gone");
+      }
+      if (captureCard) captureCard.hidden = observing && mission5.observeEnded && !swimming;
+      if (awayCard) awayCard.hidden = !(observing && mission5.observeEnded && !swimming);
+
+      renderMission5Options();
+      const identifyResult = document.getElementById("mission5IdentifyResult");
+      if (identifyResult) identifyResult.hidden = !expeditionState.completedStages["m5-identify"];
 
       const contactLabel = document.getElementById("mission5ContactLabel");
       if (contactLabel) {
@@ -3836,7 +4128,6 @@
         const input = document.createElement("input");
         input.type = "checkbox";
         input.checked = true;
-        input.disabled = true;
 
         label.appendChild(input);
         label.appendChild(document.createTextNode(" " + ruleTitle.textContent.trim()));
@@ -3853,7 +4144,7 @@
     }
 
     function renderSelections() {
-      ["fish1", "fish2", "diagramExample", "drawing"].forEach(function(groupName) {
+      ["fish1", "fish2", "diagramExample", "drawing", "species"].forEach(function(groupName) {
         const value = expeditionState.selections[groupName];
         const group = document.querySelector('[data-choice-group="' + groupName + '"]');
         if (!group) return;
@@ -3937,7 +4228,9 @@
         } else if (phase === "tracking") {
           status.innerHTML = "<strong>Tracking contact.</strong> Stand by while the observation feed locks on.";
         } else if (phase === "observe") {
-          status.innerHTML = "<strong>Visual contact acquired.</strong> Observe the organism, then attempt to capture an image.";
+          status.innerHTML = expeditionState.mission5.observeEnded
+            ? "<strong>Contact lost.</strong> The organism swam away. Find another animal on the sonar."
+            : "<strong>Visual contact acquired.</strong> Observe the organism, then attempt to capture an image.";
         } else if (phase === "capture") {
           status.innerHTML = "<strong>Capturing image.</strong> Writing the observation frame to the expedition record...";
         } else if (phase === "drawing") {
