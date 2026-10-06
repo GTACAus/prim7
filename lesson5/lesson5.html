@@ -2942,7 +2942,7 @@
                     </p>
                     <div class="symbol-compare">
                       <div class="symbol-visual">
-                        <img src="../images/lesson5/beaker-photo.jpeg" alt="Photograph of a laboratory beaker" style="max-height:200px; width:auto; max-width:100%;">
+                        <img src="../images/lesson5/mission2/beaker.jpg" alt="Photograph of a laboratory beaker" style="max-height:200px; width:auto; max-width:100%;">
                       </div>
                       <div class="symbol-visual" aria-label="Simple scientific symbol of a beaker">
                         <svg viewBox="0 0 220 220" role="img" aria-label="Beaker symbol">
@@ -3064,12 +3064,37 @@
                 </div>
                       <div class="dd-tray" data-dd-tray aria-label="Equipment symbols">
                         <!-- Symbols copied from #equipmentSymbolsModal -->
-                        <div data-dd-item="beaker" title="Beaker" aria-label="Beaker"><svg viewBox="0 0 100 80"><path d="M25 10 V58 Q25 70 50 70 Q75 70 75 58 V10 M25 10 Q50 4 75 10" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="test-tube" title="Test tube" aria-label="Test tube"><svg viewBox="0 0 100 80"><path d="M42 8 V58 Q42 70 50 70 Q58 70 58 58 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="conical-flask" title="Conical flask" aria-label="Conical flask"><svg viewBox="0 0 100 80"><path d="M43 8 V28 L24 66 H76 L57 28 V8" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="measuring-cylinder" title="Measuring cylinder" aria-label="Measuring cylinder"><svg viewBox="0 0 100 80"><path d="M42 8 V66 M58 8 V66 M34 66 H66" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="tripod" title="Tripod" aria-label="Tripod"><svg viewBox="0 0 100 80"><circle cx="50" cy="22" r="16" fill="none" stroke="#30332f" stroke-width="3"/><path d="M38 35 L25 70 M50 38 V72 M62 35 L75 70" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
-                        <div data-dd-item="bunsen-burner" title="Bunsen burner" aria-label="Bunsen burner"><svg viewBox="0 0 100 80"><path d="M46 14 H54 V56 H46 Z M35 56 H65 V68 H35 Z" fill="none" stroke="#30332f" stroke-width="3"/></svg></div>
+                        <div data-dd-item="beaker" title="Beaker" aria-label="Beaker">
+                          <svg viewBox="0 0 100 80">
+                            <path d="M25 10 V58 Q25 70 50 70 Q75 70 75 58 V10 M25 10 Q50 4 75 10" fill="none" stroke="#30332f" stroke-width="3"/>
+                          </svg>
+                        </div>
+                        <div data-dd-item="test-tube" title="Test tube" aria-label="Test tube">
+                          <svg viewBox="0 0 100 80">
+                            <path d="M42 8 V58 Q42 70 50 70 Q58 70 58 58 V8" fill="none" stroke="#30332f" stroke-width="3"/>
+                          </svg>
+                        </div>
+                        <div data-dd-item="conical-flask" title="Conical flask" aria-label="Conical flask">
+                          <svg viewBox="0 0 100 80">
+                            <path d="M43 8 V28 L24 66 H76 L57 28 V8" fill="none" stroke="#30332f" stroke-width="3"/>
+                          </svg>
+                        </div>
+                        <div data-dd-item="measuring-cylinder" title="Measuring cylinder" aria-label="Measuring cylinder">
+                          <svg viewBox="0 0 100 80">
+                            <path d="M42 8 V66 M58 8 V66 M34 66 H66" fill="none" stroke="#30332f" stroke-width="3"/>
+                          </svg>
+                        </div>
+                        <div data-dd-item="tripod" title="Tripod" aria-label="Tripod">
+                          <svg viewBox="0 0 100 80">
+                            <circle cx="50" cy="22" r="16" fill="none" stroke="#30332f" stroke-width="3"/>
+                            <path d="M38 35 L25 70 M50 38 V72 M62 35 L75 70" fill="none" stroke="#30332f" stroke-width="3"/>
+                          </svg>
+                        </div>
+                        <div data-dd-item="bunsen-burner" title="Bunsen burner" aria-label="Bunsen burner">
+                          <svg viewBox="0 0 100 80">
+                            <path d="M46 14 H54 V56 H46 Z M35 56 H65 V68 H35 Z" fill="none" stroke="#30332f" stroke-width="3"/>
+                          </svg>
+                        </div>
               </div>
                     </div>
                     <span class="prototype-note">Placeholder: the experiment image and final slot positions are not set yet. For now the correct answer is the symbols in tray order (slot 1 = beaker, slot 2 = test tube, and so on).</span>
@@ -3685,7 +3710,12 @@
         title: "Scientific Diagram",
         stages: [
           { id: "m2-symbols", label: "Scientific symbols", type: "read" },
-          { id: "m2-example", label: "Example experiment", type: "selection", choiceGroup: "diagramExample" }
+          { 
+            id: "m2-example",
+            label: "Example experiment",
+            type: "selection",
+            choiceGroup: "diagramExample",
+          }
         ]
       },
       {
@@ -4105,6 +4135,28 @@
       return stage.correctValue;
     }
 
+    function scrollToStage(stageId) {
+      const stageScreen = document.getElementById("stageScreen");
+      const stageElement = document.querySelector(
+        '[data-stage-id="' + stageId + '"]'
+      );
+
+      if (!stageScreen || !stageElement) return;
+
+      const stageRect = stageElement.getBoundingClientRect();
+      const screenRect = stageScreen.getBoundingClientRect();
+
+      const targetTop =
+        stageScreen.scrollTop +
+        stageRect.top -
+        screenRect.top;
+
+      stageScreen.scrollTo({
+        top: targetTop,
+        behavior: "smooth"
+      });
+    }
+
     function checkCurrentMission() {
       const mission = getCurrentMission();
       const stage = getCurrentStage();
@@ -4146,6 +4198,9 @@
         }
 
         setActivityFeedback(feedback, "try-again", "Not quite yet", message);
+
+        feedback.scrollIntoView({ behavior: "smooth", block: "center" });
+
         markSelectedAnswer(stage, false);
         if (stage.type === "label-input") markFrogfishLabelAnswers(stage, false);
         renderControls();
@@ -4164,6 +4219,7 @@
         expeditionState.currentStageIndex = nextStageIndex;
         saveCurrentPageData();
         renderExpedition();
+        scrollToStage(stage.id);
         return;
       }
 
@@ -4184,11 +4240,12 @@
         isLastStage ? "Mission complete" : "Stage complete",
         successMessage
       );
-
+      
       markSelectedAnswer(stage, true);
       if (stage.type === "label-input") markFrogfishLabelAnswers(stage, true);
       saveCurrentPageData();
       renderExpedition();
+      feedback.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     function markSelectedAnswer(stage, isCorrect) {
@@ -4237,6 +4294,16 @@
         expeditionState.currentStageIndex = nextStageIndex;
         saveCurrentPageData();
         renderExpedition();
+        
+        const stageScreen = document.getElementById("stageScreen");
+
+        requestAnimationFrame(function () {
+          stageScreen.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+
         return;
       }
 
@@ -4246,16 +4313,18 @@
 
       const current = missionConfig[missionIndex];
       const next = missionConfig[missionIndex + 1];
-
+      
       if (typeof unlockSection === "function") {
         unlockSection(next.id, current.id);
       } else {
         const nextElement = document.getElementById(next.id);
         const currentElement = document.getElementById(current.id);
-        if (nextElement) nextElement.classList.remove("locked");
+        if (nextElement) {
+          nextElement.classList.remove("locked");
+        }
         if (currentElement) currentElement.classList.add("completed");
       }
-
+      
       expeditionState.unlockedMissionIndex = Math.max(
         expeditionState.unlockedMissionIndex,
         missionIndex + 1
@@ -4268,7 +4337,18 @@
       );
 
       saveCurrentPageData();
-      window.setTimeout(renderExpedition, 120);
+      window.setTimeout(function () {
+        renderExpedition();
+
+        const stageScreen = document.getElementById("stageScreen");
+
+        requestAnimationFrame(function () {
+          stageScreen.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+      }, 120);
     }
 
     function resetCurrentMission() {
@@ -4349,6 +4429,7 @@
       clearCurrentStageFeedback();
       saveCurrentPageData();
       renderExpedition();
+      scrollToStage(stage.id);
     }
 
     function getStageFeedback(stageId) {
