@@ -2546,6 +2546,9 @@
       z-index: 3;
       width: var(--frog-width, 20%);
       min-width: 118px;
+
+      /* --frog-top now represents the centre of the label */
+      transform: translateY(-50%);
     }
 
     .frogfish-label-entry input {
@@ -3313,27 +3316,27 @@
                           <span>Add the supplied diagram as <code>../images/lesson5/frogfish-diagram.png</code>.</span>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="caudal-fin" style="--frog-left: 1.6%; --frog-top: 22.5%; --frog-width: 19%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="caudal-fin" style="--frog-left: 1.6%; --frog-top: 28.0%; --frog-width: 19%;">
                           <input type="text" data-frogfish-input="caudal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin at the back of the frogfish">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="dorsal-fin" style="--frog-left: 23.0%; --frog-top: 12.5%; --frog-width: 20%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="dorsal-fin" style="--frog-left: 17.0%; --frog-top: 11.9%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="dorsal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin along the top of the frogfish">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="lure" style="--frog-left: 79.0%; --frog-top: 6.0%; --frog-width: 19%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="lure" style="--frog-left: 80.0%; --frog-top: 7.7%; --frog-width: 19%;">
                           <input type="text" data-frogfish-input="lure" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish lure">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="eye" style="--frog-left: 79.0%; --frog-top: 35.5%; --frog-width: 20%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="eye" style="--frog-left: 79.0%; --frog-top: 45.2%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="eye" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish eye">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="mouth" style="--frog-left: 81.0%; --frog-top: 51.5%; --frog-width: 18%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="mouth" style="--frog-left: 82.0%; --frog-top: 68.4%; --frog-width: 18%;">
                           <input type="text" data-frogfish-input="mouth" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish mouth">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="pectoral-fin" style="--frog-left: 22.0%; --frog-top: 80.5%; --frog-width: 20%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="pectoral-fin" style="--frog-left: 2.0%; --frog-top: 90.7%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="pectoral-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish pectoral fin">
                         </div>
                       </div>
@@ -4840,7 +4843,7 @@
       const status = document.getElementById("controlStatus");
 
       if (!expeditionState.started) {
-        checkButton.disabled = true;
+        checkButton.disabled = true; 
         resetButton.disabled = true;
         nextButton.disabled = true;
         status.innerHTML = "<strong>Stand by.</strong> Start the expedition to load Mission 1.";
