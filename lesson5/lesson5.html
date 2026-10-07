@@ -2732,6 +2732,18 @@
       }
     }
 
+    .item-match-placeholder {
+      display: flex;
+      background: var(--soft-green);
+      border: 2px solid var(--green);
+      border-left: 8px solid var(--green);
+      border-radius: 14px;
+      
+      padding: 10px 0;
+      margin-top: 15px;
+      justify-content: center;
+    }
+
   </style>
 </head>
 
@@ -3217,10 +3229,12 @@
                       <div class="dd-reference item-match-reference">
                         <span class="dd-caption">Experiment item <span data-item-match-round-label>1 of 3</span></span>
                         <!-- TODO: add real experiment photos at ../images/lesson5/mission3/<item-id>.jpg
-                             (ids: jug, bottle, balloon, spoon, iron-nail, steel-wool, jar, funnel) - they will
+                             (ids: jug, bottle, balloon, spoon, nail, steel_wool, jar, funnel) - they will
                              be picked up automatically once present. -->
                         <img data-item-match-img alt="" hidden>
-                        <span class="item-match-placeholder" data-item-match-placeholder>Photo coming soon</span>
+                      </div>
+                      <div class="item-match-placeholder">
+                        <span data-item-match-placeholder></span>
                       </div>
                       <div class="item-match-options" data-item-match-options role="group" aria-label="Equipment symbols">
                         <button type="button" class="item-match-option" data-item-match-value="jug" aria-label="Jug">
@@ -3229,45 +3243,38 @@
                             <path d="M28 14 Q50 6 72 14" />
                             <path d="M68 24 Q88 30 86 48 Q84 60 66 58" />
                           </svg>
-                          <span>Jug</span>
                         </button>
                         <button type="button" class="item-match-option" data-item-match-value="bottle" aria-label="Bottle">
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M42 8 H58 V24 Q70 32 70 48 V80 Q70 90 50 90 Q30 90 30 80 V48 Q30 32 42 24 Z" />
                           </svg>
-                          <span>Bottle</span>
                         </button>
                         <button type="button" class="item-match-option" data-item-match-value="balloon" aria-label="Balloon">
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <ellipse cx="50" cy="38" rx="26" ry="32" />
                             <path d="M50 70 L46 78 L54 82 L48 90" />
                           </svg>
-                          <span>Balloon</span>
                         </button>
                         <button type="button" class="item-match-option" data-item-match-value="spoon" aria-label="Spoon">
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <ellipse cx="50" cy="22" rx="16" ry="20" />
                             <path d="M50 42 V88" />
                           </svg>
-                          <span>Spoon</span>
                         </button>
-                        <button type="button" class="item-match-option" data-item-match-value="iron-nail" aria-label="Iron nail">
+                        <button type="button" class="item-match-option" data-item-match-value="nail" aria-label="Iron nail">
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M26 20 L80 74" />
                           </svg>
-                          <span>Iron nail</span>
                         </button>
-                        <button type="button" class="item-match-option" data-item-match-value="steel-wool" aria-label="Steel wool">
+                        <button type="button" class="item-match-option" data-item-match-value="steel_wool" aria-label="Steel wool">
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 50 Q30 30 42 48 Q50 30 60 48 Q70 28 82 48 Q88 60 76 62 Q84 74 68 72 Q72 84 56 78 Q48 90 36 78 Q22 84 24 68 Q12 64 20 50 Z" />
                           </svg>
-                          <span>Steel wool</span>
                         </button>
                         <button type="button" class="item-match-option" data-item-match-value="jar" aria-label="Jar">
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M32 20 H68 V76 Q68 88 50 88 Q32 88 32 76 Z" />
                           </svg>
-                          <span>Jar</span>
                         </button>
                         <button type="button" class="item-match-option" data-item-match-value="funnel" aria-label="Funnel">
                           <svg
@@ -3291,7 +3298,6 @@
                               L88 20
                             " />
                           </svg>
-                          <span>Funnel</span>
                         </button>
                       </div>
                     </div>
@@ -4153,14 +4159,14 @@
     let m3LegacyDragDrop = null; /* Mission 3 experiment diagram - original drag-and-drop version, kept as a spare stage */
     let m3ItemMatchRoot = null; /* Mission 3 experiment item-match */
 
-    const ITEM_MATCH_POOL = ["jug", "bottle", "balloon", "spoon", "iron-nail", "steel-wool", "jar", "funnel"];
+    const ITEM_MATCH_POOL = ["jug", "bottle", "balloon", "spoon", "nail", "steel_wool", "jar", "funnel"];
     const ITEM_MATCH_LABELS = {
       jug: "Jug",
       bottle: "Bottle",
       balloon: "Balloon",
       spoon: "Spoon",
-      "iron-nail": "Iron nail",
-      "steel-wool": "Steel wool",
+      nail: "Iron nail",
+      steel_wool: "Steel wool",
       jar: "Jar",
       funnel: "Funnel"
     };
@@ -4236,11 +4242,11 @@
           img.hidden = false;
           if (placeholder) placeholder.hidden = true;
         };
-        img.src = "../images/lesson5/mission3/" + itemId + ".jpg";
+        img.src = "../images/lesson5/mission3/" + itemId + ".png";
       }
       if (placeholder) {
         placeholder.hidden = false;
-        placeholder.textContent = "Photo of a " + label.toLowerCase() + " coming soon";
+        placeholder.textContent = "";
       }
     }
 
