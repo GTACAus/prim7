@@ -2591,22 +2591,132 @@
       outline: 4px solid rgba(10, 174, 217, 0.14);
     }
 
-    .frogfish-label-entry.answer-correct input {
-      border-color: var(--green);
+    /* A saved label becomes a committed field. Students use the X button to clear it. */
+    .frogfish-label-entry.has-value input {
+      padding-right: 36px;
+      border-color: var(--blue);
       border-style: solid;
-      background: rgba(215, 245, 233, 0.96);
+      background: rgba(255, 255, 255, 0.98);
       outline: none;
+      cursor: default;
     }
 
-    .frogfish-label-entry.answer-incorrect input {
+    .frogfish-clear-label {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      z-index: 4;
+      width: 27px;
+      height: 27px;
+      translate: 0 -50%;
+      display: none;
+      place-items: center;
+      padding: 0;
+      border: 2px solid rgba(48, 51, 47, 0.35);
+      border-radius: 50%;
+      background: white;
+      color: var(--charcoal);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 1px 0 rgba(48, 51, 47, 0.15);
+    }
+
+    .frogfish-label-entry.has-value .frogfish-clear-label {
+      display: grid;
+    }
+
+    .frogfish-clear-label:hover,
+    .frogfish-clear-label:focus-visible {
       border-color: var(--orange);
-      border-style: solid;
-      background: rgba(255, 232, 221, 0.97);
+      background: var(--soft-orange);
       outline: none;
     }
 
-    .frogfish-label-entry.answer-incorrect input:focus {
-      outline: 4px solid rgba(255, 109, 58, 0.16);
+    /* Frogfish example modal shown after CHECK. */
+    #frogfishExampleModal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      background: rgba(3, 16, 30, 0.78);
+    }
+
+    #frogfishExampleModal .frogfish-example-content {
+      width: min(900px, 94vw);
+      max-height: 90vh;
+      overflow: auto;
+      padding: 20px;
+      border: 3px solid var(--exp-cyan);
+      border-radius: 20px;
+      background: var(--exp-navy);
+      color: var(--exp-white);
+      box-shadow: var(--exp-shadow);
+    }
+
+    .frogfish-example-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .frogfish-example-header h2 {
+      margin: 0;
+      color: white;
+      font-family: "Oxanium", sans-serif;
+    }
+
+    .frogfish-example-header p {
+      margin: 5px 0 0;
+      color: var(--exp-muted);
+      line-height: 1.5;
+    }
+
+    .frogfish-example-close {
+      flex: 0 0 auto;
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--exp-cyan);
+      border-radius: 50%;
+      background: var(--exp-panel);
+      color: white;
+      font-size: 1.35rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .frogfish-example-image {
+      display: block;
+      width: 100%;
+      max-height: 62vh;
+      object-fit: contain;
+      border: 3px solid var(--charcoal);
+      border-radius: 16px;
+      background: white;
+    }
+
+    .frogfish-example-placeholder {
+      min-height: 320px;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      border: 3px dashed rgba(117, 221, 232, 0.4);
+      border-radius: 16px;
+      color: var(--exp-muted);
+      text-align: center;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .frogfish-example-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
     }
 
     @media (max-width: 800px) {
@@ -2693,6 +2803,34 @@
         >
           Download PDF
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Frogfish reference example: shown after students submit their own six labels. -->
+  <div id="frogfishExampleModal" role="dialog" aria-modal="true" aria-labelledby="frogfishExampleTitle" aria-hidden="true">
+    <div class="frogfish-example-content">
+      <div class="frogfish-example-header">
+        <div>
+          <h2 id="frogfishExampleTitle">Compare with an example</h2>
+          <p>Your labels are not automatically marked right or wrong. Compare your descriptions with this example and notice any scientific terms you may want to remember.</p>
+        </div>
+        <button type="button" class="frogfish-example-close" onclick="closeFrogfishExampleModal()" aria-label="Close example">×</button>
+      </div>
+
+      <img
+        class="frogfish-example-image"
+        src="../images/lesson5/frogfish-labelled-example.png"
+        alt="Example frogfish scientific diagram with labels"
+        onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+      >
+      <div class="frogfish-example-placeholder" hidden>
+        Example asset placeholder: add the labelled reference image as
+        <code>../images/lesson5/frogfish-labelled-example.png</code>.
+      </div>
+
+      <div class="frogfish-example-actions">
+        <button type="button" class="expedition-button" onclick="closeFrogfishExampleModal()">Continue</button>
       </div>
     </div>
   </div>
@@ -3463,7 +3601,7 @@
                           <!-- Drop zones are aligned beside the ends of the five leader lines in the 4:3 image. -->
                           <div data-dd-slot="batfish-eye" data-dd-answer="eye" style="--dd-x: 16.2%; --dd-y: 21.4%; --dd-w: 24.7%;" aria-label="Drop the label for the eye here"></div>
                           <div data-dd-slot="batfish-dorsal" data-dd-answer="dorsal-fin" style="--dd-x: 79.7%; --dd-y: 13.1%; --dd-w: 25.0%;" aria-label="Drop the label for the dorsal fin here"></div>
-                          <div data-dd-slot="batfish-snout" data-dd-answer="snout" style="--dd-x: 83.0%; --dd-y: 35.7%; --dd-w: 23.0%;" aria-label="Drop the label for the snout here"></div>
+                          <div data-dd-slot="batfish-snout" data-dd-answer="snout" style="--dd-x: 88.0%; --dd-y: 35.7%; --dd-w: 23.0%;" aria-label="Drop the label for the snout here"></div>
                           <div data-dd-slot="batfish-pectoral" data-dd-answer="pectoral-fin" style="--dd-x: 16.0%; --dd-y: 86.6%; --dd-w: 24.5%;" aria-label="Drop the label for the pectoral fin here"></div>
                           <div data-dd-slot="batfish-mouth" data-dd-answer="mouth" style="--dd-x: 82.5%; --dd-y: 83.1%; --dd-w: 22.5%;" aria-label="Drop the label for the mouth and red lips here"></div>
                         </div>
@@ -3519,32 +3657,38 @@
 
                         <div class="frogfish-label-entry" data-frogfish-entry="caudal-fin" style="--frog-left: 1.6%; --frog-top: 28.0%; --frog-width: 19%;">
                           <input type="text" data-frogfish-input="caudal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin at the back of the frogfish">
+                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="caudal-fin" aria-label="Clear caudal-fin label" title="Clear label">×</button>
                         </div>
 
                         <div class="frogfish-label-entry" data-frogfish-entry="dorsal-fin" style="--frog-left: 17.0%; --frog-top: 11.9%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="dorsal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin along the top of the frogfish">
+                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="dorsal-fin" aria-label="Clear dorsal-fin label" title="Clear label">×</button>
                         </div>
 
                         <div class="frogfish-label-entry" data-frogfish-entry="lure" style="--frog-left: 80.0%; --frog-top: 7.7%; --frog-width: 19%;">
                           <input type="text" data-frogfish-input="lure" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish lure">
+                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="lure" aria-label="Clear lure label" title="Clear label">×</button>
                         </div>
 
                         <div class="frogfish-label-entry" data-frogfish-entry="eye" style="--frog-left: 79.0%; --frog-top: 45.2%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="eye" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish eye">
+                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="eye" aria-label="Clear eye label" title="Clear label">×</button>
                         </div>
 
                         <div class="frogfish-label-entry" data-frogfish-entry="mouth" style="--frog-left: 82.0%; --frog-top: 68.4%; --frog-width: 18%;">
                           <input type="text" data-frogfish-input="mouth" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish mouth">
+                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="mouth" aria-label="Clear mouth label" title="Clear label">×</button>
                         </div>
 
                         <div class="frogfish-label-entry" data-frogfish-entry="pectoral-fin" style="--frog-left: 2.0%; --frog-top: 90.7%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="pectoral-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish pectoral fin">
+                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="pectoral-fin" aria-label="Clear pectoral-fin label" title="Clear label">×</button>
                         </div>
                       </div>
                     </div>
 
                     <p class="activity-prompt">
-                      Label all six structures independently. The expected scientific terms are not shown in advance.
+                      Label all six structures in your own words. Press <strong>ENTER</strong> or click elsewhere to save each label, then press <strong>CHECK</strong> to compare your work with an example.
                     </p>
                     <div class="variable-feedback stage-feedback" data-feedback="m4-frogfish-labels" role="status" aria-live="polite"></div>
                   </div>
@@ -3956,16 +4100,7 @@
           {
             id: "m4-frogfish-labels",
             label: "Independent frogfish labelling",
-            type: "label-input",
-            labelAnswers: {
-              "caudal-fin": ["caudal fin", "tail fin"],
-              "dorsal-fin": ["dorsal fin"],
-              lure: ["lure", "esca", "fishing lure"],
-              eye: ["eye"],
-              mouth: ["mouth"],
-              "pectoral-fin": ["pectoral fin", "pectoral fins"]
-            },
-            tryAgainMessage: "One or more labels do not match the indicated structure. Check the leader lines again and use the scientific names for the visible structures."
+            type: "label-input"
           }
         ]
       },
@@ -4316,29 +4451,17 @@
       renderControls();
     }
 
-    function normaliseScientificLabel(value) {
-      return String(value || "")
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, " ")
-        .replace(/[-_]+/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
+    function getFrogfishInputTargets() {
+      return Array.from(document.querySelectorAll("[data-frogfish-input]"))
+        .map(function(input) { return input.dataset.frogfishInput; })
+        .filter(Boolean);
     }
 
-    function validateFrogfishLabels(stage) {
-      const answers = (stage && stage.labelAnswers) || {};
-      const submitted = expeditionState.selections.frogfishLabels || {};
-      const targets = Object.keys(answers);
-
-      if (!targets.length || targets.some(function(target) { return !submitted[target]; })) {
-        return false;
-      }
-
-      return targets.every(function(target) {
-        const value = normaliseScientificLabel(submitted[target]);
-        return (answers[target] || []).some(function(answer) {
-          return normaliseScientificLabel(answer) === value;
-        });
+    function allFrogfishLabelsComplete() {
+      const labels = expeditionState.selections.frogfishLabels || {};
+      const targets = getFrogfishInputTargets();
+      return targets.length > 0 && targets.every(function(target) {
+        return Boolean(String(labels[target] || "").trim());
       });
     }
 
@@ -4352,10 +4475,9 @@
 
       if (rawValue === "") {
         delete expeditionState.selections.frogfishLabels[target];
-        const emptyEntry = input.closest(".frogfish-label-entry");
-        if (emptyEntry) emptyEntry.classList.remove("answer-correct", "answer-incorrect");
         clearCurrentStageFeedback();
         saveCurrentPageData();
+        renderFrogfishLabels();
         renderControls();
         return;
       }
@@ -4367,13 +4489,30 @@
       if (!value) return;
 
       expeditionState.selections.frogfishLabels[target] = value;
+      clearCurrentStageFeedback();
+      saveCurrentPageData();
+      renderFrogfishLabels();
+      renderControls();
+    }
 
-      const entry = input.closest(".frogfish-label-entry");
-      if (entry) entry.classList.remove("answer-correct", "answer-incorrect");
+    function clearFrogfishOverlayLabel(target) {
+      if (!target) return;
+
+      delete expeditionState.selections.frogfishLabels[target];
+
+      /* If a student changes a submitted answer, require CHECK again before NEXT. */
+      expeditionState.completedStages["m4-frogfish-labels"] = false;
+      if (expeditionState.currentMissionIndex === 3) {
+        expeditionState.completedMissions[3] = false;
+      }
 
       clearCurrentStageFeedback();
       saveCurrentPageData();
+      renderFrogfishLabels();
       renderControls();
+
+      const input = document.querySelector('[data-frogfish-input="' + target + '"]');
+      if (input) input.focus();
     }
 
     function renderFrogfishLabels() {
@@ -4381,29 +4520,32 @@
 
       document.querySelectorAll("[data-frogfish-input]").forEach(function(input) {
         const target = input.dataset.frogfishInput;
+        const savedValue = labels[target] || "";
+        const entry = input.closest(".frogfish-label-entry");
+        const isSaved = Boolean(String(savedValue).trim());
+
         if (document.activeElement !== input) {
-          input.value = labels[target] || "";
+          input.value = savedValue;
         }
+
+        /* Saved labels are locked until the student presses the X button. */
+        input.readOnly = isSaved;
+        if (entry) entry.classList.toggle("has-value", isSaved);
       });
     }
 
-    function markFrogfishLabelAnswers(stage, isCorrect) {
-      const answers = (stage && stage.labelAnswers) || {};
-      const submitted = expeditionState.selections.frogfishLabels || {};
+    function openFrogfishExampleModal() {
+      const modal = document.getElementById("frogfishExampleModal");
+      if (!modal) return;
+      modal.style.display = "grid";
+      modal.setAttribute("aria-hidden", "false");
+    }
 
-      document.querySelectorAll("[data-frogfish-entry]").forEach(function(entry) {
-        const target = entry.dataset.frogfishEntry;
-        entry.classList.remove("answer-correct", "answer-incorrect");
-
-        if (!submitted[target]) return;
-
-        const value = normaliseScientificLabel(submitted[target]);
-        const correct = (answers[target] || []).some(function(answer) {
-          return normaliseScientificLabel(answer) === value;
-        });
-
-        entry.classList.add(correct ? "answer-correct" : "answer-incorrect");
-      });
+    function closeFrogfishExampleModal() {
+      const modal = document.getElementById("frogfishExampleModal");
+      if (!modal) return;
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
     }
 
     function validateCurrentStage(stage) {
@@ -4426,7 +4568,7 @@
       }
 
       if (stage.type === "label-input") {
-        return validateFrogfishLabels(stage);
+        return allFrogfishLabelsComplete();
       }
 
       if (stage.type === "checklist") {
@@ -4474,6 +4616,16 @@
 
       if (!mission || !stage || !feedback) return;
 
+      /* Once the frogfish activity has been completed, CHECK becomes a
+         reusable way to reopen the comparison example. */
+      if (
+        stage.id === "m4-frogfish-labels" &&
+        expeditionState.completedStages[stage.id]
+      ) {
+        openFrogfishExampleModal();
+        return;
+      }
+
       const isCorrect = validateCurrentStage(stage);
 
       if (!isCorrect) {
@@ -4500,7 +4652,7 @@
         } else if (stage.type === "item-match") {
           message = "Select the matching symbol for the photo shown before checking.";
         } else if (stage.type === "label-input") {
-          message = "Complete all six frogfish labels and use the scientific names for the structures.";
+          message = "Complete all six frogfish labels before checking.";
         } else if (stage.type === "observations") {
           message = "Select at least three observable features before completing the final mission.";
         } else if (stage.type === "finale") {
@@ -4511,7 +4663,6 @@
 
         setActivityFeedback(feedback, "try-again", "Not quite yet", message);
         markSelectedAnswer(stage, false);
-        if (stage.type === "label-input") markFrogfishLabelAnswers(stage, false);
         renderControls();
         return;
       }
@@ -4550,9 +4701,12 @@
       );
 
       markSelectedAnswer(stage, true);
-      if (stage.type === "label-input") markFrogfishLabelAnswers(stage, true);
       saveCurrentPageData();
       renderExpedition();
+
+      if (stage.id === "m4-frogfish-labels") {
+        openFrogfishExampleModal();
+      }
     }
 
     function markSelectedAnswer(stage, isCorrect) {
@@ -4707,7 +4861,7 @@
         });
 
         stageElement.querySelectorAll(".frogfish-label-entry").forEach(function(entry) {
-          entry.classList.remove("answer-correct", "answer-incorrect");
+          entry.classList.remove("has-value");
         });
         stageElement.querySelectorAll("[data-frogfish-input]").forEach(function(input) {
           input.value = "";
@@ -5162,7 +5316,7 @@
       if (!stage) return false;
       if (stage.type === "read" || stage.type === "checklist") return true;
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
-      if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
+      if (stage.type === "label-input") return allFrogfishLabelsComplete();
       if (stage.type === "dragdrop") {
         return stage.id === "m3-dragdrop-legacy"
           ? Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0
@@ -5249,7 +5403,12 @@
         return;
       }
 
-      checkButton.disabled = completed || !stageHasInput(stage);
+      const canReopenFrogfishExample =
+        stage.id === "m4-frogfish-labels" && completed;
+
+      checkButton.disabled = canReopenFrogfishExample
+        ? false
+        : completed || !stageHasInput(stage);
       resetButton.disabled = !stageHasResettableInput(stage) && !completed;
       nextButton.disabled = !completed || (isLastStage && isFinalMission);
 
@@ -5408,8 +5567,6 @@
         });
 
         input.addEventListener("input", function() {
-          const entry = input.closest(".frogfish-label-entry");
-          if (entry) entry.classList.remove("answer-correct", "answer-incorrect");
           clearCurrentStageFeedback();
         });
 
@@ -5422,6 +5579,19 @@
         });
       });
 
+      document.querySelectorAll("[data-frogfish-clear]").forEach(function(button) {
+        button.addEventListener("click", function() {
+          clearFrogfishOverlayLabel(button.dataset.frogfishClear);
+        });
+      });
+
+      const frogfishExampleModal = document.getElementById("frogfishExampleModal");
+      if (frogfishExampleModal) {
+        frogfishExampleModal.addEventListener("click", function(event) {
+          if (event.target === frogfishExampleModal) closeFrogfishExampleModal();
+        });
+      }
+
       const equipmentModal = document.getElementById("equipmentSymbolsModal");
       if (equipmentModal) {
         equipmentModal.addEventListener("click", function(event) {
@@ -5430,7 +5600,10 @@
       }
 
       document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") closeEquipmentSymbols();
+        if (event.key === "Escape") {
+          closeEquipmentSymbols();
+          closeFrogfishExampleModal();
+        }
       });
 
       renderExpedition();
