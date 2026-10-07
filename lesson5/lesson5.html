@@ -12,17 +12,19 @@
   -->
   <link rel="stylesheet" href="../styles/build_style.css">
   <link rel="stylesheet" href="../styles/lesson5_styles/drag_and_drop.css">
-  <link href="../styles/lesson5_styles/lesson5.css" rel="stylesheet" type="text/css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../styles/lesson5_styles/lesson5.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link
   href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap"
   rel="stylesheet"
 >
+
   <script src="../scripts/common_functions.js" defer></script>
-  <script src="../scripts/lesson5_scripts/lesson5.js"></script>
-  <script src="../scripts/lesson5_scripts/drag_and_drop.js"></script>
+  <script src="../scripts/lesson5_scripts/lesson5.js" defer></script>
+  <script src="../scripts/lesson5_scripts/drag_and_drop.js" defer></script>
 
 </head>
 
@@ -156,9 +158,14 @@
       <p class="teacher-note">Jumping between activities changes navigation only. Reset student view clears every answer on this page.</p>
     </div>
   </div>
+
   <main class="page expedition-page">
+
     <div class="expedition-intro">
       <header class="lesson-intro">
+
+<!-- SCIENTIFIC DRAWINGS HEADING, DOWNLOAD WORKSHEET BUTTON-->
+
           <div class="lesson-heading">
             <span class="lesson-label">Lesson 5</span>
             <h1 id="teacherTrigger">
@@ -177,7 +184,10 @@
               <p>Download worksheet</p>
             </a>
           </div>
+
         </header>
+
+        <!-- Learning objectives, success criteria-->
         <div class="intro-grid">
           <section class="intro-card objectives-card">
             <p class="intro-eyebrow">Learning objective</p>
@@ -191,6 +201,7 @@
               <li>I can use a scientific drawing to communicate my observations.</li>
             </ol>
           </section>
+
           <section class="intro-card observation-card">
             <p class="intro-eyebrow">Think like a scientist</p>
             <h2>Constructing a scientific drawing</h2>
@@ -217,8 +228,11 @@
             </div>
           </section>
         </div>
+
     </div>
+
     <div class="expedition-zoom-stage">
+
     <div id="expedition-main">
       <header class="expedition-banner" aria-label="Expedition Log header">
         <div class="submarine-mark" aria-hidden="true">⚓</div>
@@ -232,9 +246,11 @@
         </button>
       </header>
       <div class="game-shell">
+
         <!-- ==================================================
              LEFT: mission navigation / game progress
              ================================================== -->
+
         <aside class="console-panel mission-nav" aria-label="Mission log">
           <h2 class="console-heading"><span class="light" aria-hidden="true"></span>Mission log</h2>
           <nav class="mission-list" id="missionList">
@@ -270,6 +286,7 @@
             </div>
           </div>
         </aside>
+
         <!-- ==================================================
              CENTRE: one reusable stage; missions swap inside it
              ================================================== -->
@@ -288,81 +305,222 @@
                 </button>
               </div>
             </section>
-            <!-- ==================================================
-                 MISSION 1: BRIEFING (4 stages)
-                 ================================================== -->
-            <section class="section expedition-mission" id="mission-1" data-mission-index="0">
-              <div class="mission-stage" data-stage-id="m1-exploration">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 1: briefing</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 1 of 2</span>
-                    </div>
-                    <h3>What is deep sea exploration?</h3>
-                    <p class="mission-subtitle">
-                      We know more about the surface of Mars than we do about the deepest parts of our own ocean.
-                      Scientists use specially built submarines, remotely operated vehicles and underwater cameras to
-                      explore a world of darkness, cold temperatures and crushing pressure.
-                    </p>
-                    <div class="story-grid">
-                      <figure class="media-card">
-                        <img src="../images/lesson5/deep-sea-camera.png" alt="Deep-sea camera used to observe the ocean floor">
-                        <figcaption>Deep-sea camera</figcaption>
-                      </figure>
-                      <figure class="media-card">
-                        <img src="../images/lesson5/hercules-rov.jpg" alt="Remotely operated vehicle Hercules underwater">
-                        <figcaption>Remotely operated vehicle “Hercules”</figcaption>
-                      </figure>
-                    </div>
-                    <div class="story-copy" style="margin-top:16px;">
-                      <h4>What could go wrong?</h4>
-                      <p>
-                        Technology does not always work perfectly in the deep ocean. Cameras can fail, footage can be corrupted,
-                        and extreme pressure can damage equipment. When this happens, scientists may need other ways to record what they observed.
-                      </p>
-                    </div>
-                    <p class="activity-prompt">When you have reviewed the briefing, press <strong>CHECK</strong>.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m1-exploration" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mission-stage" data-stage-id="m1-failure">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 1: briefing</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 01</p>
-                      <span class="stage-progress-chip">Stage 2 of 2</span>
-                    </div>
-                    <h3>What to do when it goes wrong?</h3>
-                    <p class="mission-subtitle">
-                      When camera footage is corrupted, the skill of scientific drawing can help preserve an observation.
-                      You will build this skill before completing the expedition.
-                    </p>
-                    <div class="media-compare">
-                      <figure class="media-card">
-                        <img data-glitch src="../images/lesson5/camera-footage.webp" alt="Corrupted underwater footage">
-                        <figcaption>Damaged footage</figcaption>
-                      </figure>
-                      <figure class="media-card">
-                        <img src="../images/lesson5/camera-footage.webp" alt="Clear underwater footage of the same organism">
-                        <figcaption>HD footage</figcaption>
-                      </figure>
-                    </div>
-                    <p class="activity-prompt">Press <strong>CHECK</strong> when you understand why an accurate visual record matters.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m1-failure" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-            </section>
+
+ <!-- ==================================================
+     MISSION 1: BRIEFING (2 stages)
+     ================================================== -->
+<section class="section expedition-mission" id="mission-1" data-mission-index="0">
+
+  <!-- ==================================================
+       STAGE 1: DEEP-SEA EXPLORATION
+       ================================================== -->
+  <div class="mission-stage" data-stage-id="m1-exploration">
+    <div class="mission-window">
+
+      <div class="mission-window-bar">
+        <strong>Deep field terminal // mission 1: briefing</strong>
+
+        <div class="window-dots" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="mission-window-body">
+
+        <div class="stage-progress-row">
+          <p class="mission-label">Mission 01</p>
+          <span class="stage-progress-chip">Stage 1 of 2</span>
+        </div>
+
+        <h3>What is deep sea exploration?</h3>
+
+        <p class="mission-subtitle">
+          <strong>Did you know?</strong>
+          We know more about the surface of Mars than we do
+          about the deepest parts of our own ocean!
+          Deep sea exploration is how scientists use submarines,
+          robots and underwater cameras to explore the ocean floor.
+        </p>
+
+
+        <!-- ROW 1 -->
+        <div class="story-grid">
+
+          <figure class="media-card">
+            <img
+              src="../images/lesson5/deep-sea-camera.png"
+              alt="Deep-sea camera used to observe the ocean floor"
+            >
+            <figcaption>Deep-sea camera</figcaption>
+          </figure>
+
+          <div class="story-copy">
+            <h4>How do scientists explore it?</h4>
+
+            <p>
+              Scientists use specialised equipment that can operate far below
+              the ocean surface, including underwater cameras and remotely
+              operated vehicles.
+            </p>
+          </div>
+
+        </div>
+
+
+        <!-- ROW 2 -->
+        <div class="story-grid">
+
+          <div class="story-copy">
+            <h4>Where does the deep sea begin?</h4>
+
+            <p>
+              The deep sea begins where sunlight can no longer reach underwater.
+              This is generally around <strong>200 metres deep</strong>.
+            </p>
+          </div>
+
+          <figure class="media-card">
+            <img
+              src="../images/lesson5/hercules-rov.jpg"
+              alt="Remotely operated vehicle Hercules exploring underwater"
+            >
+
+            <figcaption>
+              Remotely operated vehicle “Hercules”
+            </figcaption>
+          </figure>
+
+        </div>
+
+
+        <!-- FINAL FACT -->
+        <div class="story-copy" style="margin-top:16px;">
+          <h4>What is it like down there?</h4>
+
+          <p>
+            The deep sea is extremely <strong>dark</strong>,
+            <strong>cold</strong> and under very high
+            <strong>pressure</strong>. These conditions make
+            deep-sea exploration challenging for scientists and their equipment.
+          </p>
+        </div>
+
+
+        <p class="activity-prompt">
+          When you have reviewed the briefing, press <strong>CHECK</strong>.
+        </p>
+
+        <div
+          class="variable-feedback stage-feedback"
+          data-feedback="m1-exploration"
+          role="status"
+          aria-live="polite">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================================================
+       STAGE 2: WHAT CAN GO WRONG?
+       ================================================== -->
+  <div class="mission-stage" data-stage-id="m1-failure">
+
+    <div class="mission-window">
+
+      <div class="mission-window-bar">
+        <strong>Deep field terminal // mission 1: equipment failure</strong>
+
+        <div class="window-dots" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="mission-window-body">
+
+        <div class="stage-progress-row">
+          <p class="mission-label">Mission 01</p>
+          <span class="stage-progress-chip">Stage 2 of 2</span>
+        </div>
+
+
+        <h3>What can go wrong?</h3>
+
+        <p class="mission-subtitle">
+          Technology does not always work perfectly in the deep sea.
+          Cameras can fail, footage can become corrupted, and the extreme
+          pressure can damage equipment.
+        </p>
+
+
+        <div class="media-compare">
+
+          <!-- DAMAGED / GLITCHED FEED -->
+          <figure class="media-card">
+
+            <img
+              data-glitch
+              src="../images/lesson5/camera-footage.webp"
+              alt="Corrupted camera footage from the remotely operated vehicle Hercules"
+            >
+
+            <figcaption>
+              Corrupted camera feed
+            </figcaption>
+
+          </figure>
+
+
+          <!-- NORMAL FEED -->
+          <figure class="media-card">
+
+            <img
+              src="../images/lesson5/camera-footage.webp"
+              alt="Clear camera footage from the remotely operated vehicle Hercules"
+            >
+
+            <figcaption>
+              Clear camera feed
+            </figcaption>
+
+          </figure>
+
+        </div>
+
+
+        <div class="story-copy" style="margin-top:16px;">
+
+          <h4>What happens if the image is lost?</h4>
+
+          <p>
+            If a camera fails, scientists still need a way to preserve
+            what they observed. Careful observations and
+            <strong>scientific drawings</strong> can provide a visual record
+            when photographs or video are unavailable.
+          </p>
+
+        </div>
+
+
+        <p class="activity-prompt">
+          Press <strong>CHECK</strong> when you understand why scientists
+          need another way to record their observations.
+        </p>
+
+        <div
+          class="variable-feedback stage-feedback"
+          data-feedback="m1-failure"
+          role="status"
+          aria-live="polite">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
             <!-- ==================================================
                  MISSION 2: SCIENTIFIC DIAGRAM (2 stages)
                  ================================================== -->
