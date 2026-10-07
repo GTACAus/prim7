@@ -3062,7 +3062,7 @@
                   </div>
                 </div>
               </div>
-              <div class="mission-stage" data-stage-id="m3-dragdrop">
+              <div class="mission-stage" data-stage-id="m3-recreate">
                 <div class="mission-window">
                   <div class="mission-window-bar">
                     <strong>Deep field terminal // mission 3: experiment diagram</strong>
@@ -3071,11 +3071,136 @@
                   <div class="mission-window-body">
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 03</p>
-                      <span class="stage-progress-chip">Stage 2 of 3</span>
+                      <span class="stage-progress-chip">Stage 2 of 4</span>
                     </div>
                     <h3>Recreate the experiment</h3>
+                    <p class="mission-subtitle">A photo of one piece of equipment from the experiment is shown below. Select the matching symbol. Match all three items to continue.</p>
+                    <div class="item-match-activity" id="m3ItemMatch">
+                      <div class="dd-reference item-match-reference">
+                        <span class="dd-caption">Experiment item <span data-item-match-round-label>1 of 3</span></span>
+                        <!-- TODO: add real experiment photos at ../images/lesson5/mission3/<item-id>.jpg
+                             (ids: jug, bottle, balloon, spoon, iron-nail, steel-wool, jar, funnel) - they will
+                             be picked up automatically once present. -->
+                        <img data-item-match-img alt="" hidden>
+                        <span class="item-match-placeholder" data-item-match-placeholder>Photo coming soon</span>
+                      </div>
+                      <div class="item-match-options" data-item-match-options role="group" aria-label="Equipment symbols">
+                        <button type="button" class="item-match-option" data-item-match-value="jug" aria-label="Jug">
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M28 14 L30 70 Q30 86 50 86 Q70 86 70 70 L72 14" />
+                            <path d="M28 14 Q50 6 72 14" />
+                            <path d="M68 24 Q88 30 86 48 Q84 60 66 58" />
+                          </svg>
+                          <span>Jug</span>
+                        </button>
+                        <button type="button" class="item-match-option" data-item-match-value="bottle" aria-label="Bottle">
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M42 8 H58 V24 Q70 32 70 48 V80 Q70 90 50 90 Q30 90 30 80 V48 Q30 32 42 24 Z" />
+                          </svg>
+                          <span>Bottle</span>
+                        </button>
+                        <button type="button" class="item-match-option" data-item-match-value="balloon" aria-label="Balloon">
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <ellipse cx="50" cy="38" rx="26" ry="32" />
+                            <path d="M50 70 L46 78 L54 82 L48 90" />
+                          </svg>
+                          <span>Balloon</span>
+                        </button>
+                        <button type="button" class="item-match-option" data-item-match-value="spoon" aria-label="Spoon">
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <ellipse cx="50" cy="22" rx="16" ry="20" />
+                            <path d="M50 42 V88" />
+                          </svg>
+                          <span>Spoon</span>
+                        </button>
+                        <button type="button" class="item-match-option" data-item-match-value="iron-nail" aria-label="Iron nail">
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M26 20 L80 74" />
+                          </svg>
+                          <span>Iron nail</span>
+                        </button>
+                        <button type="button" class="item-match-option" data-item-match-value="steel-wool" aria-label="Steel wool">
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 50 Q30 30 42 48 Q50 30 60 48 Q70 28 82 48 Q88 60 76 62 Q84 74 68 72 Q72 84 56 78 Q48 90 36 78 Q22 84 24 68 Q12 64 20 50 Z" />
+                          </svg>
+                          <span>Steel wool</span>
+                        </button>
+                        <button type="button" class="item-match-option" data-item-match-value="jar" aria-label="Jar">
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M32 20 H68 V76 Q68 88 50 88 Q32 88 32 76 Z" />
+                          </svg>
+                          <span>Jar</span>
+                        </button>
+                        <button type="button" class="item-match-option" data-item-match-value="funnel" aria-label="Funnel">
+                          <svg
+                            class="funnel-icon"
+                            viewBox="0 0 100 140"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="#30332f"
+                            stroke-width="4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <ellipse cx="50" cy="20" rx="38" ry="10" />
+                            <path d="
+                              M12 20
+                              L42 68
+                              V138
+                              L50 128
+                              L58 118
+                              V68
+                              L88 20
+                            " />
+                          </svg>
+                          <span>Funnel</span>
+                        </button>
+                      </div>
+                    </div>
+                    <span class="prototype-note">Placeholder: the photos for each experiment item are not final yet, so a text placeholder is shown instead. Three of the eight symbols above are chosen at random each attempt.</span>
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-recreate" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mission-stage" data-stage-id="m3-experiment-setup">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 3: experiment diagram</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 03</p>
+                      <span class="stage-progress-chip">Stage 3 of 4</span>
+                    </div>
+                    <h3>Fix the Camera Shutter</h3>
+                    <div class="story-copy">
+                      <h4>TASK: How do we fix the camera shutter?</h4>
+                      <p>The metal seems to have brown residue that is making the shutter stuck.</p>
+                      <p>Let's investigate why this is happening.</p>
+                    </div>
+                    <div class="mission-image-container">
+                      <img src="../images/lesson5/animations/camera_shutter.gif" alt="Camera shutter animation" />
+                    </div>
+                      <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to move on to the next mission.</p>
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-experiment-setup" role="status" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mission-stage" data-stage-id="m3-dragdrop-legacy">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // mission 3: experiment diagram (drag and drop)</strong>
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="mission-window-body">
+                    <div class="stage-progress-row">
+                      <p class="mission-label">Mission 03</p>
+                      <span class="stage-progress-chip">Stage 4 of 4</span>
+                    </div>
+                    <h3>Recreate the experiment (drag and drop)</h3>
                     <p class="mission-subtitle">Look at the experiment on the left. Drag the equipment symbols into the box on the right to build a scientific diagram of it.</p>
-                    <div class="dd-activity" id="m3DragDrop">
+                    <div class="dd-activity" id="m3DragDropLegacy">
                       <div class="dd-board">
                         <div class="dd-reference">
                           <span class="dd-caption">Experiment</span>
@@ -3151,32 +3276,7 @@
                       </div>
                     </div>
                     <span class="prototype-note">Placeholder: the experiment image and final slot positions are not set yet. For now the correct answer is the symbols in tray order (slot 1 = beaker, slot 2 = test tube, and so on).</span>
-                    <div class="variable-feedback stage-feedback" data-feedback="m3-dragdrop" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mission-stage" data-stage-id="m3-experiment-setup">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: experiment diagram</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 03</p>
-                      <span class="stage-progress-chip">Stage 3 of 3</span>
-                    </div>
-                    <h3>Fix the Camera Shutter</h3>
-                    <div class="story-copy">
-                      <h4>TASK: How do we fix the camera shutter?</h4>
-                      <p>The metal seems to have brown residue that is making the shutter stuck.</p>
-                      <p>Let's investigate why this is happening.</p>
-                    </div>
-                    <div class="mission-image-container">
-                      <img src="../images/lesson5/animations/camera_shutter.gif" alt="Camera shutter animation" />
-                    </div>
-                      <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to move on to the next mission.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m3-experiment-setup" role="status" aria-live="polite"></div>
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-dragdrop-legacy" role="status" aria-live="polite"></div>
                   </div>
                 </div>
               </div>
@@ -3823,8 +3923,9 @@
         title: "Drawing Practice",
         stages: [
           { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist" },
-          { id: "m3-dragdrop", label: "Recreate the experiment", type: "dragdrop" },
-          { id: "m3-experiment-setup", label: "Experiment set-up", type: "read" }
+          { id: "m3-recreate", label: "Recreate the experiment", type: "item-match" },
+          { id: "m3-experiment-setup", label: "Experiment set-up", type: "read" },
+          { id: "m3-dragdrop-legacy", label: "Recreate the experiment (drag and drop)", type: "dragdrop" }
         ]
       },
       {
@@ -3913,8 +4014,133 @@
     }
 
     let expeditionState = createFreshExpeditionState();
-    let m3DragDrop = null; /* Mission 3 experiment diagram */
     let m4BatfishDragDrop = null; /* Mission 4 guided batfish labelling */
+    let m3LegacyDragDrop = null; /* Mission 3 experiment diagram - original drag-and-drop version, kept as a spare stage */
+    let m3ItemMatchRoot = null; /* Mission 3 experiment item-match */
+
+    const ITEM_MATCH_POOL = ["jug", "bottle", "balloon", "spoon", "iron-nail", "steel-wool", "jar", "funnel"];
+    const ITEM_MATCH_LABELS = {
+      jug: "Jug",
+      bottle: "Bottle",
+      balloon: "Balloon",
+      spoon: "Spoon",
+      "iron-nail": "Iron nail",
+      "steel-wool": "Steel wool",
+      jar: "Jar",
+      funnel: "Funnel"
+    };
+    const ITEM_MATCH_ROUNDS = 3;
+
+    /* Picks 3 distinct items from the pool of 8, in random order. */
+    function pickItemMatchRounds() {
+      const pool = ITEM_MATCH_POOL.slice();
+      const rounds = [];
+      while (rounds.length < ITEM_MATCH_ROUNDS && pool.length) {
+        const index = Math.floor(Math.random() * pool.length);
+        rounds.push(pool.splice(index, 1)[0]);
+      }
+      return rounds;
+    }
+
+    /* Lazily (re)rolls the round order so a fresh/cleared state always has one. */
+    function getItemMatchState() {
+      let state = expeditionState.selections.itemMatch;
+      if (!state || !Array.isArray(state.rounds) || state.rounds.length !== ITEM_MATCH_ROUNDS) {
+        state = { rounds: pickItemMatchRounds(), index: 0 };
+        expeditionState.selections.itemMatch = state;
+      }
+      return state;
+    }
+
+    function isItemMatchComplete() {
+      const state = getItemMatchState();
+      return state.index >= state.rounds.length;
+    }
+
+    function renderItemMatchRound() {
+      if (!m3ItemMatchRoot) return;
+      const state = getItemMatchState();
+      const img = m3ItemMatchRoot.querySelector("[data-item-match-img]");
+      const placeholder = m3ItemMatchRoot.querySelector("[data-item-match-placeholder]");
+      const roundLabel = m3ItemMatchRoot.querySelector("[data-item-match-round-label]");
+      const options = Array.prototype.slice.call(m3ItemMatchRoot.querySelectorAll(".item-match-option"));
+
+      options.forEach(function(button) {
+        button.classList.remove("correct", "incorrect");
+      });
+
+      if (isItemMatchComplete()) {
+        if (roundLabel) roundLabel.textContent = "all matched";
+        if (img) img.hidden = true;
+        if (placeholder) {
+          placeholder.hidden = false;
+          placeholder.textContent = "All three items matched. Press CHECK to continue.";
+        }
+        options.forEach(function(button) { button.disabled = true; });
+        return;
+      }
+
+      options.forEach(function(button) { button.disabled = false; });
+
+      const itemId = state.rounds[state.index];
+      const label = ITEM_MATCH_LABELS[itemId] || itemId;
+
+      if (roundLabel) roundLabel.textContent = (state.index + 1) + " of " + state.rounds.length;
+
+      if (img) {
+        img.hidden = true;
+        img.alt = "Photograph of a " + label.toLowerCase();
+        img.onerror = function() {
+          img.hidden = true;
+          if (placeholder) {
+            placeholder.hidden = false;
+            placeholder.textContent = "Photo of a " + label.toLowerCase() + " coming soon";
+          }
+        };
+        img.onload = function() {
+          img.hidden = false;
+          if (placeholder) placeholder.hidden = true;
+        };
+        img.src = "../images/lesson5/mission3/" + itemId + ".jpg";
+      }
+      if (placeholder) {
+        placeholder.hidden = false;
+        placeholder.textContent = "Photo of a " + label.toLowerCase() + " coming soon";
+      }
+    }
+
+    function handleItemMatchOptionClick(button) {
+      if (isItemMatchComplete()) return;
+      const state = getItemMatchState();
+      const answer = state.rounds[state.index];
+
+      if (button.dataset.itemMatchValue === answer) {
+        button.classList.remove("incorrect");
+        button.classList.add("correct");
+        state.index += 1;
+        saveCurrentPageData();
+        clearCurrentStageFeedback();
+        renderControls();
+        window.setTimeout(renderItemMatchRound, 450);
+      } else {
+        button.classList.add("incorrect");
+        window.setTimeout(function() { button.classList.remove("incorrect"); }, 600);
+      }
+    }
+
+    function resetItemMatch() {
+      expeditionState.selections.itemMatch = { rounds: pickItemMatchRounds(), index: 0 };
+      renderItemMatchRound();
+    }
+
+    function initItemMatchActivity() {
+      m3ItemMatchRoot = document.getElementById("m3ItemMatch");
+      if (!m3ItemMatchRoot) return;
+      m3ItemMatchRoot.querySelectorAll(".item-match-option").forEach(function(button) {
+        button.addEventListener("click", function() { handleItemMatchOptionClick(button); });
+      });
+      renderItemMatchRound();
+    }
 
     function createFreshExpeditionState() {
       return {
@@ -3927,7 +4153,8 @@
         completedStages: {},
         selections: {
           diagramExample: "",
-          dragDrop: {},
+          itemMatch: null,
+          dragDropLegacy: {},
           drawing: "",
           shallowFish1: "",
           shallowFish2: "",
@@ -4211,10 +4438,14 @@
       }
 
       if (stage.type === "dragdrop") {
-        if (stage.id === "m4-batfish-labels") {
-          return Boolean(m4BatfishDragDrop) && m4BatfishDragDrop.isComplete() && m4BatfishDragDrop.isCorrect();
+        if (stage.id === "m3-dragdrop-legacy") {
+          return Boolean(m3LegacyDragDrop) && m3LegacyDragDrop.isComplete() && m3LegacyDragDrop.isCorrect();
         }
-        return Boolean(m3DragDrop) && m3DragDrop.isComplete() && m3DragDrop.isCorrect();
+        return Boolean(m4BatfishDragDrop) && m4BatfishDragDrop.isComplete() && m4BatfishDragDrop.isCorrect();
+      }
+
+      if (stage.type === "item-match") {
+        return isItemMatchComplete();
       }
 
       if (stage.type === "observations") {
@@ -4257,15 +4488,17 @@
         } else if (stage.type === "checklist") {
           message = "Review all five scientific-drawing rules and tick each one before continuing.";
         } else if (stage.type === "dragdrop") {
-          if (stage.id === "m4-batfish-labels") {
+          if (stage.id === "m3-dragdrop-legacy") {
+            message = m3LegacyDragDrop && m3LegacyDragDrop.isComplete()
+              ? "Some symbols are in the wrong place. Compare your diagram with the experiment and try again."
+              : "Drag every equipment symbol into the diagram box before checking.";
+          } else {
             message = m4BatfishDragDrop && m4BatfishDragDrop.isComplete()
               ? "Some labels are on the wrong structures. Recheck the batfish diagram and try again."
               : "Place every batfish label beside a leader-line end before checking.";
-          } else {
-            message = m3DragDrop && m3DragDrop.isComplete()
-              ? "Some symbols are in the wrong place. Compare your diagram with the experiment and try again."
-              : "Drag every equipment symbol into the diagram box before checking.";
           }
+        } else if (stage.type === "item-match") {
+          message = "Select the matching symbol for the photo shown before checking.";
         } else if (stage.type === "label-input") {
           message = "Complete all six frogfish labels and use the scientific names for the structures.";
         } else if (stage.type === "observations") {
@@ -4432,13 +4665,17 @@
       }
 
       if (stage.type === "dragdrop") {
-        if (stage.id === "m4-batfish-labels") {
+        if (stage.id === "m3-dragdrop-legacy") {
+          expeditionState.selections.dragDropLegacy = {};
+          if (m3LegacyDragDrop) m3LegacyDragDrop.reset();
+        } else {
           expeditionState.selections.batfishLabels = {};
           if (m4BatfishDragDrop) m4BatfishDragDrop.reset();
-        } else {
-          expeditionState.selections.dragDrop = {};
-          if (m3DragDrop) m3DragDrop.reset();
         }
+      }
+
+      if (stage.type === "item-match") {
+        resetItemMatch();
       }
 
       if (stage.type === "observations") {
@@ -4927,10 +5164,11 @@
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
       if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
       if (stage.type === "dragdrop") {
-        return stage.id === "m4-batfish-labels"
-          ? Object.keys(expeditionState.selections.batfishLabels || {}).length > 0
-          : Object.keys(expeditionState.selections.dragDrop || {}).length > 0;
+        return stage.id === "m3-dragdrop-legacy"
+          ? Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0
+          : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
+      if (stage.type === "item-match") return isItemMatchComplete();
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -4949,10 +5187,11 @@
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
       if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
       if (stage.type === "dragdrop") {
-        return stage.id === "m4-batfish-labels"
-          ? Object.keys(expeditionState.selections.batfishLabels || {}).length > 0
-          : Object.keys(expeditionState.selections.dragDrop || {}).length > 0;
+        return stage.id === "m3-dragdrop-legacy"
+          ? Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0
+          : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
+      if (stage.type === "item-match") return getItemMatchState().index > 0;
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -5135,17 +5374,19 @@
 
       populateSciencePanelFromChecklist();
 
-      const dragDropRoot = document.getElementById("m3DragDrop");
-      if (dragDropRoot) {
-        m3DragDrop = new DragDropActivity(dragDropRoot, {
+      initItemMatchActivity();
+
+      const legacyDragDropRoot = document.getElementById("m3DragDropLegacy");
+      if (legacyDragDropRoot) {
+        m3LegacyDragDrop = new DragDropActivity(legacyDragDropRoot, {
           onChange: function(placements) {
-            expeditionState.selections.dragDrop = placements;
+            expeditionState.selections.dragDropLegacy = placements;
             clearCurrentStageFeedback();
             saveCurrentPageData();
             renderControls();
           }
         });
-        m3DragDrop.setPlacements(expeditionState.selections.dragDrop);
+        m3LegacyDragDrop.setPlacements(expeditionState.selections.dragDropLegacy);
       }
 
       const batfishDragDropRoot = document.getElementById("m4BatfishDragDrop");
