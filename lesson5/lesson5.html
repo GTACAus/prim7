@@ -2446,7 +2446,7 @@
       padding: 4px !important;
       border: 2px dashed rgba(10, 174, 217, 0.42) !important;
       border-radius: 14px !important;
-      background: rgba(255, 255, 255, 0.56) !important;
+      background: rgba(255, 255, 255, 0.98) !important;
       box-shadow: none !important;
     }
 
@@ -2454,13 +2454,13 @@
     .m4-batfish-target [data-dd-slot]:focus-visible,
     .m4-batfish-target [data-dd-slot].dd-hover {
       border-color: var(--blue) !important;
-      background: rgba(216, 247, 255, 0.86) !important;
+      background: rgba(216, 247, 255, 0.98) !important;
       outline: none;
     }
 
     .m4-batfish-target [data-dd-slot].dd-filled {
       border-color: var(--green) !important;
-      background: rgba(215, 245, 233, 0.9) !important;
+      background: rgba(215, 245, 233, 0.98) !important;
     }
 
     .m4-batfish-target [data-dd-slot] .m4-label-token {
@@ -2508,7 +2508,6 @@
       color: var(--charcoal);
       font-weight: 800;
       text-align: center;
-      font-size: clamp(0.66rem, 1.15vw, 0.88rem);
     }
 
     .frogfish-labelling-grid {
@@ -2529,7 +2528,7 @@
     .frogfish-image-stage > img {
       position: absolute;
       inset: 0;
-      z-index: 0;
+      z-index: 2;
       display: block;
       width: 100%;
       height: 100%;
@@ -2559,6 +2558,9 @@
       z-index: 3;
       width: var(--frog-width, 20%);
       min-width: 118px;
+
+      /* --frog-top now represents the centre of the label */
+      transform: translateY(-50%);
     }
 
     .frogfish-label-entry input {
@@ -3359,11 +3361,11 @@
                           </div>
 
                           <!-- Drop zones are aligned beside the ends of the five leader lines in the 4:3 image. -->
-                          <div data-dd-slot="batfish-eye" data-dd-answer="eye" style="--dd-x: 16.2%; --dd-y: 23.7%; --dd-w: 24.7%;" aria-label="Drop the label for the eye here"></div>
-                          <div data-dd-slot="batfish-dorsal" data-dd-answer="dorsal-fin" style="--dd-x: 79.7%; --dd-y: 16.0%; --dd-w: 25.0%;" aria-label="Drop the label for the dorsal fin here"></div>
-                          <div data-dd-slot="batfish-snout" data-dd-answer="snout" style="--dd-x: 83.0%; --dd-y: 36.8%; --dd-w: 23.0%;" aria-label="Drop the label for the snout here"></div>
-                          <div data-dd-slot="batfish-pectoral" data-dd-answer="pectoral-fin" style="--dd-x: 16.0%; --dd-y: 84.6%; --dd-w: 24.5%;" aria-label="Drop the label for the pectoral fin here"></div>
-                          <div data-dd-slot="batfish-mouth" data-dd-answer="mouth" style="--dd-x: 82.5%; --dd-y: 80.5%; --dd-w: 22.5%;" aria-label="Drop the label for the mouth and red lips here"></div>
+                          <div data-dd-slot="batfish-eye" data-dd-answer="eye" style="--dd-x: 16.2%; --dd-y: 21.4%; --dd-w: 24.7%;" aria-label="Drop the label for the eye here"></div>
+                          <div data-dd-slot="batfish-dorsal" data-dd-answer="dorsal-fin" style="--dd-x: 79.7%; --dd-y: 13.1%; --dd-w: 25.0%;" aria-label="Drop the label for the dorsal fin here"></div>
+                          <div data-dd-slot="batfish-snout" data-dd-answer="snout" style="--dd-x: 83.0%; --dd-y: 35.7%; --dd-w: 23.0%;" aria-label="Drop the label for the snout here"></div>
+                          <div data-dd-slot="batfish-pectoral" data-dd-answer="pectoral-fin" style="--dd-x: 16.0%; --dd-y: 86.6%; --dd-w: 24.5%;" aria-label="Drop the label for the pectoral fin here"></div>
+                          <div data-dd-slot="batfish-mouth" data-dd-answer="mouth" style="--dd-x: 82.5%; --dd-y: 83.1%; --dd-w: 22.5%;" aria-label="Drop the label for the mouth and red lips here"></div>
                         </div>
                       </div>
 
@@ -3404,37 +3406,38 @@
 
                     <div class="frogfish-labelling-grid">
                       <div class="frogfish-image-stage" id="frogfishImageStage">
-                        <img
-                          src="../images/lesson5/frogfish-diagram.png"
-                          alt="Scientific line drawing of a frogfish with six leader lines for independent labelling"
-                          onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
-                        >
+                          <img
+                            class="m4-frogfish-diagram"
+                            src="../images/lesson5/frogfish-diagram.png"
+                            alt="Front-view scientific drawing of a frogfish with five leader lines for guided labelling"
+                            onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+                          >
                         <div class="m4-asset-placeholder frogfish-placeholder" hidden>
                           <strong>Frogfish diagram placeholder</strong>
                           <span>Add the supplied diagram as <code>../images/lesson5/frogfish-diagram.png</code>.</span>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="caudal-fin" style="--frog-left: 1.6%; --frog-top: 22.5%; --frog-width: 19%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="caudal-fin" style="--frog-left: 1.6%; --frog-top: 28.0%; --frog-width: 19%;">
                           <input type="text" data-frogfish-input="caudal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin at the back of the frogfish">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="dorsal-fin" style="--frog-left: 23.0%; --frog-top: 12.5%; --frog-width: 20%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="dorsal-fin" style="--frog-left: 17.0%; --frog-top: 11.9%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="dorsal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin along the top of the frogfish">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="lure" style="--frog-left: 79.0%; --frog-top: 6.0%; --frog-width: 19%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="lure" style="--frog-left: 80.0%; --frog-top: 7.7%; --frog-width: 19%;">
                           <input type="text" data-frogfish-input="lure" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish lure">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="eye" style="--frog-left: 79.0%; --frog-top: 35.5%; --frog-width: 20%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="eye" style="--frog-left: 79.0%; --frog-top: 45.2%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="eye" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish eye">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="mouth" style="--frog-left: 81.0%; --frog-top: 51.5%; --frog-width: 18%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="mouth" style="--frog-left: 82.0%; --frog-top: 68.4%; --frog-width: 18%;">
                           <input type="text" data-frogfish-input="mouth" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish mouth">
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="pectoral-fin" style="--frog-left: 22.0%; --frog-top: 80.5%; --frog-width: 20%;">
+                        <div class="frogfish-label-entry" data-frogfish-entry="pectoral-fin" style="--frog-left: 2.0%; --frog-top: 90.7%; --frog-width: 20%;">
                           <input type="text" data-frogfish-input="pectoral-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish pectoral fin">
                         </div>
                       </div>
@@ -3812,12 +3815,7 @@
         title: "Scientific Diagram",
         stages: [
           { id: "m2-symbols", label: "Scientific symbols", type: "read" },
-          { 
-            id: "m2-example",
-            label: "Example experiment",
-            type: "selection",
-            choiceGroup: "diagramExample",
-          }
+          { id: "m2-example", label: "Example experiment", type: "selection", choiceGroup: "diagramExample" }
         ]
       },
       {
@@ -4205,11 +4203,11 @@
       }
 
       if (stage.type === "checklist") {
-        return Array.from(
-          document.querySelectorAll('#drawingRules input[type="checkbox"]')
-        ).every(function(checkbox) {
-          return checkbox.checked;
-        });
+        const allChecked = Array.from(document.querySelectorAll('#drawingRules input[type="checkbox"]'))
+          .every(function(checkbox) {
+            return checkbox.checked;
+          });
+        return allChecked;
       }
 
       if (stage.type === "dragdrop") {
@@ -4236,28 +4234,6 @@
     function getStageCorrectValue(stage) {
       if (stage.correctFrom === "mission5Species") return expeditionState.mission5.speciesId;
       return stage.correctValue;
-    }
-
-    function scrollToStage(stageId) {
-      const stageScreen = document.getElementById("stageScreen");
-      const stageElement = document.querySelector(
-        '[data-stage-id="' + stageId + '"]'
-      );
-
-      if (!stageScreen || !stageElement) return;
-
-      const stageRect = stageElement.getBoundingClientRect();
-      const screenRect = stageScreen.getBoundingClientRect();
-
-      const targetTop =
-        stageScreen.scrollTop +
-        stageRect.top -
-        screenRect.top;
-
-      stageScreen.scrollTo({
-        top: targetTop,
-        behavior: "smooth"
-      });
     }
 
     function checkCurrentMission() {
@@ -4301,9 +4277,6 @@
         }
 
         setActivityFeedback(feedback, "try-again", "Not quite yet", message);
-
-        feedback.scrollIntoView({ behavior: "smooth", block: "center" });
-
         markSelectedAnswer(stage, false);
         if (stage.type === "label-input") markFrogfishLabelAnswers(stage, false);
         renderControls();
@@ -4322,7 +4295,6 @@
         expeditionState.currentStageIndex = nextStageIndex;
         saveCurrentPageData();
         renderExpedition();
-        scrollToStage(stage.id);
         return;
       }
 
@@ -4343,12 +4315,11 @@
         isLastStage ? "Mission complete" : "Stage complete",
         successMessage
       );
-      
+
       markSelectedAnswer(stage, true);
       if (stage.type === "label-input") markFrogfishLabelAnswers(stage, true);
       saveCurrentPageData();
       renderExpedition();
-      feedback.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     function markSelectedAnswer(stage, isCorrect) {
@@ -4397,16 +4368,6 @@
         expeditionState.currentStageIndex = nextStageIndex;
         saveCurrentPageData();
         renderExpedition();
-        
-        const stageScreen = document.getElementById("stageScreen");
-
-        requestAnimationFrame(function () {
-          stageScreen.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        });
-
         return;
       }
 
@@ -4416,18 +4377,16 @@
 
       const current = missionConfig[missionIndex];
       const next = missionConfig[missionIndex + 1];
-      
+
       if (typeof unlockSection === "function") {
         unlockSection(next.id, current.id);
       } else {
         const nextElement = document.getElementById(next.id);
         const currentElement = document.getElementById(current.id);
-        if (nextElement) {
-          nextElement.classList.remove("locked");
-        }
+        if (nextElement) nextElement.classList.remove("locked");
         if (currentElement) currentElement.classList.add("completed");
       }
-      
+
       expeditionState.unlockedMissionIndex = Math.max(
         expeditionState.unlockedMissionIndex,
         missionIndex + 1
@@ -4440,18 +4399,7 @@
       );
 
       saveCurrentPageData();
-      window.setTimeout(function () {
-        renderExpedition();
-
-        const stageScreen = document.getElementById("stageScreen");
-
-        requestAnimationFrame(function () {
-          stageScreen.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        });
-      }, 120);
+      window.setTimeout(renderExpedition, 120);
     }
 
     function resetCurrentMission() {
@@ -4532,7 +4480,6 @@
       clearCurrentStageFeedback();
       saveCurrentPageData();
       renderExpedition();
-      scrollToStage(stage.id);
     }
 
     function getStageFeedback(stageId) {
@@ -5024,7 +4971,7 @@
       const status = document.getElementById("controlStatus");
 
       if (!expeditionState.started) {
-        checkButton.disabled = true;
+        checkButton.disabled = true; 
         resetButton.disabled = true;
         nextButton.disabled = true;
         status.innerHTML = "<strong>Stand by.</strong> Start the expedition to load Mission 1.";
@@ -5288,8 +5235,8 @@
       // How far it stretches. 1 = grows all the way to the edges of the
       // window; e.g. 0.85 stops at 85% of the window's width/height
       // (still centered) instead of going fully edge-to-edge.
-      const MAX_WIDTH_FRACTION = 0.97;
-      const MAX_HEIGHT_FRACTION = 0.97;
+      let MAX_WIDTH_FRACTION = 0.97;
+      let MAX_HEIGHT_FRACTION = 0.97;
 
       let naturalLeft = 0;
       let naturalWidth = 0;
