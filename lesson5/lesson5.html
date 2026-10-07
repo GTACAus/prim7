@@ -3176,7 +3176,6 @@
                         <p>A more decorative representation with extra visual detail.</p>
                       </button>
                     </div>
-                    <span class="prototype-note">Storyboard note: the final experiment photograph/drawings are not yet specified in the supplied deck, so this prototype checks that a selection was made rather than enforcing a final correct answer.</span>
                     <div class="variable-feedback stage-feedback" data-feedback="m2-example" role="status" aria-live="polite"></div>
                   </div>
                 </div>
@@ -3233,7 +3232,7 @@
                              be picked up automatically once present. -->
                         <img data-item-match-img alt="" hidden>
                       </div>
-                      <div class="item-match-placeholder">
+                      <div class="item-match-placeholder" hidden>
                         <span data-item-match-placeholder></span>
                       </div>
                       <div class="item-match-options" data-item-match-options role="group" aria-label="Equipment symbols">
@@ -3301,7 +3300,6 @@
                         </button>
                       </div>
                     </div>
-                    <span class="prototype-note">Placeholder: the photos for each experiment item are not final yet, so a text placeholder is shown instead. Three of the eight symbols above are chosen at random each attempt.</span>
                     <div class="variable-feedback stage-feedback" data-feedback="m3-recreate" role="status" aria-live="polite"></div>
                   </div>
                 </div>
@@ -4065,7 +4063,13 @@
         title: "Scientific Diagram",
         stages: [
           { id: "m2-symbols", label: "Scientific symbols", type: "read" },
-          { id: "m2-example", label: "Example experiment", type: "selection", choiceGroup: "diagramExample" }
+          {
+            id: "m2-example",
+            label: "Example experiment",
+            type: "choice",
+            choiceGroup: "diagramExample",
+            correctValue: "drawing-two",
+          }
         ]
       },
       {
@@ -4202,7 +4206,8 @@
       if (!m3ItemMatchRoot) return;
       const state = getItemMatchState();
       const img = m3ItemMatchRoot.querySelector("[data-item-match-img]");
-      const placeholder = m3ItemMatchRoot.querySelector("[data-item-match-placeholder]");
+      const placeholder = m3ItemMatchRoot.querySelector(".item-match-placeholder");
+      const placeholderInner = placeholder.querySelector("span");
       const roundLabel = m3ItemMatchRoot.querySelector("[data-item-match-round-label]");
       const options = Array.prototype.slice.call(m3ItemMatchRoot.querySelectorAll(".item-match-option"));
 
@@ -4214,8 +4219,8 @@
         if (roundLabel) roundLabel.textContent = "all matched";
         if (img) img.hidden = true;
         if (placeholder) {
-          placeholder.hidden = false;
-          placeholder.textContent = "All three items matched. Press CHECK to continue.";
+          placeholder.style.display = "";
+          placeholderInner.textContent = "All three items matched. Press CHECK to continue.";
         }
         options.forEach(function(button) { button.disabled = true; });
         return;
@@ -4234,19 +4239,15 @@
         img.onerror = function() {
           img.hidden = true;
           if (placeholder) {
-            placeholder.hidden = false;
-            placeholder.textContent = "Photo of a " + label.toLowerCase() + " coming soon";
+            placeholder.style.display = "";
+            placeholderInner.textContent = "Unable to load image of " + label.toLowerCase();
           }
         };
         img.onload = function() {
           img.hidden = false;
-          if (placeholder) placeholder.hidden = true;
+          if (placeholder) placeholder.style.display = "none";
         };
         img.src = "../images/lesson5/mission3/" + itemId + ".png";
-      }
-      if (placeholder) {
-        placeholder.hidden = false;
-        placeholder.textContent = "";
       }
     }
 
