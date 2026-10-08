@@ -64,16 +64,51 @@
       },
       {
         id: "mission-2",
-        title: "Scientific Diagram",
+        title: "Rust Investigation",
         stages: [
-          { id: "m2-symbols", label: "Scientific symbols", type: "read" },
           {
-            id: "m2-example",
-            label: "Example experiment",
+            id: "m2-rust-alert",
+            label: "Inspect the damaged camera",
+            type: "read",
+            successTitle: "Reveal answer",
+            successMessage:
+              "Rust forms on iron metal when it reacts with oxygen and water. " +
+              "This chemical reaction can weaken the metal and cause devices to malfunction. " +
+              "The camera contains iron parts."
+          },
+          {
+            id: "m2-rust-experiment",
+            label: "Rust experiment",
+            type: "read"
+          },
+          {
+            id: "m2-symbol-match",
+            label: "Select scientific symbols",
+            type: "item-match"
+            },
+            {
+                id: "m2-draw-rust-experiment",
+                label: "Draw the experiment",
+                type: "read"
+                },
+                {
+            id: "m2-choose-scientific-drawing",
+            label: "Choose the scientific drawing",
             type: "choice",
-            choiceGroup: "diagramExample",
-            correctValue: "drawing-two",
-          }
+            choiceGroup: "rustScientificDrawing",
+            correctValue: "option-3",
+            tryAgainMessage:
+                "Look again at the Science Check. A scientific drawing should use simple clear lines, accurate proportions, appropriate labels and no unnecessary colour or decorative detail."
+            },
+            {
+            id: "m2-rust-results",
+            label: "Rust experiment results",
+            type: "read",
+            successTitle: "Conclusion",
+            successMessage:
+                "Saltwater is most likely to cause iron to rust in the deep sea. " +
+                "Oil can help prevent rust from forming on the camera."
+            }
         ]
       },
       {
@@ -288,6 +323,201 @@
       renderItemMatchRound();
     }
 
+    /* ==================================================
+    MISSION 2: RUST SCIENTIFIC-SYMBOL MATCHING
+    ================================================== */
+
+    let m2RustSymbolRoot = null;
+
+    const RUST_SYMBOL_QUESTIONS = [
+    {
+        label: "Jar lid",
+        answer: "jar-lid",
+        image: "../images/lesson5/rust-symbol-questions/jar-lid.png",
+        alt: "Jar lid highlighted on the rust experiment"
+    },
+    {
+        label: "Liquid",
+        answer: "liquid",
+        image: "../images/lesson5/rust-symbol-questions/liquid.png",
+        alt: "Liquid highlighted inside the jar"
+    },
+    {
+        label: "Jar",
+        answer: "jar",
+        image: "../images/lesson5/rust-symbol-questions/jar.png",
+        alt: "Jar highlighted in the rust experiment"
+    },
+    {
+        label: "Iron wool",
+        answer: "iron-wool",
+        image: "../images/lesson5/rust-symbol-questions/iron-wool.png",
+        alt: "Iron wool highlighted inside the jar"
+    }
+    ];
+
+
+    function getRustSymbolMatchState() {
+    let state = expeditionState.selections.rustSymbolMatch;
+
+    if (!state || typeof state.index !== "number") {
+        state = { index: 0 };
+        expeditionState.selections.rustSymbolMatch = state;
+    }
+
+    return state;
+    }
+
+
+    function isRustSymbolMatchComplete() {
+    return getRustSymbolMatchState().index >= RUST_SYMBOL_QUESTIONS.length;
+    }
+
+
+    function renderRustSymbolMatch() {
+    if (!m2RustSymbolRoot) return;
+
+    const state = getRustSymbolMatchState();
+
+    const image =
+        m2RustSymbolRoot.querySelector("[data-rust-question-img]");
+
+    const name =
+        m2RustSymbolRoot.querySelector("[data-rust-symbol-name]");
+
+    const round =
+        m2RustSymbolRoot.querySelector("[data-rust-symbol-round]");
+
+    const buttons =
+        Array.from(m2RustSymbolRoot.querySelectorAll(".item-match-option"));
+
+
+    buttons.forEach(function(button) {
+        button.classList.remove("correct", "incorrect");
+    });
+
+
+    if (isRustSymbolMatchComplete()) {
+        if (name) {
+        name.textContent = "All parts matched";
+        }
+
+        if (round) {
+        round.textContent = "4 of 4 · complete";
+        }
+
+        buttons.forEach(function(button) {
+        button.disabled = true;
+        });
+
+        renderControls();
+        return;
+    }
+
+
+    buttons.forEach(function(button) {
+        button.disabled = false;
+    });
+
+
+    const question = RUST_SYMBOL_QUESTIONS[state.index];
+
+    if (name) {
+        name.textContent = question.label;
+    }
+
+    if (round) {
+        round.textContent =
+        (state.index + 1) + " of " + RUST_SYMBOL_QUESTIONS.length;
+    }
+
+    if (image) {
+        image.src = question.image;
+        image.alt = question.alt;
+    }
+
+    renderControls();
+    }
+
+
+    function handleRustSymbolClick(button) {
+    if (isRustSymbolMatchComplete()) return;
+
+    const state = getRustSymbolMatchState();
+    const question = RUST_SYMBOL_QUESTIONS[state.index];
+
+    const feedback = getStageFeedback("m2-symbol-match");
+
+    if (button.dataset.rustSymbolValue === question.answer) {
+
+        button.classList.remove("incorrect");
+        button.classList.add("correct");
+
+        state.index += 1;
+
+        clearCurrentStageFeedback();
+        saveCurrentPageData();
+        renderControls();
+
+        window.setTimeout(function() {
+        renderRustSymbolMatch();
+        }, 450);
+
+        return;
+    }
+
+
+    /* Wrong answer */
+    button.classList.remove("incorrect");
+
+    /* Allows the shake animation to restart on repeated wrong clicks. */
+    void button.offsetWidth;
+
+    button.classList.add("incorrect");
+
+    if (feedback) {
+        setActivityFeedback(
+        feedback,
+        "try-again",
+        "Try again",
+        "That symbol does not match the highlighted part. Look carefully at its shape and try another symbol."
+        );
+    }
+
+    window.setTimeout(function() {
+        button.classList.remove("incorrect");
+    }, 600);
+    }
+
+
+    function resetRustSymbolMatch() {
+    expeditionState.selections.rustSymbolMatch = {
+        index: 0
+    };
+
+    renderRustSymbolMatch();
+    }
+
+
+    function initRustSymbolMatchActivity() {
+    m2RustSymbolRoot =
+        document.getElementById("m2RustSymbolMatch");
+
+    if (!m2RustSymbolRoot) return;
+
+    m2RustSymbolRoot
+        .querySelectorAll(".item-match-option")
+        .forEach(function(button) {
+
+        button.addEventListener("click", function() {
+            handleRustSymbolClick(button);
+        });
+
+        });
+
+    renderRustSymbolMatch();
+    }
+
     function createFreshExpeditionState() {
       return {
         started: false,
@@ -300,6 +530,8 @@
         selections: {
           diagramExample: "",
           itemMatch: null,
+          rustSymbolMatch: { index: 0 },
+          rustScientificDrawing: "",
           dragDropLegacy: {},
           drawing: "",
           shallowFish1: "",
@@ -598,6 +830,10 @@
       }
 
       if (stage.type === "item-match") {
+        if (stage.id === "m2-symbol-match") {
+          return isRustSymbolMatchComplete();
+        }
+
         return isItemMatchComplete();
       }
 
@@ -618,6 +854,19 @@
     function getStageCorrectValue(stage) {
       if (stage.correctFrom === "mission5Species") return expeditionState.mission5.speciesId;
       return stage.correctValue;
+    }
+
+    /* Mission 2 camera inspection: reuse one existing image container and swap only the image source. */
+    function toggleRustCamera(image) {
+      if (!image) return;
+
+      const showingRust = image.dataset.rusted === "true";
+      image.src = showingRust ? image.dataset.workingSrc : image.dataset.rustedSrc;
+      image.dataset.rusted = showingRust ? "false" : "true";
+      image.alt = showingRust
+        ? "Working submersible camera animation"
+        : "Rusted and damaged submersible camera";
+      image.setAttribute("aria-pressed", showingRust ? "false" : "true");
     }
 
     function checkCurrentMission() {
@@ -698,7 +947,8 @@
         expeditionState.completedMissions[expeditionState.currentMissionIndex] = true;
       }
 
-      const successMessage = isLastStage
+      const defaultSuccessTitle = isLastStage ? "Mission complete" : "Stage complete";
+      const defaultSuccessMessage = isLastStage
         ? (expeditionState.currentMissionIndex === missionConfig.length - 1
             ? "You have reached the end of the current concept flow."
             : "This mission is complete. NEXT will unlock the next mission.")
@@ -707,8 +957,8 @@
       setActivityFeedback(
         feedback,
         "success",
-        isLastStage ? "Mission complete" : "Stage complete",
-        successMessage
+        stage.successTitle || defaultSuccessTitle,
+        stage.successMessage || defaultSuccessMessage
       );
 
       markSelectedAnswer(stage, true);
@@ -840,7 +1090,11 @@
       }
 
       if (stage.type === "item-match") {
-        resetItemMatch();
+        if (stage.id === "m2-symbol-match") {
+          resetRustSymbolMatch();
+        } else {
+          resetItemMatch();
+        }
       }
 
       if (stage.type === "observations") {
@@ -1296,16 +1550,20 @@
       });
     }
 
-    /* The panel unlocks once the Mission 3 checklist stage has been completed. */
+    /* The right-hand Science Check unlocks after Mission 2 Stage 3. */
     function renderScienceCheck() {
-      const panel = document.getElementById("sciencePanel");
-      if (!panel) return;
+    const panel = document.getElementById("sciencePanel");
+    if (!panel) return;
 
-      panel.classList.toggle("unlocked", Boolean(expeditionState.completedStages["m3-rules"]));
+    const unlocked = Boolean(
+        expeditionState.completedStages["m2-symbol-match"]
+    );
+
+    panel.classList.toggle("unlocked", unlocked);
     }
 
     function renderSelections() {
-      ["diagramExample", "drawing", "shallowFish1", "shallowFish2", "clownfishDiagram", "species"].forEach(function(groupName) {
+      ["diagramExample", "drawing", "shallowFish1", "shallowFish2", "clownfishDiagram", "rustScientificDrawing", "species"].forEach(function(groupName) {
         const value = expeditionState.selections[groupName];
         const group = document.querySelector('[data-choice-group="' + groupName + '"]');
         if (!group) return;
@@ -1333,7 +1591,11 @@
           ? Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0
           : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
-      if (stage.type === "item-match") return isItemMatchComplete();
+      if (stage.type === "item-match") {
+        return stage.id === "m2-symbol-match"
+          ? isRustSymbolMatchComplete()
+          : isItemMatchComplete();
+      }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -1356,7 +1618,11 @@
           ? Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0
           : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
-      if (stage.type === "item-match") return getItemMatchState().index > 0;
+      if (stage.type === "item-match") {
+        return stage.id === "m2-symbol-match"
+          ? getRustSymbolMatchState().index > 0
+          : getItemMatchState().index > 0;
+      }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
         return (
@@ -1470,7 +1736,7 @@
 
     const sectionIds = [
       { id: "mission-1", label: "Briefing" },
-      { id: "mission-2", label: "What is a scientific diagram?" },
+      { id: "mission-2", label: "Rust Investigation" },
       { id: "mission-3", label: "Experiment Set-Up" },
       { id: "mission-4", label: "Shallow-Water Camera Trials" },
       { id: "mission-5", label: "Unknown Species Detected" }
@@ -1545,6 +1811,7 @@
       populateSciencePanelFromChecklist();
 
       initItemMatchActivity();
+      initRustSymbolMatchActivity();
 
       const legacyDragDropRoot = document.getElementById("m3DragDropLegacy");
       if (legacyDragDropRoot) {

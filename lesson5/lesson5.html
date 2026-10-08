@@ -260,7 +260,7 @@
             </button>
             <button class="mission-button" data-mission="mission-2" data-number="02" type="button" disabled>
               <strong>Mission 2</strong>
-              <span>What is a Scientific Diagram?</span>
+              <span>Experiment Set-Up: Rust Prevention</span>
             </button>
             <button class="mission-button" data-mission="mission-3" data-number="03" type="button" disabled>
               <strong>Mission 3</strong>
@@ -351,16 +351,14 @@
               src="../images/lesson5/deep-sea-camera.png"
               alt="Deep-sea camera used to observe the ocean floor"
             >
-            <figcaption>Deep-sea camera</figcaption>
+            <figcaption>The deep-sea</figcaption>
           </figure>
 
           <div class="story-copy">
-            <h4>How do scientists explore it?</h4>
 
             <p>
-              Scientists use specialised equipment that can operate far below
-              the ocean surface, including underwater cameras and remotely
-              operated vehicles.
+              The deep sea has tough conditions: it is extremely dark, cold
+              and has many layers that challenge animals to survive.
             </p>
           </div>
 
@@ -393,19 +391,6 @@
         </div>
 
 
-        <!-- FINAL FACT -->
-        <div class="story-copy" style="margin-top:16px;">
-          <h4>What is it like down there?</h4>
-
-          <p>
-            The deep sea is extremely <strong>dark</strong>,
-            <strong>cold</strong> and under very high
-            <strong>pressure</strong>. These conditions make
-            deep-sea exploration challenging for scientists and their equipment.
-          </p>
-        </div>
-
-
         <p class="activity-prompt">
           When you have reviewed the briefing, press <strong>CHECK</strong>.
         </p>
@@ -420,7 +405,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- ==================================================
        STAGE 2: WHAT CAN GO WRONG?
@@ -521,103 +505,1077 @@
 
 </section>
 
-            <!-- ==================================================
-                 MISSION 2: SCIENTIFIC DIAGRAM (2 stages)
-                 ================================================== -->
-            <section class="section expedition-mission locked" id="mission-2" data-mission-index="1">
-              <div class="mission-stage" data-stage-id="m2-symbols">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 2: scientific diagram</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 02</p>
-                      <span class="stage-progress-chip">Stage 1 of 2</span>
-                    </div>
-                    <h3>What is a scientific diagram?</h3>
-                    <p class="mission-subtitle">
-                      A scientific diagram is a drawing of an experiment set-up. Some scientific equipment has standard symbols,
-                      creating a common visual language that scientists can interpret consistently.
-                    </p>
-                    <div class="symbol-compare">
-                      <div class="symbol-visual">
-                        <img src="../images/lesson5/mission2/funnel.png" alt="Photograph of a laboratory funnel" style="max-height:200px; width:auto; max-width:100%;">
-                      </div>
-                      <div class="symbol-visual" aria-label="Simple scientific symbol of a beaker">
-                        <svg
-                          class="funnel-icon"
-                          viewBox="0 0 100 140"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <!-- Rounded top -->
-                          <ellipse cx="50" cy="20" rx="38" ry="10" />
+<!-- ==================================================
+     MISSION 2: RUST INVESTIGATION
+     ================================================== -->
+<section class="section expedition-mission locked" id="mission-2" data-mission-index="1">
 
-                          <!-- Funnel body and pointed stem -->
-                          <path d="
-                            M12 20
-                            L42 68
-                            V138
-                            L50 128
-                            L58 118
-                            V68
-                            L88 20
-                          " />
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="resource-button-row">
-                      <button type="button" class="expedition-button" onclick="openEquipmentSymbols()">Scientific symbols reference</button>
-                    </div>
-                    <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to use scientific symbols in an experiment diagram.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m2-symbols" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mission-stage" data-stage-id="m2-example">
+  <!-- ==================================================
+     STAGE 1: INSPECT THE DAMAGED CAMERA
+     ================================================== -->
+
+  <div class="mission-stage" data-stage-id="m2-rust-alert">
+    <div class="mission-window">
+
+      <div class="mission-window-bar">
+        <strong>Deep field terminal // mission 2: camera damage</strong>
+        <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="mission-window-body">
+
+        <div class="stage-progress-row">
+          <p class="mission-label">Mission 02</p>
+          <span class="stage-progress-chip">Stage 1</span>
+        </div>
+
+        <h3>New mission alert</h3>
+
+        <p class="mission-subtitle">
+          <strong>The submersible camera has been damaged!</strong>
+          Inspect the camera closely and see if you can identify what is happening.
+        </p>
+
+        <div class="story-copy">
+          <h4>Inspect the camera</h4>
+          <p>
+            Click the camera to switch between the working camera and the damaged camera.
+            Click it again to switch back.
+          </p>
+          <p style="margin-top:12px;"><strong>Can you identify what is going on?</strong></p>
+        </div>
+
+        <!-- Reuses the existing mission-image-container CSS. No new CSS is required. -->
+        <div class="mission-image-container">
+          <img
+            id="rustCameraImage"
+            src="../images/lesson5/animations/camera_shutter.gif"
+            data-working-src="../images/lesson5/animations/camera_shutter.gif"
+            data-rusted-src="../images/lesson5/rusted-camera.png"
+            data-rusted="false"
+            alt="Working submersible camera animation"
+            role="button"
+            tabindex="0"
+            aria-pressed="false"
+            title="Click to inspect the camera"
+            style="cursor:pointer;"
+            onclick="toggleRustCamera(this)"
+            onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleRustCamera(this); }"
+          >
+        </div>
+
+        <p class="activity-prompt">
+          When you have inspected the camera, press <strong>CHECK</strong> to reveal the answer.
+        </p>
+
+        <div
+          class="variable-feedback stage-feedback"
+          data-feedback="m2-rust-alert"
+          role="status"
+          aria-live="polite">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================================================
+     STAGE 2: RUST EXPERIMENT
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-rust-experiment">
+
+  <div class="mission-window">
+
+    <div class="mission-window-bar">
+      <strong>Deep field terminal // mission 2: rust experiment</strong>
+
+      <div class="window-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="mission-window-body">
+
+      <div class="stage-progress-row">
+        <p class="mission-label">Mission 02</p>
+        <span class="stage-progress-chip">Stage 2 of 2</span>
+      </div>
+
+      <h3>Rust experiment</h3>
+
+      <p class="mission-subtitle">
+        You will be investigating what happens to metal when it reacts
+        with different liquids.
+      </p>
+
+      <figure class="media-card">
+        <img
+          src="../images/lesson5/rust-experiment.png"
+          alt="Three jars containing iron wool in water, saltwater and oil"
+        >
+
+        <figcaption>
+          Iron wool in water, saltwater and oil
+        </figcaption>
+      </figure>
+
+      <div class="story-copy" style="margin-top:16px;">
+        <p>
+          This experiment uses <strong>iron wool</strong> to represent
+          the metal of the deep-sea camera.
+        </p>
+
+        <p>
+          You will observe what happens to the iron in
+          <strong>three different liquids</strong> over time.
+        </p>
+      </div>
+
+      <p class="activity-prompt">
+        Review the experiment set-up, then press <strong>CHECK</strong>.
+      </p>
+
+      <div
+        class="variable-feedback stage-feedback"
+        data-feedback="m2-rust-experiment"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================================================
+     STAGE 3: SELECT SCIENTIFIC SYMBOLS
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-symbol-match">
+
+  <div class="mission-window">
+
+    <div class="mission-window-bar">
+      <strong>Deep field terminal // mission 2: scientific symbols</strong>
+
+      <div class="window-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="mission-window-body">
+
+      <div class="stage-progress-row">
+        <p class="mission-label">Mission 02</p>
+        <span class="stage-progress-chip">Stage 3 of 3</span>
+      </div>
+
+      <h3>Draw the experiment using scientific symbols</h3>
+
+      <p class="mission-subtitle">
+        <strong>Your task:</strong>
+        Identify each highlighted part of the experiment and select
+        the scientific symbol that best represents it.
+      </p>
+
+
+      <div class="item-match-activity" id="m2RustSymbolMatch">
+
+        <!-- LEFT: current part of experiment -->
+        <div class="dd-reference item-match-reference">
+
+          <span class="dd-caption">
+            <span data-rust-symbol-name>Jar lid</span>
+            ·
+            <span data-rust-symbol-round>1 of 4</span>
+          </span>
+
+          <img
+            data-rust-question-img
+            src="../images/lesson5/rust-symbol-questions/jar-lid.png"
+            alt="Jar lid highlighted on the rust experiment"
+          >
+
+        </div>
+
+
+        <!-- RIGHT: symbol choices -->
+        <div>
+
+          <p class="activity-prompt" style="margin-top:0;">
+            <strong>Step 1:</strong> Select the matching symbol.
+          </p>
+
+          <div
+            class="item-match-options"
+            role="group"
+            aria-label="Scientific symbol choices"
+          >
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="jug"
+              aria-label="Jug symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/jug.png"
+                alt="">
+            </button>
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="bottle"
+              aria-label="Bottle symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/bottle.png"
+                alt="">
+            </button>
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="jar-lid"
+              aria-label="Jar lid symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/jar-lid.png"
+                alt="">
+            </button>
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="spoon"
+              aria-label="Spoon symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/spoon.png"
+                alt="">
+            </button>
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="liquid"
+              aria-label="Liquid symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/liquid.png"
+                alt="">
+            </button>
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="iron-wool"
+              aria-label="Iron wool symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/iron-wool.png"
+                alt="">
+            </button>
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="jar"
+              aria-label="Jar symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/jar.png"
+                alt="">
+            </button>
+
+            <button
+              type="button"
+              class="item-match-option"
+              data-rust-symbol-value="funnel"
+              aria-label="Funnel symbol">
+              <img
+                class="choice-image"
+                src="../images/lesson5/rust-symbols/funnel.png"
+                alt="">
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <p class="activity-prompt">
+        Match all four parts of the experiment.
+        When all four are complete, press <strong>CHECK</strong>.
+      </p>
+
+      <div
+        class="variable-feedback stage-feedback"
+        data-feedback="m2-symbol-match"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================================================
+     STAGE 4: DRAW THE RUST EXPERIMENT
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-draw-rust-experiment">
+
+  <div class="mission-window">
+
+    <div class="mission-window-bar">
+      <strong>Deep field terminal // mission 2: scientific drawing</strong>
+
+      <div class="window-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="mission-window-body">
+
+      <div class="stage-progress-row">
+        <p class="mission-label">Mission 02</p>
+        <span class="stage-progress-chip">Stage 4 of 4</span>
+      </div>
+
+      <h3>Draw the rust experiment</h3>
+
+      <p class="mission-subtitle">
+        <strong>Your task:</strong>
+        Draw a scientific diagram of this experiment.
+      </p>
+
+      <figure class="media-card">
+        <img
+          src="../images/lesson5/rust-experiment.png"
+          alt="Rust experiment showing iron wool in water, saltwater and oil"
+        >
+
+        <figcaption>
+          Use this experiment set-up as the reference for your scientific drawing.
+        </figcaption>
+      </figure>
+
+      <div class="story-copy" style="margin-top:16px;">
+        <h4>Use your Science Check</h4>
+
+        <p>
+          Use the checklist you unlocked earlier to help you create
+          your scientific diagram.
+        </p>
+
+        <p style="margin-top:10px;">
+          Remember to use the scientific symbols you identified in the previous stage.
+        </p>
+      </div>
+
+      <p class="activity-prompt">
+        When you have finished your scientific drawing,
+        press <strong>CHECK</strong>.
+      </p>
+
+      <div
+        class="variable-feedback stage-feedback"
+        data-feedback="m2-draw-rust-experiment"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================================================
+     STAGE 5: CHOOSE THE SCIENTIFIC DRAWING
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-choose-scientific-drawing">
+
+  <div class="mission-window">
+
+    <div class="mission-window-bar">
+      <strong>Deep field terminal // mission 2: scientific drawing check</strong>
+
+      <div class="window-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="mission-window-body">
+
+      <div class="stage-progress-row">
+        <p class="mission-label">Mission 02</p>
+        <span class="stage-progress-chip">Stage 5 of 5</span>
+      </div>
+
+      <h3>Which is the correct scientific drawing?</h3>
+
+      <p class="mission-subtitle">
+        Compare the drawings below with the experiment.
+        Select the option that best follows the rules of a scientific drawing.
+      </p>
+
+
+      <!-- Small reference image -->
+      <div class="mission-image-container">
+        <img
+          src="../images/lesson5/rust-experiment.png"
+          alt="Reference image of the rust experiment with iron wool in water, saltwater and oil"
+          style="max-width:420px;"
+        >
+      </div>
+
+
+      <p class="activity-prompt">
+        <strong>Your task:</strong>
+        Select the correct scientific drawing of this experiment.
+      </p>
+
+
+      <!-- Reuses the existing generic choice system -->
+      <div
+        class="choice-grid"
+        data-choice-group="rustScientificDrawing"
+        role="group"
+        aria-label="Scientific drawing options"
+      >
+
+        <button
+          type="button"
+          class="choice-card media-choice"
+          data-value="option-1"
+          aria-pressed="false"
+        >
+          <img
+            class="choice-image"
+            src="../images/lesson5/rust-drawing-option-1.png"
+            alt="Scientific drawing option 1"
+          >
+          <h4>Option A</h4>
+        </button>
+
+
+        <button
+          type="button"
+          class="choice-card media-choice"
+          data-value="option-2"
+          aria-pressed="false"
+        >
+          <img
+            class="choice-image"
+            src="../images/lesson5/rust-drawing-option-2.png"
+            alt="Scientific drawing option 2"
+          >
+          <h4>Option B</h4>
+        </button>
+
+
+        <button
+          type="button"
+          class="choice-card media-choice"
+          data-value="option-3"
+          aria-pressed="false"
+        >
+          <img
+            class="choice-image"
+            src="../images/lesson5/rust-drawing-option-3.png"
+            alt="Scientific drawing option 3"
+          >
+          <h4>Option C</h4>
+        </button>
+
+      </div>
+
+
+      <p class="activity-prompt">
+        Select one drawing, then press <strong>CHECK</strong>.
+      </p>
+
+
+      <div
+        class="variable-feedback stage-feedback"
+        data-feedback="m2-choose-scientific-drawing"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================================================
+     STAGE 6: RUST EXPERIMENT RESULTS
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-rust-results">
+
+  <div class="mission-window">
+
+    <div class="mission-window-bar">
+      <strong>Deep field terminal // mission 2: experiment results</strong>
+
+      <div class="window-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="mission-window-body">
+
+      <div class="stage-progress-row">
+        <p class="mission-label">Mission 02</p>
+        <span class="stage-progress-chip">Stage 6 of 6</span>
+      </div>
+
+      <h3>Rust experiment results</h3>
+
+      <p class="mission-subtitle">
+        Here are the results from the rust experiment after
+        <strong>24 hours</strong>.
+      </p>
+
+      <figure class="media-card">
+        <img
+          src="../images/lesson5/rust-experiment-after.png"
+          alt="Rust experiment after 24 hours showing iron wool in water, saltwater and oil"
+        >
+
+        <figcaption>
+          Rust experiment after 24 hours
+        </figcaption>
+      </figure>
+
+      <div class="story-copy" style="margin-top:16px;">
+        <h4>What can you conclude?</h4>
+
+        <p>
+          Compare the iron wool in the three jars.
+          Which liquid caused the most rust?
+        </p>
+
+        <p style="margin-top:10px;">
+          Which liquid appears to protect the iron from rusting?
+        </p>
+      </div>
+
+      <p class="activity-prompt">
+        Think about your conclusion, then press <strong>CHECK</strong>
+        to reveal the answer.
+      </p>
+
+      <div
+        class="variable-feedback stage-feedback"
+        data-feedback="m2-rust-results"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ==================================================
+
+                 MISSION 3: SCIENTIFIC DRAWING PRACTICE (2 stages)
+
+                 Stage 1: general rules checklist
+
+                 Stage 2: drag-and-drop recreation of an experiment
+
+                 ================================================== -->
+
+            <section class="section expedition-mission locked" id="mission-3" data-mission-index="2">
+
+              <div class="mission-stage" data-stage-id="m3-rules">
+
                 <div class="mission-window">
+
                   <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 2: example experiment</strong>
+
+                    <strong>Deep field terminal // mission 3: drawing rules</strong>
+
                     <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
                   </div>
+
                   <div class="mission-window-body">
+
                     <div class="stage-progress-row">
-                      <p class="mission-label">Mission 02</p>
-                      <span class="stage-progress-chip">Stage 2 of 2</span>
+
+                      <p class="mission-label">Mission 03</p>
+
+                      <span class="stage-progress-chip">Stage 1 of 3</span>
+
                     </div>
-                    <h3>Example experiment</h3>
-                    <p class="mission-subtitle">Which drawing is the most accurate for any scientist to interpret?</p>
-                    <div class="story-copy">
-                      <h4>Example experiment — photograph</h4>
-                      <p>This is a structural placeholder for the final experiment photograph from the storyboard.</p>
+
+                    <h3>General rules for scientific drawings</h3>
+
+                    <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
+
+                    <div class="rules-grid" id="drawingRules">
+
+                      <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
+
+                      <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
+
+                      <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
+
+                      <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
+
                     </div>
-                    <div class="drawing-choice-grid" data-choice-group="diagramExample">
-                      <button type="button" class="choice-card" data-value="drawing-one">
-                        <div class="mini-visual" aria-hidden="true">
-                          <img src="../images/lesson5/mission2/filtrationexperiment.png" alt="Filtration experiment diagram" />
-                        </div>
-                        <h4>Diagram One</h4>
-                        <p>Simple standard-style shapes and clear connections.</p>
-                      </button>
-                      <button type="button" class="choice-card" data-value="drawing-two">
-                        <div class="mini-visual" aria-hidden="true">
-                          <img src="../images/lesson5/mission2/filtrationexp_bad.png" alt="Bad filtration experiment diagram" />
-                        </div>
-                        <h4>Diagram Two</h4>
-                        <p>A more decorative representation with extra visual detail.</p>
-                      </button>
-                    </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m2-example" role="status" aria-live="polite"></div>
+
+                    <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
+
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-rules" role="status" aria-live="polite"></div>
+
                   </div>
+
                 </div>
+
               </div>
+
+              <div class="mission-stage" data-stage-id="m3-recreate">
+
+                <div class="mission-window">
+
+                  <div class="mission-window-bar">
+
+                    <strong>Deep field terminal // mission 3: experiment diagram</strong>
+
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+                  </div>
+
+                  <div class="mission-window-body">
+
+                    <div class="stage-progress-row">
+
+                      <p class="mission-label">Mission 03</p>
+
+                      <span class="stage-progress-chip">Stage 2 of 4</span>
+
+                    </div>
+
+                    <h3>Recreate the experiment</h3>
+
+                    <p class="mission-subtitle">A photo of one piece of equipment from the experiment is shown below. Select the matching symbol. Match all three items to continue.</p>
+
+                    <div class="item-match-activity" id="m3ItemMatch">
+
+                      <div class="dd-reference item-match-reference">
+
+                        <span class="dd-caption">Experiment item <span data-item-match-round-label>1 of 3</span></span>
+
+                        <!-- TODO: add real experiment photos at ../images/lesson5/mission3/<item-id>.jpg
+
+                             (ids: jug, bottle, balloon, spoon, nail, steel_wool, jar, funnel) - they will
+
+                             be picked up automatically once present. -->
+
+                        <img data-item-match-img alt="" hidden>
+
+                      </div>
+
+                      <div class="item-match-placeholder" hidden>
+
+                        <span data-item-match-placeholder></span>
+
+                      </div>
+
+                      <div class="item-match-options" data-item-match-options role="group" aria-label="Equipment symbols">
+
+                        <button type="button" class="item-match-option" data-item-match-value="jug" aria-label="Jug">
+
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+
+                            <path d="M28 14 L30 70 Q30 86 50 86 Q70 86 70 70 L72 14" />
+
+                            <path d="M28 14 Q50 6 72 14" />
+
+                            <path d="M68 24 Q88 30 86 48 Q84 60 66 58" />
+
+                          </svg>
+
+                        </button>
+
+                        <button type="button" class="item-match-option" data-item-match-value="bottle" aria-label="Bottle">
+
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+
+                            <path d="M42 8 H58 V24 Q70 32 70 48 V80 Q70 90 50 90 Q30 90 30 80 V48 Q30 32 42 24 Z" />
+
+                          </svg>
+
+                        </button>
+
+                        <button type="button" class="item-match-option" data-item-match-value="balloon" aria-label="Balloon">
+
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+
+                            <ellipse cx="50" cy="38" rx="26" ry="32" />
+
+                            <path d="M50 70 L46 78 L54 82 L48 90" />
+
+                          </svg>
+
+                        </button>
+
+                        <button type="button" class="item-match-option" data-item-match-value="spoon" aria-label="Spoon">
+
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+
+                            <ellipse cx="50" cy="22" rx="16" ry="20" />
+
+                            <path d="M50 42 V88" />
+
+                          </svg>
+
+                        </button>
+
+                        <button type="button" class="item-match-option" data-item-match-value="nail" aria-label="Iron nail">
+
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+
+                            <path d="M26 20 L80 74" />
+
+                          </svg>
+
+                        </button>
+
+                        <button type="button" class="item-match-option" data-item-match-value="steel_wool" aria-label="Steel wool">
+
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+
+                            <path d="M20 50 Q30 30 42 48 Q50 30 60 48 Q70 28 82 48 Q88 60 76 62 Q84 74 68 72 Q72 84 56 78 Q48 90 36 78 Q22 84 24 68 Q12 64 20 50 Z" />
+
+                          </svg>
+
+                        </button>
+
+                        <button type="button" class="item-match-option" data-item-match-value="jar" aria-label="Jar">
+
+                          <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+
+                            <path d="M32 20 H68 V76 Q68 88 50 88 Q32 88 32 76 Z" />
+
+                          </svg>
+
+                        </button>
+
+                        <button type="button" class="item-match-option" data-item-match-value="funnel" aria-label="Funnel">
+
+                          <svg
+
+                            class="funnel-icon"
+
+                            viewBox="0 0 100 140"
+
+                            xmlns="http://www.w3.org/2000/svg"
+
+                            fill="none"
+
+                            stroke="#30332f"
+
+                            stroke-width="4"
+
+                            stroke-linecap="round"
+
+                            stroke-linejoin="round"
+
+                          >
+
+                            <ellipse cx="50" cy="20" rx="38" ry="10" />
+
+                            <path d="
+
+                              M12 20
+
+                              L42 68
+
+                              V138
+
+                              L50 128
+
+                              L58 118
+
+                              V68
+
+                              L88 20
+
+                            " />
+
+                          </svg>
+
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-recreate" role="status" aria-live="polite"></div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="mission-stage" data-stage-id="m3-experiment-setup">
+
+                <div class="mission-window">
+
+                  <div class="mission-window-bar">
+
+                    <strong>Deep field terminal // mission 3: experiment diagram</strong>
+
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+                  </div>
+
+                  <div class="mission-window-body">
+
+                    <div class="stage-progress-row">
+
+                      <p class="mission-label">Mission 03</p>
+
+                      <span class="stage-progress-chip">Stage 3 of 4</span>
+
+                    </div>
+
+                    <h3>Fix the Camera Shutter</h3>
+
+                    <div class="story-copy">
+
+                      <h4>TASK: How do we fix the camera shutter?</h4>
+
+                      <p>The metal seems to have brown residue that is making the shutter stuck.</p>
+
+                      <p>Let's investigate why this is happening.</p>
+
+                    </div>
+
+                    <div class="mission-image-container">
+
+                      <img src="../images/lesson5/animations/camera_shutter.gif" alt="Camera shutter animation" />
+
+                    </div>
+
+                      <p class="activity-prompt">Press <strong>CHECK</strong> when you are ready to move on to the next mission.</p>
+
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-experiment-setup" role="status" aria-live="polite"></div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="mission-stage" data-stage-id="m3-dragdrop-legacy">
+
+                <div class="mission-window">
+
+                  <div class="mission-window-bar">
+
+                    <strong>Deep field terminal // mission 3: experiment diagram (drag and drop)</strong>
+
+                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+                  </div>
+
+                  <div class="mission-window-body">
+
+                    <div class="stage-progress-row">
+
+                      <p class="mission-label">Mission 03</p>
+
+                      <span class="stage-progress-chip">Stage 4 of 4</span>
+
+                    </div>
+
+                    <h3>Recreate the experiment (drag and drop)</h3>
+
+                    <p class="mission-subtitle">Look at the experiment on the left. Drag the equipment symbols into the box on the right to build a scientific diagram of it.</p>
+
+                    <div class="dd-activity" id="m3DragDropLegacy">
+
+                      <div class="dd-board">
+
+                        <div class="dd-reference">
+
+                          <span class="dd-caption">Experiment</span>
+
+                          <!-- TODO: replace the placeholder text with <img src="../images/lesson5/..." alt="..."> -->
+
+                          <span>Experiment image coming soon</span>
+
+                        </div>
+
+                        <div class="dd-target">
+
+                          <span class="dd-caption">Your diagram</span>
+
+                          <!-- TODO: move each slot to its final position with --dd-x / --dd-y (percent of the box)
+
+                               and update each slot's data-dd-answer (currently tray order) to the correct item. -->
+
+                          <div data-dd-slot="slot-1" data-dd-answer="beaker" style="--dd-x: 20%; --dd-y: 28%" aria-label="Diagram slot 1"></div>
+
+                          <div data-dd-slot="slot-2" data-dd-answer="test-tube" style="--dd-x: 50%; --dd-y: 28%" aria-label="Diagram slot 2"></div>
+
+                          <div data-dd-slot="slot-3" data-dd-answer="funnel" style="--dd-x: 80%; --dd-y: 28%" aria-label="Diagram slot 3"></div>
+
+                          <div data-dd-slot="slot-4" data-dd-answer="measuring-cylinder" style="--dd-x: 20%; --dd-y: 72%" aria-label="Diagram slot 4"></div>
+
+                          <div data-dd-slot="slot-5" data-dd-answer="tripod" style="--dd-x: 50%; --dd-y: 72%" aria-label="Diagram slot 5"></div>
+
+                          <div data-dd-slot="slot-6" data-dd-answer="bunsen-burner" style="--dd-x: 80%; --dd-y: 72%" aria-label="Diagram slot 6"></div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="dd-tray" data-dd-tray aria-label="Equipment symbols">
+
+                        <!-- Symbols copied from #equipmentSymbolsModal -->
+
+                        <div data-dd-item="beaker" title="Beaker" aria-label="Beaker">
+
+                          <svg viewBox="0 0 100 80">
+
+                            <path d="M25 10 V58 Q25 70 50 70 Q75 70 75 58 V10 M25 10 Q50 4 75 10" fill="none" stroke="#30332f" stroke-width="3"/>
+
+                          </svg>
+
+                        </div>
+
+                        <div data-dd-item="test-tube" title="Test tube" aria-label="Test tube">
+
+                          <svg viewBox="0 0 100 80">
+
+                            <path d="M42 8 V58 Q42 70 50 70 Q58 70 58 58 V8" fill="none" stroke="#30332f" stroke-width="3"/>
+
+                          </svg>
+
+                        </div>
+
+                        <div data-dd-item="funnel" title="Funnel" aria-label="Funnel">
+
+                          <svg
+
+                            class="funnel-icon"
+
+                            viewBox="0 0 100 140"
+
+                            xmlns="http://www.w3.org/2000/svg"
+
+                            fill="none"
+
+                            stroke="currentColor"
+
+                            stroke-width="4"
+
+                            stroke-linecap="round"
+
+                            stroke-linejoin="round"
+
+                          >
+
+                            <!-- Rounded top -->
+
+                            <ellipse cx="50" cy="20" rx="38" ry="10" />
+
+
+
+                            <!-- Funnel body and pointed stem -->
+
+                            <path d="
+
+                              M12 20
+
+                              L42 68
+
+                              V138
+
+                              L50 128
+
+                              L58 118
+
+                              V68
+
+                              L88 20
+
+                            " />
+
+                          </svg>
+
+                        </div>
+
+                        <div data-dd-item="measuring-cylinder" title="Measuring cylinder" aria-label="Measuring cylinder">
+
+                          <svg viewBox="0 0 100 80">
+
+                            <path d="M42 8 V66 M58 8 V66 M34 66 H66" fill="none" stroke="#30332f" stroke-width="3"/>
+
+                          </svg>
+
+                        </div>
+
+                        <div data-dd-item="tripod" title="Tripod" aria-label="Tripod">
+
+                          <svg viewBox="0 0 100 80">
+
+                            <circle cx="50" cy="22" r="16" fill="none" stroke="#30332f" stroke-width="3"/>
+
+                            <path d="M38 35 L25 70 M50 38 V72 M62 35 L75 70" fill="none" stroke="#30332f" stroke-width="3"/>
+
+                          </svg>
+
+                        </div>
+
+                        <div data-dd-item="bunsen-burner" title="Bunsen burner" aria-label="Bunsen burner">
+
+                          <svg viewBox="0 0 100 80">
+
+                            <path d="M46 14 H54 V56 H46 Z M35 56 H65 V68 H35 Z" fill="none" stroke="#30332f" stroke-width="3"/>
+
+                          </svg>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <span class="prototype-note">Placeholder: the experiment image and final slot positions are not set yet. For now the correct answer is the symbols in tray order (slot 1 = beaker, slot 2 = test tube, and so on).</span>
+
+                    <div class="variable-feedback stage-feedback" data-feedback="m3-dragdrop-legacy" role="status" aria-live="polite"></div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
             </section>
+
             <!-- ==================================================
                  MISSION 3: SCIENTIFIC DRAWING PRACTICE (2 stages)
                  Stage 1: general rules checklist
@@ -637,12 +1595,7 @@
                     </div>
                     <h3>General rules for scientific drawings</h3>
                     <p class="mission-subtitle">There are some rules to follow when making a scientific drawing. Review each rule and tick it off.</p>
-                    <div class="rules-grid" id="drawingRules">
-                      <label class="rule-card"><input type="checkbox" value="clear-lines"><span><strong>Use clear, simple lines</strong><p>Keep the outline easy to interpret.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="main-features"><span><strong>Draw main features only</strong><p>Record the important structures you can observe.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="no-shading"><span><strong>Limited or no shading</strong><p>Prioritise line information rather than artistic texture.</p></span></label>
-                      <label class="rule-card"><input type="checkbox" value="labels"><span><strong>Include clear labels</strong><p>Name important observed structures.</p></span></label>
-                    </div>
+
                     <p class="activity-prompt">Tick all five rules, then press <strong>CHECK</strong> to complete the self-assessment.</p>
                     <div class="variable-feedback stage-feedback" data-feedback="m3-rules" role="status" aria-live="polite"></div>
                   </div>
@@ -860,6 +1813,8 @@
                 </div>
               </div>
             </section>
+
+            
             <!-- ==================================================
                  MISSION 4: SHALLOW-WATER CAMERA TRIALS (4 activities)
                  Activity 1: identify fish using visible features
@@ -1332,7 +2287,7 @@
             <div class="science-lock">
               <div class="lock-icon" aria-hidden="true">🔒</div>
               <strong>Field drawing checklist locked</strong>
-              <p>Unlocks after you complete the Mission 3 checklist.</p>
+              <p>Unlocks after you complete the scientific symbols activity.</p>
             </div>
             <p class="science-mode-note" id="scienceModeNote" hidden>
               Reference only.
