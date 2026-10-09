@@ -25,6 +25,7 @@
   <script src="../scripts/common_functions.js" defer></script>
   <script src="../scripts/lesson5_scripts/lesson5.js" defer></script>
   <script src="../scripts/lesson5_scripts/drag_and_drop.js" defer></script>
+  <script src="../scripts/lesson5_scripts/item_match.js" defer></script>
 
 </head>
 
@@ -715,13 +716,13 @@
         <div class="dd-reference item-match-reference">
 
           <span class="dd-caption">
-            <span data-rust-symbol-name>Jar lid</span>
+            <span data-im-item-label>Jar lid</span>
             ·
-            <span data-rust-symbol-round>1 of 4</span>
+            <span data-im-round-label>1 of 4</span>
           </span>
 
           <img
-            data-rust-question-img
+            data-im-image
             src="../images/lesson5/rust-symbol-questions/jar-lid.png"
             alt="Jar lid highlighted on the rust experiment"
           >
@@ -745,7 +746,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="jug"
+              data-im-option
+              data-im-value="jug"
               aria-label="Jug symbol">
               <img
                 class="choice-image"
@@ -756,7 +758,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="bottle"
+              data-im-option
+              data-im-value="bottle"
               aria-label="Bottle symbol">
               <img
                 class="choice-image"
@@ -767,7 +770,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="jar-lid"
+              data-im-option
+              data-im-value="jar-lid"
               aria-label="Jar lid symbol">
               <img
                 class="choice-image"
@@ -778,7 +782,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="spoon"
+              data-im-option
+              data-im-value="spoon"
               aria-label="Spoon symbol">
               <img
                 class="choice-image"
@@ -789,7 +794,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="liquid"
+              data-im-option
+              data-im-value="liquid"
               aria-label="Liquid symbol">
               <img
                 class="choice-image"
@@ -800,7 +806,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="iron-wool"
+              data-im-option
+              data-im-value="iron-wool"
               aria-label="Iron wool symbol">
               <img
                 class="choice-image"
@@ -811,7 +818,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="jar"
+              data-im-option
+              data-im-value="jar"
               aria-label="Jar symbol">
               <img
                 class="choice-image"
@@ -822,7 +830,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="funnel"
+              data-im-option
+              data-im-value="funnel"
               aria-label="Funnel symbol">
               <img
                 class="choice-image"
@@ -1212,7 +1221,7 @@
 
                       <div class="dd-reference item-match-reference">
 
-                        <span class="dd-caption">Experiment item <span data-item-match-round-label>1 of 3</span></span>
+                        <span class="dd-caption">Experiment item <span data-im-round-label>1 of 3</span></span>
 
                         <!-- TODO: add real experiment photos at ../images/lesson5/mission3/<item-id>.jpg
 
@@ -1220,19 +1229,19 @@
 
                              be picked up automatically once present. -->
 
-                        <img data-item-match-img alt="" hidden>
+                        <img data-im-image alt="" hidden>
 
                       </div>
 
-                      <div class="item-match-placeholder" hidden>
+                      <div class="item-match-placeholder" data-im-placeholder hidden>
 
-                        <span data-item-match-placeholder></span>
+                        <span data-im-placeholder-text></span>
 
                       </div>
 
-                      <div class="item-match-options" data-item-match-options role="group" aria-label="Equipment symbols">
+                      <div class="item-match-options" role="group" aria-label="Equipment symbols">
 
-                        <button type="button" class="item-match-option" data-item-match-value="jug" aria-label="Jug">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="jug" aria-label="Jug">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1246,7 +1255,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="bottle" aria-label="Bottle">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="bottle" aria-label="Bottle">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1256,7 +1265,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="balloon" aria-label="Balloon">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="balloon" aria-label="Balloon">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1268,7 +1277,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="spoon" aria-label="Spoon">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="spoon" aria-label="Spoon">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1280,7 +1289,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="nail" aria-label="Iron nail">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="nail" aria-label="Iron nail">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1290,7 +1299,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="steel_wool" aria-label="Steel wool">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="steel_wool" aria-label="Steel wool">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1300,7 +1309,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="jar" aria-label="Jar">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="jar" aria-label="Jar">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1310,7 +1319,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="funnel" aria-label="Funnel">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="funnel" aria-label="Funnel">
 
                           <svg
 

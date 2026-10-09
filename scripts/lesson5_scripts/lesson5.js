@@ -200,322 +200,122 @@
     let expeditionState = createFreshExpeditionState();
     let m4BatfishDragDrop = null; /* Mission 4 guided batfish labelling */
     let m3LegacyDragDrop = null; /* Mission 3 experiment diagram - original drag-and-drop version, kept as a spare stage */
-    let m3ItemMatchRoot = null; /* Mission 3 experiment item-match */
+    let m3ItemMatch = null; /* Mission 3 experiment item-match */
+    let m2RustSymbolMatch = null; /* Mission 2 scientific-symbol item-match */
 
-    const ITEM_MATCH_POOL = ["jug", "bottle", "balloon", "spoon", "nail", "steel_wool", "jar", "funnel"];
-    const ITEM_MATCH_LABELS = {
-      jug: "Jug",
-      bottle: "Bottle",
-      balloon: "Balloon",
-      spoon: "Spoon",
-      nail: "Iron nail",
-      steel_wool: "Steel wool",
-      jar: "Jar",
-      funnel: "Funnel"
-    };
-    const ITEM_MATCH_ROUNDS = 3;
+    /* Pool of 8 items; each play-through matches 3, picked in a random order. */
+    const ITEM_MATCH_ITEMS = [
+      { id: "jug", label: "Jug" },
+      { id: "bottle", label: "Bottle" },
+      { id: "balloon", label: "Balloon" },
+      { id: "spoon", label: "Spoon" },
+      { id: "nail", label: "Iron nail" },
+      { id: "steel_wool", label: "Steel wool" },
+      { id: "jar", label: "Jar" },
+      { id: "funnel", label: "Funnel" }
+    ];
 
-    /* Picks 3 distinct items from the pool of 8, in random order. */
-    function pickItemMatchRounds() {
-      const pool = ITEM_MATCH_POOL.slice();
-      const rounds = [];
-      while (rounds.length < ITEM_MATCH_ROUNDS && pool.length) {
-        const index = Math.floor(Math.random() * pool.length);
-        rounds.push(pool.splice(index, 1)[0]);
+    /* Fixed sequence of 4 highlighted parts, always shown in this order. */
+    const RUST_SYMBOL_ITEMS = [
+      {
+        id: "jar-lid",
+        label: "Jar lid",
+        image: "../images/lesson5/rust-symbol-questions/jar-lid.png",
+        alt: "Jar lid highlighted on the rust experiment"
+      },
+      {
+        id: "liquid",
+        label: "Liquid",
+        image: "../images/lesson5/rust-symbol-questions/liquid.png",
+        alt: "Liquid highlighted inside the jar"
+      },
+      {
+        id: "jar",
+        label: "Jar",
+        image: "../images/lesson5/rust-symbol-questions/jar.png",
+        alt: "Jar highlighted in the rust experiment"
+      },
+      {
+        id: "iron-wool",
+        label: "Iron wool",
+        image: "../images/lesson5/rust-symbol-questions/iron-wool.png",
+        alt: "Iron wool highlighted inside the jar"
       }
-      return rounds;
-    }
-
-    /* Lazily (re)rolls the round order so a fresh/cleared state always has one. */
-    function getItemMatchState() {
-      let state = expeditionState.selections.itemMatch;
-      if (!state || !Array.isArray(state.rounds) || state.rounds.length !== ITEM_MATCH_ROUNDS) {
-        state = { rounds: pickItemMatchRounds(), index: 0 };
-        expeditionState.selections.itemMatch = state;
-      }
-      return state;
-    }
+    ];
 
     function isItemMatchComplete() {
-      const state = getItemMatchState();
-      return state.index >= state.rounds.length;
+      return Boolean(m3ItemMatch) && m3ItemMatch.isComplete();
     }
 
-    function renderItemMatchRound() {
-      if (!m3ItemMatchRoot) return;
-      const state = getItemMatchState();
-      const img = m3ItemMatchRoot.querySelector("[data-item-match-img]");
-      const placeholder = m3ItemMatchRoot.querySelector(".item-match-placeholder");
-      const placeholderInner = placeholder.querySelector("span");
-      const roundLabel = m3ItemMatchRoot.querySelector("[data-item-match-round-label]");
-      const options = Array.prototype.slice.call(m3ItemMatchRoot.querySelectorAll(".item-match-option"));
-
-      options.forEach(function(button) {
-        button.classList.remove("correct", "incorrect");
-      });
-
-      if (isItemMatchComplete()) {
-        if (roundLabel) roundLabel.textContent = "all matched";
-        if (img) img.hidden = true;
-        if (placeholder) {
-          placeholder.style.display = "";
-          placeholderInner.textContent = "All three items matched. Press CHECK to continue.";
-        }
-        options.forEach(function(button) { button.disabled = true; });
-        return;
-      }
-
-      options.forEach(function(button) { button.disabled = false; });
-
-      const itemId = state.rounds[state.index];
-      const label = ITEM_MATCH_LABELS[itemId] || itemId;
-
-      if (roundLabel) roundLabel.textContent = (state.index + 1) + " of " + state.rounds.length;
-
-      if (img) {
-        img.hidden = true;
-        img.alt = "Photograph of a " + label.toLowerCase();
-        img.onerror = function() {
-          img.hidden = true;
-          if (placeholder) {
-            placeholder.style.display = "";
-            placeholderInner.textContent = "Unable to load image of " + label.toLowerCase();
-          }
-        };
-        img.onload = function() {
-          img.hidden = false;
-          if (placeholder) placeholder.style.display = "none";
-        };
-        img.src = "../images/lesson5/mission3/" + itemId + ".png";
-      }
-    }
-
-    function handleItemMatchOptionClick(button) {
-      if (isItemMatchComplete()) return;
-      const state = getItemMatchState();
-      const answer = state.rounds[state.index];
-
-      if (button.dataset.itemMatchValue === answer) {
-        button.classList.remove("incorrect");
-        button.classList.add("correct");
-        state.index += 1;
-        saveCurrentPageData();
-        clearCurrentStageFeedback();
-        renderControls();
-        window.setTimeout(renderItemMatchRound, 450);
-      } else {
-        button.classList.add("incorrect");
-        window.setTimeout(function() { button.classList.remove("incorrect"); }, 600);
-      }
+    function getItemMatchState() {
+      return m3ItemMatch ? m3ItemMatch.getState() : { index: 0, total: 0 };
     }
 
     function resetItemMatch() {
-      expeditionState.selections.itemMatch = { rounds: pickItemMatchRounds(), index: 0 };
-      renderItemMatchRound();
+      if (m3ItemMatch) m3ItemMatch.reset();
     }
 
     function initItemMatchActivity() {
-      m3ItemMatchRoot = document.getElementById("m3ItemMatch");
-      if (!m3ItemMatchRoot) return;
-      m3ItemMatchRoot.querySelectorAll(".item-match-option").forEach(function(button) {
-        button.addEventListener("click", function() { handleItemMatchOptionClick(button); });
+      const root = document.getElementById("m3ItemMatch");
+      if (!root) return;
+
+      m3ItemMatch = new ItemMatchActivity(root, {
+        items: ITEM_MATCH_ITEMS,
+        sequenceLength: 3,
+        randomise: true,
+        completeMessage: "All three items matched. Press CHECK to continue.",
+        getImageSrc: function(round) { return "../images/lesson5/mission3/" + round.id + ".png"; },
+        onChange: function(state) {
+          expeditionState.selections.itemMatch = { rounds: state.roundIds, index: state.index };
+          clearCurrentStageFeedback();
+          saveCurrentPageData();
+          renderControls();
+        }
       });
-      renderItemMatchRound();
+      m3ItemMatch.restore(expeditionState.selections.itemMatch);
     }
-
-    /* ==================================================
-    MISSION 2: RUST SCIENTIFIC-SYMBOL MATCHING
-    ================================================== */
-
-    let m2RustSymbolRoot = null;
-
-    const RUST_SYMBOL_QUESTIONS = [
-    {
-        label: "Jar lid",
-        answer: "jar-lid",
-        image: "../images/lesson5/rust-symbol-questions/jar-lid.png",
-        alt: "Jar lid highlighted on the rust experiment"
-    },
-    {
-        label: "Liquid",
-        answer: "liquid",
-        image: "../images/lesson5/rust-symbol-questions/liquid.png",
-        alt: "Liquid highlighted inside the jar"
-    },
-    {
-        label: "Jar",
-        answer: "jar",
-        image: "../images/lesson5/rust-symbol-questions/jar.png",
-        alt: "Jar highlighted in the rust experiment"
-    },
-    {
-        label: "Iron wool",
-        answer: "iron-wool",
-        image: "../images/lesson5/rust-symbol-questions/iron-wool.png",
-        alt: "Iron wool highlighted inside the jar"
-    }
-    ];
-
-
-    function getRustSymbolMatchState() {
-    let state = expeditionState.selections.rustSymbolMatch;
-
-    if (!state || typeof state.index !== "number") {
-        state = { index: 0 };
-        expeditionState.selections.rustSymbolMatch = state;
-    }
-
-    return state;
-    }
-
 
     function isRustSymbolMatchComplete() {
-    return getRustSymbolMatchState().index >= RUST_SYMBOL_QUESTIONS.length;
+      return Boolean(m2RustSymbolMatch) && m2RustSymbolMatch.isComplete();
     }
 
-
-    function renderRustSymbolMatch() {
-    if (!m2RustSymbolRoot) return;
-
-    const state = getRustSymbolMatchState();
-
-    const image =
-        m2RustSymbolRoot.querySelector("[data-rust-question-img]");
-
-    const name =
-        m2RustSymbolRoot.querySelector("[data-rust-symbol-name]");
-
-    const round =
-        m2RustSymbolRoot.querySelector("[data-rust-symbol-round]");
-
-    const buttons =
-        Array.from(m2RustSymbolRoot.querySelectorAll(".item-match-option"));
-
-
-    buttons.forEach(function(button) {
-        button.classList.remove("correct", "incorrect");
-    });
-
-
-    if (isRustSymbolMatchComplete()) {
-        if (name) {
-        name.textContent = "All parts matched";
-        }
-
-        if (round) {
-        round.textContent = "4 of 4 · complete";
-        }
-
-        buttons.forEach(function(button) {
-        button.disabled = true;
-        });
-
-        renderControls();
-        return;
+    function getRustSymbolMatchState() {
+      return m2RustSymbolMatch ? m2RustSymbolMatch.getState() : { index: 0, total: 0 };
     }
-
-
-    buttons.forEach(function(button) {
-        button.disabled = false;
-    });
-
-
-    const question = RUST_SYMBOL_QUESTIONS[state.index];
-
-    if (name) {
-        name.textContent = question.label;
-    }
-
-    if (round) {
-        round.textContent =
-        (state.index + 1) + " of " + RUST_SYMBOL_QUESTIONS.length;
-    }
-
-    if (image) {
-        image.src = question.image;
-        image.alt = question.alt;
-    }
-
-    renderControls();
-    }
-
-
-    function handleRustSymbolClick(button) {
-    if (isRustSymbolMatchComplete()) return;
-
-    const state = getRustSymbolMatchState();
-    const question = RUST_SYMBOL_QUESTIONS[state.index];
-
-    const feedback = getStageFeedback("m2-symbol-match");
-
-    if (button.dataset.rustSymbolValue === question.answer) {
-
-        button.classList.remove("incorrect");
-        button.classList.add("correct");
-
-        state.index += 1;
-
-        clearCurrentStageFeedback();
-        saveCurrentPageData();
-        renderControls();
-
-        window.setTimeout(function() {
-        renderRustSymbolMatch();
-        }, 450);
-
-        return;
-    }
-
-
-    /* Wrong answer */
-    button.classList.remove("incorrect");
-
-    /* Allows the shake animation to restart on repeated wrong clicks. */
-    void button.offsetWidth;
-
-    button.classList.add("incorrect");
-
-    if (feedback) {
-        setActivityFeedback(
-        feedback,
-        "try-again",
-        "Try again",
-        "That symbol does not match the highlighted part. Look carefully at its shape and try another symbol."
-        );
-    }
-
-    window.setTimeout(function() {
-        button.classList.remove("incorrect");
-    }, 600);
-    }
-
 
     function resetRustSymbolMatch() {
-    expeditionState.selections.rustSymbolMatch = {
-        index: 0
-    };
-
-    renderRustSymbolMatch();
+      if (m2RustSymbolMatch) m2RustSymbolMatch.reset();
     }
 
-
     function initRustSymbolMatchActivity() {
-    m2RustSymbolRoot =
-        document.getElementById("m2RustSymbolMatch");
+      const root = document.getElementById("m2RustSymbolMatch");
+      if (!root) return;
 
-    if (!m2RustSymbolRoot) return;
-
-    m2RustSymbolRoot
-        .querySelectorAll(".item-match-option")
-        .forEach(function(button) {
-
-        button.addEventListener("click", function() {
-            handleRustSymbolClick(button);
-        });
-
-        });
-
-    renderRustSymbolMatch();
+      m2RustSymbolMatch = new ItemMatchActivity(root, {
+        items: RUST_SYMBOL_ITEMS,
+        sequenceLength: RUST_SYMBOL_ITEMS.length,
+        randomise: false,
+        completeLabel: "All parts matched",
+        completeMessage: "All four parts matched. Press CHECK to continue.",
+        onIncorrect: function() {
+          const feedback = getStageFeedback("m2-symbol-match");
+          if (feedback) {
+            setActivityFeedback(
+              feedback,
+              "try-again",
+              "Try again",
+              "That symbol does not match the highlighted part. Look carefully at its shape and try another symbol."
+            );
+          }
+        },
+        onChange: function(state) {
+          expeditionState.selections.rustSymbolMatch = { rounds: state.roundIds, index: state.index };
+          clearCurrentStageFeedback();
+          saveCurrentPageData();
+          renderControls();
+        }
+      });
+      m2RustSymbolMatch.restore(expeditionState.selections.rustSymbolMatch);
     }
 
     function createFreshExpeditionState() {
