@@ -1752,7 +1752,7 @@
           console.log("Teacher menu: unlocked mission " + missionConfig[i].id + " and all its stages.");
         }
       }
-      document.getElementById("expedition-main").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      document.getElementById("expedition-main").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function lesson5TeacherJump(sectionId) {
@@ -1986,3 +1986,62 @@
 
       measure();
     })();
+
+    /* ==================================================
+       STAGE REFERENCE-IMAGE ZOOM MODAL
+
+       Opens the shared #imageZoomModal (defined in
+       lesson5.html) from a small .mission-image-trigger
+       box placed beside a stage heading. Reuses
+       growModalFromTrigger() from common_functions.js so
+       the modal grows out of the box the student clicked.
+       ================================================== */
+
+    function openImageZoomModal(imageSource, imageTitle, imageAlt) {
+      const modal = document.getElementById("imageZoomModal");
+      const image = document.getElementById("imageZoomModalImage");
+      const title = document.getElementById("imageZoomModalTitle");
+
+      if (!modal || !image) {
+        return;
+      }
+
+      image.src = imageSource;
+      image.alt = imageAlt || imageTitle || "Reference image";
+
+      if (title) {
+        title.textContent = imageTitle || "Reference image";
+      }
+
+      modal.style.display = "block";
+      document.body.style.overflow = "hidden";
+
+      growModalFromTrigger(modal);
+    }
+
+    function closeImageZoomModal() {
+      const modal = document.getElementById("imageZoomModal");
+      const image = document.getElementById("imageZoomModalImage");
+
+      if (!modal || !image) {
+        return;
+      }
+
+      modal.style.display = "none";
+      document.body.style.overflow = "";
+      image.removeAttribute("src");
+    }
+
+    window.addEventListener("click", function(event) {
+      const imageZoomModal = document.getElementById("imageZoomModal");
+
+      if (imageZoomModal && event.target === imageZoomModal) {
+        closeImageZoomModal();
+      }
+    });
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape") {
+        closeImageZoomModal();
+      }
+    });
