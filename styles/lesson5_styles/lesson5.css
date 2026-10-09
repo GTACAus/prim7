@@ -2753,3 +2753,7 @@
       margin-top: 15px;
       justify-content: center;
     }
+
+    .item-match-activity svg {
+      stroke-color: black;
+    }

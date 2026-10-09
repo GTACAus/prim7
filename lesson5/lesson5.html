@@ -712,8 +712,23 @@
 
       <div class="item-match-activity" id="m2RustSymbolMatchTest">
 
-        <!-- MAIN DIAGRAM FRAME: fills in with each correctly matched symbol -->
-        <div class="item-match-diagram" data-im-diagram>
+        <!-- MAIN DIAGRAM FRAME: fills in with each correctly matched symbol.
+             viewBox is the coordinate space every diagramPosition in
+             RUST_SYMBOL_OPTION_POOL (lesson5.js) is measured against - keep
+             them in sync if you resize this. -->
+        <div class="item-match-diagram-frame">
+          <svg
+            class="item-match-diagram"
+            data-im-diagram
+            viewBox="0 0 240 220"
+            role="img"
+            aria-label="Rust experiment diagram, built up as parts are matched">
+
+            <!-- Static background art (outlines, labels) can live here -
+                 the script only ever adds/removes its own .im-diagram-piece
+                 groups, so anything else you put in this <svg> is left alone. -->
+
+          </svg>
           <p class="item-match-diagram-placeholder" data-im-diagram-placeholder>
             Match each highlighted part to build the diagram.
           </p>

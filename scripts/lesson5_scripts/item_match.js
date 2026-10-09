@@ -432,9 +432,17 @@
     }, this);
   };
 
+  var SVG_NS = "http://www.w3.org/2000/svg";
+
   /* Rebuilds the collected-pieces list from scratch each render: cheap at
      the handful of rounds these activities use, and avoids tracking which
-     pieces are already in the DOM. */
+     pieces are already in the DOM.
+
+     If [data-im-diagram] is itself an <svg>, pieces are added as <g>
+     elements positioned with a transform (round.diagramPosition = {x, y},
+     or round.diagramTransform for anything a translate can't do - rotation,
+     scale, etc). Otherwise pieces are plain, unpositioned <div>s stacked in
+     flow, same as before. */
   ItemMatchActivity.prototype._renderDiagram = function () {
     if (!this.diagram) return;
 
@@ -445,12 +453,31 @@
     var solved = this.rounds.slice(0, this.index);
     setHidden(this.diagramPlaceholder, solved.length > 0);
 
+    var isSvgDiagram = this.diagram.namespaceURI === SVG_NS;
+
     solved.forEach(function (round) {
       var correctOption = round.options.filter(function (option) { return option.correct; })[0];
-      var piece = document.createElement("div");
-      piece.className = "im-diagram-piece";
+      var markup = round.diagramHtml || (correctOption && correctOption.html) || "";
+      if (!markup) return;
+
+      var piece = isSvgDiagram
+        ? document.createElementNS(SVG_NS, "g")
+        : document.createElement("div");
+
+      piece.classList.add("im-diagram-piece");
       piece.dataset.imDiagramFor = round.id;
-      piece.innerHTML = round.diagramHtml || (correctOption && correctOption.html) || "";
+
+      if (isSvgDiagram) {
+        var transform = round.diagramTransform
+          || (round.diagramPosition ? "translate(" + round.diagramPosition.x + "," + round.diagramPosition.y + ")" : null);
+        if (transform) piece.setAttribute("transform", transform);
+      }
+
+      /* Setting innerHTML on an <svg>/<g> parses the string as SVG content
+         (foreign content), same as it would on an HTML element - so this
+         works whether markup is "<svg>...</svg>", a plain <text>/<image>
+         fragment, or just text. */
+      piece.innerHTML = markup;
       this.diagram.appendChild(piece);
     }, this);
   };

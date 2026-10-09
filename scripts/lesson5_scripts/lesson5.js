@@ -243,9 +243,9 @@
         alt: "Jar highlighted in the rust experiment"
       },
       {
-        id: "iron-wool",
-        label: "Iron wool",
-        image: "../images/lesson5/rust-symbol-questions/iron-wool.png",
+        id: "steel-wool",
+        label: "Steel wool",
+        image: "../images/lesson5/rust-symbol-questions/steel-wool.png",
         alt: "Iron wool highlighted inside the jar"
       }
     ];
@@ -325,52 +325,151 @@
       m2RustSymbolMatch.restore(expeditionState.selections.rustSymbolMatch);
     }
 
-    /* Symbol images shared by every round of the TEST activity: the correct
-       option for a round plus two random distractors drawn from this pool. */
-    const RUST_SYMBOL_OPTION_POOL = [
-      { id: "jar-lid", label: "Jar lid symbol", image: "../images/lesson5/rust-symbols/jar-lid.png" },
-      { id: "liquid", label: "Liquid symbol", image: "../images/lesson5/rust-symbols/liquid.png" },
-      { id: "jar", label: "Jar symbol", image: "../images/lesson5/rust-symbols/jar.png" },
-      { id: "iron-wool", label: "Iron wool symbol", image: "../images/lesson5/rust-symbols/iron-wool.png" },
-      { id: "jug", label: "Jug symbol", image: "../images/lesson5/rust-symbols/jug.png" },
-      { id: "bottle", label: "Bottle symbol", image: "../images/lesson5/rust-symbols/bottle.png" },
-      { id: "spoon", label: "Spoon symbol", image: "../images/lesson5/rust-symbols/spoon.png" },
-      { id: "funnel", label: "Funnel symbol", image: "../images/lesson5/rust-symbols/funnel.png" }
+    /* Every option that can appear anywhere in the TEST activity, defined
+       once each. `rounds` is the readable part: it's a map of
+       { roundId: { correct: true/false } } for every round this item shows
+       up in as a choice - so to see a round's full option set, scan this
+       list for every item whose `rounds` map has that round's id as a key.
+       An item can appear in several rounds (usually as a distractor), but
+       should only be `correct: true` in at most one.
+
+       `content` is whatever markup the option/diagram piece should show -
+       an <img>, inline <svg>...</svg>, or just plain text. Each inline <svg>
+       below gives itself an explicit width/height (here 40x40, in the main
+       diagram's own coordinate units - see RUST_DIAGRAM_VIEWBOX below) so it
+       sizes predictably as a diagram piece; as an option button, the
+       .item-match-option svg CSS rule in drag_and_drop.css overrides that
+       with --dd-item-size instead.
+
+       `diagramPosition` is where that content's top-left lands inside the
+       main diagram's SVG viewBox once matched. Items that are never correct
+       anywhere (pure distractors) can leave it out. */
+    const RUST_SYMBOL_OPTIONS = [
+      {
+        id: "jar-lid",
+        label: "Jar lid symbol",
+        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><ellipse cx="30" cy="30" rx="26" ry="10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
+        diagramPosition: { x: 150, y: 20 },
+        rounds: {
+          "jar-lid": { correct: true }
+        }
+      },
+      {
+        id: "liquid",
+        label: "Liquid symbol",
+        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><path d="M10 40h40v10a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4Z" fill="currentColor"/></svg>',
+        diagramPosition: { x: 150, y: 110 },
+        rounds: {
+          "liquid": { correct: true }
+        }
+      },
+      {
+        id: "jar",
+        label: "Jar symbol",
+        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><rect x="10" y="10" width="40" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
+        diagramPosition: { x: 150, y: 60 },
+        rounds: {
+          "jar": { correct: true }
+        }
+      },
+      {
+        id: "steel-wool",
+        label: "Steel wool symbol",
+        content: '<svg width="40" height="40" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+
+                  '<path d="M20 50 Q30 30 42 48 Q50 30 60 48 Q70 28 82 48 Q88 60 76 62 Q84 74 68 72 Q72 84 56 78 Q48 90 36 78 Q22 84 24 68 Q12 64 20 50 Z"></path>'+
+                  '</svg>',
+        diagramPosition: { x: 150, y: 160 },
+        rounds: {
+          "steel-wool": { correct: true }
+        }
+      },
+      /* A plain-text example used as a distractor in "jar-lid": shown as
+         text in the options row, but as an SVG <text> on the diagram if it
+         were ever the correct answer (it isn't here, via diagramHtml). */
+      {
+        id: "jar-label",
+        label: "Jar (text)",
+        content: "Jar",
+        diagramHtml: '<text x="0" y="12">Jar</text>',
+        diagramPosition: { x: 20, y: 60 },
+        rounds: {
+          "jar-lid": { correct: false }
+        }
+      },
+      {
+        id: "jug",
+        label: "Jug symbol",
+        content: "Jug",
+        rounds: {
+          "jar-lid": { correct: false },
+          "liquid": { correct: false }
+        }
+      },
+      {
+        id: "bottle",
+        label: "Bottle symbol",
+        content: "Bottle",
+        rounds: {
+          "jar": { correct: false },
+          "steel-wool": { correct: false }
+        }
+      },
+      {
+        id: "spoon",
+        label: "Spoon symbol",
+        content: "Spoon",
+        rounds: {
+          "steel-wool": { correct: false }
+        }
+      },
+      {
+        id: "funnel",
+        label: "Funnel symbol",
+        content: "Funnel",
+        rounds: {
+          "liquid": { correct: false },
+          "jar": { correct: false }
+        }
+      }
     ];
 
-    /* An option's content doesn't have to be an image - swap this for text or
-       inline SVG and the activity doesn't need to change. */
-    function rustSymbolOptionHtml(symbolId) {
-      const symbol = RUST_SYMBOL_OPTION_POOL.find(function(item) { return item.id === symbolId; });
-      if (!symbol) return "";
-      return '<img class="choice-image" src="' + symbol.image + '" alt="">';
-    }
+    /* The main diagram's own coordinate space - diagramPosition values above
+       are x/y inside this box. Keep it in sync with the viewBox on the
+       <svg data-im-diagram> element in lesson5.html. */
+    const RUST_DIAGRAM_VIEWBOX = { width: 240, height: 220 };
 
-    /* One round per highlighted part of the experiment (RUST_SYMBOL_ITEMS). Each
-       round gets its own prompt and its own 3-option set: the correct symbol
-       plus two random distractors, so the choices change every round. */
+    /* One round per highlighted part of the experiment (RUST_SYMBOL_ITEMS).
+       A round's options are every RUST_SYMBOL_OPTIONS item that lists that
+       round's id in its `rounds` map - nothing is picked at random, so what
+       you see above is exactly what plays. */
     function buildRustSymbolMatchTestRounds() {
       return RUST_SYMBOL_ITEMS.map(function(part) {
-        const distractorIds = RUST_SYMBOL_OPTION_POOL
-          .filter(function(symbol) { return symbol.id !== part.id; })
-          .map(function(symbol) { return symbol.id; })
-          .sort(function() { return Math.random() - 0.5; })
-          .slice(0, 2);
+        const options = RUST_SYMBOL_OPTIONS
+          .filter(function(item) { return item.rounds && item.rounds[part.id]; })
+          .map(function(item) {
+            return {
+              id: item.id,
+              label: item.label,
+              html: item.content,
+              correct: Boolean(item.rounds[part.id].correct)
+            };
+          });
+
+        const correctItem = RUST_SYMBOL_OPTIONS.find(function(item) {
+          return item.rounds && item.rounds[part.id] && item.rounds[part.id].correct;
+        });
 
         return {
           id: part.id,
           label: part.label,
           promptHtml: '<img src="' + part.image + '" alt="' + part.alt + '">',
-          diagramHtml: rustSymbolOptionHtml(part.id),
-          options: distractorIds.concat(part.id).map(function(symbolId) {
-            const symbol = RUST_SYMBOL_OPTION_POOL.find(function(item) { return item.id === symbolId; });
-            return {
-              id: symbolId,
-              label: symbol.label,
-              html: rustSymbolOptionHtml(symbolId),
-              correct: symbolId === part.id
-            };
-          })
+          /* Shown on the main diagram once this round is solved, positioned
+             with diagramPosition instead of appearing in the options flow.
+             diagramHtml overrides content for rounds where the diagram piece
+             should look different from the option button. */
+          diagramHtml: correctItem ? (correctItem.diagramHtml || correctItem.content) : "",
+          diagramPosition: correctItem ? correctItem.diagramPosition : null,
+          options: options
         };
       });
     }
