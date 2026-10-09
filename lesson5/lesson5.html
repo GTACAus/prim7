@@ -680,6 +680,91 @@
 </div>
 
 <!-- ==================================================
+     STAGE 3: SELECT SCIENTIFIC SYMBOLS ----- TEST -----
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-symbol-match-test">
+
+  <div class="mission-window">
+
+    <div class="mission-window-bar">
+      <strong>Deep field terminal // mission 2: scientific symbols</strong>
+
+      <div class="window-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="mission-window-body">
+
+      <div class="stage-progress-row">
+        <p class="mission-label">Mission 02</p>
+        <span class="stage-progress-chip">Stage 3 of 3</span>
+      </div>
+
+      <h3>Draw the experiment using scientific symbols</h3>
+
+      <p class="mission-subtitle">
+        <strong>Your task:</strong>
+        Identify each highlighted part of the experiment and select
+        the scientific symbol that best represents it.
+      </p>
+
+
+      <div class="item-match-activity" id="m2RustSymbolMatchTest">
+
+        <!-- MAIN DIAGRAM FRAME: fills in with each correctly matched symbol -->
+        <div class="item-match-diagram" data-im-diagram>
+          <p class="item-match-diagram-placeholder" data-im-diagram-placeholder>
+            Match each highlighted part to build the diagram.
+          </p>
+        </div>
+
+        <div class="item-match-row" data-im-row>
+
+          <!-- 1st item: the highlighted part of the experiment to match -->
+          <div class="dd-reference item-match-reference" data-im-prompt>
+
+            <span class="dd-caption">
+              <span data-im-item-label></span>
+              ·
+              <span data-im-round-label></span>
+            </span>
+
+            <div data-im-prompt-content></div>
+
+          </div>
+
+          <!-- 2nd-4th items: this round's symbol choices -->
+          <div
+            class="item-match-options"
+            data-im-options
+            role="group"
+            aria-label="Scientific symbol choices"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <p class="activity-prompt">
+        Match all four parts of the experiment.
+        When all four are complete, press <strong>CHECK</strong>.
+      </p>
+
+      <div
+        class="variable-feedback stage-feedback"
+        data-feedback="m2-symbol-match"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================================================
      STAGE 3: SELECT SCIENTIFIC SYMBOLS
      ================================================== -->
 <div class="mission-stage" data-stage-id="m2-symbol-match">

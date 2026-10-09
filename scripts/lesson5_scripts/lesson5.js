@@ -81,17 +81,23 @@
             label: "Rust experiment",
             type: "read"
           },
+
+          {
+            id: "m2-symbol-match-test",
+            label: "Select scientific symbols (TEST)",
+            type: "item-match"
+          },
           {
             id: "m2-symbol-match",
             label: "Select scientific symbols",
             type: "item-match"
-            },
-            {
-                id: "m2-draw-rust-experiment",
-                label: "Draw the experiment",
-                type: "read"
-                },
-                {
+          },
+          {
+            id: "m2-draw-rust-experiment",
+            label: "Draw the experiment",
+            type: "read"
+          },
+          {
             id: "m2-choose-scientific-drawing",
             label: "Choose the scientific drawing",
             type: "choice",
@@ -202,6 +208,7 @@
     let m3LegacyDragDrop = null; /* Mission 3 experiment diagram - original drag-and-drop version, kept as a spare stage */
     let m3ItemMatch = null; /* Mission 3 experiment item-match */
     let m2RustSymbolMatch = null; /* Mission 2 scientific-symbol item-match */
+    let m2RustSymbolMatchTest = null; /* Mission 2 scientific-symbol item-match (TEST: per-round option sets + diagram) */
 
     /* Pool of 8 items; each play-through matches 3, picked in a random order. */
     const ITEM_MATCH_ITEMS = [
@@ -318,6 +325,98 @@
       m2RustSymbolMatch.restore(expeditionState.selections.rustSymbolMatch);
     }
 
+    /* Symbol images shared by every round of the TEST activity: the correct
+       option for a round plus two random distractors drawn from this pool. */
+    const RUST_SYMBOL_OPTION_POOL = [
+      { id: "jar-lid", label: "Jar lid symbol", image: "../images/lesson5/rust-symbols/jar-lid.png" },
+      { id: "liquid", label: "Liquid symbol", image: "../images/lesson5/rust-symbols/liquid.png" },
+      { id: "jar", label: "Jar symbol", image: "../images/lesson5/rust-symbols/jar.png" },
+      { id: "iron-wool", label: "Iron wool symbol", image: "../images/lesson5/rust-symbols/iron-wool.png" },
+      { id: "jug", label: "Jug symbol", image: "../images/lesson5/rust-symbols/jug.png" },
+      { id: "bottle", label: "Bottle symbol", image: "../images/lesson5/rust-symbols/bottle.png" },
+      { id: "spoon", label: "Spoon symbol", image: "../images/lesson5/rust-symbols/spoon.png" },
+      { id: "funnel", label: "Funnel symbol", image: "../images/lesson5/rust-symbols/funnel.png" }
+    ];
+
+    /* An option's content doesn't have to be an image - swap this for text or
+       inline SVG and the activity doesn't need to change. */
+    function rustSymbolOptionHtml(symbolId) {
+      const symbol = RUST_SYMBOL_OPTION_POOL.find(function(item) { return item.id === symbolId; });
+      if (!symbol) return "";
+      return '<img class="choice-image" src="' + symbol.image + '" alt="">';
+    }
+
+    /* One round per highlighted part of the experiment (RUST_SYMBOL_ITEMS). Each
+       round gets its own prompt and its own 3-option set: the correct symbol
+       plus two random distractors, so the choices change every round. */
+    function buildRustSymbolMatchTestRounds() {
+      return RUST_SYMBOL_ITEMS.map(function(part) {
+        const distractorIds = RUST_SYMBOL_OPTION_POOL
+          .filter(function(symbol) { return symbol.id !== part.id; })
+          .map(function(symbol) { return symbol.id; })
+          .sort(function() { return Math.random() - 0.5; })
+          .slice(0, 2);
+
+        return {
+          id: part.id,
+          label: part.label,
+          promptHtml: '<img src="' + part.image + '" alt="' + part.alt + '">',
+          diagramHtml: rustSymbolOptionHtml(part.id),
+          options: distractorIds.concat(part.id).map(function(symbolId) {
+            const symbol = RUST_SYMBOL_OPTION_POOL.find(function(item) { return item.id === symbolId; });
+            return {
+              id: symbolId,
+              label: symbol.label,
+              html: rustSymbolOptionHtml(symbolId),
+              correct: symbolId === part.id
+            };
+          })
+        };
+      });
+    }
+
+    function isRustSymbolMatchTestComplete() {
+      return Boolean(m2RustSymbolMatchTest) && m2RustSymbolMatchTest.isComplete();
+    }
+
+    function getRustSymbolMatchTestState() {
+      return m2RustSymbolMatchTest ? m2RustSymbolMatchTest.getState() : { index: 0, total: 0 };
+    }
+
+    function resetRustSymbolMatchTest() {
+      if (m2RustSymbolMatchTest) m2RustSymbolMatchTest.reset();
+    }
+
+    function initRustSymbolMatchTestActivity() {
+      const root = document.getElementById("m2RustSymbolMatchTest");
+      if (!root) return;
+
+      m2RustSymbolMatchTest = new ItemMatchActivity(root, {
+        rounds: buildRustSymbolMatchTestRounds(),
+        shuffleOptions: true,
+        completeLabel: "All parts matched",
+        completeMessage: "All four parts matched. Press CHECK to continue.",
+        onIncorrect: function() {
+          const feedback = getStageFeedback("m2-symbol-match-test");
+          if (feedback) {
+            setActivityFeedback(
+              feedback,
+              "try-again",
+              "Try again",
+              "That symbol does not match the highlighted part. Look carefully at its shape and try another symbol."
+            );
+          }
+        },
+        onChange: function(state) {
+          expeditionState.selections.rustSymbolMatchTest = { rounds: state.roundIds, index: state.index };
+          clearCurrentStageFeedback();
+          saveCurrentPageData();
+          renderControls();
+        }
+      });
+      m2RustSymbolMatchTest.restore(expeditionState.selections.rustSymbolMatchTest);
+    }
+
     function createFreshExpeditionState() {
       return {
         started: false,
@@ -331,6 +430,7 @@
           diagramExample: "",
           itemMatch: null,
           rustSymbolMatch: { index: 0 },
+          rustSymbolMatchTest: { index: 0 },
           rustScientificDrawing: "",
           dragDropLegacy: {},
           drawing: "",
@@ -634,6 +734,10 @@
           return isRustSymbolMatchComplete();
         }
 
+        if (stage.id === "m2-symbol-match-test") {
+          return isRustSymbolMatchTestComplete();
+        }
+
         return isItemMatchComplete();
       }
 
@@ -892,6 +996,8 @@
       if (stage.type === "item-match") {
         if (stage.id === "m2-symbol-match") {
           resetRustSymbolMatch();
+        } else if (stage.id === "m2-symbol-match-test") {
+          resetRustSymbolMatchTest();
         } else {
           resetItemMatch();
         }
@@ -1392,9 +1498,9 @@
           : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
       if (stage.type === "item-match") {
-        return stage.id === "m2-symbol-match"
-          ? isRustSymbolMatchComplete()
-          : isItemMatchComplete();
+        if (stage.id === "m2-symbol-match") return isRustSymbolMatchComplete();
+        if (stage.id === "m2-symbol-match-test") return isRustSymbolMatchTestComplete();
+        return isItemMatchComplete();
       }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
@@ -1419,9 +1525,9 @@
           : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
       if (stage.type === "item-match") {
-        return stage.id === "m2-symbol-match"
-          ? getRustSymbolMatchState().index > 0
-          : getItemMatchState().index > 0;
+        if (stage.id === "m2-symbol-match") return getRustSymbolMatchState().index > 0;
+        if (stage.id === "m2-symbol-match-test") return getRustSymbolMatchTestState().index > 0;
+        return getItemMatchState().index > 0;
       }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
@@ -1612,6 +1718,7 @@
 
       initItemMatchActivity();
       initRustSymbolMatchActivity();
+      initRustSymbolMatchTestActivity();
 
       const legacyDragDropRoot = document.getElementById("m3DragDropLegacy");
       if (legacyDragDropRoot) {

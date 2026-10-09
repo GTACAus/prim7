@@ -312,3 +312,72 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* ==================================================
+   ITEM MATCH - SETS MODE
+   Main diagram frame (collects solved rounds) + a row with the current
+   round's prompt on the left and that round's own options on the right.
+   ================================================== */
+
+.item-match-diagram {
+  --dd-ink: var(--charcoal, #30332f);
+  min-height: 140px;
+  margin-bottom: 18px;
+  padding: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 3px solid var(--dd-ink);
+  border-radius: 18px;
+  background: white;
+}
+
+.item-match-diagram-placeholder {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dd-ink);
+  opacity: 0.6;
+  text-align: center;
+}
+
+.im-diagram-piece {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.im-diagram-piece img,
+.im-diagram-piece svg {
+  display: block;
+  max-width: 72px;
+  max-height: 72px;
+  object-fit: contain;
+}
+
+.item-match-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.item-match-row .item-match-reference {
+  margin: 0;
+}
+
+.item-match-row .item-match-options {
+  margin-top: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 640px) {
+  .item-match-row {
+    grid-template-columns: 1fr;
+  }
+
+  .item-match-row .item-match-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
