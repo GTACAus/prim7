@@ -225,10 +225,10 @@
     /* Fixed sequence of 4 highlighted parts, always shown in this order. */
     const RUST_SYMBOL_ITEMS = [
       {
-        id: "jar-lid",
-        label: "Jar lid",
-        image: "../images/lesson5/rust-symbol-questions/jar-lid.png",
-        alt: "Jar lid highlighted on the rust experiment"
+        id: "jar",
+        label: "Jar",
+        image: "../images/lesson5/rust-symbol-questions/jar.png",
+        alt: "Jar highlighted in the rust experiment"
       },
       {
         id: "liquid",
@@ -237,17 +237,17 @@
         alt: "Liquid highlighted inside the jar"
       },
       {
-        id: "jar",
-        label: "Jar",
-        image: "../images/lesson5/rust-symbol-questions/jar.png",
-        alt: "Jar highlighted in the rust experiment"
-      },
-      {
         id: "steel-wool",
         label: "Steel wool",
         image: "../images/lesson5/rust-symbol-questions/steel-wool.png",
         alt: "Iron wool highlighted inside the jar"
-      }
+      },
+      {
+        id: "jar-lid",
+        label: "Jar lid",
+        image: "../images/lesson5/rust-symbol-questions/jar-lid.png",
+        alt: "Jar lid highlighted on the rust experiment"
+      },
     ];
 
     function isItemMatchComplete() {
@@ -325,6 +325,86 @@
       m2RustSymbolMatch.restore(expeditionState.selections.rustSymbolMatch);
     }
 
+    /* The three liquids compared in the experiment. Shared by the "liquid"
+       round's diagram piece below: whichever volume option is correct gets
+       drawn once per liquid type, side by side, labelled with its type and
+       that same volume. */
+    const RUST_LIQUID_TYPES = ["Water", "Oil", "Sea water"];
+
+    /* Shared geometry for the three-jar diagram group. Every one of "jar",
+       "liquid", "steel-wool" and "jar-lid" draws into the SAME group (same
+       diagramPosition on their options below) using these same numbers, so
+       whatever each round adds lands in the right place inside the jars
+       the earlier rounds already drew, instead of each drawing its own
+       separate set of jars. Round order (RUST_SYMBOL_ITEMS) is jar -> liquid
+       -> steel-wool -> jar-lid, so that's the order pieces stack in: empty
+       jars, then liquid, then steel wool floating in the liquid, then lids
+       on top. */
+    const JAR_DX = 150;        /* horizontal spacing between the 3 jars */
+    const JAR_LEFT = -90;
+    const JAR_WIDTH = 100;
+    const JAR_TOP = 22;
+    const JAR_BOTTOM = 130;    /* jar height = JAR_BOTTOM - JAR_TOP = 48 */
+    const JAR_TYPE_LABEL_Y = JAR_BOTTOM + 16;
+    const JAR_VOLUME_LABEL_Y = JAR_BOTTOM + 30;
+
+    /* Where the whole 3-jar group sits in the main diagram's viewBox - the
+       one diagramPosition every one of jar/liquid/steel-wool/jar-lid's
+       options below point at. */
+    const JAR_GROUP_POSITION = { x: 12, y: 35 };
+
+    /* A small, generic scribble (centred on 0,0) used for every steel wool
+       icon - scaled and repositioned per jar rather than redrawn each time. */
+    const STEEL_WOOL_ICON_PATH =
+      'M-10,4 Q-6,-6 0,2 Q4,-8 10,2 Q14,-6 18,4 Q20,10 12,10 ' +
+      'Q16,16 8,14 Q10,20 2,16 Q-4,20 -8,14 Q-14,16 -12,10 Q-18,8 -10,4 Z';
+
+    /* Wraps whatever `buildPieceForJar` returns once per jar, each shifted
+       by JAR_DX, so every "draw something into the jars" helper shares this
+       loop instead of repeating the translate/map logic. */
+    function mapOverJars(buildPieceForJar) {
+      return RUST_LIQUID_TYPES.map(function(liquidType, index) {
+        const dx = index * JAR_DX;
+        return '<g transform="translate(' + dx + ',0)">' + buildPieceForJar(liquidType) + '</g>';
+      }).join("");
+    }
+
+    function buildEmptyJarsDiagramHtml() {
+      return mapOverJars(function(liquidType) {
+        return (
+          '<path d="M' + JAR_LEFT + ' ' + JAR_TOP + ' V' + JAR_BOTTOM + ' H' + (JAR_LEFT + JAR_WIDTH) + ' V' + JAR_TOP + '" ' +
+            'fill="none" stroke="currentColor" stroke-width="3"/>' +
+          '<text x="' + (JAR_LEFT + JAR_WIDTH / 2) + '" y="' + JAR_TYPE_LABEL_Y + '" text-anchor="middle">' + liquidType + '</text>'
+        );
+      });
+    }
+
+    function buildLiquidFillDiagramHtml(volumeLabel) {
+      return mapOverJars(function() {
+        return (
+          '<rect x="' + JAR_LEFT + '" y="' + (JAR_BOTTOM - 26) + '" width="' + JAR_WIDTH + '" height="26" fill="currentColor" opacity="0.35"/>' +
+          '<text x="' + (JAR_LEFT + JAR_WIDTH / 2) + '" y="' + JAR_VOLUME_LABEL_Y + '" text-anchor="middle">' + volumeLabel + '</text>'
+        );
+      });
+    }
+
+    /* One steel wool icon per jar, floating roughly in the middle of the
+       liquid fill. */
+    function buildSteelWoolDiagramHtml() {
+      return mapOverJars(function() {
+        const cx = JAR_LEFT + JAR_WIDTH / 2;
+        const cy = JAR_BOTTOM - 14;
+        return '<path d="' + STEEL_WOOL_ICON_PATH + '" transform="translate(' + cx + ',' + cy + ') scale(0.65)" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+      });
+    }
+
+    /* One narrow lid per jar, sitting just above the jar's open top. */
+    function buildJarLidsDiagramHtml() {
+      return mapOverJars(function() {
+        return '<rect x="' + (JAR_LEFT - 3) + '" y="' + (JAR_TOP - 14) + '" width="' + (JAR_WIDTH + 6) + '" height="10" fill="none" stroke="currentColor" stroke-width="3"/>';
+      });
+    }
+
     /* Every option that can appear anywhere in the TEST activity, defined
        once each. `rounds` is the readable part: it's a map of
        { roundId: { correct: true/false } } for every round this item shows
@@ -346,91 +426,125 @@
        anywhere (pure distractors) can leave it out. */
     const RUST_SYMBOL_OPTIONS = [
       {
-        id: "jar-lid",
-        label: "Jar lid symbol",
-        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><ellipse cx="30" cy="30" rx="26" ry="10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
-        diagramPosition: { x: 150, y: 20 },
-        rounds: {
-          "jar-lid": { correct: true }
-        }
-      },
-      {
-        id: "liquid",
-        label: "Liquid symbol",
-        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><path d="M10 40h40v10a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4Z" fill="currentColor"/></svg>',
-        diagramPosition: { x: 150, y: 110 },
-        rounds: {
-          "liquid": { correct: true }
-        }
-      },
-      {
         id: "jar",
         label: "Jar symbol",
-        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><rect x="10" y="10" width="40" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
-        diagramPosition: { x: 150, y: 60 },
+        /* The option button still shows a single open-top rectangle, but the
+           diagram piece draws all three labelled jars at once - see
+           buildEmptyJarsDiagramHtml above. */
+        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><path d="M10 10 V50 H50 V10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
+        diagramHtml: buildEmptyJarsDiagramHtml(),
+        diagramPosition: JAR_GROUP_POSITION,
         rounds: {
           "jar": { correct: true }
         }
       },
       {
-        id: "steel-wool",
-        label: "Steel wool symbol",
-        content: '<svg width="40" height="40" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+
-                  '<path d="M20 50 Q30 30 42 48 Q50 30 60 48 Q70 28 82 48 Q88 60 76 62 Q84 74 68 72 Q72 84 56 78 Q48 90 36 78 Q22 84 24 68 Q12 64 20 50 Z"></path>'+
-                  '</svg>',
-        diagramPosition: { x: 150, y: 160 },
+        id: "jar-image",
+        label: "Jar Image",
+        content: "<img src='../images/lesson5/mission2/draw_diagram/jar.png' alt='Image of a jar'>",
         rounds: {
-          "steel-wool": { correct: true }
+          "jar": { correct: false }
         }
       },
-      /* A plain-text example used as a distractor in "jar-lid": shown as
-         text in the options row, but as an SVG <text> on the diagram if it
-         were ever the correct answer (it isn't here, via diagramHtml). */
       {
-        id: "jar-label",
-        label: "Jar (text)",
-        content: "Jar",
-        diagramHtml: '<text x="0" y="12">Jar</text>',
-        diagramPosition: { x: 20, y: 60 },
+        id: "jar-drawing",
+        label: "Jar Drawing",
+        content: "<img src='../images/lesson5/mission2/draw_diagram/jar-drawing.png' alt='Drawing of a jar'>",
+        rounds: {
+          "jar": { correct: false }
+        }
+      },
+      {
+        id: "jar-lid",
+        label: "Jar lid symbol",
+        /* The option button shows one narrow lid; the diagram piece adds a
+           lid on top of each of the three jars - see buildJarLidsDiagramHtml. */
+        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><rect x="8" y="24" width="44" height="10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
+        diagramHtml: buildJarLidsDiagramHtml(),
+        diagramPosition: JAR_GROUP_POSITION,
+        rounds: {
+          "jar-lid": { correct: true }
+        }
+      },
+      {
+        id: "jar-lid-image",
+        label: "Jar Lid Image",
+        content: "<img src='../images/lesson5/mission2/draw_diagram/jar-lid.png' alt='Image of a jar lid'>",
         rounds: {
           "jar-lid": { correct: false }
         }
       },
       {
-        id: "jug",
-        label: "Jug symbol",
-        content: "Jug",
+        id: "jar-lid-drawing",
+        label: "Jar Lid Drawing",
+        content: "<img src='../images/lesson5/mission2/draw_diagram/jar-lid-drawing.png' alt='Drawing of a jar lid'>",
         rounds: {
-          "jar-lid": { correct: false },
+          "jar-lid": { correct: false }
+        }
+      },
+      /* "liquid" is answered with a volume (condensed to just the number in
+         ml), not a symbol. It's solved after "jar" (see RUST_SYMBOL_ITEMS'
+         order), so its diagram piece only needs to add the liquid level
+         into the three jars "jar" already drew - same diagramPosition,
+         same per-jar layout, just the fill + volume this time. Change which
+         entry is correct:true to change the right answer. */
+      {
+        id: "liquid-50ml",
+        label: "50 ml",
+        content: "50 ml",
+        rounds: {
           "liquid": { correct: false }
         }
       },
       {
-        id: "bottle",
-        label: "Bottle symbol",
-        content: "Bottle",
+        id: "liquid-100ml",
+        label: "100 ml",
+        content: "100 ml",
+        diagramHtml: buildLiquidFillDiagramHtml("100 ml"),
+        diagramPosition: JAR_GROUP_POSITION,
         rounds: {
-          "jar": { correct: false },
+          "liquid": { correct: true }
+        }
+      },
+      {
+        id: "liquid-150ml",
+        label: "150 ml",
+        content: "150 ml",
+        rounds: {
+          "liquid": { correct: false }
+        }
+      },
+      {
+        id: "steel-wool",
+        label: "Steel wool symbol",
+        /* The option button keeps its own larger scribble; the diagram
+           piece instead draws a small steel wool icon into each of the
+           three jars - see buildSteelWoolDiagramHtml. */
+        content: '<svg width="40" height="40" viewBox="10 20 80 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+
+                  '<path d="M20 50 Q30 30 42 48 Q50 30 60 48 Q70 28 82 48 Q88 60 76 62 Q84 74 68 72 Q72 84 56 78 Q48 90 36 78 Q22 84 24 68 Q12 64 20 50 Z"></path>'+
+                  '</svg>',
+        diagramHtml: buildSteelWoolDiagramHtml(),
+        diagramPosition: JAR_GROUP_POSITION,
+        rounds: {
+          "steel-wool": { correct: true }
+        }
+      },
+      {
+        id: "steel-wool-image",
+        label: "Steel Wool Image",
+        content: "<img src='../images/lesson5/mission2/draw_diagram/steel-wool.png' alt='Image of Steel Wool'>",
+        rounds: {
           "steel-wool": { correct: false }
         }
       },
       {
-        id: "spoon",
-        label: "Spoon symbol",
-        content: "Spoon",
+        id: "steel-wool-drawing",
+        label: "Jar Lid Drawing",
+        content: "<img src='../images/lesson5/mission2/draw_diagram/steel-wool-drawing.png' alt='Drawing of a jar lid'>",
         rounds: {
           "steel-wool": { correct: false }
         }
       },
-      {
-        id: "funnel",
-        label: "Funnel symbol",
-        content: "Funnel",
-        rounds: {
-          "liquid": { correct: false },
-          "jar": { correct: false }
-        }
-      }
     ];
 
     /* The main diagram's own coordinate space - diagramPosition values above
