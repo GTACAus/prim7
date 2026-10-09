@@ -1726,75 +1726,151 @@
 
               <!-- ACTIVITY 1 ------------------------------------------------ -->
               <div class="mission-stage" data-stage-id="m4-identify">
+
                 <div class="mission-window">
+
                   <div class="mission-window-bar">
                     <strong>Deep field terminal // mission 4: shallow-water camera test</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+                    <div class="window-dots" aria-hidden="true">
+                      <span></span><span></span><span></span>
+                    </div>
                   </div>
+
+
                   <div class="mission-window-body">
+
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 04 · Activity 1</p>
                       <span class="stage-progress-chip">Activity 1 of 4</span>
                     </div>
+
+
                     <h3>Camera repaired — test it in shallow water</h3>
+
+
                     <div class="m4-preamble">
-                      <strong>System update:</strong> The camera repairs are complete. Before taking it back into the deep sea,
-                      test it in shallow water where the animals are easier to observe. The image may still be difficult to read,
-                      so identify each fish by comparing <strong>observable features</strong> rather than relying on its name.
+                      <strong>System update:</strong>
+                      The camera repairs are complete. Before taking it back into the deep sea,
+                      test it in shallow water where the animals are easier to observe.
+
+                      Watch the camera footage carefully, then identify the fish by comparing
+                      its <strong>observable features</strong>.
                     </div>
+
 
                     <div class="m4-feature-cues" aria-label="Features to compare">
-                      <span>Body shape</span><span>Fin shape &amp; position</span><span>Mouth shape</span><span>Markings</span>
+                      <span>Body shape</span>
+                      <span>Fin shape &amp; position</span>
+                      <span>Mouth shape</span>
+                      <span>Markings</span>
                     </div>
 
-                    <article class="shallow-fish-question">
-                      <h4>Observation A</h4>
-                      <p>Which reference fish best matches the underwater image?</p>
-                      <div class="fish-question-image">
-                        <img src="../images/lesson5/visdeurbel-fish-1.png" alt="Low-visibility underwater image of a fish with visible vertical markings">
-                      </div>
-                      <div class="choice-grid" data-choice-group="shallowFish1">
-                        <button type="button" class="choice-card media-choice" data-value="perch">
-                          <img class="choice-image" src="../images/lesson5/perch.png" alt="Reference fish A">
-                          <h4>Reference A</h4>
-                        </button>
-                        <button type="button" class="choice-card media-choice" data-value="pike-perch">
-                          <img class="choice-image" src="../images/lesson5/pike-perch.png" alt="Reference fish B">
-                          <h4>Reference B</h4>
-                        </button>
-                        <button type="button" class="choice-card media-choice" data-value="rudd">
-                          <img class="choice-image" src="../images/lesson5/rudd.png" alt="Reference fish C">
-                          <h4>Reference C</h4>
-                        </button>
-                      </div>
-                    </article>
 
                     <article class="shallow-fish-question">
-                      <h4>Observation B</h4>
-                      <p>Now use the same strategy on a second image. Ignore the species name and compare the visible structures.</p>
+
+                      <h4>Live camera observation</h4>
+
+                      <p>
+                        Watch the footage, then select the reference fish that best matches
+                        the animal shown by the camera.
+                      </p>
+
+
+                      <!-- UNDERWATER VIDEO -->
                       <div class="fish-question-image">
-                        <img src="../images/lesson5/visdeurbel-fish-2.jpeg" alt="Low-visibility underwater image of a second fish">
+
+                        <video
+                          src="../images/lesson5/visdeurbel-fish-1.mp4"
+                          autoplay
+                          muted
+                          loop
+                          playsinline
+                          controls
+                          preload="metadata"
+                          aria-label="Underwater camera footage showing a fish to identify"
+                          style="width:100%; display:block;"
+                        >
+                          Your browser does not support the video element.
+                        </video>
+
                       </div>
-                      <div class="choice-grid" data-choice-group="shallowFish2">
-                        <button type="button" class="choice-card media-choice" data-value="white-bream">
-                          <img class="choice-image" src="../images/lesson5/white-bream.png" alt="Reference fish A">
+
+
+                      <!-- THREE ANSWER CHOICES -->
+                      <div
+                        class="choice-grid"
+                        data-choice-group="shallowFish1"
+                        role="group"
+                        aria-label="Choose the fish that matches the underwater footage"
+                      >
+
+                        <button
+                          type="button"
+                          class="choice-card media-choice"
+                          data-value="perch"
+                          aria-pressed="false"
+                        >
+                          <img
+                            class="choice-image"
+                            src="../images/lesson5/yellowfin-tuna.png"
+                            alt="Reference fish A"
+                          >
                           <h4>Reference A</h4>
                         </button>
-                        <button type="button" class="choice-card media-choice" data-value="carp">
-                          <img class="choice-image" src="../images/lesson5/carp.png" alt="Reference fish B">
+
+
+                        <button
+                          type="button"
+                          class="choice-card media-choice"
+                          data-value="pike-perch"
+                          aria-pressed="false"
+                        >
+                          <img
+                            class="choice-image"
+                            src="../images/lesson5/yellowperch.png"
+                            alt="Reference fish B"
+                          >
                           <h4>Reference B</h4>
                         </button>
-                        <button type="button" class="choice-card media-choice" data-value="catfish">
-                          <img class="choice-image" src="../images/lesson5/catfish.png" alt="Reference fish C">
+
+
+                        <button
+                          type="button"
+                          class="choice-card media-choice"
+                          data-value="rudd"
+                          aria-pressed="false"
+                        >
+                          <img
+                            class="choice-image"
+                            src="../images/lesson5/bluestripe-snapper.png"
+                            alt="Reference fish C"
+                          >
                           <h4>Reference C</h4>
                         </button>
+
                       </div>
+
                     </article>
 
-                    <p class="activity-prompt">Choose one reference for <strong>both</strong> observations, then press <strong>CHECK</strong>.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m4-identify" role="status" aria-live="polite"></div>
+
+                    <p class="activity-prompt">
+                      Select the fish that best matches the footage,
+                      then press <strong>CHECK</strong>.
+                    </p>
+
+
+                    <div
+                      class="variable-feedback stage-feedback"
+                      data-feedback="m4-identify"
+                      role="status"
+                      aria-live="polite">
+                    </div>
+
                   </div>
+
                 </div>
+
               </div>
 
               <!-- ACTIVITY 2 ------------------------------------------------ -->
@@ -1809,6 +1885,19 @@
                       <p class="mission-label">Mission 04 · Activity 2</p>
                       <span class="stage-progress-chip">Activity 2 of 4</span>
                     </div>
+
+                    <div class="mission-image-zoom-container">
+                      <button
+                        type="button"
+                        class="mission-image-trigger"
+                        onclick="openImageZoomModal('../images/lesson5/clownfish.png', 'Clownfish', 'Photo of a clownfish')"
+                        aria-label="Zoom in on a photo of the clownfish"
+                      >
+                        <img src="../images/lesson5/clownfish.png" alt="">
+                      </button>
+                      <p>Click the image to zoom in</p>
+                    </div>
+
                     <h3>Which clownfish is drawn like a scientist?</h3>
                     <p class="mission-subtitle">
                       A scientific drawing should show the important observable structures clearly. It is not an artwork:
@@ -1873,6 +1962,7 @@
                       <p class="mission-label">Mission 04 · Activity 3</p>
                       <span class="stage-progress-chip">Activity 3 of 4</span>
                     </div>
+
                     <div class="mission-image-zoom-container">
                       <button
                         type="button"
@@ -1884,6 +1974,7 @@
                       </button>
                       <p>Click the image to zoom in</p>
                     </div>
+
                     <h3>Label the red-lipped batfish</h3>
                     <p class="mission-subtitle">
                       The labels are provided for you this time. Follow each leader line from the fish to its end,
