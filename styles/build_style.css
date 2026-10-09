@@ -1623,6 +1623,28 @@ input[type="checkbox"]:active {
 }
 
 /* ==================================================
+   SHARED IMAGE ZOOM MODAL
+   ================================================== */
+
+.image-zoom-modal-content {
+  width: min(760px, 100%);
+}
+
+.image-zoom-modal-image {
+  display: block;
+
+  width: 100%;
+  max-height: 75vh;
+
+  object-fit: contain;
+
+  background: #ffffff;
+
+  border: 3px solid var(--line);
+  border-radius: 16px;
+}
+
+/* ==================================================
    FULL-WIDTH LEARNING OBJECTIVE CARD
    Used where the objective sits above the intro grid
    rather than beside another card.

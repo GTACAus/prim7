@@ -751,6 +751,7 @@
     
     .mission-image-container {
       display: grid;
+      height: 300px;
       place-items: center;
       margin-top: 15px;
     }
@@ -777,6 +778,38 @@
       margin: 0 0 7px;
       color: var(--charcoal);
       font-size: clamp(1.55rem, 3vw, 2.3rem);
+    }
+
+    .mission-image-zoom-container {
+      float: right;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 0 10px 15px;
+      max-width: 150px;
+    }
+
+    .mission-image-zoom-container p {
+      margin: 5px 0 0;
+      text-align: center;
+    }
+
+    .mission-image-trigger {
+      width: 80%;
+      height: 120px;
+      padding: 0;
+      overflow: hidden;
+      border: 2px solid var(--charcoal);
+      border-radius: 10px;
+      background: var(--paper);
+      cursor: zoom-in;
+    }
+
+    .mission-image-trigger img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .mission-subtitle {

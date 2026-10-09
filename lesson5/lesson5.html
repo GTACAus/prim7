@@ -25,6 +25,7 @@
   <script src="../scripts/common_functions.js" defer></script>
   <script src="../scripts/lesson5_scripts/lesson5.js" defer></script>
   <script src="../scripts/lesson5_scripts/drag_and_drop.js" defer></script>
+  <script src="../scripts/lesson5_scripts/item_match.js" defer></script>
 
 </head>
 
@@ -84,7 +85,7 @@
       <img
         id="pdfModalImage"
         class="pdf-modal-image"
-        alt="Project Possum reference sheet"
+        alt="PDF reference sheet"
       />
 
       <div class="pdf-modal-actions">
@@ -97,6 +98,35 @@
           Download PDF
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- Shared image zoom modal: used by the stage reference-image boxes (e.g. mission 4 batfish/frogfish). -->
+  <div
+    class="modal image-zoom-modal"
+    id="imageZoomModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="imageZoomModalTitle"
+  >
+    <div class="modal-content image-zoom-modal-content">
+      <div class="modal-header">
+        <h2 id="imageZoomModalTitle">Reference image</h2>
+        <button
+          type="button"
+          class="close-button"
+          onclick="closeImageZoomModal()"
+          aria-label="Close image"
+        >
+          &times;
+        </button>
+      </div>
+
+      <img
+        id="imageZoomModalImage"
+        class="image-zoom-modal-image"
+        alt=""
+      />
     </div>
   </div>
 
@@ -547,6 +577,7 @@
 
         <!-- Reuses the existing mission-image-container CSS. No new CSS is required. -->
         <div class="mission-image-container">
+          <!-- <img src="../images/lesson5/mission2/rusted-hercules.png" alt="Rusted hercules vessel"/> -->
           <img
             id="rustCameraImage"
             src="../images/lesson5/animations/camera_shutter.gif"
@@ -649,6 +680,91 @@
 </div>
 
 <!-- ==================================================
+     STAGE 3: SELECT SCIENTIFIC SYMBOLS ----- TEST -----
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-symbol-match-test">
+
+  <div class="mission-window">
+
+    <div class="mission-window-bar">
+      <strong>Deep field terminal // mission 2: scientific symbols</strong>
+
+      <div class="window-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="mission-window-body">
+
+      <div class="stage-progress-row">
+        <p class="mission-label">Mission 02</p>
+        <span class="stage-progress-chip">Stage 3 of 3</span>
+      </div>
+
+      <h3>Draw the experiment using scientific symbols</h3>
+
+      <p class="mission-subtitle">
+        <strong>Your task:</strong>
+        Identify each highlighted part of the experiment and select
+        the scientific symbol that best represents it.
+      </p>
+
+
+      <div class="item-match-activity" id="m2RustSymbolMatchTest">
+
+        <!-- MAIN DIAGRAM FRAME: fills in with each correctly matched symbol -->
+        <div class="item-match-diagram" data-im-diagram>
+          <p class="item-match-diagram-placeholder" data-im-diagram-placeholder>
+            Match each highlighted part to build the diagram.
+          </p>
+        </div>
+
+        <div class="item-match-row" data-im-row>
+
+          <!-- 1st item: the highlighted part of the experiment to match -->
+          <div class="dd-reference item-match-reference" data-im-prompt>
+
+            <span class="dd-caption">
+              <span data-im-item-label></span>
+              ·
+              <span data-im-round-label></span>
+            </span>
+
+            <div data-im-prompt-content></div>
+
+          </div>
+
+          <!-- 2nd-4th items: this round's symbol choices -->
+          <div
+            class="item-match-options"
+            data-im-options
+            role="group"
+            aria-label="Scientific symbol choices"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <p class="activity-prompt">
+        Match all four parts of the experiment.
+        When all four are complete, press <strong>CHECK</strong>.
+      </p>
+
+      <div
+        class="variable-feedback stage-feedback"
+        data-feedback="m2-symbol-match"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================================================
      STAGE 3: SELECT SCIENTIFIC SYMBOLS
      ================================================== -->
 <div class="mission-stage" data-stage-id="m2-symbol-match">
@@ -685,13 +801,13 @@
         <div class="dd-reference item-match-reference">
 
           <span class="dd-caption">
-            <span data-rust-symbol-name>Jar lid</span>
+            <span data-im-item-label>Jar lid</span>
             ·
-            <span data-rust-symbol-round>1 of 4</span>
+            <span data-im-round-label>1 of 4</span>
           </span>
 
           <img
-            data-rust-question-img
+            data-im-image
             src="../images/lesson5/rust-symbol-questions/jar-lid.png"
             alt="Jar lid highlighted on the rust experiment"
           >
@@ -715,7 +831,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="jug"
+              data-im-option
+              data-im-value="jug"
               aria-label="Jug symbol">
               <img
                 class="choice-image"
@@ -726,7 +843,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="bottle"
+              data-im-option
+              data-im-value="bottle"
               aria-label="Bottle symbol">
               <img
                 class="choice-image"
@@ -737,7 +855,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="jar-lid"
+              data-im-option
+              data-im-value="jar-lid"
               aria-label="Jar lid symbol">
               <img
                 class="choice-image"
@@ -748,7 +867,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="spoon"
+              data-im-option
+              data-im-value="spoon"
               aria-label="Spoon symbol">
               <img
                 class="choice-image"
@@ -759,7 +879,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="liquid"
+              data-im-option
+              data-im-value="liquid"
               aria-label="Liquid symbol">
               <img
                 class="choice-image"
@@ -770,7 +891,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="iron-wool"
+              data-im-option
+              data-im-value="iron-wool"
               aria-label="Iron wool symbol">
               <img
                 class="choice-image"
@@ -781,7 +903,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="jar"
+              data-im-option
+              data-im-value="jar"
               aria-label="Jar symbol">
               <img
                 class="choice-image"
@@ -792,7 +915,8 @@
             <button
               type="button"
               class="item-match-option"
-              data-rust-symbol-value="funnel"
+              data-im-option
+              data-im-value="funnel"
               aria-label="Funnel symbol">
               <img
                 class="choice-image"
@@ -1182,7 +1306,7 @@
 
                       <div class="dd-reference item-match-reference">
 
-                        <span class="dd-caption">Experiment item <span data-item-match-round-label>1 of 3</span></span>
+                        <span class="dd-caption">Experiment item <span data-im-round-label>1 of 3</span></span>
 
                         <!-- TODO: add real experiment photos at ../images/lesson5/mission3/<item-id>.jpg
 
@@ -1190,19 +1314,19 @@
 
                              be picked up automatically once present. -->
 
-                        <img data-item-match-img alt="" hidden>
+                        <img data-im-image alt="" hidden>
 
                       </div>
 
-                      <div class="item-match-placeholder" hidden>
+                      <div class="item-match-placeholder" data-im-placeholder hidden>
 
-                        <span data-item-match-placeholder></span>
+                        <span data-im-placeholder-text></span>
 
                       </div>
 
-                      <div class="item-match-options" data-item-match-options role="group" aria-label="Equipment symbols">
+                      <div class="item-match-options" role="group" aria-label="Equipment symbols">
 
-                        <button type="button" class="item-match-option" data-item-match-value="jug" aria-label="Jug">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="jug" aria-label="Jug">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1216,7 +1340,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="bottle" aria-label="Bottle">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="bottle" aria-label="Bottle">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1226,7 +1350,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="balloon" aria-label="Balloon">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="balloon" aria-label="Balloon">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1238,7 +1362,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="spoon" aria-label="Spoon">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="spoon" aria-label="Spoon">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1250,7 +1374,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="nail" aria-label="Iron nail">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="nail" aria-label="Iron nail">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1260,7 +1384,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="steel_wool" aria-label="Steel wool">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="steel_wool" aria-label="Steel wool">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1270,7 +1394,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="jar" aria-label="Jar">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="jar" aria-label="Jar">
 
                           <svg viewBox="0 0 100 100" fill="none" stroke="#30332f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 
@@ -1280,7 +1404,7 @@
 
                         </button>
 
-                        <button type="button" class="item-match-option" data-item-match-value="funnel" aria-label="Funnel">
+                        <button type="button" class="item-match-option" data-im-option data-im-value="funnel" aria-label="Funnel">
 
                           <svg
 
@@ -1576,7 +1700,6 @@
 
             </section>
 
-            
             <!-- ==================================================
                  MISSION 4: SHALLOW-WATER CAMERA TRIALS (4 activities)
                  Activity 1: identify fish using visible features
@@ -1811,6 +1934,17 @@
                       <p class="mission-label">Mission 04 · Activity 3</p>
                       <span class="stage-progress-chip">Activity 3 of 4</span>
                     </div>
+                    <div class="mission-image-zoom-container">
+                      <button
+                        type="button"
+                        class="mission-image-trigger"
+                        onclick="openImageZoomModal('../images/lesson5/red-lipped-batfish.jpg', 'Red-lipped batfish', 'Photo of a red-lipped batfish')"
+                        aria-label="Zoom in on a photo of the red-lipped batfish"
+                      >
+                        <img src="../images/lesson5/red-lipped-batfish.jpg" alt="">
+                      </button>
+                      <p>Click the image to zoom in</p>
+                    </div>
                     <h3>Label the red-lipped batfish</h3>
                     <p class="mission-subtitle">
                       The labels are provided for you this time. Follow each leader line from the fish to its end,
@@ -1869,6 +2003,17 @@
                     <div class="stage-progress-row">
                       <p class="mission-label">Mission 04 · Activity 4</p>
                       <span class="stage-progress-chip">Activity 4 of 4</span>
+                    </div>
+                    <div class="mission-image-zoom-container">
+                      <button
+                        type="button"
+                        class="mission-image-trigger"
+                        onclick="openImageZoomModal('../images/lesson5/Frogfish.webp', 'Frogfish', 'Photo of a frogfish')"
+                        aria-label="Zoom in on a photo of the frogfish"
+                      >
+                        <img src="../images/lesson5/Frogfish.webp" alt="">
+                      </button>
+                      <p>Click the image to zoom in</p>
                     </div>
                     <h3>Now label the frogfish yourself</h3>
                     <p class="mission-subtitle">
