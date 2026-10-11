@@ -2477,17 +2477,23 @@
     }
 
     .m4-batfish-target [data-dd-slot] .m4-label-token {
-      width: 100%;
-      min-width: 0;
-      height: 100%;
-      padding: 6px 8px;
-      border: 0;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.97);
-      display: grid;
-      place-items: center;
-      line-height: 1.15;
-      white-space: normal;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    padding: 3px 6px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.97);
+
+    display: grid;
+    place-items: center;
+
+    line-height: 1.05;
+    font-size: 0.8rem;
+    white-space: normal;
     }
 
     .m4-asset-placeholder {
@@ -2513,14 +2519,15 @@
     }
 
     .m4-label-token {
-      min-width: 120px;
-      padding: 10px 14px;
-      border: 2px solid var(--charcoal);
-      border-radius: 999px;
-      background: white;
-      color: var(--charcoal);
-      font-weight: 800;
-      text-align: center;
+    min-width: 120px;
+    padding: 8px 12px;
+    border: 2px solid var(--charcoal);
+    border-radius: 999px;
+    background: white;
+    color: var(--charcoal);
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.1;
     }
 
     .frogfish-labelling-grid {
