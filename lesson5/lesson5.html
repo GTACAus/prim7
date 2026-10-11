@@ -1796,6 +1796,10 @@
 
                       </div>
 
+                      <div class="m4-fish-preview" id="m4FishPreview" hidden>
+                        <p><strong id="m4FishPreviewLabel">Selected reference</strong></p>
+                        <img id="m4FishPreviewImage" src="" alt="">
+                      </div>
 
                       <!-- THREE ANSWER CHOICES -->
                       <div
@@ -1810,6 +1814,7 @@
                           class="choice-card media-choice"
                           data-value="perch"
                           aria-pressed="false"
+                          onclick="showM4FishPreview(this)"
                         >
                           <img
                             class="choice-image"
@@ -1825,6 +1830,7 @@
                           class="choice-card media-choice"
                           data-value="pike-perch"
                           aria-pressed="false"
+                          onclick="showM4FishPreview(this)"
                         >
                           <img
                             class="choice-image"
@@ -1840,6 +1846,7 @@
                           class="choice-card media-choice"
                           data-value="rudd"
                           aria-pressed="false"
+                          onclick="showM4FishPreview(this)"
                         >
                           <img
                             class="choice-image"
