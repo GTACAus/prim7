@@ -348,6 +348,8 @@
     const JAR_TYPE_LABEL_Y = JAR_BOTTOM + 16;
     const JAR_VOLUME_LABEL_Y = JAR_BOTTOM + 30;
 
+    const JAR_LIQUID_HEIGHT = 60;
+
     /* Where the whole 3-jar group sits in the main diagram's viewBox - the
        one diagramPosition every one of jar/liquid/steel-wool/jar-lid's
        options below point at. */
@@ -358,6 +360,9 @@
     const STEEL_WOOL_ICON_PATH =
       'M-10,4 Q-6,-6 0,2 Q4,-8 10,2 Q14,-6 18,4 Q20,10 12,10 ' +
       'Q16,16 8,14 Q10,20 2,16 Q-4,20 -8,14 Q-14,16 -12,10 Q-18,8 -10,4 Z';
+
+    const STEEL_WOOL_HEIGHT = 32;
+    const STEEL_WOOL_SCALE = 1.7;
 
     /* Wraps whatever `buildPieceForJar` returns once per jar, each shifted
        by JAR_DX, so every "draw something into the jars" helper shares this
@@ -370,20 +375,25 @@
     }
 
     function buildEmptyJarsDiagramHtml() {
-      return mapOverJars(function(liquidType) {
+      return mapOverJars(function() {
         return (
           '<path d="M' + JAR_LEFT + ' ' + JAR_TOP + ' V' + JAR_BOTTOM + ' H' + (JAR_LEFT + JAR_WIDTH) + ' V' + JAR_TOP + '" ' +
-            'fill="none" stroke="currentColor" stroke-width="3"/>' +
-          '<text x="' + (JAR_LEFT + JAR_WIDTH / 2) + '" y="' + JAR_TYPE_LABEL_Y + '" text-anchor="middle">' + liquidType + '</text>'
+            'fill="none" stroke="currentColor" stroke-width="3"/>'
         );
       });
     }
 
     function buildLiquidFillDiagramHtml(volumeLabel) {
-      return mapOverJars(function() {
+      return mapOverJars(function(liquidType) {
         return (
-          '<rect x="' + JAR_LEFT + '" y="' + (JAR_BOTTOM - 26) + '" width="' + JAR_WIDTH + '" height="26" fill="currentColor" opacity="0.35"/>' +
-          '<text x="' + (JAR_LEFT + JAR_WIDTH / 2) + '" y="' + JAR_VOLUME_LABEL_Y + '" text-anchor="middle">' + volumeLabel + '</text>'
+          `<line
+              x1="${ JAR_LEFT }" y1=${ JAR_BOTTOM - JAR_LIQUID_HEIGHT }
+              x2=${ JAR_WIDTH + JAR_LEFT } y2=${ JAR_BOTTOM - JAR_LIQUID_HEIGHT }
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3" />`
+          + '<text x="' + (JAR_LEFT + JAR_WIDTH / 2) + '" y="' + JAR_TYPE_LABEL_Y + '" text-anchor="middle">' + liquidType + '</text>'
+          + '<text x="' + (JAR_LEFT + JAR_WIDTH / 2) + '" y="' + JAR_VOLUME_LABEL_Y + '" text-anchor="middle">' + volumeLabel + '</text>'
         );
       });
     }
@@ -393,8 +403,15 @@
     function buildSteelWoolDiagramHtml() {
       return mapOverJars(function() {
         const cx = JAR_LEFT + JAR_WIDTH / 2;
-        const cy = JAR_BOTTOM - 14;
-        return '<path d="' + STEEL_WOOL_ICON_PATH + '" transform="translate(' + cx + ',' + cy + ') scale(0.65)" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+        const cy = JAR_BOTTOM - STEEL_WOOL_HEIGHT;
+        return `<path
+                  d="${ STEEL_WOOL_ICON_PATH }"
+                  transform="translate(${ cx }, ${ cy }) scale(${ STEEL_WOOL_SCALE })"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>`;
       });
     }
 
@@ -540,7 +557,7 @@
       {
         id: "steel-wool-drawing",
         label: "Jar Lid Drawing",
-        content: "<img src='../images/lesson5/mission2/draw_diagram/steel-wool-drawing.png' alt='Drawing of a jar lid'>",
+        content: "<img src='../images/lesson5/mission2/draw_diagram/steel-wool-drawing.png' alt='Drawing of steel wool'>",
         rounds: {
           "steel-wool": { correct: false }
         }
