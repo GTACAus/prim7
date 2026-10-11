@@ -134,9 +134,10 @@
           {
             id: "m4-identify",
             label: "Identify from visible features",
-            type: "choice-set",
-            answers: { shallowFish1: "perch", shallowFish2: "carp" },
-            tryAgainMessage: "Compare the visible evidence again: body shape, fin shape and position, mouth shape and markings. The species names are deliberately hidden so the decision has to come from observable features."
+            type: "choice",
+            choiceGroup: "shallowFish1",
+            correctValue: "rudd",
+            tryAgainMessage: "Compare the visible evidence again: body shape, fin shape and position, mouth shape and markings."
           },
           {
             id: "m4-clownfish",
@@ -1698,6 +1699,25 @@
         input.checked = expeditionState.selections.drawingRules.includes(input.value);
       });
 
+    }
+
+    function showM4FishPreview(button) {
+      const sourceImage = button.querySelector(".choice-image");
+      const preview = document.getElementById("m4FishPreview");
+      const previewImage = document.getElementById("m4FishPreviewImage");
+      const previewLabel = document.getElementById("m4FishPreviewLabel");
+
+      if (!sourceImage || !preview || !previewImage) return;
+
+      previewImage.src = sourceImage.src;
+      previewImage.alt = sourceImage.alt;
+
+      const heading = button.querySelector("h4");
+      if (previewLabel && heading) {
+        previewLabel.textContent = heading.textContent;
+      }
+
+      preview.hidden = false;
     }
 
     function stageHasInput(stage) {

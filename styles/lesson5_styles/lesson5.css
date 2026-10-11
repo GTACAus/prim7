@@ -2110,10 +2110,24 @@
     }
 
     .choice-card.media-choice .choice-image {
-      height: 150px;
-      object-fit: contain;
-      margin-bottom: 10px;
-      background: #050f18;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+    margin-bottom: 10px;
+    background: #050f18;
+    }
+
+    [data-stage-id="m4-identify"] .choice-grid {
+    grid-template-columns: 1fr;
+    }
+
+    [data-stage-id="m4-identify"] .choice-card.media-choice .choice-image {
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    background: white;
     }
 
     .choice-card.media-choice h4 {
