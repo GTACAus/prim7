@@ -114,6 +114,11 @@
             successMessage:
                 "Saltwater is most likely to cause iron to rust in the deep sea. " +
                 "Oil can help prevent rust from forming on the camera."
+            },
+            {
+            id: "m2-camera-fixed",
+            label: "The camera is fixed",
+            type: "read"
             }
         ]
       },

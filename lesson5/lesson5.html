@@ -556,7 +556,7 @@
 
         <div class="stage-progress-row">
           <p class="mission-label">Mission 02</p>
-          <span class="stage-progress-chip">Stage 1</span>
+          <span class="stage-progress-chip">Stage 1 of 8</span>
         </div>
 
         <h3>New mission alert</h3>
@@ -575,24 +575,29 @@
           <p style="margin-top:12px;"><strong>Can you identify what is going on?</strong></p>
         </div>
 
-        <!-- Reuses the existing mission-image-container CSS. No new CSS is required. -->
+        <!-- Reuses the existing mission-image-container CSS; the rust-camera-stack
+             wrapper below keeps the gif confined to this box and layered over
+             the static rusted-hercules.png instead of overlapping anything else. -->
         <div class="mission-image-container">
-          <!-- <img src="../images/lesson5/mission2/rusted-hercules.png" alt="Rusted hercules vessel"/> -->
-          <img
-            id="rustCameraImage"
-            src="../images/lesson5/animations/camera_shutter.gif"
-            data-working-src="../images/lesson5/animations/camera_shutter.gif"
-            data-rusted-src="../images/lesson5/rusted-camera.png"
-            data-rusted="false"
-            alt="Working submersible camera animation"
-            role="button"
-            tabindex="0"
-            aria-pressed="false"
-            title="Click to inspect the camera"
-            style="cursor:pointer;"
-            onclick="toggleRustCamera(this)"
-            onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleRustCamera(this); }"
-          >
+          <div class="rust-camera-stack">
+            <img class="rust-camera-base" src="../images/lesson5/mission2/rusted-hercules.png" alt="Rusted hercules vessel">
+            <img
+              id="rustCameraImage"
+              class="rust-camera-gif"
+              src="../images/lesson5/animations/camera_shutter.gif"
+              data-working-src="../images/lesson5/animations/camera_shutter.gif"
+              data-rusted-src="../images/lesson5/rusted-camera.png"
+              data-rusted="false"
+              alt="Working submersible camera animation"
+              role="button"
+              tabindex="0"
+              aria-pressed="false"
+              title="Click to inspect the camera"
+              style="cursor:pointer;"
+              onclick="toggleRustCamera(this)"
+              onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleRustCamera(this); }"
+            >
+          </div>
         </div>
 
         <p class="activity-prompt">
@@ -630,7 +635,7 @@
 
       <div class="stage-progress-row">
         <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 2 of 2</span>
+        <span class="stage-progress-chip">Stage 2 of 8</span>
       </div>
 
       <h3>Rust experiment</h3>
@@ -698,7 +703,7 @@
 
       <div class="stage-progress-row">
         <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 3 of 3</span>
+        <span class="stage-progress-chip">Stage 3 of 8</span>
       </div>
 
       <h3>Draw the experiment using scientific symbols</h3>
@@ -797,7 +802,7 @@
 
       <div class="stage-progress-row">
         <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 4 of 7</span>
+        <span class="stage-progress-chip">Stage 4 of 8</span>
       </div>
 
       <h3>Label the scientific diagram</h3>
@@ -860,7 +865,7 @@
 </div>
 
 <!-- ==================================================
-     STAGE 4: DRAW THE RUST EXPERIMENT
+     STAGE 5: DRAW THE RUST EXPERIMENT
      ================================================== -->
 <div class="mission-stage" data-stage-id="m2-draw-rust-experiment">
 
@@ -878,7 +883,7 @@
 
       <div class="stage-progress-row">
         <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 4 of 4</span>
+        <span class="stage-progress-chip">Stage 5 of 8</span>
       </div>
 
       <h3>Draw the rust experiment</h3>
@@ -930,7 +935,7 @@
 </div>
 
 <!-- ==================================================
-     STAGE 5: CHOOSE THE SCIENTIFIC DRAWING
+     STAGE 6: CHOOSE THE SCIENTIFIC DRAWING
      ================================================== -->
 <div class="mission-stage" data-stage-id="m2-choose-scientific-drawing">
 
@@ -948,7 +953,7 @@
 
       <div class="stage-progress-row">
         <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 5 of 5</span>
+        <span class="stage-progress-chip">Stage 6 of 8</span>
       </div>
 
       <h3>Which is the correct scientific drawing?</h3>
@@ -991,7 +996,7 @@
         >
           <img
             class="choice-image"
-            src="../images/lesson5/rust-drawing-option-1.png"
+            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-1.png"
             alt="Scientific drawing option 1"
           >
           <h4>Option A</h4>
@@ -1006,7 +1011,7 @@
         >
           <img
             class="choice-image"
-            src="../images/lesson5/rust-drawing-option-2.png"
+            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
             alt="Scientific drawing option 2"
           >
           <h4>Option B</h4>
@@ -1021,7 +1026,7 @@
         >
           <img
             class="choice-image"
-            src="../images/lesson5/rust-drawing-option-3.png"
+            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
             alt="Scientific drawing option 3"
           >
           <h4>Option C</h4>
@@ -1048,7 +1053,7 @@
 </div>
 
 <!-- ==================================================
-     STAGE 6: RUST EXPERIMENT RESULTS
+     STAGE 7: RUST EXPERIMENT RESULTS
      ================================================== -->
 <div class="mission-stage" data-stage-id="m2-rust-results">
 
@@ -1066,7 +1071,7 @@
 
       <div class="stage-progress-row">
         <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 6 of 6</span>
+        <span class="stage-progress-chip">Stage 7 of 8</span>
       </div>
 
       <h3>Rust experiment results</h3>
@@ -1116,6 +1121,50 @@
   </div>
 
 </div>
+
+<!-- ==================================================
+     STAGE 8: CAMERA IS FIXED
+     ================================================== -->
+<div class="mission-stage" data-stage-id="m2-camera-fixed">
+    <div class="mission-window">
+
+      <div class="mission-window-bar">
+        <strong>Deep field terminal // mission 2: fixed camera</strong>
+        <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="mission-window-body">
+
+        <div class="stage-progress-row">
+          <p class="mission-label">Mission 02</p>
+          <span class="stage-progress-chip">Stage 8 of 8</span>
+        </div>
+
+        <h3>Mission 2 Complete</h3>
+
+        <div class="story-copy">
+          <h4>The camera is fixed!</h4>
+          <p>
+            We used oil on the camera to keep it from rusting.
+          </p>
+        </div>
+
+        
+
+        <p class="activity-prompt">
+          When you have inspected the camera, press <strong>CHECK</strong> to reveal the answer.
+        </p>
+
+        <div
+          class="variable-feedback stage-feedback"
+          data-feedback="m2-camera-fixed"
+          role="status"
+          aria-live="polite">
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 </section>
 

@@ -751,7 +751,6 @@
     
     .mission-image-container {
       display: grid;
-      height: 300px;
       place-items: center;
       margin-top: 15px;
     }
@@ -759,6 +758,41 @@
     .mission-image-container img {
       width: 50%;
       border-radius: 14px;
+    }
+
+    /* Stacks the camera gif over the static rusted-hercules image, both
+       confined to this box so the gif can't overlap the surrounding text.
+       The stack sizes itself to the base image (the only element still in
+       normal flow - the gif is pulled out with position:absolute), capped
+       by max-width/max-height so a tall source image can never grow past
+       the container's 300px height and push into the prompt below it. */
+    .mission-image-container .rust-camera-stack {
+      position: relative;
+      display: inline-grid;
+      max-width: 50%;
+      max-height: 100%;
+    }
+
+    .mission-image-container .rust-camera-stack img {
+      display: block;
+      aspect-ratio: 1 / 1;
+      max-width: 100%;
+      max-height: 100%;
+      width: 400px;
+      border-radius: 14px;
+      object-fit: contain;
+    }
+
+    .rust-camera-gif {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.6;
+    }
+    
+    .rust-camera-base {
+      background: var(--exp-navy);
     }
 
     .mission-label {
