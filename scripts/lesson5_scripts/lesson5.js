@@ -134,9 +134,10 @@
           {
             id: "m4-identify",
             label: "Identify from visible features",
-            type: "choice-set",
-            answers: { shallowFish1: "perch", shallowFish2: "carp" },
-            tryAgainMessage: "Compare the visible evidence again: body shape, fin shape and position, mouth shape and markings. The species names are deliberately hidden so the decision has to come from observable features."
+            type: "choice",
+            choiceGroup: "shallowFish1",
+            correctValue: "rudd",
+            tryAgainMessage: "Compare the visible evidence again: body shape, fin shape and position, mouth shape and markings."
           },
           {
             id: "m4-clownfish",
@@ -180,19 +181,21 @@
         static image     = ../images/lesson5/<id>.<ext>
         observation gif  = ../images/lesson5/animations/<id>.gif
     */
-    const MISSION5_OBSERVE_SECONDS = 10;
+    const MISSION5_OBSERVE_SECONDS = 5;
     const mission5SpeciesPool = [
-      { id: "goblin-shark", ext: "avif", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper." },
-      { id: "dumbo-octopus", ext: "jpg", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
-      { id: "sea-pig", ext: "webp", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
-      { id: "sea-angel", ext: "jpg", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters." },
-      { id: "pink-seethrough-fantasia", ext: "jpg", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
-      { id: "blobfish-2", ext: "jpg", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m." },
-      { id: "barreleye-fish-2", ext: "webp", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m." },
-      { id: "deepsea-anglerfish-2", ext: "jpg", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
-      // { id: "flapjack-octopus", ext: "avif", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m." },
-      { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
-      { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." }
+      { id: "goblin-shark-3", ext: "png", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper." },
+      { id: "dumbo-octopus-2", ext: "png", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
+      { id: "sea-pig-2", ext: "png", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
+      { id: "sea-angel-2", ext: "png", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters." },
+      { id: "pink-seethrough-fantasia-2", ext: "png", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
+      { id: "blobfish-2", ext: "png", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m." },
+      { id: "barreleye-fish-2", ext: "png", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m." },
+      { id: "deepsea-anglerfish-2", ext: "png", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
+      { id: "flapjack-octopus-2", ext: "png", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m." },
+      // { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
+      // { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." },
+      { id: "telescopefish", ext: "png", name: "Telescope Fish" },
+      { id: "fangtooth", ext: "png", name: "Fangtooth" }
     ];
 
     function getMission5StaticSrc(species) {
@@ -1749,6 +1752,25 @@
         input.checked = expeditionState.selections.drawingRules.includes(input.value);
       });
 
+    }
+
+    function showM4FishPreview(button) {
+      const sourceImage = button.querySelector(".choice-image");
+      const preview = document.getElementById("m4FishPreview");
+      const previewImage = document.getElementById("m4FishPreviewImage");
+      const previewLabel = document.getElementById("m4FishPreviewLabel");
+
+      if (!sourceImage || !preview || !previewImage) return;
+
+      previewImage.src = sourceImage.src;
+      previewImage.alt = sourceImage.alt;
+
+      const heading = button.querySelector("h4");
+      if (previewLabel && heading) {
+        previewLabel.textContent = heading.textContent;
+      }
+
+      preview.hidden = false;
     }
 
     function stageHasInput(stage) {
