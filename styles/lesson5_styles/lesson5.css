@@ -2215,6 +2215,43 @@
     margin: 0;
     }
 
+    .shallow-waters-media {
+      width: min(720px, 100%);
+      aspect-ratio: 16 / 9;
+      margin: 18px auto 0;
+      overflow: hidden;
+      position: relative;
+
+      border: 3px solid var(--charcoal);
+      border-radius: 18px;
+      background: #071a30;
+      box-shadow: 0 5px 0 var(--charcoal);
+    }
+
+    .shallow-waters-media[hidden] {
+      display: none;
+    }
+
+    .shallow-waters-media img,
+    .shallow-waters-media video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      margin: 0;
+
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .shallow-waters-media img.is-visible,
+    .shallow-waters-media video.is-visible {
+      opacity: 1;
+    }
+
     .choice-card.media-choice {
       padding: 12px;
       text-align: center;
