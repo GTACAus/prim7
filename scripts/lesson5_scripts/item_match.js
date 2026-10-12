@@ -401,7 +401,7 @@
     this._renderDiagram();
 
     var complete = this.isComplete();
-
+    
     if (complete) {
       if (this.roundLabel) this.roundLabel.textContent = this.rounds.length + " of " + this.rounds.length + " · complete";
       if (this.itemLabel) this.itemLabel.textContent = this.options.completeLabel || "All matched";

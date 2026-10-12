@@ -221,7 +221,7 @@
    ================================================== */
 
 .item-match-activity {
-  --dd-item-size: 68px;
+  --dd-item-size: 150px;
   --dd-ink: var(--charcoal, #30332f);
   --dd-accent: var(--exp-cyan, #39d3ff);
   margin-top: 18px;
@@ -229,7 +229,8 @@
 
 .item-match-reference {
   position: relative;
-  max-width: 360px;
+  box-sizing: border-box; /* so padding counts toward aspect-ratio/max-width instead of inflating past them */
+  max-width: 350px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -240,6 +241,21 @@
   padding: 16px;
   text-align: center;
   background: white;
+}
+
+/* Wraps the prompt image. Without min-width/min-height: 0 a flex item won't
+   shrink below its content's intrinsic size, so a large source image could
+   force this div wider/taller than .item-match-reference - which, combined
+   with .dd-reference's overflow: hidden on the same element, is what was
+   clipping the image instead of letting object-fit below do its job. */
+.item-match-reference [data-im-prompt-content] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
 }
 
 .item-match-reference img {
@@ -262,7 +278,9 @@
   align-items: center;
   gap: 8px;
   box-sizing: border-box;
-  padding: 10px 6px 12px;
+  min-height: 100px;
+  justify-content: center;
+  overflow: hidden; /* belt-and-suspenders: nothing can visually poke past the rounded border */
   border: 3px solid var(--dd-ink);
   border-radius: 18px;
   background: white;
@@ -277,10 +295,17 @@
   transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
+/* max-width/max-height (not width/height) so these shrink with the button
+   instead of forcing it wider - a flex item's cross-axis size (width, here,
+   since .item-match-option is a column flex container) isn't shrunk to fit
+   by default, so a fixed width/height just overflows a narrower button.
+   --dd-item-size is now only the upper bound, not the fixed size. */
 .item-match-option svg,
 .item-match-option img {
-  width: var(--dd-item-size);
-  height: var(--dd-item-size);
+  max-width: 100%;
+  max-height: min(100%, var(--dd-item-size));
+  width: auto;
+  height: auto;
   object-fit: contain;
 }
 
@@ -378,7 +403,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 18px;
-  align-items: start;
+  align-items: center;
 }
 
 .item-match-row .item-match-reference {
