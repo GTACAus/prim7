@@ -1720,7 +1720,7 @@
 
         const input = document.createElement("input");
         input.type = "checkbox";
-        input.checked = true;
+        // input.checked = true;
 
         label.appendChild(input);
         label.appendChild(document.createTextNode(" " + ruleTitle.textContent.trim()));
