@@ -1475,16 +1475,16 @@
 
     /* Restarted together by JS so contacts stay synchronised with the sweep */
     .sonar-radar.sonar-active .sonar-sweep {
-    animation: sonar-sweep 3.4s linear infinite;
+    animation: sonar-sweep 5s linear infinite;
     }
 
     .sonar-radar.sonar-active .sonar-contact::before {
-    animation: sonar-contact-hit 3.4s linear infinite;
+    animation: sonar-contact-hit 5s linear infinite;
     animation-delay: var(--contact-reveal-delay, 0s);
     }
 
     .sonar-radar.sonar-active .sonar-contact::after {
-    animation: sonar-ring-hit 3.4s linear infinite;
+    animation: sonar-ring-hit 5s linear infinite;
     animation-delay: var(--contact-reveal-delay, 0s);
     }
 

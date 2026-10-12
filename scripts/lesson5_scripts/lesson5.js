@@ -1460,7 +1460,7 @@
       }, mission5_swim_away_seconds * 1000);
     }
 
-    const SONAR_SWEEP_SECONDS = 3.4;
+    const SONAR_SWEEP_SECONDS = 5;
 
     function restartSonarAnimations() {
       const radar = document.getElementById("mission5Sonar");
