@@ -190,10 +190,10 @@
       { id: "pink-seethrough-fantasia-2", ext: "jpg", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
       { id: "blobfish-2", ext: "jpg", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m." },
       { id: "barreleye-fish-2", ext: "png", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m." },
-      { id: "deepsea-anglerfish-2", ext: "jpg", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
-      { id: "flapjack-octopus", ext: "avif", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m." },
-      { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
-      { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." },
+      { id: "deepsea-anglerfish-2", ext: "png", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
+      { id: "flapjack-octopus-2", ext: "png", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m." },
+      // { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
+      // { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." },
       { id: "telescopefish", ext: "png", name: "Telescope Fish" },
       { id: "fangtooth", ext: "png", name: "Fangtooth" }
     ];
