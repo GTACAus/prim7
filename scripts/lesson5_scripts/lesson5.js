@@ -83,14 +83,14 @@
           },
 
           {
-            id: "m2-symbol-match-test",
-            label: "Select scientific symbols (TEST)",
-            type: "item-match"
-          },
-          {
             id: "m2-symbol-match",
             label: "Select scientific symbols",
             type: "item-match"
+          },
+          {
+            id: "m2-drag-and-drop",
+            label: "Label the scientific diagram",
+            type: "dragdrop"
           },
           {
             id: "m2-draw-rust-experiment",
@@ -206,6 +206,7 @@
     let expeditionState = createFreshExpeditionState();
     let m4BatfishDragDrop = null; /* Mission 4 guided batfish labelling */
     let m3LegacyDragDrop = null; /* Mission 3 experiment diagram - original drag-and-drop version, kept as a spare stage */
+    let m2DiagramLabel = null; /* Mission 2 - label the completed rust diagram */
     let m3ItemMatch = null; /* Mission 3 experiment item-match */
     let m2RustSymbolMatch = null; /* Mission 2 scientific-symbol item-match */
     let m2RustSymbolMatchTest = null; /* Mission 2 scientific-symbol item-match (TEST: per-round option sets + diagram) */
@@ -222,31 +223,31 @@
       { id: "funnel", label: "Funnel" }
     ];
 
-    /* Fixed sequence of 4 highlighted parts, always shown in this order. */
+    /* Fixed sequence of 4 parts, always shown in this order. */
     const RUST_SYMBOL_ITEMS = [
       {
         id: "jar",
         label: "Jar",
-        image: "../images/lesson5/rust-symbol-questions/jar.png",
-        alt: "Jar highlighted in the rust experiment"
+        image: "../images/lesson5/mission2/draw_diagram/jar.png",
+        alt: "Jar in the rust experiment"
       },
       {
         id: "liquid",
         label: "Liquid",
-        image: "../images/lesson5/rust-symbol-questions/liquid.png",
-        alt: "Liquid highlighted inside the jar"
+        image: "../images/lesson5/mission2/draw_diagram/liquid.png",
+        alt: "Liquid inside the jar"
       },
       {
         id: "steel-wool",
         label: "Steel wool",
-        image: "../images/lesson5/rust-symbol-questions/steel-wool.png",
-        alt: "Iron wool highlighted inside the jar"
+        image: "../images/lesson5/mission2/draw_diagram/steel-wool.png",
+        alt: "Steel wool inside the jar"
       },
       {
         id: "jar-lid",
         label: "Jar lid",
-        image: "../images/lesson5/rust-symbol-questions/jar-lid.png",
-        alt: "Jar lid highlighted on the rust experiment"
+        image: "../images/lesson5/mission2/draw_diagram/jar-lid.png",
+        alt: "Jar lid on the rust experiment"
       },
     ];
 
@@ -305,7 +306,7 @@
         completeLabel: "All parts matched",
         completeMessage: "All four parts matched. Press CHECK to continue.",
         onIncorrect: function() {
-          const feedback = getStageFeedback("m2-symbol-match");
+          const feedback = getStageFeedback("m2-drag-and-drop");
           if (feedback) {
             setActivityFeedback(
               feedback,
@@ -448,7 +449,7 @@
         /* The option button still shows a single open-top rectangle, but the
            diagram piece draws all three labelled jars at once - see
            buildEmptyJarsDiagramHtml above. */
-        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><path d="M10 10 V50 H50 V10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
+        content: '<svg width="72" height="72" viewBox="0 0 60 60" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 10 V50 H50 V10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
         diagramHtml: buildEmptyJarsDiagramHtml(),
         diagramPosition: JAR_GROUP_POSITION,
         rounds: {
@@ -476,7 +477,7 @@
         label: "Jar lid symbol",
         /* The option button shows one narrow lid; the diagram piece adds a
            lid on top of each of the three jars - see buildJarLidsDiagramHtml. */
-        content: '<svg width="40" height="40" viewBox="0 0 60 60" aria-hidden="true"><rect x="8" y="24" width="44" height="10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
+        content: '<svg width="72" height="72" viewBox="0 0 60 60" aria-hidden="true"><rect x="8" y="24" width="44" height="10" fill="none" stroke="currentColor" stroke-width="4"/></svg>',
         diagramHtml: buildJarLidsDiagramHtml(),
         diagramPosition: JAR_GROUP_POSITION,
         rounds: {
@@ -514,19 +515,19 @@
         }
       },
       {
-        id: "liquid-100ml",
-        label: "100 ml",
-        content: "100 ml",
-        diagramHtml: buildLiquidFillDiagramHtml("100 ml"),
+        id: "liquid-150ml",
+        label: "150 ml",
+        content: "150 ml",
+        diagramHtml: buildLiquidFillDiagramHtml("150 ml"),
         diagramPosition: JAR_GROUP_POSITION,
         rounds: {
           "liquid": { correct: true }
         }
       },
       {
-        id: "liquid-150ml",
-        label: "150 ml",
-        content: "150 ml",
+        id: "liquid-500ml",
+        label: "500 ml",
+        content: "500 ml",
         rounds: {
           "liquid": { correct: false }
         }
@@ -537,7 +538,7 @@
         /* The option button keeps its own larger scribble; the diagram
            piece instead draws a small steel wool icon into each of the
            three jars - see buildSteelWoolDiagramHtml. */
-        content: '<svg width="40" height="40" viewBox="10 20 80 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+
+        content: '<svg width="72" height="72" viewBox="10 20 80 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+
                   '<path d="M20 50 Q30 30 42 48 Q50 30 60 48 Q70 28 82 48 Q88 60 76 62 Q84 74 68 72 Q72 84 56 78 Q48 90 36 78 Q22 84 24 68 Q12 64 20 50 Z"></path>'+
                   '</svg>',
         diagramHtml: buildSteelWoolDiagramHtml(),
@@ -623,11 +624,11 @@
 
       m2RustSymbolMatchTest = new ItemMatchActivity(root, {
         rounds: buildRustSymbolMatchTestRounds(),
-        shuffleOptions: true,
+        shuffleOptions: false, /* keep each round's options in the order listed in RUST_SYMBOL_OPTIONS */
         completeLabel: "All parts matched",
         completeMessage: "All four parts matched. Press CHECK to continue.",
         onIncorrect: function() {
-          const feedback = getStageFeedback("m2-symbol-match-test");
+          const feedback = getStageFeedback("m2-symbol-match");
           if (feedback) {
             setActivityFeedback(
               feedback,
@@ -647,6 +648,32 @@
       m2RustSymbolMatchTest.restore(expeditionState.selections.rustSymbolMatchTest);
     }
 
+    /* Copies whatever the previous stage's item-match diagram has drawn so
+       far into this stage's own diagram display - by the time a student
+       reaches m2-drag-and-drop that diagram is complete, so this is simply
+       a snapshot of it rather than its own separate build. */
+    function syncDiagramLabelBoard() {
+      const source = document.querySelector("#m2RustSymbolMatchTest [data-im-diagram]");
+      const target = document.querySelector("#m2DiagramLabel [data-dl-diagram]");
+      if (!source || !target) return;
+      target.innerHTML = source.innerHTML;
+    }
+
+    function initDiagramLabelActivity() {
+      const root = document.getElementById("m2DiagramLabel");
+      if (!root) return;
+
+      m2DiagramLabel = new DragDropActivity(root, {
+        onChange: function(placements) {
+          expeditionState.selections.diagramLabels = placements;
+          clearCurrentStageFeedback();
+          saveCurrentPageData();
+          renderControls();
+        }
+      });
+      m2DiagramLabel.setPlacements(expeditionState.selections.diagramLabels || {});
+    }
+
     function createFreshExpeditionState() {
       return {
         started: false,
@@ -663,6 +690,7 @@
           rustSymbolMatchTest: { index: 0 },
           rustScientificDrawing: "",
           dragDropLegacy: {},
+          diagramLabels: {},
           drawing: "",
           shallowFish1: "",
           shallowFish2: "",
@@ -956,15 +984,14 @@
         if (stage.id === "m3-dragdrop-legacy") {
           return Boolean(m3LegacyDragDrop) && m3LegacyDragDrop.isComplete() && m3LegacyDragDrop.isCorrect();
         }
+        if (stage.id === "m2-drag-and-drop") {
+          return Boolean(m2DiagramLabel) && m2DiagramLabel.isComplete() && m2DiagramLabel.isCorrect();
+        }
         return Boolean(m4BatfishDragDrop) && m4BatfishDragDrop.isComplete() && m4BatfishDragDrop.isCorrect();
       }
 
       if (stage.type === "item-match") {
         if (stage.id === "m2-symbol-match") {
-          return isRustSymbolMatchComplete();
-        }
-
-        if (stage.id === "m2-symbol-match-test") {
           return isRustSymbolMatchTestComplete();
         }
 
@@ -1038,6 +1065,10 @@
             message = m3LegacyDragDrop && m3LegacyDragDrop.isComplete()
               ? "Some symbols are in the wrong place. Compare your diagram with the experiment and try again."
               : "Drag every equipment symbol into the diagram box before checking.";
+          } else if (stage.id === "m2-drag-and-drop") {
+            message = m2DiagramLabel && m2DiagramLabel.isComplete()
+              ? "Some labels are on the wrong part of the diagram. Follow each line back to its part and try again."
+              : "Drag every label to the end of its line before checking.";
           } else {
             message = m4BatfishDragDrop && m4BatfishDragDrop.isComplete()
               ? "Some labels are on the wrong structures. Recheck the batfish diagram and try again."
@@ -1217,6 +1248,9 @@
         if (stage.id === "m3-dragdrop-legacy") {
           expeditionState.selections.dragDropLegacy = {};
           if (m3LegacyDragDrop) m3LegacyDragDrop.reset();
+        } else if (stage.id === "m2-drag-and-drop") {
+          expeditionState.selections.diagramLabels = {};
+          if (m2DiagramLabel) m2DiagramLabel.reset();
         } else {
           expeditionState.selections.batfishLabels = {};
           if (m4BatfishDragDrop) m4BatfishDragDrop.reset();
@@ -1225,8 +1259,6 @@
 
       if (stage.type === "item-match") {
         if (stage.id === "m2-symbol-match") {
-          resetRustSymbolMatch();
-        } else if (stage.id === "m2-symbol-match-test") {
           resetRustSymbolMatchTest();
         } else {
           resetItemMatch();
@@ -1621,6 +1653,8 @@
 
       if (missionElement) missionElement.classList.add("active");
       if (stageElement) stageElement.classList.add("active");
+
+      if (stage && stage.id === "m2-drag-and-drop") syncDiagramLabelBoard();
     }
 
     function renderMissionNavigation() {
@@ -1692,7 +1726,7 @@
     if (!panel) return;
 
     const unlocked = Boolean(
-        expeditionState.completedStages["m2-symbol-match"]
+        expeditionState.completedStages["m2-drag-and-drop"]
     );
 
     panel.classList.toggle("unlocked", unlocked);
@@ -1723,13 +1757,12 @@
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
       if (stage.type === "label-input") return allFrogfishLabelsComplete();
       if (stage.type === "dragdrop") {
-        return stage.id === "m3-dragdrop-legacy"
-          ? Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0
-          : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
+        if (stage.id === "m3-dragdrop-legacy") return Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0;
+        if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
+        return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
       if (stage.type === "item-match") {
-        if (stage.id === "m2-symbol-match") return isRustSymbolMatchComplete();
-        if (stage.id === "m2-symbol-match-test") return isRustSymbolMatchTestComplete();
+        if (stage.id === "m2-symbol-match") return isRustSymbolMatchTestComplete();
         return isItemMatchComplete();
       }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
@@ -1750,13 +1783,12 @@
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
       if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
       if (stage.type === "dragdrop") {
-        return stage.id === "m3-dragdrop-legacy"
-          ? Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0
-          : Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
+        if (stage.id === "m3-dragdrop-legacy") return Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0;
+        if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
+        return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
       if (stage.type === "item-match") {
-        if (stage.id === "m2-symbol-match") return getRustSymbolMatchState().index > 0;
-        if (stage.id === "m2-symbol-match-test") return getRustSymbolMatchTestState().index > 0;
+        if (stage.id === "m2-symbol-match") return getRustSymbolMatchTestState().index > 0;
         return getItemMatchState().index > 0;
       }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
@@ -1949,6 +1981,7 @@
       initItemMatchActivity();
       initRustSymbolMatchActivity();
       initRustSymbolMatchTestActivity();
+      initDiagramLabelActivity();
 
       const legacyDragDropRoot = document.getElementById("m3DragDropLegacy");
       if (legacyDragDropRoot) {

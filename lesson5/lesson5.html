@@ -680,9 +680,9 @@
 </div>
 
 <!-- ==================================================
-     STAGE 3: SELECT SCIENTIFIC SYMBOLS ----- TEST -----
+     STAGE 3: SELECT SCIENTIFIC SYMBOLS
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-symbol-match-test">
+<div class="mission-stage" data-stage-id="m2-symbol-match">
 
   <div class="mission-window">
 
@@ -761,18 +761,17 @@
 
       </div>
 
-
-      <p class="activity-prompt">
-        Match all four parts of the experiment.
-        When all four are complete, press <strong>CHECK</strong>.
-      </p>
-
-      <div
+       <div
         class="variable-feedback stage-feedback"
         data-feedback="m2-symbol-match"
         role="status"
         aria-live="polite">
       </div>
+
+      <p class="activity-prompt">
+        Match all four parts of the experiment.
+        When all four are complete, press <strong>CHECK</strong>.
+      </p>
 
     </div>
   </div>
@@ -780,14 +779,14 @@
 </div>
 
 <!-- ==================================================
-     STAGE 3: SELECT SCIENTIFIC SYMBOLS
+     STAGE 4: LABEL THE SCIENTIFIC DIAGRAM (DRAG AND DROP)
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-symbol-match">
+<div class="mission-stage" data-stage-id="m2-drag-and-drop">
 
   <div class="mission-window">
 
     <div class="mission-window-bar">
-      <strong>Deep field terminal // mission 2: scientific symbols</strong>
+      <strong>Deep field terminal // mission 2: label the diagram</strong>
 
       <div class="window-dots" aria-hidden="true">
         <span></span><span></span><span></span>
@@ -798,162 +797,59 @@
 
       <div class="stage-progress-row">
         <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 3 of 3</span>
+        <span class="stage-progress-chip">Stage 4 of 7</span>
       </div>
 
-      <h3>Draw the experiment using scientific symbols</h3>
+      <h3>Label the scientific diagram</h3>
 
       <p class="mission-subtitle">
         <strong>Your task:</strong>
-        Identify each highlighted part of the experiment and select
-        the scientific symbol that best represents it.
+        Here is the diagram you built. Drag each label to the end of the
+        line that points to it.
       </p>
 
+      <div class="dd-activity diagram-label-dd" id="m2DiagramLabel">
 
-      <div class="item-match-activity" id="m2RustSymbolMatch">
+        <div class="diagram-label-board">
 
-        <!-- LEFT: current part of experiment -->
-        <div class="dd-reference item-match-reference">
+          <!-- Filled in with a copy of the completed diagram from the
+               previous stage (#m2RustSymbolMatchTest) - see
+               syncDiagramLabelBoard() in lesson5.js. -->
+          <svg
+            class="diagram-label-diagram"
+            data-dl-diagram
+            viewBox="-120 -110 480 440"
+            role="img"
+            aria-label="Completed rust experiment diagram">
+          </svg>
 
-          <span class="dd-caption">
-            <span data-im-item-label>Jar lid</span>
-            ·
-            <span data-im-round-label>1 of 4</span>
-          </span>
+          <svg class="diagram-label-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <line data-dl-line="jar-lid" x1="90" y1="35" x2="74" y2="35"></line>
+            <line data-dl-line="jar" x1="90" y1="50" x2="74" y2="50"></line>
+            <line data-dl-line="steel-wool" x1="90" y1="65" x2="70" y2="58"></line>
+          </svg>
 
-          <img
-            data-im-image
-            src="../images/lesson5/rust-symbol-questions/jar-lid.png"
-            alt="Jar lid highlighted on the rust experiment"
-          >
+          <div data-dd-slot="label-jar-lid" data-dd-answer="jar-lid" style="--dd-x: 90%; --dd-y: 35%;" aria-label="Drop the label for the jar lid here"></div>
+          <div data-dd-slot="label-jar" data-dd-answer="jar" style="--dd-x: 90%; --dd-y: 50%;" aria-label="Drop the label for the jar here"></div>
+          <div data-dd-slot="label-steel-wool" data-dd-answer="steel-wool" style="--dd-x: 90%; --dd-y: 65%;" aria-label="Drop the label for the steel wool here"></div>
 
         </div>
 
-
-        <!-- RIGHT: symbol choices -->
-        <div>
-
-          <p class="activity-prompt" style="margin-top:0;">
-            <strong>Step 1:</strong> Select the matching symbol.
-          </p>
-
-          <div
-            class="item-match-options"
-            role="group"
-            aria-label="Scientific symbol choices"
-          >
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="jug"
-              aria-label="Jug symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/jug.png"
-                alt="">
-            </button>
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="bottle"
-              aria-label="Bottle symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/bottle.png"
-                alt="">
-            </button>
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="jar-lid"
-              aria-label="Jar lid symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/jar-lid.png"
-                alt="">
-            </button>
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="spoon"
-              aria-label="Spoon symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/spoon.png"
-                alt="">
-            </button>
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="liquid"
-              aria-label="Liquid symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/liquid.png"
-                alt="">
-            </button>
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="iron-wool"
-              aria-label="Iron wool symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/iron-wool.png"
-                alt="">
-            </button>
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="jar"
-              aria-label="Jar symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/jar.png"
-                alt="">
-            </button>
-
-            <button
-              type="button"
-              class="item-match-option"
-              data-im-option
-              data-im-value="funnel"
-              aria-label="Funnel symbol">
-              <img
-                class="choice-image"
-                src="../images/lesson5/rust-symbols/funnel.png"
-                alt="">
-            </button>
-
-          </div>
-
+        <div class="dd-tray diagram-label-tray" data-dd-tray aria-label="Diagram labels">
+          <div class="m4-label-token" data-dd-item="jar">Jar</div>
+          <div class="m4-label-token" data-dd-item="jar-lid">Jar Lid</div>
+          <div class="m4-label-token" data-dd-item="steel-wool">Steel Wool</div>
         </div>
 
       </div>
 
-
       <p class="activity-prompt">
-        Match all four parts of the experiment.
-        When all four are complete, press <strong>CHECK</strong>.
+        Place all three labels, then press <strong>CHECK</strong>.
       </p>
 
       <div
         class="variable-feedback stage-feedback"
-        data-feedback="m2-symbol-match"
+        data-feedback="m2-drag-and-drop"
         role="status"
         aria-live="polite">
       </div>
