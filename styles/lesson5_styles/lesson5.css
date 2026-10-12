@@ -1460,6 +1460,82 @@
       font-weight: 700;
     }
 
+    /* Sonar sweep + contact reveal */
+    .sonar-sweep,
+    .sonar-contact::before,
+    .sonar-contact::after {
+    animation: none;
+    }
+
+    .sonar-contact::before,
+    .sonar-contact::after {
+    opacity: 0;
+    }
+
+    /* Restarted together by JS so contacts stay synchronised with the sweep */
+    .sonar-radar.sonar-active .sonar-sweep {
+    animation: sonar-sweep 3.4s linear infinite;
+    }
+
+    .sonar-radar.sonar-active .sonar-contact::before {
+    animation: sonar-contact-hit 3.4s linear infinite;
+    animation-delay: var(--contact-reveal-delay, 0s);
+    }
+
+    .sonar-radar.sonar-active .sonar-contact::after {
+    animation: sonar-ring-hit 3.4s linear infinite;
+    animation-delay: var(--contact-reveal-delay, 0s);
+    }
+
+    @keyframes sonar-contact-hit {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    2% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+
+    11% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    22% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    }
+
+    @keyframes sonar-ring-hit {
+    0% {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+
+    2% {
+        opacity: 0.9;
+        transform: scale(0.45);
+    }
+
+    20% {
+        opacity: 0;
+        transform: scale(1.6);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.6);
+    }
+    }
+
     .tracking-card {
       min-height: 420px;
       display: grid;
