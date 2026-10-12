@@ -1038,6 +1038,20 @@
       image.setAttribute("aria-pressed", showingRust ? "false" : "true");
     }
 
+    function scrollFeedbackIntoView(feedback) {
+      const scrollContainer = feedback.closest(".stage-screen");
+      if (!scrollContainer) return;
+
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const feedbackRect = feedback.getBoundingClientRect();
+
+      if (feedbackRect.bottom > containerRect.bottom) {
+        scrollContainer.scrollBy({ top: feedbackRect.bottom, behavior: "smooth" });
+      } else if (feedbackRect.top < containerRect.top) {
+        scrollContainer.scrollBy({ top: feedbackRect.top, behavior: "smooth" });
+      }
+    }
+
     function checkCurrentMission() {
       const mission = getCurrentMission();
       const stage = getCurrentStage();
@@ -1097,6 +1111,8 @@
         setActivityFeedback(feedback, "try-again", "Not quite yet", message);
         markSelectedAnswer(stage, false);
         renderControls();
+        scrollFeedbackIntoView(feedback);
+
         return;
       }
 
@@ -1112,6 +1128,8 @@
         expeditionState.currentStageIndex = nextStageIndex;
         saveCurrentPageData();
         renderExpedition();
+        scrollFeedbackIntoView(getStageFeedback(getCurrentStage().id) || feedback);
+
         return;
       }
 
@@ -1137,6 +1155,7 @@
       markSelectedAnswer(stage, true);
       saveCurrentPageData();
       renderExpedition();
+      scrollFeedbackIntoView(getStageFeedback(stage.id) || feedback);
 
       if (stage.id === "m4-frogfish-labels") {
         openFrogfishExampleModal();
@@ -1765,6 +1784,8 @@
       if (stageElement) stageElement.classList.add("active");
 
       if (stage && stage.id === "m2-drag-and-drop") syncDiagramLabelBoard();
+
+      missionElement.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function renderMissionNavigation() {
