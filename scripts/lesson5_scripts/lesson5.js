@@ -193,7 +193,8 @@
       { id: "deepsea-anglerfish-2", ext: "jpg", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
       // { id: "flapjack-octopus", ext: "avif", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m." },
       { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
-      { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." }
+      { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." },
+      { id: "telescopefish", ext: "png", name: "Telescope Fish" }
     ];
 
     function getMission5StaticSrc(species) {
