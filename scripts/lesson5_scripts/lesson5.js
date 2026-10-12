@@ -183,8 +183,8 @@
     */
     /*
       Each id doubles as the file name:
-        static image     = ../images/lesson5/<id>.<ext>
-        observation gif  = ../images/lesson5/animations/<id>.gif
+        static image     = ../images/lesson5/mission5/<id>.<ext>
+        observation gif  = ../images/lesson5/mission5/animations/<id>.gif
     */
     const MISSION5_OBSERVE_SECONDS = 5;
     const mission5SpeciesPool = [
@@ -204,11 +204,11 @@
     ];
 
     function getMission5StaticSrc(species) {
-      return "../images/lesson5/" + species.id + "." + species.ext;
+      return "../images/lesson5/mission5/" + species.id + "." + species.ext;
     }
 
     function getMission5GifSrc(species) {
-      return "../images/lesson5/animations/" + species.id + ".gif";
+      return "../images/lesson5/mission5/animations/" + species.id + ".gif";
     }
 
     let expeditionState = createFreshExpeditionState();
