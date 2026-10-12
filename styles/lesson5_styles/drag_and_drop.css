@@ -156,7 +156,7 @@
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
-[data-dd-item]:hover {
+[data-dd-item]:hover:not(.dd-placed) {
   transform: translateY(-2px);
 }
 
