@@ -181,7 +181,7 @@
         static image     = ../images/lesson5/<id>.<ext>
         observation gif  = ../images/lesson5/animations/<id>.gif
     */
-    const MISSION5_OBSERVE_SECONDS = 10;
+    const MISSION5_OBSERVE_SECONDS = 5;
     const mission5SpeciesPool = [
       { id: "goblin-shark-3", ext: "png", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper." },
       { id: "dumbo-octopus-2", ext: "png", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
