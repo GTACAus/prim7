@@ -1465,6 +1465,106 @@
       }, mission5_swim_away_seconds * 1000);
     }
 
+    const SONAR_SWEEP_SECONDS = 5;
+
+    function restartSonarAnimations() {
+      const radar = document.getElementById("mission5Sonar");
+      if (!radar) return;
+
+      radar.classList.remove("sonar-active");
+
+      // Force the browser to restart all sonar animations together.
+      void radar.offsetWidth;
+
+      radar.classList.add("sonar-active");
+    }
+
+
+    function syncSonarContactsToSweep() {
+      const contacts = document.querySelectorAll(".sonar-contact");
+
+      contacts.forEach(function(contact) {
+        const styles = getComputedStyle(contact);
+
+        const x = parseFloat(styles.getPropertyValue("--contact-x"));
+        const y = parseFloat(styles.getPropertyValue("--contact-y"));
+
+        if (Number.isNaN(x) || Number.isNaN(y)) return;
+
+        /*
+          Convert the contact position into an angle clockwise from the top.
+
+                0°
+                ↑
+          270°  +  90°
+                ↓
+                180°
+        */
+        const dx = x - 50;
+        const dy = y - 50;
+
+        let angle = Math.atan2(dx, -dy) * (180 / Math.PI);
+
+        if (angle < 0) {
+          angle += 360;
+        }
+
+        const delay = (angle / 360) * SONAR_SWEEP_SECONDS;
+
+        contact.style.setProperty(
+          "--contact-reveal-delay",
+          delay.toFixed(3) + "s"
+        );
+      });
+
+      restartSonarAnimations();
+    }
+
+
+    function randomiseSonarContacts() {
+      const contacts = Array.from(
+        document.querySelectorAll(".sonar-contact")
+      );
+
+      /*
+        Safe positions inside the radar.
+        We shuffle these instead of using completely random coordinates
+        so dots never overlap badly or sit outside the circle.
+      */
+      const positions = [
+        [26, 28],
+        [43, 20],
+        [67, 27],
+        [77, 43],
+        [73, 67],
+        [55, 77],
+        [34, 74],
+        [22, 55],
+        [40, 42],
+        [62, 52]
+      ];
+
+      positions.sort(function() {
+        return Math.random() - 0.5;
+      });
+
+      contacts.forEach(function(contact, index) {
+        const position = positions[index];
+
+        contact.style.setProperty(
+          "--contact-x",
+          position[0] + "%"
+        );
+
+        contact.style.setProperty(
+          "--contact-y",
+          position[1] + "%"
+        );
+      });
+
+      syncSonarContactsToSweep();
+    }
+
     function findAnotherMission5Animal() {
       const mission5 = expeditionState.mission5;
       if (mission5.phase !== "observe") return;
@@ -1493,6 +1593,8 @@
       expeditionState.mission5.phase = "tracking";
       saveCurrentPageData();
       renderExpedition();
+
+      randomiseSonarContacts();
 
       window.setTimeout(function() {
         if (
@@ -2082,6 +2184,7 @@
       });
 
       renderExpedition();
+      syncSonarContactsToSweep();
     });
 
     (function () {
