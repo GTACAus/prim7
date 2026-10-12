@@ -183,11 +183,11 @@
     */
     const MISSION5_OBSERVE_SECONDS = 10;
     const mission5SpeciesPool = [
-      { id: "goblin-shark", ext: "avif", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper." },
-      { id: "dumbo-octopus", ext: "jpg", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
-      { id: "sea-pig", ext: "webp", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
-      { id: "sea-angel", ext: "jpg", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters." },
-      { id: "pink-seethrough-fantasia", ext: "jpg", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
+      { id: "goblin-shark-3", ext: "avif", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper." },
+      { id: "dumbo-octopus-2", ext: "jpg", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
+      { id: "sea-pig-2", ext: "webp", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
+      { id: "sea-angel-2", ext: "jpg", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters." },
+      { id: "pink-seethrough-fantasia-2", ext: "jpg", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
       { id: "blobfish-2", ext: "jpg", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m." },
       { id: "barreleye-fish-2", ext: "webp", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m." },
       { id: "deepsea-anglerfish-2", ext: "jpg", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
