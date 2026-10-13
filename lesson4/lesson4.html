@@ -184,14 +184,37 @@
             <strong>differences between categories</strong> easier to see.
           </p>
 
-          <a
-            class="worksheet-button general-button"
-            href="../worksheets/l4-worksheet.pdf"
-            download
-          >
-            <p class="bounce-symbol">📄</p>
-            <p>Download worksheet</p>
-          </a>
+          <div style="display: inline-flex; flex-direction: column; gap: 10px; align-items: center;">
+            <a
+              class="worksheet-button general-button"
+              style="width: 220px;"
+              href="../worksheets/l4-worksheet.pdf"
+              download
+            >
+              <p class="bounce-symbol">📄</p>
+              <p>Download worksheet</p>
+            </a>
+            <div style="display: inline-flex; flex-direction: row; gap: 10px;">
+              <button
+                type="button"
+                style="width: 220px;"
+                class="general-button project-resource-button bar-data-resource-button"
+                onclick="openPdfModal('../images/lesson4/types-of-graphs.png', 'Types of Data')"
+              >
+                <span class="bounce-symbol" aria-hidden="true">📄</span>
+                <span>Types of Data</span>
+              </button>
+              <button
+                type="button"
+                style="width: 220px; background: var(--orange);"
+                class="general-button project-resource-button bar-data-resource-button"
+                onclick="openPdfModal('../images/lesson4/visualising-data.pdf', 'Visualising Fair Test Data')"
+              >
+                <span class="bounce-symbol" aria-hidden="true">📄</span>
+                <span>Visualising Fair Test Data</span>
+              </button>
+            </div>
+          </div>
 
         </div>
       </header>
@@ -264,7 +287,7 @@
           </div>
         </section>
       </div>
-
+      
       <section id="bar-data-preamble" class="section bar-data-preamble" aria-labelledby="barDataPreambleTitle">
         <p class="intro-eyebrow">Using bar graphs</p>
         <h2 id="barDataPreambleTitle">Visualising Fair Test Data</h2>
@@ -273,16 +296,6 @@
             Scientists use a <strong>bar graph</strong> when they want to visualise
             <strong>discrete data</strong> or <strong>categorical data</strong>.
           </p>
-
-          <button
-            type="button"
-            class="general-button project-resource-button bar-data-resource-button"
-            onclick="openPdfModal('../images/lesson4/types-of-graphs.png', 'Types of Data')"
-          >
-            <span class="bounce-symbol" aria-hidden="true">📄</span>
-            <span>Types of Data</span>
-          </button>
-
         </div>
 
         <!-- Full-width Canva visual placeholder using existing shared lesson elements only. 

@@ -2342,6 +2342,7 @@
 .project-resource-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   margin: 0;
   padding: 9px 13px;
