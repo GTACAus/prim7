@@ -4514,11 +4514,6 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       return ((pointCentre - stageRect.left) / stageRect.width) * 100;
     }
 
-    // function updateArrowStates(baseDistance) {
-    //   backArrow.disabled = baseDistance <= MIN_DISTANCE;
-    //   forwardArrow.disabled = baseDistance >= MAX_DISTANCE;
-    // }
-
     // Makes the panel visually "grow" from whichever point was selected,
     // even though its final size/position is a big box centered above
     // the stage rather than a small popover tied to that point.
@@ -4615,7 +4610,6 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
 
       note.textContent = "You selected " + target + " metres.";
 
-      // updateArrowStates(target);
       // Hand off to the person-marker state machine - it decides whether
       // this needs a walk, an instant placement, or nothing at all.
       movePerson(target, point);
@@ -4809,13 +4803,11 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         // back arrow, matching the very first render of the page.
         selected = null;
         resetPerson();
-        // updateArrowStates(0);
       });
     }
 
     // Initial state: person at 0 m, standing image, nothing open, back arrow disabled.
     resetPerson();
-    // updateArrowStates(0);
   }
 
   /* ==================================================
@@ -4824,7 +4816,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
 
   // Preserve the current working-page behaviour. Set to false before release
   // when students should unlock Parts A-D progressively.
-  const DEV_MODE = true;
+  const DEV_MODE = false;
 
   const sectionIds = [
       { id: "marine-snail-context", label: "Victorian Marine Snails" },
