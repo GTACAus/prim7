@@ -1052,18 +1052,12 @@
         filter 0.15s ease;
     }
 
-    
     .expedition-button:not(:disabled):hover {
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.12) 100%),
         var(--background-colour, var(--exp-cyan)) !important;
-      transform: scale(1.03);
       animation: glow-pulse 1.8s ease-in-out infinite;
       cursor: pointer;
-    }
-    
-    .expedition-button:active {
-      transform: scale(1.0) !important;
     }
 
     @keyframes glow-pulse {
@@ -1081,6 +1075,10 @@
           inset 0 -4px 6px rgba(0, 0, 0, 0.18),
           0 0 20px 7px color-mix(in srgb, var(--background-colour, var(--exp-cyan)) 75%, transparent);
       }
+    }
+
+    .control-button {
+      height: 45px;
     }
 
     #checkButton {
@@ -1101,12 +1099,12 @@
 
     #nextButton {
       --background-colour: var(--blue);
-      color: var(--charcoal) !important;
+      /* color: var(--charcoal) !important; */
     }
     
     #nextButton::before {
       content: ">>";
-      color: white;
+      /* color: white; */
     }
 
     .stage-controls .expedition-button:disabled {
@@ -1131,6 +1129,26 @@
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.35);
       opacity: 0.35;
+
+      z-index: 1;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+
+    .control-button:not(:disabled):hover::before {
+      color: black;
+      border: none;
+      transform: translateX(80%);
+    }
+
+    .control-button span {
+      position: absolute;
+      inset: 0;
+      top: 25%;
+      transition: transform 0.15s ease;
+    }
+
+    .control-button:not(:disabled):hover span {
+      transform: translate(-10%);
     }
 
     /* ---------- Right science check ---------- */

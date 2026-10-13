@@ -70,7 +70,7 @@
             id: "m2-rust-alert",
             label: "Inspect the damaged camera",
             type: "read",
-            successTitle: "Reveal answer",
+            successTitle: "Answer",
             successMessage:
               "Rust forms on iron metal when it reacts with oxygen and water. " +
               "This chemical reaction can weaken the metal and cause devices to malfunction. " +
@@ -102,7 +102,7 @@
             label: "Choose the scientific drawing",
             type: "choice",
             choiceGroup: "rustScientificDrawing",
-            correctValue: "option-3",
+            correctValue: "option-2",
             tryAgainMessage:
                 "Look again at the Science Check. A scientific drawing should use simple clear lines, accurate proportions, appropriate labels and no unnecessary colour or decorative detail."
           },
@@ -1978,7 +1978,7 @@
       const isLastStage = mission && expeditionState.currentStageIndex === mission.stages.length - 1;
       const isFinalMission = expeditionState.currentMissionIndex === missionConfig.length - 1;
 
-      checkButton.textContent = stage.type === "finale" ? "Complete" : "Check";
+      checkButton.querySelector("span").textContent = stage.type === "finale" ? "Complete" : "Check";
 
       if (stage.type === "finale" && !completed) {
         const phase = expeditionState.mission5.phase;

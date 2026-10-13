@@ -153,7 +153,7 @@
       </div>
 
       <div class="frogfish-example-actions">
-        <button type="button" class="expedition-button" onclick="closeFrogfishExampleModal()">Continue</button>
+        <button type="button" class="expedition-button" onclick="closeFrogfishExampleModal()"><span>Continue</span></button>
       </div>
     </div>
   </div>
@@ -272,7 +272,7 @@
           <h2>Deep Sea Explorers</h2>
         </div>
         <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
-          Field guide
+          <span>Field guide</span>
         </button>
       </header>
       <div class="game-shell">
@@ -331,7 +331,7 @@
                   RESET clears the current response, and NEXT advances only after the stage is complete.
                 </p>
                 <button type="button" class="expedition-button start-button" onclick="startExpedition()">
-                  Start expedition
+                  <span>Start expedition</span>
                 </button>
               </div>
             </section>
@@ -1011,7 +1011,7 @@
         >
           <img
             class="choice-image"
-            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
+            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
             alt="Scientific drawing option 2"
           >
           <h4>Option B</h4>
@@ -1019,14 +1019,14 @@
 
 
         <button
-          type="button"
+        type="button"
           class="choice-card media-choice"
           data-value="option-3"
           aria-pressed="false"
         >
           <img
             class="choice-image"
-            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
+            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
             alt="Scientific drawing option 3"
           >
           <h4>Option C</h4>
@@ -2143,7 +2143,7 @@
                               Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
                             </p>
                             <button type="button" class="expedition-button capture-button" onclick="takeMission5Photo()">
-                              Capture image
+                              <span>Capture image</span>
                             </button>
                           </article>
                           <article class="camera-side-card" id="mission5AwayCard" hidden>
@@ -2152,7 +2152,7 @@
                               The organism swam out of range before an image could be captured. Return to the sonar to find another animal.
                             </p>
                             <button type="button" class="expedition-button capture-button" onclick="findAnotherMission5Animal()">
-                              Find another animal
+                              <span>Find another animal</span>
                             </button>
                           </article>
                         </div>
@@ -2235,14 +2235,14 @@
             <div class="control-status" id="controlStatus">
               <strong>Stand by.</strong> Start the expedition to load Mission 1.
             </div>
-            <button type="button" class="expedition-button" id="checkButton" onclick="checkCurrentMission()" disabled>
-              Check
+            <button type="button" class="expedition-button control-button" id="checkButton" onclick="checkCurrentMission()" disabled>
+              <span>Check</span>
             </button>
-            <button type="button" class="expedition-button" id="resetButton" onclick="resetCurrentMission()" disabled>
-              Reset
+            <button type="button" class="expedition-button control-button" id="resetButton" onclick="resetCurrentMission()" disabled>
+              <span>Reset</span>
             </button>
-            <button type="button" class="expedition-button" id="nextButton" onclick="goNextMission()" disabled>
-              Next
+            <button type="button" class="expedition-button control-button" id="nextButton" onclick="goNextMission()" disabled>
+              <span>Next</span>
             </button>
           </footer>
         </section>
