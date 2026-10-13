@@ -1221,10 +1221,6 @@ input[type="checkbox"]:active {
   box-shadow: 0 5px 0 var(--line);
 }
 
-.diagram-activity {
-  background: var(--card);
-}
-
 /* ---------- Download and navigation buttons ---------- */
 
 .general-button {
