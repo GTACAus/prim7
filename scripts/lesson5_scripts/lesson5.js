@@ -1808,18 +1808,11 @@
       });
     }
 
-    function closeSubstageDropdown() {
-      const toggle = document.getElementById("substageDropdownToggle");
-      const menu = document.getElementById("substageDropdownMenu");
-      if (!toggle || !menu) return;
-      menu.hidden = true;
-      toggle.setAttribute("aria-expanded", "false");
-    }
+    const MEDIA_WIDTH = 1100;
+    const media = window.matchMedia(`(max-width: ${ MEDIA_WIDTH }px)`);
 
-    document.addEventListener("click", function(event) {
-      const dropdown = document.querySelector(".substage-dropdown");
-      if (dropdown && !dropdown.contains(event.target)) closeSubstageDropdown();
-    });
+    media.addEventListener("change", renderSubstageNavigation);
+    
 
     function renderSubstageNavigation() {
       const container = document.getElementById("substageNav");
@@ -1833,47 +1826,32 @@
       const missionList = document.getElementById("missionList");
       const missionButtons = missionList && missionList.querySelectorAll(".mission-button");
       const activeMissionButton = missionButtons && missionButtons[expeditionState.currentMissionIndex];
-      if (activeMissionButton) activeMissionButton.insertAdjacentElement("afterend", container);
+
+      // Check if width is below MEDIA_WIDTH, then move substagenav
+      if (media.matches) {
+        missionList.insertAdjacentElement("afterend", container);
+      }
+      else if (activeMissionButton) {
+        activeMissionButton.insertAdjacentElement("afterend", container);
+      }
 
       container.hidden = false;
-      container.innerHTML =
-        '<p class="substage-nav-title">Current mission</p>' +
-        '<div class="substage-dropdown">' +
-          '<button type="button" class="substage-dropdown-toggle" id="substageDropdownToggle" aria-haspopup="listbox" aria-expanded="false">' +
-            '<span class="substage-dropdown-label"></span>' +
-            '<span class="substage-dropdown-caret" aria-hidden="true">&#9662;</span>' +
-          '</button>' +
-          '<div class="substage-dropdown-menu" id="substageDropdownMenu" role="listbox" hidden></div>' +
-        '</div>';
+      container.innerHTML = '<p class="substage-nav-title">Current mission</p>';
 
-      const toggle = container.querySelector("#substageDropdownToggle");
-      const menu = container.querySelector("#substageDropdownMenu");
-      const label = container.querySelector(".substage-dropdown-label");
       const maxUnlocked = expeditionState.unlockedStageIndices[expeditionState.currentMissionIndex] || 0;
-      const currentStage = mission.stages[expeditionState.currentStageIndex];
-
-      label.textContent = currentStage ? currentStage.label : "Select a stage";
 
       mission.stages.forEach(function(stage, index) {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "substage-button";
         button.textContent = stage.label;
-        button.setAttribute("role", "option");
         button.disabled = index > maxUnlocked;
         button.classList.toggle("active", index === expeditionState.currentStageIndex);
         button.classList.toggle("complete", Boolean(expeditionState.completedStages[stage.id]));
         button.addEventListener("click", function() {
           setActiveStage(index);
-          closeSubstageDropdown();
         });
-        menu.appendChild(button);
-      });
-
-      toggle.addEventListener("click", function() {
-        const isOpen = !menu.hidden;
-        menu.hidden = isOpen;
-        toggle.setAttribute("aria-expanded", String(!isOpen));
+        container.appendChild(button);
       });
     }
 
