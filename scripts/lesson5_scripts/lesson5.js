@@ -1808,6 +1808,12 @@
       });
     }
 
+    const MEDIA_WIDTH = 1100;
+    const media = window.matchMedia(`(max-width: ${ MEDIA_WIDTH }px)`);
+
+    media.addEventListener("change", renderSubstageNavigation);
+    
+
     function renderSubstageNavigation() {
       const container = document.getElementById("substageNav");
       const mission = getCurrentMission();
@@ -1815,6 +1821,18 @@
       if (!container || !expeditionState.started || !mission) {
         if (container) container.hidden = true;
         return;
+      }
+
+      const missionList = document.getElementById("missionList");
+      const missionButtons = missionList && missionList.querySelectorAll(".mission-button");
+      const activeMissionButton = missionButtons && missionButtons[expeditionState.currentMissionIndex];
+
+      // Check if width is below MEDIA_WIDTH, then move substagenav
+      if (media.matches) {
+        missionList.insertAdjacentElement("afterend", container);
+      }
+      else if (activeMissionButton) {
+        activeMissionButton.insertAdjacentElement("afterend", container);
       }
 
       container.hidden = false;

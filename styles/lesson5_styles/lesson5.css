@@ -1949,11 +1949,16 @@
       border: 2px solid rgba(117, 221, 232, 0.18);
       border-radius: 14px;
       background: rgba(255,255,255,0.025);
-      overflow-y: scroll;
+      /* max-height: 220px; */
+      overflow-y: auto;
     }
 
     .substage-nav[hidden] {
       display: none !important;
+    }
+
+    .mission-list .substage-nav {
+      grid-column: 1 / -1;
     }
 
     .substage-nav-title {
@@ -2447,10 +2452,6 @@
         height: 20px;
       }
 
-      .substage-nav {
-        grid-column: 2;
-      }
-
       .science-lock {
         min-height: 160px;
       }
@@ -2472,7 +2473,6 @@
         height: 100%;
         grid-column: 1;
         grid-row: 2;
-        grid-template-columns: 1fr 1fr
       }
 
       .mission-list {
