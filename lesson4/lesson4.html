@@ -635,7 +635,7 @@
               <div class="animal-counter-panel pop-in" id="animalCounterPanel" aria-label="Count the hidden animals" data-progress-reset></div>
 
               <div class="reset-button-container">
-                <button type="button" class="general-button" id="checkAnimalCountButton">Check my count</button>
+                <button type="button" class="general-button" id="checkAnimalCountButton" style="display: none;">Check my count</button>
               </div>
 
               <div class="challenge-feedback" id="animalCountFeedback" role="status" aria-live="polite">
@@ -1380,6 +1380,8 @@
             <table class="practice-table partd-data-table" aria-label="Comparison of average animal counts at Site 1 and Site 2">
               <caption>Table 3. Comparison of average animal counts at Site 1 and Site 2</caption>
               <thead>
+                <th style="opacity: 0; border: none;"></th>
+                <th style="background: var(--soft-blue);" colspan="2">Number of animals per hectare</th>
                 <tr>
                   <th>Type of animal</th>
                   <th>Site 1</th>
