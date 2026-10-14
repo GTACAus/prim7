@@ -387,13 +387,13 @@
   function partBHandleUnitChoice(button) {
     if (partBStage !== "unit") return;
 
-    if (button.dataset.partbUnit !== "none") {
+    if (button.dataset.partbUnit !== "hectare") {
       flashChoice(button, "try-again-choice");
       setChallengeFeedback(
         "partBFeedback",
         "try-again",
         "Not this time.",
-        " We are sorting animals into categories and counting how many were seen. We are not measuring a length, time or temperature."
+        " We are counting how many animals were seen for a fixed area of forest, so the count needs a unit that shows what area it is measured over."
       );
       return;
     }
@@ -403,6 +403,7 @@
     document.getElementById("partBYAxisDropZone").classList.add("axis-complete");
     document.getElementById("partBXAxisLabel").classList.add("visible");
     document.getElementById("partBYAxisLabel").classList.add("visible");
+    document.getElementById("partBYAxisUnit").textContent = " (animals per hectare)";
     document.getElementById("partBLabelBank").hidden = true;
     document.getElementById("partBUnitCheck").hidden = true;
     document.getElementById("partBBuilderPrompt").hidden = false;
@@ -416,8 +417,8 @@
     setChallengeFeedback(
       "partBFeedback",
       "success",
-      "No measurement unit is needed.",
-      " ‘Type of animal’ is a category and ‘Number of animals’ is a count. Now construct the bars."
+      "The unit is ‘animals per hectare’.",
+      " ‘Type of animal’ is a category and ‘Number of animals’ is a count measured over a fixed area. Now construct the bars."
     );
   }
 
@@ -1133,6 +1134,7 @@ function partBStartAnalysis() {
     calculateButton.disabled = false;
     document.getElementById("partBConstructionStage").hidden = true;
     document.getElementById("partBUnitCheck").hidden = true;
+    document.getElementById("partBYAxisUnit").textContent = "";
     document.getElementById("partBBuilderPrompt").hidden = true;
     // document.getElementById("partBCompleteNote").hidden = true;
     document.getElementById("partBGraphCheck").hidden = true;
@@ -1508,7 +1510,7 @@ function partBStartAnalysis() {
 
       if (partCControlText) {
         partCControlText.textContent =
-          "You have labelled the variables correctly. Now decide whether these data are measured in a unit such as cm or seconds.";
+          "You have labelled the variables correctly. Now decide whether these data are measured in a unit, and if so, which one.";
       }
       setChallengeFeedback(
         "partCFeedback",
@@ -1707,18 +1709,19 @@ function partBStartAnalysis() {
     if (partCStage !== "units") return;
     const value = button.dataset.partcUnit;
 
-    if (value !== "none") {
+    if (value !== "hectare") {
       flashChoice(button, "try-again-choice");
       setChallengeFeedback(
         "partCFeedback",
         "try-again",
-        "No measurement unit is needed here.",
-        " These data are animal categories and whole-number counts, not measurements of length or time."
+        "Not this time.",
+        " We are counting how many animals were seen for a fixed area of forest, so the count needs a unit that shows what area it is measured over."
       );
       return;
     }
 
     flashChoice(button, "correct-choice");
+    document.getElementById("partCYAxisUnit").textContent = " (animals per hectare)";
     partCStage = "bars";
     document.getElementById("partCAxisBank").hidden = true;
     document.getElementById("partCUnitCheck").hidden = true;
@@ -2105,6 +2108,7 @@ function partCHandleLeadbeatersSiteChoice(button) {
     document.getElementById("partCScaffoldLayer").classList.remove("visible");
     document.getElementById("partCAxisBank").hidden = false;
     document.getElementById("partCUnitCheck").hidden = true;
+    document.getElementById("partCYAxisUnit").textContent = "";
     document.getElementById("partCSliderStage").hidden = true;
     document.getElementById("partCAnalysisPanel").hidden = true;
     document.getElementById("partCCompleteCard").hidden = true;

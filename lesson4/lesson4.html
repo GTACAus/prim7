@@ -844,10 +844,10 @@
               </div>
 
               <div class="partb-unit-check challenge-hidden" id="partBUnitCheck" hidden>
-                <p><strong>Unit check:</strong> Do these axis labels need a measurement unit such as cm or seconds?</p>
+                <p><strong>Unit check:</strong> Does the 'Number of animals' axis label need a measurement unit, and if so, which one?</p>
                 <div class="partb-unit-buttons">
                   <button type="button" class="challenge-choice" data-partb-unit="none">No unit needed</button>
-                  <button type="button" class="challenge-choice" data-partb-unit="cm">cm</button>
+                  <button type="button" class="challenge-choice" data-partb-unit="hectare">animals per hectare</button>
                   <button type="button" class="challenge-choice" data-partb-unit="seconds">seconds</button>
                 </div>
               </div>
@@ -900,7 +900,7 @@
                   </g>
 
                   <text class="axis-label partb-final-axis-label" id="partBXAxisLabel" x="415" y="470" text-anchor="middle">Type of animal</text>
-                  <text class="axis-label partb-final-axis-label" id="partBYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+                  <text class="axis-label partb-final-axis-label" id="partBYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals<tspan id="partBYAxisUnit"></tspan></text>
 
                   <line class="partb-guide" id="partBVerticalGuide" x1="0" y1="40" x2="0" y2="370"></line>
                   <line class="partb-guide" id="partBHorizontalGuide" x1="120" y1="0" x2="710" y2="0"></line>
@@ -1093,7 +1093,7 @@
               <p><strong>Do these axes need a measurement unit?</strong> Check the data before the graph is revealed.</p>
               <div class="partc-unit-buttons">
                 <button type="button" class="challenge-choice" data-partc-unit="none">No unit needed</button>
-                <button type="button" class="challenge-choice" data-partc-unit="cm">cm</button>
+                <button type="button" class="challenge-choice" data-partc-unit="hectare">animals per hectare</button>
                 <button type="button" class="challenge-choice" data-partc-unit="seconds">seconds</button>
               </div>
             </div>
@@ -1183,7 +1183,7 @@
                 </g>
 
                 <text class="axis-label partc-final-axis-label" id="partCXAxisLabel" x="415" y="470" text-anchor="middle">Type of animal</text>
-                <text class="axis-label partc-final-axis-label" id="partCYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+                <text class="axis-label partc-final-axis-label" id="partCYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals<tspan id="partCYAxisUnit"></tspan></text>
 
                 <g id="partCBarsLayer"></g>
                 <g id="partCValuesLayer"></g>
@@ -1487,7 +1487,7 @@
               <line class="graph-axis" x1="120" y1="370" x2="120" y2="35"></line>
 
               <text class="axis-label" x="415" y="470" text-anchor="middle">Type of animal</text>
-              <text class="axis-label" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+              <text class="axis-label" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals (animals per hectare)</text>
 
               <g id="partDCategoriesLayer"></g>
               <g id="partDSite1BarsLayer"></g>
