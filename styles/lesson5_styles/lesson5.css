@@ -2863,8 +2863,7 @@
     padding: 8px 12px;
     border: 2px solid var(--mission-border);
     border-radius: 999px;
-    background: var(--mission-bg-alt);
-    color: var(--mission-text);
+    color: var(--charcoal);
     font-weight: 800;
     text-align: center;
     line-height: 1.1;
