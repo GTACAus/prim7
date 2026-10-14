@@ -27,6 +27,10 @@
   <script src="../scripts/lesson5_scripts/drag_and_drop.js" defer></script>
   <script src="../scripts/lesson5_scripts/item_match.js" defer></script>
 
+  <script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+  </script>
 </head>
 
 <body>
@@ -260,9 +264,23 @@
 
     <div id="expedition-main">
       <header class="expedition-banner" aria-label="Expedition Log header">
-        <div class="submarine-mark" aria-hidden="true">⚓</div>
+        <div class="submarine-container" id="submarineContainer">
+          <div class="submarine-glow"></div>
+          <model-viewer
+            id="submarineViewer"
+            src="../images/lesson5/models/cartoon_submarine_animated.glb"
+            alt="Animated cartoon submarine"
+            autoplay
+            disable-zoom
+            shadow-intensity="1"
+            exposure="1"
+            camera-target="auto"
+            camera-orbit="135deg 75deg auto"
+            field-of-view="40deg"
+            >
+          </model-viewer>
+        </div>
         <div class="banner-copy">
-          <p class="banner-kicker">PRIM7 field interface prototype</p>
           <h1>Expedition Log</h1>
           <h2>Deep Sea Explorers</h2>
         </div>
@@ -2347,5 +2365,34 @@
     </div>
   </div>
 
+  // Setup for submarine model
+  <script>
+    const viewer = document.getElementById('submarineViewer');
+    const container = document.getElementById('submarineContainer');
+
+    const duration = 9;
+    const radiusX = 150;
+    const radiusY = 75;
+
+    let animationFrame;
+
+    function updateSubmarineGlow() {
+      const time = viewer.currentTime || 0;
+      const angle = (time / duration) * Math.PI * 2;
+
+      const x = 50 + Math.sin(angle) * radiusX;
+      const y = 50 + Math.cos(angle) * radiusY;
+
+      container.style.setProperty('--glow-x', `${x}%`);
+      container.style.setProperty('--glow-y', `${y}%`);
+
+      animationFrame = requestAnimationFrame(updateSubmarineGlow);
+    }
+
+    viewer.addEventListener('load', () => {
+      cancelAnimationFrame(animationFrame);
+      updateSubmarineGlow();
+    });
+  </script>
 </body>
 </html>
