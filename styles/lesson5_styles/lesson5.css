@@ -91,7 +91,7 @@
     }
 
     .expedition-page.page {
-    padding: 18px 0 30px;
+    padding: 18px 0 0;
 
     font-family: "IBM Plex Mono", monospace;
     }
@@ -445,7 +445,7 @@
 
     .expedition-zoom-stage {
       position: relative;
-      height: 95vh;
+      height: 100vh;
     }
 
     .expedition-zoom-stage.no-zoom {
@@ -538,14 +538,13 @@
       display: grid;
       gap: 6px;
       padding: 10px;
-      max-height: 500px;
+      max-height: 80%;
       overflow-y: scroll;
     }
 
     .mission-button {
       position: relative;
       width: 100%;
-      min-height: max-content;
       padding: 11px 12px 11px 50px;
       border: 2px solid transparent;
       border-radius: 14px;
@@ -2043,7 +2042,6 @@
       border: 2px solid rgba(117, 221, 232, 0.18);
       border-radius: 14px;
       background: rgba(255,255,255,0.025);
-      overflow-y: auto;
     }
 
     .substage-nav[hidden] {

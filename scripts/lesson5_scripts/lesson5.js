@@ -2334,7 +2334,7 @@
       // window; e.g. 0.85 stops at 85% of the window's width/height
       // (still centered) instead of going fully edge-to-edge.
       let MAX_WIDTH_FRACTION = 0.97;
-      let MAX_HEIGHT_FRACTION = 0.97;
+      let MAX_HEIGHT_FRACTION = 0.98;
 
       let naturalLeft = 0;
       let naturalWidth = 0;
