@@ -27,6 +27,10 @@
   <script src="../scripts/lesson5_scripts/drag_and_drop.js" defer></script>
   <script src="../scripts/lesson5_scripts/item_match.js" defer></script>
 
+  <script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+  </script>
 </head>
 
 <body>
@@ -143,17 +147,12 @@
 
       <img
         class="frogfish-example-image"
-        src="../images/lesson5/frogfish-labelled-example.png"
+        src="../images/lesson5/mission4/frogfish_answers.png"
         alt="Example frogfish scientific diagram with labels"
-        onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
       >
-      <div class="frogfish-example-placeholder" hidden>
-        Example asset placeholder: add the labelled reference image as
-        <code>../images/lesson5/frogfish-labelled-example.png</code>.
-      </div>
 
       <div class="frogfish-example-actions">
-        <button type="button" class="expedition-button" onclick="closeFrogfishExampleModal()">Continue</button>
+        <button type="button" class="expedition-button" onclick="closeFrogfishExampleModal()"><span>Continue</span></button>
       </div>
     </div>
   </div>
@@ -265,14 +264,28 @@
 
     <div id="expedition-main">
       <header class="expedition-banner" aria-label="Expedition Log header">
-        <div class="submarine-mark" aria-hidden="true">⚓</div>
+        <div class="submarine-container" id="submarineContainer">
+          <div class="submarine-glow"></div>
+          <model-viewer
+            id="submarineViewer"
+            src="../images/lesson5/models/cartoon_submarine_animated.glb"
+            alt="Animated cartoon submarine"
+            autoplay
+            disable-zoom
+            shadow-intensity="3"
+            exposure="0.5"
+            camera-target="auto"
+            camera-orbit="135deg 75deg auto"
+            field-of-view="40deg"
+            >
+          </model-viewer>
+        </div>
         <div class="banner-copy">
-          <p class="banner-kicker">PRIM7 field interface prototype</p>
           <h1>Expedition Log</h1>
           <h2>Deep Sea Explorers</h2>
         </div>
         <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
-          Field guide
+          <span>Field guide</span>
         </button>
       </header>
       <div class="game-shell">
@@ -331,7 +344,7 @@
                   RESET clears the current response, and NEXT advances only after the stage is complete.
                 </p>
                 <button type="button" class="expedition-button start-button" onclick="startExpedition()">
-                  Start expedition
+                  <span>Start expedition</span>
                 </button>
               </div>
             </section>
@@ -378,7 +391,7 @@
 
           <figure class="media-card">
             <img
-              src="../images/lesson5/deep-sea-camera.png"
+              src="../images/lesson5/mission1/deep-sea.png"
               alt="Deep-sea camera used to observe the ocean floor"
             >
             <figcaption>The deep-sea</figcaption>
@@ -1011,7 +1024,7 @@
         >
           <img
             class="choice-image"
-            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
+            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
             alt="Scientific drawing option 2"
           >
           <h4>Option B</h4>
@@ -1019,14 +1032,14 @@
 
 
         <button
-          type="button"
+        type="button"
           class="choice-card media-choice"
           data-value="option-3"
           aria-pressed="false"
         >
           <img
             class="choice-image"
-            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
+            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
             alt="Scientific drawing option 3"
           >
           <h4>Option C</h4>
@@ -1147,10 +1160,31 @@
           <p>
             We used oil on the camera to keep it from rusting.
           </p>
-        </div>        
+        </div>
+
+        <div id="goShallowWatersVideoContainer" class="shallow-waters-media" hidden></div>
+
+        <div
+          data-choice-group="goShallowWaters"
+          role="group"
+          aria-label="Go to shallow waters"
+          style="display: flex; justify-content: center; margin-top: 20px;"
+        >
+          <button
+            type="button"
+            class="choice-card media-choice"
+            data-value="option-1"
+            aria-pressed="false"
+            style="width: 30%"
+            onclick="goShallowWaters()"
+          >
+            <h4>Press to Go to Shallow Waters</h4>
+          </button>
+
+        </div>
 
         <p class="activity-prompt">
-          When you have inspected the camera, press <strong>CHECK</strong> to reveal the answer.
+          Before we go to the deep sea, let's make sure that you can use the camera to capture some animals in the shallow ocean waters.
         </p>
 
         <div
@@ -2122,7 +2156,7 @@
                               Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
                             </p>
                             <button type="button" class="expedition-button capture-button" onclick="takeMission5Photo()">
-                              Capture image
+                              <span>Capture image</span>
                             </button>
                           </article>
                           <article class="camera-side-card" id="mission5AwayCard" hidden>
@@ -2131,7 +2165,7 @@
                               The organism swam out of range before an image could be captured. Return to the sonar to find another animal.
                             </p>
                             <button type="button" class="expedition-button capture-button" onclick="findAnotherMission5Animal()">
-                              Find another animal
+                              <span>Find another animal</span>
                             </button>
                           </article>
                         </div>
@@ -2214,14 +2248,14 @@
             <div class="control-status" id="controlStatus">
               <strong>Stand by.</strong> Start the expedition to load Mission 1.
             </div>
-            <button type="button" class="expedition-button" id="checkButton" onclick="checkCurrentMission()" disabled>
-              Check
+            <button type="button" class="expedition-button control-button" id="checkButton" onclick="checkCurrentMission()" disabled>
+              <span>Check</span>
             </button>
-            <button type="button" class="expedition-button" id="resetButton" onclick="resetCurrentMission()" disabled>
-              Reset
+            <button type="button" class="expedition-button control-button" id="resetButton" onclick="resetCurrentMission()" disabled>
+              <span>Reset</span>
             </button>
-            <button type="button" class="expedition-button" id="nextButton" onclick="goNextMission()" disabled>
-              Next
+            <button type="button" class="expedition-button control-button" id="nextButton" onclick="goNextMission()" disabled>
+              <span>Next</span>
             </button>
           </footer>
         </section>
@@ -2331,5 +2365,34 @@
     </div>
   </div>
 
+  // Setup for submarine model
+  <script>
+    const viewer = document.getElementById('submarineViewer');
+    const container = document.getElementById('submarineContainer');
+
+    const duration = 9;
+    const radiusX = 130;
+    const radiusY = 65;
+
+    let animationFrame;
+
+    function updateSubmarineGlow() {
+      const time = viewer.currentTime || 0;
+      const angle = (time / duration) * Math.PI * 2;
+
+      const x = 50 + Math.sin(angle) * radiusX;
+      const y = 50 + Math.cos(angle) * radiusY;
+
+      container.style.setProperty('--glow-x', `${x}%`);
+      container.style.setProperty('--glow-y', `${y}%`);
+
+      animationFrame = requestAnimationFrame(updateSubmarineGlow);
+    }
+
+    viewer.addEventListener('load', () => {
+      cancelAnimationFrame(animationFrame);
+      updateSubmarineGlow();
+    });
+  </script>
 </body>
 </html>

@@ -3443,6 +3443,8 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     const countersHiddenButton = activity.querySelector(".hide-counters-button");
     const graphBuildPrompt = activity.querySelector(".graph-build-prompt");
     const graphBuildInstruction = activity.querySelector(".graph-build-instruction");
+    const findAllPrompt = activity.querySelector(".find-all-prompt");
+    const findAllButton = activity.querySelector(".find-all-button");
 
     const graphCompleteFeedback = activity.querySelector(".graph-complete-feedback");
     
@@ -3493,6 +3495,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     const hotspotSpecies = new Map(); // hotspotId -> species name
     const hotspotFound = new Map(); // hotspotId -> boolean
     const hotspotDistance = new Map(); // hotspotId -> distance string
+    const highlightedHotspotIds = new Set(); // hotspotId -> revealed by "Find all", not yet actually found
     const speciesColours = new Map(); // species name -> colour
     let nextHotspotSeq = 0;
     let selectedSpecies = null;
@@ -3639,6 +3642,46 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     TARGET_SPECIES.forEach((name) => {
       graphConnections.set(name, []);
     });
+
+    // A "Find all" escape hatch appears once a student has opened every
+    // quadrat while searching for the selected species, and a further two
+    // minutes have then passed without finding them all — covers a student
+    // who can't locate every hotspot but shouldn't be stuck unable to
+    // progress. The timer only starts once all 5 quadrats are visited (not
+    // from when the species is picked), and keeps running in the
+    // background if the student swaps to a different species — swapping
+    // back to this one later shows the button immediately if it's already
+    // due.
+    const FIND_ALL_DELAY_MS = 2 * 60 * 1000;
+    const speciesSearchStartedAt = new Map(); // species name -> Date.now() timestamp
+    const speciesSearchTimeout = new Map(); // species name -> setTimeout handle
+    const speciesVisitedDistances = new Map(); // species name -> Set of distance strings
+
+    function ensureSpeciesSearchTimer(name) {
+      if (speciesSearchStartedAt.has(name)) return;
+      speciesSearchStartedAt.set(name, Date.now());
+      speciesSearchTimeout.set(name, window.setTimeout(() => {
+        speciesSearchTimeout.delete(name);
+        updateProgressAndGraphButton();
+      }, FIND_ALL_DELAY_MS));
+    }
+
+    function clearSpeciesSearchTimers() {
+      speciesSearchTimeout.forEach((handle) => window.clearTimeout(handle));
+      speciesSearchTimeout.clear();
+      speciesSearchStartedAt.clear();
+      speciesVisitedDistances.clear();
+    }
+
+    function hasExaminedAllQuadrats(name) {
+      const visited = speciesVisitedDistances.get(name);
+      return Boolean(visited) && DISTANCES.every((d) => visited.has(d));
+    }
+
+    function searchTimeElapsed(name) {
+      const startedAt = speciesSearchStartedAt.get(name);
+      return startedAt ? Date.now() - startedAt : 0;
+    }
 
     function getConnectedOrder() {
       if (!selectedSpecies) return [];
@@ -4000,6 +4043,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         }
 
         if (graphBuildPrompt) graphBuildPrompt.hidden = true;
+        if (findAllPrompt) findAllPrompt.hidden = true;
         if (graphToggleButton) {
           graphToggleButton.disabled = true;
           graphToggleButton.hidden = false;
@@ -4018,12 +4062,21 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       const connectedOrder = getConnectedOrder();
       const graphComplete = connectedOrder.length === DISTANCES.length;
 
+      const stuckLongEnough =
+        !allFound &&
+        hasExaminedAllQuadrats(selectedSpecies) &&
+        searchTimeElapsed(selectedSpecies) >= FIND_ALL_DELAY_MS;
+      if (findAllPrompt) findAllPrompt.hidden = !stuckLongEnough;
+
+      const quadrantFound = selected !== null ? foundAtDistance(selectedSpecies, String(selected)) : 0;
+      const quadrantMax = selected !== null ? maxAtDistance(selectedSpecies, String(selected)) : 0;
+
       for (const speciesProgress of progressEl) {
         const title = speciesProgress.querySelector(".species-progress-title");
         const count = speciesProgress.querySelector(".species-progress-count");
         speciesProgress.hidden = false;
         title.textContent = selectedSpecies + ": found ";
-        count.textContent = found + " of " + max;
+        count.textContent = quadrantFound + " of " + quadrantMax;
 
         count.animate([
           { opacity: 0, transform: "translateY(0) scale(0.5)" },
@@ -4271,6 +4324,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         }
 
         hotspot.classList.toggle("found", Boolean(hotspotFound.get(id)));
+        hotspot.classList.toggle("highlighted", highlightedHotspotIds.has(id));
         hotspot.classList.toggle("is-inactive", !selectedSpecies || name !== selectedSpecies);
       });
     }
@@ -4333,6 +4387,37 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       btn.addEventListener("click", () => selectSpecies(btn.dataset.species));
     });
 
+    // Lets a student who has genuinely checked every quadrat but still
+    // can't spot every hotspot move on anyway: marks the rest of that
+    // species found so the chart and connect-the-points step unlock.
+    function revealAllForSpecies(name) {
+      hotspotSpecies.forEach((species, id) => {
+        // if (species === name) hotspotFound.set(id, true);
+        // Put HIGHLIGHT ALL code here
+        if (species === name) highlightedHotspotIds.add(id);
+      });
+
+      isGraphMode = false;
+      isCountersHidden = false;
+      if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
+      resetGraphConnections();
+
+      if (speciesSearchTimeout.has(name)) {
+        window.clearTimeout(speciesSearchTimeout.get(name));
+        speciesSearchTimeout.delete(name);
+      }
+
+      if (panelBody) wireUpHotspots(panelBody);
+      renderChart();
+    }
+
+    if (findAllButton) {
+      findAllButton.addEventListener("click", () => {
+        if (!selectedSpecies) return;
+        revealAllForSpecies(selectedSpecies);
+      });
+    }
+
     if (graphToggleButton) {
       graphToggleButton.addEventListener("click", () => {
         if (graphToggleButton.disabled || isGraphMode) return;
@@ -4371,20 +4456,24 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
 
     function resetAnimalTracking() {
       hotspotFound.forEach((_value, id) => hotspotFound.set(id, false));
+      highlightedHotspotIds.clear();
       if (panelBody) {
         panelBody.querySelectorAll(".animal-hotspot.found").forEach((h) => h.classList.remove("found"));
+        panelBody.querySelectorAll(".animal-hotspot.highlighted").forEach((h) => h.classList.remove("highlighted"));
       }
 
       selectedSpecies = null;
       isGraphMode = false;
       isCountersHidden = false;
       resetAllGraphConnections()
+      clearSpeciesSearchTimers();
       if (chartWrap) {
         chartWrap.classList.remove("is-graph-mode", "counters-hidden");
         chartWrap.classList.add("is-empty");
         chartWrap.style.removeProperty("--row-height");
       }
       if (graphBuildPrompt) graphBuildPrompt.hidden = true;
+      if (findAllPrompt) findAllPrompt.hidden = true;
       if (graphToggleButton) {
         graphToggleButton.hidden = false;
         graphToggleButton.textContent = "Show data points";
@@ -4425,11 +4514,6 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       return ((pointCentre - stageRect.left) / stageRect.width) * 100;
     }
 
-    // function updateArrowStates(baseDistance) {
-    //   backArrow.disabled = baseDistance <= MIN_DISTANCE;
-    //   forwardArrow.disabled = baseDistance >= MAX_DISTANCE;
-    // }
-
     // Makes the panel visually "grow" from whichever point was selected,
     // even though its final size/position is a big box centered above
     // the stage rather than a small popover tied to that point.
@@ -4457,6 +4541,22 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
     function openPanelFor(distance, point) {
       setPanelOriginToPoint(point);
       fillPanelContent(distance);
+
+      if (selectedSpecies) {
+        let visited = speciesVisitedDistances.get(selectedSpecies);
+        if (!visited) {
+          visited = new Set();
+          speciesVisitedDistances.set(selectedSpecies, visited);
+        }
+        visited.add(String(distance));
+
+        // The 2-minute countdown only begins once every quadrat has been
+        // opened for this species — not from when the species was picked.
+        if (hasExaminedAllQuadrats(selectedSpecies)) {
+          ensureSpeciesSearchTimer(selectedSpecies);
+        }
+      }
+
       updateProgressAndGraphButton();
       panel.classList.add("is-open");
     }
@@ -4508,9 +4608,8 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
       point.classList.add("is-selected");
       point.setAttribute("aria-expanded", "true");
 
-      note.textContent = "You selected " + target + " metres. Read the panel above the line.";
+      note.textContent = "You selected " + target + " metres.";
 
-      // updateArrowStates(target);
       // Hand off to the person-marker state machine - it decides whether
       // this needs a walk, an instant placement, or nothing at all.
       movePerson(target, point);
@@ -4704,13 +4803,11 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
         // back arrow, matching the very first render of the page.
         selected = null;
         resetPerson();
-        // updateArrowStates(0);
       });
     }
 
     // Initial state: person at 0 m, standing image, nothing open, back arrow disabled.
     resetPerson();
-    // updateArrowStates(0);
   }
 
   /* ==================================================
@@ -4719,7 +4816,7 @@ partBFormatAverage(lineGraphAverage(item)) + " elephant snails per square metre"
 
   // Preserve the current working-page behaviour. Set to false before release
   // when students should unlock Parts A-D progressively.
-  const DEV_MODE = true;
+  const DEV_MODE = false;
 
   const sectionIds = [
       { id: "marine-snail-context", label: "Victorian Marine Snails" },

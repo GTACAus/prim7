@@ -70,7 +70,7 @@
             id: "m2-rust-alert",
             label: "Inspect the damaged camera",
             type: "read",
-            successTitle: "Reveal answer",
+            successTitle: "Answer",
             successMessage:
               "Rust forms on iron metal when it reacts with oxygen and water. " +
               "This chemical reaction can weaken the metal and cause devices to malfunction. " +
@@ -102,11 +102,11 @@
             label: "Choose the scientific drawing",
             type: "choice",
             choiceGroup: "rustScientificDrawing",
-            correctValue: "option-3",
+            correctValue: "option-2",
             tryAgainMessage:
                 "Look again at the Science Check. A scientific drawing should use simple clear lines, accurate proportions, appropriate labels and no unnecessary colour or decorative detail."
-            },
-            {
+          },
+          {
             id: "m2-rust-results",
             label: "Rust experiment results",
             type: "read",
@@ -114,12 +114,14 @@
             successMessage:
                 "Saltwater is most likely to cause iron to rust in the deep sea. " +
                 "Oil can help prevent rust from forming on the camera."
-            },
-            {
+          },
+          {
             id: "m2-camera-fixed",
             label: "The camera is fixed",
-            type: "read"
-            }
+            type: "choice",
+            choiceGroup: "goShallowWaters",
+            correctValue: "option-1"
+          }
         ]
       },
       {
@@ -1257,6 +1259,10 @@
         expeditionState.selections[stage.choiceGroup] = "";
       }
 
+      if (stage.choiceGroup === "goShallowWaters") {
+        resetShallowWatersVideo();
+      }
+
       if (stage.type === "choice-set") {
         Object.keys(stage.answers || {}).forEach(function(groupName) {
           expeditionState.selections[groupName] = "";
@@ -1802,6 +1808,12 @@
       });
     }
 
+    const MEDIA_WIDTH = 1100;
+    const media = window.matchMedia(`(max-width: ${ MEDIA_WIDTH }px)`);
+
+    media.addEventListener("change", renderSubstageNavigation);
+    
+
     function renderSubstageNavigation() {
       const container = document.getElementById("substageNav");
       const mission = getCurrentMission();
@@ -1809,6 +1821,18 @@
       if (!container || !expeditionState.started || !mission) {
         if (container) container.hidden = true;
         return;
+      }
+
+      const missionList = document.getElementById("missionList");
+      const missionButtons = missionList && missionList.querySelectorAll(".mission-button");
+      const activeMissionButton = missionButtons && missionButtons[expeditionState.currentMissionIndex];
+
+      // Check if width is below MEDIA_WIDTH, then move substagenav
+      if (media.matches) {
+        missionList.insertAdjacentElement("afterend", container);
+      }
+      else if (activeMissionButton) {
+        activeMissionButton.insertAdjacentElement("afterend", container);
       }
 
       container.hidden = false;
@@ -1972,7 +1996,7 @@
       const isLastStage = mission && expeditionState.currentStageIndex === mission.stages.length - 1;
       const isFinalMission = expeditionState.currentMissionIndex === missionConfig.length - 1;
 
-      checkButton.textContent = stage.type === "finale" ? "Complete" : "Check";
+      checkButton.querySelector("span").textContent = stage.type === "finale" ? "Complete" : "Check";
 
       if (stage.type === "finale" && !completed) {
         const phase = expeditionState.mission5.phase;
@@ -2042,6 +2066,92 @@
       if (!modal) return;
       modal.style.display = "none";
       modal.setAttribute("aria-hidden", "true");
+    }
+
+    let shallowWatersTimers = [];
+
+    function clearShallowWatersTimers() {
+      shallowWatersTimers.forEach(clearTimeout);
+      shallowWatersTimers = [];
+    }
+
+    function loadShallowWatersVideos() {
+      const bubblesVideo = document.createElement("video");
+      bubblesVideo.src = "../videos/lesson5/bubbles.mp4";
+      bubblesVideo.muted = true;
+      bubblesVideo.playsInline = true;
+      bubblesVideo.controls = false;
+      bubblesVideo.preload = "auto";
+      bubblesVideo.setAttribute("aria-label", "Bubbles rising through the water");
+
+      // Both videos are created up front so the shallow-waters clip starts
+      // buffering in the background during the bubbles animation, instead
+      // of stalling for a fresh fetch right when the crossfade happens.
+      const shallowWatersVideo = document.createElement("video");
+      shallowWatersVideo.src = "../videos/lesson5/shallow-waters.mp4";
+      shallowWatersVideo.muted = true;
+      shallowWatersVideo.playsInline = true;
+      shallowWatersVideo.controls = false;
+      shallowWatersVideo.preload = "auto";
+      shallowWatersVideo.loop = true;
+      shallowWatersVideo.setAttribute("aria-label", "Camera footage of the shallow ocean waters");
+
+      return [ bubblesVideo, shallowWatersVideo ];
+    }
+
+    function goShallowWaters() {
+      const container = document.getElementById("goShallowWatersVideoContainer");
+      if (!container) return;
+
+      resetShallowWatersVideo();
+      container.hidden = false;
+
+      const [ bubblesVideo, video ] = loadShallowWatersVideos();
+
+      container.appendChild(bubblesVideo);
+      container.appendChild(video);
+
+      const startBubbles = function() {
+        bubblesVideo.classList.add("is-visible");
+        bubblesVideo.play().catch(function() {});
+      };
+
+      // Wait for enough of the bubbles clip to be buffered before starting
+      // it, so playback doesn't stutter on its very first frames.
+      if (bubblesVideo.readyState >= 3) {
+        startBubbles();
+      } else {
+        bubblesVideo.addEventListener("canplay", startBubbles, { once: true });
+      }
+
+      const swapTimer = setTimeout(function() {
+        video.play().catch(function() {});
+        bubblesVideo.classList.remove("is-visible");
+        video.classList.add("is-visible");
+
+        const cleanupTimer = setTimeout(function() {
+          bubblesVideo.pause();
+          bubblesVideo.remove();
+        }, 300);
+        shallowWatersTimers.push(cleanupTimer);
+      }, 1500);
+      shallowWatersTimers.push(swapTimer);
+    }
+
+    function resetShallowWatersVideo() {
+      clearShallowWatersTimers();
+
+      const container = document.getElementById("goShallowWatersVideoContainer");
+      if (!container) return;
+
+      container.querySelectorAll("video").forEach(function(video) {
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+      });
+
+      container.innerHTML = "";
+      container.hidden = true;
     }
 
     /* ==================================================

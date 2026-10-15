@@ -173,6 +173,7 @@
   display: inline-block;
   margin-bottom: 5px;
   padding: 6px 10px;
+  width: fit-content;
   background: var(--soft-blue);
   border: 2px solid var(--charcoal);
   border-radius: 999px;
@@ -2342,6 +2343,7 @@
 .project-resource-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   margin: 0;
   padding: 9px 13px;

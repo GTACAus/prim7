@@ -184,14 +184,37 @@
             <strong>differences between categories</strong> easier to see.
           </p>
 
-          <a
-            class="worksheet-button general-button"
-            href="../worksheets/l4-worksheet.pdf"
-            download
-          >
-            <p class="bounce-symbol">📄</p>
-            <p>Download worksheet</p>
-          </a>
+          <div style="display: inline-flex; flex-direction: column; gap: 10px; align-items: center;">
+            <a
+              class="worksheet-button general-button"
+              style="width: 220px;"
+              href="../worksheets/l4-worksheet.pdf"
+              download
+            >
+              <p class="bounce-symbol">📄</p>
+              <p>Download worksheet</p>
+            </a>
+            <div style="display: inline-flex; flex-direction: row; gap: 10px;">
+              <button
+                type="button"
+                style="width: 220px;"
+                class="general-button project-resource-button bar-data-resource-button"
+                onclick="openPdfModal('../images/lesson4/types-of-graphs.png', 'Types of Data')"
+              >
+                <span class="bounce-symbol" aria-hidden="true">📄</span>
+                <span>Types of Data</span>
+              </button>
+              <button
+                type="button"
+                style="width: 220px; background: var(--orange);"
+                class="general-button project-resource-button bar-data-resource-button"
+                onclick="openPdfModal('../images/lesson4/visualising-data.pdf', 'Visualising Fair Test Data')"
+              >
+                <span class="bounce-symbol" aria-hidden="true">📄</span>
+                <span>Visualising Fair Test Data</span>
+              </button>
+            </div>
+          </div>
 
         </div>
       </header>
@@ -208,7 +231,7 @@
 
           <ol class="objective-list">
             <li>I am learning how to <strong>collect and visualise data</strong>.</li>
-            <li>I can <strong>label axes</strong> and <strong>plot data points</strong> on a bar graph.</li>
+            <li>I can <strong>label axes</strong> and <strong>plot data points</strong> as bars on a bar graph.</li>
             <li>I can use a bar graph to <strong>analyse the results of a fair test</strong>.</li>
           </ol>
         </section>
@@ -264,7 +287,7 @@
           </div>
         </section>
       </div>
-
+      
       <section id="bar-data-preamble" class="section bar-data-preamble" aria-labelledby="barDataPreambleTitle">
         <p class="intro-eyebrow">Using bar graphs</p>
         <h2 id="barDataPreambleTitle">Visualising Fair Test Data</h2>
@@ -273,16 +296,6 @@
             Scientists use a <strong>bar graph</strong> when they want to visualise
             <strong>discrete data</strong> or <strong>categorical data</strong>.
           </p>
-
-          <button
-            type="button"
-            class="general-button project-resource-button bar-data-resource-button"
-            onclick="openPdfModal('../images/lesson4/types-of-graphs.png', 'Types of Data')"
-          >
-            <span class="bounce-symbol" aria-hidden="true">📄</span>
-            <span>Types of Data</span>
-          </button>
-
         </div>
 
         <!-- Full-width Canva visual placeholder using existing shared lesson elements only. 
@@ -393,7 +406,7 @@
                     <button
                       type="button"
                       class="general-button project-resource-button"
-                      onclick="openPdfModal('../../downloads/lesson4/leadbeaters-possum-flyer.pdf', 'Meet the Leadbeater\'s Possum')"
+                      onclick="openPdfModal('../downloads/lesson4/leadbeaters-possum-flyer.pdf', 'Meet the Leadbeater\'s Possum')"
                     >
                       <span class="bounce-symbol" aria-hidden="true">📄</span>
                       <span>Open Leadbeater's Flyer</span>
@@ -402,11 +415,11 @@
 
                 </div>
 
-                <aside class="project-species-portrait" aria-label="Leadbeater's Possum target species">
+                <aside class="project-species-portrait" aria-label="Leadbeater's Possum">
                   <span class="project-status-chip">Critically endangered</span>
                   <img src="../images/lesson4/leadbeaters_possum_1.png" alt="Leadbeater's Possum" />
                   <strong>Leadbeater's Possum</strong>
-                  <small>Target species for Project Possum</small>
+                  <small>Species that Project Possum wants to protect</small>
                 </aside>
               
               </div>
@@ -635,7 +648,7 @@
               <div class="animal-counter-panel pop-in" id="animalCounterPanel" aria-label="Count the hidden animals" data-progress-reset></div>
 
               <div class="reset-button-container">
-                <button type="button" class="general-button" id="checkAnimalCountButton">Check my count</button>
+                <button type="button" class="general-button" id="checkAnimalCountButton" style="display: none;">Check my count</button>
               </div>
 
               <div class="challenge-feedback" id="animalCountFeedback" role="status" aria-live="polite">
@@ -780,6 +793,15 @@
 
         <div class="lesson4-workbench partb-workbench" id="partBWorkbench">
         <div class="partb-data-card">
+          <button
+            type="button"
+            style="width: 220px; color: black; background: var(--yellow); float: right;"
+            class="general-button project-resource-button bar-data-resource-button"
+            onclick="openPdfModal('../images/lesson4/visualising-data.pdf', 'Visualising Fair Test Data')"
+          >
+            <span class="bounce-symbol" aria-hidden="true">📄</span>
+            <span>Visualising Fair Test Data</span>
+          </button>
           <span class="challenge-step-label">Step 1 · Get the average values</span>
           <!-- <h3>Site 1 · Three nights of spotlighting</h3> -->
           <p>
@@ -831,10 +853,10 @@
               </div>
 
               <div class="partb-unit-check challenge-hidden" id="partBUnitCheck" hidden>
-                <p><strong>Unit check:</strong> Do these axis labels need a measurement unit such as cm or seconds?</p>
+                <p><strong>Unit check:</strong> Does the 'Number of animals' axis label need a measurement unit, and if so, which one?</p>
                 <div class="partb-unit-buttons">
                   <button type="button" class="challenge-choice" data-partb-unit="none">No unit needed</button>
-                  <button type="button" class="challenge-choice" data-partb-unit="cm">cm</button>
+                  <button type="button" class="challenge-choice" data-partb-unit="hectare">animals per hectare</button>
                   <button type="button" class="challenge-choice" data-partb-unit="seconds">seconds</button>
                 </div>
               </div>
@@ -887,7 +909,7 @@
                   </g>
 
                   <text class="axis-label partb-final-axis-label" id="partBXAxisLabel" x="415" y="470" text-anchor="middle">Type of animal</text>
-                  <text class="axis-label partb-final-axis-label" id="partBYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+                  <text class="axis-label partb-final-axis-label" id="partBYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals<tspan id="partBYAxisUnit"></tspan></text>
 
                   <line class="partb-guide" id="partBVerticalGuide" x1="0" y1="40" x2="0" y2="370"></line>
                   <line class="partb-guide" id="partBHorizontalGuide" x1="120" y1="0" x2="710" y2="0"></line>
@@ -1080,7 +1102,7 @@
               <p><strong>Do these axes need a measurement unit?</strong> Check the data before the graph is revealed.</p>
               <div class="partc-unit-buttons">
                 <button type="button" class="challenge-choice" data-partc-unit="none">No unit needed</button>
-                <button type="button" class="challenge-choice" data-partc-unit="cm">cm</button>
+                <button type="button" class="challenge-choice" data-partc-unit="hectare">animals per hectare</button>
                 <button type="button" class="challenge-choice" data-partc-unit="seconds">seconds</button>
               </div>
             </div>
@@ -1170,7 +1192,7 @@
                 </g>
 
                 <text class="axis-label partc-final-axis-label" id="partCXAxisLabel" x="415" y="470" text-anchor="middle">Type of animal</text>
-                <text class="axis-label partc-final-axis-label" id="partCYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+                <text class="axis-label partc-final-axis-label" id="partCYAxisLabel" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals<tspan id="partCYAxisUnit"></tspan></text>
 
                 <g id="partCBarsLayer"></g>
                 <g id="partCValuesLayer"></g>
@@ -1380,6 +1402,8 @@
             <table class="practice-table partd-data-table" aria-label="Comparison of average animal counts at Site 1 and Site 2">
               <caption>Table 3. Comparison of average animal counts at Site 1 and Site 2</caption>
               <thead>
+                <th style="opacity: 0; border: none;"></th>
+                <th style="background: var(--soft-blue);" colspan="2">Number of animals per hectare</th>
                 <tr>
                   <th>Type of animal</th>
                   <th>Site 1</th>
@@ -1472,7 +1496,7 @@
               <line class="graph-axis" x1="120" y1="370" x2="120" y2="35"></line>
 
               <text class="axis-label" x="415" y="470" text-anchor="middle">Type of animal</text>
-              <text class="axis-label" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals</text>
+              <text class="axis-label" x="32" y="205" text-anchor="middle" transform="rotate(-90 32 205)">Number of animals (animals per hectare)</text>
 
               <g id="partDCategoriesLayer"></g>
               <g id="partDSite1BarsLayer"></g>
@@ -1723,7 +1747,7 @@
               <button
                 type="button"
                 class="general-button project-resource-button"
-                onclick="openPdfModal('../../downloads/lesson4/protect-leadbeaters-possum.pdf', 'Protecting Leadbeater\'s Possum')"
+                onclick="openPdfModal('../downloads/lesson4/protect-leadbeaters-possum.pdf', 'Protecting Leadbeater\'s Possum')"
               >
                 <span class="bounce-symbol" aria-hidden="true">📄</span>
                 <span>Open Protection Guide</span>
