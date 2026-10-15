@@ -454,12 +454,12 @@
 
     #expedition-main {
       position: sticky;
-      top: 0;
+      top: 16px;
       z-index: 5;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      max-height: 100vh;
+      max-height: calc(100vh - 16px);
       will-change: width, height, margin-left;
     }
 

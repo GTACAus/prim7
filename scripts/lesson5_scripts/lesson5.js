@@ -2336,6 +2336,11 @@
       let MAX_WIDTH_FRACTION = 0.97;
       let MAX_HEIGHT_FRACTION = 0.98;
 
+      // Keeps a small gap above the frame once it's fully zoomed in,
+      // matching #expedition-main's CSS `top` offset so the box never
+      // grows tall enough to push its top edge past that gap.
+      const TOP_GAP = 16;
+
       let naturalLeft = 0;
       let naturalWidth = 0;
       let naturalHeight = 0;
@@ -2393,10 +2398,11 @@
         // capped so it can never end up taller than the window itself -
         // if the natural height is already taller than that target this
         // just holds it at the target height for the whole range.
-        const targetHeight = viewportHeight * MAX_HEIGHT_FRACTION;
+        const availableHeight = viewportHeight - TOP_GAP;
+        const targetHeight = availableHeight * MAX_HEIGHT_FRACTION;
         const height = Math.min(
           naturalHeight + (targetHeight - naturalHeight) * progress,
-          viewportHeight
+          availableHeight
         );
         target.style.height = height + "px";
 
