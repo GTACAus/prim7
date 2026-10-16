@@ -1232,52 +1232,57 @@
     </p>
   </div>
 
-  <div
-    class="question-structure-grid"
-    id="questionStructureGrid">
+  <div id="investigationQuestionActivity" data-activity>
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-what"
-      data-question-structure="what"
-      aria-pressed="false">
-      When I change the ______, what happens to the ______?
-    </button>
+    <div
+      class="question-structure-grid"
+      id="questionStructureGrid">
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-how"
-      data-question-structure="how"
-      aria-pressed="false">
-      How does changing the ______ affect the ______?
-    </button>
+      <button
+        type="button"
+        class="question-structure-card question-structure-what"
+        data-question-structure="what"
+        aria-pressed="false">
+        When I change the ______, what happens to the ______?
+      </button>
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-does"
-      data-question-structure="does"
-      aria-pressed="false">
-      Does changing the ______ affect the ______?
-    </button>
+      <button
+        type="button"
+        class="question-structure-card question-structure-how"
+        data-question-structure="how"
+        aria-pressed="false">
+        How does changing the ______ affect the ______?
+      </button>
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-if"
-      data-question-structure="if"
-      aria-pressed="false">
-      If I change the ______, what happens to the ______?
-    </button>
+      <button
+        type="button"
+        class="question-structure-card question-structure-does"
+        data-question-structure="does"
+        aria-pressed="false">
+        Does changing the ______ affect the ______?
+      </button>
 
-  </div>
+      <button
+        type="button"
+        class="question-structure-card question-structure-if"
+        data-question-structure="if"
+        aria-pressed="false">
+        If I change the ______, what happens to the ______?
+      </button>
 
-  <div
-    class="investigation-question-builder"
-    id="investigationQuestionBuilder"
-    aria-live="polite">
+    </div>
 
-    <p class="question-builder-placeholder">
-      Select a question structure above to begin.
-    </p>
+    <div
+      class="investigation-question-builder"
+      id="investigationQuestionBuilder"
+      data-question-builder
+      aria-live="polite">
+
+      <p class="question-builder-placeholder">
+        Select a question structure above to begin.
+      </p>
+
+    </div>
 
   </div>
 
@@ -1291,7 +1296,7 @@
     </p>
   </div>
 
-  <div class="reasoned-builder">
+  <div class="reasoned-builder" id="reasonedPredictionActivity" data-activity>
             <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
               <div class="prediction-organiser-row row-header">
                 <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
@@ -1312,6 +1317,8 @@
 
         <div
           id="changeVariable"
+          data-prediction-change
+          data-placeholder="The thing I am changing"
           class="generated-text placeholder">
           The thing I am changing
         </div>
@@ -1326,6 +1333,8 @@
 
           <div
           id="measureVariable"
+          data-prediction-measure
+          data-placeholder="The thing I am measuring"
           class="generated-text placeholder">
           The thing I am measuring
         </div>
@@ -1343,23 +1352,23 @@
                 <div class="prediction-organiser-cell">
                   <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
                   <div class="relationship-area">
-                    <select id="causeRelationshipType" class="prediction-select">
+                    <select id="causeRelationshipType" data-prediction-cause-type class="prediction-select">
                       <option value="">Choose a relationship type</option>
                       <option value="increase-decrease">Increase / decrease</option>
                       <option value="with-without">With / without</option>
                       <option value="condition-comparison">Condition 1 versus condition 2</option>
                     </select>
-                    <div id="causeRelationshipButtons" class="relationship-buttons"></div>
+                    <div data-prediction-cause-buttons class="relationship-buttons"></div>
 
-                    <div id="conditionComparisonInputs" class="condition-comparison-inputs">
+                    <div data-prediction-condition-inputs class="condition-comparison-inputs">
           <input
-            id="conditionOneInput"
+            data-prediction-condition-one
             class="condition-input"
             type="text"
             placeholder="Starting condition, e.g. blue">
 
           <input
-            id="conditionTwoInput"
+            data-prediction-condition-two
             class="condition-input"
             type="text"
             placeholder="New condition, e.g. red">
@@ -1369,35 +1378,35 @@
                 </div>
                 <div class="prediction-organiser-cell">
                   <span class="cell-sublabel">Effect or result</span>
-                  <div id="effectRelationshipButtons" class="relationship-buttons three-options">
-                    <button type="button" class="relationship-option" data-effect="increase">Increase</button>
-                    <button type="button" class="relationship-option" data-effect="decrease">Decrease</button>
-                    <button type="button" class="relationship-option" data-effect="stay-the-same">Stay the same</button>
+                  <div class="relationship-buttons three-options">
+                    <button type="button" class="relationship-option" data-prediction-effect="increase">Increase</button>
+                    <button type="button" class="relationship-option" data-prediction-effect="decrease">Decrease</button>
+                    <button type="button" class="relationship-option" data-prediction-effect="stay-the-same">Stay the same</button>
                   </div>
                 </div>
               </div>
 
               <div class="prediction-organiser-row row-prediction">
                 <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
-                <div class="prediction-organiser-cell"><div id="predictionIf" class="generated-text placeholder">Choose a cause relationship.</div></div>
-                <div class="prediction-organiser-cell"><div id="predictionThen" class="generated-text placeholder">Choose an effect or result.</div></div>
+                <div class="prediction-organiser-cell"><div data-prediction-cause-text class="generated-text placeholder">Choose a cause relationship.</div></div>
+                <div class="prediction-organiser-cell"><div data-prediction-effect-text class="generated-text placeholder">Choose an effect or result.</div></div>
               </div>
 
               <div class="prediction-organiser-row row-reason">
                 <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
                 <div class="prediction-organiser-cell span-2 reason-inline">
                   <label class="cell-helper" for="reasonInput">This is because...</label>
-                  <div id="reasonInputRow" class="permanent-input-row">
-                    <input id="reasonInput" type="text" class="prediction-input" placeholder="Explain why you expect this result">
+                  <div data-prediction-reason-row class="permanent-input-row">
+                    <input id="reasonInput" data-prediction-reason-input type="text" class="prediction-input" placeholder="Explain why you expect this result">
                   </div>
-                  <div id="reasonAnswer" class="submitted-answer"></div>
+                  <div data-prediction-reason-answer class="submitted-answer"></div>
                 </div>
               </div>
 
               <div class="prediction-organiser-row row-full">
                 <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
                 <div class="prediction-organiser-cell span-2">
-                  <div id="reasonedPrediction" class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
+                  <div data-prediction-full-text class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
                 </div>
               </div>
             </div>
@@ -1695,8 +1704,11 @@
   </main>
 
   <script src="../scripts/common_functions.js"></script>
+  <script src="../scripts/activities/activity-base.js"></script>
+  <script src="../scripts/activities/activity-sections.js"></script>
+  <script src="../scripts/activities/prediction-table-activity.js"></script>
+  <script src="../scripts/activities/investigation-question-activity.js"></script>
   <script src="../scripts/lesson2_scripts/bigkahuna4.js"></script>
-  <script src="../scripts/reasoned_prediction_table.js"></script>
 
 
   <script>
@@ -1835,8 +1847,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   initialiseDiscoverVariables();
   initialiseInvestigationQuestion();
+  initialisePredictionTable();
   initialiseBallPairActivity();
   initialiseProcedureTextareas();
+  initSectionActivitiesIn(document);
 
   initialiseSortVariables(
     sortVariablesOneStructure
@@ -2805,479 +2819,58 @@ function resetBallPairActivity(
       DESIGN AN INVESTIGATION QUESTION
       ================================================== */
 
-    let investigationQuestionState = {
-      structure: "",
-      firstAnswer: "",
-      secondAnswer: ""
-    };
-
-    const investigationQuestionTemplates = {
-      what: {
-        parts: [
-          "When I change the ",
-          ", what happens to the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      },
-
-      how: {
-        parts: [
-          "How does changing the ",
-          " affect the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      },
-
-      does: {
-        parts: [
-          "Does changing the ",
-          " affect the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      },
-
-      if: {
-        parts: [
-          "If I change the ",
-          ", what happens to the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      }
-    };
-
-
-    function initialiseInvestigationQuestion() {
-      const activity =
-        document.getElementById("design-question");
-
-      if (!activity) {
-        return;
-      }
-
-      const structureButtons =
-        activity.querySelectorAll(
-          "[data-question-structure]"
-        );
-
-      structureButtons.forEach(function(button) {
-        button.addEventListener(
-          "click",
-          function() {
-            selectInvestigationQuestionStructure(
-              button.dataset.questionStructure
-            );
-          }
-        );
-      });
-    }
-
-
-    function selectInvestigationQuestionStructure(
-      structureName
-    ) {
-      const activity =
-        document.getElementById("design-question");
-
-      const builder =
-        document.getElementById(
-          "investigationQuestionBuilder"
-        );
-
-      const template =
-        investigationQuestionTemplates[
-          structureName
-        ];
-
-      if (!activity || !builder || !template) {
-        return;
-      }
-
-      investigationQuestionState = {
-        structure: structureName,
-        firstAnswer: "",
-        secondAnswer: ""
-      };
-
-      activity
-        .querySelectorAll(
-          "[data-question-structure]"
-        )
-        .forEach(function(button) {
-          const isSelected =
-            button.dataset.questionStructure ===
-            structureName;
-
-          button.classList.toggle(
-            "selected",
-            isSelected
-          );
-
-          button.setAttribute(
-            "aria-pressed",
-            String(isSelected)
-          );
-        });
-
-      builder.classList.add("builder-active");
-      builder.innerHTML = "";
-
-      const sentence =
-        document.createElement("div");
-
-      sentence.className =
-        "question-builder-sentence";
-
-      sentence.appendChild(
-        document.createTextNode(
-          template.parts[0]
-        )
-      );
-
-      sentence.appendChild(
-        createInvestigationQuestionBlank(
-          "firstAnswer",
-          template.firstPlaceholder
-        )
-      );
-
-      sentence.appendChild(
-        document.createTextNode(
-          template.parts[1]
-        )
-      );
-
-      sentence.appendChild(
-        createInvestigationQuestionBlank(
-          "secondAnswer",
-          template.secondPlaceholder
-        )
-      );
-
-      sentence.appendChild(
-        document.createTextNode(
-          template.parts[2]
-        )
-      );
-
-      const completedQuestion =
-        document.createElement("div");
-
-      completedQuestion.id =
-        "completedInvestigationQuestion";
-
-      completedQuestion.className =
-        "completed-investigation-question";
-
-      completedQuestion.hidden = true;
-
-      builder.appendChild(sentence);
-      builder.appendChild(completedQuestion);
-    }
-
-    function autofillTestableQuestion(completedQuestion) {
-      const autofillElement = document.getElementById("autofillTestableQuestion");
-      autofillElement.innerHTML = completedQuestion.textContent;
-    }
-
     const dropdownAnswers = [
       "ball size",
       "ball material",
-       "drop height",
-       "ball squashiness",
-       "bounce surface",
-       "bounce height",
-       "number of bounces",
-       "time spent bouncing"
+      "drop height",
+      "ball squashiness",
+      "bounce surface",
+      "bounce height",
+      "number of bounces",
+      "time spent bouncing"
     ];
 
-    function updateLesson2PredictionBuilder() {
-      if (
-        typeof setInvestigationQuestionAnswers !==
-        "function"
-      ) {
+    let reasonedPredictionActivity = null;
+    let investigationQuestionActivity = null;
+
+    function initialisePredictionTable() {
+      const root = document.getElementById("reasonedPredictionActivity");
+      if (!root) {
         return;
       }
 
-      setInvestigationQuestionAnswers(
-        investigationQuestionState.structure,
-        investigationQuestionState.firstAnswer,
-        investigationQuestionState.secondAnswer
-      );
+      reasonedPredictionActivity = new PredictionTableActivity(root);
     }
 
-    function createInvestigationQuestionBlank(
-      fieldName,
-      placeholderText
-    ) {
-      const wrapper =
-        document.createElement("span");
+    function initialiseInvestigationQuestion() {
+      const root = document.getElementById("investigationQuestionActivity");
+      if (!root) {
+        return;
+      }
 
-      wrapper.className = "question-blank";
+      investigationQuestionActivity = new InvestigationQuestionActivity(root, {
+        variableOptions: dropdownAnswers,
+        onChange: function(state) {
+          document.getElementById("autofillTestableQuestion").innerHTML = state.text;
 
-      const inputRow =
-        document.createElement("span");
-
-      inputRow.className =
-        "question-blank-input-row";
-
-      // const input =
-      //   document.createElement("input");
-      const input = document.createElement("select");
-      const inputLabel = document.createElement("option");
-      inputLabel.value = "";
-      inputLabel.textContent = placeholderText;
-      inputLabel.disabled = true;
-      inputLabel.selected = true;
-      const inputOptions = [inputLabel].concat(
-        dropdownAnswers.map(function(answer) {
-          const option = document.createElement("option");
-          option.value = answer;
-          option.textContent = answer;
-          return option;
-        })
-      );
-
-      input.addEventListener("change", function() {
-        if (input.value === "") {
-          return;
-        }
-
-        saveAnswer();
-      });
-
-      input.className =
-        "question-blank-input";
-      input.name = fieldName;
-
-      input.setAttribute(
-        "aria-label",
-        placeholderText
-      );
-
-      const answerBox =
-        document.createElement("span");
-
-      answerBox.className =
-        "question-blank-answer";
-
-      inputRow.appendChild(input);
-      inputOptions.forEach(function(option) {
-        input.appendChild(option);
-      });
-      wrapper.appendChild(inputRow);
-      wrapper.appendChild(answerBox);
-
-      function saveAnswer() {
-        const value = input.value;
-
-        if (value === "") {
-          return;
-        }
-
-        investigationQuestionState[
-          fieldName
-        ] = value;
-
-        updateLesson2PredictionBuilder();
-
-        answerBox.innerHTML = "";
-
-        const answerText =
-          document.createElement("span");
-
-        answerText.className =
-          "question-blank-answer-text";
-
-        answerText.textContent = value;
-
-        const deleteButton =
-          document.createElement("button");
-
-        deleteButton.type = "button";
-        deleteButton.className =
-          "delete-answer";
-
-        deleteButton.textContent = "×";
-
-        deleteButton.setAttribute(
-          "aria-label",
-          "Edit " + value
-        );
-
-        deleteButton.addEventListener(
-          "click",
-          function() {
-            investigationQuestionState[
-              fieldName
-            ] = "";
-
-            updateLesson2PredictionBuilder();
-
-            answerBox.classList.remove(
-              "visible"
-            );
-
-            answerBox.innerHTML = "";
-
-            inputRow.style.display =
-              "block";
-
-            input.focus();
-            input.value = "";
-            input.dispatchEvent(new Event("change"));
-
-            updateCompletedInvestigationQuestion();
+          if (reasonedPredictionActivity) {
+            reasonedPredictionActivity.setContext({
+              structure: state.structure,
+              change: state.firstAnswer,
+              measure: state.secondAnswer
+            });
           }
-        );
-
-        answerBox.appendChild(answerText);
-        answerBox.appendChild(deleteButton);
-
-        inputRow.style.display = "none";
-        answerBox.classList.add("visible");
-        input.value = "";
-
-        updateCompletedInvestigationQuestion();
-      }
-
-      return wrapper;
-    }
-
-    function updateCompletedInvestigationQuestion() {
-      const completedQuestion =
-        document.getElementById(
-          "completedInvestigationQuestion"
-        );
-
-      const template =
-        investigationQuestionTemplates[
-          investigationQuestionState.structure
-        ];
-
-      if (!completedQuestion || !template) {
-        return;
-      }
-
-      const firstAnswer =
-        investigationQuestionState.firstAnswer;
-
-      const secondAnswer =
-        investigationQuestionState.secondAnswer;
-
-      if (
-        firstAnswer === "" ||
-        secondAnswer === ""
-      ) {
-        completedQuestion.hidden = true;
-        completedQuestion.textContent = "";
-        return;
-      }
-
-      completedQuestion.textContent =
-        template.parts[0] +
-        firstAnswer +
-        template.parts[1] +
-        secondAnswer +
-        template.parts[2];
-
-      autofillTestableQuestion(completedQuestion);
-
-      completedQuestion.hidden = false;
-    }
-
-
-    function resetInvestigationQuestion() {
-      const activity =
-        document.getElementById(
-          "design-question"
-        );
-
-      const builder =
-        document.getElementById(
-          "investigationQuestionBuilder"
-        );
-
-      if (!activity || !builder) {
-        return;
-      }
-
-      investigationQuestionState = {
-        structure: "",
-        firstAnswer: "",
-        secondAnswer: ""
-      };
-
-      if (
-        typeof resetBuilder === "function"
-      ) {
-        resetBuilder();
-      }
-
-      updateLesson2PredictionBuilder();
-
-      activity
-        .querySelectorAll(
-          "[data-question-structure]"
-        )
-        .forEach(function(button) {
-          button.classList.remove(
-            "selected"
-          );
-
-          button.setAttribute(
-            "aria-pressed",
-            "false"
-          );
-        });
-
-      builder.classList.remove(
-        "builder-active"
-      );
-
-      builder.innerHTML =
-        '<p class="question-builder-placeholder">' +
-        "Select a question structure above to begin." +
-        "</p>";
-
-      updateLesson2PredictionBuilder();
+        }
+      });
     }
 
     function resetQuestionAndPrediction() {
-
-      /*
-        Reset the testable question.
-      */
-      resetInvestigationQuestion();
-
-
-      /*
-        Reset the embedded reasoned-prediction builder.
-      */
-      if (
-        typeof resetBuilder === "function"
-      ) {
-        resetBuilder();
+      if (investigationQuestionActivity) {
+        investigationQuestionActivity.reset();
       }
 
-
-      /*
-        Hide the Next button again.
-      */
-      const nextButton =
-        document.getElementById(
-          "designQuestionNext"
-        );
-
-      if (nextButton) {
-        nextButton.hidden = true;
+      if (reasonedPredictionActivity) {
+        reasonedPredictionActivity.reset();
       }
     }
 

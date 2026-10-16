@@ -481,6 +481,17 @@ input[type="checkbox"]:active {
   display: none !important;
 }
 
+/*
+  Shared activity framework (scripts/activities/). An activity whose
+  data-activity-depends-on hasn't been met yet gets this instead of
+  being hidden outright, so a page can still show it as "locked" in
+  place rather than making it disappear.
+*/
+.activity-unavailable {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
 .video-box,
 .plant-canvas,
 .label-bank,
