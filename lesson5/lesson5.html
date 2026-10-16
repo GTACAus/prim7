@@ -284,9 +284,14 @@
           <h1>Expedition Log</h1>
           <h2>Deep Sea Explorers</h2>
         </div>
-        <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
-          <span>Field guide</span>
-        </button>
+        <div style="display: inline-flex; flex-direction: column; gap: 10px; align-items: center;">
+          <button type="button" id="fullScreenButton" class="expedition-button" onclick="openFullscreen()">
+            <span>Full Screen</span>
+          </button>
+          <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
+            <span>Field guide</span>
+          </button>
+        </div>
       </header>
       <div class="game-shell">
 
@@ -2393,6 +2398,71 @@
       cancelAnimationFrame(animationFrame);
       updateSubmarineGlow();
     });
+  </script>
+  <script>
+    /* Get the documentElement (<html>) to display the page in fullscreen */
+    const elem = document.querySelector(".expedition-zoom-stage");
+    const button = document.getElementById("fullScreenButton");
+
+    function isFullscreen() {
+      return !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.msFullscreenElement
+      );
+    }
+
+    /* View in fullscreen */
+    function openFullscreen() {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    }
+
+    /* Close fullscreen */
+    function closeFullscreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+      }
+    }
+
+    function scrollToExpeditionMain() {
+      // Force an instant jump regardless of the page's global
+      // `scroll-behavior: smooth`, which would otherwise animate this.
+      const html = document.documentElement;
+      const previousScrollBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
+      document.getElementById("expedition-main").scrollIntoView({ block: "start" });
+      html.style.scrollBehavior = previousScrollBehavior;
+    }
+
+    // The button's label/click handler and the close-time scroll are both
+    // driven off the browser's own fullscreenchange event rather than set
+    // directly inside openFullscreen()/closeFullscreen(), so they also stay
+    // correct when fullscreen is left some other way (Esc key, browser UI)
+    // instead of only when this button is clicked.
+    function onFullscreenChange() {
+      if (isFullscreen()) {
+        button.onclick = closeFullscreen;
+        button.querySelector("span").textContent = "Close Full Screen";
+      } else {
+        button.onclick = openFullscreen;
+        button.querySelector("span").textContent = "Full Screen";
+        scrollToExpeditionMain();
+      }
+    }
+
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", onFullscreenChange);
+    document.addEventListener("msfullscreenchange", onFullscreenChange);
   </script>
 </body>
 </html>
