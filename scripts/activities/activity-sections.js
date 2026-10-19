@@ -5,9 +5,10 @@
    A section's .next-button stays hidden until every
    [data-activity] element inside that section reports
    data-activity-complete="true". A section with no
-   activities at all is treated as already ready, so
-   pages that don't use the activity framework yet are
-   unaffected.
+   [data-activity] elements is left alone entirely - its
+   next button's visibility stays whatever the page's own
+   markup/script already set, so sections with their own
+   bespoke gating (or no gating at all) are unaffected.
 
    Call initSectionActivitiesIn() once, after every
    Activity on the page has been constructed (so their
@@ -21,9 +22,11 @@
     var nextButton = section.querySelector(".next-button");
     if (!nextButton) return;
 
+    var activities = section.querySelectorAll("[data-activity]");
+    if (!activities.length) return;
+
     function refresh() {
-      var activities = section.querySelectorAll("[data-activity]");
-      var allComplete = Array.prototype.every.call(activities, function (activity) {
+      var allComplete = Array.prototype.every.call(section.querySelectorAll("[data-activity]"), function (activity) {
         return activity.dataset.activityComplete === "true";
       });
       nextButton.hidden = !allComplete;
