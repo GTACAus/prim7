@@ -3141,3 +3141,52 @@
       margin-top: 15px;
       justify-content: center;
     }
+
+
+/* POKEDEX ELEMENTS */
+#creatureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+#creatureGrid button {
+  background: #0D3157;
+  border: 2px solid #39D3FF;
+  border-radius: 14px;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#creatureGrid img {
+  display: block;
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  border: 2px solid #39D3FF;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+}
+
+#creaturePanel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #0D3157;
+  border: 2px solid #39D3FF;
+  border-radius: 14px;
+}
+
+#creaturePanel[hidden] {
+  display: none !important;
+}
+
+#creaturePanel img {
+  width: 130px;
+  max-width: 40%;
+  object-fit: contain;
+}
+/* END OF POKEDEX ELEMENTS */

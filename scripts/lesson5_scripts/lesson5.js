@@ -172,7 +172,8 @@
         title: "Unknown Species",
         stages: [
           { id: "m5-finale", label: "Unknown species detected", type: "finale", requiredCount: 5 },
-          { id: "m5-identify", label: "Identify the species", type: "choice", choiceGroup: "species", correctFrom: "mission5Species" }
+          { id: "m5-identify", label: "Identify the species", type: "choice", choiceGroup: "species", correctFrom: "mission5Species" },
+          { id: "m5-field-guide", label: "Deep-Sea Field Guide", type: "read"} //POKEDEX FIELD GUIDE
         ]
       }
     ];
@@ -189,12 +190,12 @@
         observation gif  = ../images/lesson5/mission5/animations/<id>.gif
     */
     const MISSION5_OBSERVE_SECONDS = 5;
-    const mission5SpeciesPool = [
-      { id: "goblin-shark-3", ext: "png", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper." },
-      { id: "dumbo-octopus-2", ext: "png", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes." },
-      { id: "sea-pig-2", ext: "png", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper." },
-      { id: "sea-angel-2", ext: "png", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters." },
-      { id: "pink-seethrough-fantasia-2", ext: "png", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea." },
+    const mission5SpeciesPool = [ //GUIDETEXT ENTRY is for POKEDEX
+      { id: "goblin-shark-3", ext: "png", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper.", guideText: "Deep underwater, there is very little sunlight. The goblin shark's long snout has special sensors that detect tiny electrical signals made by other animals. This helps it find food even when it cannot see clearly. When it finds prey, its jaws can shoot forwards to catch it." },
+      { id: "dumbo-octopus-2", ext: "png", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes.", guideText: "Thousands of metres below the surface, water pressure is extremely high. The dumbo octopus has a soft body suited to life at these depths. It flaps its two ear-like fins to swim and uses the webbing between its arms to help it move through the water." },
+      { id: "sea-pig-2", ext: "png", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper.", guideText: "A sea pig is actually a type of sea cucumber! It uses tube-like feet to walk across the muddy seafloor. Because food can be difficult to find at these depths, it feeds on tiny pieces of dead plants and animals that sink from the ocean above." },
+      { id: "sea-angel-2", ext: "png", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters.", guideText: "Sea angels are tiny sea slugs with almost transparent (see-through) bodies. Being transparent makes them harder for predators to spot. They swim by flapping two wing-like fins instead of crawling along the seafloor. Some sea angels live near the surface, while others are found much deeper." },
+      { id: "pink-seethrough-fantasia-2", ext: "png", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea.", guideText: "The pink see-through fantasia is a swimming sea cucumber. Its transparent body lets us see some of its organs, including its digestive system! Wide flaps help it swim above the seafloor. When attacked, it can produce light and even shed glowing skin, which may help it escape predators." },
       { id: "blobfish-2", ext: "png", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m." },
       { id: "barreleye-fish-2", ext: "png", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m." },
       { id: "deepsea-anglerfish-2", ext: "png", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
@@ -2218,6 +2219,33 @@
       }
 
       loadExpeditionState();
+
+      // START OF THE NEW POKEDEX FUNCTION
+      const grid = document.getElementById("creatureGrid");
+      const panel = document.getElementById("creaturePanel");
+
+      // Automatically create a button for every creature
+      grid.innerHTML = mission5SpeciesPool.map(fish => `
+        <button type="button" data-species="${fish.id}">
+          <img src="${getMission5StaticSrc(fish)}" alt="">
+          <span>${fish.name}</span>
+        </button>
+      `).join("");
+
+      // One listener handles every button
+      grid.addEventListener("click", event => {
+        const button = event.target.closest("[data-species]");
+        if (!button) return;
+
+        const fish = mission5SpeciesPool.find(f => f.id === button.dataset.species);
+
+        panel.hidden = false;
+        panel.querySelector("img").src = getMission5StaticSrc(fish);
+        panel.querySelector("img").alt = fish.name;
+        panel.querySelector("h4").textContent = fish.name;
+        panel.querySelector("p").textContent = fish.guideText || fish.note || "Information coming soon.";
+      });
+      // END OF THE NEW POKEDEX FUNCTION
 
       document.querySelectorAll(".mission-button").forEach(function(button) {
         button.addEventListener("click", function() {
