@@ -5,7 +5,7 @@
    pretask/pretask.html's diagram section (fill-in-the-blank sentences
    with a shared word bank). Pair with scripts/activities/drag-drop-activity.js.
    ================================================== */
-
+   
 #wordSentencesActivity {
   --dd-accent: #22c55e;
   --dd-slot-hover-bg: #dcfce7;

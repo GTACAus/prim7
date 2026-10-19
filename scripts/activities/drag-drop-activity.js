@@ -69,7 +69,6 @@
   "use strict";
 
   const DRAG_THRESHOLD = 5; /* px of movement before a press becomes a drag */
-  const DRAG_BOUNCE_AMOUNT = 3;
 
   function DragDropActivity(root, options) {
     Activity.call(this, root, options);
