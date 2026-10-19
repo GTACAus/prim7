@@ -64,7 +64,14 @@
 
     function recheck() {
       var dependency = registry[dependsOn];
-      self.setAvailable(Boolean(dependency && dependency.isComplete()));
+      var available = Boolean(dependency && dependency.isComplete());
+
+      self.setAvailable(available);
+
+      // Reset the dependent activity when its prerequisite is reset
+      if (!available && self.isComplete()) {
+        self.reset();
+      }
     }
 
     document.addEventListener("activity:change", recheck);
@@ -74,6 +81,10 @@
   Activity.prototype.setAvailable = function (isAvailable) {
     this.root.classList.toggle("activity-unavailable", !isAvailable);
     this.root.toggleAttribute("inert", !isAvailable);
+
+    if (this.root.hasAttribute("data-activity-depends-on")) {
+      this.root.hidden = !isAvailable;
+    }
   };
 
   Activity.prototype.isAvailable = function () {

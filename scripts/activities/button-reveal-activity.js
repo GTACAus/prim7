@@ -85,4 +85,16 @@
   };
 
   global.ButtonActivity = ButtonActivity;
+
+  // Initialise all stop and checks
+  function initialiseStopAndCheckActivities() {
+    Array.prototype.forEach.call(document.querySelectorAll(".stop-and-check[data-activity]"), function(root) {
+      new ButtonActivity(root);
+    });
+    console.log("Stop and Checks Loaded");
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    initialiseStopAndCheckActivities();
+  });
 })(window);

@@ -1812,15 +1812,8 @@ document.addEventListener("DOMContentLoaded", function() {
   initialisePredictionTable();
   initialiseBallPairActivity();
   initialiseVariableSortActivities();
-  initialiseStopAndCheckActivities();
   initSectionActivitiesIn(document);
 });
-
-function initialiseStopAndCheckActivities() {
-  Array.prototype.forEach.call(document.querySelectorAll(".stop-and-check[data-activity]"), function(root) {
-    new ButtonActivity(root);
-  });
-}
 
 /* ==================================================
    DISCOVER POSSIBLE VARIABLES

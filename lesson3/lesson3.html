@@ -336,7 +336,7 @@
   </div>
 </div>
 
-  <div class="variable-activity">
+  <div class="variable-activity" id="sortVariablesOneActivity" data-activity>
 
     <p class="variable-question floating-title">
       How does changing temperature affect the amount of gas made by yeast?
@@ -349,7 +349,7 @@
       <button
         type="button"
         class="variable-mode-button independent-mode-button"
-        data-variable-mode="independent"
+        data-sort-mode="independent"
         aria-pressed="false"
       >
         <span class="variable-mode-title">
@@ -364,7 +364,7 @@
       <button
         type="button"
         class="variable-mode-button dependent-mode-button"
-        data-variable-mode="dependent"
+        data-sort-mode="dependent"
         aria-pressed="false"
       >
         <span class="variable-mode-title">
@@ -379,7 +379,7 @@
       <button
         type="button"
         class="variable-mode-button controlled-mode-button"
-        data-variable-mode="controlled"
+        data-sort-mode="controlled"
         aria-pressed="false"
       >
         <span class="variable-mode-title">
@@ -397,7 +397,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="amount-yeast"
+    data-sort-tile="amount-yeast"
   >
     <span class="variable-tile-label">
       Amount of yeast
@@ -407,7 +407,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="amount-sugar"
+    data-sort-tile="amount-sugar"
   >
     <span class="variable-tile-label">
       Amount of sugar
@@ -417,7 +417,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="amount-water"
+    data-sort-tile="amount-water"
   >
     <span class="variable-tile-label">
       Amount of water
@@ -427,7 +427,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="temperature"
+    data-sort-tile="temperature"
   >
     <span class="variable-tile-label">
       Temperature
@@ -437,7 +437,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="flask-size"
+    data-sort-tile="flask-size"
   >
     <span class="variable-tile-label">
       Size of flask
@@ -447,7 +447,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="gas-produced"
+    data-sort-tile="gas-produced"
   >
     <span class="variable-tile-label">
       Amount of gas produced
@@ -457,7 +457,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="balloon-type"
+    data-sort-tile="balloon-type"
   >
     <span class="variable-tile-label">
       Type of balloon
@@ -467,6 +467,7 @@
 </div>
     <div
       id="yeastVariablesFeedback"
+      data-sort-feedback
       class="variable-feedback"
       role="status"
       aria-live="polite"
@@ -479,6 +480,7 @@
         type="button"
         id="yeast-variables-reset"
         class="general-button reset-btn"
+        data-reset-trigger
       >
         Reset
       </button>
@@ -486,41 +488,31 @@
 
   </div>
 
-  <div class="stop-and-check" hidden>
+  <div class="stop-and-check" data-activity data-activity-depends-on="sortVariablesOneActivity">
+    <div class="stop-and-check-content">
+      <p>
+        Look at the image for the fair test experiment.
+        It is Identify Variables in the Yeast Fair Test Experiment. 
+        As yeast activity increases, the amount of gas it produces increases.
+      </p>
 
-  <div class="stop-and-check-content">
-    <p>
-      Look at the image for the fair test experiment.
-      It is Identify Variables in the Yeast Fair Test Experiment. 
-      As yeast activity increases, the amount of gas it produces increases.
-    </p>
+      <p>
+        How will they measure the amount of gas produced?
+      </p>
+    </div>
 
-    <p>
-      How will they measure the amount of gas produced?
-    </p>
-  </div>
+    <div class="stop-and-check-answer" data-button-reveal hidden>
+      The student mixed the same amount of yeast, sugar and water in each flask.
+      Then they stretched a balloon over the top of the flask. This was done to trap the gas produced by the yeast. 
+      Yeast that is more active will produce more gas and this will make the balloon bigger.
+      By comparing the size of each balloon we can see which temperature makes the yeast work best.
+    </div>
 
-  <div
-    class="stop-and-check-answer"
-    id="yeastGasAnswer"
-    hidden
-  >
-    The student mixed the same amount of yeast, sugar and water in each flask.
-    Then they stretched a balloon over the top of the flask. This was done to trap the gas produced by the yeast. 
-    Yeast that is more active will produce more gas and this will make the balloon bigger.
-    By comparing the size of each balloon we can see which temperature makes the yeast work best.
-  </div>
-
-  <button
-      type="button"
-      class="stop-and-check-button general-button"
-      onclick="yeastVariablesStopAndCheck(this)"
-    >
+    <button class="stop-and-check-button general-button" data-button-trigger>
       <p>Check Your Answer</p>
       <p class="bounce-symbol">✅</p>
     </button>
-
-</div>
+  </div>
 
 
   <button
@@ -842,34 +834,23 @@
 
   </div>
 </div>
-<div id="labelsCompleteAfterContainer">
-            <div
-              class="stop-and-check"
-              id="yeastLabelsStopAndCheck"
-              hidden>
-
+          <div id="labelsCompleteAfterContainer">
+            <div class="stop-and-check" id="yeastLabelsStopAndCheck" data-activity>
               <div class="stop-and-check-content">
                 <p>
                   Look at the <strong>data</strong> in the <strong>table</strong> below.
                 </p>
-
                 <p>
                   <strong>
                     Are there any strange or unusual results when you compare
                     Test 1, Test 2 and Test 3?
                   </strong>
                 </p>
-
                 <p>
                   Think about why repeated results might sometimes be different.
                 </p>
               </div>
-
-              <div
-                class="stop-and-check-answer"
-                id="yeastAverageStrangeResultsAnswer"
-                hidden
-              >
+              <div class="stop-and-check-answer" data-button-reveal hidden>
                 Some of the repeated results are different.
 
                 At <strong>37°C</strong>, Test 2 is lower than Tests 1 and 3.
@@ -878,18 +859,13 @@
                 This could be from a setup mistake or a measuring mistake.
               </div>
 
-            <button
-              type="button"
-              class="stop-and-check-button general-button"
-              onclick="yeastLabelsStopAndCheck(this)"
-            >
-              <p>Check Your Answer</p>
-              <p class="bounce-symbol">✅</p>
-            </button>
-
+              <button class="stop-and-check-button general-button" data-button-trigger>
+                <p>Check Your Answer</p>
+                <p class="bounce-symbol">✅</p>
+              </button>
             </div>
           
-            <div id="repeat-tests-average-intro" class="pop-in" hidden>
+            <div id="repeat-tests-average-intro" class="pop-in" data-button-reveal hidden>
               <div class="yeast-results-step-heading">
                 <span>3</span>
 
@@ -1358,18 +1334,12 @@
 
 </div>
 
-<div
-  class="stop-and-check"
-  id="yeastHotStopAndThink"
-  hidden
->
-
+<div class="stop-and-check" id="yeastHotStopAndThink" data-activity hidden>
   <div class="stop-and-check-content">
     <p>
       From <strong>2°C to 37°C</strong>, yeast activity increased
       and the balloons became bigger.
     </p>
-
     <p>
       <strong>
         Why do you think yeast activity was so low in the test at 80°C?
@@ -1377,20 +1347,13 @@
     </p>
   </div>
 
-  <div
-    class="stop-and-check-answer"
-    hidden
-  >
+  <div class="stop-and-check-answer" data-button-reveal hidden>
     Yeast is a living thing. At <strong>80°C</strong>, the temperature
     is too hot for the yeast to survive, so yeast activity slows down
     and stops.
   </div>
 
-  <button
-    type="button"
-    class="stop-and-check-button general-button"
-    onclick="yeastAverageStopAndCheck(this)"
-  >
+  <button class="stop-and-check-button general-button" data-button-trigger>
     <p>Check Your Answer</p>
     <p class="bounce-symbol">✅</p>
   </button>
@@ -1469,6 +1432,10 @@
     <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
     <script src="../scripts/common_functions.js"></script>
     <script src="../scripts/lesson_progress.js"></script>
+    <script src="../scripts/activities/activity-base.js"></script>
+    <script src="../scripts/activities/activity-sections.js"></script>
+    <script src="../scripts/activities/variable-sort-activity.js"></script>
+    <script src="../scripts/activities/button-reveal-activity.js"></script>
     <script>
       const cards = document.querySelectorAll('.yeast-card');
 
@@ -1552,224 +1519,26 @@ const yeastVariablesStructure = {
   controlledComplete: false
 };
 
+let sortVariablesOneActivity = null;
+
 function initialiseYeastVariables() {
-  const structure = yeastVariablesStructure;
-
-  structure.activity =
-    document.getElementById(structure.activityID);
-
-  if (!structure.activity) {
-    return;
-  }
-
-  structure.modeButtons =
-    structure.activity.querySelectorAll(
-      ".variable-mode-button"
-    );
-
-  structure.variableTiles =
-    structure.activity.querySelectorAll(
-      ".variable-tile"
-    );
-
-  structure.feedback =
-    document.getElementById("yeastVariablesFeedback");
-
-  structure.nextButton =
-    document.getElementById("yeastVariablesNext");
-
-  structure.resetButton =
-    document.getElementById("yeast-variables-reset");
-
-  structure.stopAndCheck =
-    document.getElementById("yeast-variables").querySelector(".stop-and-check");
-
-  structure.modeButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      structure.selectedMode =
-        button.dataset.variableMode;
-
-      structure.modeButtons.forEach(function (otherButton) {
-        otherButton.classList.remove("mode-active");
-        otherButton.setAttribute("aria-pressed", "false");
-      });
-
-      button.classList.add("mode-active");
-      button.setAttribute("aria-pressed", "true");
-
-      structure.feedback.textContent =
-        "Now choose the variable that matches this type.";
-    });
-  });
-
-  structure.variableTiles.forEach(function (tile) {
-    tile.addEventListener("click", function () {
-      checkYeastVariable(tile);
-    });
-  });
-
-  structure.resetButton.addEventListener(
-    "click",
-    resetYeastVariables
-  );
-}
-
-function stopAndCheckRepeatTests(button) {
-  showStopAndCheckAnswer(button, function() {
-    document.getElementById("repeatTestsNext").hidden = false;
+  const oneRoot = document.getElementById("sortVariablesOneActivity");
+  if (!oneRoot) return;
+  
+  sortVariablesOneActivity = new VariableSortActivity(oneRoot, {
+    answers: {
+      independent: "temperature",
+      dependent: "gas-produced",
+      controlled: [
+        "amount-yeast",
+        "amount-sugar",
+        "amount-water",
+        "flask-size",
+        "balloon-type"
+      ]
+    }
   });
 }
-function checkYeastVariable(tile) {
-  const structure = yeastVariablesStructure;
-  const mode = structure.selectedMode;
-
-  if (!mode) {
-    structure.feedback.textContent =
-      "Choose Independent, Dependent or Controlled Variable first.";
-
-    return;
-  }
-
-  const variable = tile.dataset.variable;
-
-  let correct = false;
-
-  if (mode === "independent") {
-    correct =
-      variable === structure.answers.independent;
-  }
-
-  if (mode === "dependent") {
-    correct =
-      variable === structure.answers.dependent;
-  }
-
-  if (mode === "controlled") {
-    correct =
-      structure.answers.controlled.includes(variable);
-  }
-
-  if (!correct) {
-    tile.classList.add("buzz");
-
-    structure.feedback.className =
-      "variable-feedback feedback-try-again";
-
-    structure.feedback.textContent =
-      "Not quite. Try another variable.";
-
-    window.setTimeout(function () {
-      tile.classList.remove("buzz");
-    }, 300);
-
-    return;
-  }
-
-  tile.classList.add("is-classified");
-
-  if (mode === "independent") {
-    tile.classList.add("is-independent");
-    structure.independentComplete = true;
-  }
-
-  if (mode === "dependent") {
-    tile.classList.add("is-dependent");
-    structure.dependentComplete = true;
-  }
-
-  if (mode === "controlled") {
-    tile.classList.add("is-controlled");
-  }
-
-  tile.disabled = true;
-
-  updateYeastVariablesComplete();
-}
-
-function updateYeastVariablesComplete() {
-  const structure = yeastVariablesStructure;
-
-  const controlledComplete =
-    structure.answers.controlled.every(function (variable) {
-      return structure.activity.querySelector(
-        '.variable-tile[data-variable="' +
-          variable +
-          '"].is-controlled'
-      );
-    });
-
-  structure.controlledComplete =
-    controlledComplete;
-
-  if (
-    structure.independentComplete &&
-    structure.dependentComplete &&
-    structure.controlledComplete
-  ) {
-    structure.feedback.className =
-      "variable-feedback feedback-success";
-
-    structure.feedback.textContent =
-      "Correct! You identified the independent, dependent and controlled variables.";
-
-    // structure.nextButton.hidden = false;
-    document.getElementById("yeast-variables").querySelector(".stop-and-check").hidden = false;
-
-    return;
-  }
-
-  structure.feedback.className =
-    "variable-feedback";
-
-  structure.feedback.textContent =
-    "Correct. Keep going.";
-}
-
-function yeastVariablesStopAndCheck(button) {
-  showStopAndCheckAnswer(button, () => { yeastVariablesStructure.nextButton.hidden = false; });
-}
-
-function resetYeastVariables() {
-  const structure = yeastVariablesStructure;
-
-  structure.selectedMode = "";
-  structure.independentComplete = false;
-  structure.dependentComplete = false;
-  structure.controlledComplete = false;
-
-  structure.modeButtons.forEach(function (button) {
-    button.classList.remove(
-      "mode-active",
-      "mode-complete"
-    );
-
-    button.setAttribute("aria-pressed", "false");
-  });
-
-  structure.variableTiles.forEach(function (tile) {
-    tile.classList.remove(
-      "is-independent",
-      "is-dependent",
-      "is-controlled",
-      "is-classified",
-      "buzz"
-    );
-
-    tile.disabled = false;
-  });
-
-  structure.feedback.className =
-    "variable-feedback";
-
-  structure.feedback.textContent =
-    "Choose a variable type, then select the matching variable.";
-
-  structure.nextButton.hidden = true;
-  resetStopAndCheck(structure.stopAndCheck, () => {
-    structure.nextButton.hidden = false;
-  });
-}
-
       /* ==================================================
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
@@ -1890,40 +1659,6 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         if (dragGhost) {
           dragGhost.remove();
           dragGhost = null;
-        }
-      }
-
-      function initialiseYeastLabelsStopAndChecks() {
-        const section = document.getElementById("yeast-labels");
-        if (!section) return;
-
-        const averageIntro = document.getElementById("repeat-tests-average-intro");
-        const labelsStopAndCheck = document.getElementById("yeastLabelsStopAndCheck");
-        const hotStopAndThink = document.getElementById("yeastHotStopAndThink");
-
-        if (labelsStopAndCheck) {
-          resetStopAndCheck(labelsStopAndCheck, function () {
-            if (averageIntro) {
-              averageIntro.hidden = false;
-            }
-            section.querySelectorAll(".average-button").forEach(function (calculateButton) {
-              calculateButton.hidden = false;
-            });
-          });
-        }
-
-        if (hotStopAndThink) {
-          resetStopAndCheck(hotStopAndThink, function () {
-            const nextButton = document.getElementById("yeastAverageNext");
-            if (nextButton) {
-              nextButton.hidden = false;
-            }
-
-            const saveButton = document.getElementById("yeastSaveWork");
-            if (saveButton) {
-              saveButton.hidden = false;
-            }
-          });
         }
       }
 
@@ -2173,21 +1908,7 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         });
       }
 
-      function yeastLabelsStopAndCheck(button) {
-        showStopAndCheckAnswer(button, function () {
-          const section = document.getElementById("yeast-labels");
-          const averageIntro = document.getElementById("repeat-tests-average-intro");
-
-          averageIntro.hidden = false;
-
-          const calculateButtons =
-            section.querySelectorAll(".average-button");
-
-          calculateButtons.forEach(function (calculateButton) {
-            calculateButton.hidden = false;
-          });
-        });
-      }
+      
 
       function updateYeastActivityComplete() {
         const section = document.getElementById("yeast-labels");
@@ -2262,11 +1983,6 @@ function checkYeastActivityComplete() {
       feedback.innerHTML = "";
     }
 
-    if (stopAndCheck) {
-      stopAndCheck.hidden = true;
-    }
-
-    nextButton.hidden = true;
     return;
   }
 
@@ -2282,11 +1998,6 @@ function checkYeastActivityComplete() {
         "<span>Make sure all your answers are correct before moving on.</span>";
     }
 
-    if (stopAndCheck) {
-      stopAndCheck.hidden = true;
-    }
-
-    nextButton.hidden = true;
     return;
   }
 
@@ -2553,7 +2264,6 @@ partlySupportedButton.addEventListener("click", function () {
 
   partlySupportedButton.classList.add("selected-answer");
 
-    stopAndThink.hidden = false;
   });
 }
 
@@ -3453,10 +3163,9 @@ function updateLesson3CompletedQuestion() {
           initialiseTeacherMenu(lesson3SectionIds, "yeast-image-investigation", lesson3TeacherBackLink);
         }
 
+        
         initialiseLesson3DragAndDrop();
-
-        initialiseYeastLabelsStopAndChecks();
-
+        
         initialiseLesson3PermanentTextEntries();
 
         initialiseLesson3PermanentNumberEntries();
@@ -3466,9 +3175,10 @@ function updateLesson3CompletedQuestion() {
         initialiseYeastVariables();
 
         initialiseBallBounceVariables();
-
+        
         initialiseYeastResultQuestions();
-
+        
+        initSectionActivitiesIn(document);
       });
 
       /* ==================================================

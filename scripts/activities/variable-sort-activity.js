@@ -52,7 +52,6 @@
    controlled stays available until every controlled tile is done. The
    activity is data-activity-complete once every tile has a role.
    ================================================== */
-
 (function (global) {
   "use strict";
 
