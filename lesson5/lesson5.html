@@ -2082,6 +2082,7 @@
                  Final application: sonar -> observation -> camera
                  failure -> scientific drawing -> self-check.
                  ================================================== -->
+
             <section class="section expedition-mission locked" id="mission-5" data-mission-index="4">
               <div class="mission-stage" data-stage-id="m5-finale">
                 <div class="mission-window">
@@ -2212,6 +2213,8 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Identify the unknown creature-->
               <div class="mission-stage" data-stage-id="m5-identify">
                 <div class="mission-window">
                   <div class="mission-window-bar">
@@ -2247,7 +2250,44 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Pokedex -->
+              <div class="mission-stage" data-stage-id="m5-field-guide">
+                <div class="mission-window">
+                  <div class="mission-window-bar">
+                    <strong>Deep field terminal // species archive</strong>
+                  </div>
+
+                  <div class="mission-window-body">
+                    <h3>Deep-Sea Field Guide</h3>
+                    <p>Click a creature to learn more about it!</p>
+
+                    <!-- Buttons will appear automatically here -->
+                    <div id="creatureGrid"></div>
+
+                    <!-- ONE information panel for all creatures -->
+                    <div id="creaturePanel" hidden>
+                      <img alt="Selected deep-sea creature">
+                      <div>
+                        <h4></h4>
+                        <p></p>
+                      </div>
+                    </div>
+
+                    <p class="activity-prompt">
+                      Press CHECK when you have explored the field guide.
+                    </p>
+
+                    <div class="variable-feedback stage-feedback"
+                        data-feedback="m5-field-guide"
+                        role="status"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Pokedex -->
+
             </section>
+
           </div>
           <footer class="stage-controls" aria-label="Mission controls">
             <div class="control-status" id="controlStatus">
