@@ -10,7 +10,7 @@
        <div data-dd-slot="slot-a" data-dd-answer="beaker"></div>   <!-- drop target; data-dd-answer is optional -->
        <div data-dd-slot="slot-b" data-dd-answer="flask jug"></div> <!-- space-separated: any one of these items -->
        <div data-dd-slot="slot-c"></div>
-       <div data-dd-tray>                                           <!-- where unplaced items live -->
+       <div data-dd-tray data-dd-tray-heading="Word Bank">          <!-- where unplaced items live; heading is optional -->
          <div data-dd-item="beaker">...any content...</div>
          <div data-dd-item="flask">...any content...</div>
          <div data-dd-item="water" data-dd-reusable>water</div>     <!-- see data-dd-reusable below -->
@@ -68,16 +68,28 @@
 (function (global) {
   "use strict";
 
-  var DRAG_THRESHOLD = 5; /* px of movement before a press becomes a drag */
+  const DRAG_THRESHOLD = 5; /* px of movement before a press becomes a drag */
+  const DRAG_BOUNCE_AMOUNT = 3;
 
   function DragDropActivity(root, options) {
     Activity.call(this, root, options);
 
     this.tray = root.querySelector("[data-dd-tray]");
+    const trayHeading = this.tray && this.tray.getAttribute("data-dd-tray-heading");
+    if (trayHeading) {
+      const heading = document.createElement("p");
+      heading.className = "dd-tray-heading";
+      heading.textContent = trayHeading;
+      this.tray.insertBefore(heading, this.tray.firstChild);
+    }
+
     this.slots = Array.prototype.slice.call(root.querySelectorAll("[data-dd-slot]"));
     this.items = {};
     this.selectedItem = null;
     this.drag = null;
+
+    /* lets lesson_progress.js find every activity on the page to save/restore its placements */
+    DragDropActivity.instances.push(this);
 
     var self = this;
 
@@ -88,6 +100,7 @@
       item.setAttribute("aria-pressed", "false");
       item.addEventListener("pointerdown", function (event) { self._onPointerDown(event, item); });
       item.addEventListener("keydown", function (event) { self._onItemKey(event, item); });
+      item.addEventListener("dragstart", function (event) { event.preventDefault(); }); /* native image/text drag would cancel the pointer drag */
     });
 
     this.slots.forEach(function (slot) {
@@ -102,8 +115,22 @@
       });
     });
 
+    /* remember each slot's original content so it can be restored when emptied */
+    this.placeholders = new Map();
+    this.slots.forEach(function (slot) {
+      var nodes = Array.prototype.filter.call(slot.childNodes, function (node) {
+        return !(node.nodeType === 1 && node.hasAttribute("data-dd-item"));
+      });
+      if (nodes.some(function (node) { return node.nodeType === 1 || node.textContent.trim(); })) {
+        self.placeholders.set(slot, { nodes: nodes, hidden: false });
+      }
+    });
+    this._refreshFilled();
+
     this.setComplete(this.isComplete() && this.isCorrect());
   }
+
+  DragDropActivity.instances = [];
 
   DragDropActivity.prototype = Object.create(Activity.prototype);
   DragDropActivity.prototype.constructor = DragDropActivity;
@@ -111,9 +138,9 @@
   /* ---------- public API ---------- */
 
   DragDropActivity.prototype.getPlacements = function () {
-    var result = {};
+    let result = {};
     this.slots.forEach(function (slot) {
-      var item = slot.querySelector("[data-dd-item]");
+      const item = slot.querySelector("[data-dd-item]");
       if (item) result[slot.dataset.ddSlot] = item.dataset.ddItem;
     });
     return result;
@@ -141,11 +168,14 @@
   };
 
   DragDropActivity.prototype.isComplete = function () {
+    /* Activity's constructor can call this (via the depends-on recheck) before this.slots exists */
+    if (!this.slots) return false;
     var self = this;
     return this.slots.every(function (slot) { return Boolean(self._itemIn(slot)); });
   };
 
   DragDropActivity.prototype.isCorrect = function () {
+    if (!this.slots) return false;
     var self = this;
     return this.slots.every(function (slot) {
       if (!slot.dataset.ddAnswer) return true;
@@ -170,14 +200,31 @@
   };
 
   DragDropActivity.prototype._put = function (item, slot) {
+    // let style = item.style;
+    // style = "";
+    // style.color = "inherit";
     (slot || this.tray).appendChild(item);
     item.classList.toggle("dd-placed", Boolean(slot));
     this._refreshFilled();
   };
 
+  /* Slots may carry their own content (e.g. "Drop label"). That content is
+     swapped out while the slot holds an item and put back once it's empty. */
   DragDropActivity.prototype._refreshFilled = function () {
+    var self = this;
     this.slots.forEach(function (slot) {
-      slot.classList.toggle("dd-filled", Boolean(slot.querySelector("[data-dd-item]")));
+      var filled = Boolean(slot.querySelector("[data-dd-item]"));
+      slot.classList.toggle("dd-filled", filled);
+
+      var placeholder = self.placeholders.get(slot);
+      if (!placeholder) return;
+      if (filled && !placeholder.hidden) {
+        placeholder.nodes.forEach(function (node) { if (node.parentNode === slot) slot.removeChild(node); });
+        placeholder.hidden = true;
+      } else if (!filled && placeholder.hidden) {
+        placeholder.nodes.forEach(function (node) { slot.appendChild(node); });
+        placeholder.hidden = false;
+      }
     });
   };
 
@@ -209,6 +256,7 @@
     var self = this;
     clone.addEventListener("pointerdown", function (event) { self._onPointerDown(event, clone); });
     clone.addEventListener("keydown", function (event) { self._onItemKey(event, clone); });
+    clone.addEventListener("dragstart", function (event) { event.preventDefault(); });
 
     return clone;
   };
@@ -484,6 +532,8 @@
     if (drag.hoverSlot) drag.hoverSlot.classList.remove("dd-hover");
     if (slot) slot.classList.add("dd-hover");
     drag.hoverSlot = slot;
+    /* the ghost bobs while over a slot (styled in drag_and_drop_base.css) */
+    if (drag.ghost) drag.ghost.classList.toggle("dd-ghost-hover", Boolean(slot));
   };
 
   global.DragDropActivity = DragDropActivity;

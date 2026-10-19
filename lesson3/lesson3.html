@@ -11,6 +11,7 @@
          which has its own @media print block. -->
     <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
     <link href="../styles/reasoned_prediction_builder.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/drag_and_drop_base.css" rel="stylesheet" type="text/css" />
     <link href="../styles/lesson3_styles/lesson3.css" rel="stylesheet" type="text/css" />
   </head>
 
@@ -949,27 +950,28 @@
 
             </div>
           </div>
-<div id="yeastActivity" class="diagram-activity">
-  
+        <div id="yeastActivity" class="diagram-activity" data-activity>
+          
           <div
-            class="label-bank table-label-bank"
-            id="yeastLabelBank"
-            aria-label="Labels to place in the yeast experiment table"
+          class="label-bank table-label-bank"
+          id="yeastLabelBank"
+          data-dd-tray
+          data-dd-tray-heading="Label Bank"
+          aria-label="Labels to place in the yeast experiment table"
           >
-            <p id="labelBankHeading">Label Bank</p>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-dv">
+            <button class="general-button drag-label" data-dd-item="yeast-dv">
               Circumference of balloon (cm)
             </button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-iv">
+            <button class="general-button drag-label" data-dd-item="yeast-iv">
               Temperature (°C)
             </button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-1">Test 1</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-2">Test 2</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-test-3">Test 3</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-2">2</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-22">22</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-37">37</button>
-            <button class="general-button drag-label" draggable="true" data-label-id="yeast-temp-80">80</button>
+            <button class="general-button drag-label" data-dd-item="yeast-test-1">Test 1</button>
+            <button class="general-button drag-label" data-dd-item="yeast-test-2">Test 2</button>
+            <button class="general-button drag-label" data-dd-item="yeast-test-3">Test 3</button>
+            <button class="general-button drag-label" data-dd-item="yeast-temp-2">2</button>
+            <button class="general-button drag-label" data-dd-item="yeast-temp-22">22</button>
+            <button class="general-button drag-label" data-dd-item="yeast-temp-37">37</button>
+            <button class="general-button drag-label" data-dd-item="yeast-temp-80">80</button>
           </div>
           <div class="data-table-card yeast-table-card">
             <div class="experiment-table-scroll">
@@ -977,12 +979,12 @@
                 <thead>
                   <tr>
                     <th class="independent-heading" rowspan="2">
-                      <span class="label-drop-zone" data-accept="yeast-iv">
+                      <span class="label-drop-zone" data-dd-slot="yeast-iv" data-dd-answer="yeast-iv">
                         Drop label
                       </span>
                     </th>
                     <th class="dependent-heading drop-heading" colspan="4">
-                      <span class="label-drop-zone" data-accept="yeast-dv">
+                      <span class="label-drop-zone" data-dd-slot="yeast-dv" data-dd-answer="yeast-dv">
                         Drop label
                       </span>
                     </th>
@@ -990,15 +992,15 @@
 
                   <tr>
                     <th class="test-heading">
-                      <span class="label-drop-zone" data-accept="yeast-test-1">Drop label</span>
+                      <span class="label-drop-zone" data-dd-slot="yeast-test-1" data-dd-answer="yeast-test-1">Drop label</span>
                     </th>
 
                     <th class="test-heading">
-                      <span class="label-drop-zone" data-accept="yeast-test-2">Drop label</span>
+                      <span class="label-drop-zone" data-dd-slot="yeast-test-2" data-dd-answer="yeast-test-2">Drop label</span>
                     </th>
 
                     <th class="test-heading">
-                      <span class="label-drop-zone" data-accept="yeast-test-3">Drop label</span>
+                      <span class="label-drop-zone" data-dd-slot="yeast-test-3" data-dd-answer="yeast-test-3">Drop label</span>
                     </th>
 
                     <th class="average-heading">
@@ -1010,7 +1012,7 @@
                 <tbody>
                   <tr data-input-average-row>
                     <th class="independent-value">
-                      <span class="label-drop-zone" data-accept="yeast-temp-2">
+                      <span class="label-drop-zone" data-dd-slot="yeast-temp-2" data-dd-answer="yeast-temp-2">
                         Drop label
                       </span>
                     </th>
@@ -1056,7 +1058,7 @@
 
                   <tr data-input-average-row>
                     <th class="independent-value">
-                      <span class="label-drop-zone" data-accept="yeast-temp-22">
+                      <span class="label-drop-zone" data-dd-slot="yeast-temp-22" data-dd-answer="yeast-temp-22">
   Drop label
 </span>
                     </th>
@@ -1102,7 +1104,7 @@
 
                   <tr data-input-average-row>
                     <th class="independent-value">
-                      <span class="label-drop-zone" data-accept="yeast-temp-37">
+                      <span class="label-drop-zone" data-dd-slot="yeast-temp-37" data-dd-answer="yeast-temp-37">
   Drop label
 </span>
                     </th>
@@ -1148,7 +1150,7 @@
 
                   <tr data-input-average-row>
                     <th class="independent-value">
-                      <span class="label-drop-zone" data-accept="yeast-temp-80">
+                      <span class="label-drop-zone" data-dd-slot="yeast-temp-80" data-dd-answer="yeast-temp-80">
   Drop label
 </span>
                     </th>
@@ -1362,7 +1364,7 @@
 
 
           <div class="reset-button-container lesson3-reset-container">
-            <button type="button" class="general-button reset-btn" onclick="resetLesson3Section('yeast-labels')">
+            <button type="button" class="general-button reset-btn" onclick="resetYeastLabels()">
               Reset
             </button>
           </div>
@@ -1436,6 +1438,7 @@
     <script src="../scripts/activities/activity-sections.js"></script>
     <script src="../scripts/activities/variable-sort-activity.js"></script>
     <script src="../scripts/activities/button-reveal-activity.js"></script>
+    <script src="../scripts/activities/drag-drop-activity.js"></script>
     <script>
       const cards = document.querySelectorAll('.yeast-card');
 
@@ -1543,10 +1546,6 @@ function initialiseYeastVariables() {
        LESSON 3 - TABLE INTERACTIONS
        ================================================== */
 
-      let lesson3DraggedLabel = null;
-      let lesson3TouchDragging = false;
-      let dragGhost = null;
-
       let currentYeastRecordTest = null;
       let currentYeastRecordButton = null;
 
@@ -1628,298 +1627,27 @@ function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
 }
 
 
-      function createDragGhost(label) {
-        const ghost = document.createElement("div");
-        ghost.className = "touch-drag-ghost";
-
-        const clone = label.cloneNode(true);
-
-        clone.disabled = false;
-        clone.removeAttribute("draggable");
-
-        ghost.appendChild(clone);
-        document.body.appendChild(ghost);
-
-        dragGhost = ghost;
-
-        return ghost;
-      }
-
-      function movedragGhost(touch) {
-        if (!dragGhost) {
-          return;
-        }
-
-        dragGhost.style.left = touch.clientX - dragGhost.offsetWidth / 2 + "px";
-
-        dragGhost.style.top = touch.clientY - dragGhost.offsetHeight / 2 + "px";
-      }
-
-      function removedragGhost() {
-        if (dragGhost) {
-          dragGhost.remove();
-          dragGhost = null;
-        }
-      }
+      let yeastDragDropActivity = null;
 
       function initialiseLesson3DragAndDrop() {
-        const labels = document.querySelectorAll(".drag-label");
-        const dropZones = document.querySelectorAll(".label-drop-zone");
-
-        function handleDrop(zone, draggedLabel) {
-          if (!draggedLabel) {
-            return;
-          }
-
-          const draggedId = draggedLabel.dataset.labelId;
-
-          // Incorrect drop
-          if (zone.dataset.accept !== draggedId) {
-            zone.classList.add("drop-incorrect");
-
-            window.setTimeout(function () {
-              zone.classList.remove("drop-incorrect");
-            }, 500);
-
-            return;
-          }
-
-          // Correct drop
-          zone.textContent = draggedLabel.textContent;
-          zone.classList.add("drop-complete");
-
-          draggedLabel.classList.add("label-placed");
-          draggedLabel.disabled = true;
-          draggedLabel.setAttribute("draggable", "false");
-
-          updateYeastActivityComplete();
-        }
-
-        /* ==================================================
-        MOUSE DRAG AND DROP
-        ================================================== */
-
-        labels.forEach(function (label) {
-          label.addEventListener("dragstart", function (event) {
-            lesson3DraggedLabel = label;
-
-            label.classList.add("is-dragging");
-
-            event.dataTransfer.setData("text/plain", label.dataset.labelId);
-
-            event.dataTransfer.effectAllowed = "move";
-
-            const transparentImage = document.createElement("div");
-
-            transparentImage.style.position = "absolute";
-            transparentImage.style.width = "1px";
-            transparentImage.style.height = "1px";
-            transparentImage.style.opacity = "0";
-
-            document.body.appendChild(transparentImage);
-
-            event.dataTransfer.setDragImage(transparentImage, 0, 0);
-
-            // Create custom ghost
-            createDragGhost(label);
-
-            // Position it at the cursor
-            movedragGhost(event);
-          });
-
-          label.addEventListener("dragend", function () {
-            label.classList.remove("is-dragging");
-
-            removedragGhost();
-
-            lesson3DraggedLabel = null;
-
-            dropZones.forEach(function (zone) {
-              zone.classList.remove("drag-over");
-            });
-          });
-
-          /* ==================================================
-          TOUCH DRAG AND DROP
-          ================================================== */
-
-          label.addEventListener(
-            "touchstart",
-            function (event) {
-              if (label.disabled) {
-                return;
-              }
-
-              lesson3DraggedLabel = label;
-              lesson3TouchDragging = true;
-
-              label.classList.add("is-dragging");
-
-              const touch = event.touches[0];
-
-              // Create the floating copy
-              createDragGhost(label);
-
-              // Position it immediately
-              movedragGhost(touch);
-
-              event.preventDefault();
-            },
-            { passive: false }
-          );
-
-          label.addEventListener(
-            "touchmove",
-            function (event) {
-              if (!lesson3TouchDragging || !lesson3DraggedLabel) {
-                return;
-              }
-
-              event.preventDefault();
-
-              const touch = event.touches[0];
-
-              // Move the ghost with the finger
-              movedragGhost(touch);
-
-              const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
-
-              const zone = elementUnderFinger ? elementUnderFinger.closest(".label-drop-zone") : null;
-
-              dropZones.forEach(function(dropZone) {
-                dropZone.classList.remove('drag-over');
-              });
-
-              if (dragGhost) {
-                dragGhost.classList.remove('is-hovering-drop-zone');
-              }
-
-              if (zone && !zone.classList.contains('drop-complete')) {
-                zone.classList.add('drag-over');
-
-                if (dragGhost) {
-                  dragGhost.classList.add('is-hovering-drop-zone');
-                }
-              }
-
-              dropZones.forEach(function (dropZone) {
-                dropZone.classList.remove("drag-over");
-              });
-
-              if (zone && !zone.classList.contains("drop-complete")) {
-                zone.classList.add("drag-over");
-              }
-            },
-            { passive: false }
-          );
-
-          label.addEventListener(
-            "touchend",
-            function (event) {
-              if (!lesson3TouchDragging || !lesson3DraggedLabel) {
-                return;
-              }
-
-              event.preventDefault();
-
-              const touch = event.changedTouches[0];
-
-              const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
-
-              const zone = elementUnderFinger ? elementUnderFinger.closest(".label-drop-zone") : null;
-
-              dropZones.forEach(function (dropZone) {
-                dropZone.classList.remove("drag-over");
-              });
-
-              if (zone && !zone.classList.contains("drop-complete")) {
-                handleDrop(zone, lesson3DraggedLabel);
-              }
-
-              lesson3DraggedLabel.classList.remove("is-dragging");
-
-              removedragGhost();
-
-              lesson3DraggedLabel = null;
-              lesson3TouchDragging = false;
-            },
-            { passive: false }
-          );
-
-          label.addEventListener("touchcancel", function () {
-            if (lesson3DraggedLabel) {
-              lesson3DraggedLabel.classList.remove("is-dragging");
-            }
-
-            dropZones.forEach(function (zone) {
-              zone.classList.remove("drag-over");
-            });
-
-            removedragGhost();
-
-            lesson3DraggedLabel = null;
-            lesson3TouchDragging = false;
-          });
-        });
-
-        /* ==================================================
-        MOUSE DROP ZONES
-        ================================================== */
-
-        // move ghost for drag and drop
-        document.addEventListener("dragover", function (event) {
-          if (!lesson3DraggedLabel) {
-            return;
-          }
-
-          movedragGhost(event);
-        });
-        dropZones.forEach(function (zone) {
-          zone.addEventListener("dragover", function (event) {
-            event.preventDefault();
-            zone.classList.add("drag-over");
-            if (dragGhost) {
-              dragGhost.classList.add('is-hovering-drop-zone');
-            }
-          });
-
-          zone.addEventListener("dragleave", function () {
-            zone.classList.remove("drag-over");
-            if (dragGhost) {
-              dragGhost.classList.remove('is-hovering-drop-zone');
-            }
-          });
-
-          zone.addEventListener("drop", function (event) {
-            event.preventDefault();
-
-            zone.classList.remove("drag-over");
-
-            const draggedId = event.dataTransfer.getData("text/plain");
-
-            const draggedLabel = document.querySelector('.drag-label[data-label-id="' + draggedId + '"]');
-
-            if (!draggedLabel) {
-              return;
-            }
-
-            handleDrop(zone, draggedLabel);
-          });
+        const root = document.getElementById("yeastActivity");
+        if (!root) return;
+
+        yeastDragDropActivity = new DragDropActivity(root, {
+          strictSlots: true,
+          onChange: updateYeastActivityComplete
         });
       }
 
-      
+      function yeastLabelsComplete() {
+        return Boolean(yeastDragDropActivity) &&
+          yeastDragDropActivity.isComplete() &&
+          yeastDragDropActivity.isCorrect();
+      }
 
       function updateYeastActivityComplete() {
         const section = document.getElementById("yeast-labels");
-        const zones = section.querySelectorAll(".label-drop-zone");
-        const completeZones = section.querySelectorAll(
-          ".label-drop-zone.drop-complete"
-        );
-
-        const allLabelsComplete =
-          zones.length > 0 &&
-          completeZones.length === zones.length;
+        const allLabelsComplete = yeastLabelsComplete();
 
         if (allLabelsComplete) {
           section.classList.add("labels-complete");
@@ -1946,20 +1674,10 @@ function checkYeastActivityComplete() {
     return;
   }
 
-  const zones =
-    section.querySelectorAll(".label-drop-zone");
-
-  const completedZones =
-    section.querySelectorAll(
-      ".label-drop-zone.drop-complete"
-    );
-
   const inputs =
     section.querySelectorAll(".table-number-input");
 
-  const allLabelsComplete =
-    zones.length > 0 &&
-    completedZones.length === zones.length;
+  const allLabelsComplete = yeastLabelsComplete();
 
   const allNumbersComplete =
     inputs.length > 0 &&
@@ -2495,31 +2213,10 @@ function ballBounceRepeatStopAndCheck(button) {
       }
 
       function resetYeastLabels() {
-  const placeholderText = {
-    "yeast-dv": "Drop label",
-    "yeast-iv": "Drop label",
-    "yeast-test-1": "Drop label",
-    "yeast-test-2": "Drop label",
-    "yeast-test-3": "Drop label",
-    "yeast-temp-2": "Drop label",
-    "yeast-temp-22": "Drop label",
-    "yeast-temp-37": "Drop label",
-    "yeast-temp-80": "Drop label",
-  };
-
   const section = document.getElementById("yeast-labels");
   section.classList.remove("labels-complete");
 
-  document.querySelectorAll("#yeast-labels .label-drop-zone").forEach(function (zone) {
-    zone.textContent = placeholderText[zone.dataset.accept] || "Drop label";
-    zone.classList.remove("drop-complete", "drag-over", "drop-incorrect");
-  });
-
-  document.querySelectorAll("#yeast-labels .drag-label").forEach(function (label) {
-    label.disabled = false;
-    label.setAttribute("draggable", "true");
-    label.classList.remove("label-placed", "is-dragging");
-  });
+  if (yeastDragDropActivity) yeastDragDropActivity.reset();
 
   const feedback = document.getElementById("yeastLabelFeedback");
   if (feedback) {

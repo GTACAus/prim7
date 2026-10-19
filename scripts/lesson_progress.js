@@ -137,19 +137,6 @@
       return entry;
     }
 
-    /*
-      A drop zone shows the text of the label dropped on
-      it, so that text has to travel with it.
-    */
-    if (element.classList.contains("label-drop-zone")) {
-      entry.t = element.textContent;
-      entry.a = element.getAttribute("draggable");
-    }
-
-    if (element.classList.contains("drag-label")) {
-      entry.a = element.getAttribute("draggable");
-    }
-
     /* Saved answers and averages are replayed rather than copied. */
     if (element.classList.contains("table-entry-answer")) {
       const text = answerTextOf(element);
@@ -184,6 +171,43 @@
     );
   }
 
+  /*
+    DragDropActivity moves real elements between slots and
+    its tray, which a before/after comparison of classes and
+    text cannot describe (copying a slot's text back would
+    leave the original item sitting in the tray as well).
+    Those elements are skipped by the generic save below and
+    each activity's own placements are saved and restored
+    instead, keyed by the activity's id.
+  */
+  function dragDropActivities() {
+    return (window.DragDropActivity && window.DragDropActivity.instances || []).filter(function (activity) {
+      return activity.root.id && activity.root.isConnected;
+    });
+  }
+
+  function collectDragDrop() {
+    const result = {};
+
+    dragDropActivities().forEach(function (activity) {
+      result[activity.root.id] = activity.getPlacements();
+    });
+
+    return result;
+  }
+
+  function restoreDragDrop(saved) {
+    if (!saved) {
+      return;
+    }
+
+    dragDropActivities().forEach(function (activity) {
+      if (saved[activity.root.id]) {
+        activity.setPlacements(saved[activity.root.id]);
+      }
+    });
+  }
+
   function save() {
     if (!ready || stopped || replaying) {
       return;
@@ -215,6 +239,8 @@
     });
 
     const payload = {
+      dragDrop: collectDragDrop(),
+
       /*
         A page whose markup has changed cannot safely be
         restored, so the number of elements on a fresh
@@ -379,6 +405,8 @@
 
     reapplySavedState = applyAll;
 
+    restoreDragDrop(payload.dragDrop);
+
     applyAll();
 
 
@@ -442,7 +470,9 @@
     transient = {};
 
     elements.forEach(function (element, index) {
-      transient[index] = element.closest(TRANSIENT) !== null;
+      transient[index] =
+        element.closest(TRANSIENT) !== null ||
+        element.closest("[data-dd-slot], [data-dd-item]") !== null;
       baseline[index] = describe(element);
     });
 
@@ -454,6 +484,7 @@
     document.addEventListener("change", queueSave, true);
     document.addEventListener("click", queueSave, true);
     document.addEventListener("drop", queueSave, true);
+    document.addEventListener("dd:change", queueSave, true);
     document.addEventListener("touchend", queueSave, true);
     document.addEventListener("focusout", queueSave, true);
 

@@ -6,6 +6,13 @@
    with a shared word bank). Pair with scripts/activities/drag-drop-activity.js.
    ================================================== */
 
+#wordSentencesActivity {
+  --dd-accent: #22c55e;
+  --dd-slot-hover-bg: #dcfce7;
+  --dd-slot-hover-scale: 1.05;
+  --dd-reject: #ef4444;
+}
+
 #wordSentencesActivity .wd-title {
   margin-bottom: 0.5rem;
   line-height: 2.25rem;
@@ -52,24 +59,15 @@
   margin: 0 4px;
   vertical-align: middle;
   background: rgba(255, 255, 255, 0.6);
-  transition: all 0.2s;
-}
-
-#wordSentencesActivity [data-dd-slot].dd-hover {
-  background: #dcfce7;
-  border-color: #22c55e;
-  transform: scale(1.05);
 }
 
 #wordSentencesActivity [data-dd-slot].dd-filled {
-  border-style: solid;
   border-color: #22c55e;
   background: transparent;
 }
 
 /* strictSlots: brief red flash when a dropped word doesn't belong here. */
 #wordSentencesActivity [data-dd-slot].dd-rejected {
-  border-color: #ef4444;
   background: #fee2e2;
 }
 
@@ -91,23 +89,12 @@
   background: #065f46;
   color: white;
   border-radius: 8px;
-  cursor: grab;
   font-weight: 500;
-  user-select: none;
   transition: transform 0.15s, opacity 0.15s;
 }
 
 #wordSentencesActivity [data-dd-item]:active {
   transform: scale(0.95);
-}
-
-#wordSentencesActivity [data-dd-item].dd-dragging {
-  opacity: 0.4;
-}
-
-#wordSentencesActivity [data-dd-item].dd-selected {
-  outline: 3px solid var(--dd-accent, #39d3ff);
-  outline-offset: 2px;
 }
 
 /* A word sitting in a blank reads like filled-in text, not a loose chip. */
@@ -120,16 +107,24 @@
   border-radius: 4px;
   font-weight: 500;
   font-size: 14px;
-  border-bottom: 2px solid #22c55e;
   box-shadow: none;
 }
 
-#wordSentencesActivity .dd-ghost {
+#wordSentencesActivity [data-dd-slot].dd-filled {
+  border: 2px solid var(--green);
+}
+
+/* The ghost lives on <body>, outside #wordSentencesActivity, so it can't be
+   scoped by that id; it keeps the item's .word-chip class instead. */
+.word-chip.dd-ghost {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 8px 16px;
   background: #065f46;
   color: white;
-  padding: 8px 16px;
   border-radius: 8px;
   font-weight: 500;
+  text-align: center;
 }
 
 @keyframes bounce-once {

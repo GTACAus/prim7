@@ -987,41 +987,19 @@
 }
 
 
-/* ---------- Draggable labels ---------- */
-.touch-drag-ghost {
-  position: fixed;
-  z-index: 9999;
+/* ---------- Draggable labels ----------
+   Behaviour (ghost, hover, reject) comes from styles/drag_and_drop_base.css;
+   only the look is set here. */
 
-  pointer-events: none;
-  margin: 0;
-
-  opacity: 1;
-
-  transform: scale(1.05);
-
-  /* Prevent the ghost from affecting page layout */
-  width: max-content;
-  max-width: 90vw;
-
-  /* Make sure it doesn't inherit disabled-button styling */
-  cursor: grabbing;
+#yeastActivity {
+  --dd-accent: var(--purple);
+  --dd-slot-hover-bg: var(--soft-purple);
+  --dd-reject: var(--orange);
+  --dd-ghost-scale: 1.05;
+  --dd-ghost-rotate: 0deg;
 }
 
-.touch-drag-ghost.is-hovering-drop-zone .drag-label {
-  animation: drag-label-hover 0.4s ease-in-out infinite alternate;
-}
-
-@keyframes drag-label-hover {
-  from {
-    transform: translateY(-2px);
-  }
-
-  to {
-    transform: translateY(2px);
-  }
-}
-
-#yeast-labels .touch-drag-ghost, .drag-label {
+.drag-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1044,25 +1022,13 @@
   text-align: center;
 }
 
-
 #yeast-labels .drag-label:hover {
   background: var(--soft-blue);
 }
 
-#yeast-labels .drag-label:active,
-#yeast-labels .drag-label.is-dragging {
-  opacity: 0.65;
-}
-
-
-/* Label disappears visually once correctly placed */
-
-#yeast-labels .drag-label.label-placed {
-  opacity: 0.28;
-  transform: none;
-  box-shadow: none;
-
-  cursor: default;
+#yeast-labels .dd-ghost {
+  width: max-content;
+  max-width: 90vw;
 }
 
 
@@ -1076,6 +1042,7 @@
   width: 100%;
   min-height: 54px;
   padding: 8px 10px;
+  box-sizing: border-box;
 
   background: rgba(255, 255, 255, 0.38);
   color: var(--charcoal);
@@ -1096,58 +1063,46 @@
     box-shadow 0.16s ease;
 }
 
-#yeast-labels .label-drop-zone.drop-complete {
+/* A label sitting in a table cell reads as the cell's text, not a chip */
+#yeast-labels .label-drop-zone.dd-filled {
   animation: pop-fade-in 0.5s ease;
 }
 
+#yeast-labels .label-drop-zone [data-dd-item].dd-placed {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  border: none;
+  box-shadow: none;
+  font: inherit;
+  text-transform: inherit;
+  cursor: grab;
+  transform: none;
+}
 
 /* Make the drop target look active */
 
-#yeast-labels .label-drop-zone.drag-over {
-  transform: scale(1.03);
-  
+#yeast-labels .label-drop-zone.dd-hover {
   border-color: var(--purple);
-  box-shadow:
-  0 0 0 4px rgba(78, 50, 232, 0.15);
+  box-shadow: 0 0 0 4px rgba(78, 50, 232, 0.15);
 }
 
-#yeast-labels .independent-heading .label-drop-zone.drag-over,
-#yeast-labels .independent-value .label-drop-zone.drag-over {
+#yeast-labels .independent-heading .label-drop-zone.dd-hover,
+#yeast-labels .independent-value .label-drop-zone.dd-hover {
   background: var(--soft-purple) !important;
 }
 
-#yeast-labels .dependent-heading .label-drop-zone.drag-over,
-#yeast-labels .test-heading .label-drop-zone.drag-over {
+#yeast-labels .dependent-heading .label-drop-zone.dd-hover,
+#yeast-labels .test-heading .label-drop-zone.dd-hover {
   background: var(--soft-yellow);
 }
 
 /* ---------- Incorrect drop ---------- */
 
-@keyframes lesson3DropBuzz {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  25% {
-    transform: translateX(-5px);
-  }
-
-  50% {
-    transform: translateX(5px);
-  }
-
-  75% {
-    transform: translateX(-3px);
-  }
-}
-
-
-#yeast-labels .label-drop-zone.drop-incorrect {
+#yeast-labels .label-drop-zone.dd-rejected {
   background: var(--soft-orange);
   border-color: var(--orange);
-
-  animation: lesson3DropBuzz 0.28s ease;
 }
 
 
@@ -1168,7 +1123,7 @@
 }
 
 
-#yeast-labels .dependent-heading .label-drop-zone.drag-over {
+#yeast-labels .dependent-heading .label-drop-zone.dd-hover {
   background: var(--soft-yellow);
   color: var(--text);
 
@@ -1176,7 +1131,7 @@
 }
 
 
-#yeast-labels .dependent-heading .label-drop-zone.drop-complete {
+#yeast-labels .dependent-heading .label-drop-zone.dd-filled {
   background: transparent;
   color: white;
 
@@ -1186,7 +1141,7 @@
 }
 
 /* ---------- Independent-variable drop area ---------- */
-#yeast-labels .independent-heading .label-drop-zone.drag-over {
+#yeast-labels .independent-heading .label-drop-zone.dd-hover {
   background: var(--soft-yellow);
   color: var(--text);
 
@@ -1194,7 +1149,7 @@
 }
 
 
-#yeast-labels .independent-heading .label-drop-zone.drop-complete {
+#yeast-labels .independent-heading .label-drop-zone.dd-filled {
   background: transparent;
   border-color: transparent;
   text-transform: uppercase;
@@ -1208,7 +1163,7 @@
 }
 
 
-#yeast-labels .test-heading .label-drop-zone.drop-complete {
+#yeast-labels .test-heading .label-drop-zone.dd-filled {
   background: transparent;
   border-color: transparent;
 
@@ -1223,7 +1178,7 @@
 }
 
 
-#yeast-labels .independent-value .label-drop-zone.drop-complete {
+#yeast-labels .independent-value .label-drop-zone.dd-filled {
   background: transparent;
   border-color: transparent;
 
@@ -2987,4 +2942,3 @@
 
 .ball-bounce-interpretation-row .table-number-input {
   height: 44px;
-}
