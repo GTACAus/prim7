@@ -401,6 +401,7 @@
                         ball-bounce experiment.
                     </p>
 
+                    <div id="ballBounceQuestion" data-activity>
                     <div class="question-structure-grid" id="questionStructureGrid">
                         <button
                             type="button"
@@ -439,13 +440,14 @@
                         </button>
                     </div>
 
-                    <div class="investigation-question-builder" id="investigationQuestionBuilder" aria-live="polite">
+                    <div class="investigation-question-builder" id="investigationQuestionBuilder" data-question-builder aria-live="polite">
                         <p class="question-builder-placeholder">Select a question structure above to begin.</p>
+                    </div>
                     </div>
 
                     <!-- ---------- REASONED PREDICTION ---------- -->
 
-                    <div id="predictionTable" class="pop-in" hidden>
+                    <div id="predictionTable" class="pop-in" data-activity data-activity-depends-on="ballBounceQuestion">
                         <div class="lesson3-planning-heading prediction-heading">
                             <span>4</span>
                             <div>
@@ -478,7 +480,7 @@
                                         <label class="cell-sublabel" for="changeVariable">
                                             The thing I am changing
                                         </label>
-                                        <div id="changeVariable" class="generated-text placeholder">
+                                        <div id="changeVariable" data-prediction-change class="generated-text placeholder">
                                             The thing I am changing
                                         </div>
                                     </div>
@@ -486,7 +488,7 @@
                                         <label class="cell-sublabel" for="measureVariable">
                                             The thing I am measuring
                                         </label>
-                                        <div id="measureVariable" class="generated-text placeholder">
+                                        <div id="measureVariable" data-prediction-measure class="generated-text placeholder">
                                             The thing I am measuring
                                         </div>
                                     </div>
@@ -501,7 +503,7 @@
                                     <div class="prediction-organiser-cell">
                                         <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
                                         <div class="relationship-area">
-                                            <select id="causeRelationshipType" class="prediction-select">
+                                            <select id="causeRelationshipType" data-prediction-cause-type class="prediction-select">
                                                 <option value="">Choose a relationship type</option>
                                                 <option value="increase-decrease">Increase / decrease</option>
                                                 <option value="with-without">With / without</option>
@@ -509,16 +511,16 @@
                                                     Condition 1 versus condition 2
                                                 </option>
                                             </select>
-                                            <div id="causeRelationshipButtons" class="relationship-buttons"></div>
-                                            <div id="conditionComparisonInputs" class="condition-comparison-inputs">
+                                            <div id="causeRelationshipButtons" data-prediction-cause-buttons class="relationship-buttons"></div>
+                                            <div id="conditionComparisonInputs" data-prediction-condition-inputs class="condition-comparison-inputs">
                                                 <input
-                                                    id="conditionOneInput"
+                                                    id="conditionOneInput" data-prediction-condition-one
                                                     class="condition-input"
                                                     type="text"
                                                     placeholder="Starting condition, e.g. blue"
                                                 />
                                                 <input
-                                                    id="conditionTwoInput"
+                                                    id="conditionTwoInput" data-prediction-condition-two
                                                     class="condition-input"
                                                     type="text"
                                                     placeholder="New condition, e.g. red"
@@ -529,16 +531,16 @@
                                     <div class="prediction-organiser-cell">
                                         <span class="cell-sublabel">Effect or result</span>
                                         <div id="effectRelationshipButtons" class="relationship-buttons three-options">
-                                            <button type="button" class="relationship-option" data-effect="increase">
+                                            <button type="button" class="relationship-option" data-prediction-effect="increase">
                                                 Increase
                                             </button>
-                                            <button type="button" class="relationship-option" data-effect="decrease">
+                                            <button type="button" class="relationship-option" data-prediction-effect="decrease">
                                                 Decrease
                                             </button>
                                             <button
                                                 type="button"
                                                 class="relationship-option"
-                                                data-effect="stay-the-same"
+                                                data-prediction-effect="stay-the-same"
                                             >
                                                 Stay the same
                                             </button>
@@ -550,12 +552,12 @@
                                         <span class="cell-sublabel">Prediction</span>
                                     </div>
                                     <div class="prediction-organiser-cell">
-                                        <div id="predictionIf" class="generated-text placeholder">
+                                        <div id="predictionIf" data-prediction-cause-text class="generated-text placeholder">
                                             Choose a cause relationship.
                                         </div>
                                     </div>
                                     <div class="prediction-organiser-cell">
-                                        <div id="predictionThen" class="generated-text placeholder">
+                                        <div id="predictionThen" data-prediction-effect-text class="generated-text placeholder">
                                             Choose an effect or result.
                                         </div>
                                     </div>
@@ -566,15 +568,15 @@
                                     </div>
                                     <div class="prediction-organiser-cell span-2 reason-inline">
                                         <label class="cell-helper" for="reasonInput">This is because...</label>
-                                        <div id="reasonInputRow" class="permanent-input-row">
+                                        <div id="reasonInputRow" data-prediction-reason-row class="permanent-input-row">
                                             <input
-                                                id="reasonInput"
+                                                id="reasonInput" data-prediction-reason-input
                                                 type="text"
                                                 class="prediction-input"
                                                 placeholder="Explain why you expect this result"
                                             />
                                         </div>
-                                        <div id="reasonAnswer" class="submitted-answer"></div>
+                                        <div id="reasonAnswer" data-prediction-reason-answer class="submitted-answer"></div>
                                     </div>
                                 </div>
                                 <div class="prediction-organiser-row row-full">
@@ -583,7 +585,7 @@
                                     </div>
                                     <div class="prediction-organiser-cell span-2">
                                         <div
-                                            id="reasonedPrediction"
+                                            id="reasonedPrediction" data-prediction-full-text
                                             class="generated-text final-prediction placeholder"
                                             aria-live="polite"
                                         >
@@ -1010,752 +1012,248 @@
         <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
         <script src="../scripts/common_functions.js"></script>
         <script src="../scripts/lesson_progress.js"></script>
-        <script src="../scripts/reasoned_prediction_table.js"></script>
+        <script src="../scripts/activities/activity-base.js"></script>
+        <script src="../scripts/activities/investigation-question-activity.js"></script>
+        <script src="../scripts/activities/prediction-table-activity.js"></script>
         <script>
-            const dev = false;
-            if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
-
-            const lesson3SectionIds = [
-                { id: "build-your-own-table", label: "Ball bounce experiment: complete the table" },
-                { id: "ballBouncePlanning", label: "Create Your Testable Question and Make Your Reasoned Prediction" },
-                { id: "ballBounceTests", label: "Why Do We Repeat Experiments 3 Times?" },
-            ];
-
-            const lesson3TeacherBackLink = {
-                label: "← Back to Part A",
-                href: "lesson3.html",
-            };
-
-            const yeastVariablesStructure = {
-                activityID: "yeast-variables",
-                activity: null,
-                modeButtons: null,
-                variableTiles: null,
-                feedback: null,
-                nextButton: null,
-                resetButton: null,
-                stopAndCheck: null,
-
-                selectedMode: "",
-
-                answers: {
-                    independent: "temperature",
-
-                    dependent: "gas-produced",
-
-                    controlled: ["amount-yeast", "amount-sugar", "amount-water", "flask-size", "balloon-type"],
-                },
-
-                independentComplete: false,
-                dependentComplete: false,
-                controlledComplete: false,
-            };
-
-            function initialiseYeastVariables() {
-                const structure = yeastVariablesStructure;
-
-                structure.activity = document.getElementById(structure.activityID);
-
-                if (!structure.activity) {
-                    return;
-                }
-
-                structure.modeButtons = structure.activity.querySelectorAll(".variable-mode-button");
-
-                structure.variableTiles = structure.activity.querySelectorAll(".variable-tile");
-
-                structure.feedback = document.getElementById("yeastVariablesFeedback");
-
-                structure.nextButton = document.getElementById("yeastVariablesNext");
-
-                structure.resetButton = document.getElementById("yeast-variables-reset");
-
-                structure.stopAndCheck = document.getElementById("yeast-variables").querySelector(".stop-and-check");
-
-                structure.modeButtons.forEach(function (button) {
-                    button.addEventListener("click", function () {
-                        structure.selectedMode = button.dataset.variableMode;
-
-                        structure.modeButtons.forEach(function (otherButton) {
-                            otherButton.classList.remove("mode-active");
-                            otherButton.setAttribute("aria-pressed", "false");
-                        });
-
-                        button.classList.add("mode-active");
-                        button.setAttribute("aria-pressed", "true");
-
-                        structure.feedback.textContent = "Now choose the variable that matches this type.";
-                    });
-                });
-
-                structure.variableTiles.forEach(function (tile) {
-                    tile.addEventListener("click", function () {
-                        checkYeastVariable(tile);
-                    });
-                });
-
-                structure.resetButton.addEventListener("click", resetYeastVariables);
-            }
-
-            function stopAndCheckRepeatTests(button) {
-                showStopAndCheckAnswer(button, function () {
-                    document.getElementById("repeatTestsNext").hidden = false;
-                });
-            }
-            function checkYeastVariable(tile) {
-                const structure = yeastVariablesStructure;
-                const mode = structure.selectedMode;
-
-                if (!mode) {
-                    structure.feedback.textContent = "Choose Independent, Dependent or Controlled Variable first.";
-
-                    return;
-                }
-
-                const variable = tile.dataset.variable;
-
-                let correct = false;
-
-                if (mode === "independent") {
-                    correct = variable === structure.answers.independent;
-                }
-
-                if (mode === "dependent") {
-                    correct = variable === structure.answers.dependent;
-                }
-
-                if (mode === "controlled") {
-                    correct = structure.answers.controlled.includes(variable);
-                }
-
-                if (!correct) {
-                    tile.classList.add("buzz");
-
-                    structure.feedback.className = "variable-feedback feedback-try-again";
-
-                    structure.feedback.textContent = "Not quite. Try another variable.";
-
-                    window.setTimeout(function () {
-                        tile.classList.remove("buzz");
-                    }, 300);
-
-                    return;
-                }
-
-                tile.classList.add("is-classified");
-
-                if (mode === "independent") {
-                    tile.classList.add("is-independent");
-                    structure.independentComplete = true;
-                }
-
-                if (mode === "dependent") {
-                    tile.classList.add("is-dependent");
-                    structure.dependentComplete = true;
-                }
-
-                if (mode === "controlled") {
-                    tile.classList.add("is-controlled");
-                }
-
-                tile.disabled = true;
-
-                updateYeastVariablesComplete();
-            }
-
-            function updateYeastVariablesComplete() {
-                const structure = yeastVariablesStructure;
-
-                const controlledComplete = structure.answers.controlled.every(function (variable) {
-                    return structure.activity.querySelector(
-                        '.variable-tile[data-variable="' + variable + '"].is-controlled'
-                    );
-                });
-
-                structure.controlledComplete = controlledComplete;
-
-                if (structure.independentComplete && structure.dependentComplete && structure.controlledComplete) {
-                    structure.feedback.className = "variable-feedback feedback-success";
-
-                    structure.feedback.textContent =
-                        "Correct! You identified the independent, dependent and controlled variables.";
-
-                    // structure.nextButton.hidden = false;
-                    document.getElementById("yeast-variables").querySelector(".stop-and-check").hidden = false;
-
-                    return;
-                }
-
-                structure.feedback.className = "variable-feedback";
-
-                structure.feedback.textContent = "Correct. Keep going.";
-            }
-
-            function yeastVariablesStopAndCheck(button) {
-                showStopAndCheckAnswer(button, () => {
-                    yeastVariablesStructure.nextButton.hidden = false;
-                });
-            }
-
-            function resetYeastVariables() {
-                const structure = yeastVariablesStructure;
-
-                structure.selectedMode = "";
-                structure.independentComplete = false;
-                structure.dependentComplete = false;
-                structure.controlledComplete = false;
-
-                structure.modeButtons.forEach(function (button) {
-                    button.classList.remove("mode-active", "mode-complete");
-
-                    button.setAttribute("aria-pressed", "false");
-                });
-
-                structure.variableTiles.forEach(function (tile) {
-                    tile.classList.remove("is-independent", "is-dependent", "is-controlled", "is-classified", "buzz");
-
-                    tile.disabled = false;
-                });
-
-                structure.feedback.className = "variable-feedback";
-
-                structure.feedback.textContent = "Choose a variable type, then select the matching variable.";
-
-                structure.nextButton.hidden = true;
-                resetStopAndCheck(structure.stopAndCheck, () => {
-                    structure.nextButton.hidden = false;
-                });
-            }
-
             /* ==================================================
-       LESSON 3 - TABLE INTERACTIONS
-       ================================================== */
-
-            let lesson3DraggedLabel = null;
-            let lesson3TouchDragging = false;
-            let dragGhost = null;
-
-            let currentYeastRecordTest = null;
-            let currentYeastRecordButton = null;
+               VIDEO PANEL
+               ================================================== */
 
             function openLesson3Video(button, videoSource, videoTitle) {
                 const panel = document.getElementById("lesson3VideoPanel");
                 const player = document.getElementById("lesson3VideoPlayer");
-                const title = document.getElementById("lesson3VideoTitle");
-
-                if (!panel || !player || !button) {
-                    return;
-                }
 
                 player.pause();
                 player.src = videoSource;
+                document.getElementById("lesson3VideoTitle").textContent = videoTitle || "Video guide";
 
-                if (title) {
-                    title.textContent = videoTitle || "Video guide";
-                }
-
-                const videoGroup = button.closest(".yeast-results-video-grid, .ball-bounce-video-grid");
-
-                if (videoGroup) {
-                    videoGroup.insertAdjacentElement("afterend", panel);
-                } else {
-                    button.insertAdjacentElement("afterend", panel);
-                }
+                button.closest(".ball-bounce-video-grid").insertAdjacentElement("afterend", panel);
 
                 panel.hidden = false;
                 player.load();
-
-                panel.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                });
+                panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
             }
 
             function closeLesson3Video() {
-                const panel = document.getElementById("lesson3VideoPanel");
                 const player = document.getElementById("lesson3VideoPlayer");
-
-                if (!panel || !player) {
-                    return;
-                }
 
                 player.pause();
                 player.removeAttribute("src");
                 player.load();
 
-                panel.hidden = true;
+                document.getElementById("lesson3VideoPanel").hidden = true;
             }
 
-            function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
-                currentYeastRecordTest = testNumber;
-                currentYeastRecordButton = button;
+            /* ==================================================
+               BALL BOUNCE - IDENTIFY THE VARIABLES
+               ================================================== */
 
-                const section = document.getElementById("yeast-labels");
+            function initialiseBallBounceVariables() {
+                const independent = document.getElementById("ballBounceIndependent");
+                const dependent = document.getElementById("ballBounceDependent");
+                const checkButton = document.getElementById("ballBounceVariablesCheck");
+                const feedback = document.getElementById("ballBounceVariablesFeedback");
 
-                section.classList.add("test-" + testNumber + "-ready");
-
-                button.classList.add("video-watched");
-
-                const label = button.querySelector("p:last-child");
-
-                if (label) {
-                    label.textContent = "Test " + testNumber + " ✓";
-                }
-
-                openLesson3Video(button, videoPath, videoTitle);
-            }
-
-            function createDragGhost(label) {
-                const ghost = document.createElement("div");
-                ghost.className = "touch-drag-ghost";
-
-                const clone = label.cloneNode(true);
-
-                clone.disabled = false;
-                clone.removeAttribute("draggable");
-
-                ghost.appendChild(clone);
-                document.body.appendChild(ghost);
-
-                dragGhost = ghost;
-
-                return ghost;
-            }
-
-            function movedragGhost(touch) {
-                if (!dragGhost) {
-                    return;
-                }
-
-                dragGhost.style.left = touch.clientX - dragGhost.offsetWidth / 2 + "px";
-
-                dragGhost.style.top = touch.clientY - dragGhost.offsetHeight / 2 + "px";
-            }
-
-            function removedragGhost() {
-                if (dragGhost) {
-                    dragGhost.remove();
-                    dragGhost = null;
-                }
-            }
-
-            function initialiseYeastLabelsStopAndChecks() {
-                const section = document.getElementById("yeast-labels");
-                if (!section) return;
-
-                const averageIntro = document.getElementById("repeat-tests-average-intro");
-                const labelsStopAndCheck = document.getElementById("yeastLabelsStopAndCheck");
-                const hotStopAndThink = document.getElementById("yeastHotStopAndThink");
-
-                if (labelsStopAndCheck) {
-                    resetStopAndCheck(labelsStopAndCheck, function () {
-                        if (averageIntro) {
-                            averageIntro.hidden = false;
+                checkButton.addEventListener("click", function () {
+                    const controls = Array.from(document.querySelectorAll("[data-ball-control]:checked")).map(
+                        function (checkbox) {
+                            return checkbox.dataset.ballControl;
                         }
-                        section.querySelectorAll(".average-button").forEach(function (calculateButton) {
-                            calculateButton.hidden = false;
-                        });
-                    });
-                }
-
-                if (hotStopAndThink) {
-                    resetStopAndCheck(hotStopAndThink, function () {
-                        const nextButton = document.getElementById("yeastAverageNext");
-                        if (nextButton) {
-                            nextButton.hidden = false;
-                        }
-                    });
-                }
-            }
-
-            function initialiseLesson3DragAndDrop() {
-                const labels = document.querySelectorAll(".drag-label");
-                const dropZones = document.querySelectorAll(".label-drop-zone");
-
-                function handleDrop(zone, draggedLabel) {
-                    if (!draggedLabel) {
-                        return;
-                    }
-
-                    const draggedId = draggedLabel.dataset.labelId;
-
-                    // Incorrect drop
-                    if (zone.dataset.accept !== draggedId) {
-                        zone.classList.add("drop-incorrect");
-
-                        window.setTimeout(function () {
-                            zone.classList.remove("drop-incorrect");
-                        }, 500);
-
-                        return;
-                    }
-
-                    // Correct drop
-                    zone.textContent = draggedLabel.textContent;
-                    zone.classList.add("drop-complete");
-
-                    draggedLabel.classList.add("label-placed");
-                    draggedLabel.disabled = true;
-                    draggedLabel.setAttribute("draggable", "false");
-
-                    updateYeastActivityComplete();
-                }
-
-                /* ==================================================
-        MOUSE DRAG AND DROP
-        ================================================== */
-
-                labels.forEach(function (label) {
-                    label.addEventListener("dragstart", function (event) {
-                        lesson3DraggedLabel = label;
-
-                        label.classList.add("is-dragging");
-
-                        event.dataTransfer.setData("text/plain", label.dataset.labelId);
-
-                        event.dataTransfer.effectAllowed = "move";
-
-                        const transparentImage = document.createElement("div");
-
-                        transparentImage.style.position = "absolute";
-                        transparentImage.style.width = "1px";
-                        transparentImage.style.height = "1px";
-                        transparentImage.style.opacity = "0";
-
-                        document.body.appendChild(transparentImage);
-
-                        event.dataTransfer.setDragImage(transparentImage, 0, 0);
-
-                        // Create custom ghost
-                        createDragGhost(label);
-
-                        // Position it at the cursor
-                        movedragGhost(event);
-                    });
-
-                    label.addEventListener("dragend", function () {
-                        label.classList.remove("is-dragging");
-
-                        removedragGhost();
-
-                        lesson3DraggedLabel = null;
-
-                        dropZones.forEach(function (zone) {
-                            zone.classList.remove("drag-over");
-                        });
-                    });
-
-                    /* ==================================================
-          TOUCH DRAG AND DROP
-          ================================================== */
-
-                    label.addEventListener(
-                        "touchstart",
-                        function (event) {
-                            if (label.disabled) {
-                                return;
-                            }
-
-                            lesson3DraggedLabel = label;
-                            lesson3TouchDragging = true;
-
-                            label.classList.add("is-dragging");
-
-                            const touch = event.touches[0];
-
-                            // Create the floating copy
-                            createDragGhost(label);
-
-                            // Position it immediately
-                            movedragGhost(touch);
-
-                            event.preventDefault();
-                        },
-                        { passive: false }
                     );
 
-                    label.addEventListener(
-                        "touchmove",
-                        function (event) {
-                            if (!lesson3TouchDragging || !lesson3DraggedLabel) {
-                                return;
-                            }
+                    const correct =
+                        independent.value === "surface" &&
+                        dependent.value === "bounces" &&
+                        ["same-ball", "same-height", "same-method"].every(function (control) {
+                            return controls.includes(control);
+                        }) &&
+                        !controls.includes("same-surface");
 
-                            event.preventDefault();
+                    feedback.hidden = false;
+                    feedback.className = "variable-feedback " + (correct ? "feedback-success" : "feedback-try-again");
+                    feedback.textContent = correct
+                        ? "Correct! You identified the variables in the ball-bounce fair test."
+                        : "Not quite. Check what is changed, what is measured, and what needs to stay the same.";
 
-                            const touch = event.touches[0];
+                    if (!correct) return;
 
-                            // Move the ghost with the finger
-                            movedragGhost(touch);
+                    const planning = document.getElementById("ballBouncePlanning");
 
-                            const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
-
-                            const zone = elementUnderFinger ? elementUnderFinger.closest(".label-drop-zone") : null;
-
-                            dropZones.forEach(function (dropZone) {
-                                dropZone.classList.remove("drag-over");
-                            });
-
-                            if (dragGhost) {
-                                dragGhost.classList.remove("is-hovering-drop-zone");
-                            }
-
-                            if (zone && !zone.classList.contains("drop-complete")) {
-                                zone.classList.add("drag-over");
-
-                                if (dragGhost) {
-                                    dragGhost.classList.add("is-hovering-drop-zone");
-                                }
-                            }
-
-                            dropZones.forEach(function (dropZone) {
-                                dropZone.classList.remove("drag-over");
-                            });
-
-                            if (zone && !zone.classList.contains("drop-complete")) {
-                                zone.classList.add("drag-over");
-                            }
-                        },
-                        { passive: false }
-                    );
-
-                    label.addEventListener(
-                        "touchend",
-                        function (event) {
-                            if (!lesson3TouchDragging || !lesson3DraggedLabel) {
-                                return;
-                            }
-
-                            event.preventDefault();
-
-                            const touch = event.changedTouches[0];
-
-                            const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
-
-                            const zone = elementUnderFinger ? elementUnderFinger.closest(".label-drop-zone") : null;
-
-                            dropZones.forEach(function (dropZone) {
-                                dropZone.classList.remove("drag-over");
-                            });
-
-                            if (zone && !zone.classList.contains("drop-complete")) {
-                                handleDrop(zone, lesson3DraggedLabel);
-                            }
-
-                            lesson3DraggedLabel.classList.remove("is-dragging");
-
-                            removedragGhost();
-
-                            lesson3DraggedLabel = null;
-                            lesson3TouchDragging = false;
-                        },
-                        { passive: false }
-                    );
-
-                    label.addEventListener("touchcancel", function () {
-                        if (lesson3DraggedLabel) {
-                            lesson3DraggedLabel.classList.remove("is-dragging");
-                        }
-
-                        dropZones.forEach(function (zone) {
-                            zone.classList.remove("drag-over");
-                        });
-
-                        removedragGhost();
-
-                        lesson3DraggedLabel = null;
-                        lesson3TouchDragging = false;
-                    });
-                });
-
-                /* ==================================================
-        MOUSE DROP ZONES
-        ================================================== */
-
-                // move ghost for drag and drop
-                document.addEventListener("dragover", function (event) {
-                    if (!lesson3DraggedLabel) {
-                        return;
-                    }
-
-                    movedragGhost(event);
-                });
-                dropZones.forEach(function (zone) {
-                    zone.addEventListener("dragover", function (event) {
-                        event.preventDefault();
-                        zone.classList.add("drag-over");
-                        if (dragGhost) {
-                            dragGhost.classList.add("is-hovering-drop-zone");
-                        }
-                    });
-
-                    zone.addEventListener("dragleave", function () {
-                        zone.classList.remove("drag-over");
-                        if (dragGhost) {
-                            dragGhost.classList.remove("is-hovering-drop-zone");
-                        }
-                    });
-
-                    zone.addEventListener("drop", function (event) {
-                        event.preventDefault();
-
-                        zone.classList.remove("drag-over");
-
-                        const draggedId = event.dataTransfer.getData("text/plain");
-
-                        const draggedLabel = document.querySelector('.drag-label[data-label-id="' + draggedId + '"]');
-
-                        if (!draggedLabel) {
-                            return;
-                        }
-
-                        handleDrop(zone, draggedLabel);
-                    });
+                    planning.hidden = false;
+                    planning.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                    checkButton.disabled = true;
                 });
             }
 
-            function yeastLabelsStopAndCheck(button) {
+            /* ==================================================
+               BALL BOUNCE - TESTABLE QUESTION AND REASONED PREDICTION
+               The question feeds the prediction (it is unavailable until
+               the question is complete); the "why repeat" block appears
+               once the prediction is complete.
+               ================================================== */
+
+            let ballBounceQuestion = null;
+            let ballBouncePrediction = null;
+
+            function initialiseBallBounceQuestionAndPrediction() {
+                ballBounceQuestion = new InvestigationQuestionActivity(document.getElementById("ballBounceQuestion"), {
+                    inputType: "text",
+                    textInputClass: "lesson3-question-input",
+                    onChange: function (state) {
+                        if (!ballBouncePrediction) return;
+
+                        ballBouncePrediction.setContext({
+                            structure: state.structure,
+                            change: state.firstAnswer,
+                            measure: state.secondAnswer,
+                        });
+                    },
+                });
+
+                ballBouncePrediction = new PredictionTableActivity(document.getElementById("predictionTable"));
+
+                const repeatTests = document.getElementById("repeatTestsInline");
+
+                document.addEventListener("activity:change", function (event) {
+                    if (event.detail.id !== "predictionTable") return;
+
+                    const wasHidden = repeatTests.hidden;
+
+                    repeatTests.hidden = !event.detail.complete;
+
+                    if (wasHidden && event.detail.complete) {
+                        repeatTests.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                    }
+                });
+            }
+
+            /* Reveals the data table after the "why repeat" check. */
+            function ballBounceRepeatStopAndCheck(button) {
                 showStopAndCheckAnswer(button, function () {
-                    const section = document.getElementById("yeast-labels");
-                    const averageIntro = document.getElementById("repeat-tests-average-intro");
+                    const tests = document.getElementById("ballBounceTests");
 
-                    averageIntro.hidden = false;
-
-                    const calculateButtons = section.querySelectorAll(".average-button");
-
-                    calculateButtons.forEach(function (calculateButton) {
-                        calculateButton.hidden = false;
-                    });
+                    tests.hidden = false;
+                    tests.scrollIntoView({ behavior: "smooth", block: "nearest" });
                 });
             }
 
-            function updateYeastActivityComplete() {
-                const section = document.getElementById("yeast-labels");
-                const zones = section.querySelectorAll(".label-drop-zone");
-                const completeZones = section.querySelectorAll(".label-drop-zone.drop-complete");
+            /* ==================================================
+               BALL BOUNCE - SAVED TABLE ENTRIES
+               Every text and number box in the table (and the averages
+               below it) turns into a saved answer with a clear button.
+               The number stays on the hidden input so averages can read it.
+               ================================================== */
 
-                const allLabelsComplete = zones.length > 0 && completeZones.length === zones.length;
+            function initialiseTableEntries() {
+                const inputs = document.querySelectorAll(
+                    "#build-your-own-table .lesson3-filtered-text, #build-your-own-table .table-number-input"
+                );
 
-                if (allLabelsComplete) {
-                    section.classList.add("labels-complete");
+                inputs.forEach(function (input) {
+                    const isNumber = input.type === "number";
 
-                    section.querySelector(".yeast-results-step--initial").scrollIntoView({
-                        behavior: "smooth",
-                        block: "nearest",
-                    });
-                } else {
-                    section.classList.remove("labels-complete");
-                }
+                    const control = document.createElement("div");
+                    control.className = "table-entry-control" + (isNumber ? " table-number-control" : "");
 
-                checkYeastActivityComplete();
+                    const inputRow = document.createElement("div");
+                    inputRow.className = "table-entry-input-row";
+
+                    const answerBox = document.createElement("div");
+                    answerBox.className = "table-entry-answer" + (isNumber ? " table-number-answer" : "");
+                    answerBox.setAttribute("aria-live", "polite");
+
+                    input.parentElement.insertBefore(control, input);
+                    control.appendChild(inputRow);
+                    inputRow.appendChild(input);
+                    control.appendChild(answerBox);
+
+                    function saveEntry() {
+                        let value;
+
+                        if (isNumber) {
+                            value = input.value.trim();
+
+                            if (value === "") return;
+
+                            if (!Number.isFinite(Number(value))) {
+                                input.focus();
+                                return;
+                            }
+                        } else {
+                            value = getValidStudentInput(input);
+
+                            if (value === null) return;
+                        }
+
+                        const answerText = document.createElement("span");
+                        answerText.className = "table-entry-answer-text";
+                        answerText.textContent = value;
+
+                        const deleteButton = createDeleteAnswerButton("Clear " + value, function () {
+                            answerBox.classList.remove("visible");
+                            answerBox.innerHTML = "";
+                            inputRow.style.display = "block";
+                            input.value = "";
+
+                            if (isNumber) resetAverageForNumberInput(input);
+
+                            input.focus();
+                        });
+
+                        answerBox.innerHTML = "";
+                        answerBox.appendChild(answerText);
+                        answerBox.appendChild(deleteButton);
+
+                        inputRow.style.display = "none";
+                        answerBox.classList.add("visible");
+
+                        if (!isNumber) input.value = "";
+                    }
+
+                    connectEnterAndBlurSave(input, saveEntry);
+                });
             }
 
-            function checkYeastActivityComplete() {
-                const section = document.getElementById("yeast-labels");
-                const nextButton = document.getElementById("yeastAverageNext");
-                const feedback = document.getElementById("yeastLabelFeedback");
-                const stopAndCheck = document.getElementById("yeastLabelsStopAndCheck");
-
-                if (!section || !nextButton) {
-                    return;
-                }
-
-                const zones = section.querySelectorAll(".label-drop-zone");
-
-                const completedZones = section.querySelectorAll(".label-drop-zone.drop-complete");
-
-                const inputs = section.querySelectorAll(".table-number-input");
-
-                const allLabelsComplete = zones.length > 0 && completedZones.length === zones.length;
-
-                const allNumbersComplete =
-                    inputs.length > 0 &&
-                    Array.from(inputs).every(function (input) {
-                        return input.value.trim() !== "";
-                    });
-
-                const allNumbersCorrect =
-                    inputs.length === yeastCorrectResults.length &&
-                    Array.from(inputs).every(function (input, index) {
-                        return input.value.trim() !== "" && Number(input.value) === yeastCorrectResults[index];
-                    });
-
-                /* Not all measurements have been entered yet */
-                if (!allNumbersComplete) {
-                    if (feedback) {
-                        feedback.hidden = true;
-                        feedback.innerHTML = "";
-                    }
-
-                    if (stopAndCheck) {
-                        stopAndCheck.hidden = true;
-                    }
-
-                    nextButton.hidden = true;
-                    return;
-                }
-
-                /* All measurements entered, but one or more are wrong */
-                if (!allNumbersCorrect) {
-                    if (feedback) {
-                        feedback.hidden = false;
-                        feedback.className = "activity-feedback table-activity-feedback feedback-try-again";
-
-                        feedback.innerHTML =
-                            "<strong>Check your measurements.</strong>" +
-                            "<span>Make sure all your answers are correct before moving on.</span>";
-                    }
-
-                    if (stopAndCheck) {
-                        stopAndCheck.hidden = true;
-                    }
-
-                    nextButton.hidden = true;
-                    return;
-                }
-
-                /* Everything is correct */
-                if (allLabelsComplete && allNumbersCorrect) {
-                    if (feedback) {
-                        feedback.hidden = false;
-                        feedback.className = "activity-feedback table-activity-feedback feedback-success";
-
-                        feedback.innerHTML =
-                            "<strong>Results recorded!</strong>" + "<span>All of your measurements are correct.</span>";
-                    }
-
-                    if (stopAndCheck) {
-                        stopAndCheck.hidden = false;
-                    }
-
-                    document.getElementById("labelsCompleteAfterContainer").scrollIntoView({
-                        behavior: "smooth",
-                        block: "nearest",
-                    });
-                }
-            }
+            /* ==================================================
+               BALL BOUNCE - AVERAGES
+               ================================================== */
 
             function formatAverage(value) {
-                if (Number.isInteger(value)) {
-                    return String(value);
-                }
+                return Number.isInteger(value) ? String(value) : value.toFixed(1).replace(/\.0$/, "");
+            }
 
-                return value.toFixed(1).replace(/\.0$/, "");
+            function createCalculateButton() {
+                const button = document.createElement("button");
+
+                button.type = "button";
+                button.classList.add("average-button", "general-button");
+                button.textContent = "Calculate";
+                button.addEventListener("click", function () {
+                    calculateInputAverage(button);
+                });
+
+                return button;
+            }
+
+            /* Put a Calculate button back in place of a calculated average. */
+            function restoreCalculateButton(cell) {
+                cell.classList.remove("average-result");
+                cell.innerHTML = "";
+                cell.appendChild(createCalculateButton());
+            }
+
+            function resetAverageForNumberInput(input) {
+                const row = input.closest("[data-input-average-row]");
+                const cell = row && row.querySelector(".average-cell");
+
+                if (cell && cell.classList.contains("average-result")) {
+                    restoreCalculateButton(cell);
+                }
             }
 
             function showAverageValue(button, average) {
                 const cell = button.closest(".average-cell");
-
-                if (!cell) {
-                    return;
-                }
-
-                /*
-    Remember which calculator this cell uses.
-    This allows the X button to restore the correct Calculate button.
-  */
-                const isCustomTable = cell.closest("#build-your-own-table") !== null;
-                const isDragAndDrop = cell.closest("#yeast-labels") !== null;
 
                 cell.innerHTML = "";
                 cell.classList.add("average-result");
@@ -1772,1275 +1270,124 @@
                 clearButton.className = "average-clear-button";
                 clearButton.textContent = "×";
                 clearButton.setAttribute("aria-label", "Clear calculated average");
-
                 clearButton.addEventListener("click", function () {
-                    cell.classList.remove("average-result");
-                    cell.innerHTML = "";
-
-                    const calculateButton = document.createElement("button");
-
-                    calculateButton.type = "button";
-                    calculateButton.classList.add("average-button", "general-button");
-                    calculateButton.textContent = "Calculate";
-
-                    if (isCustomTable || isDragAndDrop) {
-                        calculateButton.addEventListener("click", function () {
-                            calculateInputAverage(calculateButton);
-                        });
-                    } else {
-                        calculateButton.addEventListener("click", function () {
-                            calculateFixedAverage(calculateButton);
-                        });
-                    }
-
-                    cell.appendChild(calculateButton);
+                    restoreCalculateButton(cell);
                 });
 
                 resultWrapper.appendChild(resultText);
                 resultWrapper.appendChild(clearButton);
-
                 cell.appendChild(resultWrapper);
-            }
-
-            function checkAverageComplete(section) {
-                if (!section) return false;
-
-                const nextButton = section.querySelector(".next-button");
-                const averageButtons = section.querySelectorAll(".average-button");
-
-                if (averageButtons.length === 0) {
-                    if (section.id === "yeast-labels") {
-                        const predictionCheck = document.getElementById("yeastPredictionCheck");
-
-                        if (predictionCheck) {
-                            predictionCheck.hidden = false;
-                        }
-
-                        checkYeastPrediction();
-
-                        return true;
-                    }
-
-                    if (section.id === "build-your-own-table") {
-                        const predictionCheck = document.getElementById("ballBouncePredictionCheck");
-
-                        if (predictionCheck) {
-                            predictionCheck.hidden = false;
-                        }
-
-                        checkBallBouncePrediction();
-
-                        return true;
-                    }
-
-                    if (nextButton) {
-                        nextButton.hidden = false;
-                    }
-
-                    return true;
-                }
-
-                if (nextButton) {
-                    nextButton.hidden = true;
-                }
-
-                return false;
-            }
-
-            let yeastResultAnswers = {
-                "low-to-37": false,
-                "37-to-80": false,
-            };
-
-            function initialiseYeastResultQuestions() {
-                const buttons = document.querySelectorAll("[data-yeast-result-question]");
-
-                buttons.forEach(function (button) {
-                    button.addEventListener("click", function () {
-                        const question = button.dataset.yeastResultQuestion;
-
-                        const answer = button.dataset.answer;
-
-                        let correctAnswer = "";
-
-                        if (question === "low-to-37") {
-                            correctAnswer = "increases";
-                        }
-
-                        if (question === "37-to-80") {
-                            correctAnswer = "decreases";
-                        }
-
-                        const questionButtons = document.querySelectorAll(
-                            '[data-yeast-result-question="' + question + '"]'
-                        );
-
-                        questionButtons.forEach(function (otherButton) {
-                            otherButton.classList.remove("selected-answer");
-                        });
-
-                        if (answer !== correctAnswer) {
-                            button.classList.add("buzz");
-                            setTimeout(function () {
-                                button.classList.remove("buzz");
-                            }, 300);
-
-                            return;
-                        }
-
-                        button.classList.add("selected-answer");
-
-                        yeastResultAnswers[question] = true;
-
-                        if (yeastResultAnswers["low-to-37"] && yeastResultAnswers["37-to-80"]) {
-                            const finalQuestion = document.querySelector(".yeast-prediction-final");
-
-                            if (finalQuestion) {
-                                finalQuestion.hidden = false;
-                            }
-                        }
-                    });
-                });
-            }
-
-            function checkYeastPrediction() {
-                const supportedButton = document.getElementById("yeastPredictionCheckSupported");
-
-                const partlySupportedButton = document.getElementById("yeastPredictionCheckPartlySupported");
-
-                const unsupportedButton = document.getElementById("yeastPredictionCheckUnsupported");
-
-                const section = document.getElementById("yeast-labels");
-
-                const stopAndThink = document.getElementById("yeastHotStopAndThink");
-
-                const nextButton = section.querySelector(".next-button");
-
-                if (!supportedButton || !partlySupportedButton || !unsupportedButton || !stopAndThink || !nextButton) {
-                    return;
-                }
-
-                function clearPredictionSelection() {
-                    supportedButton.classList.remove("selected-answer");
-                    partlySupportedButton.classList.remove("selected-answer");
-                    unsupportedButton.classList.remove("selected-answer");
-                }
-
-                function showIncorrect(button) {
-                    clearPredictionSelection();
-
-                    button.classList.add("buzz");
-
-                    window.setTimeout(function () {
-                        button.classList.remove("buzz");
-                    }, 300);
-                }
-
-                supportedButton.addEventListener("click", function () {
-                    showIncorrect(supportedButton);
-                });
-
-                unsupportedButton.addEventListener("click", function () {
-                    showIncorrect(unsupportedButton);
-                });
-
-                partlySupportedButton.addEventListener("click", function () {
-                    clearPredictionSelection();
-
-                    partlySupportedButton.classList.add("selected-answer");
-
-                    stopAndThink.hidden = false;
-                });
-            }
-
-            function yeastAverageStopAndCheck(button) {
-                showStopAndCheckAnswer(button);
-            }
-
-            function initialiseRepeatTestsVisibility() {
-                const reasonedPrediction = document.getElementById("reasonedPrediction");
-                const reasonAnswer = document.getElementById("reasonAnswer");
-                const repeatTestsInline = document.getElementById("repeatTestsInline");
-
-                if (!reasonedPrediction || !reasonAnswer || !repeatTestsInline) {
-                    return;
-                }
-
-                function syncRepeatTestsVisibility() {
-                    const predictionComplete = !reasonedPrediction.classList.contains("placeholder");
-
-                    const reasonComplete = reasonAnswer.classList.contains("visible");
-
-                    const shouldShow = predictionComplete && reasonComplete;
-
-                    // Only act when the visibility state actually changes,
-                    // so we don't re-scroll on every unrelated mutation
-                    // while the section is already showing.
-                    const wasHidden = repeatTestsInline.hidden;
-
-                    repeatTestsInline.hidden = !shouldShow;
-
-                    if (shouldShow && wasHidden) {
-                        repeatTestsInline.scrollIntoView({
-                            behavior: "smooth",
-                            block: "nearest",
-                        });
-                    }
-                }
-
-                const observer = new MutationObserver(syncRepeatTestsVisibility);
-
-                observer.observe(reasonedPrediction, {
-                    attributes: true,
-                    attributeFilter: ["class"],
-                    characterData: true,
-                    childList: true,
-                    subtree: true,
-                });
-
-                observer.observe(reasonAnswer, {
-                    attributes: true,
-                    attributeFilter: ["class"],
-                });
-
-                // Run once on load in case content is already populated
-                // (e.g. after a page refresh with saved state) — don't
-                // scroll in this case, just sync visibility.
-                const predictionComplete = !reasonedPrediction.classList.contains("placeholder");
-                const reasonComplete = reasonAnswer.classList.contains("visible");
-                repeatTestsInline.hidden = !(predictionComplete && reasonComplete);
-            }
-
-            /* ==================================================
-   BALL BOUNCE - REPEAT TESTS CHECK
-   Reveals Step 2 after the student checks the answer.
-   ================================================== */
-
-            function ballBounceRepeatStopAndCheck(button) {
-                showStopAndCheckAnswer(button, function () {
-                    const step2 = document.getElementById("ballBounceTests");
-
-                    if (step2) {
-                        step2.hidden = false;
-
-                        step2.scrollIntoView({
-                            behavior: "smooth",
-                            block: "nearest",
-                        });
-                    }
-                });
-            }
-
-            /* ==================================================
-   BALL BOUNCE - CHECK YOUR PREDICTION
-   ================================================== */
-
-            function checkBallBouncePrediction() {
-                const supportedButton = document.getElementById("ballBouncePredictionSupported");
-
-                const unsupportedButton = document.getElementById("ballBouncePredictionUnsupported");
-
-                if (!supportedButton || !unsupportedButton) {
-                    return;
-                }
-
-                supportedButton.addEventListener("click", function () {
-                    supportedButton.classList.add("selected-answer");
-                    unsupportedButton.classList.remove("selected-answer");
-                });
-
-                unsupportedButton.addEventListener("click", function () {
-                    unsupportedButton.classList.add("selected-answer");
-                    supportedButton.classList.remove("selected-answer");
-                });
-            }
-
-            function calculateFixedAverage(button) {
-                const row = button.closest("[data-average-row]");
-                const valueCells = row.querySelectorAll("td[data-value]");
-                const section = row.closest(".section");
-                const values = Array.from(valueCells).map(function (cell) {
-                    return Number(cell.dataset.value);
-                });
-
-                const average =
-                    values.reduce(function (total, value) {
-                        return total + value;
-                    }, 0) / values.length;
-
-                showAverageValue(button, average);
-                checkAverageComplete(section);
             }
 
             function calculateInputAverage(button) {
                 const row = button.closest("[data-input-average-row]");
-                const inputs = row.querySelectorAll(".table-number-input");
-                const section = row.closest(".section");
-                const feedback = section.querySelector(".table-activity-feedback");
-                const values = Array.from(inputs).map(function (input) {
+                const feedback = document.getElementById("customTableFeedback");
+
+                const values = Array.from(row.querySelectorAll(".table-number-input")).map(function (input) {
                     return input.value.trim() === "" ? NaN : Number(input.value);
                 });
 
-                const hasMissingValue = values.some(function (value) {
-                    return Number.isNaN(value);
-                });
-
-                if (hasMissingValue) {
-                    if (feedback) {
-                        feedback.hidden = false;
-                        feedback.className = "activity-feedback table-activity-feedback feedback-try-again";
-                        feedback.innerHTML =
-                            "<strong>Add all three results first.</strong><span>The average can be calculated once each test has a number.</span>";
-                    }
+                if (values.some(Number.isNaN)) {
+                    feedback.hidden = false;
+                    feedback.className = "activity-feedback table-activity-feedback feedback-try-again";
+                    feedback.innerHTML =
+                        "<strong>Add all three results first.</strong><span>The average can be calculated once each test has a number.</span>";
                     return;
                 }
 
-                if (feedback && feedback.classList.contains("feedback-try-again")) {
+                if (feedback.classList.contains("feedback-try-again")) {
                     feedback.hidden = true;
                 }
 
-                const average =
-                    values.reduce(function (total, value) {
-                        return total + value;
-                    }, 0) / values.length;
+                const total = values.reduce(function (sum, value) {
+                    return sum + value;
+                }, 0);
 
-                showAverageValue(button, average);
-                checkAverageComplete(section);
+                showAverageValue(button, total / values.length);
+
+                /* Once every average is calculated, the interpretation panel appears. */
+                if (!document.querySelector("#build-your-own-table .average-button")) {
+                    document.getElementById("ballBouncePredictionCheck").hidden = false;
+                }
             }
 
             /* ==================================================
-       BUILD-YOUR-OWN TABLE - SAVED TEXT ANSWERS
-       Reuses the same shared helpers as Lesson 2.
-       ================================================== */
+               BALL BOUNCE - INTERPRET THE RESULTS
+               ================================================== */
 
-            function initialiseLesson3PermanentTextEntries() {
-                const inputs = document.querySelectorAll("#build-your-own-table .lesson3-filtered-text");
+            function initialisePredictionCheck() {
+                const buttons = document.querySelectorAll("#ballBouncePredictionCheck .prediction-button");
 
-                inputs.forEach(function (input) {
-                    if (input.dataset.lesson3PermanentReady === "true") {
-                        return;
-                    }
-
-                    const originalParent = input.parentElement;
-
-                    if (!originalParent) {
-                        return;
-                    }
-
-                    const control = document.createElement("div");
-                    control.className = "table-entry-control";
-
-                    const inputRow = document.createElement("div");
-                    inputRow.className = "table-entry-input-row";
-
-                    const answerBox = document.createElement("div");
-                    answerBox.className = "table-entry-answer";
-                    answerBox.setAttribute("aria-live", "polite");
-
-                    originalParent.insertBefore(control, input);
-                    control.appendChild(inputRow);
-                    inputRow.appendChild(input);
-                    control.appendChild(answerBox);
-
-                    input.dataset.lesson3PermanentReady = "true";
-
-                    function saveTableTextAnswer() {
-                        if (typeof getValidStudentInput !== "function") {
-                            return;
-                        }
-
-                        const value = getValidStudentInput(input);
-
-                        if (value === null) {
-                            return;
-                        }
-
-                        answerBox.innerHTML = "";
-
-                        const answerText = document.createElement("span");
-                        answerText.className = "table-entry-answer-text";
-                        answerText.textContent = value;
-
-                        let deleteButton = null;
-
-                        if (typeof createDeleteAnswerButton === "function") {
-                            deleteButton = createDeleteAnswerButton("Clear " + value, function () {
-                                answerBox.classList.remove("visible");
-                                answerBox.innerHTML = "";
-                                inputRow.style.display = "block";
-                                input.value = "";
-                                input.focus();
-                            });
-                        } else {
-                            deleteButton = document.createElement("button");
-                            deleteButton.type = "button";
-                            deleteButton.className = "delete-answer";
-                            deleteButton.textContent = "×";
-                            deleteButton.setAttribute("aria-label", "Clear " + value);
-                            deleteButton.addEventListener("click", function () {
-                                answerBox.classList.remove("visible");
-                                answerBox.innerHTML = "";
-                                inputRow.style.display = "block";
-                                input.value = "";
-                                input.focus();
-                            });
-                        }
-
-                        answerBox.appendChild(answerText);
-                        answerBox.appendChild(deleteButton);
-
-                        inputRow.style.display = "none";
-                        answerBox.classList.add("visible");
-                        input.value = "";
-                    }
-
-                    if (typeof connectEnterAndBlurSave === "function") {
-                        connectEnterAndBlurSave(input, saveTableTextAnswer);
-                    } else {
-                        input.addEventListener("keydown", function (event) {
-                            if (event.key === "Enter") {
-                                event.preventDefault();
-                                saveTableTextAnswer();
-                            }
-                        });
-
-                        input.addEventListener("blur", saveTableTextAnswer);
-                    }
-                });
-            }
-
-            /* ==================================================
-       RESET HELPERS
-       ================================================== */
-
-            function restoreAverageButtons(sectionSelector, clickHandler) {
-                document.querySelectorAll(sectionSelector + " .average-cell").forEach(function (cell) {
-                    cell.classList.remove("average-result");
-                    cell.innerHTML = "";
-
-                    const button = document.createElement("button");
-                    button.type = "button";
-                    button.classList.add("average-button", "general-button");
-                    button.textContent = "Calculate";
+                buttons.forEach(function (button) {
                     button.addEventListener("click", function () {
-                        clickHandler(button);
+                        buttons.forEach(function (other) {
+                            other.classList.toggle("selected-answer", other === button);
+                        });
                     });
-
-                    cell.appendChild(button);
                 });
             }
 
-            function resetYeastLabels() {
-                const placeholderText = {
-                    "yeast-dv": "Drop label",
-                    "yeast-iv": "Drop label",
-                    "yeast-test-1": "Drop label",
-                    "yeast-test-2": "Drop label",
-                    "yeast-test-3": "Drop label",
-                    "yeast-temp-2": "Drop label",
-                    "yeast-temp-22": "Drop label",
-                    "yeast-temp-37": "Drop label",
-                    "yeast-temp-80": "Drop label",
-                };
+            /* ==================================================
+               BALL BOUNCE - RESET
+               ================================================== */
 
-                const section = document.getElementById("yeast-labels");
-                section.classList.remove("labels-complete");
+            function clearTableEntries(scope) {
+                scope.querySelectorAll(".table-entry-control").forEach(function (control) {
+                    control.querySelector("input").value = "";
+                    control.querySelector(".table-entry-input-row").style.display = "block";
 
-                document.querySelectorAll("#yeast-labels .label-drop-zone").forEach(function (zone) {
-                    zone.textContent = placeholderText[zone.dataset.accept] || "Drop label";
-                    zone.classList.remove("drop-complete", "drag-over", "drop-incorrect");
-                });
-
-                document.querySelectorAll("#yeast-labels .drag-label").forEach(function (label) {
-                    label.disabled = false;
-                    label.setAttribute("draggable", "true");
-                    label.classList.remove("label-placed", "is-dragging");
-                });
-
-                const feedback = document.getElementById("yeastLabelFeedback");
-                if (feedback) {
-                    feedback.hidden = true;
-                    feedback.innerHTML = "";
-                }
-
-                // Clear the saved number entries back to editable, empty inputs
-                document.querySelectorAll("#yeast-labels .table-number-control").forEach(function (control) {
-                    const inputRow = control.querySelector(".table-entry-input-row");
                     const answerBox = control.querySelector(".table-entry-answer");
-                    const input = control.querySelector(".table-number-input");
 
-                    if (input) {
-                        input.value = "";
-                    }
-
-                    if (inputRow) {
-                        inputRow.style.display = "block";
-                    }
-
-                    if (answerBox) {
-                        answerBox.classList.remove("visible", "number-correct", "number-incorrect");
-                        answerBox.innerHTML = "";
-                    }
+                    answerBox.classList.remove("visible");
+                    answerBox.innerHTML = "";
                 });
-
-                // Rebuild every average cell back to a fresh, HIDDEN Calculate button —
-                // this matches the page-load state, whether or not that cell had
-                // already been calculated.
-                document.querySelectorAll("#yeast-labels .average-cell").forEach(function (cell) {
-                    cell.classList.remove("average-result");
-                    cell.innerHTML = "";
-
-                    const button = document.createElement("button");
-                    button.type = "button";
-                    button.classList.add("average-button", "general-button");
-                    button.textContent = "Calculate";
-                    button.hidden = true;
-                    button.addEventListener("click", function () {
-                        calculateInputAverage(button);
-                    });
-
-                    cell.appendChild(button);
-                });
-
-                // --- Reset "strange results" stop-and-check and everything it unlocks ---
-                const averageIntro = document.getElementById("repeat-tests-average-intro");
-                if (averageIntro) {
-                    averageIntro.hidden = true;
-                }
-
-                const labelsStopAndCheck = document.getElementById("yeastLabelsStopAndCheck");
-                if (labelsStopAndCheck) {
-                    labelsStopAndCheck.hidden = true;
-                    resetStopAndCheck(labelsStopAndCheck, function () {
-                        if (averageIntro) {
-                            averageIntro.hidden = false;
-                        }
-                        section.querySelectorAll(".average-button").forEach(function (calculateButton) {
-                            calculateButton.hidden = false;
-                        });
-                    });
-                }
-
-                // --- Reset the "interpret the results" panel ---
-                const predictionCheck = document.getElementById("yeastPredictionCheck");
-                if (predictionCheck) {
-                    predictionCheck.hidden = true;
-                    predictionCheck.querySelectorAll(".prediction-button").forEach(function (button) {
-                        button.classList.remove("selected-answer", "buzz");
-                    });
-
-                    const finalQuestion = predictionCheck.querySelector(".yeast-prediction-final");
-                    if (finalQuestion) {
-                        finalQuestion.hidden = true;
-                    }
-                }
-
-                yeastResultAnswers = {
-                    "low-to-37": false,
-                    "37-to-80": false,
-                };
-
-                // --- Reset "why was activity so low at 80°C" stop-and-check, which reveals Next ---
-                const hotStopAndThink = document.getElementById("yeastHotStopAndThink");
-                if (hotStopAndThink) {
-                    hotStopAndThink.hidden = true;
-                    resetStopAndCheck(hotStopAndThink, function () {
-                        const nextButton = document.getElementById("yeastAverageNext");
-                        if (nextButton) {
-                            nextButton.hidden = false;
-                        }
-                    });
-                }
             }
 
             function resetBallBounceTable() {
                 const tableCard = document.querySelector("#build-your-own-table .bounce-table-card");
 
-                if (!tableCard) {
-                    return;
-                }
+                clearTableEntries(tableCard);
 
-                // Reset permanent number entries
-                tableCard.querySelectorAll(".table-number-control").forEach(function (control) {
-                    const inputRow = control.querySelector(".table-entry-input-row");
+                tableCard.querySelectorAll(".average-cell").forEach(restoreCalculateButton);
 
-                    const answerBox = control.querySelector(".table-entry-answer");
-
-                    const input = control.querySelector(".table-number-input");
-
-                    if (input) {
-                        input.value = "";
-                    }
-
-                    if (inputRow) {
-                        inputRow.style.display = "block";
-                    }
-
-                    if (answerBox) {
-                        answerBox.classList.remove("visible");
-                        answerBox.innerHTML = "";
-                    }
-                });
-
-                // Reset permanent text entries
-                tableCard.querySelectorAll(".table-entry-control").forEach(function (control) {
-                    const inputRow = control.querySelector(".table-entry-input-row");
-
-                    const answerBox = control.querySelector(".table-entry-answer");
-
-                    const input = control.querySelector(".lesson3-filtered-text");
-
-                    if (input) {
-                        input.value = "";
-                    }
-
-                    if (inputRow) {
-                        inputRow.style.display = "block";
-                    }
-
-                    if (answerBox) {
-                        answerBox.classList.remove("visible");
-                        answerBox.innerHTML = "";
-                    }
-                });
-
-                // Reset calculated averages back to Calculate buttons
-                restoreAverageButtons("#build-your-own-table .bounce-table-card", calculateInputAverage);
-
-                // Clear any table feedback
                 const feedback = document.getElementById("customTableFeedback");
 
-                if (feedback) {
-                    feedback.hidden = true;
-                    feedback.innerHTML = "";
-                }
+                feedback.hidden = true;
+                feedback.innerHTML = "";
 
-                /*
-    The "do the results support your prediction?" panel
-    is worked out from the averages above, so it goes
-    back too. Leaving it would show numbers copied from
-    a table that is now empty.
-  */
+                /* The interpretation panel copies numbers from the table, so it goes back too. */
                 const predictionCheck = document.getElementById("ballBouncePredictionCheck");
 
-                if (!predictionCheck) {
-                    return;
-                }
-
                 predictionCheck.hidden = true;
-
-                predictionCheck
-                    .querySelectorAll(".table-entry-control, .table-number-control")
-                    .forEach(function (control) {
-                        const inputRow = control.querySelector(".table-entry-input-row");
-
-                        const answerBox = control.querySelector(".table-entry-answer");
-
-                        const input = control.querySelector("input");
-
-                        if (input) {
-                            input.value = "";
-                        }
-
-                        if (inputRow) {
-                            inputRow.style.display = "block";
-                        }
-
-                        if (answerBox) {
-                            answerBox.classList.remove("visible");
-                            answerBox.innerHTML = "";
-                        }
-                    });
+                clearTableEntries(predictionCheck);
 
                 predictionCheck.querySelectorAll(".prediction-button").forEach(function (button) {
-                    button.classList.remove("selected-answer", "buzz");
+                    button.classList.remove("selected-answer");
                 });
             }
 
-            function resetLesson3Section(sectionId) {
-                const nextButton = document.getElementById(sectionId).querySelector(".next-button");
-                if (nextButton) nextButton.hidden = true;
+            const DEV_MODE = false;
+            if (DEV_MODE) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
-                if (sectionId === "yeast-labels") {
-                    resetYeastLabels();
-                    return;
-                }
+            const sectionIds = [
+                { id: "build-your-own-table", label: "Ball bounce experiment: complete the table" },
+                { id: "ballBouncePlanning", label: "Create Your Testable Question and Make Your Reasoned Prediction" },
+                { id: "ballBounceTests", label: "Why Do We Repeat Experiments 3 Times?" },
+            ];
 
-                if (sectionId === "build-your-own-table") {
-                    resetBallBounceTable();
-                }
-            }
-
-            /* ==================================================
-        LESSON 3 - TESTABLE QUESTION BUILDER
-        Adapted from Lesson 2
-        ================================================== */
-
-            let investigationQuestionState = {
-                structure: "",
-                firstAnswer: "",
-                secondAnswer: "",
+            const teacherBackLink = {
+                label: "← Back to Part A",
+                href: "lesson3.html",
             };
-
-            const investigationQuestionTemplates = {
-                what: {
-                    parts: ["When I change the ", ", what happens to the ", "?"],
-
-                    predictionParts: ["When I ", ", the ", " will "],
-
-                    firstPlaceholder: "What will you change?",
-                    secondPlaceholder: "What will you measure?",
-                },
-
-                how: {
-                    parts: ["How does changing the ", " affect the ", "?"],
-
-                    predictionParts: ["Changing the ", " will cause the ", " to "],
-
-                    firstPlaceholder: "What will you change?",
-                    secondPlaceholder: "What will you measure?",
-                },
-
-                does: {
-                    parts: ["Does changing the ", " affect the ", "?"],
-
-                    predictionParts: ["Changing the ", " will affect the ", " by causing it to "],
-
-                    firstPlaceholder: "What will you change?",
-                    secondPlaceholder: "What will you measure?",
-                },
-
-                if: {
-                    parts: ["If I change the ", ", what happens to the ", "?"],
-
-                    predictionParts: ["If I ", ", then the ", " will "],
-
-                    firstPlaceholder: "What will you change?",
-                    secondPlaceholder: "What will you measure?",
-                },
-            };
-
-            function initialiseBallBounceVariables() {
-                const independent = document.getElementById("ballBounceIndependent");
-
-                const dependent = document.getElementById("ballBounceDependent");
-
-                const checkButton = document.getElementById("ballBounceVariablesCheck");
-
-                const feedback = document.getElementById("ballBounceVariablesFeedback");
-
-                const controls = document.querySelectorAll("[data-ball-control]");
-
-                if (!independent || !dependent || !checkButton || !feedback) {
-                    return;
-                }
-
-                checkButton.addEventListener("click", function () {
-                    const selectedControls = Array.from(controls)
-                        .filter(function (checkbox) {
-                            return checkbox.checked;
-                        })
-                        .map(function (checkbox) {
-                            return checkbox.dataset.ballControl;
-                        });
-
-                    const independentCorrect = independent.value === "surface";
-
-                    const dependentCorrect = dependent.value === "bounces";
-
-                    const correctControls = ["same-ball", "same-height", "same-method"];
-
-                    const controlsCorrect =
-                        correctControls.every(function (control) {
-                            return selectedControls.includes(control);
-                        }) && !selectedControls.includes("same-surface");
-
-                    if (independentCorrect && dependentCorrect && controlsCorrect) {
-                        feedback.hidden = false;
-
-                        feedback.className = "variable-feedback feedback-success";
-
-                        feedback.textContent = "Correct! You identified the variables in the ball-bounce fair test.";
-
-                        const planning = document.getElementById("ballBouncePlanning");
-
-                        if (planning) {
-                            planning.hidden = false;
-                            planning.scrollIntoView({
-                                behavior: "smooth",
-                                block: "nearest",
-                            });
-                        }
-
-                        checkButton.disabled = true;
-
-                        return;
-                    }
-
-                    feedback.hidden = false;
-
-                    feedback.className = "variable-feedback feedback-try-again";
-
-                    feedback.textContent =
-                        "Not quite. Check what is changed, what is measured, and what needs to stay the same.";
-                });
-            }
-
-            function initialiseInvestigationQuestion() {
-                const activity = document.getElementById("build-your-own-table");
-
-                if (!activity) {
-                    return;
-                }
-
-                const structureButtons = activity.querySelectorAll("[data-question-structure]");
-
-                structureButtons.forEach(function (button) {
-                    button.addEventListener("click", function () {
-                        selectInvestigationQuestionStructure(button.dataset.questionStructure);
-                    });
-                });
-            }
-
-            function selectInvestigationQuestionStructure(structureName) {
-                const activity = document.getElementById("build-your-own-table");
-
-                const builder = document.getElementById("investigationQuestionBuilder");
-
-                const template = investigationQuestionTemplates[structureName];
-
-                if (!activity || !builder || !template) {
-                    return;
-                }
-
-                investigationQuestionState = {
-                    structure: structureName,
-                    firstAnswer: "",
-                    secondAnswer: "",
-                };
-
-                if (typeof resetBuilder === "function") {
-                    resetBuilder();
-                }
-
-                updateLesson3PredictionBuilder();
-
-                activity.querySelectorAll("[data-question-structure]").forEach(function (button) {
-                    const isSelected = button.dataset.questionStructure === structureName;
-
-                    button.classList.toggle("selected", isSelected);
-
-                    button.setAttribute("aria-pressed", String(isSelected));
-                });
-
-                builder.classList.add("builder-active");
-                builder.innerHTML = "";
-
-                const sentence = document.createElement("div");
-
-                sentence.classList.add("question-builder-sentence", "pop-in");
-
-                sentence.appendChild(document.createTextNode(template.parts[0]));
-
-                sentence.appendChild(createLesson3QuestionBlank("firstAnswer", template.firstPlaceholder));
-
-                sentence.appendChild(document.createTextNode(template.parts[1]));
-
-                sentence.appendChild(createLesson3QuestionBlank("secondAnswer", template.secondPlaceholder));
-
-                sentence.appendChild(document.createTextNode(template.parts[2]));
-
-                const completedQuestion = document.createElement("div");
-
-                completedQuestion.id = "completedInvestigationQuestion";
-
-                completedQuestion.classList.add("completed-investigation-question", "pop-in");
-
-                completedQuestion.hidden = true;
-
-                builder.appendChild(sentence);
-                builder.appendChild(completedQuestion);
-            }
-
-            function createLesson3QuestionBlank(fieldName, placeholderText) {
-                const wrapper = document.createElement("span");
-                wrapper.className = "question-blank";
-
-                const inputRow = document.createElement("span");
-                inputRow.className = "question-blank-input-row";
-
-                const input = document.createElement("input");
-
-                input.type = "text";
-                input.maxLength = 50;
-                input.placeholder = placeholderText;
-                input.className = "lesson3-question-input";
-                input.setAttribute("aria-label", placeholderText);
-
-                const answerBox = document.createElement("span");
-                answerBox.className = "question-blank-answer";
-
-                inputRow.appendChild(input);
-
-                wrapper.appendChild(inputRow);
-                wrapper.appendChild(answerBox);
-
-                function saveAnswer() {
-                    const value = getValidStudentInput(input);
-
-                    if (value === null) {
-                        return;
-                    }
-
-                    investigationQuestionState[fieldName] = value;
-
-                    /* Build the permanent answer */
-                    answerBox.innerHTML = "";
-
-                    const answerText = document.createElement("span");
-
-                    answerText.className = "question-blank-answer-text";
-
-                    answerText.textContent = value;
-
-                    const deleteButton = document.createElement("button");
-
-                    deleteButton.type = "button";
-                    deleteButton.className = "delete-answer";
-
-                    deleteButton.textContent = "×";
-
-                    deleteButton.setAttribute("aria-label", "Edit " + value);
-
-                    deleteButton.addEventListener("click", function () {
-                        investigationQuestionState[fieldName] = "";
-
-                        answerBox.classList.remove("visible");
-                        answerBox.innerHTML = "";
-
-                        inputRow.style.display = "inline-block";
-
-                        input.value = "";
-                        input.focus();
-
-                        updateLesson3CompletedQuestion();
-                        updateLesson3PredictionBuilder();
-                    });
-
-                    answerBox.appendChild(answerText);
-                    answerBox.appendChild(deleteButton);
-
-                    inputRow.style.display = "none";
-
-                    answerBox.classList.add("visible");
-
-                    input.value = "";
-
-                    updateLesson3CompletedQuestion();
-                    updateLesson3PredictionBuilder();
-                }
-
-                /*
-    ENTER = save
-  */
-                input.addEventListener("keydown", function (event) {
-                    if (event.key !== "Enter") {
-                        return;
-                    }
-
-                    event.preventDefault();
-                    saveAnswer();
-                });
-
-                /*
-    Clicking or tabbing somewhere else = save
-  */
-                input.addEventListener("blur", function () {
-                    saveAnswer();
-                });
-
-                return wrapper;
-            }
-
-            function updateLesson3PredictionBuilder() {
-                if (typeof setInvestigationQuestionAnswers !== "function") {
-                    return;
-                }
-
-                setInvestigationQuestionAnswers(
-                    investigationQuestionState.structure,
-                    investigationQuestionState.firstAnswer,
-                    investigationQuestionState.secondAnswer
-                );
-            }
-
-            function updateLesson3CompletedQuestion() {
-                const completedQuestion = document.getElementById("completedInvestigationQuestion");
-
-                const template = investigationQuestionTemplates[investigationQuestionState.structure];
-
-                if (!completedQuestion || !template) {
-                    return;
-                }
-
-                const firstAnswer = investigationQuestionState.firstAnswer;
-
-                const secondAnswer = investigationQuestionState.secondAnswer;
-
-                if (firstAnswer === "" || secondAnswer === "") {
-                    completedQuestion.hidden = true;
-                    completedQuestion.textContent = "";
-                    return;
-                }
-
-                completedQuestion.textContent =
-                    template.parts[0] + firstAnswer + template.parts[1] + secondAnswer + template.parts[2];
-
-                completedQuestion.hidden = false;
-                document.getElementById("predictionTable").hidden = false;
-            }
 
             document.addEventListener("DOMContentLoaded", function () {
-                if (typeof initialiseTeacherMenu === "function") {
-                    initialiseTeacherMenu(lesson3SectionIds, "build-your-own-table", lesson3TeacherBackLink);
-                }
+                initialiseTeacherMenu(sectionIds, "build-your-own-table", teacherBackLink);
 
-                initialiseLesson3DragAndDrop();
-
-                initialiseYeastLabelsStopAndChecks();
-
-                initialiseLesson3PermanentTextEntries();
-
-                initialiseLesson3PermanentNumberEntries();
-
-                initialiseInvestigationQuestion();
-
-                initialiseYeastVariables();
-
+                initialiseTableEntries();
                 initialiseBallBounceVariables();
-
-                initialiseYeastResultQuestions();
-
-                initialiseRepeatTestsVisibility();
+                initialiseBallBounceQuestionAndPrediction();
+                initialisePredictionCheck();
             });
-
-            /* ==================================================
-   PERMANENT NUMBER ENTRIES
-   Used for experimental data cells.
-   ================================================== */
-
-            function resetAverageForNumberInput(input) {
-                const row = input.closest("[data-input-average-row]");
-
-                /*
-    Only the build-your-own table has editable rows
-    connected to averages.
-  */
-                if (!row) {
-                    return;
-                }
-
-                const cell = row.querySelector(".average-cell");
-
-                if (!cell) {
-                    return;
-                }
-
-                /*
-    If the average has not been calculated yet,
-    there is nothing to reset.
-  */
-                if (!cell.classList.contains("average-result")) {
-                    return;
-                }
-
-                cell.classList.remove("average-result");
-                cell.innerHTML = "";
-
-                const calculateButton = document.createElement("button");
-
-                calculateButton.type = "button";
-                calculateButton.classList.add("average-button", "general-button");
-                calculateButton.textContent = "Calculate";
-
-                calculateButton.addEventListener("click", function () {
-                    calculateInputAverage(calculateButton);
-                });
-
-                cell.appendChild(calculateButton);
-            }
-
-            /* ==================================================
-        YEAST RESULTS - CORRECT VALUES
-        ================================================== */
-
-            const yeastCorrectResults = [0, 0, 0, 15, 16, 17, 19, 17, 19, 3, 0, 17];
-
-            function initialiseLesson3PermanentNumberEntries() {
-                const inputs = document.querySelectorAll(
-                    "#yeast-labels .table-number-input, " + "#build-your-own-table .table-number-input"
-                );
-
-                function checkNumberEntriesComplete(section) {
-                    const inputs = section.querySelectorAll(".table-number-input");
-
-                    return Array.from(inputs).every(function (input) {
-                        return input.value.trim() !== "";
-                    });
-                }
-
-                inputs.forEach(function (input) {
-                    if (input.dataset.lesson3PermanentNumberReady === "true") {
-                        return;
-                    }
-
-                    const originalParent = input.parentElement;
-
-                    if (!originalParent) {
-                        return;
-                    }
-
-                    const control = document.createElement("div");
-                    control.className = "table-entry-control table-number-control";
-
-                    const inputRow = document.createElement("div");
-                    inputRow.className = "table-entry-input-row";
-
-                    const answerBox = document.createElement("div");
-                    answerBox.className = "table-entry-answer table-number-answer";
-                    answerBox.setAttribute("aria-live", "polite");
-
-                    originalParent.insertBefore(control, input);
-
-                    control.appendChild(inputRow);
-                    inputRow.appendChild(input);
-                    control.appendChild(answerBox);
-
-                    input.dataset.lesson3PermanentNumberReady = "true";
-
-                    function saveTableNumberAnswer() {
-                        const value = input.value.trim();
-
-                        if (value === "") {
-                            return;
-                        }
-
-                        const numericValue = Number(value);
-
-                        if (!Number.isFinite(numericValue)) {
-                            input.focus();
-                            return;
-                        }
-
-                        answerBox.innerHTML = "";
-
-                        if (input.closest("#yeast-labels")) {
-                            const yeastInputs = Array.from(
-                                document.querySelectorAll("#yeast-labels .table-number-input")
-                            );
-
-                            const inputIndex = yeastInputs.indexOf(input);
-                            const correctValue = yeastCorrectResults[inputIndex];
-
-                            answerBox.classList.remove("number-correct", "number-incorrect");
-
-                            if (numericValue === correctValue) {
-                                answerBox.classList.add("number-correct");
-                            } else {
-                                answerBox.classList.add("number-incorrect");
-                            }
-                        }
-
-                        const answerText = document.createElement("span");
-
-                        answerText.className = "table-entry-answer-text";
-
-                        answerText.textContent = value;
-
-                        let deleteButton = null;
-
-                        if (typeof createDeleteAnswerButton === "function") {
-                            deleteButton = createDeleteAnswerButton("Clear " + value, function () {
-                                answerBox.classList.remove("visible");
-                                answerBox.innerHTML = "";
-
-                                inputRow.style.display = "block";
-
-                                input.value = "";
-
-                                resetAverageForNumberInput(input);
-
-                                if (input.closest("#yeast-labels")) {
-                                    checkYeastActivityComplete();
-                                }
-
-                                input.focus();
-                            });
-                        } else {
-                            deleteButton = document.createElement("button");
-
-                            deleteButton.type = "button";
-                            deleteButton.className = "delete-answer";
-                            deleteButton.textContent = "×";
-
-                            deleteButton.setAttribute("aria-label", "Clear " + value);
-
-                            deleteButton.addEventListener("click", function () {
-                                answerBox.classList.remove("visible");
-                                answerBox.innerHTML = "";
-
-                                inputRow.style.display = "block";
-
-                                input.value = "";
-
-                                resetAverageForNumberInput(input);
-
-                                if (input.closest("#yeast-labels")) {
-                                    checkYeastActivityComplete();
-                                }
-
-                                input.focus();
-                            });
-                        }
-
-                        answerBox.appendChild(answerText);
-                        answerBox.appendChild(deleteButton);
-
-                        inputRow.style.display = "none";
-
-                        answerBox.classList.add("visible");
-
-                        const section = input.closest("#build-your-own-table, #yeast-labels");
-
-                        if (section && section.id === "yeast-labels") {
-                            checkYeastActivityComplete();
-                        } else {
-                            let complete = false;
-
-                            if (section) {
-                                complete = checkNumberEntriesComplete(section);
-                            }
-                        }
-
-                        /*
-              IMPORTANT:
-              Keep the numeric value on the original input.
-
-              The input is hidden visually, but calculateInputAverage()
-              can still read its value later.
-            */
-                    }
-
-                    input.addEventListener("keydown", function (event) {
-                        if (event.key === "Enter") {
-                            event.preventDefault();
-                            saveTableNumberAnswer();
-                        }
-                    });
-
-                    input.addEventListener("blur", saveTableNumberAnswer);
-                });
-            }
         </script>
     </body>
 </html>
