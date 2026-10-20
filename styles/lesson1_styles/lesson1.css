@@ -1,5 +1,10 @@
 /* Lesson 1-specific styles only */
 
+ol li::marker {
+  color: var(--purple);
+  font-weight: 700;
+}
+
 /* ==================================================
         FLASHCARDS
         ================================================== */
