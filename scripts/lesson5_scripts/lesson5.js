@@ -196,15 +196,48 @@
       { id: "sea-pig-2", ext: "png", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper.", guideText: "A sea pig is actually a type of sea cucumber! It uses tube-like feet to walk across the muddy seafloor. Because food can be difficult to find at these depths, it feeds on tiny pieces of dead plants and animals that sink from the ocean above." },
       { id: "sea-angel-2", ext: "png", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters.", guideText: "Sea angels are tiny sea slugs with almost transparent (see-through) bodies. Being transparent makes them harder for predators to spot. They swim by flapping two wing-like fins instead of crawling along the seafloor. Some sea angels live near the surface, while others are found much deeper." },
       { id: "pink-seethrough-fantasia-2", ext: "png", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea.", guideText: "The pink see-through fantasia is a swimming sea cucumber. Its transparent body lets us see some of its organs, including its digestive system! Wide flaps help it swim above the seafloor. When attacked, it can produce light and even shed glowing skin, which may help it escape predators." },
-      { id: "blobfish-2", ext: "png", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m." },
-      { id: "barreleye-fish-2", ext: "png", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m." },
-      { id: "deepsea-anglerfish-2", ext: "png", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m." },
-      { id: "flapjack-octopus-2", ext: "png", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m." },
+      { id: "blobfish-2", ext: "png", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m.", guideText: "Far below the surface, water pressure is extremely high. The blobfish has a soft, jelly-like body and no gas-filled swim bladder, an organ that helps many fish float. These features help it survive at great depths. Its famous droopy appearance mostly happens when it is brought to the surface." },
+      { id: "barreleye-fish-2", ext: "png", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m.", guideText: "The barreleye fish has a transparent head with two large green eyes inside! These eyes usually point upwards to spot the shadows of prey against the faint light above. They can also turn forwards when the fish feeds. Not all deep-sea fish have poor eyesight!" },
+      { id: "deepsea-anglerfish-2", ext: "png", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m.", guideText: "Many female deep-sea anglerfish have a glowing lure hanging from their heads like a fishing rod. This light, produced by special bacteria, attracts smaller animals towards their sharp teeth. Their dark skin also helps them hide. These adaptations are useful where there is almost no sunlight and food is difficult to find."},
+      { id: "flapjack-octopus-2", ext: "png", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m.", guideText: "The flapjack octopus has a soft, orange body and webbed arms that spread out like an umbrella. It flaps its small fins to swim and can rest flat on the seafloor. Its orange colour appears much darker in deep water because red light cannot reach those depths, helping it blend into the darkness." },
       // { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
       // { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." },
-      { id: "telescopefish", ext: "png", name: "Telescope Fish" },
-      { id: "fangtooth", ext: "png", name: "Fangtooth" }
+      { id: "telescopefish", ext: "png", name: "Telescope Fish", guideText: "The telescope fish has enormous, tube-shaped eyes that gather the tiny amount of light available in deep water. It often swims in an upright position, looking upwards to spot the shadows of prey above it. Its jaws can also open very wide, allowing it to swallow surprisingly large meals." },
+      { id: "fangtooth", ext: "png", name: "Fangtooth", guideText: "The fangtooth has some of the largest teeth compared with its body size of any fish! Its lower fangs are so long that they fit into special pockets in the roof of its mouth. These sharp teeth help it catch and hold prey in the deep sea, where finding food can be difficult." }
     ];
+
+    //EXTRA POKEDEX ENTRIES FOR SHALLOW AND INTERMEDIATE WATERS
+    const shallowGuideSpecies = [
+      { id: "clownfish", ext: "png", name: "Clownfish", note: "Lives among sea anemones on shallow coral reefs." },
+      { id: "parrotfish", ext: "png", name: "Parrotfish", note: "Uses its beak-like teeth to scrape algae from reefs." },
+      { id: "butterflyfish", ext: "png", name: "Butterflyfish", note: "Its flattened body helps it swim around coral." },
+      { id: "blue-tang", ext: "png", name: "Blue Tang", note: "Lives on coral reefs and has a sharp spine near its tail." }
+    ];
+
+    const travellerGuideSpecies = [
+      { id: "lanternfish", ext: "png", name: "Lanternfish", note: "Many move towards the surface at night to feed." },
+      { id: "humboldt-squid", ext: "png", name: "Humboldt Squid", note: "Often travels between deep and shallow water." },
+      { id: "ocean-sunfish", ext: "png", name: "Ocean Sunfish", note: "Visits the surface but also dives hundreds of metres." }
+    ];
+
+    const guideGroups = [
+      {
+        title: "01 // Shallow Waters",
+        species: shallowGuideSpecies
+      },
+      {
+        title: "02 // Ocean Travellers",
+        species: [
+          ...travellerGuideSpecies,
+          mission5SpeciesPool.find(s => s.id === "sea-angel-2")
+        ]
+      },
+      {
+        title: "03 // Deep Sea",
+        species: mission5SpeciesPool.filter(s => s.id !== "sea-angel-2")
+      }
+    ];
+// END OF EXTRA POKEDEX ENTRIES FOR SHALLOW AND INTERMEDIATE WATERS
 
     function getMission5StaticSrc(species) {
       return "../images/lesson5/mission5/" + species.id + "." + species.ext;
@@ -2225,19 +2258,32 @@
       const panel = document.getElementById("creaturePanel");
 
       // Automatically create a button for every creature
-      grid.innerHTML = mission5SpeciesPool.map(fish => `
-        <button type="button" data-species="${fish.id}">
-          <img src="${getMission5StaticSrc(fish)}" alt="">
-          <span>${fish.name}</span>
-        </button>
+
+      grid.innerHTML = guideGroups.map(group => `
+        <section class="creature-zone">
+          <h4>${group.title}</h4>
+
+          <div class="creature-zone-grid">
+            ${group.species.map(fish => `
+              <button type="button" data-species="${fish.id}">
+                <img src="${getMission5StaticSrc(fish)}" alt="">
+                <span>${fish.name}</span>
+              </button>
+            `).join("")}
+          </div>
+        </section>
       `).join("");
 
       // One listener handles every button
+
       grid.addEventListener("click", event => {
         const button = event.target.closest("[data-species]");
         if (!button) return;
 
-        const fish = mission5SpeciesPool.find(f => f.id === button.dataset.species);
+        const fish = guideGroups.flatMap(g => g.species).find(f => f.id === button.dataset.species);
+
+        // Move the information panel below the selected group
+        button.closest(".creature-zone").after(panel);
 
         panel.hidden = false;
         panel.querySelector("img").src = getMission5StaticSrc(fish);
@@ -2245,6 +2291,7 @@
         panel.querySelector("h4").textContent = fish.name;
         panel.querySelector("p").textContent = fish.guideText || fish.note || "Information coming soon.";
       });
+
       // END OF THE NEW POKEDEX FUNCTION
 
       document.querySelectorAll(".mission-button").forEach(function(button) {
