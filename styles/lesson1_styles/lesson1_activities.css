@@ -646,7 +646,6 @@
 
   color: var(--text);
 
-  font-weight: 600;
   line-height: 1.6;
 }
 
@@ -807,8 +806,11 @@
 
   font-size: 1.2rem;
 }
-
-.prediction-test-completion p {
+.prediction-test-completion ol {
+  justify-self: center;
+}
+.prediction-test-completion li {
+  text-align: left;
   margin: 0;
 
   line-height: 1.55;
