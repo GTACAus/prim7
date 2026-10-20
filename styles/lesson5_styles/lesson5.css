@@ -3143,15 +3143,37 @@
     }
 
 
+
 /* POKEDEX ELEMENTS */
+
+/* Main gallery container */
 #creatureGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 12px;
+  display: block;
   margin: 18px 0;
 }
 
-#creatureGrid button {
+/* Three habitat sections */
+.creature-zone {
+  background: rgba(57, 211, 255, 0.05);
+  border: 1px solid rgba(57, 211, 255, 0.4);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.creature-zone h4 {
+  color: #D8F7FF;
+  margin: 0 0 14px;
+}
+
+/* Creature buttons within each section */
+.creature-zone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+}
+
+#creatureGrid .creature-zone-grid button {
   background: #0D3157;
   border: 2px solid #39D3FF;
   border-radius: 14px;
@@ -3160,7 +3182,13 @@
   cursor: pointer;
 }
 
-#creatureGrid img {
+#creatureGrid .creature-zone-grid button:hover {
+  border-color: #FFCD1D;
+  background: #16476A;
+}
+
+/* Circular creature images */
+#creatureGrid .creature-zone-grid button img {
   display: block;
   width: 88px;
   height: 88px;
@@ -3170,11 +3198,13 @@
   margin: 0 auto 8px;
 }
 
+/* Shared information panel */
 #creaturePanel {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 16px;
+  margin-bottom: 18px;
   background: #0D3157;
   border: 2px solid #39D3FF;
   border-radius: 14px;
@@ -3189,4 +3219,5 @@
   max-width: 40%;
   object-fit: contain;
 }
+
 /* END OF POKEDEX ELEMENTS */
