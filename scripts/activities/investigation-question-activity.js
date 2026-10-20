@@ -33,6 +33,11 @@
    blank's dropdown - always page-specific (different lessons study
    different variables), so there's no default: pass it in.
 
+   options.inputType: "text" makes each blank a free-text field (saved on
+   Enter or blur, checked by the classroom language filter) instead of a
+   dropdown; variableOptions is then not needed. options.textInputClass
+   sets that field's class (default "question-blank-input").
+
    options.templates optionally overrides the four built-in question
    structures (what/how/does/if). Each entry is:
      { parts: [before-first-blank, between-blanks, after-second-blank],
@@ -176,24 +181,36 @@
     var inputRow = document.createElement("span");
     inputRow.className = "question-blank-input-row";
 
-    var input = document.createElement("select");
-    input.className = "question-blank-input";
+    var isText = this.options.inputType === "text";
+    var input;
+
+    if (isText) {
+      input = document.createElement("input");
+      input.type = "text";
+      input.maxLength = 50;
+      input.placeholder = placeholderText;
+      input.className = this.options.textInputClass || "question-blank-input";
+    } else {
+      input = document.createElement("select");
+      input.className = "question-blank-input";
+
+      var placeholderOption = document.createElement("option");
+      placeholderOption.value = "";
+      placeholderOption.textContent = placeholderText;
+      placeholderOption.disabled = true;
+      placeholderOption.selected = true;
+      input.appendChild(placeholderOption);
+
+      this.variableOptions.forEach(function (answer) {
+        var option = document.createElement("option");
+        option.value = answer;
+        option.textContent = answer;
+        input.appendChild(option);
+      });
+    }
+
     input.name = fieldName;
     input.setAttribute("aria-label", placeholderText);
-
-    var placeholderOption = document.createElement("option");
-    placeholderOption.value = "";
-    placeholderOption.textContent = placeholderText;
-    placeholderOption.disabled = true;
-    placeholderOption.selected = true;
-    input.appendChild(placeholderOption);
-
-    this.variableOptions.forEach(function (answer) {
-      var option = document.createElement("option");
-      option.value = answer;
-      option.textContent = answer;
-      input.appendChild(option);
-    });
 
     var answerBox = document.createElement("span");
     answerBox.className = "question-blank-answer";
@@ -203,8 +220,8 @@
     wrapper.appendChild(answerBox);
 
     function saveAnswer() {
-      var value = input.value;
-      if (value === "") return;
+      var value = isText ? getValidStudentInput(input) : input.value;
+      if (value === null || value === "") return;
 
       self.state[fieldName] = value;
 
@@ -218,7 +235,7 @@
         self.state[fieldName] = "";
         answerBox.classList.remove("visible");
         answerBox.innerHTML = "";
-        inputRow.style.display = "block";
+        inputRow.style.display = isText ? "inline-block" : "block";
         input.value = "";
         input.focus();
 
@@ -239,10 +256,15 @@
       self.setComplete(self._isComplete());
     }
 
-    input.addEventListener("change", function () {
-      if (input.value === "") return;
-      saveAnswer();
-    });
+    if (isText) {
+      /* Enter or clicking away saves the answer */
+      connectEnterAndBlurSave(input, saveAnswer);
+    } else {
+      input.addEventListener("change", function () {
+        if (input.value === "") return;
+        saveAnswer();
+      });
+    }
 
     return wrapper;
   };
