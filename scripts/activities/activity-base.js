@@ -1,7 +1,7 @@
 /* ==================================================
    ACTIVITY BASE
    Shared by every activity prototype (drag-drop-activity.js,
-   text-response-activity.js, item-match.js, ...). Pair with
+   input-response-activity.js, item-match.js, ...). Pair with
    activity-sections.js, which watches data-activity-complete
    to decide when a section's Next button appears.
 
@@ -18,11 +18,17 @@
      this activity is unavailable (.activity-unavailable,
      [inert]) until that one reports isComplete() === true.
      Leave it out for an activity that's available from the
-     start.
+     start. While unavailable the whole root is hidden, unless
+     it contains elements marked data-activity-hidden - then
+     only those are hidden (and shown again once available) and
+     the rest of the root stays visible.
    - data-activity-complete="true"/"false" is stamped on the
      root by setComplete() and is what a section watches.
    - [data-reset-trigger] buttons inside the root are wired
-     automatically to call reset().
+     automatically to call reset(). A data-reset-trigger button
+     outside every activity resets all the activities (that have
+     an id) inside its nearest .section instead; give it a CSS
+     selector as the attribute value to reset a different area.
 
    Subclasses call Activity.call(this, root, options) first,
    finish their own setup, then call this.setComplete(...) once
@@ -79,15 +85,29 @@
   };
 
   Activity.prototype.setAvailable = function (isAvailable) {
+    const hideTargets = this.root.querySelectorAll("[data-activity-hidden]");
+
+    /* With [data-activity-hidden] elements, only those are hidden: the root
+       itself is left alone (no .activity-unavailable dimming, no [inert]), so
+       the rest of it stays visible and usable. */
+    if (hideTargets.length) {
+      if (this.root.hasAttribute("data-activity-depends-on")) {
+        Array.prototype.forEach.call(hideTargets, function (element) { element.hidden = !isAvailable; });
+      }
+      return;
+    }
+
     this.root.classList.toggle("activity-unavailable", !isAvailable);
     this.root.toggleAttribute("inert", !isAvailable);
 
     if (this.root.hasAttribute("data-activity-depends-on")) {
-      this.root.hidden = !isAvailable;
+        this.root.hidden = !isAvailable;
     }
   };
 
   Activity.prototype.isAvailable = function () {
+    var hideTargets = this.root.querySelectorAll("[data-activity-hidden]");
+    if (hideTargets.length) return !hideTargets[0].hidden;
     return !this.root.classList.contains("activity-unavailable");
   };
 
@@ -146,6 +166,30 @@
 
     element.classList.remove("filled", "placed", "visible", "selected", "correct", "incorrect");
   };
+
+  /* A [data-reset-trigger] button that sits OUTSIDE every activity (e.g. one
+     "Reset" button under a whole section) resets every activity inside the
+     nearest .section - or, if the button names a selector in its
+     data-reset-trigger value, every activity inside the first match of that
+     selector. Activities need an id to be found. Dependent activities
+     (data-activity-depends-on) also reset themselves when their prerequisite
+     does, so the order doesn't matter. */
+  document.addEventListener("DOMContentLoaded", function () {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-reset-trigger]"), function (button) {
+      if (button.closest("[data-activity]")) return; /* owned by its own activity */
+
+      button.addEventListener("click", function () {
+        var scope = (button.dataset.resetTrigger && document.querySelector(button.dataset.resetTrigger)) ||
+          button.closest(".section") ||
+          document;
+
+        Array.prototype.forEach.call(scope.querySelectorAll("[data-activity]"), function (element) {
+          var activity = registry[element.id];
+          if (activity) activity.reset();
+        });
+      });
+    });
+  });
 
   global.Activity = Activity;
 })(window);

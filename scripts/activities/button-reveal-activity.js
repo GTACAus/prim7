@@ -37,6 +37,10 @@
    pressed, matching a one-shot "check my answer" button. Pass false to
    leave it visible/clickable (e.g. a button that can be pressed again).
 
+   data-reveals="#otherId, .some-class" on the root also reveals (and on
+   reset hides again) matching elements anywhere on the page - for content
+   that can't sit inside the root.
+
    The activity is data-activity-complete as soon as it's been pressed
    once. A [data-reset-trigger] button inside the root - or calling
    reset() directly - hides the revealed content and brings the trigger
@@ -68,14 +72,27 @@
 
   ButtonActivity.prototype.reset = function () {
     Array.prototype.forEach.call(this.targets, function (target) { target.hidden = true; });
+    this._setRevealed(false);
     if (this.trigger) this.trigger.hidden = false;
     this.setComplete(false);
   };
 
   /* ---------- internals ---------- */
 
+  /* data-reveals="#a, .b" on the root: elements ANYWHERE on the page (found
+     with that CSS selector each time, so ones created later are included)
+     that are shown when the button is pressed and hidden again on reset. */
+  ButtonActivity.prototype._setRevealed = function (revealed) {
+    var selector = this.root.dataset.reveals;
+    if (!selector) return;
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (element) {
+      element.hidden = !revealed;
+    });
+  };
+
   ButtonActivity.prototype._press = function () {
     Array.prototype.forEach.call(this.targets, function (target) { target.hidden = false; });
+    this._setRevealed(true);
     if (this.hideTrigger && this.trigger) this.trigger.hidden = true;
 
     if (typeof this.options.onPress === "function") this.options.onPress();

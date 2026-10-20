@@ -1279,14 +1279,63 @@
   text-align: center;
 }
 
-/* ---------- Yeast number answer feedback ---------- */
+/* ---------- Table cell answers (InputResponseActivity) ---------- */
 
-#yeast-labels .table-number-answer.number-correct {
+.table-result-list .ir-answer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 54px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 12px;
+
+  font-weight: 700;
+}
+
+.table-result-list .ir-answer span {
+  flex: 1;
+  text-align: center;
+}
+
+.table-result-list .delete-answer {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--soft-orange);
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 50%;
+
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+/* ---------- Yeast number answer feedback (data-answer) ---------- */
+
+#yeast-labels .table-result-list .ir-answer.ir-correct {
   background: var(--soft-green);
   border-color: var(--green);
 }
 
-#yeast-labels .table-number-answer.number-incorrect {
+#yeast-labels .table-result-list .ir-answer.ir-incorrect {
   background: var(--soft-orange);
   border-color: var(--orange);
 }
@@ -2171,31 +2220,6 @@
 
 }
 
-/* ---------- Testable question ---------- */
-
-#yeast-variables .variable-question {
-  position: relative;
-
-  margin: 10px 0 18px;
-  padding: 28px 20px 16px;
-
-  background: var(--paper);
-
-  border: 2px solid var(--line);
-  border-top: 4px solid var(--blue);
-  border-radius: 16px;
-
-  color: var(--text);
-
-  font-weight: 700;
-  line-height: 1.55;
-}
-
-#yeast-variables .variable-question::before {
-  content: "TESTABLE QUESTION";
-
-  background: var(--blue);
-}
 
 .reasoned-prediction-box {
   position: relative;
@@ -2213,225 +2237,6 @@
   content: "REASONED PREDICTION";
 
   background: var(--green);
-}
-
-/* ---------- Variable type buttons ---------- */
-
-#yeast-variables .variable-selection-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  gap: 10px;
-
-  margin-top: 12px;
-  margin-bottom: 14px;
-}
-
-#yeast-variables .variable-mode-button {
-  padding: 10px 14px;
-
-  background: white;
-  color: var(--text);
-
-  border: 2px solid var(--line);
-  border-radius: 999px;
-  box-shadow: 0 2px 0 var(--charcoal);
-
-
-  font: inherit;
-  font-weight: 700;
-
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-#yeast-variables .variable-mode-button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 0 var(--charcoal);
-
-}
-
-#yeast-variables .variable-mode-button:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-#yeast-variables .variable-mode-button.mode-active {
-  box-shadow: none;
-}
-#yeast-variables .variable-mode-button.mode-active:hover {
-  transform: translateY(0);
-}
-
-#yeast-variables .variable-mode-title,
-#yeast-variables .variable-mode-subtitle {
-  display: block;
-}
-
-#yeast-variables .variable-mode-subtitle {
-  margin-top: 2px;
-
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-
-#yeast-variables .independent-mode-button {
-  border-top: 6px solid var(--yellow);
-}
-
-#yeast-variables .dependent-mode-button {
-  border-top: 6px solid var(--purple);
-}
-
-#yeast-variables .controlled-mode-button {
-  border-top: 6px solid var(--green);
-}
-
-
-/* ---------- Variable choices ---------- */
-
-/* ---------- Variable choices ---------- */
-
-#yeast-variables .variable-tile-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-
-#yeast-variables .variable-tile {
-  flex: 0 1 calc(25% - 9px);
-
-  min-height: 82px;
-  padding: 14px;
-
-  background: white;
-  color: var(--text);
-
-  border: 2px solid var(--line);
-  border-radius: 16px;
-
-  font: inherit;
-  font-weight: 700;
-  text-align: center;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.18s ease,
-    background-color 0.18s ease,
-    border-color 0.18s ease;
-}
-
-#yeast-variables .variable-tile:hover {
-  transform: translateY(-3px);
-}
-
-
-/* ---------- Feedback ---------- */
-
-#yeast-variables .variable-feedback {
-  margin-top: 18px;
-  padding: 14px 16px;
-
-  background: rgba(255, 255, 255, 0.72);
-
-  border: 2px dashed var(--line);
-  border-radius: 16px;
-
-  color: var(--text);
-
-  font-weight: 700;
-  text-align: center;
-
-}
-
-#yeast-variables .variable-feedback.feedback-success {
-  animation: pop-fade-in 0.5s ease-out;
-  background: var(--soft-green);
-  border-style: solid;
-}
-
-#yeast-variables .variable-feedback.feedback-try-again {
-  background: var(--soft-orange);
-  border-style: solid;
-}
-
-
-/* ---------- Selected / completed colours ---------- */
-
-#yeast-variables .independent-mode-button.mode-active,
-#yeast-variables .independent-mode-button.mode-complete {
-  background: var(--soft-yellow);
-}
-
-#yeast-variables .dependent-mode-button.mode-active,
-#yeast-variables .dependent-mode-button.mode-complete {
-  background: var(--soft-purple);
-}
-
-#yeast-variables .controlled-mode-button.mode-active,
-#yeast-variables .controlled-mode-button.mode-complete {
-  background: var(--soft-green);
-}
-
-#yeast-variables .variable-tile.is-independent {
-  background: var(--soft-yellow);
-  border-top: 6px solid var(--yellow);
-}
-
-#yeast-variables .variable-tile.is-dependent {
-  background: var(--soft-purple);
-  border-top: 6px solid var(--purple);
-}
-
-#yeast-variables .variable-tile.is-controlled {
-  background: var(--soft-green);
-  border-top: 6px solid var(--green);
-}
-
-
-/* ---------- Incorrect answer animation ---------- */
-
-@keyframes yeastVariableBuzz {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  25% {
-    transform: translateX(-6px);
-  }
-
-  50% {
-    transform: translateX(6px);
-  }
-
-  75% {
-    transform: translateX(-3px);
-  }
-}
-
-#yeast-variables .variable-tile.buzz {
-  animation: yeastVariableBuzz 0.28s ease;
-}
-
-
-/* ---------- Mobile ---------- */
-
-@media (max-width: 700px) {
-  #yeast-variables .variable-tile {
-    flex-basis: calc(50% - 6px);
-  }
-}
-
-@media (max-width: 480px) {
-  #yeast-variables .variable-tile {
-    flex-basis: 100%;
-  }
 }
 
 /* ==================================================
@@ -2920,3 +2725,22 @@
 
 .ball-bounce-interpretation-row .table-number-input {
   height: 44px;
+}
+
+/* ---------- Interpret the results (MultipleChoiceActivity) ---------- */
+
+#yeastPredictionCheck .prediction-button.correct-answer {
+  color: var(--paper);
+  background: var(--button-hover);
+  box-shadow: none;
+  transform: translateY(3px);
+  cursor: default;
+}
+
+#yeastPredictionCheck .prediction-button.incorrect-answer,
+#yeastPredictionCheck .prediction-button.incorrect-answer:hover {
+  background: var(--orange);
+  box-shadow: none;
+  transform: translateY(3px);
+  animation: predictionCheckBuzz 0.2s ease;
+}

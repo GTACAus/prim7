@@ -30,12 +30,11 @@
     type="text/css">
 
   <link
-    href="../styles/variable-activity.css"
+    href="../styles/lesson2_styles/lesson2.css"
     rel="stylesheet"
     type="text/css">
-
   <link
-    href="../styles/lesson2_styles/lesson2.css"
+    href="../styles/variable-activity.css"
     rel="stylesheet"
     type="text/css">
   <link href="../styles/lesson2_styles/bigkahuna4.css" rel="stylesheet" type="text/css">
@@ -1736,7 +1735,7 @@
   <script src="../scripts/common_functions.js"></script>
   <script src="../scripts/activities/activity-base.js"></script>
   <script src="../scripts/activities/activity-sections.js"></script>
-  <script src="../scripts/activities/text-response-activity.js"></script>
+  <script src="../scripts/activities/input-response-activity.js"></script>
   <script src="../scripts/activities/prediction-table-activity.js"></script>
   <script src="../scripts/activities/investigation-question-activity.js"></script>
   <script src="../scripts/activities/variable-sort-activity.js"></script>
@@ -1829,7 +1828,7 @@ function initialiseDiscoverVariables() {
   const discoverVariablesRoot = document.getElementById('discover-variables');
   if (!discoverVariablesRoot) return;
     
-  discoverVariablesActivity = new TextResponseActivity(discoverVariablesRoot);
+  discoverVariablesActivity = new InputResponseActivity(discoverVariablesRoot);
 }
 
 /* ==================================================

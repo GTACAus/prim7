@@ -213,85 +213,6 @@
   color: var(--text);
 }
 
-.variable-question {
-  position: relative;
-
-  margin: 10px 0 18px;
-  padding: 28px 20px 16px;
-
-  border: 2px solid var(--line);
-  border-top: 4px solid var(--blue);
-  border-radius: 16px;
-
-  background: var(--paper);
-  color: var(--text);
-
-  font-weight: 700;
-  line-height: 1.55;
-}
-
-.variable-question::before {
-  content: "TESTABLE QUESTION";
-
-  background: var(--blue);
-}
-
-.variable-selection-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 12px;
-  margin-bottom: 14px;
-}
-
-.variable-mode-button {
-  padding: 10px 14px;
-  border: 2px solid var(--line);
-  border-radius: 999px;
-  background: white;
-  color: var(--text);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.independent-mode-button,
-.dependent-mode-button,
-.controlled-mode-button {
-  background: white;
-}
-
-.independent-mode-button {
-  border-top: 6px solid var(--yellow);
-}
-
-.dependent-mode-button {
-  border-top: 6px solid var(--purple);
-}
-
-.controlled-mode-button {
-  border-top: 6px solid var(--green);
-}
-
-.variable-tile-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.variable-tile {
-  min-height: 82px;
-  padding: 14px;
-  border: 2px solid var(--line);
-  border-radius: 16px;
-  background: white;
-  color: var(--text);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  text-align: center;
-}
 
 .variable-summary-placeholder {
   margin-top: 18px;
@@ -303,174 +224,6 @@
   text-align: center;
 }
 
-/* ==================================================
-      SORT VARIABLES — ACTIVITY 1
-      ================================================== */
-
-.sort-variables-section .variable-mode-button {
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    background-color 0.22s ease,
-    border-color 0.22s ease,
-    opacity 0.18s ease;
-}
-
-.sort-variables-section .variable-mode-button:not(:disabled):not(.mode-active):hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-small);
-}
-
-.sort-variables-section .variable-mode-button.mode-active {
-  transform: translateY(0);
-  box-shadow: none;
-  outline: none;
-}
-
-/* Stronger GTAC colours only for the currently selected variable type */
-
-.sort-variables-section .independent-mode-button.mode-active {
-  background: var(--soft-yellow);
-  border-color: var(--line);
-  border-top-color: var(--yellow);
-}
-
-.sort-variables-section .dependent-mode-button.mode-active {
-  background: var(--soft-purple);
-  border-color: var(--line);
-  border-top-color: var(--purple);
-}
-
-.sort-variables-section .controlled-mode-button.mode-active {
-  background: var(--soft-green);
-  border-color: var(--line);
-  border-top-color: var(--green);
-}
-
-.sort-variables-section .independent-mode-button.mode-complete {
-  background: var(--soft-yellow);
-  border-color: var(--line);
-  border-top-color: var(--yellow);
-}
-
-.sort-variables-section .dependent-mode-button.mode-complete {
-  background: var(--soft-purple);
-  border-color: var(--line);
-  border-top-color: var(--purple);
-}
-
-.sort-variables-section .controlled-mode-button.mode-complete {
-  background: var(--soft-green);
-  border-color: var(--line);
-  border-top-color: var(--green);
-}
-
-.sort-variables-section .variable-mode-button:disabled,
-.sort-variables-section .variable-mode-button:disabled * {
-  cursor: default;
-  opacity: 1;
-  user-select: none;
-}
-
-.sort-variables-section .variable-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-
-  transition:
-    transform 0.18s ease,
-    background-color 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.sort-variables-section .variable-tile-label {
-  display: block;
-}
-
-.sort-variables-section .variable-tile-type {
-  display: block;
-
-  font-size: 0.78rem;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-/* Use the existing Lesson 2 variable colours */
-
-.sort-variables-section .variable-tile.is-independent {
-  background: var(--soft-yellow);
-  border-top: 6px solid var(--yellow);
-}
-
-.sort-variables-section .variable-tile.is-dependent {
-  background: var(--soft-purple);
-  border-top: 6px solid var(--purple);
-}
-
-.sort-variables-section .variable-tile.is-controlled {
-  background: var(--soft-green);
-  border-top: 6px solid var(--green);
-}
-
-.sort-variables-section .variable-tile.is-classified {
-  cursor: default;
-}
-
-.variable-feedback {
-  margin-top: 18px;
-  padding: 14px 16px;
-
-  border: 2px dashed var(--line);
-  border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--text);
-
-  font-weight: 700;
-  text-align: center;
-}
-
-.variable-feedback.feedback-success {
-  background: var(--soft-green);
-  border-style: solid;
-}
-
-.variable-feedback.feedback-try-again {
-  background: var(--soft-orange);
-  border-style: solid;
-}
-
-#sortVariablesOneNext:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-/* Incorrect-answer shake */
-
-@keyframes variableTileBuzz {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  25% {
-    transform: translateX(-6px);
-  }
-
-  50% {
-    transform: translateX(6px);
-  }
-
-  75% {
-    transform: translateX(-3px);
-  }
-}
-
-.sort-variables-section .variable-tile.buzz {
-  animation: variableTileBuzz 0.28s ease;
-}
 
 .question-structure-grid {
   display: grid;
@@ -1082,29 +835,6 @@
   font: inherit;
 }
 
-.variable-mode-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-
-  min-height: 68px;
-  text-align: center;
-}
-
-.variable-mode-title {
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.2;
-}
-
-.variable-mode-subtitle {
-  font-size: 0.82rem;
-  font-weight: 600;
-  opacity: 0.9;
-}
-
 .procedure-comparison-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1189,8 +919,7 @@
 
 @media (max-width: 900px) {
   .variable-grid,
-  .variable-type-grid,
-  .variable-tile-grid {
+  .variable-type-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1203,7 +932,6 @@
 @media (max-width: 650px) {
   .variable-grid,
   .variable-type-grid,
-  .variable-tile-grid,
   .question-structure-grid {
     grid-template-columns: 1fr;
   }

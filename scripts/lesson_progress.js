@@ -196,6 +196,40 @@
     return result;
   }
 
+  /*
+    InputResponseActivity builds its answers (and their delete
+    buttons) itself, so like drag and drop it is saved through
+    its own getAnswers()/restore() rather than by comparing the
+    page. Its elements are skipped by the generic save.
+  */
+  function inputActivities() {
+    return (window.InputResponseActivity && window.InputResponseActivity.instances || []).filter(function (activity) {
+      return activity.root.id && activity.root.isConnected;
+    });
+  }
+
+  function collectInputResponses() {
+    const result = {};
+
+    inputActivities().forEach(function (activity) {
+      result[activity.root.id] = activity.getAnswers();
+    });
+
+    return result;
+  }
+
+  function restoreInputResponses(saved) {
+    if (!saved) {
+      return;
+    }
+
+    inputActivities().forEach(function (activity) {
+      if (saved[activity.root.id]) {
+        activity.restore(saved[activity.root.id]);
+      }
+    });
+  }
+
   function restoreDragDrop(saved) {
     if (!saved) {
       return;
@@ -240,6 +274,7 @@
 
     const payload = {
       dragDrop: collectDragDrop(),
+      inputResponses: collectInputResponses(),
 
       /*
         A page whose markup has changed cannot safely be
@@ -406,6 +441,7 @@
     reapplySavedState = applyAll;
 
     restoreDragDrop(payload.dragDrop);
+    restoreInputResponses(payload.inputResponses);
 
     applyAll();
 
@@ -472,7 +508,10 @@
     elements.forEach(function (element, index) {
       transient[index] =
         element.closest(TRANSIENT) !== null ||
-        element.closest("[data-dd-slot], [data-dd-item]") !== null;
+        element.closest("[data-dd-slot], [data-dd-item]") !== null ||
+        inputActivities().some(function (activity) {
+          return activity.root.contains(element);
+        });
       baseline[index] = describe(element);
     });
 
@@ -485,6 +524,7 @@
     document.addEventListener("click", queueSave, true);
     document.addEventListener("drop", queueSave, true);
     document.addEventListener("dd:change", queueSave, true);
+    document.addEventListener("ir:change", queueSave, true);
     document.addEventListener("touchend", queueSave, true);
     document.addEventListener("focusout", queueSave, true);
 

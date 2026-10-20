@@ -487,6 +487,10 @@ input[type="checkbox"]:active {
   being hidden outright, so a page can still show it as "locked" in
   place rather than making it disappear.
 */
+[data-activity-hidden][hidden] {
+  display: none !important;
+}
+
 .activity-unavailable {
   opacity: 0.55;
   pointer-events: none;
