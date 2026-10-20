@@ -1204,6 +1204,24 @@ function connectEnterAndBlurSave(input, saveFunction) {
 
 
 /*
+  Read the visible text from an answer that may also
+  contain a delete button (see createDeleteAnswerButton).
+*/
+function getAnswerText(element) {
+  if (!element) {
+    return '';
+  }
+
+  const clone = element.cloneNode(true);
+
+  clone.querySelectorAll('button').forEach(button => {
+    button.remove();
+  });
+
+  return clone.textContent.trim();
+}
+
+/*
   Create the standard orange × button used beside
   submitted student answers.
 */

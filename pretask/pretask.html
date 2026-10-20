@@ -9,6 +9,8 @@
   
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
   <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
+  <link href="../styles/pretask_styles/word_drag_and_drop.css" rel="stylesheet" type="text/css">
+  <link href="../styles/drag_and_drop_base.css" rel="stylesheet" type="text/css">
   <link href="../styles/pretask_styles/pretask.css" rel="stylesheet" type="text/css">
   
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
@@ -290,48 +292,48 @@
   </iframe>
 </div>
 
-        <div class="think-box">
+        <div class="think-box" id="watchStwActivity" data-activity>
 
-          <div class="stw-column">
+          <div class="stw-column" data-tr-group data-tr-key="see" data-tr-min="1">
             <h3>See</h3>
             <p>What do you notice?</p>
 
             <div class="stw-input-row">
-              <input id="seeInput" type="text" placeholder="Type something you see">
-              <button onclick="addSTW('see')">Add</button>
+              <input id="seeInput" data-tr-input type="text" placeholder="Type something you see">
+              <button data-tr-add>Add</button>
             </div>
 
-            <ul id="seeList" class="stw-list"></ul>
+            <ul id="seeList" class="stw-list" data-tr-list></ul>
           </div>
 
-          <div class="stw-column">
+          <div class="stw-column" data-tr-group data-tr-key="think" data-tr-min="1">
             <h3>Think</h3>
             <p>What do you think is happening?</p>
 
             <div class="stw-input-row">
-              <input id="thinkInput" type="text" placeholder="Type what you think">
-              <button onclick="addSTW('think')">Add</button>
+              <input id="thinkInput" data-tr-input type="text" placeholder="Type what you think">
+              <button data-tr-add>Add</button>
             </div>
 
-            <ul id="thinkList" class="stw-list"></ul>
+            <ul id="thinkList" class="stw-list" data-tr-list></ul>
           </div>
 
-          <div class="stw-column">
+          <div class="stw-column" data-tr-group data-tr-key="wonder" data-tr-min="1">
             <h3>Wonder</h3>
             <p>What questions do you have?</p>
 
             <div class="stw-input-row">
-              <input id="wonderInput" type="text" placeholder="Type what you wonder">
-              <button onclick="addSTW('wonder')">Add</button>
+              <input id="wonderInput" data-tr-input type="text" placeholder="Type what you wonder">
+              <button data-tr-add>Add</button>
             </div>
 
-            <ul id="wonderList" class="stw-list"></ul>
+            <ul id="wonderList" class="stw-list" data-tr-list></ul>
           </div>
 
         </div>
       </div>
 
-      <button id="watchNextButton" class="next-button general-button" onclick="unlockSection('build', 'watch')">
+      <button id="watchNextButton" class="next-button general-button" onclick="unlockSection('build', 'watch')" hidden>
         Next
       </button>
 
@@ -354,95 +356,81 @@
               <button class="tab option-button" id="tab-labels" onclick="switchGame('labels')">Label the Plant</button>
             </div>
             <main id="game-parts" class="flex flex-col items-center gap-6">
-                <div class="plant-area" id="plant-area-1">
+                <div id="plantPartsActivity" class="flex flex-col items-center gap-6" data-activity>
+                  <div class="plant-area">
+                    <div class="plant-image-container">
+                      <img class="plant-image" src="../images/pretask/sunflower.png" alt="Sunflower">
+                    </div>
+                    <div class="slot slot-flower" data-dd-slot="flower" data-dd-answer="flower"></div>
+                    <div class="slot slot-left-leaf" data-dd-slot="left-leaf" data-dd-answer="left-leaf"></div>
+                    <div class="slot slot-stem" data-dd-slot="stem" data-dd-answer="stem"></div>
+                    <div class="slot slot-roots" data-dd-slot="roots" data-dd-answer="roots"></div>
+                  </div>
+
+                  <div id="success-1" class="hidden text-center">
+                    <p class="success-text">Beautiful! Your plant is complete!</p>
+                    <span class="success-icon inline-block text-3xl">🌻</span>
+                  </div>
+
+                  <div data-dd-tray class="parts-tray flex gap-4 justify-center p-4">
+                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="flower">
+                      <img class="flower-image" src="../images/pretask/flower.png" alt="Flower">
+                    </div>
+                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="left-leaf">
+                      <img class="left-leaf-image" src="../images/pretask/left_leaf.png" alt="Left Leaf">
+                    </div>
+                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="stem">
+                      <img class="stem-image" src="../images/pretask/stem.png" alt="Stem">
+                    </div>
+                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="roots">
+                      <img class="roots-image" src="../images/pretask/roots.png" alt="Roots">
+                    </div>
+                  </div>
+
+                  <div class="option-button-container">
+                    <div class="option-button">
+                      <button class="general-button" data-reset-trigger>Start Over</button>
+                    </div>
+                    <div id="continue-button" class="hidden option-button">
+                      <button class="general-button" onclick="switchGame('labels')">Continue -></button>
+                    </div>
+                  </div>
+                </div>
+            </main>
+            <main id="game-labels" class="hidden flex flex-col items-center gap-6">
+              <div id="plantLabelsActivity" class="flex flex-col items-center gap-6" data-activity data-activity-depends-on="plantPartsActivity">
+                <div class="plant-area">
                   <div class="plant-image-container">
                     <img class="plant-image" src="../images/pretask/sunflower.png" alt="Sunflower">
                   </div>
-                <div class="slot slot-flower" data-part="flower">
-                  <div class="slot-content emoji-flower"></div>
-                  <div class="slot-rectangle"></div>
+
+                  <div class="label-slot label-flower-slot" data-dd-slot="flower" data-dd-answer="flower"></div>
+                  <div class="label-slot label-leaf-slot" data-dd-slot="leaf" data-dd-answer="leaf"></div>
+                  <div class="label-slot label-stem-slot" data-dd-slot="stem" data-dd-answer="stem"></div>
+                  <div class="label-slot label-roots-slot" data-dd-slot="roots" data-dd-answer="roots"></div>
                 </div>
-                  <div class="slot slot-left-leaf" data-part="left-leaf">
-                    <div class="slot-content emoji-leaf"></div>
-                    <div class="slot-rectangle"></div>
-                  </div>
-                  <div class="slot slot-stem" data-part="stem">
-                    <div class="slot-content emoji-leaf-flip"></div>
-                    <div class="slot-rectangle"></div>
-                  </div>
-                  <div class="slot slot-roots" data-part="roots">
-                    <div class="slot-content emoji-roots"></div>
-                    <div class="slot-rectangle"></div>
-                  </div>
+
+                <div id="success-2" class="hidden text-center">
+                  <p class="success-text">Well done! All labels are correct! 🎉</p><span class="success-icon inline-block text-3xl">🌻</span>
                 </div>
-              <div id="success-1" class="hidden text-center">
-                <p data-template-id="success-text-1" class="success-text">Beautiful! Your plant is complete!</p>
-                <span class="success-icon inline-block text-3xl">🌻</span>
-              </div>
-              <div data-template-id="parts-tray" class="parts-tray flex gap-4 flex-wrap justify-center p-4">
-                <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" draggable="true" data-part="flower">
-                  <img class="flower-image" src="../images/pretask/flower.png" alt="Flower">
+
+                <div data-dd-tray class="parts-tray flex gap-4 justify-center p-4">
+                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="flower">Flower</div>
+                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="leaf">Leaf</div>
+                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="stem">Stem</div>
+                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="roots">Roots</div>
                 </div>
-                <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" draggable="true" data-part="left-leaf">
-                  <img class="left-leaf-image" src="../images/pretask/left_leaf.png" alt="Left Leaf">
-                </div>
-                <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" draggable="true" data-part="stem">
-                  <img class="stem-image" src="../images/pretask/stem.png" alt="Stem">
-                </div>
-                <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" draggable="true" data-part="roots">
-                  <img class="roots-image" src="../images/pretask/roots.png" alt="Roots">
-                </div>
-              </div>
-              <div class="option-button-container">
+
                 <div class="option-button">
-                  <button data-template-id="reset-button-1" class="general-button" onclick="resetGame1()">Start Over</button>
+                  <button class="general-button" data-reset-trigger>Start Over</button>
                 </div>
-                <div id="continue-button" class="hidden option-button">
-                  <button data-template-id="continue-button-id" class="general-button" onclick="switchGame('labels')">Continue -></button>
-                </div>
-              </div>
-            </main>
-            <main id="game-labels" class="hidden flex flex-col items-center gap-6">
-              <div class="plant-area" id="plant-area-2">
-                <div class="plant-image-container">
-                  <img class="plant-image" src="../images/pretask/sunflower.png" alt="Sunflower">
-                </div>
-                
-                <div class="label-slot label-flower-slot" data-label="flower"><span class="text-xs text-gray-400">?</span>
-                </div>
-                <div class="label-slot label-leaf-slot" data-label="leaf"><span class="text-xs text-gray-400">?</span>
-                </div>
-                <div class="label-slot label-stem-slot" data-label="stem"><span class="text-xs text-gray-400">?</span>
-                </div>
-                <div class="label-slot label-roots-slot" data-label="roots"><span class="text-xs text-gray-400">?</span>
-                </div>
-              </div>
-              <div id="success-2" class="hidden text-center">
-                <p data-template-id="success-text-2" class="success-text">Well done! All labels are correct! 🎉</p><span class="success-icon inline-block text-3xl">🌻</span>
-              </div>
-              <div data-template-id="labels-tray" class="parts-tray flex gap-4 flex-wrap justify-center p-4">
-                <div id="flower" class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" draggable="true" data-label="flower">
-                Flower
-                </div>
-                <div id="leaf" class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" draggable="true" data-label="leaf">
-                Leaf
-                </div>
-                <div id="stem" class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" draggable="true" data-label="stem">
-                Stem
-                </div>
-                <div id="roots" class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" draggable="true" data-label="roots">
-                Roots
-                </div>
-              </div>
-              <div class="option-button">
-                <button data-template-id="reset-button-2" class="general-button" onclick="resetGame2()">Start Over</button>
               </div>
             </main>
           </div>
         </div>
       </div>
 
-      <button id="buildNextButton" class="next-button general-button" onclick="unlockSection('brainstorm', 'build')">
+      <button id="buildNextButton" class="next-button general-button" onclick="unlockSection('brainstorm', 'build')" hidden>
         Next
       </button>
 
@@ -466,78 +454,46 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
         alt="Plants need water, sunlight and nutrients">
 </div>
 
-  <div class="postit-brainstorm">
+  <div class="postit-brainstorm" id="brainstormActivity" data-activity data-tr-min-total="4">
 
-    <div class="postit-answer postit-1">
-      <input
-        id="brainstormInput1"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 1)">
-      <div id="brainstormAnswer1" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-1" data-tr-group data-tr-key="1" data-tr-max="1">
+      <input id="brainstormInput1" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer1" class="brainstorm-answer" data-tr-list></div>
     </div>
 
-    <div class="postit-answer postit-2">
-      <input
-        id="brainstormInput2"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 2)">
-      <div id="brainstormAnswer2" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-2" data-tr-group data-tr-key="2" data-tr-max="1">
+      <input id="brainstormInput2" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer2" class="brainstorm-answer" data-tr-list></div>
     </div>
 
-    <div class="postit-answer postit-3">
-      <input
-        id="brainstormInput3"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 3)">
-      <div id="brainstormAnswer3" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-3" data-tr-group data-tr-key="3" data-tr-max="1">
+      <input id="brainstormInput3" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer3" class="brainstorm-answer" data-tr-list></div>
     </div>
 
-    <div class="postit-answer postit-4">
-      <input
-        id="brainstormInput4"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 4)">
-      <div id="brainstormAnswer4" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-4" data-tr-group data-tr-key="4" data-tr-max="1">
+      <input id="brainstormInput4" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer4" class="brainstorm-answer" data-tr-list></div>
     </div>
 
-    <div class="postit-answer postit-5">
-      <input
-        id="brainstormInput5"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 5)">
-      <div id="brainstormAnswer5" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-5" data-tr-group data-tr-key="5" data-tr-max="1">
+      <input id="brainstormInput5" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer5" class="brainstorm-answer" data-tr-list></div>
     </div>
 
-    <div class="postit-answer postit-6">
-      <input
-        id="brainstormInput6"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 6)">
-      <div id="brainstormAnswer6" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-6" data-tr-group data-tr-key="6" data-tr-max="1">
+      <input id="brainstormInput6" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer6" class="brainstorm-answer" data-tr-list></div>
     </div>
 
-    <div class="postit-answer postit-7">
-      <input
-        id="brainstormInput7"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 7)">
-      <div id="brainstormAnswer7" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-7" data-tr-group data-tr-key="7" data-tr-max="1">
+      <input id="brainstormInput7" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer7" class="brainstorm-answer" data-tr-list></div>
     </div>
 
-    <div class="postit-answer postit-8">
-      <input
-        id="brainstormInput8"
-        type="text"
-        placeholder="Add an idea"
-        onkeydown="submitBrainstorm(event, 8)">
-      <div id="brainstormAnswer8" class="brainstorm-answer"></div>
+    <div class="postit-answer postit-8" data-tr-group data-tr-key="8" data-tr-max="1">
+      <input id="brainstormInput8" data-tr-input type="text" placeholder="Add an idea">
+      <div id="brainstormAnswer8" class="brainstorm-answer" data-tr-list></div>
     </div>
 
   </div>
@@ -545,7 +501,8 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
   <button
     id="brainstormNextButton"
     class="next-button general-button"
-    onclick="unlockSection('diagram', 'brainstorm')">
+    onclick="unlockSection('diagram', 'brainstorm')"
+    hidden>
     Next
   </button>
 
@@ -575,13 +532,50 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
         alt="Diagram showing the parts of a flowering plant">
 </div>
 
-          <div class="plant-functions">
-            <iframe
-              width="100%" 
-              height="100%"
-              src="../pretask/word-drag-and-drop.html"
-              title="Plant Drag and Drop Activity"
-              class="diagram-iframe diagram-element"></iframe>
+          <div id="wordSentencesActivity" class="word-sentences-activity dd-activity" data-activity>
+            <header class="text-center mb-4">
+              <h3 class="wd-title">Plant Science</h3>
+              <p class="wd-subtitle">Drag the correct words into the blanks to complete each sentence.</p>
+            </header>
+
+            <div class="space-y-4 mb-6">
+              <div class="sentence-card">
+                Plants make sugar to get energy to grow. This occurs in the leaves using
+                <span class="drop-zone" data-dd-slot="s0-a" data-dd-answer="sunlight carbon-dioxide water"></span>,
+                <span class="drop-zone" data-dd-slot="s0-b" data-dd-answer="sunlight carbon-dioxide water"></span>, and
+                <span class="drop-zone" data-dd-slot="s0-c" data-dd-answer="sunlight carbon-dioxide water"></span>.
+              </div>
+              <div class="sentence-card">
+                Roots grow through <span class="drop-zone" data-dd-slot="s1-a" data-dd-answer="soil"></span> and this helps to keep the plant anchored.
+              </div>
+              <div class="sentence-card">
+                <span class="drop-zone" data-dd-slot="s2-a" data-dd-answer="water"></span> moves from soil to roots, travels up the stem, and evaporates from the leaves. This helps the plant stay upright.
+              </div>
+              <div class="sentence-card">
+                <span class="drop-zone" data-dd-slot="s3-a" data-dd-answer="nutrients"></span> in the soil are dissolved in water and enter the roots to travel around the plant.
+              </div>
+              <div class="sentence-card">
+                <span class="drop-zone" data-dd-slot="s4-a" data-dd-answer="oxygen"></span> is found in pores in the soil and is needed to keep roots healthy. If plants are over-watered, they don't get enough oxygen.
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <p class="wd-word-bank-label">Word Bank</p>
+              <div data-dd-tray class="flex flex-wrap gap-3">
+                <span class="word-chip" data-dd-item="sunlight" data-dd-reusable>sunlight</span>
+                <span class="word-chip" data-dd-item="carbon-dioxide" data-dd-reusable>carbon dioxide</span>
+                <span class="word-chip" data-dd-item="water" data-dd-reusable>water</span>
+                <span class="word-chip" data-dd-item="soil" data-dd-reusable>soil</span>
+                <span class="word-chip" data-dd-item="nutrients" data-dd-reusable>nutrients</span>
+                <span class="word-chip" data-dd-item="oxygen" data-dd-reusable>oxygen</span>
+              </div>
+            </div>
+
+            <div class="flex gap-3 justify-center">
+              <button type="button" class="general-button reset-btn" data-reset-trigger>Reset</button>
+            </div>
+
+            <div id="wordSentencesCelebration" class="text-center mt-6 text-4xl hidden">Well done!</div>
           </div>
 
         </div>
@@ -607,7 +601,7 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
 
       </div>
 
-      <button id="diagramNextButton" class="next-button general-button" onclick="unlockSection('detective', 'diagram')">
+      <button id="diagramNextButton" class="next-button general-button" onclick="unlockSection('detective', 'diagram')" hidden>
         Next
       </button>
 
@@ -640,81 +634,63 @@ Use your detective skills to make <strong>observations</strong> and come up with
 <section class="section locked" id="final-brainstorm">
   <h2 class="section-title">Check your understanding</h2>
 
-  <div class="final-brainstorm-box">
+  <div class="final-brainstorm-box" id="finalBrainstormActivity" data-activity>
     <div class="final-brainstorm-centre">
       Why do plants need these physical conditions?
     </div>
 
-    <div class="final-branch">
+    <div class="final-branch" data-tr-group data-tr-key="water">
       <h3>Water</h3>
       <div class="final-input-row">
-        <input
-    id="final-water-input"
-    type="text"
-    placeholder="Why do plants need water?">
-        <button onclick="submitFinalAnswer('water')">Add</button>
+        <input id="final-water-input" data-tr-input type="text" placeholder="Why do plants need water?">
+        <button data-tr-add>Add</button>
       </div>
-      <ul id="final-water-list" class="final-answer-list"></ul>
+      <ul id="final-water-list" class="final-answer-list" data-tr-list></ul>
     </div>
 
-    <div class="final-branch">
+    <div class="final-branch" data-tr-group data-tr-key="sunlight">
       <h3>Sunlight</h3>
       <div class="final-input-row">
-        <input
-    id="final-sunlight-input"
-    type="text"
-    placeholder="Why do plants need sunlight?">
-        <button onclick="submitFinalAnswer('sunlight')">Add</button>
+        <input id="final-sunlight-input" data-tr-input type="text" placeholder="Why do plants need sunlight?">
+        <button data-tr-add>Add</button>
       </div>
-      <ul id="final-sunlight-list" class="final-answer-list"></ul>
+      <ul id="final-sunlight-list" class="final-answer-list" data-tr-list></ul>
     </div>
 
-    <div class="final-branch">
+    <div class="final-branch" data-tr-group data-tr-key="nutrients">
       <h3>Nutrients</h3>
       <div class="final-input-row">
-        <input
-    id="final-nutrients-input"
-    type="text"
-    placeholder="Why do plants need nutrients?">
-        <button onclick="submitFinalAnswer('nutrients')">Add</button>
+        <input id="final-nutrients-input" data-tr-input type="text" placeholder="Why do plants need nutrients?">
+        <button data-tr-add>Add</button>
       </div>
-      <ul id="final-nutrients-list" class="final-answer-list"></ul>
+      <ul id="final-nutrients-list" class="final-answer-list" data-tr-list></ul>
     </div>
 
-    <div class="final-branch">
+    <div class="final-branch" data-tr-group data-tr-key="soil">
       <h3>Soil</h3>
       <div class="final-input-row">
-        <input
-    id="final-soil-input"
-    type="text"
-    placeholder="Why does soil matter?">
-        <button onclick="submitFinalAnswer('soil')">Add</button>
+        <input id="final-soil-input" data-tr-input type="text" placeholder="Why does soil matter?">
+        <button data-tr-add>Add</button>
       </div>
-      <ul id="final-soil-list" class="final-answer-list"></ul>
+      <ul id="final-soil-list" class="final-answer-list" data-tr-list></ul>
     </div>
 
-    <div class="final-branch">
+    <div class="final-branch" data-tr-group data-tr-key="co2">
       <h3>Carbon Dioxide</h3>
       <div class="final-input-row">
-        <input
-    id="final-co2-input"
-    type="text"
-    placeholder="Why might plants need carbon dioxide?">
-        <button onclick="submitFinalAnswer('co2')">Add</button>
+        <input id="final-co2-input" data-tr-input type="text" placeholder="Why might plants need carbon dioxide?">
+        <button data-tr-add>Add</button>
       </div>
-      <ul id="final-co2-list" class="final-answer-list"></ul>
+      <ul id="final-co2-list" class="final-answer-list" data-tr-list></ul>
     </div>
 
-    <div class="final-branch">
+    <div class="final-branch" data-tr-group data-tr-key="oxygen">
       <h3>Oxygen</h3>
       <div class="final-input-row">
-        <input
-    id="final-oxygen-input"
-    type="text"
-    placeholder="Why might plants need oxygen?">
-        <button onclick="submitFinalAnswer('oxygen')">Add</button>
+        <input id="final-oxygen-input" data-tr-input type="text" placeholder="Why might plants need oxygen?">
+        <button data-tr-add>Add</button>
       </div>
-      <ul id="final-oxygen-list" class="final-answer-list"></ul>
+      <ul id="final-oxygen-list" class="final-answer-list" data-tr-list></ul>
     </div>
   </div>
 </section>
@@ -727,612 +703,340 @@ Use your detective skills to make <strong>observations</strong> and come up with
 
   </main>
   <script src="../scripts/common_functions.js"></script>
-  <script src="../scripts/pretask_scripts/plant_drag_and_drop.js"></script>
-  <script src="../scripts/pretask_scripts/brainstorm.js"></script>
+  <script src="../scripts/activities/activity-base.js"></script>
+  <script src="../scripts/activities/activity-sections.js"></script>
+  <script src="../scripts/activities/text-response-activity.js"></script>
+  <script src="../scripts/activities/drag-drop-activity.js"></script>
   <script>
 
-  function submitFinalAnswer(type) {
-  const input = document.getElementById(
-    'final-' + type + '-input'
-  );
+  /* ---------- Plant-building drag and drop ---------- */
 
-  const list = document.getElementById(
-    'final-' + type + '-list'
-  );
+  let plantPartsActivity = null;
+  let plantLabelsActivity = null;
 
-  if (!input || !list) {
-    return;
-  }
+  function syncPlantGameVisuals(activity, successId, continueId) {
+    if (!activity) return;
 
-  const answer = getValidStudentInput(input);
+    const done = activity.isComplete() && activity.isCorrect();
 
-  if (answer === null) {
-    return;
-  }
+    const success = document.getElementById(successId);
+    if (success) success.classList.toggle('hidden', !done);
 
-  const listItem = document.createElement('li');
-
-  const answerText = document.createElement('span');
-  answerText.textContent = answer;
-
-  const deleteButton = createDeleteAnswerButton(
-    'Delete this answer',
-    function() {
-      listItem.remove();
-      schedulePretaskSave();
+    if (continueId) {
+      const continueButton = document.getElementById(continueId);
+      if (continueButton) continueButton.classList.toggle('hidden', !done);
     }
-  );
+  }
 
-  listItem.appendChild(answerText);
-  listItem.appendChild(deleteButton);
-  list.appendChild(listItem);
-
-  input.value = '';
-
-  schedulePretaskSave();
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  const answerTypes = [
-    'water',
-    'sunlight',
-    'nutrients',
-    'soil',
-    'co2',
-    'oxygen'
-  ];
-
-  answerTypes.forEach(function(type) {
-    const input = document.getElementById(
-      'final-' + type + '-input'
-    );
-
-    if (!input) {
+  function switchGame(game) {
+    if (game === 'labels' && (!plantPartsActivity || !plantPartsActivity.isAvailable())) {
       return;
     }
 
-    connectEnterAndBlurSave(
-      input,
-      function() {
-        submitFinalAnswer(type);
-      }
-    );
-  });
-});
-
-/* ---------- Save and restore Lesson 1 answers ---------- */
-
-const PRETASK_SAVE_KEY = 'plantExplorerPretaskSave';
-
-/*
-  Used by the teacher menu's "Reset student view" to
-  clear this page's saved progress before it reloads.
-*/
-function clearPageSavedData() {
-  try {
-    localStorage.removeItem(PRETASK_SAVE_KEY);
-  } catch (error) {
-    /* A blocked store just means there was nothing to clear. */
-  }
-}
-
-let pretaskIsRestoring = false;
-let pretaskSaveTimer = null;
-
-/*
-  Read the visible text from an answer that may also
-  contain an X delete button.
-*/
-function getAnswerText(element) {
-  if (!element) {
-    return '';
+    document.getElementById('game-parts').classList.toggle('hidden', game !== 'parts');
+    document.getElementById('game-labels').classList.toggle('hidden', game !== 'labels');
+    document.getElementById('tab-parts').classList.toggle('active', game === 'parts');
+    document.getElementById('tab-labels').classList.toggle('active', game === 'labels');
   }
 
-  const clone = element.cloneNode(true);
-
-  clone.querySelectorAll('button').forEach(button => {
-    button.remove();
-  });
-
-  return clone.textContent.trim();
-}
-
-/*
-  Collect the student's current answers and opened sections.
-*/
-function collectPretaskData() {
-  const data = {
-    stw: {
-      see: [],
-      think: [],
-      wonder: []
-    },
-
-    plantBuilding: {
-        partsPlaced: [],
-        labelsPlaced: []
-    },
-
-    brainstorm: {},
-
-    functions: {
-      leaves: '',
-      stem: '',
-      roots: ''
-    },
-
-    finalBrainstorm: {
-      water: [],
-      sunlight: [],
-      nutrients: [],
-      soil: [],
-      co2: [],
-      oxygen: []
-    },
-
-    unlockedSections: [],
-    completedSections: []
-  };
-
-  /* See / Think / Wonder */
-
-  ['see', 'think', 'wonder'].forEach(type => {
-    const list = document.getElementById(type + 'List');
-
-    if (list) {
-      data.stw[type] = Array.from(list.querySelectorAll('li'))
-        .map(getAnswerText)
-        .filter(Boolean);
-    }
-  });
-
-  /* Plant building */
-  const parts = document.querySelectorAll('.slot');
-  const labels = document.querySelectorAll('.label-slot');
-
-  // Save a boolean for each part and label
-  data.plantBuilding.partsPlaced = Array.from(parts)
-    .filter(slot => slot.classList.contains('filled'))
-    .map(slot => slot.dataset.part);
-
-  data.plantBuilding.labelsPlaced = Array.from(labels)
-    .filter(slot => slot.classList.contains('filled'))
-    .map(slot => slot.dataset.label);
-
-  /* First brainstorm */
-
-  for (let number = 1; number <= 8; number++) {
-    const answerBox = document.getElementById(
-      'brainstormAnswer' + number
-    );
-
-    const answer = getAnswerText(answerBox);
-
-    if (
-      answerBox &&
-      answerBox.classList.contains('visible') &&
-      answer !== ''
-    ) {
-      data.brainstorm[number] = answer;
-    }
-  }
-
-  /* Leaves, stem and roots */
-
-  ['leaves', 'stem', 'roots'].forEach(part => {
-    const answerBox = document.getElementById(
-      part + 'FunctionAnswer'
-    );
-
-    const answer = getAnswerText(answerBox);
-
-    if (
-      answerBox &&
-      answerBox.style.display !== 'none' &&
-      answer !== ''
-    ) {
-      data.functions[part] = answer;
-    }
-  });
-
-  /* Final brainstorm */
-
-  [
-    'water',
-    'sunlight',
-    'nutrients',
-    'soil',
-    'co2',
-    'oxygen'
-  ].forEach(type => {
-    const list = document.getElementById(
-      'final-' + type + '-list'
-    );
-
-    if (list) {
-      data.finalBrainstorm[type] =
-        Array.from(list.querySelectorAll('li'))
-          .map(getAnswerText)
-          .filter(Boolean);
-    }
-  });
-
-  /* Remember which sections are visible */
-
-  [
-  'watch',
-  'build',
-  'brainstorm',
-  'diagram',
-  'detective',
-  'final-brainstorm'
-].forEach(sectionId => {
-  const section = document.getElementById(sectionId);
-
-  if (!section) {
-    return;
-  }
-
-  if (!section.classList.contains('locked')) {
-    data.unlockedSections.push(sectionId);
-  }
-
-  if (section.classList.contains('completed')) {
-    data.completedSections.push(sectionId);
-  }
-});
-
-  return data;
-}
-
-/*
-  Save everything to this browser.
-*/
-function saveCurrentPageData() {
-  if (pretaskIsRestoring) {
-    return;
-  }
-
-  /*
-    Printing opens every section for the PDF. That is a
-    temporary view, not the student's progress, so
-    nothing is saved while it is on screen - otherwise
-    the whole lesson would reopen next time.
-  */
-  if (document.body.classList.contains('printing-lesson')) {
-    return;
-  }
-
-  const data = collectPretaskData();
-  console.log(data.plantBuilding);
-
-  localStorage.setItem(
-    PRETASK_SAVE_KEY,
-    JSON.stringify(data)
-  );
-
-  console.log('Lesson 1 progress saved.');
-}
-
-/*
-  Avoid saving many times during one quick action.
-*/
-function schedulePretaskSave() {
-  if (pretaskIsRestoring) {
-    return;
-  }
-
-  clearTimeout(pretaskSaveTimer);
-
-  pretaskSaveTimer = setTimeout(() => {
-    saveCurrentPageData();
-  }, 150);
-}
-
-/*
-  Recreate See / Think / Wonder answers through your
-  existing addSTW function.
-*/
-function restoreSTWAnswers(savedSTW) {
-  ['see', 'think', 'wonder'].forEach(type => {
-    const answers = savedSTW[type] || [];
-    const input = document.getElementById(type + 'Input');
-
-    answers.forEach(answer => {
-      input.value = answer;
-      addSTW(type);
-    });
-  });
-}
-
-function restorePlantBuilding(savedPlantBuilding) {
-  if (!savedPlantBuilding) return;
-
-  (savedPlantBuilding.partsPlaced || []).forEach(partId => {
-    const slot = document.querySelector(
-      `.slot[data-part="${partId}"]`
-    );
-
-    if (slot) {
-      placePart(partId, slot);
-    }
-  });
-  
-  (savedPlantBuilding.labelsPlaced || []).forEach(labelId => {
-    const labelSlot = document.querySelector(
-      `.label-slot[data-label="${labelId}"]`
-    );
-
-    if (labelSlot) {
-      placeLabel(labelId, labelSlot);
-    }
-  });
-}
-
-/*
-  Recreate the first brainstorm through your existing
-  submitBrainstorm function.
-*/
-function restoreBrainstormAnswers(savedBrainstorm) {
-  for (let number = 1; number <= 8; number++) {
-    const answer = savedBrainstorm[number];
-
-    if (!answer) {
-      continue;
-    }
-
-    const input = document.getElementById(
-      'brainstormInput' + number
-    );
-
-    input.value = answer;
-
-    submitBrainstorm(
-      {
-        key: 'Enter',
-        preventDefault: function() {}
-      },
-      number
-    );
-  }
-}
-
-/*
-  Recreate leaves, stem and roots answers.
-*/
-function restoreFunctionAnswers(savedFunctions) {
-  ['leaves', 'stem', 'roots'].forEach(part => {
-    const answer = savedFunctions[part];
-
-    if (!answer) {
-      return;
-    }
-
-    const input = document.getElementById(
-      part + 'FunctionInput'
-    );
-
-    input.value = answer;
-
-    submitFunctionAnswer(
-      {
-        key: 'Enter',
-        preventDefault: function() {}
-      },
-      part
-    );
-  });
-}
-
-/*
-  Recreate final brainstorm answers.
-*/
-function restoreFinalBrainstorm(savedFinalBrainstorm) {
-  [
-    'water',
-    'sunlight',
-    'nutrients',
-    'soil',
-    'co2',
-    'oxygen'
-  ].forEach(type => {
-    const answers = savedFinalBrainstorm[type] || [];
-    const input = document.getElementById(
-      'final-' + type + '-input'
-    );
-
-    answers.forEach(answer => {
-      input.value = answer;
-      submitFinalAnswer(type);
-    });
-  });
-}
-
-/*
-  Restore all saved progress when the page opens.
-*/
-function restorePretaskData() {
-  const savedText = localStorage.getItem(
-    PRETASK_SAVE_KEY
-  );
-
-  if (!savedText) {
-    return;
-  }
-
-  let savedData;
-
-  try {
-    savedData = JSON.parse(savedText);
-  } catch (error) {
-    console.error(
-      'Could not read saved Lesson 1 progress:',
-      error
-    );
-
-    return;
-  }
-
-  pretaskIsRestoring = true;
-
-  /*
-    Restore opened sections first so their elements
-    are visible before rebuilding the answers.
-  */
-  const unlockedSections =
-    savedData.unlockedSections || ['watch'];
-
-  unlockedSections.forEach(sectionId => {
-    const section = document.getElementById(sectionId);
-
-    if (section) {
-      section.classList.remove('locked');
-    }
-  });
-
-  let completedSections =
-  savedData.completedSections || [];
-
-/*
-  This also fixes older saved progress created before
-  completedSections existed.
-*/
-if (completedSections.length === 0) {
-  const unlockedSections =
-    savedData.unlockedSections || ['watch'];
-
-  const progression = [
-    {
-      unlocked: 'build',
-      completed: 'watch'
-    },
-    {
-      unlocked: 'brainstorm',
-      completed: 'build'
-    },
-    {
-      unlocked: 'diagram',
-      completed: 'brainstorm'
-    },
-    {
-      unlocked: 'detective',
-      completed: 'diagram'
-    },
-    {
-      unlocked: 'final-brainstorm',
-      completed: 'detective'
-    }
-  ];
-
-  progression.forEach(step => {
-    if (unlockedSections.includes(step.unlocked)) {
-      completedSections.push(step.completed);
-    }
-  });
-}
-
-completedSections.forEach(sectionId => {
-  const section = document.getElementById(sectionId);
-
-  if (section) {
-    section.classList.add('completed');
-  }
-});
-
-  restoreSTWAnswers(
-    savedData.stw || {
-      see: [],
-      think: [],
-      wonder: []
-    }
-  );
-
-  restorePlantBuilding(
-    savedData.plantBuilding || {
-      partsPlaced: [],
-      labelsPlaced: []
-    }
-  );
-
-  restoreBrainstormAnswers(
-    savedData.brainstorm || {}
-  );
-
-  restoreFunctionAnswers(
-    savedData.functions || {}
-  );
-
-  restoreFinalBrainstorm(
-    savedData.finalBrainstorm || {}
-  );
-
-  pretaskIsRestoring = false;
-
-  console.log('Lesson 1 progress restored.');
-}
-
-/*
-  Watch answer areas for additions or deletions.
-*/
-const pretaskObserver = new MutationObserver(() => {
-  schedulePretaskSave();
-});
-
-/*
-  Begin watching after the HTML has loaded.
-*/
-document.addEventListener('DOMContentLoaded', function() {
-  const areasToWatch = [
-    document.getElementById('seeList'),
-    document.getElementById('thinkList'),
-    document.getElementById('wonderList'),
-
-    document.getElementById('brainstorm'),
-    document.getElementById('diagram'),
-
-    document.getElementById('final-water-list'),
-    document.getElementById('final-sunlight-list'),
-    document.getElementById('final-nutrients-list'),
-    document.getElementById('final-soil-list'),
-    document.getElementById('final-co2-list'),
-    document.getElementById('final-oxygen-list')
-  ];
-
-  areasToWatch.forEach(area => {
-    if (area) {
-      pretaskObserver.observe(area, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        characterData: true
+  function initPlantGames() {
+    const partsRoot = document.getElementById('plantPartsActivity');
+    const labelsRoot = document.getElementById('plantLabelsActivity');
+
+    if (partsRoot) {
+      plantPartsActivity = new DragDropActivity(partsRoot, {
+        onChange: function() {
+          syncPlantGameVisuals(plantPartsActivity, 'success-1', 'continue-button');
+          schedulePretaskSave();
+        },
+        strictSlots: true
       });
     }
+
+    if (labelsRoot) {
+      plantLabelsActivity = new DragDropActivity(labelsRoot, {
+        onChange: function() {
+          syncPlantGameVisuals(plantLabelsActivity, 'success-2');
+          schedulePretaskSave();
+        },
+        strictSlots: true
+      });
+    }
+  }
+
+  /* ---------- Plant-science word sentences drag and drop ---------- */
+
+  let wordSentencesActivity = null;
+
+  function syncWordSentencesVisuals() {
+    if (!wordSentencesActivity) return;
+    const done = wordSentencesActivity.isComplete() && wordSentencesActivity.isCorrect();
+    document.getElementById('wordSentencesCelebration').classList.toggle('hidden', !done);
+  }
+
+  function initWordSentencesActivity() {
+    const root = document.getElementById('wordSentencesActivity');
+    if (!root) return;
+
+    wordSentencesActivity = new DragDropActivity(root, {
+      strictSlots: true,
+      onChange: function() {
+        syncWordSentencesVisuals();
+        schedulePretaskSave();
+      }
+    });
+  }
+
+  /* ---------- Text-response activities: STW, brainstorm, final brainstorm ---------- */
+
+  let watchStwActivity = null;
+  let brainstormActivity = null;
+  let finalBrainstormActivity = null;
+
+  function initTextResponseActivities() {
+    const watchRoot = document.getElementById('watchStwActivity');
+    if (watchRoot) {
+      watchStwActivity = new TextResponseActivity(watchRoot, {
+        onChange: function() { schedulePretaskSave(); }
+      });
+    }
+
+    const brainstormRoot = document.getElementById('brainstormActivity');
+    if (brainstormRoot) {
+      brainstormActivity = new TextResponseActivity(brainstormRoot);
+    }
+
+    const finalBrainstormRoot = document.getElementById('finalBrainstormActivity');
+    if (finalBrainstormRoot) {
+      finalBrainstormActivity = new TextResponseActivity(finalBrainstormRoot);
+    }
+  }
+
+  /* ---------- Save and restore Lesson 1 answers ---------- */
+
+  const PRETASK_SAVE_KEY = 'plantExplorerPretaskSave';
+
+  /*
+    Used by the teacher menu's "Reset student view" to
+    clear this page's saved progress before it reloads.
+  */
+  function clearPageSavedData() {
+    try {
+      localStorage.removeItem(PRETASK_SAVE_KEY);
+    } catch (error) {
+      /* A blocked store just means there was nothing to clear. */
+    }
+  }
+
+  let pretaskIsRestoring = false;
+  let pretaskSaveTimer = null;
+
+  const PRETASK_SECTION_IDS = [
+    'watch', 'build', 'brainstorm', 'diagram', 'detective', 'final-brainstorm'
+  ];
+
+  /*
+    Collect the student's current answers and opened sections.
+  */
+  function collectPretaskData() {
+    return {
+      stw: watchStwActivity ? watchStwActivity.getAnswers() : {},
+
+      plantBuilding: {
+        partsPlacements: plantPartsActivity ? plantPartsActivity.getPlacements() : {},
+        labelsPlacements: plantLabelsActivity ? plantLabelsActivity.getPlacements() : {}
+      },
+
+      wordSentences: wordSentencesActivity ? wordSentencesActivity.getPlacements() : {},
+
+      brainstorm: brainstormActivity ? brainstormActivity.getAnswers() : {},
+      finalBrainstorm: finalBrainstormActivity ? finalBrainstormActivity.getAnswers() : {},
+
+      unlockedSections: PRETASK_SECTION_IDS.filter(sectionId => {
+        const section = document.getElementById(sectionId);
+        return section && !section.classList.contains('locked');
+      }),
+
+      completedSections: PRETASK_SECTION_IDS.filter(sectionId => {
+        const section = document.getElementById(sectionId);
+        return section && section.classList.contains('completed');
+      })
+    };
+  }
+
+  /*
+    Save everything to this browser.
+  */
+  function saveCurrentPageData() {
+    if (pretaskIsRestoring) {
+      return;
+    }
+
+    /*
+      Printing opens every section for the PDF. That is a
+      temporary view, not the student's progress, so
+      nothing is saved while it is on screen - otherwise
+      the whole lesson would reopen next time.
+    */
+    if (document.body.classList.contains('printing-lesson')) {
+      return;
+    }
+
+    localStorage.setItem(PRETASK_SAVE_KEY, JSON.stringify(collectPretaskData()));
+  }
+
+  /*
+    Avoid saving many times during one quick action.
+  */
+  function schedulePretaskSave() {
+    if (pretaskIsRestoring) {
+      return;
+    }
+
+    clearTimeout(pretaskSaveTimer);
+    pretaskSaveTimer = setTimeout(saveCurrentPageData, 150);
+  }
+
+  /*
+    Restore all saved progress when the page opens.
+  */
+  function restorePretaskData() {
+    const savedText = localStorage.getItem(PRETASK_SAVE_KEY);
+
+    if (!savedText) {
+      return;
+    }
+
+    let savedData;
+
+    try {
+      savedData = JSON.parse(savedText);
+    } catch (error) {
+      console.error('Could not read saved Lesson 1 progress:', error);
+      return;
+    }
+
+    pretaskIsRestoring = true;
+
+    /*
+      Restore opened sections first so their elements
+      are visible before rebuilding the answers.
+    */
+    const unlockedSections = savedData.unlockedSections || ['watch'];
+
+    unlockedSections.forEach(sectionId => {
+      const section = document.getElementById(sectionId);
+      if (section) section.classList.remove('locked');
+    });
+
+    let completedSections = savedData.completedSections || [];
+
+    /*
+      This also fixes older saved progress created before
+      completedSections existed.
+    */
+    if (completedSections.length === 0) {
+      const progression = [
+        { unlocked: 'build', completed: 'watch' },
+        { unlocked: 'brainstorm', completed: 'build' },
+        { unlocked: 'diagram', completed: 'brainstorm' },
+        { unlocked: 'detective', completed: 'diagram' },
+        { unlocked: 'final-brainstorm', completed: 'detective' }
+      ];
+
+      progression.forEach(step => {
+        if (unlockedSections.includes(step.unlocked)) {
+          completedSections.push(step.completed);
+        }
+      });
+    }
+
+    completedSections.forEach(sectionId => {
+      const section = document.getElementById(sectionId);
+      if (section) section.classList.add('completed');
+    });
+
+    if (watchStwActivity) watchStwActivity.restore(savedData.stw || {});
+
+    const plantBuilding = savedData.plantBuilding || {};
+
+    if (plantPartsActivity) {
+      plantPartsActivity.setPlacements(plantBuilding.partsPlacements || {});
+      syncPlantGameVisuals(plantPartsActivity, 'success-1', 'continue-button');
+    }
+
+    if (plantLabelsActivity) {
+      plantLabelsActivity.setPlacements(plantBuilding.labelsPlacements || {});
+      syncPlantGameVisuals(plantLabelsActivity, 'success-2');
+    }
+
+    if (wordSentencesActivity) {
+      wordSentencesActivity.setPlacements(savedData.wordSentences || {});
+      syncWordSentencesVisuals();
+    }
+
+    if (brainstormActivity) brainstormActivity.restore(savedData.brainstorm || {});
+    if (finalBrainstormActivity) finalBrainstormActivity.restore(savedData.finalBrainstorm || {});
+
+    pretaskIsRestoring = false;
+
+    console.log('Lesson 1 progress restored.');
+  }
+
+  /*
+    Watch answer areas for additions or deletions.
+  */
+  const pretaskObserver = new MutationObserver(() => {
+    schedulePretaskSave();
   });
 
-  restorePretaskData();
-});
+  /*
+    Begin watching after the HTML has loaded.
+  */
+  document.addEventListener('DOMContentLoaded', function() {
+    initPlantGames();
+    initWordSentencesActivity();
+    initTextResponseActivities();
 
-/*
-  Save when a Next button opens another section.
-*/
-document.addEventListener('click', function(event) {
-  const nextButton = event.target.closest('.next-button');
+    const areasToWatch = [
+      document.getElementById('watchStwActivity'),
+      document.getElementById('brainstormActivity'),
+      document.getElementById('finalBrainstormActivity')
+    ];
 
-  if (!nextButton) {
-    return;
-  }
+    areasToWatch.forEach(area => {
+      if (area) {
+        pretaskObserver.observe(area, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          characterData: true
+        });
+      }
+    });
 
-  const currentSection = nextButton.closest('.section');
+    restorePretaskData();
+    initSectionActivitiesIn(document);
+  });
 
-  if (currentSection) {
-    currentSection.classList.add('completed');
-  }
+  /*
+    Save when a Next button opens another section.
+  */
+  document.addEventListener('click', function(event) {
+    const nextButton = event.target.closest('.next-button');
 
-  setTimeout(function() {
-    saveCurrentPageData();
-  }, 250);
-});
+    if (!nextButton) {
+      return;
+    }
+
+    const currentSection = nextButton.closest('.section');
+
+    if (currentSection) {
+      currentSection.classList.add('completed');
+    }
+
+    setTimeout(saveCurrentPageData, 250);
+  });
 
 const pretaskSectionIds = [
   { id: "watch", label: "Making observations of plants" },

@@ -205,5 +205,22 @@
 		flex-direction: column;
 		gap: 1.0vw;
 	}
-
+	@keyframes flyLeft {
+		to {
+			transform: translateY(-300px) rotate(-10deg);
+			opacity: 0;
+		}
+	}
+	@keyframes flyRight {
+		to {
+			transform: translateY(300px) rotate(10deg);
+			opacity: 0;
+		}
+	}
+	@keyframes flyUp {
+		to {
+			transform: translateX(-300px) rotate(10deg);
+			opacity: 0;
+		}
+	}
 }

@@ -123,6 +123,38 @@
   outline-offset: 3px;
 }
 
+/* strictSlots: brief shake on a slot that just refused a wrong item. */
+[data-dd-slot].dd-rejected {
+  border-color: #d64545;
+  animation: dd-reject-shake 0.4s ease;
+}
+
+@keyframes dd-reject-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.dd-target [data-dd-slot].dd-rejected {
+  animation-name: dd-reject-shake-positioned;
+}
+
+@keyframes dd-reject-shake-positioned {
+  0%, 100% { transform: translate(-50%, -50%); }
+  20% { transform: translate(calc(-50% - 6px), -50%); }
+  40% { transform: translate(calc(-50% + 5px), -50%); }
+  60% { transform: translate(calc(-50% - 4px), -50%); }
+  80% { transform: translate(calc(-50% + 3px), -50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-dd-slot].dd-rejected {
+    animation: none;
+  }
+}
+
 /* ---------- items ---------- */
 
 .dd-tray {

@@ -321,34 +321,6 @@
   }
 }
 
-.diagram-element {
-  min-height: 260px;
-  background: var(--soft-green);
-  border-radius: 18px;
-  border: 1px dashed var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  margin-bottom: 18px;
-}
-
-.diagram-iframe {
-  height: 70rem;
-}
-
-@media (max-width: 800px) {
-  .diagram-iframe {
-    height: 72rem;
-  }
-}
-
-@media (max-width: 550px) {
-  .diagram-iframe {
-    height: 85rem;
-  }
-}
-
 /*
   The border comes from the shared ".diagram-activity, .thinglink-box"
   rule in build_style.css. This rule used to declare
@@ -519,55 +491,29 @@
   border-radius: 20px;
 }
 
-.drag-ghost {
-  position: fixed;
-  /* height: 50%; */
-  pointer-events: none; /* don't block elementFromPoint() */
-  opacity: 0.7;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: none;
-}
-
-.drag-ghost-part {
-  width: 50%;
-  height: 50%;
-}
-
-.slot {
+/*
+  Slots for the two plant-building DragDropActivity instances
+  (see scripts/activities/drag-drop-activity.js). Position/size
+  stay bespoke, pinned to spots on the sunflower photo; fill state
+  is the shared .dd-filled/.dd-hover classes the activity toggles.
+*/
+.slot,
+.label-slot {
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px dashed var(--mint);
   border-radius: 8px;
-  transition: all 0.3s;
+  background: white;
 }
 
-.slot .slot-rectangle {
-  position: absolute;
-  border: 2px solid white; /* Defines the rectangle */
-  background-color: white;
-  opacity: 1;
-  z-index: 1; /* Higher z-index ensures it appears on top */
-  border-radius: 8px;
-}
-
-.filled .slot-rectangle {
-  opacity: 0;
-}
-
-.slot.filled {
-  border-color: transparent;
-}
-
-.slot.filled .slot-content {
-  opacity: 1;
-}
-
-.slot .slot-content {
-  opacity: 0.2;
-  z-index: 2;
+#plantPartsActivity,
+#plantLabelsActivity {
+  --dd-accent: var(--purple);
+  --dd-slot-hover-bg: var(--soft-purple);
+  --dd-reject: var(--orange);
+  --dd-ghost-scale: 1.05;
 }
 
 .slot-flower {
@@ -596,59 +542,6 @@
   left: 85px;
   width: 100px;
   height: 80px;
-}
-
-.emoji-flower {
-  font-size: 60px;
-}
-
-.emoji-leaf {
-  font-size: 44px;
-}
-
-.slot-flower .slot-rectangle {
-  width: 100%;
-  height: 100%;
-}
-
-.slot-left-leaf .slot-rectangle {
-  width: 100%;
-  height: 100%;
-}
-
-.slot-stem .slot-rectangle {
-  width: 100%;
-  height: 100%;
-}
-
-.slot-roots .slot-rectangle {
-  width: 100%;
-  height: 100%;
-}
-
-.emoji-leaf-flip {
-  font-size: 44px;
-  transform: scaleX(-1);
-}
-
-.emoji-roots {
-  font-size: 44px;
-}
-
-.label-slot {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed var(--mint);
-  border-radius: 8px;
-  transition: all 0.3s;
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.label-slot.filled {
-  border-color: var(--green);
-  background: var(--soft-green);
 }
 
 .label-slot {
@@ -807,6 +700,51 @@
   border-radius: 18px;
 
   background: var(--card);
+  min-width: 100px;
+  min-height: 100px;
+}
+
+/*
+  The plant-building/labelling items are plant-shaped images and short
+  text chips, not the round icons drag_and_drop_base.css
+  may assume - so size and shape them here instead.
+*/
+#plantPartsActivity [data-dd-item],
+#plantLabelsActivity [data-dd-item] {
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+}
+
+#plantPartsActivity [data-dd-item] img {
+  width: auto;
+  height: auto;
+  max-width: 90px;
+  max-height: 90px;
+  object-fit: contain;
+}
+
+#plantPartsActivity [data-dd-item].dd-placed,
+#plantLabelsActivity [data-dd-item].dd-placed {
+  width: 100%;
+  height: 100%;
+  background: none;
+  transform: none;
+  border: none;
+  box-shadow: none;
+
+}
+
+#plantPartsActivity [data-dd-slot].dd-filled,
+#plantLabelsActivity [data-dd-slot].dd-filled {
+  background: none;
+  transform: none;
+  border: none;
+  box-shadow: none;
+}
+
+#plantPartsActivity [data-dd-item].dd-placed img {
+  display: none;
 }
 
 /* Success message shown when a drag-and-drop activity is finished. */

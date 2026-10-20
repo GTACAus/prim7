@@ -30,6 +30,11 @@
     type="text/css">
 
   <link
+    href="../styles/variable-activity.css"
+    rel="stylesheet"
+    type="text/css">
+
+  <link
     href="../styles/lesson2_styles/lesson2.css"
     rel="stylesheet"
     type="text/css">
@@ -244,7 +249,7 @@
     <!-- ==================================================
          2. DISCOVER VARIABLES
          ================================================== -->
-    <section class="section" id="discover-variables">
+    <section class="section" id="discover-variables" data-activity data-tr-min-total="0">
       <h2 class="section-title">Making observations, asking questions, and identifying variables</h2>
 
       <div class="diagram-box diagram-activity">
@@ -265,10 +270,11 @@
           alt="Bouncing ball investigation showing possible variables"
           class="hook-image variable-background-image">
 
-        <div class="variable-overlay-entry variable-overlay-1">
+        <div class="variable-overlay-entry variable-overlay-1" data-tr-group data-tr-key="imageVariable1" data-tr-max="1">
           <div class="variable-entry-input-row">
             <input
               id="imageVariable1"
+              data-tr-input
               type="text"
               maxlength="24"
               placeholder="Type here"
@@ -277,14 +283,16 @@
 
           <div
             id="imageVariable1Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-overlay-entry variable-overlay-2">
+        <div class="variable-overlay-entry variable-overlay-2" data-tr-group data-tr-key="imageVariable2" data-tr-max="1">
           <div class="variable-entry-input-row">
             <input
               id="imageVariable2"
+              data-tr-input
               type="text"
               maxlength="24"
               placeholder="Type here"
@@ -293,14 +301,16 @@
 
           <div
             id="imageVariable2Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-overlay-entry variable-overlay-3">
+        <div class="variable-overlay-entry variable-overlay-3" data-tr-group data-tr-key="imageVariable3" data-tr-max="1">
           <div class="variable-entry-input-row">
             <input
               id="imageVariable3"
+              data-tr-input
               type="text"
               maxlength="24"
               placeholder="Type here"
@@ -309,14 +319,16 @@
 
           <div
             id="imageVariable3Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-overlay-entry variable-overlay-4">
+        <div class="variable-overlay-entry variable-overlay-4" data-tr-group data-tr-key="imageVariable4" data-tr-max="1">
           <div class="variable-entry-input-row">
             <input
               id="imageVariable4"
+              data-tr-input
               type="text"
               maxlength="24"
               placeholder="Type here"
@@ -325,14 +337,16 @@
 
           <div
             id="imageVariable4Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-overlay-entry variable-overlay-5">
+        <div class="variable-overlay-entry variable-overlay-5" data-tr-group data-tr-key="imageVariable5" data-tr-max="1">
           <div class="variable-entry-input-row">
             <input
               id="imageVariable5"
+              data-tr-input
               type="text"
               maxlength="24"
               placeholder="Type here"
@@ -341,14 +355,16 @@
 
           <div
             id="imageVariable5Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-overlay-entry variable-overlay-6">
+        <div class="variable-overlay-entry variable-overlay-6" data-tr-group data-tr-key="imageVariable6" data-tr-max="1">
           <div class="variable-entry-input-row">
             <input
               id="imageVariable6"
+              data-tr-input
               type="text"
               maxlength="24"
               placeholder="Type here"
@@ -357,14 +373,16 @@
 
           <div
             id="imageVariable6Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-          <div class="variable-overlay-entry variable-overlay-7">
+          <div class="variable-overlay-entry variable-overlay-7" data-tr-group data-tr-key="imageVariable7" data-tr-max="1">
             <div class="variable-entry-input-row">
               <input
                 id="imageVariable7"
+                data-tr-input
                 type="text"
                 maxlength="24"
                 placeholder="Type here"
@@ -373,14 +391,16 @@
 
             <div
               id="imageVariable7Answer"
+              data-tr-list
               class="variable-entry-answer">
             </div>
           </div>
 
-          <div class="variable-overlay-entry variable-overlay-8">
+          <div class="variable-overlay-entry variable-overlay-8" data-tr-group data-tr-key="imageVariable8" data-tr-max="1">
             <div class="variable-entry-input-row">
               <input
                 id="imageVariable8"
+                data-tr-input
                 type="text"
                 maxlength="24"
                 placeholder="Type here"
@@ -389,14 +409,16 @@
 
             <div
               id="imageVariable8Answer"
+              data-tr-list
               class="variable-entry-answer">
             </div>
           </div>
 
-          <div class="variable-overlay-entry variable-overlay-9">
+          <div class="variable-overlay-entry variable-overlay-9" data-tr-group data-tr-key="imageVariable9" data-tr-max="1">
             <div class="variable-entry-input-row">
               <input
                 id="imageVariable9"
+                data-tr-input
                 type="text"
                 maxlength="24"
                 placeholder="Type here"
@@ -405,6 +427,7 @@
 
             <div
               id="imageVariable9Answer"
+              data-tr-list
               class="variable-entry-answer">
             </div>
           </div>
@@ -419,146 +442,164 @@
       </div>
 
       <div class="variable-grid">
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable1" data-tr-max="1">
           <label for="variable1">Variable 1</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable1"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable1Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable2" data-tr-max="1">
           <label for="variable2">Variable 2</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable2"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable2Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable3" data-tr-max="1">
           <label for="variable3">Variable 3</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable3"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable3Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable4" data-tr-max="1">
           <label for="variable4">Variable 4</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable4"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable4Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable5" data-tr-max="1">
           <label for="variable5">Variable 5</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable5"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable5Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable6" data-tr-max="1">
           <label for="variable6">Variable 6</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable6"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable6Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable7" data-tr-max="1">
           <label for="variable7">Variable 7</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable7"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable7Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable8" data-tr-max="1">
           <label for="variable8">Variable 8</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable8"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable8Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
 
-        <div class="variable-entry-card">
+        <div class="variable-entry-card" data-tr-group data-tr-key="variable9" data-tr-max="1">
           <label for="variable9">Variable 9</label>
 
           <div class="variable-entry-input-row">
             <input
               id="variable9"
+              data-tr-input
               type="text"
               placeholder="Type here">
           </div>
 
           <div
             id="variable9Answer"
+            data-tr-list
             class="variable-entry-answer">
           </div>
         </div>
@@ -659,7 +700,7 @@
         In a <strong>fair test</strong> experiment, one <strong>variable</strong> is changed, one is measured, and all other <strong>variables</strong> must remain the same.
       </div>
 
-      <div class="stop-and-check">
+      <div class="stop-and-check" data-activity>
         <div class="stop-and-check-content">
 
           <p>
@@ -675,14 +716,14 @@
 
         </div>
 
-        <div class="stop-and-check-answer" hidden>
+        <div class="stop-and-check-answer" data-button-reveal hidden>
           Only changing one <strong>variable</strong> allows you to know that
           no other <strong>variable</strong> has affected the results of the test.
           Any effect or result you measure in the
           <strong>dependent variable</strong> is caused by the thing you changed
           (the <strong>independent variable</strong>).
         </div>
-        <button class="stop-and-check-button general-button" onclick="showStopAndCheckAnswer(this, () => { this.closest('.section').querySelector('.next-button').hidden = false; })">
+        <button class="stop-and-check-button general-button" data-button-trigger>
           <p id="stopAndCheckDescription">Check Your Answer</p>
           <p class="bounce-symbol">✅</p>
         </button>
@@ -723,7 +764,7 @@
   </p>
 </div>
 
-      <div class="variable-activity">
+      <div class="variable-activity" id="sortVariablesOneActivity" data-activity>
         <p class="variable-question floating-title">
           How does changing the surface a ball bounces on affect the height it
           will bounce?
@@ -736,7 +777,7 @@
           <button
             type="button"
             class="variable-mode-button independent-mode-button"
-            data-variable-mode="independent"
+            data-sort-mode="independent"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -751,7 +792,7 @@
           <button
             type="button"
             class="variable-mode-button dependent-mode-button"
-            data-variable-mode="dependent"
+            data-sort-mode="dependent"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -766,7 +807,7 @@
           <button
             type="button"
             class="variable-mode-button controlled-mode-button"
-            data-variable-mode="controlled"
+            data-sort-mode="controlled"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -784,7 +825,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="ball-size">
+            data-sort-tile="ball-size">
             <span class="variable-tile-label">
               Ball size
             </span>
@@ -793,7 +834,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="ball-material">
+            data-sort-tile="ball-material">
             <span class="variable-tile-label">
               Ball material
             </span>
@@ -802,7 +843,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="drop-height">
+            data-sort-tile="drop-height">
             <span class="variable-tile-label">
               Drop height
             </span>
@@ -811,7 +852,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="ball-squashiness">
+            data-sort-tile="ball-squashiness">
             <span class="variable-tile-label">
               Ball squashiness
             </span>
@@ -820,7 +861,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="bounce-surface">
+            data-sort-tile="bounce-surface">
             <span class="variable-tile-label">
               Bounce surface
             </span>
@@ -829,7 +870,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="bounce-height">
+            data-sort-tile="bounce-height">
             <span class="variable-tile-label">
               Bounce height
             </span>
@@ -838,7 +879,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="number-of-bounces">
+            data-sort-tile="number-of-bounces">
             <span class="variable-tile-label">
               Number of bounces
             </span>
@@ -847,7 +888,7 @@
           <button
             type="button"
             class="variable-tile"
-            data-variable="time-spent-bouncing">
+            data-sort-tile="time-spent-bouncing">
             <span class="variable-tile-label">
               Time spent bouncing
             </span>
@@ -856,13 +897,13 @@
         </div>
 
         <div
-          id="sortVariablesOneFeedback"
           class="variable-feedback"
+          data-sort-feedback
           role="status"
           aria-live="polite">
         </div>
         <div class="reset-button-container">
-          <button type="button" id="sort-variables-reset-1" class="general-button reset-btn">Reset</button>
+          <button type="button" class="general-button reset-btn" data-reset-trigger>Reset</button>
         </div>
       </div>
 
@@ -899,7 +940,7 @@
         </p>
       </div>
 
-      <div class="variable-activity">
+      <div class="variable-activity" id="sortVariablesTwoActivity" data-activity>
         <p class="variable-question floating-title">
           If I change the size of the ball, how will it affect the height of the
           first bounce?
@@ -912,7 +953,7 @@
           <button
             type="button"
             class="variable-mode-button independent-mode-button"
-            data-variable-mode="independent"
+            data-sort-mode="independent"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -927,7 +968,7 @@
           <button
             type="button"
             class="variable-mode-button dependent-mode-button"
-            data-variable-mode="dependent"
+            data-sort-mode="dependent"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -942,7 +983,7 @@
           <button
             type="button"
             class="variable-mode-button controlled-mode-button"
-            data-variable-mode="controlled"
+            data-sort-mode="controlled"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -960,7 +1001,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="ball-size">
+    data-sort-tile="ball-size">
     <span class="variable-tile-label">
       Ball size
     </span>
@@ -969,7 +1010,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="ball-material">
+    data-sort-tile="ball-material">
     <span class="variable-tile-label">
       Ball material
     </span>
@@ -978,7 +1019,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="drop-height">
+    data-sort-tile="drop-height">
     <span class="variable-tile-label">
       Drop height
     </span>
@@ -987,7 +1028,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="ball-squashiness">
+    data-sort-tile="ball-squashiness">
     <span class="variable-tile-label">
       Ball squashiness
     </span>
@@ -996,7 +1037,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="bounce-surface">
+    data-sort-tile="bounce-surface">
     <span class="variable-tile-label">
       Bounce surface
     </span>
@@ -1005,7 +1046,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="bounce-height">
+    data-sort-tile="bounce-height">
     <span class="variable-tile-label">
       Bounce height
     </span>
@@ -1014,7 +1055,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="number-of-bounces">
+    data-sort-tile="number-of-bounces">
     <span class="variable-tile-label">
       Number of bounces
     </span>
@@ -1023,7 +1064,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="time-spent-bouncing">
+    data-sort-tile="time-spent-bouncing">
     <span class="variable-tile-label">
       Time spent bouncing
     </span>
@@ -1032,13 +1073,13 @@
 </div>
 
         <div
-          id="sortVariablesTwoFeedback"
           class="variable-feedback"
+          data-sort-feedback
           role="status"
           aria-live="polite">
         </div>
         <div class="reset-button-container">
-          <button type="button" id="sort-variables-reset-2" class="general-button reset-btn">Reset</button>
+          <button type="button" class="general-button reset-btn" data-reset-trigger>Reset</button>
         </div>
       </div>
 
@@ -1081,127 +1122,115 @@
 
       </div>
 
-      <div
-        class="ball-pair-grid"
-        id="ballPairGrid">
-
-        <!-- Correct: different size, same material and shape -->
-        <button
-          type="button"
-          class="ball-pair-card"
-          data-ball-pair="basketballs"
-          data-correct="true"
-          data-feedback-title="Yes — this pair can be used for a fair test experiment"
-          data-feedback="
-            These basketballs are different sizes, but they have the same shape and are made from the same material.
-            Ball size is the only variable changed, so this pair can be used in a <strong>fair test</strong>."
-          aria-pressed="false">
-
-        <span class="ball-pair-images">
-          <img
-            class="ball-pair-image"
-            src="../images/lesson2/l2-mcq1.png"
-            alt="A large basketball beside a small basketball">
-        </span>
-
-        <span
-          class="ball-pair-card-feedback"
-          role="status"
-          aria-live="polite"></span>
-        </button>
-
-        <!-- Incorrect: material also changes -->
-        <button
-          type="button"
-          class="ball-pair-card"
-          data-ball-pair="basketball-tennis"
-          data-correct="false"
-          data-feedback-title="Not a fair test experiment - two variables are changed"
-          data-feedback="
-            These balls are different sizes, but they are also made of different materials.
-            You could not know whether the height of the bounce changes because of size or material.
+      <div id="ballPairActivity" data-activity>
+        
+        <div id="ballPairGrid" class="ball-pair-grid" data-mc-question data-mc-answer="basketballs">
+          <!-- Correct: different size, same material and shape -->
+          <button
+            type="button"
+            class="ball-pair-card"
+            data-mc-choice="basketballs"
+            data-feedback-title="Yes — this pair can be used for a fair test experiment"
+            data-feedback="
+              These basketballs are different sizes, but they have the same shape and are made from the same material.
+              Ball size is the only variable changed, so this pair can be used in a <strong>fair test</strong>."
+            aria-pressed="false">
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/lesson2/l2-mcq1.png"
+              alt="A large basketball beside a small basketball">
+          </span>
+          <span
+            class="ball-pair-card-feedback"
+            data-mc-choice-feedback
+            role="status"
+            aria-live="polite"></span>
+          </button>
+          <!-- Incorrect: material also changes -->
+          <button
+            type="button"
+            class="ball-pair-card"
+            data-mc-choice="basketball-tennis"
+            data-feedback-title="Not a fair test experiment - two variables are changed"
+            data-feedback="
+              These balls are different sizes, but they are also made of different materials.
+              You could not know whether the height of the bounce changes because of size or material.
+              Try again."
+            aria-pressed="false">
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/lesson2/l2-mcq2.png"
+              alt="A basketball beside a tennis ball">
+          </span>
+          <span
+            class="ball-pair-card-feedback"
+            data-mc-choice-feedback
+            role="status"
+            aria-live="polite"></span>
+          </button>
+          <!-- Incorrect: shape also changes -->
+          <button
+            type="button"
+            class="ball-pair-card"
+            data-mc-choice="soccer-football"
+            data-feedback-title="Not a fair test experiment - two variables are changed"
+            data-feedback="
+            These balls are different sizes and have different shapes.
+            The size and shape could both affect the bounce height.
             Try again."
-          aria-pressed="false">
-
-        <span class="ball-pair-images">
-          <img
-            class="ball-pair-image"
-            src="../images/lesson2/l2-mcq2.png"
-            alt="A basketball beside a tennis ball">
-        </span>
-
-        <span
-          class="ball-pair-card-feedback"
-          role="status"
-          aria-live="polite"></span>
-        </button>
-
-        <!-- Incorrect: shape also changes -->
-        <button
-          type="button"
-          class="ball-pair-card"
-          data-ball-pair="soccer-football"
-          data-correct="false"
-          data-feedback-title="Not a fair test experiment - two variables are changed"
-          data-feedback="
-          These balls are different sizes and have different shapes.
-          The size and shape could both affect the bounce height.
-          Try again."
-          aria-pressed="false">
-
-        <span class="ball-pair-images">
-          <img
-            class="ball-pair-image"
-            src="../images/lesson2/l2-mcq3.png"
-            alt="A soccer ball beside an oval football">
-        </span>
-
-        <span
-          class="ball-pair-card-feedback"
-          role="status"
-          aria-live="polite"></span>
-        </button>
-
-        <!-- Incorrect: no size change -->
-        <button
-          type="button"
-          class="ball-pair-card"
-          data-ball-pair="same-size"
-          data-correct="false"
-          data-feedback-title="Not a fair test experiment - no variables are changed"
-          data-feedback="
-          These balls have the same size, shape, and they are made of the same material.
-          This investigation is testing the effect of ball size, so the balls must be different sizes.
-          Try again."
-          aria-pressed="false">
-
-        <span class="ball-pair-images">
-          <img
-            class="ball-pair-image"
-            src="../images/lesson2/l2-mcq4.png"
-            alt="Two basketballs of the same size">
-        </span>
-
-        <span
-          class="ball-pair-card-feedback"
-          role="status"
-          aria-live="polite"></span>
-        </button>
+            aria-pressed="false">
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/lesson2/l2-mcq3.png"
+              alt="A soccer ball beside an oval football">
+          </span>
+          <span
+            class="ball-pair-card-feedback"
+            data-mc-choice-feedback
+            role="status"
+            aria-live="polite"></span>
+          </button>
+          <!-- Incorrect: no size change -->
+          <button
+            type="button"
+            class="ball-pair-card"
+            data-mc-choice="same-size"
+            data-feedback-title="Not a fair test experiment - no variables are changed"
+            data-feedback="
+            These balls have the same size, shape, and they are made of the same material.
+            This investigation is testing the effect of ball size, so the balls must be different sizes.
+            Try again."
+            aria-pressed="false">
+          <span class="ball-pair-images">
+            <img
+              class="ball-pair-image"
+              src="../images/lesson2/l2-mcq4.png"
+              alt="Two basketballs of the same size">
+          </span>
+          <span
+            class="ball-pair-card-feedback"
+            data-mc-choice-feedback
+            role="status"
+            aria-live="polite"></span>
+          </button>
       </div>
 
       <div class="reset-button-container">
         <button
           type="button"
           class="general-button reset-btn"
-          id="ballPairReset">
+            data-reset-trigger>
           Reset
         </button>
+        </div>
       </div>
 
       <button
         type="button"
         class="next-button general-button"
-        id="ballPairNext"
         onclick="unlockSection('design-question', 'choose-ball-pair')"
         hidden>
         Next
@@ -1232,52 +1261,57 @@
     </p>
   </div>
 
-  <div
-    class="question-structure-grid"
-    id="questionStructureGrid">
+  <div id="investigationQuestionActivity" data-activity>
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-what"
-      data-question-structure="what"
-      aria-pressed="false">
-      When I change the ______, what happens to the ______?
-    </button>
+    <div
+      class="question-structure-grid"
+      id="questionStructureGrid">
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-how"
-      data-question-structure="how"
-      aria-pressed="false">
-      How does changing the ______ affect the ______?
-    </button>
+      <button
+        type="button"
+        class="question-structure-card question-structure-what"
+        data-question-structure="what"
+        aria-pressed="false">
+        When I change the ______, what happens to the ______?
+      </button>
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-does"
-      data-question-structure="does"
-      aria-pressed="false">
-      Does changing the ______ affect the ______?
-    </button>
+      <button
+        type="button"
+        class="question-structure-card question-structure-how"
+        data-question-structure="how"
+        aria-pressed="false">
+        How does changing the ______ affect the ______?
+      </button>
 
-    <button
-      type="button"
-      class="question-structure-card question-structure-if"
-      data-question-structure="if"
-      aria-pressed="false">
-      If I change the ______, what happens to the ______?
-    </button>
+      <button
+        type="button"
+        class="question-structure-card question-structure-does"
+        data-question-structure="does"
+        aria-pressed="false">
+        Does changing the ______ affect the ______?
+      </button>
 
-  </div>
+      <button
+        type="button"
+        class="question-structure-card question-structure-if"
+        data-question-structure="if"
+        aria-pressed="false">
+        If I change the ______, what happens to the ______?
+      </button>
 
-  <div
-    class="investigation-question-builder"
-    id="investigationQuestionBuilder"
-    aria-live="polite">
+    </div>
 
-    <p class="question-builder-placeholder">
-      Select a question structure above to begin.
-    </p>
+    <div
+      class="investigation-question-builder"
+      id="investigationQuestionBuilder"
+      data-question-builder
+      aria-live="polite">
+
+      <p class="question-builder-placeholder">
+        Select a question structure above to begin.
+      </p>
+
+    </div>
 
   </div>
 
@@ -1291,7 +1325,7 @@
     </p>
   </div>
 
-  <div class="reasoned-builder">
+  <div class="reasoned-builder" id="reasonedPredictionActivity" data-activity>
             <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
               <div class="prediction-organiser-row row-header">
                 <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
@@ -1312,6 +1346,8 @@
 
         <div
           id="changeVariable"
+          data-prediction-change
+          data-placeholder="The thing I am changing"
           class="generated-text placeholder">
           The thing I am changing
         </div>
@@ -1326,6 +1362,8 @@
 
           <div
           id="measureVariable"
+          data-prediction-measure
+          data-placeholder="The thing I am measuring"
           class="generated-text placeholder">
           The thing I am measuring
         </div>
@@ -1343,23 +1381,23 @@
                 <div class="prediction-organiser-cell">
                   <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
                   <div class="relationship-area">
-                    <select id="causeRelationshipType" class="prediction-select">
+                    <select id="causeRelationshipType" data-prediction-cause-type class="prediction-select">
                       <option value="">Choose a relationship type</option>
                       <option value="increase-decrease">Increase / decrease</option>
                       <option value="with-without">With / without</option>
                       <option value="condition-comparison">Condition 1 versus condition 2</option>
                     </select>
-                    <div id="causeRelationshipButtons" class="relationship-buttons"></div>
+                    <div data-prediction-cause-buttons class="relationship-buttons"></div>
 
-                    <div id="conditionComparisonInputs" class="condition-comparison-inputs">
+                    <div data-prediction-condition-inputs class="condition-comparison-inputs">
           <input
-            id="conditionOneInput"
+            data-prediction-condition-one
             class="condition-input"
             type="text"
             placeholder="Starting condition, e.g. blue">
 
           <input
-            id="conditionTwoInput"
+            data-prediction-condition-two
             class="condition-input"
             type="text"
             placeholder="New condition, e.g. red">
@@ -1369,35 +1407,35 @@
                 </div>
                 <div class="prediction-organiser-cell">
                   <span class="cell-sublabel">Effect or result</span>
-                  <div id="effectRelationshipButtons" class="relationship-buttons three-options">
-                    <button type="button" class="relationship-option" data-effect="increase">Increase</button>
-                    <button type="button" class="relationship-option" data-effect="decrease">Decrease</button>
-                    <button type="button" class="relationship-option" data-effect="stay-the-same">Stay the same</button>
+                  <div class="relationship-buttons three-options">
+                    <button type="button" class="relationship-option" data-prediction-effect="increase">Increase</button>
+                    <button type="button" class="relationship-option" data-prediction-effect="decrease">Decrease</button>
+                    <button type="button" class="relationship-option" data-prediction-effect="stay-the-same">Stay the same</button>
                   </div>
                 </div>
               </div>
 
               <div class="prediction-organiser-row row-prediction">
                 <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
-                <div class="prediction-organiser-cell"><div id="predictionIf" class="generated-text placeholder">Choose a cause relationship.</div></div>
-                <div class="prediction-organiser-cell"><div id="predictionThen" class="generated-text placeholder">Choose an effect or result.</div></div>
+                <div class="prediction-organiser-cell"><div data-prediction-cause-text class="generated-text placeholder">Choose a cause relationship.</div></div>
+                <div class="prediction-organiser-cell"><div data-prediction-effect-text class="generated-text placeholder">Choose an effect or result.</div></div>
               </div>
 
               <div class="prediction-organiser-row row-reason">
                 <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
                 <div class="prediction-organiser-cell span-2 reason-inline">
                   <label class="cell-helper" for="reasonInput">This is because...</label>
-                  <div id="reasonInputRow" class="permanent-input-row">
-                    <input id="reasonInput" type="text" class="prediction-input" placeholder="Explain why you expect this result">
+                  <div data-prediction-reason-row class="permanent-input-row">
+                    <input id="reasonInput" data-prediction-reason-input type="text" class="prediction-input" placeholder="Explain why you expect this result">
                   </div>
-                  <div id="reasonAnswer" class="submitted-answer"></div>
+                  <div data-prediction-reason-answer class="submitted-answer"></div>
                 </div>
               </div>
 
               <div class="prediction-organiser-row row-full">
                 <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
                 <div class="prediction-organiser-cell span-2">
-                  <div id="reasonedPrediction" class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
+                  <div data-prediction-full-text class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
                 </div>
               </div>
             </div>
@@ -1448,7 +1486,7 @@
         </p>
       </div>
 
-      <div class="variable-activity">
+      <div class="variable-activity" id="sortVariablesThreeActivity" data-activity>
 
         <p id="autofillTestableQuestion" class="variable-question floating-title"></p>
 
@@ -1459,7 +1497,7 @@
           <button
             type="button"
             class="variable-mode-button independent-mode-button"
-            data-variable-mode="independent"
+            data-sort-mode="independent"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -1474,7 +1512,7 @@
           <button
             type="button"
             class="variable-mode-button dependent-mode-button"
-            data-variable-mode="dependent"
+            data-sort-mode="dependent"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -1489,7 +1527,7 @@
           <button
             type="button"
             class="variable-mode-button controlled-mode-button"
-            data-variable-mode="controlled"
+            data-sort-mode="controlled"
             aria-pressed="false">
 
             <span class="variable-mode-title">
@@ -1508,7 +1546,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="ball-size">
+    data-sort-tile="ball-size">
     <span class="variable-tile-label">
       Ball size
     </span>
@@ -1517,7 +1555,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="ball-material">
+    data-sort-tile="ball-material">
     <span class="variable-tile-label">
       Ball material
     </span>
@@ -1526,7 +1564,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="drop-height">
+    data-sort-tile="drop-height">
     <span class="variable-tile-label">
       Drop height
     </span>
@@ -1535,7 +1573,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="ball-squashiness">
+    data-sort-tile="ball-squashiness">
     <span class="variable-tile-label">
       Ball squashiness
     </span>
@@ -1544,7 +1582,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="bounce-surface">
+    data-sort-tile="bounce-surface">
     <span class="variable-tile-label">
       Bounce surface
     </span>
@@ -1553,7 +1591,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="bounce-height">
+    data-sort-tile="bounce-height">
     <span class="variable-tile-label">
       Bounce height
     </span>
@@ -1562,7 +1600,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="number-of-bounces">
+    data-sort-tile="number-of-bounces">
     <span class="variable-tile-label">
       Number of bounces
     </span>
@@ -1571,7 +1609,7 @@
   <button
     type="button"
     class="variable-tile"
-    data-variable="time-spent-bouncing">
+    data-sort-tile="time-spent-bouncing">
     <span class="variable-tile-label">
       Time spent bouncing
     </span>
@@ -1580,8 +1618,8 @@
 </div>
 
         <div
-          id="sortVariablesThreeFeedback"
           class="variable-feedback"
+          data-sort-feedback
           role="status"
           aria-live="polite">
         </div>
@@ -1589,8 +1627,8 @@
         <div class="reset-button-container">
           <button
             type="button"
-            id="sort-variables-reset-3"
-            class="general-button reset-btn">
+            class="general-button reset-btn"
+            data-reset-trigger>
             Reset
           </button>
         </div>
@@ -1601,7 +1639,8 @@
         type="button"
         id="sortVariablesThreeNext"
         class="next-button general-button"
-        onclick="unlockSection('build-experiment', 'sort-variables-three')">
+        onclick="unlockSection('build-experiment', 'sort-variables-three')"
+        hidden>
         Next
       </button>
 
@@ -1695,8 +1734,15 @@
   </main>
 
   <script src="../scripts/common_functions.js"></script>
+  <script src="../scripts/activities/activity-base.js"></script>
+  <script src="../scripts/activities/activity-sections.js"></script>
+  <script src="../scripts/activities/text-response-activity.js"></script>
+  <script src="../scripts/activities/prediction-table-activity.js"></script>
+  <script src="../scripts/activities/investigation-question-activity.js"></script>
+  <script src="../scripts/activities/variable-sort-activity.js"></script>
+  <script src="../scripts/activities/multiple-choice-activity.js"></script>
+  <script src="../scripts/activities/button-reveal-activity.js"></script>
   <script src="../scripts/lesson2_scripts/bigkahuna4.js"></script>
-  <script src="../scripts/reasoned_prediction_table.js"></script>
 
 
   <script>
@@ -1718,111 +1764,44 @@
       { id: "build-experiment", label: "Describe the fair-test procedure" },
     ];
 
-const feedbackDefaultMessage =
-  "Choose a variable type, then select the matching variable.";
+let sortVariablesOneActivity = null;
+let sortVariablesTwoActivity = null;
+let sortVariablesThreeActivity = null;
 
-let sortVariablesOneStructure = {
-  activityID: "sort-variables-one",
-  activity: null,
-  modeButtons: null,
-  variableTiles: null,
-  feedback: null,
-  feedbackId: "#sortVariablesOneFeedback",
-  nextButton: null,
-  nextButtonId: "#sortVariablesOneNext",
-  resetButton: null,
-  resetButtonId: "sort-variables-reset-1",
+function initialiseVariableSortActivities() {
+  const oneRoot = document.getElementById("sortVariablesOneActivity");
+  if (oneRoot) {
+    sortVariablesOneActivity = new VariableSortActivity(oneRoot, {
+      answers: {
+        independent: "bounce-surface",
+        dependent: "bounce-height",
+        controlled: ["ball-size", "ball-material", "drop-height", "ball-squashiness"]
+      }
+    });
+  }
 
-  answerMode: "fixed",
+  const twoRoot = document.getElementById("sortVariablesTwoActivity");
+  if (twoRoot) {
+    sortVariablesTwoActivity = new VariableSortActivity(twoRoot, {
+      answers: {
+        independent: "ball-size",
+        dependent: "bounce-height",
+        controlled: ["ball-material", "drop-height", "ball-squashiness", "bounce-surface"]
+      }
+    });
+  }
 
-  answers: {
-    independent: "bounce-surface",
-    dependent: "bounce-height",
-    controlled: [
-      "ball-size",
-      "ball-material",
-      "drop-height",
-      "ball-squashiness"
-    ]
-  },
-
-  selectedMode: "",
-  independentComplete: false,
-  dependentComplete: false
-};
-
-
-let sortVariablesTwoStructure = {
-  activityID: "sort-variables-two",
-  activity: null,
-  modeButtons: null,
-  variableTiles: null,
-  feedback: null,
-  feedbackId: "#sortVariablesTwoFeedback",
-  nextButton: null,
-  nextButtonId: "#sortVariablesTwoNext",
-  resetButton: null,
-  resetButtonId: "sort-variables-reset-2",
-
-  answerMode: "fixed",
-
-  answers: {
-    independent: "ball-size",
-    dependent: "bounce-height",
-    controlled: [
-      "ball-material",
-      "drop-height",
-      "ball-squashiness",
-      "bounce-surface"
-    ]
-  },
-
-  selectedMode: "",
-  independentComplete: false,
-  dependentComplete: false
-};
-
-let sortVariablesThreeStructure = {
-  activityID: "sort-variables-three",
-  activity: null,
-  modeButtons: null,
-  variableTiles: null,
-  feedback: null,
-  feedbackId: "#sortVariablesThreeFeedback",
-  nextButton: null,
-  nextButtonId: "#sortVariablesThreeNext",
-  resetButton: null,
-  resetButtonId: "sort-variables-reset-3",
-
-  answerMode: "open",
-  answers: null,
-
-  independentOptions: [
-    "ball-size",
-    "ball-material",
-    "drop-height",
-    "ball-squashiness",
-    "bounce-surface"
-  ],
-
-  dependentOptions: [
-    "bounce-height",
-    "number-of-bounces",
-    "time-spent-bouncing"
-  ],
-
-  controlledOptions: [
-    "ball-size",
-    "ball-material",
-    "drop-height",
-    "ball-squashiness",
-    "bounce-surface"
-  ],
-
-  selectedMode: "",
-  independentComplete: false,
-  dependentComplete: false
-};
+  const threeRoot = document.getElementById("sortVariablesThreeActivity");
+  if (threeRoot) {
+    sortVariablesThreeActivity = new VariableSortActivity(threeRoot, {
+      options: {
+        independent: ["ball-size", "ball-material", "drop-height", "ball-squashiness", "bounce-surface"],
+        dependent: ["bounce-height", "number-of-bounces", "time-spent-bouncing"],
+        controlled: ["ball-size", "ball-material", "drop-height", "ball-squashiness", "bounce-surface"]
+      }
+    });
+  }
+}
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -1835,1449 +1814,102 @@ document.addEventListener("DOMContentLoaded", function() {
 
   initialiseDiscoverVariables();
   initialiseInvestigationQuestion();
+  initialisePredictionTable();
   initialiseBallPairActivity();
-  initialiseProcedureTextareas();
-
-  initialiseSortVariables(
-    sortVariablesOneStructure
-  );
-
-  initialiseSortVariables(
-    sortVariablesTwoStructure
-  );
-
-  initialiseSortVariables(
-    sortVariablesThreeStructure
-  );
+  initialiseVariableSortActivities();
+  initSectionActivitiesIn(document);
 });
-
-
-
-function initialiseProcedureTextareas() {
-  const textareaIds = [
-    "studentChangePlan",
-    "studentMeasurePlan",
-    "studentControlPlan"
-  ];
-
-  textareaIds.forEach(function(textareaId) {
-    const textarea =
-      document.getElementById(textareaId);
-
-    if (!textarea) {
-      return;
-    }
-
-    textarea.addEventListener(
-      "blur",
-      function() {
-        const value =
-          textarea.value.trim();
-
-        /*
-          Empty textareas are allowed because the student
-          may simply be moving between fields.
-        */
-        if (value === "") {
-          return;
-        }
-
-        /*
-          getValidStudentInput supports textareas.
-          It clears and blocks inappropriate text.
-        */
-        getValidStudentInput(textarea);
-      }
-    );
-  });
-}
 
 /* ==================================================
    DISCOVER POSSIBLE VARIABLES
    ================================================== */
+let discoverVariablesActivity = null;
 
 function initialiseDiscoverVariables() {
-  const activity =
-    document.getElementById("discover-variables");
-
-  if (!activity) {
-    return;
-  }
-
-  const cards =
-  activity.querySelectorAll(
-    ".variable-entry-card, .variable-overlay-entry"
-  );
-
-  cards.forEach(function(card) {
-    const input =
-      card.querySelector(
-        'input[type="text"]'
-      );
-
-    const inputRow =
-      card.querySelector(
-        ".variable-entry-input-row"
-      );
-
-    const answerBox =
-      card.querySelector(
-        ".variable-entry-answer"
-      );
-
-    if (
-      !input ||
-      !inputRow ||
-      !answerBox
-    ) {
-      return;
-    }
-
-    function saveVariableAnswer() {
-      const value =
-        getValidStudentInput(input);
-
-      if (value === null) {
-        return;
-      }
-
-      answerBox.innerHTML = "";
-
-      const answerText =
-        document.createElement("span");
-
-      answerText.className =
-        "variable-entry-answer-text";
-
-      answerText.textContent = value;
-
-      const deleteButton =
-        createDeleteAnswerButton(
-          "Edit " + value,
-          function() {
-            answerBox.classList.remove(
-              "visible"
-            );
-
-            answerBox.innerHTML = "";
-
-            inputRow.style.display =
-              "block";
-          }
-        );
-
-      answerBox.appendChild(
-        answerText
-      );
-
-      answerBox.appendChild(
-        deleteButton
-      );
-
-      inputRow.style.display = "none";
-
-      answerBox.classList.add(
-        "visible"
-      );
-
-      input.value = "";
-    }
-
-    /*
-      Reuse common_functions.js:
-      - Enter saves
-      - clicking or tabbing away saves
-    */
-    if (
-      typeof connectEnterAndBlurSave ===
-      "function"
-    ) {
-      connectEnterAndBlurSave(
-        input,
-        saveVariableAnswer
-      );
-    }
-  });
-}
-
-function initialiseSortVariables(variableStructure) {
-  variableStructure.activity =
-    document.getElementById(variableStructure.activityID);
-  console.log(variableStructure.activityID, variableStructure.activity);
-
-  if (!variableStructure.activity) {
-    return;
-  }
-
-  variableStructure.modeButtons =
-    variableStructure.activity.querySelectorAll("[data-variable-mode]");
-
-  variableStructure.variableTiles =
-    variableStructure.activity.querySelectorAll(".variable-tile");
-
-  console.log(variableStructure.activityID);
-  console.log(variableStructure.activity);
-  console.log(variableStructure.feedbackId);
-
-  variableStructure.feedback =
-    variableStructure.activity.querySelector(variableStructure.feedbackId);
-  
-  variableStructure.feedback.innerHTML = feedbackDefaultMessage;
-
-  variableStructure.nextButton =
-    variableStructure.activity.querySelector(variableStructure.nextButtonId);
-
-  variableStructure.modeButtons.forEach(function(button) {
-    button.addEventListener("click", function(event) {handleModeButtonClick(event, variableStructure)});
-  });
-
-  variableStructure.variableTiles.forEach(function(tile) {
-    tile.addEventListener("click", function(event) {handleVariableTileClick(event, variableStructure)});
-
-    tile.addEventListener("animationend", function() {
-      tile.classList.remove("buzz");
-    });
-  });
-  variableStructure.resetButton = document.getElementById(variableStructure.resetButtonId);
-  variableStructure.resetButton.addEventListener("click", function() {resetSortVariables(variableStructure)});
-}
-
-function handleModeButtonClick(event, variableStructure) {
-  setMode(event.currentTarget.dataset.variableMode, variableStructure);
-}
-
-function handleVariableTileClick(
-  event,
-  variableStructure
-) {
-  const tile = event.currentTarget;
-
-  const selectedVariable =
-    tile.dataset.variable;
-
-  const selectedMode =
-    variableStructure.selectedMode;
-
-  const isFixedActivity =
-    variableStructure.answerMode === "fixed";
-
-  /*
-    Do nothing if this tile has already been classified.
-  */
-  if (
-    tile.classList.contains("is-classified")
-  ) {
-    return;
-  }
-
-  /*
-    Students must choose a variable type first.
-  */
-  if (selectedMode === "") {
-    buzzTile(
-      tile,
-      "Choose Independent Variable, Dependent Variable or Controlled Variable first.",
-      variableStructure
-    );
-
-    return;
-  }
-
-  /* ==================================================
-     INDEPENDENT VARIABLE
-     ================================================== */
-
-  if (selectedMode === "independent") {
-    if (
-      !isFixedActivity &&
-      !variableStructure.independentOptions.includes(
-        selectedVariable
-      )
-    ) {
-      buzzTile(
-        tile,
-        "That is a measurable outcome. Choose a variable that you can change.",
-        variableStructure
-      );
-
-      return;
-    }
-    /*
-      Fixed activities check against the answer key.
-
-      Open activities skip this check, so any available
-      tile can become the independent variable.
-    */
-    if (
-      isFixedActivity &&
-      selectedVariable !==
-        variableStructure.answers.independent
-    ) {
-      buzzTile(
-        tile,
-        "Try again. Which variable is changed in the question?",
-        variableStructure
-      );
-
-      return;
-    }
-
-    addVariableType(
-      tile,
-      "independent",
-      "Independent variable"
-    );
-
-    variableStructure.independentComplete = true;
-
-    finishVariableSelection(
-      "independent",
-      variableStructure
-    );
-
-    variableStructure.feedback.className =
-      "variable-feedback feedback-success";
-
-    variableStructure.feedback.innerHTML =
-      "Independent variable selected.";
-
-    checkSortVariablesComplete(
-      variableStructure
-    );
-
-    return;
-  }
-
-  /* ==================================================
-     DEPENDENT VARIABLE
-     ================================================== */
-
-  if (selectedMode === "dependent") {
-    if (
-      !isFixedActivity &&
-      !variableStructure.dependentOptions.includes(
-        selectedVariable
-      )
-    ) {
-      buzzTile(
-        tile,
-        "That is a variable you can change or keep the same. Choose a measurable result instead.",
-        variableStructure
-      );
-
-      return;
-    }
-    /*
-      Fixed activities check against the answer key.
-
-      Open activities allow any remaining tile.
-    */
-    if (
-      isFixedActivity &&
-      selectedVariable !==
-        variableStructure.answers.dependent
-    ) {
-      buzzTile(
-        tile,
-        "Try again. Which result is observed or measured?",
-        variableStructure
-      );
-
-      return;
-    }
-
-    addVariableType(
-      tile,
-      "dependent",
-      "Dependent variable"
-    );
-
-    variableStructure.dependentComplete = true;
-
-    finishVariableSelection(
-      "dependent",
-      variableStructure
-    );
-
-    variableStructure.feedback.className =
-      "variable-feedback feedback-success";
-
-    variableStructure.feedback.innerHTML =
-      "Dependent variable selected.";
-
-    checkSortVariablesComplete(
-      variableStructure
-    );
-
-    return;
-  }
-
-  /* ==================================================
-     CONTROLLED VARIABLES
-     ================================================== */
-
-  if (selectedMode === "controlled") {
-    if (
-      !isFixedActivity &&
-      (
-        !variableStructure.independentComplete ||
-        !variableStructure.dependentComplete
-      )
-    ) {
-      buzzTile(
-        tile,
-        "Choose one independent variable and one dependent variable before selecting the controlled variables.",
-        variableStructure
-      );
-
-      return;
-    }
-
-    if (
-      !isFixedActivity &&
-      !variableStructure.controlledOptions.includes(
-        selectedVariable
-      )
-    ) {
-      buzzTile(
-        tile,
-        "That is a measurable outcome, not a variable that needs to be kept the same.",
-        variableStructure
-      );
-
-      return;
-    }
-    /*
-      In a fixed activity, controlled variables must
-      match the answer key.
-
-      In an open activity, every remaining tile can be
-      classified as controlled.
-    */
-    if (
-      isFixedActivity &&
-      !variableStructure.answers.controlled.includes(
-        selectedVariable
-      )
-    ) {
-      buzzTile(
-        tile,
-        "Try again. That variable is not controlled in this investigation.",
-        variableStructure
-      );
-
-      return;
-    }
-
-    addVariableType(
-      tile,
-      "controlled",
-      "Controlled variable"
-    );
-
-    const controlledButton =
-      variableStructure.activity.querySelector(
-        '[data-variable-mode="controlled"]'
-      );
-
-    if (controlledButton) {
-      controlledButton.classList.add("mode-complete");
-    }
-
-    /*
-      Count all unclassified tiles.
-
-      Once only the already-selected independent and
-      dependent variables remain classified and every
-      other tile is controlled, there will be no
-      unclassified tiles left.
-    */
-    let controlledSelectionComplete = false;
-
-    if (isFixedActivity) {
-      controlledSelectionComplete =
-        variableStructure.answers.controlled.every(
-          function(variableName) {
-            const controlledTile =
-              variableStructure.activity.querySelector(
-                '[data-variable="' +
-                  variableName +
-                '"]'
-              );
-
-            return (
-              controlledTile &&
-              controlledTile.classList.contains(
-                "is-controlled"
-              )
-            );
-          }
-        );
-    } else {
-      controlledSelectionComplete =
-        variableStructure.controlledOptions.every(
-          function(variableName) {
-            const variableTile =
-              variableStructure.activity.querySelector(
-                '[data-variable="' +
-                  variableName +
-                '"]'
-              );
-
-            return (
-              variableTile &&
-              (
-                variableTile.classList.contains(
-                  "is-independent"
-                ) ||
-                variableTile.classList.contains(
-                  "is-controlled"
-                )
-              )
-            );
-          }
-        );
-    }
-
-    if (controlledSelectionComplete) {
-      const controlledButton =
-        variableStructure.activity.querySelector(
-          '[data-variable-mode="controlled"]'
-        );
-
-      controlledButton.classList.remove(
-        "mode-active"
-      );
-
-      controlledButton.setAttribute(
-        "aria-pressed",
-        "false"
-      );
-
-      controlledButton.disabled = true;
-
-      variableStructure.selectedMode = "";
-
-      variableStructure.feedback.innerHTML =
-        "All controlled variables have been selected.";
-    } else {
-      variableStructure.feedback.innerHTML =
-        "Controlled variable selected. Choose any other variables that must be kept the same.";
-    }
-
-    variableStructure.feedback.className =
-      "variable-feedback feedback-success";
-
-    checkSortVariablesComplete(
-      variableStructure
-    );
-  }
-}
-
-function finishVariableSelection(
-  mode,
-  variableStructure
-) {
-  variableStructure.selectedMode = "";
-
-  const modeButton =
-    variableStructure.activity.querySelector(
-      '[data-variable-mode="' + mode + '"]'
-    );
-
-  if (!modeButton) {
-    return;
-  }
-
-  modeButton.classList.remove("mode-active");
-  modeButton.classList.add("mode-complete");
-
-  modeButton.setAttribute(
-    "aria-pressed",
-    "false"
-  );
-
-  /*
-    Independent and dependent can only be selected once.
-    Controlled remains available because students must
-    select several controlled variables.
-  */
-  if (
-    mode === "independent" ||
-    mode === "dependent"
-  ) {
-    modeButton.disabled = true;
-  }
-}
-
-function setMode(mode, variableStructure) {
-  if (mode === "") {
-    variableStructure.selectedMode = "";
-
-    variableStructure.modeButtons.forEach(function(button) {
-      button.classList.remove("mode-active");
-      button.setAttribute("aria-pressed", "false");
-    });
-
-    variableStructure.feedback.className = "variable-feedback";
-    variableStructure.feedback.innerHTML = feedbackDefaultMessage;
-
-    return;
-  }
-
-  variableStructure.selectedMode = mode;
-
-  variableStructure.modeButtons.forEach(function(button) {
-    const isActive =
-      button.dataset.variableMode === mode;
-
-    button.classList.toggle(
-      "mode-active",
-      isActive
-    );
-
-    button.setAttribute(
-      "aria-pressed",
-      String(isActive)
-    );
-  });
-
-  variableStructure.feedback.className =
-    "variable-feedback";
-
-  if (mode === "independent") {
-    variableStructure.feedback.innerHTML =
-      "Choose the variable that is changed.";
-  }
-
-  if (mode === "dependent") {
-    variableStructure.feedback.innerHTML =
-      "Choose the variable that is measured.";
-  }
-
-  if (mode === "controlled") {
-    variableStructure.feedback.innerHTML =
-      "Choose all the variables that must be kept the same.";
-  }
-}
-
-function addVariableType(
-  tile,
-  type,
-  label
-) {
-  tile.classList.add(
-    "is-" + type,
-    "is-classified"
-  );
-
-  tile.disabled = true;
-
-  const typeText =
-    document.createElement("span");
-
-  typeText.className =
-    "variable-tile-type";
-
-  typeText.textContent =
-    "(" + label + ")";
-
-  tile.appendChild(typeText);
-}
-
-function buzzTile(
-  tile,
-  message,
-  variableStructure
-) {
-  tile.classList.remove("buzz");
-
-  void tile.offsetWidth;
-
-  tile.classList.add("buzz");
-
-  variableStructure.feedback.className =
-    "variable-feedback feedback-try-again";
-
-  variableStructure.feedback.innerHTML = message;
-}
-
-function checkSortVariablesComplete(
-  variableStructure
-) {
-  let activityComplete = false;
-
-  if (
-    variableStructure.answerMode === "fixed"
-  ) {
-    const requiredVariableNames = [
-      variableStructure.answers.independent,
-      variableStructure.answers.dependent,
-      ...variableStructure.answers.controlled
-    ];
-
-    activityComplete =
-      requiredVariableNames.every(
-        function(variableName) {
-          const tile =
-            variableStructure.activity.querySelector(
-              '[data-variable="' +
-                variableName +
-              '"]'
-            );
-
-          return (
-            tile &&
-            tile.classList.contains(
-              "is-classified"
-            )
-          );
-        }
-      );
-  } else {
-    const classifiedTiles =
-      variableStructure.activity.querySelectorAll(
-        ".variable-tile.is-classified"
-      );
-
-    activityComplete =
-      classifiedTiles.length ===
-      variableStructure.variableTiles.length;
-  }
-
-  if (!activityComplete) {
-    return;
-  }
-
-  variableStructure.selectedMode = "";
-
-  variableStructure.modeButtons.forEach(
-    function(button) {
-      button.classList.remove(
-        "mode-active"
-      );
-
-      button.setAttribute(
-        "aria-pressed",
-        "false"
-      );
-
-      button.disabled = true;
-    }
-  );
-
-  /*
-    Disable the unused outcome tiles once the fixed
-    activity has been completed.
-  */
-  variableStructure.variableTiles.forEach(
-    function(tile) {
-      tile.disabled = true;
-    }
-  );
-
-  variableStructure.feedback.className =
-    "variable-feedback feedback-success";
-
-  variableStructure.feedback.innerHTML =
-    "You identified the independent, dependent and controlled variables.";
-
-  variableStructure.nextButton.hidden = false;
-}
-
-function resetSortVariables(variableStructure) {
-  variableStructure.selectedMode = "";
-  variableStructure.independentComplete = false;
-  variableStructure.dependentComplete = false;
-
-  variableStructure.modeButtons.forEach(function(button) {
-    button.disabled = false;
-    button.classList.remove(
-      "mode-active",
-      "mode-complete"
-    );
-    button.setAttribute("aria-pressed", "false");
-  });
-
-  variableStructure.variableTiles.forEach(function(tile) {
-    tile.disabled = false;
-
-    tile.classList.remove(
-      "is-independent",
-      "is-dependent",
-      "is-controlled",
-      "is-classified",
-      "buzz"
-    );
-
-    const typeText =
-      tile.querySelector(".variable-tile-type");
-
-    if (typeText) {
-      typeText.remove();
-    }
-  });
-
-  variableStructure.feedback.className = "variable-feedback";
-  variableStructure.feedback.innerHTML = feedbackDefaultMessage;
-
-  variableStructure.nextButton.hidden = true;
-
-  setMode("", variableStructure);
+  const discoverVariablesRoot = document.getElementById('discover-variables');
+  if (!discoverVariablesRoot) return;
+    
+  discoverVariablesActivity = new TextResponseActivity(discoverVariablesRoot);
 }
 
 /* ==================================================
    CHOOSE A FAIR-TEST BALL PAIR
    ================================================== */
 
+let ballPairActivity = null;
+
 function initialiseBallPairActivity() {
-  const activity =
-    document.getElementById(
-      "choose-ball-pair"
-    );
-
-  if (!activity) {
+  const root = document.getElementById("ballPairActivity");
+  if (!root) {
     return;
   }
 
-  const pairButtons =
-    activity.querySelectorAll(
-      ".ball-pair-card"
-    );
-
-  const nextButton =
-    document.getElementById(
-      "ballPairNext"
-    );
-
-  const resetButton =
-    document.getElementById(
-      "ballPairReset"
-    );
-
-  if (
-    !nextButton ||
-    !resetButton
-  ) {
-    return;
-  }
-
-  pairButtons.forEach(function(button) {
-    button.addEventListener(
-      "click",
-      function() {
-      selectBallPair(
-        button,
-        pairButtons,
-        nextButton
-      );
-      }
-    );
-  });
-
-  resetButton.addEventListener(
-    "click",
-    function() {
-    resetBallPairActivity(
-      pairButtons,
-      nextButton
-    );
-    }
-  );
-}
-
-
-function selectBallPair(
-  selectedButton,
-  pairButtons,
-  nextButton
-) {
-  const isCorrect =
-    selectedButton.dataset.correct === "true";
-
-  /*
-    Clear every card before showing the newly selected one.
-  */
-  pairButtons.forEach(function(button) {
-    button.classList.remove(
-      "selected",
-      "correct-selection",
-      "incorrect-selection"
-    );
-
-    button.setAttribute(
-      "aria-pressed",
-      "false"
-    );
-
-    const cardFeedback =
-      button.querySelector(
-        ".ball-pair-card-feedback"
-      );
-
-    if (cardFeedback) {
-      cardFeedback.innerHTML = "";
-      cardFeedback.className =
-        "ball-pair-card-feedback";
+  ballPairActivity = new MultipleChoiceActivity(root, {
+    completionMode: "live",
+    classes: {
+      selected: "selected",
+      correct: "correct-selection",
+      incorrect: "incorrect-selection",
+      feedbackCorrect: "feedback-success",
+      feedbackIncorrect: "feedback-try-again",
+      feedbackTitle: "ball-pair-feedback-title",
+      feedbackText: "ball-pair-feedback-text"
     }
   });
-
-  selectedButton.classList.add("selected");
-
-  selectedButton.setAttribute(
-    "aria-pressed",
-    "true"
-  );
-
-  const selectedFeedback =
-    selectedButton.querySelector(
-      ".ball-pair-card-feedback"
-    );
-
-  if (!selectedFeedback) {
-    return;
-  }
-
-  selectedFeedback.innerHTML =
-    '<strong class="ball-pair-feedback-title">' +
-      selectedButton.dataset.feedbackTitle +
-    '</strong>' +
-    '<span class="ball-pair-feedback-text">' +
-      selectedButton.dataset.feedback +
-    "</span>";
-
-  if (isCorrect) {
-    selectedButton.classList.add(
-      "correct-selection"
-    );
-
-    selectedFeedback.classList.add(
-      "feedback-success"
-    );
-
-    nextButton.hidden = false;
-    return;
-  }
-
-  selectedButton.classList.add(
-    "incorrect-selection"
-  );
-
-  selectedFeedback.classList.add(
-    "feedback-try-again"
-  );
-
-  nextButton.hidden = true;
-}
-
-function resetBallPairActivity(
-  pairButtons,
-  nextButton
-) {
-  pairButtons.forEach(function(button) {
-    button.classList.remove(
-      "selected",
-      "correct-selection",
-      "incorrect-selection"
-    );
-
-    button.setAttribute(
-      "aria-pressed",
-      "false"
-    );
-
-    const cardFeedback =
-      button.querySelector(
-        ".ball-pair-card-feedback"
-      );
-
-    if (cardFeedback) {
-      cardFeedback.innerHTML = "";
-      cardFeedback.className =
-        "ball-pair-card-feedback";
-    }
-  });
-
-  nextButton.hidden = true;
 }
 
     /* ==================================================
       DESIGN AN INVESTIGATION QUESTION
       ================================================== */
 
-    let investigationQuestionState = {
-      structure: "",
-      firstAnswer: "",
-      secondAnswer: ""
-    };
-
-    const investigationQuestionTemplates = {
-      what: {
-        parts: [
-          "When I change the ",
-          ", what happens to the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      },
-
-      how: {
-        parts: [
-          "How does changing the ",
-          " affect the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      },
-
-      does: {
-        parts: [
-          "Does changing the ",
-          " affect the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      },
-
-      if: {
-        parts: [
-          "If I change the ",
-          ", what happens to the ",
-          "?"
-        ],
-        firstPlaceholder: "What will you change?",
-        secondPlaceholder: "What will you measure?"
-      }
-    };
-
-
-    function initialiseInvestigationQuestion() {
-      const activity =
-        document.getElementById("design-question");
-
-      if (!activity) {
-        return;
-      }
-
-      const structureButtons =
-        activity.querySelectorAll(
-          "[data-question-structure]"
-        );
-
-      structureButtons.forEach(function(button) {
-        button.addEventListener(
-          "click",
-          function() {
-            selectInvestigationQuestionStructure(
-              button.dataset.questionStructure
-            );
-          }
-        );
-      });
-    }
-
-
-    function selectInvestigationQuestionStructure(
-      structureName
-    ) {
-      const activity =
-        document.getElementById("design-question");
-
-      const builder =
-        document.getElementById(
-          "investigationQuestionBuilder"
-        );
-
-      const template =
-        investigationQuestionTemplates[
-          structureName
-        ];
-
-      if (!activity || !builder || !template) {
-        return;
-      }
-
-      investigationQuestionState = {
-        structure: structureName,
-        firstAnswer: "",
-        secondAnswer: ""
-      };
-
-      activity
-        .querySelectorAll(
-          "[data-question-structure]"
-        )
-        .forEach(function(button) {
-          const isSelected =
-            button.dataset.questionStructure ===
-            structureName;
-
-          button.classList.toggle(
-            "selected",
-            isSelected
-          );
-
-          button.setAttribute(
-            "aria-pressed",
-            String(isSelected)
-          );
-        });
-
-      builder.classList.add("builder-active");
-      builder.innerHTML = "";
-
-      const sentence =
-        document.createElement("div");
-
-      sentence.className =
-        "question-builder-sentence";
-
-      sentence.appendChild(
-        document.createTextNode(
-          template.parts[0]
-        )
-      );
-
-      sentence.appendChild(
-        createInvestigationQuestionBlank(
-          "firstAnswer",
-          template.firstPlaceholder
-        )
-      );
-
-      sentence.appendChild(
-        document.createTextNode(
-          template.parts[1]
-        )
-      );
-
-      sentence.appendChild(
-        createInvestigationQuestionBlank(
-          "secondAnswer",
-          template.secondPlaceholder
-        )
-      );
-
-      sentence.appendChild(
-        document.createTextNode(
-          template.parts[2]
-        )
-      );
-
-      const completedQuestion =
-        document.createElement("div");
-
-      completedQuestion.id =
-        "completedInvestigationQuestion";
-
-      completedQuestion.className =
-        "completed-investigation-question";
-
-      completedQuestion.hidden = true;
-
-      builder.appendChild(sentence);
-      builder.appendChild(completedQuestion);
-    }
-
-    function autofillTestableQuestion(completedQuestion) {
-      const autofillElement = document.getElementById("autofillTestableQuestion");
-      autofillElement.innerHTML = completedQuestion.textContent;
-    }
-
     const dropdownAnswers = [
       "ball size",
       "ball material",
-       "drop height",
-       "ball squashiness",
-       "bounce surface",
-       "bounce height",
-       "number of bounces",
-       "time spent bouncing"
+      "drop height",
+      "ball squashiness",
+      "bounce surface",
+      "bounce height",
+      "number of bounces",
+      "time spent bouncing"
     ];
 
-    function updateLesson2PredictionBuilder() {
-      if (
-        typeof setInvestigationQuestionAnswers !==
-        "function"
-      ) {
-        return;
-      }
+    let reasonedPredictionActivity = null;
+    let investigationQuestionActivity = null;
 
-      setInvestigationQuestionAnswers(
-        investigationQuestionState.structure,
-        investigationQuestionState.firstAnswer,
-        investigationQuestionState.secondAnswer
-      );
+    function initialisePredictionTable() {
+      const root = document.getElementById("reasonedPredictionActivity");
+      if (!root) return;
+
+      reasonedPredictionActivity = new PredictionTableActivity(root);
     }
 
-    function createInvestigationQuestionBlank(
-      fieldName,
-      placeholderText
-    ) {
-      const wrapper =
-        document.createElement("span");
+    function initialiseInvestigationQuestion() {
+      const root = document.getElementById("investigationQuestionActivity");
+      if (!root) return;
 
-      wrapper.className = "question-blank";
+      investigationQuestionActivity = new InvestigationQuestionActivity(root, {
+        variableOptions: dropdownAnswers,
+        onChange: function(state) {
+          document.getElementById("autofillTestableQuestion").innerHTML = state.text;
 
-      const inputRow =
-        document.createElement("span");
-
-      inputRow.className =
-        "question-blank-input-row";
-
-      // const input =
-      //   document.createElement("input");
-      const input = document.createElement("select");
-      const inputLabel = document.createElement("option");
-      inputLabel.value = "";
-      inputLabel.textContent = placeholderText;
-      inputLabel.disabled = true;
-      inputLabel.selected = true;
-      const inputOptions = [inputLabel].concat(
-        dropdownAnswers.map(function(answer) {
-          const option = document.createElement("option");
-          option.value = answer;
-          option.textContent = answer;
-          return option;
-        })
-      );
-
-      input.addEventListener("change", function() {
-        if (input.value === "") {
-          return;
-        }
-
-        saveAnswer();
-      });
-
-      input.className =
-        "question-blank-input";
-      input.name = fieldName;
-
-      input.setAttribute(
-        "aria-label",
-        placeholderText
-      );
-
-      const answerBox =
-        document.createElement("span");
-
-      answerBox.className =
-        "question-blank-answer";
-
-      inputRow.appendChild(input);
-      inputOptions.forEach(function(option) {
-        input.appendChild(option);
-      });
-      wrapper.appendChild(inputRow);
-      wrapper.appendChild(answerBox);
-
-      function saveAnswer() {
-        const value = input.value;
-
-        if (value === "") {
-          return;
-        }
-
-        investigationQuestionState[
-          fieldName
-        ] = value;
-
-        updateLesson2PredictionBuilder();
-
-        answerBox.innerHTML = "";
-
-        const answerText =
-          document.createElement("span");
-
-        answerText.className =
-          "question-blank-answer-text";
-
-        answerText.textContent = value;
-
-        const deleteButton =
-          document.createElement("button");
-
-        deleteButton.type = "button";
-        deleteButton.className =
-          "delete-answer";
-
-        deleteButton.textContent = "×";
-
-        deleteButton.setAttribute(
-          "aria-label",
-          "Edit " + value
-        );
-
-        deleteButton.addEventListener(
-          "click",
-          function() {
-            investigationQuestionState[
-              fieldName
-            ] = "";
-
-            updateLesson2PredictionBuilder();
-
-            answerBox.classList.remove(
-              "visible"
-            );
-
-            answerBox.innerHTML = "";
-
-            inputRow.style.display =
-              "block";
-
-            input.focus();
-            input.value = "";
-            input.dispatchEvent(new Event("change"));
-
-            updateCompletedInvestigationQuestion();
+          if (reasonedPredictionActivity) {
+            reasonedPredictionActivity.setContext({
+              structure: state.structure,
+              change: state.firstAnswer,
+              measure: state.secondAnswer
+            });
           }
-        );
-
-        answerBox.appendChild(answerText);
-        answerBox.appendChild(deleteButton);
-
-        inputRow.style.display = "none";
-        answerBox.classList.add("visible");
-        input.value = "";
-
-        updateCompletedInvestigationQuestion();
-      }
-
-      return wrapper;
-    }
-
-    function updateCompletedInvestigationQuestion() {
-      const completedQuestion =
-        document.getElementById(
-          "completedInvestigationQuestion"
-        );
-
-      const template =
-        investigationQuestionTemplates[
-          investigationQuestionState.structure
-        ];
-
-      if (!completedQuestion || !template) {
-        return;
-      }
-
-      const firstAnswer =
-        investigationQuestionState.firstAnswer;
-
-      const secondAnswer =
-        investigationQuestionState.secondAnswer;
-
-      if (
-        firstAnswer === "" ||
-        secondAnswer === ""
-      ) {
-        completedQuestion.hidden = true;
-        completedQuestion.textContent = "";
-        return;
-      }
-
-      completedQuestion.textContent =
-        template.parts[0] +
-        firstAnswer +
-        template.parts[1] +
-        secondAnswer +
-        template.parts[2];
-
-      autofillTestableQuestion(completedQuestion);
-
-      completedQuestion.hidden = false;
-    }
-
-
-    function resetInvestigationQuestion() {
-      const activity =
-        document.getElementById(
-          "design-question"
-        );
-
-      const builder =
-        document.getElementById(
-          "investigationQuestionBuilder"
-        );
-
-      if (!activity || !builder) {
-        return;
-      }
-
-      investigationQuestionState = {
-        structure: "",
-        firstAnswer: "",
-        secondAnswer: ""
-      };
-
-      if (
-        typeof resetBuilder === "function"
-      ) {
-        resetBuilder();
-      }
-
-      updateLesson2PredictionBuilder();
-
-      activity
-        .querySelectorAll(
-          "[data-question-structure]"
-        )
-        .forEach(function(button) {
-          button.classList.remove(
-            "selected"
-          );
-
-          button.setAttribute(
-            "aria-pressed",
-            "false"
-          );
-        });
-
-      builder.classList.remove(
-        "builder-active"
-      );
-
-      builder.innerHTML =
-        '<p class="question-builder-placeholder">' +
-        "Select a question structure above to begin." +
-        "</p>";
-
-      updateLesson2PredictionBuilder();
+        }
+      });
     }
 
     function resetQuestionAndPrediction() {
-
-      /*
-        Reset the testable question.
-      */
-      resetInvestigationQuestion();
-
-
-      /*
-        Reset the embedded reasoned-prediction builder.
-      */
-      if (
-        typeof resetBuilder === "function"
-      ) {
-        resetBuilder();
+      if (investigationQuestionActivity) {
+        investigationQuestionActivity.reset();
       }
 
-
-      /*
-        Hide the Next button again.
-      */
-      const nextButton =
-        document.getElementById(
-          "designQuestionNext"
-        );
-
-      if (nextButton) {
-        nextButton.hidden = true;
+      if (reasonedPredictionActivity) {
+        reasonedPredictionActivity.reset();
       }
     }
 
