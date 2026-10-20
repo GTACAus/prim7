@@ -125,16 +125,6 @@
         ]
       },
       {
-        id: "mission-3",
-        title: "Drawing Practice",
-        stages: [
-          { id: "m3-rules", label: "General rules for scientific drawings", type: "checklist" },
-          { id: "m3-recreate", label: "Recreate the experiment", type: "item-match" },
-          { id: "m3-experiment-setup", label: "Camera shutter", type: "read" },
-          { id: "m3-dragdrop-legacy", label: "Recreate the experiment (drag and drop)", type: "dragdrop" }
-        ]
-      },
-      {
         id: "mission-4",
         title: "Shallow-Water Camera Trials",
         stages: [
@@ -249,23 +239,9 @@
 
     let expeditionState = createFreshExpeditionState();
     let m4BatfishDragDrop = null; /* Mission 4 guided batfish labelling */
-    let m3LegacyDragDrop = null; /* Mission 3 experiment diagram - original drag-and-drop version, kept as a spare stage */
     let m2DiagramLabel = null; /* Mission 2 - label the completed rust diagram */
-    let m3ItemMatch = null; /* Mission 3 experiment item-match */
     let m2RustSymbolMatch = null; /* Mission 2 scientific-symbol item-match */
     let m2RustSymbolMatchTest = null; /* Mission 2 scientific-symbol item-match (TEST: per-round option sets + diagram) */
-
-    /* Pool of 8 items; each play-through matches 3, picked in a random order. */
-    const ITEM_MATCH_ITEMS = [
-      { id: "jug", label: "Jug" },
-      { id: "bottle", label: "Bottle" },
-      { id: "balloon", label: "Balloon" },
-      { id: "spoon", label: "Spoon" },
-      { id: "nail", label: "Iron nail" },
-      { id: "steel_wool", label: "Steel wool" },
-      { id: "jar", label: "Jar" },
-      { id: "funnel", label: "Funnel" }
-    ];
 
     /* Fixed sequence of 4 parts, always shown in this order. */
     const RUST_SYMBOL_ITEMS = [
@@ -294,38 +270,6 @@
         alt: "Jar lid on the rust experiment"
       },
     ];
-
-    function isItemMatchComplete() {
-      return Boolean(m3ItemMatch) && m3ItemMatch.isComplete();
-    }
-
-    function getItemMatchState() {
-      return m3ItemMatch ? m3ItemMatch.getState() : { index: 0, total: 0 };
-    }
-
-    function resetItemMatch() {
-      if (m3ItemMatch) m3ItemMatch.reset();
-    }
-
-    function initItemMatchActivity() {
-      const root = document.getElementById("m3ItemMatch");
-      if (!root) return;
-
-      m3ItemMatch = new ItemMatchActivity(root, {
-        items: ITEM_MATCH_ITEMS,
-        sequenceLength: 3,
-        randomise: true,
-        completeMessage: "All three items matched. Press CHECK to continue.",
-        getImageSrc: function(round) { return "../images/lesson5/mission3/" + round.id + ".png"; },
-        onChange: function(state) {
-          expeditionState.selections.itemMatch = { rounds: state.roundIds, index: state.index };
-          clearCurrentStageFeedback();
-          saveCurrentPageData();
-          renderControls();
-        }
-      });
-      m3ItemMatch.restore(expeditionState.selections.itemMatch);
-    }
 
     function isRustSymbolMatchComplete() {
       return Boolean(m2RustSymbolMatch) && m2RustSymbolMatch.isComplete();
@@ -724,16 +668,14 @@
         currentMissionIndex: 0,
         currentStageIndex: 0,
         unlockedMissionIndex: 0,
-        unlockedStageIndices: [0, 0, 0, 0, 0],
-        completedMissions: [false, false, false, false, false],
+        unlockedStageIndices: [0, 0, 0, 0],
+        completedMissions: [false, false, false, false],
         completedStages: {},
         selections: {
           diagramExample: "",
-          itemMatch: null,
           rustSymbolMatch: { index: 0 },
           rustSymbolMatchTest: { index: 0 },
           rustScientificDrawing: "",
-          dragDropLegacy: {},
           diagramLabels: {},
           drawing: "",
           shallowFish1: "",
@@ -742,7 +684,6 @@
           batfishLabels: {},
           frogfishLabels: {},
           species: "",
-          drawingRules: [],
           observations: []
         },
         mission5: {
@@ -867,18 +808,6 @@
       renderControls();
     }
 
-    function syncDrawingRules() {
-      expeditionState.selections.drawingRules = Array.from(
-        document.querySelectorAll('#drawingRules input[type="checkbox"]:checked')
-      ).map(function(input) {
-        return input.value;
-      });
-
-      clearCurrentStageFeedback();
-      saveCurrentPageData();
-      renderControls();
-    }
-
     function toggleObservationChip(button) {
       const label = button.textContent.trim();
       const observations = expeditionState.selections.observations;
@@ -947,8 +876,8 @@
 
       /* If a student changes a submitted answer, require CHECK again before NEXT. */
       expeditionState.completedStages["m4-frogfish-labels"] = false;
-      if (expeditionState.currentMissionIndex === 3) {
-        expeditionState.completedMissions[3] = false;
+      if (expeditionState.currentMissionIndex === 2) {
+        expeditionState.completedMissions[2] = false;
       }
 
       clearCurrentStageFeedback();
@@ -1016,18 +945,7 @@
         return allFrogfishLabelsComplete();
       }
 
-      if (stage.type === "checklist") {
-        const allChecked = Array.from(document.querySelectorAll('#drawingRules input[type="checkbox"]'))
-          .every(function(checkbox) {
-            return checkbox.checked;
-          });
-        return allChecked;
-      }
-
       if (stage.type === "dragdrop") {
-        if (stage.id === "m3-dragdrop-legacy") {
-          return Boolean(m3LegacyDragDrop) && m3LegacyDragDrop.isComplete() && m3LegacyDragDrop.isCorrect();
-        }
         if (stage.id === "m2-drag-and-drop") {
           return Boolean(m2DiagramLabel) && m2DiagramLabel.isComplete() && m2DiagramLabel.isCorrect();
         }
@@ -1035,11 +953,7 @@
       }
 
       if (stage.type === "item-match") {
-        if (stage.id === "m2-symbol-match") {
-          return isRustSymbolMatchTestComplete();
-        }
-
-        return isItemMatchComplete();
+        return isRustSymbolMatchTestComplete();
       }
 
       if (stage.type === "observations") {
@@ -1116,14 +1030,8 @@
           message = stage.tryAgainMessage;
         } else if (stage.type === "choice") {
           message = "That does not match the current scientific criteria. Review the options and try again.";
-        } else if (stage.type === "checklist") {
-          message = "Review all five scientific-drawing rules and tick each one before continuing.";
         } else if (stage.type === "dragdrop") {
-          if (stage.id === "m3-dragdrop-legacy") {
-            message = m3LegacyDragDrop && m3LegacyDragDrop.isComplete()
-              ? "Some symbols are in the wrong place. Compare your diagram with the experiment and try again."
-              : "Drag every equipment symbol into the diagram box before checking.";
-          } else if (stage.id === "m2-drag-and-drop") {
+          if (stage.id === "m2-drag-and-drop") {
             message = m2DiagramLabel && m2DiagramLabel.isComplete()
               ? "Some labels are on the wrong part of the diagram. Follow each line back to its part and try again."
               : "Drag every label to the end of its line before checking.";
@@ -1294,7 +1202,7 @@
     // Clear final completion if an earlier Mission 5 stage is reset.
     if (stage.id === "m5-finale" || stage.id === "m5-identify") {
       expeditionState.completedStages["m5-field-guide"] = false;
-      expeditionState.completedMissions[4] = false;
+      expeditionState.completedMissions[3] = false;
     }
     // END OF NEW POKEDEX CHECK AND RESET
 
@@ -1322,15 +1230,8 @@
         expeditionState.selections.frogfishLabels = {};
       }
 
-      if (stage.type === "checklist") {
-        expeditionState.selections.drawingRules = [];
-      }
-
       if (stage.type === "dragdrop") {
-        if (stage.id === "m3-dragdrop-legacy") {
-          expeditionState.selections.dragDropLegacy = {};
-          if (m3LegacyDragDrop) m3LegacyDragDrop.reset();
-        } else if (stage.id === "m2-drag-and-drop") {
+        if (stage.id === "m2-drag-and-drop") {
           expeditionState.selections.diagramLabels = {};
           if (m2DiagramLabel) m2DiagramLabel.reset();
         } else {
@@ -1340,11 +1241,7 @@
       }
 
       if (stage.type === "item-match") {
-        if (stage.id === "m2-symbol-match") {
-          resetRustSymbolMatchTest();
-        } else {
-          resetItemMatch();
-        }
+        resetRustSymbolMatchTest();
       }
 
       if (stage.type === "observations") {
@@ -1801,10 +1698,10 @@
         getCurrentStage()?.id === "m5-field-guide" &&
         expeditionState.completedStages["m5-identify"] &&
         (!expeditionState.completedStages["m5-field-guide"] ||
-        !expeditionState.completedMissions[4])
+        !expeditionState.completedMissions[3])
       ) {
         expeditionState.completedStages["m5-field-guide"] = true;
-        expeditionState.completedMissions[4] = true;
+        expeditionState.completedMissions[3] = true;
         saveCurrentPageData();
       }
       // END OF NEW POKEDEX CHECK AND RESET - ONCE REACH FIELD GUIDE, CONSIDER EXPIDITION COMPLETE
@@ -1919,13 +1816,21 @@
       });
     }
 
-    /* Builds the Science Check panel from the Mission 3 checklist: same rule text, all ticked, disabled (visual only). */
-    function populateSciencePanelFromChecklist() {
+    /* Rules shown in the Science Check panel (visual reference only). */
+    const SCIENCE_CHECK_RULES = [
+      "Use clear, simple lines",
+      "Draw main features only",
+      "Limited or no shading",
+      "Include clear labels"
+    ];
+
+    /* Builds the Science Check panel from the rules above. */
+    function populateSciencePanel() {
       const list = document.getElementById("checkpointList");
       if (!list) return;
 
       list.innerHTML = "";
-      document.querySelectorAll("#drawingRules .rule-card strong").forEach(function(ruleTitle) {
+      SCIENCE_CHECK_RULES.forEach(function(ruleText) {
         const label = document.createElement("label");
         label.className = "checkpoint";
 
@@ -1934,7 +1839,7 @@
         // input.checked = true;
 
         label.appendChild(input);
-        label.appendChild(document.createTextNode(" " + ruleTitle.textContent.trim()));
+        label.appendChild(document.createTextNode(" " + ruleText));
         list.appendChild(label);
       });
     }
@@ -1964,10 +1869,6 @@
         });
       });
 
-      document.querySelectorAll('#drawingRules input[type="checkbox"]').forEach(function(input) {
-        input.checked = expeditionState.selections.drawingRules.includes(input.value);
-      });
-
     }
 
     function showM4FishPreview(button) {
@@ -1991,17 +1892,15 @@
 
     function stageHasInput(stage) {
       if (!stage) return false;
-      if (stage.type === "read" || stage.type === "checklist") return true;
+      if (stage.type === "read") return true;
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
       if (stage.type === "label-input") return allFrogfishLabelsComplete();
       if (stage.type === "dragdrop") {
-        if (stage.id === "m3-dragdrop-legacy") return Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0;
         if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
         return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
       if (stage.type === "item-match") {
-        if (stage.id === "m2-symbol-match") return isRustSymbolMatchTestComplete();
-        return isItemMatchComplete();
+        return isRustSymbolMatchTestComplete();
       }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
@@ -2017,17 +1916,14 @@
     function stageHasResettableInput(stage) {
       if (!stage) return false;
       if (stage.type === "read") return Boolean(expeditionState.completedStages[stage.id]);
-      if (stage.type === "checklist") return expeditionState.selections.drawingRules.length > 0;
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
       if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
       if (stage.type === "dragdrop") {
-        if (stage.id === "m3-dragdrop-legacy") return Object.keys(expeditionState.selections.dragDropLegacy || {}).length > 0;
         if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
         return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
       }
       if (stage.type === "item-match") {
-        if (stage.id === "m2-symbol-match") return getRustSymbolMatchTestState().index > 0;
-        return getItemMatchState().index > 0;
+        return getRustSymbolMatchTestState().index > 0;
       }
       if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
       if (stage.type === "finale") {
@@ -2254,7 +2150,6 @@
     const sectionIds = [
       { id: "mission-1", label: "Briefing" },
       { id: "mission-2", label: "Rust Investigation" },
-      { id: "mission-3", label: "Experiment Set-Up" },
       { id: "mission-4", label: "Shallow-Water Camera Trials" },
       { id: "mission-5", label: "Unknown Species Detected" }
     ];
@@ -2364,29 +2259,11 @@
         });
       });
 
-      document.querySelectorAll('#drawingRules input[type="checkbox"]').forEach(function(input) {
-        input.addEventListener("change", syncDrawingRules);
-      });
+      populateSciencePanel();
 
-      populateSciencePanelFromChecklist();
-
-      initItemMatchActivity();
       initRustSymbolMatchActivity();
       initRustSymbolMatchTestActivity();
       initDiagramLabelActivity();
-
-      const legacyDragDropRoot = document.getElementById("m3DragDropLegacy");
-      if (legacyDragDropRoot) {
-        m3LegacyDragDrop = new DragDropActivity(legacyDragDropRoot, {
-          onChange: function(placements) {
-            expeditionState.selections.dragDropLegacy = placements;
-            clearCurrentStageFeedback();
-            saveCurrentPageData();
-            renderControls();
-          }
-        });
-        m3LegacyDragDrop.setPlacements(expeditionState.selections.dragDropLegacy);
-      }
 
       const batfishDragDropRoot = document.getElementById("m4BatfishDragDrop");
       if (batfishDragDropRoot) {
