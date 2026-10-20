@@ -1347,34 +1347,6 @@
       </section>
 
 
-<!-- Lesson 3 inline video panel for data-entry videos -->
-<div
-  class="video-dropdown-panel"
-  id="lesson3VideoPanel"
-  hidden
->
-  <div class="video-dropdown-header">
-    <h2 id="lesson3VideoTitle">Video guide</h2>
-
-    <button
-      type="button"
-      class="close-button"
-      onclick="closeLesson3Video()"
-      aria-label="Close video"
-    >
-      ×
-    </button>
-  </div>
-
-  <video
-    id="lesson3VideoPlayer"
-    class="video-modal-player"
-    controls
-    preload="metadata"
-  >
-    Your browser does not support video playback.
-  </video>
-</div>
 
       <div class="return-to-top">
         <a class="return-to-top-button general-button" href="#">
@@ -1432,48 +1404,8 @@
     <script>
       /* ==================================================
        YEAST TEST VIDEOS
+       The video itself is shown by the shared openVideoModal() (common_functions.js).
        ================================================== */
-
-      function openLesson3Video(button, videoSource, videoTitle) {
-        const panel = document.getElementById("lesson3VideoPanel");
-        const player = document.getElementById("lesson3VideoPlayer");
-        const title = document.getElementById("lesson3VideoTitle");
-
-        if (!panel || !player || !button) return;
-
-        player.pause();
-        player.src = videoSource;
-
-        if (title) {
-          title.textContent = videoTitle || "Video guide";
-        }
-
-        const videoGroup = button.closest(".yeast-results-video-grid");
-
-        if (videoGroup) {
-          videoGroup.insertAdjacentElement("afterend", panel);
-        } else {
-          button.insertAdjacentElement("afterend", panel);
-        }
-
-        panel.hidden = false;
-        player.load();
-
-        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-
-      function closeLesson3Video() {
-        const panel = document.getElementById("lesson3VideoPanel");
-        const player = document.getElementById("lesson3VideoPlayer");
-
-        if (!panel || !player) return;
-
-        player.pause();
-        player.removeAttribute("src");
-        player.load();
-
-        panel.hidden = true;
-      }
 
       function openYeastRecordVideo(button, videoPath, videoTitle, testNumber) {
         document.getElementById("yeast-labels").classList.add("test-" + testNumber + "-ready");
@@ -1486,7 +1418,7 @@
           label.textContent = "Test " + testNumber + " ✓";
         }
 
-        openLesson3Video(button, videoPath, videoTitle);
+        openVideoModal(videoPath, videoTitle);
       }
 
       /* ==================================================
@@ -1575,7 +1507,6 @@
 
       function checkYeastActivityComplete() {
         const feedback = document.getElementById("yeastLabelFeedback");
-        const stopAndCheck = document.getElementById("yeastLabelsStopAndCheck");
 
         if (!yeastResultsActivity) return;
 
@@ -1611,8 +1542,6 @@
           feedback.innerHTML =
             "<strong>Results recorded!</strong>" +
             "<span>All of your measurements are correct.</span>";
-
-          // stopAndCheck.hidden = false;
 
           document.getElementById("labelsCompleteAfterContainer").scrollIntoView({
             behavior: "smooth",
