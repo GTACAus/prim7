@@ -1260,24 +1260,11 @@
 
       </main>
       <script src="../scripts/common_functions.js"></script>
-      <script src="../scripts/activities/activity-base.js"></script>
-      <script src="../scripts/activities/activity-sections.js"></script>
-      <script src="../scripts/activities/prediction-table-activity.js"></script>
-      <script src="../scripts/activities/multiple-choice-activity.js"></script>
-      <script src="../scripts/lesson1_scripts/flashcards-activity.js"></script>
-      <script>
-        const dev = true;
-        if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
-
-        const lesson1SectionIds = [
-          { id: "observe-experiment", label: "Observe the experiment" },
-          { id: "testable-question-intro", label: "What is a testable question?" },
-          { id: "flashcards", label: "Testable or non-testable?" },
-          { id: "testable-questions", label: "Write testable questions" },
-          { id: "reasoned-prediction", label: "Writing a reasoned prediction" },
-          { id: "reasoned-builder", label: "Build a reasoned prediction" },
-          { id: "testing-predictions", label: "Test reasoned predictions" },
-        ];
+      <script type="module">
+        import { initSectionActivitiesIn } from "../scripts/activities/activity-sections.js";
+        import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
+        import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
+        import { FlashcardsActivity } from "../scripts/lesson1_scripts/flashcards-activity.js";
 
         let reasonedPredictionActivity = null;
         let testingPredictionsActivity = null;
@@ -1324,12 +1311,22 @@
           });
         }
 
+        const DEV_MODE = false;
+        if (DEV_MODE) window.addEventListener("DOMContentLoaded", teacherShowAll);
+
+        const sectionIds = [
+          { id: "observe-experiment", label: "Observe the experiment" },
+          { id: "testable-question-intro", label: "What is a testable question?" },
+          { id: "flashcards", label: "Testable or non-testable?" },
+          { id: "testable-questions", label: "Write testable questions" },
+          { id: "reasoned-prediction", label: "Writing a reasoned prediction" },
+          { id: "reasoned-builder", label: "Build a reasoned prediction" },
+          { id: "testing-predictions", label: "Test reasoned predictions" },
+        ];
+
         document.addEventListener("DOMContentLoaded", function() {
           if (typeof initialiseTeacherMenu === "function") {
-            initialiseTeacherMenu(
-              lesson1SectionIds,
-              "observe-experiment"
-            );
+            initialiseTeacherMenu(sectionIds, sectionIds[0].id);
           }
 
           initialisePredictionTable();

@@ -1011,11 +1011,11 @@
 
         <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
         <script src="../scripts/common_functions.js"></script>
-        <script src="../scripts/lesson_progress.js"></script>
-        <script src="../scripts/activities/activity-base.js"></script>
-        <script src="../scripts/activities/investigation-question-activity.js"></script>
-        <script src="../scripts/activities/prediction-table-activity.js"></script>
-        <script>
+        <script type="module" src="../scripts/lesson_progress.js"></script>
+        <script type="module">
+          import { InvestigationQuestionActivity } from "../scripts/activities/investigation-question-activity.js";
+          import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
+
             /* ==================================================
                VIDEO PANEL
                ================================================== */
@@ -1388,6 +1388,9 @@
                 initialiseBallBounceQuestionAndPrediction();
                 initialisePredictionCheck();
             });
+
+          /* Called from inline handlers / shared scripts, which cannot see module scope. */
+          Object.assign(window, { openLesson3Video, closeLesson3Video, ballBounceRepeatStopAndCheck, calculateInputAverage, resetBallBounceTable });
         </script>
     </body>
 </html>

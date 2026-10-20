@@ -82,136 +82,135 @@
    every question back to unanswered.
    ================================================== */
 
-(function (global) {
-  "use strict";
+import { Activity } from "./activity-base.js";
 
-  var DEFAULT_CLASSES = {
-    selected: "selected-answer",
-    correct: "correct-answer",
-    incorrect: "incorrect-answer",
-    feedbackCorrect: "feedback-correct",
-    feedbackIncorrect: "feedback-incorrect",
-    feedbackTitle: "mc-feedback-title",
-    feedbackText: "mc-feedback-text"
-  };
+var DEFAULT_CLASSES = {
+  selected: "selected-answer",
+  correct: "correct-answer",
+  incorrect: "incorrect-answer",
+  feedbackCorrect: "feedback-correct",
+  feedbackIncorrect: "feedback-incorrect",
+  feedbackTitle: "mc-feedback-title",
+  feedbackText: "mc-feedback-text"
+};
 
-  function MultipleChoiceActivity(root, options) {
-    Activity.call(this, root, options);
+function MultipleChoiceActivity(root, options) {
+  Activity.call(this, root, options);
 
-    var self = this;
-    this.classes = Object.assign({}, DEFAULT_CLASSES, this.options.classes || {});
+  var self = this;
+  this.classes = Object.assign({}, DEFAULT_CLASSES, this.options.classes || {});
 
-    this.questions = Array.prototype.map.call(root.querySelectorAll("[data-mc-question]"), function (element) {
-      return {
-        element: element,
-        answer: element.dataset.mcAnswer,
-        choices: element.querySelectorAll("[data-mc-choice]"),
-        feedback: element.querySelector("[data-mc-feedback]")
-      };
+  this.questions = Array.prototype.map.call(root.querySelectorAll("[data-mc-question]"), function (element) {
+    return {
+      element: element,
+      answer: element.dataset.mcAnswer,
+      choices: element.querySelectorAll("[data-mc-choice]"),
+      feedback: element.querySelector("[data-mc-feedback]")
+    };
+  });
+
+  this.questions.forEach(function (question) {
+    Array.prototype.forEach.call(question.choices, function (choice) {
+      choice.setAttribute("aria-pressed", "false");
+      choice.addEventListener("click", function () { self._selectChoice(question, choice); });
     });
+  });
 
-    this.questions.forEach(function (question) {
-      Array.prototype.forEach.call(question.choices, function (choice) {
-        choice.setAttribute("aria-pressed", "false");
-        choice.addEventListener("click", function () { self._selectChoice(question, choice); });
-      });
-    });
+  this.setComplete(this.isComplete());
+}
 
-    this.setComplete(this.isComplete());
+MultipleChoiceActivity.prototype = Object.create(Activity.prototype);
+MultipleChoiceActivity.prototype.constructor = MultipleChoiceActivity;
+
+/* ---------- public API ---------- */
+
+MultipleChoiceActivity.prototype.isComplete = function () {
+  if (!this.questions.length) return false;
+  var live = this.options.completionMode === "live";
+  return this.questions.every(function (question) {
+    return live ? question.element.dataset.mcLastCorrect === "true" : question.element.dataset.mcCorrect === "true";
+  });
+};
+
+MultipleChoiceActivity.prototype.reset = function () {
+  var self = this;
+
+  this.questions.forEach(function (question) {
+    delete question.element.dataset.mcCorrect;
+    delete question.element.dataset.mcLastCorrect;
+
+    Array.prototype.forEach.call(question.choices, function (choice) { self._clearChoiceVisuals(choice); });
+
+    if (question.feedback) {
+      question.feedback.hidden = true;
+      question.feedback.textContent = "";
+      question.feedback.classList.remove(self.classes.feedbackCorrect, self.classes.feedbackIncorrect);
+    }
+  });
+
+  this.setComplete(false);
+};
+
+/* ---------- internals ---------- */
+
+MultipleChoiceActivity.prototype._clearChoiceVisuals = function (choice) {
+  var c = this.classes;
+  choice.classList.remove(c.selected, c.correct, c.incorrect);
+  choice.setAttribute("aria-pressed", "false");
+
+  var ownFeedback = choice.querySelector("[data-mc-choice-feedback]");
+  if (ownFeedback) {
+    ownFeedback.innerHTML = "";
+    ownFeedback.classList.remove(c.feedbackCorrect, c.feedbackIncorrect);
+  }
+};
+
+MultipleChoiceActivity.prototype._showFeedback = function (question, choice, isCorrect) {
+  var c = this.classes;
+  var ownFeedback = choice.querySelector("[data-mc-choice-feedback]");
+
+  if (ownFeedback) {
+    var title = choice.dataset.feedbackTitle;
+    var body = choice.dataset.feedback || "";
+
+    ownFeedback.innerHTML =
+      (title ? '<strong class="' + c.feedbackTitle + '">' + title + "</strong>" : "") +
+      '<span class="' + c.feedbackText + '">' + body + "</span>";
+
+    ownFeedback.classList.add(isCorrect ? c.feedbackCorrect : c.feedbackIncorrect);
+    return;
   }
 
-  MultipleChoiceActivity.prototype = Object.create(Activity.prototype);
-  MultipleChoiceActivity.prototype.constructor = MultipleChoiceActivity;
+  if (!question.feedback) return;
 
-  /* ---------- public API ---------- */
+  question.feedback.hidden = false;
+  question.feedback.classList.remove(c.feedbackCorrect, c.feedbackIncorrect);
+  question.feedback.classList.add(isCorrect ? c.feedbackCorrect : c.feedbackIncorrect);
+  question.feedback.textContent = isCorrect
+    ? (question.feedback.dataset.correctText || "")
+    : (question.feedback.dataset.incorrectText || "");
+};
 
-  MultipleChoiceActivity.prototype.isComplete = function () {
-    if (!this.questions.length) return false;
-    var live = this.options.completionMode === "live";
-    return this.questions.every(function (question) {
-      return live ? question.element.dataset.mcLastCorrect === "true" : question.element.dataset.mcCorrect === "true";
-    });
-  };
+MultipleChoiceActivity.prototype._selectChoice = function (question, choice) {
+  var self = this;
+  var isCorrect = choice.dataset.mcChoice === question.answer;
 
-  MultipleChoiceActivity.prototype.reset = function () {
-    var self = this;
+  Array.prototype.forEach.call(question.choices, function (other) { self._clearChoiceVisuals(other); });
 
-    this.questions.forEach(function (question) {
-      delete question.element.dataset.mcCorrect;
-      delete question.element.dataset.mcLastCorrect;
+  choice.classList.add(this.classes.selected, isCorrect ? this.classes.correct : this.classes.incorrect);
+  choice.setAttribute("aria-pressed", "true");
 
-      Array.prototype.forEach.call(question.choices, function (choice) { self._clearChoiceVisuals(choice); });
+  this._showFeedback(question, choice, isCorrect);
 
-      if (question.feedback) {
-        question.feedback.hidden = true;
-        question.feedback.textContent = "";
-        question.feedback.classList.remove(self.classes.feedbackCorrect, self.classes.feedbackIncorrect);
-      }
-    });
+  if (isCorrect) question.element.dataset.mcCorrect = "true";
+  question.element.dataset.mcLastCorrect = String(isCorrect);
 
-    this.setComplete(false);
-  };
+  var detail = { question: question.element, choice: choice, value: choice.dataset.mcChoice, correct: isCorrect };
+  if (typeof this.options.onAnswer === "function") this.options.onAnswer(detail);
+  question.element.dispatchEvent(new CustomEvent("mc:answer", { detail: detail, bubbles: true }));
 
-  /* ---------- internals ---------- */
+  this.setComplete(this.isComplete());
+};
 
-  MultipleChoiceActivity.prototype._clearChoiceVisuals = function (choice) {
-    var c = this.classes;
-    choice.classList.remove(c.selected, c.correct, c.incorrect);
-    choice.setAttribute("aria-pressed", "false");
 
-    var ownFeedback = choice.querySelector("[data-mc-choice-feedback]");
-    if (ownFeedback) {
-      ownFeedback.innerHTML = "";
-      ownFeedback.classList.remove(c.feedbackCorrect, c.feedbackIncorrect);
-    }
-  };
-
-  MultipleChoiceActivity.prototype._showFeedback = function (question, choice, isCorrect) {
-    var c = this.classes;
-    var ownFeedback = choice.querySelector("[data-mc-choice-feedback]");
-
-    if (ownFeedback) {
-      var title = choice.dataset.feedbackTitle;
-      var body = choice.dataset.feedback || "";
-
-      ownFeedback.innerHTML =
-        (title ? '<strong class="' + c.feedbackTitle + '">' + title + "</strong>" : "") +
-        '<span class="' + c.feedbackText + '">' + body + "</span>";
-
-      ownFeedback.classList.add(isCorrect ? c.feedbackCorrect : c.feedbackIncorrect);
-      return;
-    }
-
-    if (!question.feedback) return;
-
-    question.feedback.hidden = false;
-    question.feedback.classList.remove(c.feedbackCorrect, c.feedbackIncorrect);
-    question.feedback.classList.add(isCorrect ? c.feedbackCorrect : c.feedbackIncorrect);
-    question.feedback.textContent = isCorrect
-      ? (question.feedback.dataset.correctText || "")
-      : (question.feedback.dataset.incorrectText || "");
-  };
-
-  MultipleChoiceActivity.prototype._selectChoice = function (question, choice) {
-    var self = this;
-    var isCorrect = choice.dataset.mcChoice === question.answer;
-
-    Array.prototype.forEach.call(question.choices, function (other) { self._clearChoiceVisuals(other); });
-
-    choice.classList.add(this.classes.selected, isCorrect ? this.classes.correct : this.classes.incorrect);
-    choice.setAttribute("aria-pressed", "true");
-
-    this._showFeedback(question, choice, isCorrect);
-
-    if (isCorrect) question.element.dataset.mcCorrect = "true";
-    question.element.dataset.mcLastCorrect = String(isCorrect);
-
-    var detail = { question: question.element, choice: choice, value: choice.dataset.mcChoice, correct: isCorrect };
-    if (typeof this.options.onAnswer === "function") this.options.onAnswer(detail);
-    question.element.dispatchEvent(new CustomEvent("mc:answer", { detail: detail, bubbles: true }));
-
-    this.setComplete(this.isComplete());
-  };
-
-  global.MultipleChoiceActivity = MultipleChoiceActivity;
-})(window);
+export { MultipleChoiceActivity };
