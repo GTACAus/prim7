@@ -210,14 +210,14 @@
     const shallowGuideSpecies = [
       { id: "clownfish", ext: "png", name: "Clownfish", note: "Lives among sea anemones on shallow coral reefs." },
       { id: "parrotfish", ext: "jpg", name: "Parrotfish", note: "Uses its beak-like teeth to scrape algae from reefs." },
-      { id: "butterflyfish", ext: "png", name: "Butterflyfish", note: "Its flattened body helps it swim around coral." },
-      { id: "blue-tang", ext: "png", name: "Blue Tang", note: "Lives on coral reefs and has a sharp spine near its tail." }
+      { id: "butterflyfish", ext: "jpg", name: "Butterflyfish", note: "Its flattened body helps it swim around coral." },
+      { id: "bluetang", ext: "jpg", name: "Blue Tang", note: "Lives on coral reefs and has a sharp spine near its tail." }
     ];
 
     const travellerGuideSpecies = [
       { id: "lanternfish", ext: "png", name: "Lanternfish", note: "Many move towards the surface at night to feed." },
       { id: "humboldt-squid", ext: "png", name: "Humboldt Squid", note: "Often travels between deep and shallow water." },
-      { id: "ocean-sunfish", ext: "png", name: "Ocean Sunfish", note: "Visits the surface but also dives hundreds of metres." }
+      { id: "sunfish", ext: "png", name: "Ocean Sunfish", note: "Visits the surface but also dives hundreds of metres." }
     ];
 
     const guideGroups = [
