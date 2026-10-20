@@ -2345,10 +2345,10 @@
         panel.querySelector("img").alt = fish.name;
         panel.querySelector("h4").textContent = fish.name;
         panel.querySelector("p").textContent = fish.guideText || fish.note || "Information coming soon.";
-      });
         //NEW POKEDEX CHECK AND RESET LINE
         renderControls(); //END POKEDEX CHECK AND RESET LINE
-
+      });
+      
       // END OF THE NEW POKEDEX FUNCTION
 
       document.querySelectorAll(".mission-button").forEach(function(button) {
