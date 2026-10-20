@@ -18,12 +18,31 @@
      - Student answer helpers
    ================================================== */
 
+/*
+  Unlock the section after the current one.
+
+  currentSectionId may be a section id or the section element itself.
+  nextSectionId is optional: pass null/undefined to unlock whichever
+  .section follows the current one in the page. Existing calls that
+  pass both ids behave exactly as before.
+*/
 function unlockSection(nextSectionId, currentSectionId) {
-  const nextSection = document.getElementById(nextSectionId);
-  const currentSection = document.getElementById(currentSectionId);
+  const currentSection = typeof currentSectionId === 'string'
+    ? document.getElementById(currentSectionId)
+    : currentSectionId;
+
+  let nextSection;
+  if (nextSectionId) {
+    nextSection = document.getElementById(nextSectionId);
+  } else if (currentSection) {
+    const sections = Array.from(document.querySelectorAll('.section'));
+    nextSection = sections[sections.indexOf(currentSection) + 1];
+  }
+
+  if (currentSection) currentSection.classList.add('completed');
+  if (!nextSection) return;
 
   nextSection.classList.remove('locked');
-  currentSection.classList.add('completed');
 
   setTimeout(() => {
     nextSection.scrollIntoView({

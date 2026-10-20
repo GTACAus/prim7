@@ -28,7 +28,8 @@
   --dd-slot-hover-bg: rgba(57, 211, 255, 0.28);
   --dd-slot-hover-scale: 1.03;
   --dd-item-dragging-opacity: 0.3;
-  --dd-selected-ring: 0 0 0 4px rgba(57, 211, 255, 0.45);
+  --dd-selected-ring: 0 0 0 4px rgba(252, 255, 57, 0.596);
+  --dd-selected-background: inherit;
   --dd-ghost-scale: 1.08;
   --dd-ghost-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
   --dd-ghost-z: 10000;
@@ -91,7 +92,8 @@
 }
 
 :where([data-dd-item].dd-selected) {
-  box-shadow: var(--dd-selected-ring);
+  box-shadow: var(--dd-selected-ring) !important;
+  background: var(--dd-selected-background) !important;
 }
 
 :where([data-dd-item].dd-dragging) {
@@ -104,8 +106,8 @@
 
 /* Heading generated from the tray's data-dd-tray-heading attribute. */
 :where(.dd-tray-heading) {
-  flex: 0 0 100%; /* own row when the tray is a wrapping flex row */
-  margin: 0 0 0.7rem;
+  flex-basis: 100%; /* own row when the tray is a wrapping flex row */
+  margin: 0;
   font-weight: 800;
   text-align: center;
 }

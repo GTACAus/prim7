@@ -705,7 +705,7 @@ Use your detective skills to make <strong>observations</strong> and come up with
   <script src="../scripts/common_functions.js"></script>
   <script src="../scripts/activities/activity-base.js"></script>
   <script src="../scripts/activities/activity-sections.js"></script>
-  <script src="../scripts/activities/text-response-activity.js"></script>
+  <script src="../scripts/activities/input-response-activity.js"></script>
   <script src="../scripts/activities/drag-drop-activity.js"></script>
   <script>
 
@@ -796,19 +796,19 @@ Use your detective skills to make <strong>observations</strong> and come up with
   function initTextResponseActivities() {
     const watchRoot = document.getElementById('watchStwActivity');
     if (watchRoot) {
-      watchStwActivity = new TextResponseActivity(watchRoot, {
+      watchStwActivity = new InputResponseActivity(watchRoot, {
         onChange: function() { schedulePretaskSave(); }
       });
     }
 
     const brainstormRoot = document.getElementById('brainstormActivity');
     if (brainstormRoot) {
-      brainstormActivity = new TextResponseActivity(brainstormRoot);
+      brainstormActivity = new InputResponseActivity(brainstormRoot);
     }
 
     const finalBrainstormRoot = document.getElementById('finalBrainstormActivity');
     if (finalBrainstormRoot) {
-      finalBrainstormActivity = new TextResponseActivity(finalBrainstormRoot);
+      finalBrainstormActivity = new InputResponseActivity(finalBrainstormRoot);
     }
   }
 

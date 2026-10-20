@@ -1,6 +1,7 @@
 /* ==================================================
    VARIABLE ACTIVITY
    Shared by Lesson 2 and Lesson 3
+   (design based on the Lesson 3 yeast variables activity)
    ================================================== */
 
 .variable-activity {
@@ -11,4 +12,284 @@
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.9),
     var(--shadow-small);
+}
+
+
+/* ---------- Testable question ---------- */
+
+.variable-question {
+  position: relative;
+
+  margin: 10px 0 18px;
+  padding: 28px 20px 16px;
+
+  background: var(--paper);
+
+  border: 2px solid var(--line);
+  border-top: 4px solid var(--blue);
+  border-radius: 16px;
+
+  color: var(--text);
+
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.variable-question::before {
+  content: "TESTABLE QUESTION";
+
+  background: var(--blue);
+}
+
+
+/* ---------- Variable type buttons ---------- */
+
+.variable-selection-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 12px;
+  margin-bottom: 14px;
+}
+
+.variable-mode-button {
+  padding: 10px 14px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 2px 0 var(--charcoal);
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.variable-mode-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 0 var(--charcoal);
+}
+
+.variable-mode-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.variable-mode-button.mode-active {
+  box-shadow: none;
+}
+
+.variable-mode-button.mode-active:hover {
+  transform: translateY(0);
+}
+
+.variable-mode-button:disabled,
+.variable-mode-button:disabled * {
+  cursor: default;
+  user-select: none;
+}
+
+.variable-mode-button:disabled:hover {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.variable-mode-title,
+.variable-mode-subtitle {
+  display: block;
+}
+
+.variable-mode-subtitle {
+  margin-top: 2px;
+
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.independent-mode-button {
+  border-top: 6px solid var(--yellow);
+}
+
+.dependent-mode-button {
+  border-top: 6px solid var(--purple);
+}
+
+.controlled-mode-button {
+  border-top: 6px solid var(--green);
+}
+
+
+/* ---------- Variable choices ---------- */
+
+.variable-tile-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.variable-tile {
+  flex: 0 1 calc(25% - 9px);
+
+  min-height: 82px;
+  padding: 14px;
+
+  background: white;
+  color: var(--text);
+
+  border: 2px solid var(--line);
+  border-radius: 16px;
+
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.variable-tile:hover {
+  transform: translateY(-3px);
+}
+
+.variable-tile.is-classified {
+  cursor: default;
+}
+
+.variable-tile.is-classified:hover {
+  transform: translateY(0);
+}
+
+.variable-tile-label {
+  display: block;
+}
+
+.variable-tile-type {
+  display: block;
+  margin-top: 5px;
+
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+
+/* ---------- Feedback ---------- */
+
+.variable-feedback {
+  margin-top: 18px;
+  padding: 14px 16px;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  border: 2px dashed var(--line);
+  border-radius: 16px;
+
+  color: var(--text);
+
+  font-weight: 700;
+  text-align: center;
+}
+
+.variable-feedback.feedback-success {
+  animation: pop-fade-in 0.5s ease-out;
+  background: var(--soft-green);
+  border-style: solid;
+}
+
+.variable-feedback.feedback-try-again {
+  background: var(--soft-orange);
+  border-style: solid;
+}
+
+#sortVariablesOneNext:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* ---------- Selected / completed colours ---------- */
+
+.independent-mode-button.mode-active,
+.independent-mode-button.mode-complete {
+  background: var(--soft-yellow);
+}
+
+.dependent-mode-button.mode-active,
+.dependent-mode-button.mode-complete {
+  background: var(--soft-purple);
+}
+
+.controlled-mode-button.mode-active,
+.controlled-mode-button.mode-complete {
+  background: var(--soft-green);
+}
+
+.variable-tile.is-independent {
+  background: var(--soft-yellow);
+  border-top: 6px solid var(--yellow);
+}
+
+.variable-tile.is-dependent {
+  background: var(--soft-purple);
+  border-top: 6px solid var(--purple);
+}
+
+.variable-tile.is-controlled {
+  background: var(--soft-green);
+  border-top: 6px solid var(--green);
+}
+
+
+/* ---------- Incorrect answer animation ---------- */
+
+@keyframes variableTileBuzz {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-6px);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+.variable-tile.buzz {
+  animation: variableTileBuzz 0.28s ease;
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+  .variable-tile {
+    flex-basis: calc(50% - 6px);
+  }
+}
+
+@media (max-width: 480px) {
+  .variable-tile {
+    flex-basis: 100%;
+  }
 }
