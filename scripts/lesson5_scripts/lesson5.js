@@ -1283,6 +1283,21 @@
       const stage = getCurrentStage();
       if (!mission || !stage) return;
 
+    // POKEDEX NEW CHECK AND RESET
+    if (stage.id === "m5-field-guide") {
+      const panel = document.getElementById("creaturePanel");
+      if (panel) panel.hidden = true;
+      renderControls();
+      return;
+    }
+
+    // Clear final completion if an earlier Mission 5 stage is reset.
+    if (stage.id === "m5-finale" || stage.id === "m5-identify") {
+      expeditionState.completedStages["m5-field-guide"] = false;
+      expeditionState.completedMissions[4] = false;
+    }
+    // END OF NEW POKEDEX CHECK AND RESET
+
       expeditionState.completedStages[stage.id] = false;
 
       if (expeditionState.currentStageIndex === mission.stages.length - 1) {
@@ -1779,6 +1794,21 @@
     }
 
     function renderExpedition() {
+
+      //NEW POKEDEX CHECK AND RESET - ONCE REACH FIELD GUIDE, CONSIDER EXPIDITION COMPLETE
+
+      if (
+        getCurrentStage()?.id === "m5-field-guide" &&
+        expeditionState.completedStages["m5-identify"] &&
+        (!expeditionState.completedStages["m5-field-guide"] ||
+        !expeditionState.completedMissions[4])
+      ) {
+        expeditionState.completedStages["m5-field-guide"] = true;
+        expeditionState.completedMissions[4] = true;
+        saveCurrentPageData();
+      }
+      // END OF NEW POKEDEX CHECK AND RESET - ONCE REACH FIELD GUIDE, CONSIDER EXPIDITION COMPLETE
+
       renderStage();
       renderMissionNavigation();
       renderSubstageNavigation();
@@ -2016,6 +2046,12 @@
       const nextButton = document.getElementById("nextButton");
       const status = document.getElementById("controlStatus");
 
+      //NEW POKEDEX CHECK AND RESET
+      checkButton.style.display = "";
+      nextButton.style.display = "";
+      resetButton.querySelector("span").textContent = "Reset";
+      //END OF NEW POKEDEX CHECK AND RESET
+
       if (!expeditionState.started) {
         checkButton.disabled = true; 
         resetButton.disabled = true;
@@ -2026,6 +2062,25 @@
 
       const mission = getCurrentMission();
       const stage = getCurrentStage();
+
+      //NEW POKEDEX CHECK AND RESET
+
+      if (stage.id === "m5-field-guide") {
+        checkButton.style.display = "none";
+        nextButton.style.display = "none";
+
+        resetButton.querySelector("span").textContent = "Close info";
+
+        resetButton.disabled =
+          document.getElementById("creaturePanel")?.hidden !== false;
+
+        status.innerHTML =
+          "<strong>Field guide.</strong> Select an animal to learn about its adaptations.";
+
+        return;
+      }
+      // END OF NEW POKEDEX CHECK AND RESET
+
       const completed = Boolean(stage && expeditionState.completedStages[stage.id]);
       const isLastStage = mission && expeditionState.currentStageIndex === mission.stages.length - 1;
       const isFinalMission = expeditionState.currentMissionIndex === missionConfig.length - 1;
@@ -2291,6 +2346,8 @@
         panel.querySelector("h4").textContent = fish.name;
         panel.querySelector("p").textContent = fish.guideText || fish.note || "Information coming soon.";
       });
+        //NEW POKEDEX CHECK AND RESET LINE
+        renderControls(); //END POKEDEX CHECK AND RESET LINE
 
       // END OF THE NEW POKEDEX FUNCTION
 
