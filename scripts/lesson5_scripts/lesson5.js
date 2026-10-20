@@ -209,7 +209,7 @@
     //EXTRA POKEDEX ENTRIES FOR SHALLOW AND INTERMEDIATE WATERS
     const shallowGuideSpecies = [
       { id: "clownfish", ext: "png", name: "Clownfish", note: "Lives among sea anemones on shallow coral reefs." },
-      { id: "parrotfish", ext: "png", name: "Parrotfish", note: "Uses its beak-like teeth to scrape algae from reefs." },
+      { id: "parrotfish", ext: "jpg", name: "Parrotfish", note: "Uses its beak-like teeth to scrape algae from reefs." },
       { id: "butterflyfish", ext: "png", name: "Butterflyfish", note: "Its flattened body helps it swim around coral." },
       { id: "blue-tang", ext: "png", name: "Blue Tang", note: "Lives on coral reefs and has a sharp spine near its tail." }
     ];
