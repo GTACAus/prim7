@@ -189,36 +189,172 @@
         static image     = ../images/lesson5/mission5/<id>.<ext>
         observation gif  = ../images/lesson5/mission5/animations/<id>.gif
     */
-    const MISSION5_OBSERVE_SECONDS = 5;
-    const mission5SpeciesPool = [ //GUIDETEXT ENTRY is for POKEDEX
-      { id: "goblin-shark-3", ext: "png", name: "Goblin Shark", note: "A rare shark recorded from about 270 m and deeper.", guideText: "Deep underwater, there is very little sunlight. The goblin shark's long snout has special sensors that detect tiny electrical signals made by other animals. This helps it find food even when it cannot see clearly. When it finds prey, its jaws can shoot forwards to catch it." },
-      { id: "dumbo-octopus-2", ext: "png", name: "Dumbo Octopus", note: "Lives at extreme depths, around 3,000–4,000 m in the current concept notes.", guideText: "Thousands of metres below the surface, water pressure is extremely high. The dumbo octopus has a soft body suited to life at these depths. It flaps its two ear-like fins to swim and uses the webbing between its arms to help it move through the water." },
-      { id: "sea-pig-2", ext: "png", name: "Sea Pig", note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper.", guideText: "A sea pig is actually a type of sea cucumber! It uses tube-like feet to walk across the muddy seafloor. Because food can be difficult to find at these depths, it feeds on tiny pieces of dead plants and animals that sink from the ocean above." },
-      { id: "sea-angel-2", ext: "png", name: "Sea Angel", note: "A tiny sea slug found in cold, deep polar waters.", guideText: "Sea angels are tiny sea slugs with almost transparent (see-through) bodies. Being transparent makes them harder for predators to spot. They swim by flapping two wing-like fins instead of crawling along the seafloor. Some sea angels live near the surface, while others are found much deeper." },
-      { id: "pink-seethrough-fantasia-2", ext: "png", name: "Pink Seethrough Fantasia", note: "A deep-sea sea cucumber recorded around 2,500 m in the Celebes Sea.", guideText: "The pink see-through fantasia is a swimming sea cucumber. Its transparent body lets us see some of its organs, including its digestive system! Wide flaps help it swim above the seafloor. When attacked, it can produce light and even shed glowing skin, which may help it escape predators." },
-      { id: "blobfish-2", ext: "png", name: "Blobfish", note: "Found at depths of roughly 600–1,200 m.", guideText: "Far below the surface, water pressure is extremely high. The blobfish has a soft, jelly-like body and no gas-filled swim bladder, an organ that helps many fish float. These features help it survive at great depths. Its famous droopy appearance mostly happens when it is brought to the surface." },
-      { id: "barreleye-fish-2", ext: "png", name: "Barreleye Fish", note: "Found at depths of roughly 400–2,500 m.", guideText: "The barreleye fish has a transparent head with two large green eyes inside! These eyes usually point upwards to spot the shadows of prey against the faint light above. They can also turn forwards when the fish feeds. Not all deep-sea fish have poor eyesight!" },
-      { id: "deepsea-anglerfish-2", ext: "png", name: "Deep-sea Anglerfish", note: "Found at depths of roughly 200–2,000 m.", guideText: "Many female deep-sea anglerfish have a glowing lure hanging from their heads like a fishing rod. This light, produced by special bacteria, attracts smaller animals towards their sharp teeth. Their dark skin also helps them hide. These adaptations are useful where there is almost no sunlight and food is difficult to find."},
-      { id: "flapjack-octopus-2", ext: "png", name: "Flapjack Octopus", note: "Found from roughly 100–2,000 m.", guideText: "The flapjack octopus has a soft, orange body and webbed arms that spread out like an umbrella. It flaps its small fins to swim and can rest flat on the seafloor. Its orange colour appears much darker in deep water because red light cannot reach those depths, helping it blend into the darkness." },
-      // { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
-      // { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." },
-      { id: "telescopefish", ext: "png", name: "Telescope Fish", guideText: "The telescope fish has enormous, tube-shaped eyes that gather the tiny amount of light available in deep water. It often swims in an upright position, looking upwards to spot the shadows of prey above it. Its jaws can also open very wide, allowing it to swallow surprisingly large meals." },
-      { id: "fangtooth", ext: "png", name: "Fangtooth", guideText: "The fangtooth has some of the largest teeth compared with its body size of any fish! Its lower fangs are so long that they fit into special pockets in the roof of its mouth. These sharp teeth help it catch and hold prey in the deep sea, where finding food can be difficult." }
-    ];
 
-    //EXTRA POKEDEX ENTRIES FOR SHALLOW AND INTERMEDIATE WATERS
-    const shallowGuideSpecies = [
-      { id: "clownfish", ext: "png", name: "Clownfish", note: "Lives among sea anemones on shallow coral reefs." },
-      { id: "parrotfish", ext: "jpg", name: "Parrotfish", note: "Uses its beak-like teeth to scrape algae from reefs." },
-      { id: "butterflyfish", ext: "jpg", name: "Butterflyfish", note: "Its flattened body helps it swim around coral." },
-      { id: "bluetang", ext: "jpg", name: "Blue Tang", note: "Lives on coral reefs and has a sharp spine near its tail." }
-    ];
+const MISSION5_OBSERVE_SECONDS = 5;
 
-    const travellerGuideSpecies = [
-      { id: "lanternfish", ext: "png", name: "Lanternfish", note: "Many move towards the surface at night to feed." },
-      { id: "humboldt-squid", ext: "png", name: "Humboldt Squid", note: "Often travels between deep and shallow water." },
-      { id: "sunfish", ext: "png", name: "Ocean Sunfish", note: "Visits the surface but also dives hundreds of metres." }
-    ];
+const mission5SpeciesPool = [ // GUIDETEXT ENTRY is for POKEDEX
+
+  {
+    id: "goblin-shark-3",
+    ext: "png",
+    name: "Goblin Shark",
+    note: "A deep-sea shark found at depths of around 270 m and deeper.",
+    guideText: "Deep underwater, there is little sunlight. The goblin shark's long snout contains special sensors that detect tiny electrical signals from nearby animals, helping it find prey even when seeing is difficult. Once prey is close enough, its jaws can shoot forwards to grab it. Its unusual snout and jaws are not just strange-looking features: they work together to help this shark hunt in dim water."
+  },
+
+  {
+    id: "dumbo-octopus-2",
+    ext: "png",
+    name: "Dumbo Octopus",
+    note: "Some dumbo octopus species live at depths of several thousand metres.",
+    guideText: "The dumbo octopus lives in deep water, where pressure is enormous and food may be scarce. It flaps two ear-like fins to swim and spreads the webbing between its arms to move and catch small animals. Its mostly water-filled body has no large gas-filled spaces for pressure to squeeze. Gentle swimming can also help it conserve energy. Unlike a fast-moving reef hunter, it can travel slowly through the deep ocean."
+  },
+
+  {
+    id: "sea-pig-2",
+    ext: "png",
+    name: "Sea Pig",
+    note: "A deep-ocean sea cucumber commonly found around 1,000 m and deeper.",
+    guideText: "Sea pigs are actually sea cucumbers that live on the deep seafloor. They use tube-like feet to walk across the mud and feeding tentacles to collect tiny scraps of dead plants and animals. Much of this food sinks from the upper ocean as part of marine snow. Where sunlight is absent and fresh food is limited, sea pigs survive by gathering nutritious material from the sediment instead of chasing prey."
+  },
+
+  {
+    id: "sea-angel-2",
+    ext: "png",
+    name: "Sea Angel",
+    note: "A swimming sea slug found from near the surface into deep water.",
+    guideText: "A sea angel is not a fish: it is a swimming sea slug. Its nearly transparent body can be hard for predators to spot in dim water, while two wing-like fins help it swim. It hunts tiny swimming snails called sea butterflies and uses hidden hooks to pull them from their shells. Sea angels occur from near the surface into deep water, but this does not mean every sea angel travels up and down each day."
+  },
+
+  {
+    id: "pink-seethrough-fantasia-2",
+    ext: "png",
+    name: "Pink Seethrough Fantasia",
+    note: "A deep-sea swimming sea cucumber found at depths of over 1,000 m.",
+    guideText: "The pink see-through fantasia is a swimming sea cucumber. Its partly transparent body lets us see its digestive system! It settles on the seafloor to collect food from the sediment, then uses broad flaps to swim to another feeding area. When disturbed, it can produce light and may shed glowing pieces of skin. Scientists think this glowing defence could distract predators or attract attention to an attacker."
+  },
+
+  {
+    id: "blobfish-2",
+    ext: "png",
+    name: "Blobfish",
+    note: "Found at depths of roughly 600–1,200 m.",
+    guideText: "The blobfish lives near the deep seafloor, where water pressure is much higher than at the surface. It has soft, jelly-like tissues and no gas-filled swim bladder, so it has no large air pocket for pressure to squeeze. Its low-density body also helps it float with little effort, saving energy when food is scarce. Its famous droopy face mostly appears after it is brought to the surface."
+  },
+
+  {
+    id: "barreleye-fish-2",
+    ext: "png",
+    name: "Barreleye Fish",
+    note: "A deep-water fish commonly found around 600–800 m in the twilight zone.",
+    guideText: "The barreleye fish has a transparent, fluid-filled covering over its head, with two large green eyes inside. At twilight-zone depths, the eyes usually point upwards to spot faint shapes of prey against the light above. They can also turn forwards when the fish feeds. Those unusual eyes are extremely sensitive to dim light. The two small dark spots near its mouth are actually smell organs, not eyes!"
+  },
+
+  {
+    id: "deepsea-anglerfish-2",
+    ext: "png",
+    name: "Deep-sea Anglerfish",
+    note: "Deep-sea anglerfish live in dark ocean waters, with different species occupying different depths.",
+    guideText: "Many female deep-sea anglerfish have a rod-like fin tipped with a glowing lure. In many species, special bacteria make the light. Curious animals approach the glow, bringing them close to the anglerfish's large mouth and sharp teeth. Waiting for prey to come near can save energy in a place where meals are rare. The light is used to attract food, not because sunlight reaches the deep ocean."
+  },
+
+  {
+    id: "flapjack-octopus-2",
+    ext: "png",
+    name: "Flapjack Octopus",
+    note: "Different flapjack octopus species have been recorded from around 130 m to over 2,000 m.",
+    guideText: "The flapjack octopus has webbing between its arms and small fins that help it swim or gently drift down to the seafloor. It can spread out flat like a pancake and search the mud for small animals. Although its body looks bright orange under a camera light, red and orange colours appear much darker in deep water because those colours of sunlight do not reach far down. This helps it blend into its surroundings."
+  },
+
+  // { id: "lumpfish", ext: "jpg", name: "Lumpfish", note: "Some are found at depths reaching about 1,700 m." },
+  // { id: "predatory-sea-anemone", ext: "jpg", name: "Predatory Sea Anemone", note: "Deep-sea anemones can occur at depths of several thousand metres." },
+
+  {
+    id: "telescopefish",
+    ext: "png",
+    name: "Telescope Fish",
+    note: "A deep-water fish with large, tube-shaped eyes.",
+    guideText: "The telescope fish often swims almost upright, with large, forward-pointing, tube-shaped eyes aimed towards the water above. In the twilight zone, these eyes help it spot the faint outlines of prey against the remaining light. Its jaws can open very wide, allowing it to swallow fish surprisingly large for its size. It shows that excellent eyesight can be an advantage in deep water, even when very little sunlight remains."
+  },
+
+  {
+    id: "fangtooth",
+    ext: "png",
+    name: "Fangtooth",
+    note: "A deep-sea fish with unusually large, sharp teeth.",
+    guideText: "The fangtooth has small eyes, a large mouth and enormous pointed teeth for catching fish. Its longest lower fangs fit into special pockets in the roof of its mouth. A sensitive line along its body also helps it detect movements in the water when seeing is difficult. Some fangtooth move into shallower water at night to feed, showing that even animals mainly found in deep water may travel between depths."
+  }
+
+];
+
+
+// EXTRA POKEDEX ENTRIES FOR SHALLOW AND INTERMEDIATE WATERS
+
+const shallowGuideSpecies = [
+
+  {
+    id: "clownfish",
+    ext: "png",
+    name: "Clownfish",
+    note: "Lives among sea anemones on shallow coral reefs.",
+    guideText: "In shallow, sunlit reefs, clownfish live among the stinging tentacles of sea anemones. A protective coating on their skin helps them avoid being stung, while the anemone provides shelter from predators. This close relationship is called symbiosis: two different animals living closely together. Sunlight makes the clownfish's orange-and-white stripes easy for us to see, but its safest place is among the anemone's tentacles."
+  },
+
+  {
+    id: "parrotfish",
+    ext: "jpg",
+    name: "Parrotfish",
+    note: "Uses its beak-like teeth to scrape algae from reefs.",
+    guideText: "Sunlight helps algae grow on shallow reefs. Parrotfish have strong teeth joined into a beak, which they use to scrape algae from rocks and coral. Some species also bite into hard reef material, grind it up and produce sand. By feeding on algae, parrotfish can help stop it from covering living corals. The shape of their mouth tells us a lot about what they eat."
+  },
+
+  {
+    id: "butterflyfish",
+    ext: "jpg",
+    name: "Butterflyfish",
+    note: "Its flattened body helps it swim around coral.",
+    guideText: "Coral reefs have narrow gaps and many places to hide. A butterflyfish's thin, flattened body helps it turn and move between coral branches. Many butterflyfish have small, pointed mouths for picking tiny animals or coral polyps from the reef. Their colours and markings are easier to see in shallow sunlight than in the deep ocean. Their body shape and mouth are clues to where they live and how they feed."
+  },
+
+  {
+    id: "bluetang",
+    ext: "jpg",
+    name: "Blue Tang",
+    note: "Lives on coral reefs and has a sharp spine near its tail.",
+    guideText: "Blue tangs live on bright tropical reefs. Their flattened bodies help them move around coral, and a sharp spine near the tail helps defend them against predators. They eat algae and other small food found around the reef, where sunlight supports algae growth. Their bright blue colour stands out to us in shallow water, but their body shape, feeding mouth and tail spine are equally important survival features."
+  }
+
+];
+
+
+const travellerGuideSpecies = [
+
+  {
+    id: "lanternfish",
+    ext: "png",
+    name: "Lanternfish",
+    note: "Many move towards the surface at night to feed.",
+    guideText: "Many lanternfish spend the day in darker, deeper water, then swim towards the surface at night to eat tiny drifting animals called zooplankton. Moving after sunset may help them avoid predators that hunt by sight. Lanternfish also have rows of light-producing organs called photophores. Some lights help hide the fish's outline from predators looking up, while others may help it recognise members of its own species."
+  },
+
+  {
+    id: "humboldt-squid",
+    ext: "png",
+    name: "Humboldt Squid",
+    note: "Often travels between deep and shallow water.",
+    guideText: "Humboldt squid are hunters with large eyes and two long feeding tentacles for grabbing fish and other prey. Many move between deeper daytime waters and shallower water at night, following opportunities to feed. Special skin cells called chromatophores let them rapidly flash between reddish and pale colours. Scientists think these changing patterns help squid signal to one another. Both their behaviour and their bodies help them survive at different depths."
+  },
+
+  {
+    id: "sunfish",
+    ext: "png",
+    name: "Ocean Sunfish",
+    note: "Visits the surface but also dives hundreds of metres.",
+    guideText: "The ocean sunfish has a huge, flattened body and no ordinary tail fin. Instead, it swims by moving the tall fins on its top and bottom. Although it is often seen near the sunny surface, it also makes deep dives to find jelly-like prey. Returning to warmer surface water may help it warm up after a cold dive. Unlike some fish that migrate every night, sunfish move between depths as they search for food."
+  }
+
+];
+
 
     const guideGroups = [
       {
@@ -2348,7 +2484,7 @@
         //NEW POKEDEX CHECK AND RESET LINE
         renderControls(); //END POKEDEX CHECK AND RESET LINE
       });
-      
+
       // END OF THE NEW POKEDEX FUNCTION
 
       document.querySelectorAll(".mission-button").forEach(function(button) {
