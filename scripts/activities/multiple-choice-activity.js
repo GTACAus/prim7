@@ -73,6 +73,17 @@
    feedbackIncorrect: "feedback-incorrect", feedbackTitle: "mc-feedback-title",
    feedbackText: "mc-feedback-text" }.
 
+   One question at a time: put data-mc-sequence on the root and only the first
+   question shows. A correct answer hides that question and shows the next
+   (the last one just hides), and reset() goes back to the first.
+
+   A shared feedback box: data-mc-feedback-target="#someBox" on the root names
+   one element, outside or inside, that all the questions report into. Each
+   question gives its messages as data-correct-title / data-correct-text /
+   data-incorrect-title / data-incorrect-text (a bold title, then the text).
+   The box is shown with classes.feedbackCorrect or classes.feedbackIncorrect,
+   or hidden when the outcome has no message. reset() puts it back as it was.
+
    root event "mc:answer" (detail = { value, correct }, fired on the
    question element) is the same information as onAnswer, for code that
    would rather listen than pass a callback in.
@@ -116,6 +127,16 @@ function MultipleChoiceActivity(root, options) {
     });
   });
 
+  this.sequence = root.hasAttribute("data-mc-sequence");
+  var targetSelector = root.dataset.mcFeedbackTarget;
+  this.feedbackTarget = targetSelector ? document.querySelector(targetSelector) : null;
+  this.feedbackInitial = this.feedbackTarget && {
+    html: this.feedbackTarget.innerHTML,
+    className: this.feedbackTarget.className,
+    hidden: this.feedbackTarget.hidden
+  };
+  if (this.sequence) this._showOnly(0);
+
   this.setComplete(this.isComplete());
 }
 
@@ -125,7 +146,9 @@ MultipleChoiceActivity.prototype.constructor = MultipleChoiceActivity;
 /* ---------- public API ---------- */
 
 MultipleChoiceActivity.prototype.isComplete = function () {
-  if (!this.questions.length) return false;
+  /* this.questions isn't built yet while the base constructor runs its
+     data-activity-depends-on availability check. */
+  if (!this.questions || !this.questions.length) return false;
   var live = this.options.completionMode === "live";
   return this.questions.every(function (question) {
     return live ? question.element.dataset.mcLastCorrect === "true" : question.element.dataset.mcCorrect === "true";
@@ -148,10 +171,47 @@ MultipleChoiceActivity.prototype.reset = function () {
     }
   });
 
+  if (this.sequence) this._showOnly(0);
+  if (this.feedbackTarget) {
+    this.feedbackTarget.innerHTML = this.feedbackInitial.html;
+    this.feedbackTarget.className = this.feedbackInitial.className;
+    this.feedbackTarget.hidden = this.feedbackInitial.hidden;
+  }
+
   this.setComplete(false);
 };
 
 /* ---------- internals ---------- */
+
+/* Sequence mode: show question i only (null shows none). */
+MultipleChoiceActivity.prototype._showOnly = function (index) {
+  this.questions.forEach(function (question, i) { question.element.hidden = i !== index; });
+};
+
+MultipleChoiceActivity.prototype._showSharedFeedback = function (question, isCorrect) {
+  var box = this.feedbackTarget;
+  if (!box) return;
+
+  var data = question.element.dataset;
+  var title = isCorrect ? data.correctTitle : data.incorrectTitle;
+  var text = isCorrect ? data.correctText : data.incorrectText;
+  box.classList.remove(this.classes.feedbackCorrect, this.classes.feedbackIncorrect);
+
+  if (!title && !text) {
+    box.hidden = true;
+    return;
+  }
+
+  box.classList.add(isCorrect ? this.classes.feedbackCorrect : this.classes.feedbackIncorrect);
+  box.innerHTML = "";
+  if (title) {
+    var strong = document.createElement("strong");
+    strong.textContent = title;
+    box.appendChild(strong);
+  }
+  box.appendChild(document.createTextNode(text || ""));
+  box.hidden = false;
+};
 
 MultipleChoiceActivity.prototype._clearChoiceVisuals = function (choice) {
   var c = this.classes;
@@ -201,6 +261,13 @@ MultipleChoiceActivity.prototype._selectChoice = function (question, choice) {
   choice.setAttribute("aria-pressed", "true");
 
   this._showFeedback(question, choice, isCorrect);
+  this._showSharedFeedback(question, isCorrect);
+
+  if (this.sequence && isCorrect) {
+    var next = this.questions[this.questions.indexOf(question) + 1];
+    question.element.hidden = true;
+    if (next) next.element.hidden = false;
+  }
 
   if (isCorrect) question.element.dataset.mcCorrect = "true";
   question.element.dataset.mcLastCorrect = String(isCorrect);

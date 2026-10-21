@@ -25,7 +25,7 @@ function collectActivities(section) {
 }
 
 function initSectionActivities(section) {
-  const nextButton = section.querySelector(".next-button");
+  const nextButton = section.querySelector(".next-button, .next-page-button");
   if (!nextButton) return;
 
   if (!collectActivities(section).length) return;
