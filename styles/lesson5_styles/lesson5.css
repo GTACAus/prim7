@@ -213,45 +213,35 @@
 
     /* ---------- Dark modals (glossary, equipment symbols, PDF, teacher) ---------- */
 
-    #glossaryModal,
-    #equipmentSymbolsModal,
-    #pdfModal,
-    #teacherModal {
-      background: rgba(3, 16, 30, 0.72);
-    }
-
-    #glossaryModal .modal-content,
-    #equipmentSymbolsModal .modal-content,
-    #pdfModal .modal-content,
-    #teacherModal .teacher-panel {
+    .modal-content,
+    .teacher-panel {
       background: var(--exp-navy);
       border: 2px solid var(--exp-cyan);
       box-shadow: var(--exp-shadow);
       color: var(--exp-white);
     }
 
-    #glossaryModal .modal-header h2,
-    #equipmentSymbolsModal .modal-header h2,
-    #pdfModal .modal-header h2,
-    #teacherModal .teacher-panel-header h2 {
+    .modal-header h2,
+    .teacher-panel-header h2 {
       color: white;
     }
 
-    #glossaryModal .teacher-label,
-    #glossaryModal .intro-eyebrow,
-    #equipmentSymbolsModal .intro-eyebrow,
-    #pdfModal .teacher-label,
-    #teacherModal .teacher-label {
+    .modal .teacher-label,
+    .modal .intro-eyebrow,
+    .teacher-modal .teacher-label {
       color: var(--exp-cyan) !important;
     }
 
-    #glossaryModal .close-button,
-    #equipmentSymbolsModal .close-button,
-    #pdfModal .close-button,
-    #teacherModal .teacher-close {
+    .modal .close-button,
+    .teacher-modal .teacher-close {
       background: var(--exp-panel);
       color: var(--exp-cyan-soft);
       border: 2px solid var(--exp-cyan);
+    }
+
+    .modal .close-button:hover,
+    .teacher-modal .teacher-close:hover {
+      background: color-mix(in srgb, var(--exp-panel) 80%, white 20%);
     }
 
     #glossaryModal .vocab-card,

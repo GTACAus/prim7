@@ -1,7 +1,7 @@
 /* ==================================================
    ACTIVITY BASE
    Shared by every activity prototype (drag-drop-activity.js,
-   input-response-activity.js, item-match.js, ...). Pair with
+   input-response-activity.js, item-match-activity.js, ...). Pair with
    activity-sections.js, which watches data-activity-complete
    to decide when a section's Next button appears.
 

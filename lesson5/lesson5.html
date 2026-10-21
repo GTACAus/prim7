@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PRIM7 Expedition Log - Concept Skeleton</title>
+  <title>Lesson 5 - Scientific Drawings</title>
 
   <!--
     SHARED PRIM7 LAYER
@@ -23,9 +23,7 @@
 >
 
   <script src="../scripts/common_functions.js" defer></script>
-  <script src="../scripts/lesson5_scripts/lesson5.js" defer></script>
-  <script src="../scripts/lesson5_scripts/drag_and_drop.js" defer></script>
-  <script src="../scripts/lesson5_scripts/item_match.js" defer></script>
+  <script type="module" src="../scripts/lesson5_scripts/lesson5.js" defer></script>
 
   <script
     type="module"
@@ -729,7 +727,7 @@
       </p>
 
 
-      <div class="item-match-activity" id="m2RustSymbolMatchTest">
+      <div class="item-match-activity" id="m2RustSymbolMatchTest" data-activity>
 
         <!-- MAIN DIAGRAM FRAME: fills in with each correctly matched symbol.
              viewBox is the coordinate space every diagramPosition in
@@ -827,7 +825,7 @@
         line that points to it.
       </p>
 
-      <div class="dd-activity diagram-label-dd" id="m2DiagramLabel">
+      <div class="dd-activity diagram-label-dd" id="m2DiagramLabel" data-activity>
 
         <div class="diagram-label-board">
 
@@ -1469,7 +1467,7 @@
                       then drag the correct label beside that line. This is guided practice before you label the next organism independently.
                     </p>
 
-                    <div class="dd-activity m4-batfish-dd" id="m4BatfishDragDrop">
+                    <div class="dd-activity m4-batfish-dd" id="m4BatfishDragDrop" data-activity>
                       <div class="dd-board">
                         <div class="dd-target m4-batfish-target">
                           <span class="dd-caption">Scientific drawing</span>

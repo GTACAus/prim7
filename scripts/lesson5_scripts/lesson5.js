@@ -1,4 +1,6 @@
-
+import { DragDropActivity } from "../activities/drag-drop-activity.js";
+import { ItemMatchActivity } from "../activities/item-match-activity.js";
+    
     /*
       Apply the glitch overlay to any image.
         applyGlitchOverlay(img)            - wraps the <img> in a .glitch-frame
@@ -2635,4 +2637,23 @@ const travellerGuideSpecies = [
       if (event.key === "Escape") {
         closeImageZoomModal();
       }
+    });
+
+    /* This file is an ES module, so its functions are not global; expose the ones the HTML calls from inline handlers. */
+    Object.assign(window, {
+      checkCurrentMission,
+      closeEquipmentSymbols,
+      closeFrogfishExampleModal,
+      closeImageZoomModal,
+      findAnotherMission5Animal,
+      goNextMission,
+      goShallowWaters,
+      openImageZoomModal,
+      resetCurrentMission,
+      selectSonarContact,
+      setMission5DrawingFinished,
+      showM4FishPreview,
+      startExpedition,
+      takeMission5Photo,
+      toggleRustCamera
     });
