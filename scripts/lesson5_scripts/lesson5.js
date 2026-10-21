@@ -2375,7 +2375,16 @@ const travellerGuideSpecies = [
         panel.querySelector("img").src = getMission5StaticSrc(fish);
         panel.querySelector("img").alt = fish.name;
         panel.querySelector("h4").textContent = fish.name;
-        panel.querySelector("p").textContent = fish.guideText || fish.note || "Information coming soon.";
+
+        // Turn the existing description into short bullet points (one sentence each).
+        const description = fish.guideText || fish.note || "Information coming soon.";
+        const facts = description.split(/(?<=[.!?])\s+/).filter(Boolean);
+        panel.querySelector(".creature-facts").replaceChildren(...facts.map(fact => {
+          const item = document.createElement("li");
+          item.textContent = fact;
+          return item;
+        }));
+
         //NEW POKEDEX CHECK AND RESET LINE
         renderControls(); //END POKEDEX CHECK AND RESET LINE
       });

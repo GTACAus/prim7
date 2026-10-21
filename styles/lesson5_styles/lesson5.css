@@ -3177,12 +3177,13 @@
   margin: 0 auto 8px;
 }
 
-/* Shared information panel */
+/* Shared information panel: larger image + easy-to-scan facts */
 #creaturePanel {
-  display: flex;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
   align-items: center;
-  gap: 16px;
-  padding: 16px;
+  gap: 22px;
+  padding: 22px;
   margin-bottom: 18px;
   background: #0D3157;
   border: 2px solid #39D3FF;
@@ -3193,10 +3194,68 @@
   display: none !important;
 }
 
-#creaturePanel img {
-  width: 130px;
-  max-width: 40%;
+#creaturePanel > img {
+  display: block;
+  width: 220px;
+  height: 230px;
+  max-width: 100%;
   object-fit: contain;
+  border-radius: 14px;
+  background: radial-gradient(circle, rgba(57, 211, 255, 0.10), transparent 70%);
+}
+
+#creaturePanel .creature-info {
+  min-width: 0;
+}
+
+#creaturePanel .creature-info-kicker {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #39D3FF;
+}
+
+#creaturePanel h4 {
+  margin: 0 0 12px;
+  color: #FFFFFF;
+  font-size: 1.25rem;
+}
+
+#creaturePanel .creature-facts {
+  margin: 0;
+  padding-left: 1.4rem;
+  list-style: disc;
+  color: #D8F7FF;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+#creaturePanel .creature-facts li {
+  margin-bottom: 9px;
+  padding-left: 3px;
+}
+
+#creaturePanel .creature-facts li:last-child {
+  margin-bottom: 0;
+}
+
+#creaturePanel .creature-facts li::marker {
+  color: #39D3FF;
+}
+
+@media (max-width: 850px) {
+  #creaturePanel {
+    grid-template-columns: 1fr;
+  }
+
+  #creaturePanel > img {
+    width: min(100%, 240px);
+    height: 210px;
+    margin: 0 auto;
+  }
 }
 
 /* END OF POKEDEX ELEMENTS */
