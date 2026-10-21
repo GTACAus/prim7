@@ -2156,8 +2156,7 @@
 
     .story-grid,
     .media-compare,
-    .symbol-compare,
-    .rules-grid {
+    .symbol-compare {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
@@ -2166,8 +2165,7 @@
 
     .story-copy,
     .story-media,
-    .reference-card,
-    .rule-card {
+    .reference-card {
       padding: 18px;
       border: 3px solid var(--mission-border);
       border-radius: 18px;
@@ -2176,15 +2174,13 @@
     }
 
     .story-copy h4,
-    .reference-card h4,
-    .rule-card h4 {
+    .reference-card h4 {
       margin: 0 0 8px;
       color: var(--mission-text);
     }
 
     .story-copy p,
-    .reference-card p,
-    .rule-card p {
+    .reference-card p {
       margin: 0;
       color: var(--mission-muted);
       line-height: 1.55;
@@ -2442,22 +2438,6 @@
       color: var(--charcoal) !important;
     }
 
-    .rule-card {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: start;
-      gap: 12px;
-    }
-
-    .rule-card input[type="checkbox"] {
-      margin-top: 2px;
-    }
-
-    .rule-card strong {
-      display: block;
-      margin-bottom: 3px;
-    }
-
     .drawing-choice-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2506,7 +2486,6 @@
       .story-grid,
       .media-compare,
       .symbol-compare,
-      .rules-grid,
       .drawing-choice-grid,
       .equipment-grid {
         grid-template-columns: 1fr;

@@ -47,71 +47,70 @@
    back.
    ================================================== */
 
-(function (global) {
-  "use strict";
+import { Activity } from "./activity-base.js";
 
-  function ButtonActivity(root, options) {
-    Activity.call(this, root, options);
+function ButtonActivity(root, options) {
+  Activity.call(this, root, options);
 
-    this.hideTrigger = this.options.hideTrigger !== false;
-    this.trigger = root.querySelector("[data-button-trigger]");
-    this.targets = root.querySelectorAll("[data-button-reveal]");
+  this.hideTrigger = this.options.hideTrigger !== false;
+  this.trigger = root.querySelector("[data-button-trigger]");
+  this.targets = root.querySelectorAll("[data-button-reveal]");
 
-    var self = this;
-    if (this.trigger) {
-      this.trigger.addEventListener("click", function () { self._press(); });
-    }
-
-    this.setComplete(false);
+  var self = this;
+  if (this.trigger) {
+    this.trigger.addEventListener("click", function () { self._press(); });
   }
 
-  ButtonActivity.prototype = Object.create(Activity.prototype);
-  ButtonActivity.prototype.constructor = ButtonActivity;
+  this.setComplete(false);
+}
 
-  /* ---------- public API ---------- */
+ButtonActivity.prototype = Object.create(Activity.prototype);
+ButtonActivity.prototype.constructor = ButtonActivity;
 
-  ButtonActivity.prototype.reset = function () {
-    Array.prototype.forEach.call(this.targets, function (target) { target.hidden = true; });
-    this._setRevealed(false);
-    if (this.trigger) this.trigger.hidden = false;
-    this.setComplete(false);
-  };
+/* ---------- public API ---------- */
 
-  /* ---------- internals ---------- */
+ButtonActivity.prototype.reset = function () {
+  Array.prototype.forEach.call(this.targets, function (target) { target.hidden = true; });
+  this._setRevealed(false);
+  if (this.trigger) this.trigger.hidden = false;
+  this.setComplete(false);
+};
 
-  /* data-reveals="#a, .b" on the root: elements ANYWHERE on the page (found
-     with that CSS selector each time, so ones created later are included)
-     that are shown when the button is pressed and hidden again on reset. */
-  ButtonActivity.prototype._setRevealed = function (revealed) {
-    var selector = this.root.dataset.reveals;
-    if (!selector) return;
-    Array.prototype.forEach.call(document.querySelectorAll(selector), function (element) {
-      element.hidden = !revealed;
-    });
-  };
+/* ---------- internals ---------- */
 
-  ButtonActivity.prototype._press = function () {
-    Array.prototype.forEach.call(this.targets, function (target) { target.hidden = false; });
-    this._setRevealed(true);
-    if (this.hideTrigger && this.trigger) this.trigger.hidden = true;
-
-    if (typeof this.options.onPress === "function") this.options.onPress();
-    this.root.dispatchEvent(new CustomEvent("button:press", { bubbles: true }));
-
-    this.setComplete(true);
-  };
-
-  global.ButtonActivity = ButtonActivity;
-
-  // Initialise all stop and checks
-  function initialiseStopAndCheckActivities() {
-    Array.prototype.forEach.call(document.querySelectorAll(".stop-and-check[data-activity]"), function(root) {
-      new ButtonActivity(root);
-    });
-    console.log("Stop and Checks Loaded");
-  }
-
-  document.addEventListener("DOMContentLoaded", function() {
-    initialiseStopAndCheckActivities();
+/* data-reveals="#a, .b" on the root: elements ANYWHERE on the page (found
+   with that CSS selector each time, so ones created later are included)
+   that are shown when the button is pressed and hidden again on reset. */
+ButtonActivity.prototype._setRevealed = function (revealed) {
+  var selector = this.root.dataset.reveals;
+  if (!selector) return;
+  Array.prototype.forEach.call(document.querySelectorAll(selector), function (element) {
+    element.hidden = !revealed;
   });
-})(window);
+};
+
+ButtonActivity.prototype._press = function () {
+  Array.prototype.forEach.call(this.targets, function (target) { target.hidden = false; });
+  this._setRevealed(true);
+  if (this.hideTrigger && this.trigger) this.trigger.hidden = true;
+
+  if (typeof this.options.onPress === "function") this.options.onPress();
+  this.root.dispatchEvent(new CustomEvent("button:press", { bubbles: true }));
+
+  this.setComplete(true);
+};
+
+
+// Initialise all stop and checks
+function initialiseStopAndCheckActivities() {
+  Array.prototype.forEach.call(document.querySelectorAll(".stop-and-check[data-activity]"), function(root) {
+    new ButtonActivity(root);
+  });
+  console.log("Stop and Checks Loaded");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  initialiseStopAndCheckActivities();
+});
+
+export { ButtonActivity };

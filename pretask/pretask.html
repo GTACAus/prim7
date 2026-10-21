@@ -703,11 +703,10 @@ Use your detective skills to make <strong>observations</strong> and come up with
 
   </main>
   <script src="../scripts/common_functions.js"></script>
-  <script src="../scripts/activities/activity-base.js"></script>
-  <script src="../scripts/activities/activity-sections.js"></script>
-  <script src="../scripts/activities/input-response-activity.js"></script>
-  <script src="../scripts/activities/drag-drop-activity.js"></script>
-  <script>
+  <script type="module">
+    import { initSectionActivitiesIn } from "../scripts/activities/activity-sections.js";
+    import { DragDropActivity } from "../scripts/activities/drag-drop-activity.js";
+    import { InputResponseActivity } from "../scripts/activities/input-response-activity.js";
 
   /* ---------- Plant-building drag and drop ---------- */
 
@@ -1088,6 +1087,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       }
     )();
+
+    /* Called from inline handlers / shared scripts, which cannot see module scope. */
+    Object.assign(window, { switchGame, clearPageSavedData, saveCurrentPageData });
   </script>
 
 

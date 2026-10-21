@@ -25,6 +25,8 @@
       wrong elements.
    ================================================== */
 
+import { Activity } from "./activities/activity-base.js";
+
 (function () {
   const STORAGE_PREFIX = "prim7-progress:";
   const TAG = "data-lesson-progress-id";
@@ -181,7 +183,9 @@
     instead, keyed by the activity's id.
   */
   function dragDropActivities() {
-    return (window.DragDropActivity && window.DragDropActivity.instances || []).filter(function (activity) {
+    return Activity.all().filter(function (activity) {
+      return typeof activity.getPlacements === "function";
+    }).filter(function (activity) {
       return activity.root.id && activity.root.isConnected;
     });
   }
@@ -203,7 +207,9 @@
     page. Its elements are skipped by the generic save.
   */
   function inputActivities() {
-    return (window.InputResponseActivity && window.InputResponseActivity.instances || []).filter(function (activity) {
+    return Activity.all().filter(function (activity) {
+      return typeof activity.getAnswers === "function";
+    }).filter(function (activity) {
       return activity.root.id && activity.root.isConnected;
     });
   }

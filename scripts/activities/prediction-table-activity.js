@@ -61,334 +61,333 @@
    inside the root clears everything back to its starting placeholders.
    ================================================== */
 
-(function (global) {
-  "use strict";
+import { Activity } from "./activity-base.js";
 
-  var DEFAULT_CAUSE_OPTIONS = {
-    "increase-decrease": [
-      { value: "increase", label: "Increase" },
-      { value: "decrease", label: "Decrease" }
-    ],
-    "with-without": [
-      { value: "with", label: "With" },
-      { value: "without", label: "Without" }
-    ],
-    "condition-comparison": [
-      { value: "condition-one-to-two", label: "Condition 1" },
-      { value: "condition-two-to-one", label: "Condition 2" }
-    ]
+var DEFAULT_CAUSE_OPTIONS = {
+  "increase-decrease": [
+    { value: "increase", label: "Increase" },
+    { value: "decrease", label: "Decrease" }
+  ],
+  "with-without": [
+    { value: "with", label: "With" },
+    { value: "without", label: "Without" }
+  ],
+  "condition-comparison": [
+    { value: "condition-one-to-two", label: "Condition 1" },
+    { value: "condition-two-to-one", label: "Condition 2" }
+  ]
+};
+
+var EFFECT_PHRASES = {
+  increase: "increase",
+  decrease: "decrease",
+  "stay-the-same": "stay the same"
+};
+
+function PredictionTableActivity(root, options) {
+  Activity.call(this, root, options);
+
+  this.causeOptions = this.options.causeOptions || DEFAULT_CAUSE_OPTIONS;
+
+  this.els = {
+    change: root.querySelector("[data-prediction-change]"),
+    measure: root.querySelector("[data-prediction-measure]"),
+    causeType: root.querySelector("[data-prediction-cause-type]"),
+    causeButtons: root.querySelector("[data-prediction-cause-buttons]"),
+    conditionInputs: root.querySelector("[data-prediction-condition-inputs]"),
+    conditionOne: root.querySelector("[data-prediction-condition-one]"),
+    conditionTwo: root.querySelector("[data-prediction-condition-two]"),
+    effectButtons: root.querySelectorAll("[data-prediction-effect]"),
+    causeText: root.querySelector("[data-prediction-cause-text]"),
+    effectText: root.querySelector("[data-prediction-effect-text]"),
+    reasonRow: root.querySelector("[data-prediction-reason-row]"),
+    reasonInput: root.querySelector("[data-prediction-reason-input]"),
+    reasonAnswer: root.querySelector("[data-prediction-reason-answer]"),
+    fullText: root.querySelector("[data-prediction-full-text]")
   };
 
-  var EFFECT_PHRASES = {
-    increase: "increase",
-    decrease: "decrease",
-    "stay-the-same": "stay the same"
-  };
+  this.usesDropdowns = Boolean(this.els.change) && this.els.change.tagName === "SELECT";
 
-  function PredictionTableActivity(root, options) {
-    Activity.call(this, root, options);
+  this.context = { structure: this.usesDropdowns ? "if" : "", change: "", measure: "" };
+  this.selectedCause = "";
+  this.selectedEffect = "";
+  this.reason = "";
 
-    this.causeOptions = this.options.causeOptions || DEFAULT_CAUSE_OPTIONS;
+  this._bind();
+  this._renderCauseButtons();
+}
 
-    this.els = {
-      change: root.querySelector("[data-prediction-change]"),
-      measure: root.querySelector("[data-prediction-measure]"),
-      causeType: root.querySelector("[data-prediction-cause-type]"),
-      causeButtons: root.querySelector("[data-prediction-cause-buttons]"),
-      conditionInputs: root.querySelector("[data-prediction-condition-inputs]"),
-      conditionOne: root.querySelector("[data-prediction-condition-one]"),
-      conditionTwo: root.querySelector("[data-prediction-condition-two]"),
-      effectButtons: root.querySelectorAll("[data-prediction-effect]"),
-      causeText: root.querySelector("[data-prediction-cause-text]"),
-      effectText: root.querySelector("[data-prediction-effect-text]"),
-      reasonRow: root.querySelector("[data-prediction-reason-row]"),
-      reasonInput: root.querySelector("[data-prediction-reason-input]"),
-      reasonAnswer: root.querySelector("[data-prediction-reason-answer]"),
-      fullText: root.querySelector("[data-prediction-full-text]")
-    };
+PredictionTableActivity.prototype = Object.create(Activity.prototype);
+PredictionTableActivity.prototype.constructor = PredictionTableActivity;
 
-    this.usesDropdowns = Boolean(this.els.change) && this.els.change.tagName === "SELECT";
+/* ---------- public API ---------- */
 
-    this.context = { structure: this.usesDropdowns ? "if" : "", change: "", measure: "" };
-    this.selectedCause = "";
-    this.selectedEffect = "";
-    this.reason = "";
+/* Call whenever an outside "design a testable question" builder changes
+   structure/change/measure. */
+PredictionTableActivity.prototype.setContext = function (context) {
+  context = context || {};
+  this.context.structure = context.structure || "if";
 
-    this._bind();
-    this._renderCauseButtons();
+  if (!this.usesDropdowns) {
+    this.context.change = context.change || "";
+    this.context.measure = context.measure || "";
+    this._setVariableText(this.els.change, this.context.change);
+    this._setVariableText(this.els.measure, this.context.measure);
   }
 
-  PredictionTableActivity.prototype = Object.create(Activity.prototype);
-  PredictionTableActivity.prototype.constructor = PredictionTableActivity;
+  this._render();
+};
 
-  /* ---------- public API ---------- */
+PredictionTableActivity.prototype.reset = function () {
+  this.reason = "";
+  this.selectedCause = "";
+  this.selectedEffect = "";
 
-  /* Call whenever an outside "design a testable question" builder changes
-     structure/change/measure. */
-  PredictionTableActivity.prototype.setContext = function (context) {
-    context = context || {};
-    this.context.structure = context.structure || "if";
+  if (this.els.reasonInput) this.els.reasonInput.value = "";
+  if (this.els.reasonRow) this.els.reasonRow.style.display = "block";
+  if (this.els.reasonAnswer) {
+    this.els.reasonAnswer.classList.remove("visible");
+    this.els.reasonAnswer.innerHTML = "";
+  }
 
-    if (!this.usesDropdowns) {
-      this.context.change = context.change || "";
-      this.context.measure = context.measure || "";
-      this._setVariableText(this.els.change, this.context.change);
-      this._setVariableText(this.els.measure, this.context.measure);
-    }
+  this.context.structure = this.usesDropdowns ? "if" : "";
+  this.context.change = "";
+  this.context.measure = "";
 
-    this._render();
-  };
+  if (this.usesDropdowns) {
+    this.els.change.selectedIndex = 0;
+    this.els.measure.selectedIndex = 0;
+  } else {
+    this._setVariableText(this.els.change, "");
+    this._setVariableText(this.els.measure, "");
+  }
 
-  PredictionTableActivity.prototype.reset = function () {
-    this.reason = "";
+  if (this.els.causeType) this.els.causeType.selectedIndex = 0;
+  if (this.els.conditionOne) this.els.conditionOne.value = "";
+  if (this.els.conditionTwo) this.els.conditionTwo.value = "";
+  if (this.els.conditionInputs) this.els.conditionInputs.classList.remove("visible");
+
+  Array.prototype.forEach.call(this.els.effectButtons, function (button) {
+    button.classList.remove("selected");
+  });
+
+  this._renderCauseButtons();
+};
+
+/* ---------- wiring ---------- */
+
+PredictionTableActivity.prototype._bind = function () {
+  var self = this;
+
+  if (this.usesDropdowns) {
+    this.els.change.addEventListener("change", function () { self._render(); });
+    this.els.measure.addEventListener("change", function () { self._render(); });
+  }
+
+  if (this.els.causeType) {
+    this.els.causeType.addEventListener("change", function () { self._renderCauseButtons(); });
+  }
+
+  if (this.els.conditionOne) this.els.conditionOne.addEventListener("input", function () { self._render(); });
+  if (this.els.conditionTwo) this.els.conditionTwo.addEventListener("input", function () { self._render(); });
+
+  Array.prototype.forEach.call(this.els.effectButtons, function (button) {
+    button.addEventListener("click", function () { self._selectEffect(button); });
+  });
+
+  if (this.els.reasonInput) {
+    connectEnterAndBlurSave(this.els.reasonInput, function () { self._submitReason(); });
+  }
+};
+
+/* ---------- rendering ---------- */
+
+PredictionTableActivity.prototype._setVariableText = function (element, value) {
+  if (!element) return;
+  setGeneratedText(element, value, element.dataset.placeholder || "The thing I am changing");
+};
+
+PredictionTableActivity.prototype._renderCauseButtons = function () {
+  var self = this;
+
+  if (this.els.causeType && this.els.causeButtons) {
+    var relationshipType = this.els.causeType.value;
+    var choices = this.causeOptions[relationshipType] || [];
+
     this.selectedCause = "";
-    this.selectedEffect = "";
+    this.els.causeButtons.innerHTML = "";
 
-    if (this.els.reasonInput) this.els.reasonInput.value = "";
-    if (this.els.reasonRow) this.els.reasonRow.style.display = "block";
-    if (this.els.reasonAnswer) {
-      this.els.reasonAnswer.classList.remove("visible");
-      this.els.reasonAnswer.innerHTML = "";
-    }
+    choices.forEach(function (choice) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "relationship-option";
+      button.textContent = choice.label;
 
-    this.context.structure = this.usesDropdowns ? "if" : "";
-    this.context.change = "";
-    this.context.measure = "";
-
-    if (this.usesDropdowns) {
-      this.els.change.selectedIndex = 0;
-      this.els.measure.selectedIndex = 0;
-    } else {
-      this._setVariableText(this.els.change, "");
-      this._setVariableText(this.els.measure, "");
-    }
-
-    if (this.els.causeType) this.els.causeType.selectedIndex = 0;
-    if (this.els.conditionOne) this.els.conditionOne.value = "";
-    if (this.els.conditionTwo) this.els.conditionTwo.value = "";
-    if (this.els.conditionInputs) this.els.conditionInputs.classList.remove("visible");
-
-    Array.prototype.forEach.call(this.els.effectButtons, function (button) {
-      button.classList.remove("selected");
-    });
-
-    this._renderCauseButtons();
-  };
-
-  /* ---------- wiring ---------- */
-
-  PredictionTableActivity.prototype._bind = function () {
-    var self = this;
-
-    if (this.usesDropdowns) {
-      this.els.change.addEventListener("change", function () { self._render(); });
-      this.els.measure.addEventListener("change", function () { self._render(); });
-    }
-
-    if (this.els.causeType) {
-      this.els.causeType.addEventListener("change", function () { self._renderCauseButtons(); });
-    }
-
-    if (this.els.conditionOne) this.els.conditionOne.addEventListener("input", function () { self._render(); });
-    if (this.els.conditionTwo) this.els.conditionTwo.addEventListener("input", function () { self._render(); });
-
-    Array.prototype.forEach.call(this.els.effectButtons, function (button) {
-      button.addEventListener("click", function () { self._selectEffect(button); });
-    });
-
-    if (this.els.reasonInput) {
-      connectEnterAndBlurSave(this.els.reasonInput, function () { self._submitReason(); });
-    }
-  };
-
-  /* ---------- rendering ---------- */
-
-  PredictionTableActivity.prototype._setVariableText = function (element, value) {
-    if (!element) return;
-    setGeneratedText(element, value, element.dataset.placeholder || "The thing I am changing");
-  };
-
-  PredictionTableActivity.prototype._renderCauseButtons = function () {
-    var self = this;
-
-    if (this.els.causeType && this.els.causeButtons) {
-      var relationshipType = this.els.causeType.value;
-      var choices = this.causeOptions[relationshipType] || [];
-
-      this.selectedCause = "";
-      this.els.causeButtons.innerHTML = "";
-
-      choices.forEach(function (choice) {
-        var button = document.createElement("button");
-        button.type = "button";
-        button.className = "relationship-option";
-        button.textContent = choice.label;
-
-        button.addEventListener("click", function () {
-          self.selectedCause = choice.value;
-          Array.prototype.forEach.call(self.els.causeButtons.querySelectorAll(".relationship-option"), function (other) {
-            other.classList.remove("selected");
-          });
-          button.classList.add("selected");
-          self._render();
+      button.addEventListener("click", function () {
+        self.selectedCause = choice.value;
+        Array.prototype.forEach.call(self.els.causeButtons.querySelectorAll(".relationship-option"), function (other) {
+          other.classList.remove("selected");
         });
-
-        self.els.causeButtons.appendChild(button);
+        button.classList.add("selected");
+        self._render();
       });
 
-      if (this.els.conditionInputs) {
-        this.els.conditionInputs.classList.toggle("visible", relationshipType === "condition-comparison");
-      }
-    }
-
-    this._render();
-  };
-
-  PredictionTableActivity.prototype._selectEffect = function (button) {
-    this.selectedEffect = button.dataset.predictionEffect;
-    Array.prototype.forEach.call(this.els.effectButtons, function (other) { other.classList.remove("selected"); });
-    button.classList.add("selected");
-    this._render();
-  };
-
-  PredictionTableActivity.prototype._submitReason = function () {
-    if (!this.els.reasonInput || !this.els.reasonAnswer) return;
-
-    var value = getValidStudentInput(this.els.reasonInput);
-    if (value === null) return;
-
-    this.reason = value;
-    this.els.reasonAnswer.innerHTML = "";
-
-    var text = document.createElement("span");
-    text.textContent = value;
-
-    var self = this;
-    var deleteButton = createDeleteAnswerButton("Edit your reason", function () {
-      self.reason = "";
-      self.els.reasonAnswer.classList.remove("visible");
-      self.els.reasonAnswer.innerHTML = "";
-      if (self.els.reasonRow) self.els.reasonRow.style.display = "block";
-      self.els.reasonInput.value = value;
-      self.els.reasonInput.focus();
-      self._render();
+      self.els.causeButtons.appendChild(button);
     });
 
-    this.els.reasonAnswer.appendChild(text);
-    this.els.reasonAnswer.appendChild(deleteButton);
-    this.els.reasonAnswer.classList.add("visible");
-    if (this.els.reasonRow) this.els.reasonRow.style.display = "none";
-    this.els.reasonInput.value = "";
-
-    this._render();
-  };
-
-  PredictionTableActivity.prototype._render = function () {
-    var change = this.usesDropdowns ? (this.els.change.value || "") : this.context.change;
-    var measure = this.usesDropdowns ? (this.els.measure.value || "") : this.context.measure;
-
-    this.context.change = change;
-    this.context.measure = measure;
-
-    var prediction = this._buildPredictionPhrases(change, measure);
-
-    if (this.els.causeText) setGeneratedText(this.els.causeText, prediction.cause, "Choose a cause relationship.");
-    if (this.els.effectText) setGeneratedText(this.els.effectText, prediction.effect, "Choose an effect or result.");
-
-    var fullPrediction = "";
-    if (prediction.cause !== "" && prediction.effect !== "") {
-      var separator = (this.context.structure === "how" || this.context.structure === "does") ? " " : ", ";
-      fullPrediction = prediction.cause + separator + prediction.effect + ".";
+    if (this.els.conditionInputs) {
+      this.els.conditionInputs.classList.toggle("visible", relationshipType === "condition-comparison");
     }
+  }
 
-    var complete = fullPrediction !== "" && this.reason !== "";
-    if (complete) fullPrediction += " This is because " + this.reason + ".";
+  this._render();
+};
 
-    if (this.els.fullText) {
-      setGeneratedText(this.els.fullText, fullPrediction, "Complete the organiser to build your reasoned prediction.");
-    }
+PredictionTableActivity.prototype._selectEffect = function (button) {
+  this.selectedEffect = button.dataset.predictionEffect;
+  Array.prototype.forEach.call(this.els.effectButtons, function (other) { other.classList.remove("selected"); });
+  button.classList.add("selected");
+  this._render();
+};
 
-    this.setComplete(complete);
-  };
+PredictionTableActivity.prototype._submitReason = function () {
+  if (!this.els.reasonInput || !this.els.reasonAnswer) return;
 
-  PredictionTableActivity.prototype._buildPredictionPhrases = function (change, measure) {
-    var structure = this.context.structure;
-    var causeAction = this._getCauseActionPhrase(change);
-    var effectAction = EFFECT_PHRASES[this.selectedEffect] || "";
+  var value = getValidStudentInput(this.els.reasonInput);
+  if (value === null) return;
 
-    if (!structure || !measure || !causeAction || !effectAction) {
+  this.reason = value;
+  this.els.reasonAnswer.innerHTML = "";
+
+  var text = document.createElement("span");
+  text.textContent = value;
+
+  var self = this;
+  var deleteButton = createDeleteAnswerButton("Edit your reason", function () {
+    self.reason = "";
+    self.els.reasonAnswer.classList.remove("visible");
+    self.els.reasonAnswer.innerHTML = "";
+    if (self.els.reasonRow) self.els.reasonRow.style.display = "block";
+    self.els.reasonInput.value = value;
+    self.els.reasonInput.focus();
+    self._render();
+  });
+
+  this.els.reasonAnswer.appendChild(text);
+  this.els.reasonAnswer.appendChild(deleteButton);
+  this.els.reasonAnswer.classList.add("visible");
+  if (this.els.reasonRow) this.els.reasonRow.style.display = "none";
+  this.els.reasonInput.value = "";
+
+  this._render();
+};
+
+PredictionTableActivity.prototype._render = function () {
+  var change = this.usesDropdowns ? (this.els.change.value || "") : this.context.change;
+  var measure = this.usesDropdowns ? (this.els.measure.value || "") : this.context.measure;
+
+  this.context.change = change;
+  this.context.measure = measure;
+
+  var prediction = this._buildPredictionPhrases(change, measure);
+
+  if (this.els.causeText) setGeneratedText(this.els.causeText, prediction.cause, "Choose a cause relationship.");
+  if (this.els.effectText) setGeneratedText(this.els.effectText, prediction.effect, "Choose an effect or result.");
+
+  var fullPrediction = "";
+  if (prediction.cause !== "" && prediction.effect !== "") {
+    var separator = (this.context.structure === "how" || this.context.structure === "does") ? " " : ", ";
+    fullPrediction = prediction.cause + separator + prediction.effect + ".";
+  }
+
+  var complete = fullPrediction !== "" && this.reason !== "";
+  if (complete) fullPrediction += " This is because " + this.reason + ".";
+
+  if (this.els.fullText) {
+    setGeneratedText(this.els.fullText, fullPrediction, "Complete the organiser to build your reasoned prediction.");
+  }
+
+  this.setComplete(complete);
+};
+
+PredictionTableActivity.prototype._buildPredictionPhrases = function (change, measure) {
+  var structure = this.context.structure;
+  var causeAction = this._getCauseActionPhrase(change);
+  var effectAction = EFFECT_PHRASES[this.selectedEffect] || "";
+
+  if (!structure || !measure || !causeAction || !effectAction) {
+    return { cause: "", effect: "" };
+  }
+
+  switch (structure) {
+    /* When I change the _____, what happens to the _____? */
+    case "what":
+      return {
+        cause: "When I " + causeAction.verb,
+        effect: measure + " will " + effectAction
+      };
+
+    /* How does changing the _____ affect the _____? */
+    case "how":
+    case "does":
+      return {
+        cause: causeAction.gerund.charAt(0).toUpperCase() + causeAction.gerund.slice(1),
+        effect: "will cause " + measure + " to " + effectAction
+      };
+
+    /* If I change the _____, what happens to the _____? */
+    case "if":
+      return {
+        cause: "If I " + causeAction.verb,
+        effect: "then " + measure + " will " + effectAction
+      };
+
+    default:
       return { cause: "", effect: "" };
-    }
+  }
+};
 
-    switch (structure) {
-      /* When I change the _____, what happens to the _____? */
-      case "what":
-        return {
-          cause: "When I " + causeAction.verb,
-          effect: measure + " will " + effectAction
-        };
+PredictionTableActivity.prototype._getCauseActionPhrase = function (change) {
+  if (!change || !this.selectedCause) return null;
 
-      /* How does changing the _____ affect the _____? */
-      case "how":
-      case "does":
-        return {
-          cause: causeAction.gerund.charAt(0).toUpperCase() + causeAction.gerund.slice(1),
-          effect: "will cause " + measure + " to " + effectAction
-        };
+  var conditionOne = this.els.conditionOne ? getSafeStudentPreviewValue(this.els.conditionOne) : "";
+  var conditionTwo = this.els.conditionTwo ? getSafeStudentPreviewValue(this.els.conditionTwo) : "";
 
-      /* If I change the _____, what happens to the _____? */
-      case "if":
-        return {
-          cause: "If I " + causeAction.verb,
-          effect: "then " + measure + " will " + effectAction
-        };
+  switch (this.selectedCause) {
+    case "increase":
+      return { verb: "increase " + change, gerund: "increasing " + change };
 
-      default:
-        return { cause: "", effect: "" };
-    }
-  };
+    case "decrease":
+      return { verb: "decrease " + change, gerund: "decreasing " + change };
 
-  PredictionTableActivity.prototype._getCauseActionPhrase = function (change) {
-    if (!change || !this.selectedCause) return null;
+    case "with":
+      return {
+        verb: "conduct the experiment with " + change,
+        gerund: "conducting the experiment with " + change
+      };
 
-    var conditionOne = this.els.conditionOne ? getSafeStudentPreviewValue(this.els.conditionOne) : "";
-    var conditionTwo = this.els.conditionTwo ? getSafeStudentPreviewValue(this.els.conditionTwo) : "";
+    case "without":
+      return {
+        verb: "conduct the experiment without " + change,
+        gerund: "conducting the experiment without " + change
+      };
 
-    switch (this.selectedCause) {
-      case "increase":
-        return { verb: "increase " + change, gerund: "increasing " + change };
+    case "condition-one-to-two":
+      return {
+        verb: "change " + change + " from " + (conditionOne || "condition 1") + " to " + (conditionTwo || "condition 2"),
+        gerund: "changing " + change + " from " + (conditionOne || "condition 1") + " to " + (conditionTwo || "condition 2")
+      };
 
-      case "decrease":
-        return { verb: "decrease " + change, gerund: "decreasing " + change };
+    case "condition-two-to-one":
+      return {
+        verb: "change " + change + " from " + (conditionTwo || "condition 2") + " to " + (conditionOne || "condition 1"),
+        gerund: "changing " + change + " from " + (conditionTwo || "condition 2") + " to " + (conditionOne || "condition 1")
+      };
 
-      case "with":
-        return {
-          verb: "conduct the experiment with " + change,
-          gerund: "conducting the experiment with " + change
-        };
+    default:
+      return null;
+  }
+};
 
-      case "without":
-        return {
-          verb: "conduct the experiment without " + change,
-          gerund: "conducting the experiment without " + change
-        };
 
-      case "condition-one-to-two":
-        return {
-          verb: "change " + change + " from " + (conditionOne || "condition 1") + " to " + (conditionTwo || "condition 2"),
-          gerund: "changing " + change + " from " + (conditionOne || "condition 1") + " to " + (conditionTwo || "condition 2")
-        };
-
-      case "condition-two-to-one":
-        return {
-          verb: "change " + change + " from " + (conditionTwo || "condition 2") + " to " + (conditionOne || "condition 1"),
-          gerund: "changing " + change + " from " + (conditionTwo || "condition 2") + " to " + (conditionOne || "condition 1")
-        };
-
-      default:
-        return null;
-    }
-  };
-
-  global.PredictionTableActivity = PredictionTableActivity;
-})(window);
+export { PredictionTableActivity };

@@ -18,56 +18,52 @@
    data-activity-complete attributes already exist).
    ================================================== */
 
-(function (global) {
-  "use strict";
+function collectActivities(section) {
+  const activities = Array.prototype.slice.call(section.querySelectorAll("[data-activity]"));
+  if (section.matches("[data-activity]")) activities.push(section);
+  return activities;
+}
 
-  function collectActivities(section) {
-    const activities = Array.prototype.slice.call(section.querySelectorAll("[data-activity]"));
-    if (section.matches("[data-activity]")) activities.push(section);
-    return activities;
-  }
+function initSectionActivities(section) {
+  const nextButton = section.querySelector(".next-button");
+  if (!nextButton) return;
 
-  function initSectionActivities(section) {
-    const nextButton = section.querySelector(".next-button");
-    if (!nextButton) return;
+  if (!collectActivities(section).length) return;
 
-    if (!collectActivities(section).length) return;
-
-    function refresh() {
-      const allComplete = collectActivities(section).every(function (activity) {
-        return activity.dataset.activityComplete === "true";
-      });
-      nextButton.hidden = !allComplete;
-    }
-
-    section.addEventListener("activity:change", refresh);
-    refresh();
-  }
-
-  function initSectionActivitiesIn(root) {
-    Array.prototype.forEach.call((root || document).querySelectorAll(".section"), initSectionActivities);
-  }
-
-  // Appends a Next button to every section except the last, skipping any
-  // section that already has one. Call before initSectionActivitiesIn() so
-  // the activity watcher can find and gate the new buttons.
-  function createNextButtons(root) {
-    const sections = Array.prototype.slice.call((root || document).querySelectorAll(".section"));
-
-    sections.slice(0, -1).forEach(function (section) {
-      if (section.querySelector(".next-button")) return;
-
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "next-button general-button";
-      button.textContent = "Next";
-      button.addEventListener("click", function () {
-        unlockSection(null, section);
-      });
-      section.appendChild(button);
+  function refresh() {
+    const allComplete = collectActivities(section).every(function (activity) {
+      return activity.dataset.activityComplete === "true";
     });
+    nextButton.hidden = !allComplete;
   }
 
-  global.initSectionActivities = initSectionActivities;
-  global.initSectionActivitiesIn = initSectionActivitiesIn;
-})(window);
+  section.addEventListener("activity:change", refresh);
+  refresh();
+}
+
+function initSectionActivitiesIn(root) {
+  Array.prototype.forEach.call((root || document).querySelectorAll(".section"), initSectionActivities);
+}
+
+// Appends a Next button to every section except the last, skipping any
+// section that already has one. Call before initSectionActivitiesIn() so
+// the activity watcher can find and gate the new buttons.
+function createNextButtons(root) {
+  const sections = Array.prototype.slice.call((root || document).querySelectorAll(".section"));
+
+  sections.slice(0, -1).forEach(function (section) {
+    if (section.querySelector(".next-button")) return;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "next-button general-button";
+    button.textContent = "Next";
+    button.addEventListener("click", function () {
+      unlockSection(null, section);
+    });
+    section.appendChild(button);
+  });
+}
+
+
+export { initSectionActivities, initSectionActivitiesIn };

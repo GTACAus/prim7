@@ -1733,18 +1733,18 @@
   </main>
 
   <script src="../scripts/common_functions.js"></script>
-  <script src="../scripts/activities/activity-base.js"></script>
-  <script src="../scripts/activities/activity-sections.js"></script>
-  <script src="../scripts/activities/input-response-activity.js"></script>
-  <script src="../scripts/activities/prediction-table-activity.js"></script>
-  <script src="../scripts/activities/investigation-question-activity.js"></script>
-  <script src="../scripts/activities/variable-sort-activity.js"></script>
-  <script src="../scripts/activities/multiple-choice-activity.js"></script>
-  <script src="../scripts/activities/button-reveal-activity.js"></script>
   <script src="../scripts/lesson2_scripts/bigkahuna4.js"></script>
 
 
-  <script>
+  <script type="module">
+    import { initSectionActivitiesIn } from "../scripts/activities/activity-sections.js";
+    import "../scripts/activities/button-reveal-activity.js";
+    import { InputResponseActivity } from "../scripts/activities/input-response-activity.js";
+    import { InvestigationQuestionActivity } from "../scripts/activities/investigation-question-activity.js";
+    import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
+    import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
+    import { VariableSortActivity } from "../scripts/activities/variable-sort-activity.js";
+
     const dev = false;
     if (dev) window.addEventListener("DOMContentLoaded", teacherShowAll);
     /* ==================================================
@@ -1917,6 +1917,9 @@ function initialiseBallPairActivity() {
     function saveCurrentPageData() {
       console.log("Lesson 2 skeleton: no saved activity data yet.");
     }
+
+    /* Called from inline handlers / shared scripts, which cannot see module scope. */
+    Object.assign(window, { resetQuestionAndPrediction, saveCurrentPageData });
   </script>
 </body>
 </html>

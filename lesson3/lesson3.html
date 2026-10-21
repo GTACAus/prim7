@@ -1358,14 +1358,7 @@
 
     <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
     <script src="../scripts/common_functions.js"></script>
-    <script src="../scripts/lesson_progress.js"></script>
-    <script src="../scripts/activities/activity-base.js"></script>
-    <script src="../scripts/activities/activity-sections.js"></script>
-    <script src="../scripts/activities/variable-sort-activity.js"></script>
-    <script src="../scripts/activities/button-reveal-activity.js"></script>
-    <script src="../scripts/activities/drag-drop-activity.js"></script>
-    <script src="../scripts/activities/input-response-activity.js"></script>
-    <script src="../scripts/activities/multiple-choice-activity.js"></script>
+    <script type="module" src="../scripts/lesson_progress.js"></script>
     <script>
       const cards = document.querySelectorAll('.yeast-card');
 
@@ -1401,7 +1394,14 @@
           modal.classList.remove('is-open');
       });
     </script>
-    <script>
+    <script type="module">
+      import { initSectionActivitiesIn } from "../scripts/activities/activity-sections.js";
+      import "../scripts/activities/button-reveal-activity.js";
+      import { DragDropActivity } from "../scripts/activities/drag-drop-activity.js";
+      import { InputResponseActivity } from "../scripts/activities/input-response-activity.js";
+      import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
+      import { VariableSortActivity } from "../scripts/activities/variable-sort-activity.js";
+
       /* ==================================================
        YEAST TEST VIDEOS
        The video itself is shown by the shared openVideoModal() (common_functions.js).
@@ -1729,6 +1729,9 @@
 
         initSectionActivitiesIn(document);
       });
+
+      /* Called from inline handlers / shared scripts, which cannot see module scope. */
+      Object.assign(window, { calculateInputAverage, openYeastRecordVideo });
     </script>
   </body>
 </html>
