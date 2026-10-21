@@ -26,16 +26,6 @@ function setChallengeFeedback(elementId, type, title, message) {
   box.appendChild(document.createTextNode(message));
 }
 
-function flashChoice(button, className) {
-  if (!button) return;
-  button.classList.remove("correct-choice", "try-again-choice");
-  void button.offsetWidth;
-  button.classList.add(className);
-  window.setTimeout(function() {
-    button.classList.remove(className);
-  }, 650);
-}
-
 /*
   Named partBFormatAverage for historical reasons (it was written for
   Part B's bar graph first), but it's used by every "Calculate averages"
@@ -95,14 +85,17 @@ BarGraph.prototype.clear = function() {
   Grid lines and y-axis tick labels from 0 to maxY. With options.choice
   ({ className, hitClass, attr }) each tick is a keyboard-focusable button
   group (with a hit area) whose attr holds its value, as Part B's plotting uses.
+  options.labelEvery (default 1) labels only every n-th value; every value still gets a grid line.
 */
 BarGraph.prototype.drawGrid = function(options) {
   const plot = this.plot;
   const choice = options && options.choice;
+  const labelEvery = (options && options.labelEvery) || 1;
 
   for (let value = 0; value <= plot.maxY; value += 1) {
     const y = this.y(value);
     this.layers.grid.appendChild(svgEl("line", { "class": "graph-grid-line", x1: plot.left, x2: plot.right, y1: y, y2: y }));
+    if (value % labelEvery !== 0) continue;
 
     const label = svgEl("text", { "class": "tick-label", x: 103, y: y + 4, "text-anchor": "end" }, value);
     if (!choice) {
@@ -119,6 +112,32 @@ BarGraph.prototype.drawGrid = function(options) {
     group.appendChild(label);
     this.layers.yTicks.appendChild(group);
   }
+};
+
+/*
+  One label per x position, for line graphs: ticks is [{ x, label }] (x in SVG units).
+  With options.choice ({ className, hitClass, attr }) each label is a button group whose attr
+  holds its label (Part-B-style guided plotting).
+*/
+BarGraph.prototype.drawXTicks = function(ticks, options) {
+  const choice = options && options.choice;
+
+  ticks.forEach(function(tick) {
+    const label = svgEl("text", { "class": "tick-label", x: tick.x, y: 394, "text-anchor": "middle" }, tick.label);
+    if (!choice) {
+      this.layers.xTicks.appendChild(label);
+      return;
+    }
+
+    const group = svgEl("g", {
+      "class": choice.className, tabindex: 0, role: "button",
+      "aria-label": "Choose " + tick.label + " on the x-axis"
+    });
+    group.setAttribute(choice.attr, tick.label);
+    group.appendChild(svgEl("rect", { "class": choice.hitClass, x: tick.x - 40, y: 371, width: 80, height: 44, rx: 6 }));
+    group.appendChild(label);
+    this.layers.xTicks.appendChild(group);
+  }, this);
 };
 
 /*

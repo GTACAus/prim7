@@ -451,15 +451,6 @@ function partBStartAnalysis() {
       }
     }]);
   }
-  function partCCardLabel(value) {
-    return {
-      animal: "Type of animal",
-      number: "Number of animals",
-      night: "Night number",
-      average: "Average"
-    }[value] || value;
-  }
-
   // Axis label drag and drop is a DragDropActivity (#partCAxisActivity, strictSlots).
   function partCHandleAxisIncorrect(slotId) {
     setChallengeFeedback(
@@ -630,23 +621,6 @@ function partBStartAnalysis() {
     });
   }
 
-  function partCAnalysisValue(kind) {
-    const values = partCBarData.map(function(item) { return item.average; });
-    return kind === "highest" ? Math.max.apply(null, values) : Math.min.apply(null, values);
-  }
-
-  function partCAnalysisIndexes(kind) {
-    const target = partCAnalysisValue(kind);
-    return partCBarData.reduce(function(indexes, item, index) {
-      if (item.average === target) indexes.push(index);
-      return indexes;
-    }, []);
-  }
-
-  function partCAnalysisIndex(kind) {
-    return partCAnalysisIndexes(kind)[0];
-  }
-
   // The analysis questions are a MultipleChoiceActivity (#partCAnalysisPanel): it sequences
   // the questions and shows their feedback; this highlights the bar being read.
   function partCHandleAnalysisAnswer(detail) {
@@ -739,10 +713,6 @@ function partBStartAnalysis() {
 
   function partDFormat(value) {
     return Number.isInteger(value) ? String(value) : value.toFixed(1);
-  }
-
-  function partDSiteLabel(site) {
-    return site === "site1" ? "Site 1" : "Site 2";
   }
 
   const partDGraph = new BarGraph({

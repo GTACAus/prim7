@@ -9,8 +9,7 @@
 
 /* ---------- Shared graph foundations used on this page ---------- */
 .graph-control-card,
-.graph-stage-card,
-.graph-rule-card {
+.graph-stage-card {
   border: 3px solid var(--charcoal);
   border-radius: 20px;
   box-shadow: var(--shadow-small);
@@ -24,13 +23,11 @@
     var(--soft-blue) 180%
   );
 }
-.graph-control-card h3,
-.graph-rule-card h3 {
+.graph-control-card h3 {
   margin: 0 0 8px;
   color: var(--text);
 }
-.graph-control-card > p,
-.graph-rule-card > p {
+.graph-control-card > p {
   margin: 0;
   color: var(--muted);
   line-height: 1.5;
@@ -102,13 +99,6 @@
   stroke-width: 3;
   stroke-linecap: round;
 }
-.axis-group {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-.axis-group.visible {
-  opacity: 1;
-}
 .axis-label {
   font-size: 15px;
   font-weight: 700;
@@ -153,20 +143,6 @@
   align-items: center;
   justify-content: center;
   color: var(--paper);
-}
-.challenge-panel,
-.challenge-visual {
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 18px;
-}
-.challenge-panel {
-  margin-bottom: 20px;
-  padding: 18px;
-}
-.challenge-visual {
-  padding: 16px;
-  overflow: hidden;
 }
 .challenge-step-label {
   display: inline-block;
@@ -280,10 +256,6 @@
 }
 .practice-table th:last-child {
   background: var(--soft-purple);
-}
-.practice-table tr.active-practice-row td {
-  background: var(--soft-green);
-  font-weight: 700;
 }
 /* ---------- Bar graph practice ---------- */
 .bar-builder-controls {
@@ -562,25 +534,6 @@
   box-shadow: none;
 }
 
-.partb-drag-ghost {
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  width: max-content;
-  max-width: 90vw;
-  transform: scale(1.04);
-}
-
-.partb-drag-ghost .partb-axis-card {
-  margin: 0;
-  cursor: grabbing;
-  box-shadow: 0 3px 0 var(--charcoal);
-}
-
-.partb-drag-ghost.is-hovering-drop-zone .partb-axis-card {
-  background: var(--soft-yellow);
-}
-
 .partb-unit-check {
   margin-top: 16px;
   padding: 14px;
@@ -678,6 +631,15 @@
   border-style: solid;
 }
 
+/* Slots whose position is set inline (lesson4-2): -rot ones are centred on that point and turned to read upwards. */
+.axis-slot-rot {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.axis-slot-rot.dd-hover {
+  transform: translate(-50%, -50%) rotate(-90deg) scale(var(--dd-slot-hover-scale));
+}
+
 .axis-slot.axis-complete {
   display: none;
 }
@@ -700,61 +662,6 @@
 /* The unit check disappears once answered correctly. */
 #partBUnitCheck[data-activity-complete="true"],
 #partCUnitCheck[data-activity-complete="true"] {
-  display: none;
-}
-
-#partBGraphSvg .partb-axis-drop-zone,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone {
-  cursor: pointer;
-}
-
-#partBGraphSvg .partb-axis-drop-hit-pad,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-hit-pad {
-  fill: transparent;
-  pointer-events: all;
-}
-
-#partBGraphSvg .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-box {
-  fill: rgba(215, 242, 244, .86);
-  stroke: var(--blue);
-  stroke-width: 2.5;
-  stroke-dasharray: 7 5;
-  pointer-events: none;
-  transition: fill .15s ease, stroke .15s ease, stroke-width .15s ease;
-}
-
-#partBGraphSvg .partb-axis-drop-text,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-text {
-  fill: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-  pointer-events: none;
-}
-
-#partBGraphSvg .partb-axis-drop-zone.drag-over .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.drag-over .partb-axis-drop-box {
-  fill: var(--soft-yellow);
-  stroke: var(--purple);
-  stroke-width: 3.5;
-}
-
-#partBGraphSvg .partb-axis-drop-zone.drop-incorrect .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.drop-incorrect .partb-axis-drop-box {
-  fill: var(--soft-orange);
-  stroke: var(--orange);
-  stroke-width: 3.5;
-}
-
-#partBGraphSvg .partb-axis-drop-zone.drop-complete .partb-axis-drop-box,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.drop-complete .partb-axis-drop-box {
-  fill: var(--soft-green);
-  stroke: var(--green);
-  stroke-dasharray: none;
-}
-
-#partBGraphSvg .partb-axis-drop-zone.axis-complete,
-:is(#lineGraphElephantSvg, #lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) .partb-axis-drop-zone.axis-complete {
   display: none;
 }
 
@@ -1155,8 +1062,7 @@
   display: none !important;
 }
 
-.partc-axis-card,
-.partc-drag-ghost .partc-axis-card {
+.partc-axis-card {
   min-height: 46px;
   padding: 9px 14px;
   background: var(--paper);
@@ -1184,62 +1090,6 @@
   opacity: .28;
   box-shadow: none;
   cursor: default;
-}
-
-.partc-drag-ghost {
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  width: max-content;
-  max-width: 88vw;
-  transform: scale(1.04);
-}
-
-.partc-drag-ghost.is-hovering-drop-zone .partc-axis-card {
-  background: var(--soft-yellow);
-}
-
-#partCGraphSvg .partc-axis-drop-hit-pad {
-  fill: transparent;
-  pointer-events: all;
-}
-
-#partCGraphSvg .partc-axis-drop-box {
-  fill: rgba(229, 238, 255, .72);
-  stroke: var(--blue);
-  stroke-width: 2.5;
-  stroke-dasharray: 7 5;
-  pointer-events: none;
-  transition: fill .15s ease, stroke .15s ease, stroke-width .15s ease;
-}
-
-#partCGraphSvg .partc-axis-drop-text {
-  fill: var(--charcoal);
-  font-size: 13px;
-  font-weight: 800;
-  pointer-events: none;
-}
-
-#partCGraphSvg .partc-axis-drop-zone.drag-over .partc-axis-drop-box {
-  fill: var(--soft-yellow);
-  stroke: var(--purple);
-  stroke-width: 4;
-}
-
-#partCGraphSvg .partc-axis-drop-zone.drop-complete .partc-axis-drop-box {
-  fill: var(--soft-green);
-  stroke: var(--green);
-  stroke-dasharray: none;
-}
-
-#partCGraphSvg .partc-axis-drop-zone.drop-incorrect .partc-axis-drop-box {
-  fill: var(--soft-orange);
-  stroke: var(--orange);
-  animation: lesson4ChoiceBuzz .28s ease;
-}
-
-#partCGraphSvg .partc-axis-drop-zone.axis-complete {
-  display: none;
 }
 
 #partCGraphSvg .partc-final-axis-label {
@@ -1384,10 +1234,6 @@
   border-radius: 14px;
 }
 
-.partc-analysis-animal-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 /* Keep the Part C completion summary easy to scan. The generic
    .partc-complete-card > p rule above has greater specificity than
    the individual paragraph classes, so set the spacing with the
@@ -1435,8 +1281,7 @@
     grid-template-columns: 1fr;
   }
 
-  .partc-unit-buttons,
-  .partc-analysis-animal-grid {
+  .partc-unit-buttons {
     grid-template-columns: 1fr;
   }
 }
@@ -1898,12 +1743,6 @@
   line-height: 1.55;
 }
 
-.bar-example-image-grid {
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-  gap: 24px;
-  align-items: center;
-}
-
 /* These image cards don't need the decorative intro-card dotted line */
 .bar-example-image-card::before {
   display: none;
@@ -1953,11 +1792,7 @@
 }
 
 @media (max-width: 800px) {
-  .bar-example-image-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .bar-example-image-card:first-child .image-box img,
+    .bar-example-image-card:first-child .image-box img,
   .bar-example-image-card:last-child .image-box img {
     max-width: 100%;
   }
@@ -2065,135 +1900,6 @@
   }
 }
 
-.bar-purpose-callout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px;
-  gap: 18px;
-  align-items: center;
-  margin-top: 16px;
-  padding: 17px 18px;
-  background: var(--soft-blue);
-  border: 2px solid var(--charcoal);
-  border-left: 8px solid var(--blue);
-  border-radius: 15px;
-}
-
-.bar-purpose-callout p {
-  margin: 0;
-  color: var(--text);
-  line-height: 1.55;
-}
-
-.bar-length-demo {
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  gap: 22px;
-  min-height: 92px;
-  padding: 10px 12px 4px;
-  border-bottom: 3px solid var(--charcoal);
-}
-
-.bar-length-demo-item {
-  display: grid;
-  justify-items: center;
-  gap: 5px;
-  font-size: .75rem;
-  font-weight: 800;
-}
-
-.bar-length-demo-bar {
-  width: 38px;
-  border: 2px solid var(--charcoal);
-  border-bottom: 0;
-  border-radius: 7px 7px 0 0;
-  background: var(--mint);
-}
-
-.bar-length-demo-bar.short { height: 38px; }
-.bar-length-demo-bar.long {
-  height: 72px;
-  background: var(--yellow);
-}
-
-.bar-data-type-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 16px;
-}
-
-.bar-data-type-card {
-  padding: 16px;
-  background: var(--paper);
-  border: 2px solid var(--charcoal);
-  border-radius: 15px;
-}
-
-.bar-data-type-card:first-child { border-top: 7px solid var(--yellow); }
-.bar-data-type-card:last-child { border-top: 7px solid var(--mint); }
-
-.bar-data-type-card h3 {
-  margin: 0 0 7px;
-  font-size: 1rem;
-}
-
-.bar-data-type-card p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.48;
-}
-
-.bar-example-graphs-frame {
-  display: flex;
-  justify-content: center;
-  max-width: 640px;
-  margin: 16px auto 0;
-  padding: 14px;
-  border: 3px solid var(--charcoal);
-  border-radius: 20px;
-  box-shadow: var(--shadow-small);
-}
-
-.bar-example-graphs-frame img {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  /* The source PNG has a large blank margin below the charts.
-     Crop it off by fixing the visible area to just the chart
-     content instead of showing the full (mostly blank) image. */
-  aspect-ratio: 2000 / 740;
-  object-fit: cover;
-  object-position: top;
-  border-radius: 14px;
-}
-
-.bar-data-visual {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 12px 0 10px;
-}
-
-.bar-data-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 42px;
-  min-height: 34px;
-  padding: 5px 10px;
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-  font-size: .82rem;
-  font-weight: 800;
-}
-
-.bar-data-example {
-  color: var(--text) !important;
-  font-size: .9rem;
-}
-
 @media (max-width: 700px) {
   .bar-data-preamble { padding: 18px; }
 
@@ -2208,19 +1914,7 @@
   }
 
 
-  .bar-purpose-callout {
-    grid-template-columns: 1fr;
-  }
-
-  .bar-length-demo {
-    max-width: 190px;
-    margin: 0 auto;
-  }
-
-  .bar-data-type-grid {
-    grid-template-columns: 1fr;
-  }
-}
+      }
 
 
 /* ---------- Site 2 scene ---------- */
@@ -2285,20 +1979,6 @@
   color: var(--muted);
   line-height: 1.35;
 }
-
-.partc-site1-reference {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 8px 0 10px;
-  padding: 7px 10px;
-  background: var(--soft-green);
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-  font-size: .84rem;
-  font-weight: 800;
-}
-
 
 /* ==================================================
    PART A - PROJECT POSSUM
@@ -2453,8 +2133,7 @@
   line-height: 1.35;
 }
 
-.project-status-chip,
-.project-site-chip {
+.project-status-chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2542,14 +2221,6 @@
   font-size: .9rem;
 }
 
-.project-site-card.current .project-site-chip {
-  background: white;
-}
-
-.project-site-card.future .project-site-chip {
-  background: white;
-}
-
 .project-site-arrow {
   font-size: 1.65rem;
   font-weight: 800;
@@ -2592,11 +2263,6 @@
   margin-top: 8px;
   color: var(--muted);
   font-size: .83rem;
-}
-
-.project-task-copy {
-  margin: 0 0 14px;
-  line-height: 1.55;
 }
 
 .project-animal-grid {
@@ -3065,7 +2731,6 @@
   display: none !important;
 }
 
-.bar-axis-summary,
 .lesson4-spaced-block {
   margin-top: 10px;
 }
@@ -3074,11 +2739,6 @@
   display: block;
   margin: 14px auto 0;
 }
-
-.spaced-step-label {
-  margin-top: 16px;
-}
-
 
 /* Lesson 3's numbered formula cards use short text spans. Lesson 4 uses lists
    inside the same component, so only list spacing needs a local addition. */

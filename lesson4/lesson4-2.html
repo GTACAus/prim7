@@ -6,6 +6,7 @@
   <title>Lesson 4 - Line Graphs</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
+  <link href="../styles/drag_and_drop_base.css" rel="stylesheet" type="text/css">
   <link href="../styles/lesson4_styles/lesson4.css" rel="stylesheet" type="text/css">
   <link href="../styles/lesson4_styles/number-line-activity.css" rel="stylesheet" type="text/css">
   <link href="../styles/overrides.css" rel="stylesheet" type="text/css">
@@ -895,8 +896,8 @@
           </table>
         </div>
 
-        <div class="reset-button-container">
-          <button type="button" class="general-button" id="lineGraphCalculateAveragesButton">Calculate averages</button>
+        <div class="reset-button-container" id="lineGraphAveragesActivity" data-activity>
+          <button type="button" class="general-button" id="lineGraphCalculateAveragesButton" data-button-trigger>Calculate averages</button>
         </div>
 
         <div class="challenge-feedback" id="lineGraphTableFeedback" role="status" aria-live="polite">
@@ -906,7 +907,7 @@
       </div>
 
       <div class="partb-construction-stage" id="lineGraphConstructionStage" hidden>
-        <div class="partb-construction-grid">
+        <div class="partb-construction-grid" id="lineGraphAxisActivity" data-activity>
           <div class="graph-control-card partb-control-panel">
             <span class="challenge-step-label" id="lineGraphStepLabel">Step 2 · Label the axes and units</span>
 
@@ -916,13 +917,13 @@
                 These survey counts are reported as <strong>number per m²</strong>.
               </p>
 
-              <div class="partb-label-bank" id="lineGraphLabelBank" aria-label="Line graph axis label and unit cards">
-                <button type="button" class="partb-axis-card" id="lineGraphCardDistance" draggable="true" data-line-card-type="variable" data-line-card-value="distance">Distance from low tide mark</button>
-                <button type="button" class="partb-axis-card" id="lineGraphCardSnails" draggable="true" data-line-card-type="variable" data-line-card-value="snails">Number of elephant snails</button>
-                <button type="button" class="partb-axis-card" id="lineGraphCardTime" draggable="true" data-line-card-type="variable" data-line-card-value="time">Time</button>
-                <button type="button" class="partb-axis-card" id="lineGraphCardMetres" draggable="true" data-line-card-type="unit" data-line-card-value="m">m</button>
-                <button type="button" class="partb-axis-card" id="lineGraphCardNoUnit" draggable="true" data-line-card-type="unit" data-line-card-value="per-m2">Number per m²</button>
-                <button type="button" class="partb-axis-card" id="lineGraphCardCm" draggable="true" data-line-card-type="unit" data-line-card-value="cm">cm</button>
+              <div class="partb-label-bank" id="lineGraphLabelBank" data-dd-tray aria-label="Line graph axis label and unit cards">
+                <button type="button" class="partb-axis-card" id="lineGraphCardDistance" data-line-card-type="variable" data-dd-item="distance">Distance from low tide mark</button>
+                <button type="button" class="partb-axis-card" id="lineGraphCardSnails" data-line-card-type="variable" data-dd-item="snails">Number of elephant snails</button>
+                <button type="button" class="partb-axis-card" id="lineGraphCardTime" data-line-card-type="variable" data-dd-item="time">Time</button>
+                <button type="button" class="partb-axis-card" id="lineGraphCardMetres" data-line-card-type="unit" data-dd-item="m">m</button>
+                <button type="button" class="partb-axis-card" id="lineGraphCardNoUnit" data-line-card-type="unit" data-dd-item="per-m2">Number per m²</button>
+                <button type="button" class="partb-axis-card" id="lineGraphCardCm" data-line-card-type="unit" data-dd-item="cm">cm</button>
               </div>
             </div>
 
@@ -959,7 +960,7 @@
               </div>
             </div>
 
-            <div class="graph-svg-wrap">
+            <div class="graph-svg-wrap" id="lineGraphPlotActivity" data-activity data-plot-enabled-by="lineGraphAxisActivity">
               <svg class="graph-svg" id="lineGraphElephantSvg" viewBox="0 0 760 460" role="img" aria-label="Interactive line graph of average elephant snail count by distance from the low tide mark">
                 <rect x="0" y="0" width="760" height="460" rx="18" fill="white"></rect>
 
@@ -970,41 +971,7 @@
                 <line class="graph-axis" x1="120" y1="370" x2="720" y2="370"></line>
                 <line class="graph-axis" x1="120" y1="370" x2="120" y2="30"></line>
 
-                <g id="lineGraphXAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-line-axis-slot="x-variable" data-line-card-type="variable" data-line-expected="distance"
-                   aria-label="Drop the x-axis variable here">
-                  <rect class="partb-axis-drop-hit-pad" x="235" y="365" width="255" height="90"></rect>
-                  <rect class="partb-axis-drop-box" x="260" y="410" width="205" height="42" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="362.5" y="436" text-anchor="middle" data-placeholder="Variable">Variable</text>
-                </g>
-
-                <g id="lineGraphXAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-line-axis-slot="x-unit" data-line-card-type="unit" data-line-expected="m"
-                   aria-label="Drop the x-axis unit here">
-                  <rect class="partb-axis-drop-hit-pad" x="460" y="365" width="120" height="90"></rect>
-                  <rect class="partb-axis-drop-box" x="485" y="410" width="70" height="42" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="520" y="436" text-anchor="middle" data-placeholder="Unit">Unit</text>
-                </g>
-
                 <text class="axis-label partb-final-axis-label" x="420" y="420" text-anchor="middle" id="lineGraphXAxisLabel">Distance from low tide mark (m)</text>
-
-                <g transform="translate(34 205) rotate(-90)">
-                  <g id="lineGraphYAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                     data-line-axis-slot="y-variable" data-line-card-type="variable" data-line-expected="snails"
-                     aria-label="Drop the y-axis variable here">
-                    <rect class="partb-axis-drop-hit-pad" x="-178" y="-57" width="250" height="114"></rect>
-                    <rect class="partb-axis-drop-box" x="-148" y="-22" width="190" height="44" rx="9"></rect>
-                    <text class="partb-axis-drop-text" x="-53" y="5" text-anchor="middle" data-placeholder="Variable">Variable</text>
-                  </g>
-
-                  <g id="lineGraphYAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                     data-line-axis-slot="y-unit" data-line-card-type="unit" data-line-expected="per-m2"
-                     aria-label="Drop the y-axis unit here">
-                    <rect class="partb-axis-drop-hit-pad" x="35" y="-57" width="150" height="114"></rect>
-                    <rect class="partb-axis-drop-box" x="65" y="-22" width="90" height="44" rx="9"></rect>
-                    <text class="partb-axis-drop-text" x="110" y="5" text-anchor="middle" data-placeholder="Unit">Unit</text>
-                  </g>
-                </g>
 
                 <text class="axis-label partb-final-axis-label" x="34" y="205" text-anchor="middle" transform="rotate(-90 34 205)" id="lineGraphYAxisLabel">Number of elephant snails per m²</text>
 
@@ -1015,12 +982,17 @@
                 <polyline id="lineGraphPath" class="linegraph-path" points=""></polyline>
                 <g id="lineGraphPointsLayer"></g>
               </svg>
+              <!-- HTML drop slots laid over the SVG's axis-label positions (see .axis-slot in lesson4.css) -->
+              <div class="axis-slot" id="lineGraphXAxisVariableSlot" data-dd-slot="x-variable" data-dd-answer="distance" style="left: 34.21%; top: 89.13%; width: 26.97%; height: 9.13%;" aria-label="Drop the x-axis variable here">Variable</div>
+              <div class="axis-slot" id="lineGraphXAxisUnitSlot" data-dd-slot="x-unit" data-dd-answer="m" style="left: 63.82%; top: 89.13%; width: 9.21%; height: 9.13%;" aria-label="Drop the x-axis unit here">Unit</div>
+              <div class="axis-slot axis-slot-rot" id="lineGraphYAxisVariableSlot" data-dd-slot="y-variable" data-dd-answer="snails" style="left: 4.47%; top: 56.09%; width: 25%; height: 9.57%;" aria-label="Drop the y-axis variable here">Variable</div>
+              <div class="axis-slot axis-slot-rot" id="lineGraphYAxisUnitSlot" data-dd-slot="y-unit" data-dd-answer="per-m2" style="left: 4.47%; top: 20.65%; width: 11.84%; height: 9.57%;" aria-label="Drop the y-axis unit here">Unit</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="prediction-check" id="lineGraphPredictionCheck" hidden>
+      <div class="prediction-check" id="lineGraphPredictionCheck" data-activity data-activity-depends-on="lineGraphPlotActivity" data-mc-feedback-target="#lineGraphPredictionFeedback" hidden>
         <p class="prediction-label">Interpret the results</p>
 
         <div class="prediction-reminder">
@@ -1030,15 +1002,15 @@
           </p>
         </div>
 
-        <div class="prediction-final">
+        <div class="prediction-final" data-mc-question data-mc-answer="supported" data-incorrect-title="Look at the trend again." data-incorrect-text=" As distance from the low tide mark increases, what happens to the average number of elephant snails? Does that match the direction of the prediction?">
           <h3>Do the results support the reasoned prediction?</h3>
 
-          <div class="prediction-buttons">
+          <div class="prediction-buttons" data-mc-choices>
             <button
               id="lineGraphPredictionSupported"
               type="button"
               class="general-button prediction-button"
-              data-linegraph-prediction="supported"
+              data-mc-choice="supported"
             >
               Supported
             </button>
@@ -1047,7 +1019,7 @@
               id="lineGraphPredictionPartlySupported"
               type="button"
               class="general-button prediction-button"
-              data-linegraph-prediction="partly-supported"
+              data-mc-choice="partly-supported"
             >
               Partly supported
             </button>
@@ -1056,7 +1028,7 @@
               id="lineGraphPredictionUnsupported"
               type="button"
               class="general-button prediction-button"
-              data-linegraph-prediction="not-supported"
+              data-mc-choice="not-supported"
             >
               Not supported
             </button>
@@ -1137,8 +1109,8 @@
         </table>
       </div>
 
-      <div class="reset-button-container">
-        <button type="button" class="general-button" id="conniwinksCalculateAveragesButton">Calculate averages</button>
+      <div class="reset-button-container" id="conniwinksAveragesActivity" data-activity>
+        <button type="button" class="general-button" id="conniwinksCalculateAveragesButton" data-button-trigger>Calculate averages</button>
       </div>
 
       <div class="challenge-feedback" id="conniwinksTableFeedback" role="status" aria-live="polite">
@@ -1148,7 +1120,7 @@
     </div>
 
     <div class="partb-construction-stage" id="conniwinksConstructionStage" hidden>
-      <div class="partb-construction-grid">
+      <div class="partb-construction-grid" id="conniwinksAxisActivity" data-activity>
         <div class="graph-control-card partb-control-panel">
           <span class="challenge-step-label" id="conniwinksStepLabel">Step 2 · Label the axes and units</span>
 
@@ -1158,13 +1130,13 @@
               These survey counts are reported as <strong>number per m²</strong>.
             </p>
 
-            <div class="partb-label-bank" id="conniwinksLabelBank" aria-label="Striped conniwinks graph axis label and unit cards">
-              <button type="button" class="partb-axis-card" id="conniwinksCardDistance" draggable="true" data-conni-card-type="variable" data-conni-card-value="distance">Distance from low tide mark</button>
-              <button type="button" class="partb-axis-card" id="conniwinksCardSnails" draggable="true" data-conni-card-type="variable" data-conni-card-value="conniwinks">Number of striped conniwinks</button>
-              <button type="button" class="partb-axis-card" id="conniwinksCardTime" draggable="true" data-conni-card-type="variable" data-conni-card-value="time">Time</button>
-              <button type="button" class="partb-axis-card" id="conniwinksCardMetres" draggable="true" data-conni-card-type="unit" data-conni-card-value="m">m</button>
-              <button type="button" class="partb-axis-card" id="conniwinksCardNoUnit" draggable="true" data-conni-card-type="unit" data-conni-card-value="per-m2">Number per m²</button>
-              <button type="button" class="partb-axis-card" id="conniwinksCardCm" draggable="true" data-conni-card-type="unit" data-conni-card-value="cm">cm</button>
+            <div class="partb-label-bank" id="conniwinksLabelBank" data-dd-tray aria-label="Striped conniwinks graph axis label and unit cards">
+              <button type="button" class="partb-axis-card" id="conniwinksCardDistance" data-conni-card-type="variable" data-dd-item="distance">Distance from low tide mark</button>
+              <button type="button" class="partb-axis-card" id="conniwinksCardSnails" data-conni-card-type="variable" data-dd-item="conniwinks">Number of striped conniwinks</button>
+              <button type="button" class="partb-axis-card" id="conniwinksCardTime" data-conni-card-type="variable" data-dd-item="time">Time</button>
+              <button type="button" class="partb-axis-card" id="conniwinksCardMetres" data-conni-card-type="unit" data-dd-item="m">m</button>
+              <button type="button" class="partb-axis-card" id="conniwinksCardNoUnit" data-conni-card-type="unit" data-dd-item="per-m2">Number per m²</button>
+              <button type="button" class="partb-axis-card" id="conniwinksCardCm" data-conni-card-type="unit" data-dd-item="cm">cm</button>
             </div>
           </div>
 
@@ -1201,7 +1173,7 @@
             </div>
           </div>
 
-          <div class="graph-svg-wrap">
+          <div class="graph-svg-wrap" id="conniwinksPlotActivity" data-activity data-plot-enabled-by="conniwinksAxisActivity">
             <svg class="graph-svg" id="lineGraphConniwinksSvg" viewBox="0 0 760 460" role="img" aria-label="Interactive line graph of average striped conniwinks count by distance from the low tide mark">
               <rect x="0" y="0" width="760" height="460" rx="18" fill="white"></rect>
 
@@ -1212,41 +1184,7 @@
               <line class="graph-axis" x1="120" y1="370" x2="700" y2="370"></line>
               <line class="graph-axis" x1="120" y1="370" x2="120" y2="40"></line>
 
-              <g id="conniwinksXAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                 data-conni-axis-slot="x-variable" data-conni-card-type="variable" data-conni-expected="distance"
-                 aria-label="Drop the x-axis variable here">
-                <rect class="partb-axis-drop-hit-pad" x="235" y="365" width="255" height="90"></rect>
-                <rect class="partb-axis-drop-box" x="260" y="410" width="205" height="42" rx="9"></rect>
-                <text class="partb-axis-drop-text" x="362.5" y="436" text-anchor="middle" data-placeholder="Variable">Variable</text>
-              </g>
-
-              <g id="conniwinksXAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                 data-conni-axis-slot="x-unit" data-conni-card-type="unit" data-conni-expected="m"
-                 aria-label="Drop the x-axis unit here">
-                <rect class="partb-axis-drop-hit-pad" x="460" y="365" width="120" height="90"></rect>
-                <rect class="partb-axis-drop-box" x="485" y="410" width="70" height="42" rx="9"></rect>
-                <text class="partb-axis-drop-text" x="520" y="436" text-anchor="middle" data-placeholder="Unit">Unit</text>
-              </g>
-
               <text class="axis-label partb-final-axis-label" x="410" y="420" text-anchor="middle" id="conniwinksXAxisLabel">Distance from low tide mark (m)</text>
-
-              <g transform="translate(34 205) rotate(-90)">
-                <g id="conniwinksYAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-conni-axis-slot="y-variable" data-conni-card-type="variable" data-conni-expected="conniwinks"
-                   aria-label="Drop the y-axis variable here">
-                  <rect class="partb-axis-drop-hit-pad" x="-178" y="-57" width="250" height="114"></rect>
-                  <rect class="partb-axis-drop-box" x="-148" y="-22" width="190" height="44" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="-53" y="5" text-anchor="middle" data-placeholder="Variable">Variable</text>
-                </g>
-
-                <g id="conniwinksYAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-conni-axis-slot="y-unit" data-conni-card-type="unit" data-conni-expected="per-m2"
-                   aria-label="Drop the y-axis unit here">
-                  <rect class="partb-axis-drop-hit-pad" x="35" y="-57" width="150" height="114"></rect>
-                  <rect class="partb-axis-drop-box" x="65" y="-22" width="90" height="44" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="110" y="5" text-anchor="middle" data-placeholder="Unit">Unit</text>
-                </g>
-              </g>
 
               <text class="axis-label partb-final-axis-label" x="34" y="205" text-anchor="middle" transform="rotate(-90 34 205)" id="conniwinksYAxisLabel">Number of striped conniwinks per m²</text>
 
@@ -1255,12 +1193,17 @@
               <polyline id="conniwinksPath" class="linegraph-path" points=""></polyline>
               <g id="conniwinksPointsLayer"></g>
             </svg>
+              <!-- HTML drop slots laid over the SVG's axis-label positions (see .axis-slot in lesson4.css) -->
+              <div class="axis-slot" id="conniwinksXAxisVariableSlot" data-dd-slot="x-variable" data-dd-answer="distance" style="left: 34.21%; top: 89.13%; width: 26.97%; height: 9.13%;" aria-label="Drop the x-axis variable here">Variable</div>
+              <div class="axis-slot" id="conniwinksXAxisUnitSlot" data-dd-slot="x-unit" data-dd-answer="m" style="left: 63.82%; top: 89.13%; width: 9.21%; height: 9.13%;" aria-label="Drop the x-axis unit here">Unit</div>
+              <div class="axis-slot axis-slot-rot" id="conniwinksYAxisVariableSlot" data-dd-slot="y-variable" data-dd-answer="conniwinks" style="left: 4.47%; top: 56.09%; width: 25%; height: 9.57%;" aria-label="Drop the y-axis variable here">Variable</div>
+              <div class="axis-slot axis-slot-rot" id="conniwinksYAxisUnitSlot" data-dd-slot="y-unit" data-dd-answer="per-m2" style="left: 4.47%; top: 20.65%; width: 11.84%; height: 9.57%;" aria-label="Drop the y-axis unit here">Unit</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="prediction-check" id="conniwinksPredictionCheck" hidden>
+    <div class="prediction-check" id="conniwinksPredictionCheck" data-activity data-activity-depends-on="conniwinksPlotActivity" data-mc-feedback-target="#conniwinksPredictionFeedback" hidden>
       <p class="prediction-label">Interpret the results</p>
 
       <div class="prediction-reminder">
@@ -1270,13 +1213,13 @@
         </p>
       </div>
 
-      <div class="prediction-final">
+      <div class="prediction-final" data-mc-question data-mc-answer="not-supported" data-incorrect-title="Look at the whole trend again." data-incorrect-text=" The averages rise from 2 at 0 m to 16 at 15 m, then fall to 6 at 20 m. Does that show a consistent decrease as distance increases?">
         <h3>Do the results support the reasoned prediction?</h3>
 
-        <div class="prediction-buttons">
-          <button type="button" class="general-button prediction-button" data-conni-prediction="supported">Supported</button>
-          <button type="button" class="general-button prediction-button" data-conni-prediction="partly-supported">Partly supported</button>
-          <button type="button" class="general-button prediction-button" data-conni-prediction="not-supported">Not supported</button>
+        <div class="prediction-buttons" data-mc-choices>
+          <button type="button" class="general-button prediction-button" data-mc-choice="supported">Supported</button>
+          <button type="button" class="general-button prediction-button" data-mc-choice="partly-supported">Partly supported</button>
+          <button type="button" class="general-button prediction-button" data-mc-choice="not-supported">Not supported</button>
         </div>
 
         <div class="challenge-feedback" id="conniwinksPredictionFeedback" role="status" aria-live="polite" hidden>
@@ -1367,8 +1310,8 @@
         </table>
       </div>
 
-      <div class="reset-button-container">
-        <button type="button" class="general-button" id="yeastCalculateAveragesButton">Calculate averages</button>
+      <div class="reset-button-container" id="yeastAveragesActivity" data-activity>
+        <button type="button" class="general-button" id="yeastCalculateAveragesButton" data-button-trigger>Calculate averages</button>
       </div>
 
       <div class="challenge-feedback" id="yeastTableFeedback" role="status" aria-live="polite">
@@ -1378,7 +1321,7 @@
     </div>
 
     <div class="partb-construction-stage" id="yeastConstructionStage" hidden>
-      <div class="partb-construction-grid">
+      <div class="partb-construction-grid" id="yeastAxisActivity" data-activity>
         <div class="graph-control-card partb-control-panel">
           <span class="challenge-step-label" id="yeastStepLabel">Step 2 · Label the axes and units</span>
 
@@ -1388,13 +1331,13 @@
               Use the table headings and testable question to decide where they belong.
             </p>
 
-            <div class="partb-label-bank" id="yeastLabelBank" aria-label="Yeast graph axis label and unit cards">
-              <button type="button" class="partb-axis-card" id="yeastCardTemperature" draggable="true" data-yeast-card-type="variable" data-yeast-card-value="temperature">Temperature</button>
-              <button type="button" class="partb-axis-card" id="yeastCardCircumference" draggable="true" data-yeast-card-type="variable" data-yeast-card-value="circumference">Balloon circumference</button>
-              <button type="button" class="partb-axis-card" id="yeastCardDistance" draggable="true" data-yeast-card-type="variable" data-yeast-card-value="distance">Distance</button>
-              <button type="button" class="partb-axis-card" id="yeastCardDegrees" draggable="true" data-yeast-card-type="unit" data-yeast-card-value="deg">°C</button>
-              <button type="button" class="partb-axis-card" id="yeastCardCm" draggable="true" data-yeast-card-type="unit" data-yeast-card-value="cm">cm</button>
-              <button type="button" class="partb-axis-card" id="yeastCardSeconds" draggable="true" data-yeast-card-type="unit" data-yeast-card-value="s">seconds</button>
+            <div class="partb-label-bank" id="yeastLabelBank" data-dd-tray aria-label="Yeast graph axis label and unit cards">
+              <button type="button" class="partb-axis-card" id="yeastCardTemperature" data-yeast-card-type="variable" data-dd-item="temperature">Temperature</button>
+              <button type="button" class="partb-axis-card" id="yeastCardCircumference" data-yeast-card-type="variable" data-dd-item="circumference">Balloon circumference</button>
+              <button type="button" class="partb-axis-card" id="yeastCardDistance" data-yeast-card-type="variable" data-dd-item="distance">Distance</button>
+              <button type="button" class="partb-axis-card" id="yeastCardDegrees" data-yeast-card-type="unit" data-dd-item="deg">°C</button>
+              <button type="button" class="partb-axis-card" id="yeastCardCm" data-yeast-card-type="unit" data-dd-item="cm">cm</button>
+              <button type="button" class="partb-axis-card" id="yeastCardSeconds" data-yeast-card-type="unit" data-dd-item="s">seconds</button>
             </div>
           </div>
 
@@ -1431,7 +1374,7 @@
             </div>
           </div>
 
-          <div class="graph-svg-wrap">
+          <div class="graph-svg-wrap" id="yeastPlotActivity" data-activity data-plot-enabled-by="yeastAxisActivity">
             <svg class="graph-svg" id="lineGraphYeastSvg" viewBox="0 0 760 460" role="img"
                  aria-label="Interactive line graph of average balloon circumference by temperature">
               <rect x="0" y="0" width="760" height="460" rx="18" fill="white"></rect>
@@ -1443,42 +1386,8 @@
               <line class="graph-axis" x1="120" y1="370" x2="700" y2="370"></line>
               <line class="graph-axis" x1="120" y1="370" x2="120" y2="40"></line>
 
-              <g id="yeastXAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                 data-yeast-axis-slot="x-variable" data-yeast-card-type="variable" data-yeast-expected="temperature"
-                 aria-label="Drop the x-axis variable here">
-                <rect class="partb-axis-drop-hit-pad" x="235" y="365" width="255" height="90"></rect>
-                <rect class="partb-axis-drop-box" x="260" y="410" width="205" height="42" rx="9"></rect>
-                <text class="partb-axis-drop-text" x="362.5" y="436" text-anchor="middle" data-placeholder="Variable">Variable</text>
-              </g>
-
-              <g id="yeastXAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                 data-yeast-axis-slot="x-unit" data-yeast-card-type="unit" data-yeast-expected="deg"
-                 aria-label="Drop the x-axis unit here">
-                <rect class="partb-axis-drop-hit-pad" x="460" y="365" width="120" height="90"></rect>
-                <rect class="partb-axis-drop-box" x="485" y="410" width="70" height="42" rx="9"></rect>
-                <text class="partb-axis-drop-text" x="520" y="436" text-anchor="middle" data-placeholder="Unit">Unit</text>
-              </g>
-
               <text class="axis-label partb-final-axis-label" x="410" y="420" text-anchor="middle"
                     id="yeastXAxisLabel">Temperature (°C)</text>
-
-              <g transform="translate(34 205) rotate(-90)">
-                <g id="yeastYAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-yeast-axis-slot="y-variable" data-yeast-card-type="variable" data-yeast-expected="circumference"
-                   aria-label="Drop the y-axis variable here">
-                  <rect class="partb-axis-drop-hit-pad" x="-178" y="-57" width="250" height="114"></rect>
-                  <rect class="partb-axis-drop-box" x="-148" y="-22" width="190" height="44" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="-53" y="5" text-anchor="middle" data-placeholder="Variable">Variable</text>
-                </g>
-
-                <g id="yeastYAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-yeast-axis-slot="y-unit" data-yeast-card-type="unit" data-yeast-expected="cm"
-                   aria-label="Drop the y-axis unit here">
-                  <rect class="partb-axis-drop-hit-pad" x="35" y="-57" width="150" height="114"></rect>
-                  <rect class="partb-axis-drop-box" x="65" y="-22" width="90" height="44" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="110" y="5" text-anchor="middle" data-placeholder="Unit">Unit</text>
-                </g>
-              </g>
 
               <text class="axis-label partb-final-axis-label" x="34" y="205" text-anchor="middle"
                     transform="rotate(-90 34 205)" id="yeastYAxisLabel">Balloon circumference (cm)</text>
@@ -1488,12 +1397,17 @@
               <polyline id="yeastPath" class="linegraph-path" points=""></polyline>
               <g id="yeastPointsLayer"></g>
             </svg>
+              <!-- HTML drop slots laid over the SVG's axis-label positions (see .axis-slot in lesson4.css) -->
+              <div class="axis-slot" id="yeastXAxisVariableSlot" data-dd-slot="x-variable" data-dd-answer="temperature" style="left: 34.21%; top: 89.13%; width: 26.97%; height: 9.13%;" aria-label="Drop the x-axis variable here">Variable</div>
+              <div class="axis-slot" id="yeastXAxisUnitSlot" data-dd-slot="x-unit" data-dd-answer="deg" style="left: 63.82%; top: 89.13%; width: 9.21%; height: 9.13%;" aria-label="Drop the x-axis unit here">Unit</div>
+              <div class="axis-slot axis-slot-rot" id="yeastYAxisVariableSlot" data-dd-slot="y-variable" data-dd-answer="circumference" style="left: 4.47%; top: 56.09%; width: 25%; height: 9.57%;" aria-label="Drop the y-axis variable here">Variable</div>
+              <div class="axis-slot axis-slot-rot" id="yeastYAxisUnitSlot" data-dd-slot="y-unit" data-dd-answer="cm" style="left: 4.47%; top: 20.65%; width: 11.84%; height: 9.57%;" aria-label="Drop the y-axis unit here">Unit</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="prediction-check" id="yeastPredictionCheck" hidden>
+    <div class="prediction-check" id="yeastPredictionCheck" data-activity data-activity-depends-on="yeastPlotActivity" data-mc-feedback-target="#yeastPredictionFeedback" hidden>
       <p class="prediction-label">Interpret the results</p>
 
       <div class="prediction-reminder">
@@ -1504,13 +1418,13 @@
         </p>
       </div>
 
-      <div class="prediction-final">
+      <div class="prediction-final" data-mc-question data-mc-answer="partly-supported" data-incorrect-title="Look at the whole trend again." data-incorrect-text=" Balloon circumference increases from 6 cm at 10 Â°C to 24 cm at 30 Â°C, then decreases to 18 cm at 40 Â°C and 8 cm at 50 Â°C. Is the prediction true across the whole temperature range?">
         <h3>Do the results support the reasoned prediction?</h3>
 
-        <div class="prediction-buttons">
-          <button type="button" class="general-button prediction-button" data-yeast-prediction="supported">Supported</button>
-          <button type="button" class="general-button prediction-button" data-yeast-prediction="partly-supported">Partly supported</button>
-          <button type="button" class="general-button prediction-button" data-yeast-prediction="not-supported">Not supported</button>
+        <div class="prediction-buttons" data-mc-choices>
+          <button type="button" class="general-button prediction-button" data-mc-choice="supported">Supported</button>
+          <button type="button" class="general-button prediction-button" data-mc-choice="partly-supported">Partly supported</button>
+          <button type="button" class="general-button prediction-button" data-mc-choice="not-supported">Not supported</button>
         </div>
 
         <div class="challenge-feedback" id="yeastPredictionFeedback" role="status" aria-live="polite" hidden>
@@ -1522,8 +1436,8 @@
     <button
       id="graph-yeast-next"
       class="next-button general-button"
-      onclick="unlockSection('line-graph-yeast', 'line-graph-conniwinks')"
-      
+      onclick="unlockSection('line-graph-plants', 'line-graph-yeast')"
+      hidden
     >
       Next
     </button>
@@ -1606,8 +1520,8 @@
           </table>
         </div>
 
-        <div class="reset-button-container">
-          <button type="button" class="general-button" id="plant100CalculateAveragesButton">Calculate averages</button>
+        <div class="reset-button-container" id="plant100AveragesActivity" data-activity>
+          <button type="button" class="general-button" id="plant100CalculateAveragesButton" data-button-trigger>Calculate averages</button>
         </div>
 
         <div class="challenge-feedback" id="plant100TableFeedback" role="status" aria-live="polite">
@@ -1647,8 +1561,8 @@
           </table>
         </div>
 
-        <div class="reset-button-container">
-          <button type="button" class="general-button" id="plant300CalculateAveragesButton">Calculate averages</button>
+        <div class="reset-button-container" id="plant300AveragesActivity" data-activity>
+          <button type="button" class="general-button" id="plant300CalculateAveragesButton" data-button-trigger>Calculate averages</button>
         </div>
 
         <div class="challenge-feedback" id="plant300TableFeedback" role="status" aria-live="polite">
@@ -1659,7 +1573,7 @@
     </div>
 
     <div class="partb-construction-stage" id="plantConstructionStage" hidden>
-      <div class="partb-construction-grid">
+      <div class="partb-construction-grid" id="plantAxisActivity" data-activity>
         <div class="graph-control-card partb-control-panel">
           <span class="challenge-step-label" id="plantStepLabel">Step 2 · Label the axes and units</span>
 
@@ -1669,13 +1583,13 @@
               In this special case, think carefully about why <strong>time</strong> belongs on the x-axis.
             </p>
 
-            <div class="partb-label-bank" id="plantLabelBank" aria-label="Stevia plant graph axis label and unit cards">
-              <button type="button" class="partb-axis-card" id="plantCardTime" draggable="true" data-plant-card-type="variable" data-plant-card-value="time">Time</button>
-              <button type="button" class="partb-axis-card" id="plantCardHeight" draggable="true" data-plant-card-type="variable" data-plant-card-value="height">Plant height</button>
-              <button type="button" class="partb-axis-card" id="plantCardWater" draggable="true" data-plant-card-type="variable" data-plant-card-value="water">Amount of water</button>
-              <button type="button" class="partb-axis-card" id="plantCardDays" draggable="true" data-plant-card-type="unit" data-plant-card-value="days">days</button>
-              <button type="button" class="partb-axis-card" id="plantCardCm" draggable="true" data-plant-card-type="unit" data-plant-card-value="cm">cm</button>
-              <button type="button" class="partb-axis-card" id="plantCardMl" draggable="true" data-plant-card-type="unit" data-plant-card-value="ml">mL</button>
+            <div class="partb-label-bank" id="plantLabelBank" data-dd-tray aria-label="Stevia plant graph axis label and unit cards">
+              <button type="button" class="partb-axis-card" id="plantCardTime" data-plant-card-type="variable" data-dd-item="time">Time</button>
+              <button type="button" class="partb-axis-card" id="plantCardHeight" data-plant-card-type="variable" data-dd-item="height">Plant height</button>
+              <button type="button" class="partb-axis-card" id="plantCardWater" data-plant-card-type="variable" data-dd-item="water">Amount of water</button>
+              <button type="button" class="partb-axis-card" id="plantCardDays" data-plant-card-type="unit" data-dd-item="days">days</button>
+              <button type="button" class="partb-axis-card" id="plantCardCm" data-plant-card-type="unit" data-dd-item="cm">cm</button>
+              <button type="button" class="partb-axis-card" id="plantCardMl" data-plant-card-type="unit" data-dd-item="ml">mL</button>
             </div>
           </div>
 
@@ -1714,17 +1628,17 @@
           </div>
 
           <div class="partd-legend" aria-label="Watering condition key">
-            <span class="partd-legend-item" data-plant-legend="water100">
+            <span class="partd-legend-item" data-plot-legend="water100">
               <span class="partd-swatch plant-water100" aria-hidden="true"></span>
               100 mL water
             </span>
-            <span class="partd-legend-item" data-plant-legend="water300">
+            <span class="partd-legend-item" data-plot-legend="water300">
               <span class="partd-swatch plant-water300" aria-hidden="true"></span>
               300 mL water
             </span>
           </div>
 
-          <div class="graph-svg-wrap">
+          <div class="graph-svg-wrap" id="plantPlotActivity" data-activity data-plot-enabled-by="plantAxisActivity">
             <svg class="graph-svg" id="lineGraphPlantsSvg" viewBox="0 0 760 460" role="img"
                  aria-label="Interactive line graph comparing average Stevia plant height over time under 100 millilitre and 300 millilitre watering conditions">
               <rect x="0" y="0" width="760" height="460" rx="18" fill="white"></rect>
@@ -1736,42 +1650,8 @@
               <line class="graph-axis" x1="120" y1="370" x2="700" y2="370"></line>
               <line class="graph-axis" x1="120" y1="370" x2="120" y2="40"></line>
 
-              <g id="plantXAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                 data-plant-axis-slot="x-variable" data-plant-card-type="variable" data-plant-expected="time"
-                 aria-label="Drop the x-axis variable here">
-                <rect class="partb-axis-drop-hit-pad" x="235" y="365" width="255" height="90"></rect>
-                <rect class="partb-axis-drop-box" x="260" y="410" width="205" height="42" rx="9"></rect>
-                <text class="partb-axis-drop-text" x="362.5" y="436" text-anchor="middle" data-placeholder="Variable">Variable</text>
-              </g>
-
-              <g id="plantXAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                 data-plant-axis-slot="x-unit" data-plant-card-type="unit" data-plant-expected="days"
-                 aria-label="Drop the x-axis unit here">
-                <rect class="partb-axis-drop-hit-pad" x="460" y="365" width="120" height="90"></rect>
-                <rect class="partb-axis-drop-box" x="485" y="410" width="70" height="42" rx="9"></rect>
-                <text class="partb-axis-drop-text" x="520" y="436" text-anchor="middle" data-placeholder="Unit">Unit</text>
-              </g>
-
               <text class="axis-label partb-final-axis-label" x="410" y="420" text-anchor="middle"
                     id="plantXAxisLabel">Time (days)</text>
-
-              <g transform="translate(34 205) rotate(-90)">
-                <g id="plantYAxisVariableDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-plant-axis-slot="y-variable" data-plant-card-type="variable" data-plant-expected="height"
-                   aria-label="Drop the y-axis variable here">
-                  <rect class="partb-axis-drop-hit-pad" x="-178" y="-57" width="250" height="114"></rect>
-                  <rect class="partb-axis-drop-box" x="-148" y="-22" width="190" height="44" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="-53" y="5" text-anchor="middle" data-placeholder="Variable">Variable</text>
-                </g>
-
-                <g id="plantYAxisUnitDrop" class="partb-axis-drop-zone" tabindex="0" role="button"
-                   data-plant-axis-slot="y-unit" data-plant-card-type="unit" data-plant-expected="cm"
-                   aria-label="Drop the y-axis unit here">
-                  <rect class="partb-axis-drop-hit-pad" x="35" y="-57" width="150" height="114"></rect>
-                  <rect class="partb-axis-drop-box" x="65" y="-22" width="90" height="44" rx="9"></rect>
-                  <text class="partb-axis-drop-text" x="110" y="5" text-anchor="middle" data-placeholder="Unit">Unit</text>
-                </g>
-              </g>
 
               <text class="axis-label partb-final-axis-label" x="34" y="205" text-anchor="middle"
                     transform="rotate(-90 34 205)" id="plantYAxisLabel">Plant height (cm)</text>
@@ -1784,12 +1664,17 @@
               <g id="plantPoints100"></g>
               <g id="plantPoints300"></g>
             </svg>
+              <!-- HTML drop slots laid over the SVG's axis-label positions (see .axis-slot in lesson4.css) -->
+              <div class="axis-slot" id="plantXAxisVariableSlot" data-dd-slot="x-variable" data-dd-answer="time" style="left: 34.21%; top: 89.13%; width: 26.97%; height: 9.13%;" aria-label="Drop the x-axis variable here">Variable</div>
+              <div class="axis-slot" id="plantXAxisUnitSlot" data-dd-slot="x-unit" data-dd-answer="days" style="left: 63.82%; top: 89.13%; width: 9.21%; height: 9.13%;" aria-label="Drop the x-axis unit here">Unit</div>
+              <div class="axis-slot axis-slot-rot" id="plantYAxisVariableSlot" data-dd-slot="y-variable" data-dd-answer="height" style="left: 4.47%; top: 56.09%; width: 25%; height: 9.57%;" aria-label="Drop the y-axis variable here">Variable</div>
+              <div class="axis-slot axis-slot-rot" id="plantYAxisUnitSlot" data-dd-slot="y-unit" data-dd-answer="cm" style="left: 4.47%; top: 20.65%; width: 11.84%; height: 9.57%;" aria-label="Drop the y-axis unit here">Unit</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="prediction-check" id="plantPredictionCheck" hidden>
+    <div class="prediction-check" id="plantPredictionCheck" data-activity data-activity-depends-on="plantPlotActivity" data-mc-feedback-target="#plantPredictionFeedback" hidden>
       <p class="prediction-label">Interpret the results</p>
 
       <div class="prediction-reminder">
@@ -1800,13 +1685,13 @@
         </p>
       </div>
 
-      <div class="prediction-final">
+      <div class="prediction-final" data-mc-question data-mc-answer="supported" data-incorrect-title="Compare the two lines again." data-incorrect-text=" Both groups begin at 0 cm. From day 20 onward, the 300 mL line is above the 100 mL line at every measurement. Does the overall evidence support the prediction?">
         <h3>Do the results support the reasoned prediction?</h3>
 
-        <div class="prediction-buttons">
-          <button type="button" class="general-button prediction-button" data-plant-prediction="supported">Supported</button>
-          <button type="button" class="general-button prediction-button" data-plant-prediction="partly-supported">Partly supported</button>
-          <button type="button" class="general-button prediction-button" data-plant-prediction="not-supported">Not supported</button>
+        <div class="prediction-buttons" data-mc-choices>
+          <button type="button" class="general-button prediction-button" data-mc-choice="supported">Supported</button>
+          <button type="button" class="general-button prediction-button" data-mc-choice="partly-supported">Partly supported</button>
+          <button type="button" class="general-button prediction-button" data-mc-choice="not-supported">Not supported</button>
         </div>
 
         <div class="challenge-feedback" id="plantPredictionFeedback" role="status" aria-live="polite" hidden>
@@ -1826,6 +1711,7 @@
   <script type="module" src="../scripts/lesson_progress.js"></script>
   <script src="../scripts/lesson4_scripts/lesson4_shared.js"></script>
   <script src="../scripts/lesson4_scripts/lesson4_2.js"></script>
+  <script type="module" src="../scripts/lesson4_scripts/lesson4-2_activities.js"></script>
 
 </body>
 </html>

@@ -616,13 +616,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .line-point.visible,
-  .pie-slice.visible {
+  .line-point.visible {
     animation: none;
   }
-  .bar-rect,
-  .whole-meter-fill,
-  .axis-group,
   .stack-unit {
     transition: none;
   }
