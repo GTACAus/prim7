@@ -325,7 +325,7 @@ input[type="checkbox"]:active {
   counter-reset: objective;
 }
 
-.objective-list li {
+.objective-list > li {
   position: relative;
   display: block;
   min-height: 42px;
@@ -344,11 +344,41 @@ input[type="checkbox"]:active {
   counter-increment: objective;
 }
 
-.objective-list li:last-child {
+.objective-list > li ul {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.objective-list > li li {
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.objective-list > li li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  background: var(--yellow);
+}
+
+.objective-list > li li:nth-child(2n)::before {
+  background: var(--soft-purple);
+}
+
+.objective-list > li li:nth-child(3n)::before {
+  background: var(--mint);
+}
+
+.objective-list > li:last-child {
   margin-bottom: 0;
 }
 
-.objective-list li::before {
+.objective-list > li::before {
   content: counter(objective);
 
   position: absolute;
@@ -575,7 +605,32 @@ input[type="checkbox"]:active {
   padding: 18px;
   margin-bottom: 20px;
   background: #ffffff;
-  border: 1px dashed var(--line);
+  border: 3px solid var(--line);
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.ol-step-count {
+  list-style: none;
+  counter-reset: step;
+  padding-left: 0;
+}
+
+.ol-step-count li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 80px;
+  margin-bottom: 16px;
+}
+
+.ol-step-count li::before {
+  content: "STEP " counter(step);
+  position: absolute;
+  left: 0;
+  top: -5px;
+  font-weight: 700;
+  color: var(--purple);
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .activity-instruction {
@@ -1217,7 +1272,6 @@ input[type="checkbox"]:active {
 
 /* ---------- Diagram ---------- */
 
-.diagram-activity,
 .thinglink-box {
   border: 3px solid var(--line);
   border-radius: 20px;
