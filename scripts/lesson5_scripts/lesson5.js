@@ -1,6 +1,9 @@
 import { DragDropActivity } from "../activities/drag-drop-activity.js";
 import { ItemMatchActivity } from "../activities/item-match-activity.js";
-    
+import { MultipleChoiceActivity } from "../activities/multiple-choice-activity.js";
+import { ButtonActivity } from "../activities/button-reveal-activity.js";
+import { InputResponseActivity } from "../activities/input-response-activity.js";
+
     /*
       Apply the glitch overlay to any image.
         applyGlitchOverlay(img)            - wraps the <img> in a .glitch-frame
@@ -102,9 +105,9 @@ import { ItemMatchActivity } from "../activities/item-match-activity.js";
           {
             id: "m2-choose-scientific-drawing",
             label: "Choose the scientific drawing",
-            type: "choice",
-            choiceGroup: "rustScientificDrawing",
-            correctValue: "option-2",
+            type: "multiple-choice",
+            activityId: "m2ChooseDrawing",
+            selectionKey: "rustScientificDrawing",
             tryAgainMessage:
                 "Look again at the Science Check. A scientific drawing should use simple clear lines, accurate proportions, appropriate labels and no unnecessary colour or decorative detail."
           },
@@ -120,9 +123,8 @@ import { ItemMatchActivity } from "../activities/item-match-activity.js";
           {
             id: "m2-camera-fixed",
             label: "The camera is fixed",
-            type: "choice",
-            choiceGroup: "goShallowWaters",
-            correctValue: "option-1"
+            type: "button-reveal",
+            activityId: "m2GoShallowWaters"
           }
         ]
       },
@@ -133,17 +135,17 @@ import { ItemMatchActivity } from "../activities/item-match-activity.js";
           {
             id: "m4-identify",
             label: "Identify from visible features",
-            type: "choice",
-            choiceGroup: "shallowFish1",
-            correctValue: "rudd",
+            type: "multiple-choice",
+            activityId: "m4IdentifyFish",
+            selectionKey: "shallowFish1",
             tryAgainMessage: "Compare the visible evidence again: body shape, fin shape and position, mouth shape and markings."
           },
           {
             id: "m4-clownfish",
             label: "Choose a scientific drawing",
-            type: "choice",
-            choiceGroup: "clownfishDiagram",
-            correctValue: "scientific",
+            type: "multiple-choice",
+            activityId: "m4ClownfishDrawing",
+            selectionKey: "clownfishDiagram",
             tryAgainMessage: "A strong scientific drawing uses clear simple lines, shows the important observable features, and avoids colour, decorative shading and unnecessary detail."
           },
           {
@@ -155,7 +157,8 @@ import { ItemMatchActivity } from "../activities/item-match-activity.js";
           {
             id: "m4-frogfish-labels",
             label: "Independent frogfish labelling",
-            type: "label-input"
+            type: "text-response",
+            activityId: "frogfishImageStage"
           }
         ]
       },
@@ -164,7 +167,14 @@ import { ItemMatchActivity } from "../activities/item-match-activity.js";
         title: "Unknown Species",
         stages: [
           { id: "m5-finale", label: "Unknown species detected", type: "finale", requiredCount: 5 },
-          { id: "m5-identify", label: "Identify the species", type: "choice", choiceGroup: "species", correctFrom: "mission5Species" },
+          {
+            id: "m5-identify",
+            label: "Identify the species",
+            type: "multiple-choice",
+            activityId: "m5IdentifySpecies",
+            selectionKey: "species",
+            tryAgainMessage: "That is not the animal in the image. Look at the shape and colours again and try another option."
+          },
           { id: "m5-field-guide", label: "Deep-Sea Field Guide", type: "read"} //POKEDEX FIELD GUIDE
         ]
       }
@@ -380,6 +390,132 @@ const travellerGuideSpecies = [
     let m2DiagramLabel = null; /* Mission 2 - label the completed rust diagram */
     let m2RustSymbolMatch = null; /* Mission 2 scientific-symbol item-match */
     let m2RustSymbolMatchTest = null; /* Mission 2 scientific-symbol item-match (TEST: per-round option sets + diagram) */
+    const stageActivities = {}; /* stage id -> the multiple-choice / button-reveal / text-response activity for that stage */
+
+    function getStageActivity(stage) {
+      return stage ? stageActivities[stage.id] || null : null;
+    }
+
+    /* A multiple-choice stage. A pick only highlights the card ("selected"); CHECK is what
+       marks it right or wrong (see markSelectedAnswer), so the activity's own correct/incorrect
+       classes are pointed at unstyled names. "live" completion means the latest pick is what counts. */
+    function createChoiceActivity(stage) {
+      const root = document.getElementById(stage.activityId);
+      if (!root) return null;
+
+      let restoring = false;
+
+      const activity = new MultipleChoiceActivity(root, {
+        completionMode: "live",
+        classes: { selected: "selected", correct: "mc-correct", incorrect: "mc-incorrect" },
+        onAnswer: function(detail) {
+          root.querySelectorAll(".choice-card").forEach(function(card) {
+            card.classList.remove("correct", "incorrect");
+          });
+          expeditionState.selections[stage.selectionKey] = detail.value;
+
+          /* Changing a logged answer means it has to be checked again, so CHECK must come back. */
+          if (!restoring && expeditionState.completedStages[stage.id]) {
+            expeditionState.completedStages[stage.id] = false;
+            const missionIndex = missionConfig.findIndex(function(mission) { return mission.stages.includes(stage); });
+            const mission = missionConfig[missionIndex];
+            if (mission.stages[mission.stages.length - 1] === stage) expeditionState.completedMissions[missionIndex] = false;
+          }
+
+          clearCurrentStageFeedback();
+          saveCurrentPageData();
+          renderControls();
+        }
+      });
+
+      stageActivities[stage.id] = activity;
+
+      /* Re-clicking the saved pick brings the stage back as it was. */
+      const saved = expeditionState.selections[stage.selectionKey];
+      const savedChoice = saved && root.querySelector('[data-mc-choice="' + saved + '"]');
+      if (savedChoice) {
+        restoring = true;
+        savedChoice.click();
+        restoring = false;
+        if (expeditionState.completedStages[stage.id]) savedChoice.classList.add("correct");
+      }
+
+      return activity;
+    }
+
+    function choiceHasSelection(activity) {
+      return Boolean(activity) && Boolean(activity.root.querySelector('[aria-pressed="true"]'));
+    }
+
+    function initChoiceActivities() {
+      missionConfig.forEach(function(mission) {
+        mission.stages.forEach(function(stage) {
+          /* m5-identify's options are built per student, see renderMission5Options() */
+          if (stage.type === "multiple-choice" && stage.id !== "m5-identify") createChoiceActivity(stage);
+        });
+      });
+    }
+
+    /* Mission 2's last stage: pressing the button plays the shallow-waters video. */
+    function initShallowWatersActivity() {
+      const stage = missionConfig[1].stages.find(function(item) { return item.type === "button-reveal"; });
+      const root = stage && document.getElementById(stage.activityId);
+      if (!root) return;
+
+      stageActivities[stage.id] = new ButtonActivity(root, {
+        onPress: function() {
+          goShallowWaters();
+          clearCurrentStageFeedback();
+        }
+      });
+
+      /* The activity reports it is complete just after onPress runs, so refresh the controls from this. */
+      root.addEventListener("activity:change", function() {
+        saveCurrentPageData();
+        renderControls();
+      });
+    }
+
+    /* Mission 3's last stage: six typed labels, one per leader line. */
+    function allFrogfishLabelsComplete() {
+      const activity = stageActivities["m4-frogfish-labels"];
+      return Boolean(activity) && activity.isComplete();
+    }
+
+    function initFrogfishLabelsActivity() {
+      const stage = missionConfig[2].stages.find(function(item) { return item.type === "text-response"; });
+      const root = stage && document.getElementById(stage.activityId);
+      if (!root) return;
+
+      const activity = new InputResponseActivity(root, {
+        onChange: function(answers) {
+          const labels = {};
+          Object.keys(answers).forEach(function(key) {
+            if (answers[key].length) labels[key] = answers[key][0];
+          });
+          expeditionState.selections.frogfishLabels = labels;
+
+          /* If a student changes a submitted answer, require CHECK again before NEXT. */
+          if (!activity.isComplete() && expeditionState.completedStages[stage.id]) {
+            expeditionState.completedStages[stage.id] = false;
+            expeditionState.completedMissions[2] = false;
+          }
+
+          clearCurrentStageFeedback();
+          saveCurrentPageData();
+          renderControls();
+        }
+      });
+
+      stageActivities[stage.id] = activity;
+      activity.restore(
+        Object.fromEntries(
+          Object.entries(expeditionState.selections.frogfishLabels || {}).map(function(entry) {
+            return [entry[0], [entry[1]]];
+          })
+        )
+      );
+    }
 
     /* Fixed sequence of 4 parts, always shown in this order. */
     const RUST_SYMBOL_ITEMS = [
@@ -925,27 +1061,6 @@ const travellerGuideSpecies = [
       renderExpedition();
     }
 
-    function registerChoice(button) {
-      const group = button.closest("[data-choice-group]");
-      if (!group) return;
-
-      const groupName = group.dataset.choiceGroup;
-      const value = button.dataset.value;
-
-      group.querySelectorAll(".choice-card").forEach(function(card) {
-        card.classList.remove("selected", "correct", "incorrect");
-        card.setAttribute("aria-pressed", "false");
-      });
-
-      button.classList.add("selected");
-      button.setAttribute("aria-pressed", "true");
-      expeditionState.selections[groupName] = value;
-
-      clearCurrentStageFeedback();
-      saveCurrentPageData();
-      renderControls();
-    }
-
     function toggleObservationChip(button) {
       const label = button.textContent.trim();
       const observations = expeditionState.selections.observations;
@@ -961,89 +1076,6 @@ const travellerGuideSpecies = [
       saveCurrentPageData();
       renderSelections();
       renderControls();
-    }
-
-    function getFrogfishInputTargets() {
-      return Array.from(document.querySelectorAll("[data-frogfish-input]"))
-        .map(function(input) { return input.dataset.frogfishInput; })
-        .filter(Boolean);
-    }
-
-    function allFrogfishLabelsComplete() {
-      const labels = expeditionState.selections.frogfishLabels || {};
-      const targets = getFrogfishInputTargets();
-      return targets.length > 0 && targets.every(function(target) {
-        return Boolean(String(labels[target] || "").trim());
-      });
-    }
-
-    function saveFrogfishOverlayLabel(input) {
-      if (!input) return;
-
-      const target = input.dataset.frogfishInput;
-      if (!target) return;
-
-      const rawValue = input.value.trim();
-
-      if (rawValue === "") {
-        delete expeditionState.selections.frogfishLabels[target];
-        clearCurrentStageFeedback();
-        saveCurrentPageData();
-        renderFrogfishLabels();
-        renderControls();
-        return;
-      }
-
-      const value = typeof getValidStudentInput === "function"
-        ? getValidStudentInput(input)
-        : rawValue;
-
-      if (!value) return;
-
-      expeditionState.selections.frogfishLabels[target] = value;
-      clearCurrentStageFeedback();
-      saveCurrentPageData();
-      renderFrogfishLabels();
-      renderControls();
-    }
-
-    function clearFrogfishOverlayLabel(target) {
-      if (!target) return;
-
-      delete expeditionState.selections.frogfishLabels[target];
-
-      /* If a student changes a submitted answer, require CHECK again before NEXT. */
-      expeditionState.completedStages["m4-frogfish-labels"] = false;
-      if (expeditionState.currentMissionIndex === 2) {
-        expeditionState.completedMissions[2] = false;
-      }
-
-      clearCurrentStageFeedback();
-      saveCurrentPageData();
-      renderFrogfishLabels();
-      renderControls();
-
-      const input = document.querySelector('[data-frogfish-input="' + target + '"]');
-      if (input) input.focus();
-    }
-
-    function renderFrogfishLabels() {
-      const labels = expeditionState.selections.frogfishLabels || {};
-
-      document.querySelectorAll("[data-frogfish-input]").forEach(function(input) {
-        const target = input.dataset.frogfishInput;
-        const savedValue = labels[target] || "";
-        const entry = input.closest(".frogfish-label-entry");
-        const isSaved = Boolean(String(savedValue).trim());
-
-        if (document.activeElement !== input) {
-          input.value = savedValue;
-        }
-
-        /* Saved labels are locked until the student presses the X button. */
-        input.readOnly = isSaved;
-        if (entry) entry.classList.toggle("has-value", isSaved);
-      });
     }
 
     function openFrogfishExampleModal() {
@@ -1069,8 +1101,9 @@ const travellerGuideSpecies = [
         return Boolean(expeditionState.selections[stage.choiceGroup]);
       }
 
-      if (stage.type === "choice") {
-        return expeditionState.selections[stage.choiceGroup] === getStageCorrectValue(stage);
+      if (stage.type === "multiple-choice" || stage.type === "button-reveal") {
+        const activity = getStageActivity(stage);
+        return Boolean(activity) && activity.isComplete();
       }
 
       if (stage.type === "choice-set") {
@@ -1079,7 +1112,7 @@ const travellerGuideSpecies = [
         });
       }
 
-      if (stage.type === "label-input") {
+      if (stage.type === "text-response") {
         return allFrogfishLabelsComplete();
       }
 
@@ -1106,11 +1139,6 @@ const travellerGuideSpecies = [
       }
 
       return false;
-    }
-
-    function getStageCorrectValue(stage) {
-      if (stage.correctFrom === "mission5Species") return expeditionState.mission5.speciesId;
-      return stage.correctValue;
     }
 
     /* Mission 2 camera inspection: reuse one existing image container and swap only the image source. */
@@ -1162,12 +1190,12 @@ const travellerGuideSpecies = [
       if (!isCorrect) {
         let message = "Review the current stage and try again.";
 
-        if (stage.id === "m5-identify") {
-          message = "That is not the animal in the image. Look at the shape and colours again and try another option.";
-        } else if (stage.tryAgainMessage) {
+        if (stage.tryAgainMessage) {
           message = stage.tryAgainMessage;
-        } else if (stage.type === "choice") {
+        } else if (stage.type === "multiple-choice") {
           message = "That does not match the current scientific criteria. Review the options and try again.";
+        } else if (stage.type === "button-reveal") {
+          message = "Press the button before checking.";
         } else if (stage.type === "dragdrop") {
           if (stage.id === "m2-drag-and-drop") {
             message = m2DiagramLabel && m2DiagramLabel.isComplete()
@@ -1180,7 +1208,7 @@ const travellerGuideSpecies = [
           }
         } else if (stage.type === "item-match") {
           message = "Select the matching symbol for the photo shown before checking.";
-        } else if (stage.type === "label-input") {
+        } else if (stage.type === "text-response") {
           message = "Complete all six frogfish labels before checking.";
         } else if (stage.type === "observations") {
           message = "Select at least three observable features before completing the final mission.";
@@ -1257,6 +1285,16 @@ const travellerGuideSpecies = [
           selected.classList.remove("correct", "incorrect");
           selected.classList.add(correct ? "correct" : "incorrect");
         });
+        return;
+      }
+
+      if (stage.type === "multiple-choice") {
+        const root = document.getElementById(stage.activityId);
+        const picked = root && root.querySelector(".choice-card.selected");
+        if (!picked) return;
+
+        picked.classList.remove("correct", "incorrect");
+        picked.classList.add(isCorrect ? "correct" : "incorrect");
         return;
       }
 
@@ -1350,11 +1388,13 @@ const travellerGuideSpecies = [
         expeditionState.completedMissions[expeditionState.currentMissionIndex] = false;
       }
 
-      if (stage.choiceGroup) {
-        expeditionState.selections[stage.choiceGroup] = "";
+      if (stage.type === "multiple-choice") {
+        expeditionState.selections[stage.selectionKey] = "";
+        getStageActivity(stage)?.reset();
       }
 
-      if (stage.choiceGroup === "goShallowWaters") {
+      if (stage.type === "button-reveal") {
+        getStageActivity(stage)?.reset();
         resetShallowWatersVideo();
       }
 
@@ -1364,8 +1404,9 @@ const travellerGuideSpecies = [
         });
       }
 
-      if (stage.type === "label-input") {
+      if (stage.type === "text-response") {
         expeditionState.selections.frogfishLabels = {};
+        getStageActivity(stage)?.reset();
       }
 
       if (stage.type === "dragdrop") {
@@ -1394,6 +1435,7 @@ const travellerGuideSpecies = [
         expeditionState.mission5.scienceChecks = [];
         expeditionState.completedStages["m5-identify"] = false;
         expeditionState.selections.species = "";
+        stageActivities["m5-identify"]?.reset();
         expeditionState.unlockedStageIndices[expeditionState.currentMissionIndex] = 0;
         expeditionState.completedMissions[expeditionState.currentMissionIndex] = false;
         /* speciesId is deliberately preserved so Reset does not reroll the organism. */
@@ -1408,13 +1450,6 @@ const travellerGuideSpecies = [
 
         stageElement.querySelectorAll('input[type="checkbox"]').forEach(function(input) {
           input.checked = false;
-        });
-
-        stageElement.querySelectorAll(".frogfish-label-entry").forEach(function(entry) {
-          entry.classList.remove("has-value");
-        });
-        stageElement.querySelectorAll("[data-frogfish-input]").forEach(function(input) {
-          input.value = "";
         });
       }
 
@@ -1499,8 +1534,7 @@ const travellerGuideSpecies = [
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-card media-choice";
-        button.dataset.value = species.id;
-        button.setAttribute("aria-pressed", "false");
+        button.dataset.mcChoice = species.id;
 
         const image = document.createElement("img");
         image.className = "choice-image";
@@ -1512,11 +1546,13 @@ const travellerGuideSpecies = [
 
         button.appendChild(image);
         button.appendChild(label);
-        button.addEventListener("click", function() {
-          registerChoice(button);
-        });
         grid.appendChild(button);
       });
+
+      /* The activity binds its choices when it is created, so make a new one for each set of options. */
+      const stage = missionConfig[3].stages.find(function(item) { return item.id === "m5-identify"; });
+      grid.closest("[data-mc-question]").dataset.mcAnswer = expeditionState.mission5.speciesId;
+      createChoiceActivity(stage);
     }
 
     /*
@@ -1850,7 +1886,6 @@ const travellerGuideSpecies = [
       renderScienceCheck();
       renderMission5();
       renderSelections();
-      renderFrogfishLabels();
       renderControls();
       renderDepth();
     }
@@ -1995,7 +2030,7 @@ const travellerGuideSpecies = [
     }
 
     function renderSelections() {
-      ["diagramExample", "drawing", "shallowFish1", "shallowFish2", "clownfishDiagram", "rustScientificDrawing", "species"].forEach(function(groupName) {
+      ["diagramExample", "drawing", "shallowFish2"].forEach(function(groupName) {
         const value = expeditionState.selections[groupName];
         const group = document.querySelector('[data-choice-group="' + groupName + '"]');
         if (!group) return;
@@ -2032,7 +2067,12 @@ const travellerGuideSpecies = [
       if (!stage) return false;
       if (stage.type === "read") return true;
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
-      if (stage.type === "label-input") return allFrogfishLabelsComplete();
+      if (stage.type === "multiple-choice") return choiceHasSelection(getStageActivity(stage));
+      if (stage.type === "button-reveal") {
+        const activity = getStageActivity(stage);
+        return Boolean(activity) && activity.isComplete();
+      }
+      if (stage.type === "text-response") return allFrogfishLabelsComplete();
       if (stage.type === "dragdrop") {
         if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
         return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
@@ -2055,7 +2095,12 @@ const travellerGuideSpecies = [
       if (!stage) return false;
       if (stage.type === "read") return Boolean(expeditionState.completedStages[stage.id]);
       if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
-      if (stage.type === "label-input") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
+      if (stage.type === "multiple-choice") return choiceHasSelection(getStageActivity(stage));
+      if (stage.type === "button-reveal") {
+        const activity = getStageActivity(stage);
+        return Boolean(activity) && activity.isComplete();
+      }
+      if (stage.type === "text-response") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
       if (stage.type === "dragdrop") {
         if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
         return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
@@ -2399,14 +2444,11 @@ const travellerGuideSpecies = [
         });
       });
 
-      document.querySelectorAll(".choice-card").forEach(function(button) {
-        button.setAttribute("aria-pressed", "false");
-        button.addEventListener("click", function() {
-          registerChoice(button);
-        });
-      });
-
       populateSciencePanel();
+
+      initChoiceActivities();
+      initShallowWatersActivity();
+      initFrogfishLabelsActivity();
 
       initRustSymbolMatchActivity();
       initRustSymbolMatchTestActivity();
@@ -2424,30 +2466,6 @@ const travellerGuideSpecies = [
         });
         m4BatfishDragDrop.setPlacements(expeditionState.selections.batfishLabels || {});
       }
-
-      document.querySelectorAll("[data-frogfish-input]").forEach(function(input) {
-        input.addEventListener("blur", function() {
-          saveFrogfishOverlayLabel(input);
-        });
-
-        input.addEventListener("input", function() {
-          clearCurrentStageFeedback();
-        });
-
-        input.addEventListener("keydown", function(event) {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            saveFrogfishOverlayLabel(input);
-            input.blur();
-          }
-        });
-      });
-
-      document.querySelectorAll("[data-frogfish-clear]").forEach(function(button) {
-        button.addEventListener("click", function() {
-          clearFrogfishOverlayLabel(button.dataset.frogfishClear);
-        });
-      });
 
       const frogfishExampleModal = document.getElementById("frogfishExampleModal");
       if (frogfishExampleModal) {
@@ -2647,7 +2665,6 @@ const travellerGuideSpecies = [
       closeImageZoomModal,
       findAnotherMission5Animal,
       goNextMission,
-      goShallowWaters,
       openImageZoomModal,
       resetCurrentMission,
       selectSonarContact,

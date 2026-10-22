@@ -2957,25 +2957,35 @@
       outline: 4px solid rgba(10, 174, 217, 0.14);
     }
 
-    /* A saved label becomes a committed field. Students use the X button to clear it. */
-    .frogfish-label-entry.has-value input {
-      padding-right: 36px;
-      border-color: var(--blue);
-      border-style: solid;
+    /* A saved label (InputResponseActivity .ir-answer) replaces the input. Students use the X button to clear it. */
+    .frogfish-label-entry .ir-answer {
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 46px;
+      padding: 9px 36px 9px 11px;
+      border: 2px solid var(--blue);
+      border-radius: 14px;
       background: rgba(255, 255, 255, 0.98);
-      outline: none;
-      cursor: default;
+      color: var(--charcoal);
+      box-shadow: 0 2px 0 rgba(48,51,47,0.12);
+      font-size: clamp(0.66rem, 1.15vw, 0.88rem);
+      font-weight: 800;
+      text-align: center;
+      overflow-wrap: anywhere;
     }
 
-    .frogfish-clear-label {
+    .frogfish-label-entry .delete-answer {
       position: absolute;
       right: 6px;
       top: 50%;
-      z-index: 4;
       width: 27px;
       height: 27px;
       translate: 0 -50%;
-      display: none;
+      display: grid;
       place-items: center;
       padding: 0;
       border: 2px solid rgba(48, 51, 47, 0.35);
@@ -2990,12 +3000,8 @@
       box-shadow: 0 1px 0 rgba(48, 51, 47, 0.15);
     }
 
-    .frogfish-label-entry.has-value .frogfish-clear-label {
-      display: grid;
-    }
-
-    .frogfish-clear-label:hover,
-    .frogfish-clear-label:focus-visible {
+    .frogfish-label-entry .delete-answer:hover,
+    .frogfish-label-entry .delete-answer:focus-visible {
       border-color: var(--orange);
       background: var(--soft-orange);
       outline: none;
@@ -3090,7 +3096,8 @@
         min-width: 92px;
       }
 
-      .frogfish-label-entry input {
+      .frogfish-label-entry input,
+      .frogfish-label-entry .ir-answer {
         min-height: 38px;
         padding: 6px 7px;
         font-size: clamp(0.52rem, 1.8vw, 0.72rem);

@@ -992,58 +992,58 @@
       </p>
 
 
-      <!-- Reuses the existing generic choice system -->
-      <div
-        class="choice-grid"
-        data-choice-group="rustScientificDrawing"
-        role="group"
-        aria-label="Scientific drawing options"
-      >
-
-        <button
-          type="button"
-          class="choice-card media-choice"
-          data-value="option-1"
-          aria-pressed="false"
-        >
-          <img
-            class="choice-image"
-            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-1.png"
-            alt="Scientific drawing option 1"
+      <div id="m2ChooseDrawing" data-activity>
+        <div data-mc-question data-mc-answer="option-2">
+          <div
+            class="choice-grid"
+            data-mc-choices
+            role="group"
+            aria-label="Scientific drawing options"
           >
-          <h4>Option A</h4>
-        </button>
+
+            <button
+              type="button"
+              class="choice-card media-choice"
+              data-mc-choice="option-1"
+            >
+              <img
+                class="choice-image"
+                src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-1.png"
+                alt="Scientific drawing option 1"
+              >
+              <h4>Option A</h4>
+            </button>
 
 
-        <button
-          type="button"
-          class="choice-card media-choice"
-          data-value="option-2"
-          aria-pressed="false"
-        >
-          <img
-            class="choice-image"
-            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
-            alt="Scientific drawing option 2"
-          >
-          <h4>Option B</h4>
-        </button>
+            <button
+              type="button"
+              class="choice-card media-choice"
+              data-mc-choice="option-2"
+            >
+              <img
+                class="choice-image"
+                src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
+                alt="Scientific drawing option 2"
+              >
+              <h4>Option B</h4>
+            </button>
 
 
-        <button
-        type="button"
-          class="choice-card media-choice"
-          data-value="option-3"
-          aria-pressed="false"
-        >
-          <img
-            class="choice-image"
-            src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
-            alt="Scientific drawing option 3"
-          >
-          <h4>Option C</h4>
-        </button>
+            <button
+              type="button"
+              class="choice-card media-choice"
+              data-mc-choice="option-3"
+            >
+              <img
+                class="choice-image"
+                src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
+                alt="Scientific drawing option 3"
+              >
+              <h4>Option C</h4>
+            </button>
 
+          </div>
+        </div>
       </div>
 
 
@@ -1161,25 +1161,23 @@
           </p>
         </div>
 
-        <div id="goShallowWatersVideoContainer" class="shallow-waters-media" hidden></div>
+        <div id="m2GoShallowWaters" data-activity>
+          <div id="goShallowWatersVideoContainer" class="shallow-waters-media" data-button-reveal hidden></div>
 
-        <div
-          data-choice-group="goShallowWaters"
-          role="group"
-          aria-label="Go to shallow waters"
-          style="display: flex; justify-content: center; margin-top: 20px;"
-        >
-          <button
-            type="button"
-            class="choice-card media-choice"
-            data-value="option-1"
-            aria-pressed="false"
-            style="width: 30%"
-            onclick="goShallowWaters()"
+          <div
+            role="group"
+            aria-label="Go to shallow waters"
+            style="display: flex; justify-content: center; margin-top: 20px;"
           >
-            <h4>Press to Go to Shallow Waters</h4>
-          </button>
-
+            <button
+              type="button"
+              class="choice-card media-choice"
+              data-button-trigger
+              style="width: 30%"
+            >
+              <h4>Press to Go to Shallow Waters</h4>
+            </button>
+          </div>
         </div>
 
         <p class="activity-prompt">
@@ -1286,60 +1284,61 @@
                       </div>
 
                       <!-- THREE ANSWER CHOICES -->
-                      <div
-                        class="choice-grid"
-                        data-choice-group="shallowFish1"
-                        role="group"
-                        aria-label="Choose the fish that matches the underwater footage"
-                      >
-
-                        <button
-                          type="button"
-                          class="choice-card media-choice"
-                          data-value="perch"
-                          aria-pressed="false"
-                          onclick="showM4FishPreview(this)"
-                        >
-                          <img
-                            class="choice-image"
-                            src="../images/lesson5/mission4/yellowfin-tuna.png"
-                            alt="Reference fish A"
+                      <div id="m4IdentifyFish" data-activity>
+                        <div data-mc-question data-mc-answer="rudd">
+                          <div
+                            class="choice-grid"
+                            data-mc-choices
+                            role="group"
+                            aria-label="Choose the fish that matches the underwater footage"
                           >
-                          <h4>Reference A</h4>
-                        </button>
+
+                            <button
+                              type="button"
+                              class="choice-card media-choice"
+                              data-mc-choice="perch"
+                              onclick="showM4FishPreview(this)"
+                            >
+                              <img
+                                class="choice-image"
+                                src="../images/lesson5/mission4/yellowfin-tuna.png"
+                                alt="Reference fish A"
+                              >
+                              <h4>Reference A</h4>
+                            </button>
 
 
-                        <button
-                          type="button"
-                          class="choice-card media-choice"
-                          data-value="pike-perch"
-                          aria-pressed="false"
-                          onclick="showM4FishPreview(this)"
-                        >
-                          <img
-                            class="choice-image"
-                            src="../images/lesson5/mission4/yellowperch.png"
-                            alt="Reference fish B"
-                          >
-                          <h4>Reference B</h4>
-                        </button>
+                            <button
+                              type="button"
+                              class="choice-card media-choice"
+                              data-mc-choice="pike-perch"
+                              onclick="showM4FishPreview(this)"
+                            >
+                              <img
+                                class="choice-image"
+                                src="../images/lesson5/mission4/yellowperch.png"
+                                alt="Reference fish B"
+                              >
+                              <h4>Reference B</h4>
+                            </button>
 
 
-                        <button
-                          type="button"
-                          class="choice-card media-choice"
-                          data-value="rudd"
-                          aria-pressed="false"
-                          onclick="showM4FishPreview(this)"
-                        >
-                          <img
-                            class="choice-image"
-                            src="../images/lesson5/mission4/bluestripe-snapper.png"
-                            alt="Reference fish C"
-                          >
-                          <h4>Reference C</h4>
-                        </button>
+                            <button
+                              type="button"
+                              class="choice-card media-choice"
+                              data-mc-choice="rudd"
+                              onclick="showM4FishPreview(this)"
+                            >
+                              <img
+                                class="choice-image"
+                                src="../images/lesson5/mission4/bluestripe-snapper.png"
+                                alt="Reference fish C"
+                              >
+                              <h4>Reference C</h4>
+                            </button>
 
+                          </div>
+                        </div>
                       </div>
 
                     </article>
@@ -1396,38 +1395,42 @@
                       colour, decorative shading and unnecessary detail can make the record harder to interpret.
                     </p>
 
-                    <div class="drawing-choice-grid" data-choice-group="clownfishDiagram">
-                      
-                      <button type="button" class="choice-card m4-clownfish-choice" data-value="colour">
-                        <img
-                          class="choice-image"
-                          src="../images/lesson5/mission4/clownfish3.png"
-                          alt="Clownfish drawing option A with colour"
-                        >
-                        <h4>Drawing A</h4>
-                        <p>A colourful representation.</p>
-                      </button>
+                    <div id="m4ClownfishDrawing" data-activity>
+                      <div data-mc-question data-mc-answer="scientific">
+                        <div class="drawing-choice-grid" data-mc-choices>
 
-                      <button type="button" class="choice-card m4-clownfish-choice" data-value="over-detailed">
-                        <img
-                          class="choice-image"
-                          src="../images/lesson5/mission4/clownfish2.png"
-                          alt="Clownfish drawing option B with heavy texture and shading"
-                        >
-                        <h4>Drawing B</h4>
-                        <p>Lots of texture and decorative detail.</p>
-                      </button>
+                          <button type="button" class="choice-card m4-clownfish-choice" data-mc-choice="colour">
+                            <img
+                              class="choice-image"
+                              src="../images/lesson5/mission4/clownfish3.png"
+                              alt="Clownfish drawing option A with colour"
+                            >
+                            <h4>Drawing A</h4>
+                            <p>A colourful representation.</p>
+                          </button>
 
-                      <button type="button" class="choice-card m4-clownfish-choice" data-value="scientific">
-                        <img
-                          class="choice-image"
-                          src="../images/lesson5/mission4/clownfish1.png"
-                          alt="Clownfish drawing option C using clear simple lines and main observable features"
-                        >
-                        <h4>Drawing C</h4>
-                        <p>Clear lines and the main visible features only.</p>
-                      </button>
+                          <button type="button" class="choice-card m4-clownfish-choice" data-mc-choice="over-detailed">
+                            <img
+                              class="choice-image"
+                              src="../images/lesson5/mission4/clownfish2.png"
+                              alt="Clownfish drawing option B with heavy texture and shading"
+                            >
+                            <h4>Drawing B</h4>
+                            <p>Lots of texture and decorative detail.</p>
+                          </button>
 
+                          <button type="button" class="choice-card m4-clownfish-choice" data-mc-choice="scientific">
+                            <img
+                              class="choice-image"
+                              src="../images/lesson5/mission4/clownfish1.png"
+                              alt="Clownfish drawing option C using clear simple lines and main observable features"
+                            >
+                            <h4>Drawing C</h4>
+                            <p>Clear lines and the main visible features only.</p>
+                          </button>
+
+                        </div>
+                      </div>
                     </div>
 
                     <p class="activity-prompt">Choose the best scientific drawing, then press <strong>CHECK</strong>.</p>
@@ -1538,7 +1541,7 @@
                     </p>
 
                     <div class="frogfish-labelling-grid">
-                      <div class="frogfish-image-stage" id="frogfishImageStage">
+                      <div class="frogfish-image-stage" id="frogfishImageStage" data-activity>
                           <img
                             class="m4-frogfish-diagram"
                             src="../images/lesson5/mission4/frogfish-diagram.png"
@@ -1550,34 +1553,34 @@
                           <span>Add the supplied diagram as <code>../images/lesson5/mission4/frogfish-diagram.png</code>.</span>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="caudal-fin" style="--frog-left: 1.6%; --frog-top: 28.0%; --frog-width: 19%;">
-                          <input type="text" data-frogfish-input="caudal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin at the back of the frogfish">
-                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="caudal-fin" aria-label="Clear caudal-fin label" title="Clear label">×</button>
+                        <div class="frogfish-label-entry" data-tr-group data-tr-key="caudal-fin" data-tr-min="1" data-tr-max="1" style="--frog-left: 1.6%; --frog-top: 28.0%; --frog-width: 19%;">
+                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin at the back of the frogfish">
+                          <div data-tr-list></div>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="dorsal-fin" style="--frog-left: 17.0%; --frog-top: 11.9%; --frog-width: 20%;">
-                          <input type="text" data-frogfish-input="dorsal-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin along the top of the frogfish">
-                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="dorsal-fin" aria-label="Clear dorsal-fin label" title="Clear label">×</button>
+                        <div class="frogfish-label-entry" data-tr-group data-tr-key="dorsal-fin" data-tr-min="1" data-tr-max="1" style="--frog-left: 17.0%; --frog-top: 11.9%; --frog-width: 20%;">
+                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin along the top of the frogfish">
+                          <div data-tr-list></div>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="lure" style="--frog-left: 80.0%; --frog-top: 7.7%; --frog-width: 19%;">
-                          <input type="text" data-frogfish-input="lure" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish lure">
-                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="lure" aria-label="Clear lure label" title="Clear label">×</button>
+                        <div class="frogfish-label-entry" data-tr-group data-tr-key="lure" data-tr-min="1" data-tr-max="1" style="--frog-left: 80.0%; --frog-top: 7.7%; --frog-width: 19%;">
+                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish lure">
+                          <div data-tr-list></div>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="eye" style="--frog-left: 79.0%; --frog-top: 45.2%; --frog-width: 20%;">
-                          <input type="text" data-frogfish-input="eye" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish eye">
-                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="eye" aria-label="Clear eye label" title="Clear label">×</button>
+                        <div class="frogfish-label-entry" data-tr-group data-tr-key="eye" data-tr-min="1" data-tr-max="1" style="--frog-left: 79.0%; --frog-top: 45.2%; --frog-width: 20%;">
+                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish eye">
+                          <div data-tr-list></div>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="mouth" style="--frog-left: 82.0%; --frog-top: 68.4%; --frog-width: 18%;">
-                          <input type="text" data-frogfish-input="mouth" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish mouth">
-                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="mouth" aria-label="Clear mouth label" title="Clear label">×</button>
+                        <div class="frogfish-label-entry" data-tr-group data-tr-key="mouth" data-tr-min="1" data-tr-max="1" style="--frog-left: 82.0%; --frog-top: 68.4%; --frog-width: 18%;">
+                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish mouth">
+                          <div data-tr-list></div>
                         </div>
 
-                        <div class="frogfish-label-entry" data-frogfish-entry="pectoral-fin" style="--frog-left: 2.0%; --frog-top: 90.7%; --frog-width: 20%;">
-                          <input type="text" data-frogfish-input="pectoral-fin" maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish pectoral fin">
-                          <button type="button" class="frogfish-clear-label" data-frogfish-clear="pectoral-fin" aria-label="Clear pectoral-fin label" title="Clear label">×</button>
+                        <div class="frogfish-label-entry" data-tr-group data-tr-key="pectoral-fin" data-tr-min="1" data-tr-max="1" style="--frog-left: 2.0%; --frog-top: 90.7%; --frog-width: 20%;">
+                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish pectoral fin">
+                          <div data-tr-list></div>
                         </div>
                       </div>
                     </div>
@@ -1746,7 +1749,12 @@
                     <div class="fish-question-image">
                       <img data-m5-media="static" src="" alt="Static image of the organism recorded by the camera">
                     </div>
-                    <div class="choice-grid" data-choice-group="species" id="mission5SpeciesChoices"></div>
+                    <div id="m5IdentifySpecies" data-activity>
+                      <div data-mc-question>
+                        <!-- Options are built by renderMission5Options() in lesson5.js -->
+                        <div class="choice-grid" id="mission5SpeciesChoices" data-mc-choices></div>
+                      </div>
+                    </div>
                     <div class="m5-complete-card pop-in" id="mission5IdentifyResult" hidden>
                       <img data-m5-media="static" src="" alt="Deep-sea organism from the completed expedition">
                       <div>
