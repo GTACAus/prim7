@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plant Learning Website</title>
 
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  
   
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
   <link href="../styles/build_style.css" rel="stylesheet" type="text/css">
@@ -351,12 +351,12 @@
       <div class="plant-game">
         <div class="plant-canvas">
           <div class="plant-game-container">
-            <div class="tab-button flex gap-2 mb-6">
+            <div class="tab-button-container">
               <button class="tab option-button active" id="tab-parts" onclick="switchGame('parts')">Build a Plant</button>
               <button class="tab option-button" id="tab-labels" onclick="switchGame('labels')">Label the Plant</button>
             </div>
-            <main id="game-parts" class="flex flex-col items-center gap-6">
-                <div id="plantPartsActivity" class="flex flex-col items-center gap-6" data-activity>
+            <main id="game-parts">
+                <div id="plantPartsActivity" class="plant-activity" data-activity>
                   <div class="plant-area">
                     <div class="plant-image-container">
                       <img class="plant-image" src="../images/pretask/sunflower.png" alt="Sunflower">
@@ -367,22 +367,22 @@
                     <div class="slot slot-roots" data-dd-slot="roots" data-dd-answer="roots"></div>
                   </div>
 
-                  <div id="success-1" class="hidden text-center">
+                  <div id="success-1" hidden>
                     <p class="success-text">Beautiful! Your plant is complete!</p>
-                    <span class="success-icon inline-block text-3xl">🌻</span>
+                    <span class="success-icon">🌻</span>
                   </div>
 
-                  <div data-dd-tray class="parts-tray flex gap-4 justify-center p-4">
-                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="flower">
+                  <div data-dd-tray class="parts-tray">
+                    <div class="part" data-dd-item="flower">
                       <img class="flower-image" src="../images/pretask/flower.png" alt="Flower">
                     </div>
-                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="left-leaf">
+                    <div class="part" data-dd-item="left-leaf">
                       <img class="left-leaf-image" src="../images/pretask/left_leaf.png" alt="Left Leaf">
                     </div>
-                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="stem">
+                    <div class="part" data-dd-item="stem">
                       <img class="stem-image" src="../images/pretask/stem.png" alt="Stem">
                     </div>
-                    <div class="part rounded-xl p-3 bg-white shadow-md flex flex-col items-center" data-dd-item="roots">
+                    <div class="part" data-dd-item="roots">
                       <img class="roots-image" src="../images/pretask/roots.png" alt="Roots">
                     </div>
                   </div>
@@ -391,14 +391,14 @@
                     <div class="option-button">
                       <button class="general-button" data-reset-trigger>Start Over</button>
                     </div>
-                    <div id="continue-button" class="hidden option-button">
+                    <div id="continue-button" class="option-button" hidden>
                       <button class="general-button" onclick="switchGame('labels')">Continue -></button>
                     </div>
                   </div>
                 </div>
             </main>
-            <main id="game-labels" class="hidden flex flex-col items-center gap-6">
-              <div id="plantLabelsActivity" class="flex flex-col items-center gap-6" data-activity data-activity-depends-on="plantPartsActivity">
+            <main id="game-labels" hidden>
+              <div id="plantLabelsActivity" class="plant-activity" data-activity data-activity-depends-on="plantPartsActivity">
                 <div class="plant-area">
                   <div class="plant-image-container">
                     <img class="plant-image" src="../images/pretask/sunflower.png" alt="Sunflower">
@@ -410,15 +410,15 @@
                   <div class="label-slot label-roots-slot" data-dd-slot="roots" data-dd-answer="roots"></div>
                 </div>
 
-                <div id="success-2" class="hidden text-center">
-                  <p class="success-text">Well done! All labels are correct! 🎉</p><span class="success-icon inline-block text-3xl">🌻</span>
+                <div id="success-2" class="success-message" hidden>
+                  <p class="success-text">Well done! All labels are correct! 🎉</p><span class="success-icon">🌻</span>
                 </div>
 
-                <div data-dd-tray class="parts-tray flex gap-4 justify-center p-4">
-                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="flower">Flower</div>
-                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="leaf">Leaf</div>
-                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="stem">Stem</div>
-                  <div class="part rounded-xl px-4 py-2 bg-white shadow-md font-semibold text-sm" data-dd-item="roots">Roots</div>
+                <div data-dd-tray class="parts-tray">
+                  <div class="part" data-dd-item="flower">Flower</div>
+                  <div class="part" data-dd-item="leaf">Leaf</div>
+                  <div class="part" data-dd-item="stem">Stem</div>
+                  <div class="part" data-dd-item="roots">Roots</div>
                 </div>
 
                 <div class="option-button">
@@ -533,12 +533,12 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
 </div>
 
           <div id="wordSentencesActivity" class="word-sentences-activity dd-activity" data-activity>
-            <header class="text-center mb-4">
+            <header class="wd-header">
               <h3 class="wd-title">Plant Science</h3>
               <p class="wd-subtitle">Drag the correct words into the blanks to complete each sentence.</p>
             </header>
 
-            <div class="space-y-4 mb-6">
+            <div class="">
               <div class="sentence-card">
                 Plants make sugar to get energy to grow. This occurs in the leaves using
                 <span class="drop-zone" data-dd-slot="s0-a" data-dd-answer="sunlight carbon-dioxide water"></span>,
@@ -559,9 +559,9 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
               </div>
             </div>
 
-            <div class="mb-6">
+            <div class="wd-word-bank">
               <p class="wd-word-bank-label">Word Bank</p>
-              <div data-dd-tray class="flex flex-wrap gap-3">
+              <div data-dd-tray class="word-tray">
                 <span class="word-chip" data-dd-item="sunlight" data-dd-reusable>sunlight</span>
                 <span class="word-chip" data-dd-item="carbon-dioxide" data-dd-reusable>carbon dioxide</span>
                 <span class="word-chip" data-dd-item="water" data-dd-reusable>water</span>
@@ -571,11 +571,11 @@ In this activity you can work on your own or in a team to <strong><i>brainstorm<
               </div>
             </div>
 
-            <div class="flex gap-3 justify-center">
+            <div class="wd-actions">
               <button type="button" class="general-button reset-btn" data-reset-trigger>Reset</button>
             </div>
 
-            <div id="wordSentencesCelebration" class="text-center mt-6 text-4xl hidden">Well done!</div>
+            <div id="wordSentencesCelebration" hidden>Well done!</div>
           </div>
 
         </div>
@@ -719,11 +719,13 @@ Use your detective skills to make <strong>observations</strong> and come up with
     const done = activity.isComplete() && activity.isCorrect();
 
     const success = document.getElementById(successId);
-    if (success) success.classList.toggle('hidden', !done);
+    if (success) success.hidden = !done;
+
+    activity.tray.hidden = activity.getTrayItemCount() === 0;
 
     if (continueId) {
       const continueButton = document.getElementById(continueId);
-      if (continueButton) continueButton.classList.toggle('hidden', !done);
+      if (continueButton) continueButton.hidden = !done;
     }
   }
 
@@ -732,8 +734,8 @@ Use your detective skills to make <strong>observations</strong> and come up with
       return;
     }
 
-    document.getElementById('game-parts').classList.toggle('hidden', game !== 'parts');
-    document.getElementById('game-labels').classList.toggle('hidden', game !== 'labels');
+    document.getElementById('game-parts').hidden = game !== 'parts';
+    document.getElementById('game-labels').hidden = game !== 'labels';
     document.getElementById('tab-parts').classList.toggle('active', game === 'parts');
     document.getElementById('tab-labels').classList.toggle('active', game === 'labels');
   }
@@ -770,7 +772,7 @@ Use your detective skills to make <strong>observations</strong> and come up with
   function syncWordSentencesVisuals() {
     if (!wordSentencesActivity) return;
     const done = wordSentencesActivity.isComplete() && wordSentencesActivity.isCorrect();
-    document.getElementById('wordSentencesCelebration').classList.toggle('hidden', !done);
+    document.getElementById('wordSentencesCelebration').hidden = !done;
   }
 
   function initWordSentencesActivity() {
@@ -979,7 +981,6 @@ Use your detective skills to make <strong>observations</strong> and come up with
 
     pretaskIsRestoring = false;
 
-    console.log('Lesson 1 progress restored.');
   }
 
   /*
@@ -1054,39 +1055,6 @@ document.addEventListener("DOMContentLoaded", function() {
     );
   }
 });
-
-    (
-      function() {
-        function c() {
-          var b = a.contentDocument || a.contentWindow.document;
-          if(b) {
-            var d = b.createElement('script');
-            d.innerHTML = "window.__CF$cv$params={r:'a100ed2cc4c390a0',t:'MTc4MjE5MDc5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-            b.getElementsByTagName('head')[0].appendChild(d)
-          }
-        }
-        if (document.body) {
-          var a = document.createElement('iframe');
-          a.height = 1;
-          a.width = 1;
-          a.style.position = 'absolute';
-          a.style.top = 0;
-          a.style.left = 0
-          a.style.border = 'none'
-          a.style.visibility = 'hidden';
-          document.body.appendChild(a);
-          if ('loading' !== document.readyState) c();
-          else if (window.addEventListener) document.addEventListener('DOMContentLoaded',c);
-          else {
-            var e = document.onreadystatechange || function() {};
-            document.onreadystatechange = function (b) {
-              e(b);
-              'loading' !== document.readyState && (document.onreadystatechange = e, c())
-            }
-          }
-        }
-      }
-    )();
 
     /* Called from inline handlers / shared scripts, which cannot see module scope. */
     Object.assign(window, { switchGame, clearPageSavedData, saveCurrentPageData });

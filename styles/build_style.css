@@ -1244,8 +1244,8 @@ input[type="checkbox"]:active {
 
 /* ---------- Plant builder ---------- */
 
-.tab-button .active,
-.tab-button button.active {
+.tab-button-container .active,
+.tab-button-container button.active {
   background: var(--yellow) !important;
 }
 

@@ -13,6 +13,21 @@
   --dd-reject: #ef4444;
 }
 
+#wordSentencesActivity .wd-header {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+#wordSentencesActivity .wd-word-bank {
+  margin-bottom: 1.5rem;
+}
+
+#wordSentencesActivity .wd-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
 #wordSentencesActivity .wd-title {
   margin-bottom: 0.5rem;
   line-height: 2.25rem;
@@ -62,18 +77,30 @@
 }
 
 #wordSentencesActivity [data-dd-slot].dd-filled {
-  border-color: #22c55e;
+  border: 2px solid var(--green);
   background: transparent;
+}
+
+/* The blank rule above outranks the base hover state, so restate it here
+   to let --dd-accent and --dd-slot-hover-bg apply. */
+#wordSentencesActivity [data-dd-slot].dd-hover,
+#wordSentencesActivity.dd-has-selection [data-dd-slot]:not(.dd-filled):hover {
+  border-color: var(--dd-accent);
+  background: var(--dd-slot-hover-bg);
 }
 
 /* strictSlots: brief red flash when a dropped word doesn't belong here. */
 #wordSentencesActivity [data-dd-slot].dd-rejected {
+  border-color: var(--dd-reject);
   background: #fee2e2;
 }
 
 /* ---------- word bank (data-dd-tray / data-dd-item) ---------- */
 
 #wordSentencesActivity [data-dd-tray] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
   width: 100%;
   max-width: 800px;
   box-sizing: border-box;
@@ -81,50 +108,47 @@
   justify-content: center;
 }
 
-#wordSentencesActivity [data-dd-item] {
+#wordSentencesActivity [data-dd-item],
+.word-chip.dd-ghost, [data-dd-item].dd-ghost,
+#wordSentecesActivity [data-dd-item].dd-placed {
+  --background: white;
+  --border: 2px solid #065f46;
+  --border-radius: 8px;
+  --padding: 8px 16px;
   display: inline-block;
   width: auto;
   height: auto;
-  padding: 8px 16px;
-  background: #065f46;
-  color: white;
-  border-radius: 8px;
+  padding: var(--padding);
+  background: var(--background);
+  border: var(--border);
+  color: var(--charcoal);
+  border-radius: var(--border-radius);
   font-weight: 500;
-  transition: transform 0.15s, opacity 0.15s;
+  transition: transform 0.15s, opacity 0.15s, background 0.15s;
 }
 
-#wordSentencesActivity [data-dd-item]:active {
+#wordSentencesActivity [data-dd-item]:not(.dd-placed):active {
   transform: scale(0.95);
+}
+
+#wordSentencesActivity [data-dd-item]:not(.dd-placed):hover {
+  background: var(--soft-green);
+  transform: scale(1.05);
 }
 
 /* A word sitting in a blank reads like filled-in text, not a loose chip. */
 #wordSentencesActivity [data-dd-item].dd-placed {
-  width: auto;
-  height: auto;
   background: transparent;
   color: #065f46;
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 500;
+  border: none;
   font-size: 14px;
   box-shadow: none;
-}
-
-#wordSentencesActivity [data-dd-slot].dd-filled {
-  border: 2px solid var(--green);
 }
 
 /* The ghost lives on <body>, outside #wordSentencesActivity, so it can't be
    scoped by that id; it keeps the item's .word-chip class instead. */
 .word-chip.dd-ghost {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 8px 16px;
-  background: #065f46;
-  color: white;
-  border-radius: 8px;
-  font-weight: 500;
-  text-align: center;
+  background: var(--soft-green);
 }
 
 @keyframes bounce-once {
@@ -133,6 +157,13 @@
   100% { transform: translateY(0); }
 }
 
-#wordSentencesCelebration:not(.hidden) {
+#wordSentencesCelebration {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+#wordSentencesCelebration:not([hidden]) {
   animation: bounce-once 0.6s ease-in-out;
 }

@@ -1,6 +1,6 @@
 /* ==================================================
    PRETASK LESSON
-   
+
    Used only by pretask/pretask.html.
    ================================================== */
 
@@ -60,13 +60,7 @@
   line-height: 1.6;
 }
 
-.video-row {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 18px;
-  align-items: start;
-}
-
+.video-row,
 .plant-game,
 .learning-row {
   display: grid;
@@ -75,6 +69,7 @@
 
 .video-row {
   grid-template-columns: 1.4fr 1fr;
+  align-items: start;
 }
 
 .learning-row {
@@ -84,10 +79,11 @@
 
 .video-box {
   height: 500px;
-  background: var(--soft-blue);
-  border: 1px dashed var(--line);
+  background: #101110;
+  border: 3px solid var(--line);
   border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 5px 0 var(--line);
 }
 
 .video-box iframe {
@@ -99,16 +95,17 @@
 .think-box {
   min-height: 500px;
   background: var(--soft-yellow);
+  border: 3px solid var(--line);
   border-radius: 20px;
   padding: 0;
   color: var(--muted);
   overflow: hidden;
-  border: 1px solid rgba(63, 70, 63, 0.12);
+  box-shadow: 0 5px 0 var(--line);
 }
 
 .stw-column {
-  padding: 14px;
-  border-bottom: 1px solid rgba(63, 70, 63, 0.14);
+  padding: 17px;
+  border-bottom: 2px dashed rgba(48, 51, 47, 0.32);
 }
 
 .stw-column:last-child {
@@ -117,9 +114,10 @@
 
 .stw-column h3 {
   margin: 0 0 8px;
+  color: var(--purple);
   font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .stw-column p {
@@ -128,69 +126,91 @@
   color: var(--muted);
 }
 
-.stw-input-row {
+.stw-input-row,
+.final-input-row {
   display: flex;
   gap: 8px;
 }
 
 .stw-input-row input,
-.brainstorm-item input {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 10px 12px;
-  font-size: 0.95rem;
-  background: #fffdf5;
-  color: var(--text);
-}
-
-.stw-input-row input {
+.final-input-row input {
   flex: 1;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: white;
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 rgba(48, 51, 47, 0.09);
+  font-family: inherit;
+  font-size: 0.95rem;
 }
 
-.stw-input-row button {
-  border: none;
-  border-radius: 999px;
+.stw-input-row input:focus,
+.final-input-row input:focus {
+  outline: 3px solid rgba(78, 50, 232, 0.18);
+  border-color: var(--purple);
+}
+
+.stw-input-row button,
+.final-input-row button {
+  border: 2px solid var(--line);
+  border-radius: 12px;
   padding: 10px 12px;
-  background: var(--button);
+  background: var(--green);
   color: white;
-  font-weight: 600;
+  box-shadow: 0 3px 0 var(--line);
+  font-family: inherit;
+  font-weight: 700;
   cursor: pointer;
 }
 
-.stw-list {
+.stw-input-row button:hover,
+.final-input-row button:hover {
+  background: var(--purple);
+  transform: translateY(-1px);
+}
+
+.stw-list,
+.final-answer-list {
   margin: 12px 0 0;
-  padding-left: 18px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.stw-list {
   color: var(--text);
   font-size: 0.95rem;
   line-height: 1.5;
-  list-style: none;
-  padding-left: 0;
 }
 
-.stw-list li {
+.stw-list li,
+.final-answer-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
 
-  background: #fffdf5;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 12px;
   padding: 8px 10px 8px 14px;
   margin-bottom: 8px;
+  box-shadow: 0 2px 0 rgba(48, 51, 47, 0.2);
 }
 
 .plant-canvas {
   min-height: 280px;
-  background: var(--soft-green);
-  border: 1px dashed var(--line);
-  align-items: center;
-  justify-content: center;
+  background: radial-gradient(circle, rgba(78, 50, 232, 0.1) 1.5px, transparent 1.5px), var(--card);
+  background-size: 22px 22px;
+  border: 3px solid var(--line);
+  border-radius: 22px;
 }
 
 .plant-game-container {
-  margin: 10px;
+  width: 100%;
+  margin: 0;
   padding-bottom: 10px;
 }
 
@@ -212,9 +232,11 @@
   background-position: center;
   background-repeat: no-repeat;
 
-  border: 1px solid var(--line);
-  border-radius: 20px;
+  border: 3px solid var(--line);
+  border-radius: 22px;
   overflow: hidden;
+
+  box-shadow: 0 6px 0 var(--line);
 }
 
 .postit-answer {
@@ -233,14 +255,17 @@
   width: 100%;
   height: 100%;
 
-  border: none;
-  border-radius: 10px;
+  border: 2px solid rgba(48, 51, 47, 0.75);
+  border-radius: 12px;
 
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 253, 244, 0.86);
   color: var(--text);
 
   padding: 8px 10px;
 
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+
+  font-family: inherit;
   font-size: clamp(0.72rem, 1.3vw, 0.95rem);
   font-weight: 600;
   text-align: center;
@@ -257,15 +282,16 @@
   width: 100%;
   height: 100%;
 
-  display: none;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
   padding: 8px 10px;
 
+  border: 2px solid var(--line);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 253, 244, 0.92);
+  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.22);
 
   color: var(--text);
   font-size: clamp(0.72rem, 1.3vw, 0.95rem);
@@ -323,9 +349,7 @@
 
 /*
   The border comes from the shared ".diagram-activity, .thinglink-box"
-  rule in build_style.css. This rule used to declare
-  "border: 1px dashed var(--line)" as well, but the shared rule came
-  later in the same file and always won, so it never had any effect.
+  rule in build_style.css.
 */
 .thinglink-box {
   background: #ffffff;
@@ -358,10 +382,11 @@
 
 .detective-embed-box {
   background: var(--soft-blue);
-  border: 1px dashed var(--line);
-  border-radius: 20px;
+  border: 3px solid var(--line);
+  border-radius: 22px;
   padding: 12px;
   height: 720px;
+  box-shadow: 0 6px 0 var(--line);
 }
 
 .detective-iframe {
@@ -373,10 +398,11 @@
 }
 
 .final-brainstorm-box {
-  background: var(--soft-green);
-  border: 1px dashed var(--line);
-  border-radius: 20px;
+  background: var(--yellow);
+  border: 3px solid var(--line);
+  border-radius: 22px;
   padding: 24px;
+  box-shadow: 0 6px 0 var(--line);
 
   display: grid;
   grid-template-columns: 1fr;
@@ -385,80 +411,30 @@
 
 .final-brainstorm-centre {
   grid-column: 1 / -1;
-  background: #fffdf5;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+  background: var(--purple);
+  color: white;
+  border: 3px solid var(--line);
+  border-radius: 16px;
   padding: 18px 24px;
+  box-shadow: 0 4px 0 var(--line);
   text-align: center;
   font-weight: 700;
-  color: var(--text);
 }
 
 .final-branch {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 20px;
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: 18px;
   padding: 18px;
+  box-shadow: 0 4px 0 var(--line);
 }
 
 .final-branch h3 {
   margin: 0 0 12px;
   text-align: left;
-  color: var(--text);
-}
-
-.final-branch input {
-  width: 100%;
-  margin-bottom: 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 10px 12px;
-  background: #fffdf5;
-  color: var(--text);
-}
-
-.final-input-row {
-  display: flex;
-  gap: 8px;
-}
-
-.final-input-row input {
-  flex: 1;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 10px 12px;
-  background: #fffdf5;
-  color: var(--text);
-}
-
-.final-input-row button {
-  border: none;
-  border-radius: 999px;
-  padding: 10px 12px;
-  background: var(--button);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.final-answer-list {
-  list-style: none;
-  padding-left: 0;
-  margin: 12px 0 0;
-}
-
-.final-answer-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-
-  background: #fffdf5;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 8px 10px 8px 14px;
-  margin-bottom: 8px;
+  color: var(--purple);
+  text-transform: uppercase;
 }
 
 .drop-zone {
@@ -476,6 +452,10 @@
   font-style: normal;
   font-size: 16px;
   border-radius: 999px;
+}
+
+.option-button[hidden] {
+  display: none;
 }
 
 .plant-area {
@@ -510,10 +490,31 @@
 
 #plantPartsActivity,
 #plantLabelsActivity {
-  --dd-accent: var(--purple);
-  --dd-slot-hover-bg: var(--soft-purple);
+  --dd-accent: var(--yellow);
+  --dd-slot-hover-bg: var(--soft-yellow);
   --dd-reject: var(--orange);
-  --dd-ghost-scale: 1.05;
+}
+
+/* The drag ghost lives on <body>, outside the activity roots, so its variables
+   cannot be set on them; target the ghost itself. */
+.part.dd-ghost {
+  --dd-ghost-scale: 0.9;
+}
+
+/* .slot / .label-slot set their own border and background, which outrank the
+   zero-specificity states in drag_and_drop_base.css; restate those states here
+   so the --dd-* variables above still apply. */
+.slot.dd-hover,
+.label-slot.dd-hover,
+.dd-has-selection .slot:not(.dd-filled):hover,
+.dd-has-selection .label-slot:not(.dd-filled):hover {
+  border-color: var(--dd-accent);
+  background: var(--dd-slot-hover-bg);
+}
+
+.slot.dd-rejected,
+.label-slot.dd-rejected {
+  border-color: var(--dd-reject);
 }
 
 .slot-flower {
@@ -577,99 +578,9 @@
   transition: all 0.2s;
 }
 
-.video-box {
-  background: #101110;
-  border: 3px solid var(--line);
-  border-radius: 20px;
-
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.think-box {
-  background: var(--soft-yellow);
-  border: 3px solid var(--line);
-  border-radius: 20px;
-
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.stw-column {
-  padding: 17px;
-  border-bottom: 2px dashed rgba(48, 51, 47, 0.32);
-}
-
-.stw-column h3 {
-  color: var(--purple);
-
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.stw-input-row input,
-.final-input-row input,
-.postit-answer input {
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  background: white;
-
-  box-shadow: inset 0 -2px 0 rgba(48, 51, 47, 0.09);
-
-  font-family: inherit;
-}
-
-.stw-input-row input:focus,
-.final-input-row input:focus {
-  outline: 3px solid rgba(78, 50, 232, 0.18);
-  border-color: var(--purple);
-}
-
-.stw-input-row button,
-.final-input-row button {
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  background: var(--green);
-  color: white;
-
-  box-shadow: 0 3px 0 var(--line);
-
-  font-family: inherit;
-  font-weight: 700;
-}
-
-.stw-input-row button:hover,
-.final-input-row button:hover {
-  background: var(--purple);
-  transform: translateY(-1px);
-}
-
-.stw-list li,
-.final-answer-list li {
-  background: white;
-  border: 2px solid var(--line);
-  border-radius: 12px;
-
-  box-shadow: 0 2px 0 rgba(48, 51, 47, 0.2);
-}
-
-.plant-canvas {
-  background: radial-gradient(circle, rgba(78, 50, 232, 0.1) 1.5px, transparent 1.5px), var(--card);
-
-  background-size: 22px 22px;
-
-  border: 3px solid var(--line);
-  border-radius: 22px;
-}
-
-.plant-game-container {
-  width: 100%;
-  margin: 0;
-}
-
-.tab-button {
+.tab-button-container {
   padding: 10px;
+  margin-bottom: 20px;
 
   background: var(--purple);
   border: 3px solid var(--line);
@@ -678,8 +589,8 @@
   box-shadow: 0 4px 0 var(--line);
 }
 
-.tab-button .option-button,
-.tab-button button {
+.tab-button-container .option-button,
+.tab-button-container button {
   border: 2px solid var(--line) !important;
   border-radius: 12px !important;
 
@@ -696,12 +607,21 @@
   the inline value never applied because this rule used !important.
 */
 .parts-tray {
+  display: flex;
+  gap: 10px;
   border: 2px solid var(--line);
   border-radius: 18px;
 
   background: var(--card);
-  min-width: 100px;
   min-height: 100px;
+  padding: 10px;
+}
+
+.plant-activity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 /*
@@ -709,18 +629,36 @@
   text chips, not the round icons drag_and_drop_base.css
   may assume - so size and shape them here instead.
 */
+/* The drag ghost is a clone on <body>, outside the activity roots, so the
+   id-scoped item rules below need a ghost selector to reach it. */
 #plantPartsActivity [data-dd-item],
-#plantLabelsActivity [data-dd-item] {
+#plantLabelsActivity [data-dd-item],
+.part.dd-ghost {
+  --item-border-radius: 12px;
+
   width: auto;
-  height: auto;
-  border-radius: 12px;
+  height: fit-content;
+  border-radius: var(--item-border-radius);
+  padding: 10px;
+  background: white;
+  border: 1px solid var(--charcoal);
 }
 
-#plantPartsActivity [data-dd-item] img {
+#plantLabelsActivity [data-dd-item],
+.part.dd-ghost:not(:has(img)) {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+#plantPartsActivity [data-dd-item] img,
+.part.dd-ghost img {
   width: auto;
   height: auto;
   max-width: 90px;
   max-height: 90px;
+  border-radius: var(--item-border-radius);
   object-fit: contain;
 }
 
@@ -732,7 +670,6 @@
   transform: none;
   border: none;
   box-shadow: none;
-
 }
 
 #plantPartsActivity [data-dd-slot].dd-filled,
@@ -747,6 +684,21 @@
   display: none;
 }
 
+#success-1, #success-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* The display rules above and on .parts-tray would otherwise override the
+   hidden attribute. */
+#success-1[hidden],
+#success-2[hidden],
+.parts-tray[hidden] {
+  display: none;
+}
+
 /* Success message shown when a drag-and-drop activity is finished. */
 .success-text {
   color: rgb(45, 80, 22);
@@ -756,74 +708,15 @@
   font-style: normal;
 }
 
-.postit-brainstorm {
-  border: 3px solid var(--line);
-  border-radius: 22px;
-
-  box-shadow: 0 6px 0 var(--line);
-}
-
-.postit-answer input {
-  border: 2px solid rgba(48, 51, 47, 0.75);
-
-  background: rgba(255, 253, 244, 0.86);
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
-}
-
-.postit-answer .brainstorm-answer {
-  border: 2px solid var(--line);
-
-  background: rgba(255, 253, 244, 0.92);
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.22);
-}
-
-.detective-embed-box {
-  background: var(--soft-blue);
-  border: 3px solid var(--line);
-  border-radius: 22px;
-
-  box-shadow: 0 6px 0 var(--line);
-}
-
-.final-brainstorm-box {
-  background: var(--yellow);
-  border: 3px solid var(--line);
-  border-radius: 22px;
-
-  box-shadow: 0 6px 0 var(--line);
-}
-
-.final-brainstorm-centre {
-  background: var(--purple);
-  color: white;
-
-  border: 3px solid var(--line);
-  border-radius: 16px;
-
-  box-shadow: 0 4px 0 var(--line);
-}
-
-.final-branch {
-  background: var(--card);
-  border: 3px solid var(--line);
-  border-radius: 18px;
-
-  box-shadow: 0 4px 0 var(--line);
-}
-
-.final-branch h3 {
-  color: var(--purple);
-  text-transform: uppercase;
-}
-
-.animate-in {
-  animation: bounce-in 0.4s ease-out;
-}
-
 .success-icon {
+  display: inline-block;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
   animation: confetti 1s 5 ease-out;
+}
+
+.success-message {
+  text-align: center;
 }
 
 

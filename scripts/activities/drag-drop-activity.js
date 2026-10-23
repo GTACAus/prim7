@@ -182,6 +182,10 @@ DragDropActivity.prototype.isCorrect = function () {
   });
 };
 
+DragDropActivity.prototype.getTrayItemCount = function() {
+  return this.tray.children.length;
+}
+
 /* ---------- internals ---------- */
 
 DragDropActivity.prototype._slotById = function (id) {
@@ -228,6 +232,7 @@ DragDropActivity.prototype._refreshFilled = function () {
 
 DragDropActivity.prototype._returnAllToTray = function () {
   var self = this;
+  this.tray.hidden = false; // Unhide tray incase it was hidden
   Object.keys(this.items).forEach(function (id) { self._put(self.items[id], null); });
   Array.prototype.forEach.call(this.root.querySelectorAll(".dd-clone"), function (clone) { clone.remove(); });
   this._refreshFilled();
@@ -508,9 +513,20 @@ DragDropActivity.prototype._startGhost = function (drag) {
   ghost.removeAttribute("tabindex"); /* keeps data-dd-item so item styling applies; it lives on <body>, outside the root, so lookups never see it */
   ghost.classList.remove("dd-selected", "dd-placed");
   ghost.classList.add("dd-ghost");
-  ghost.style.width = drag.width + "px";
-  ghost.style.height = drag.height + "px";
+  /* A placed item is sized to its slot, so measuring it would give a ghost unlike
+     the one dragged from the tray. Let the ghost take its natural size instead and
+     hold it by its centre. */
+  var wasPlaced = drag.item.classList.contains("dd-placed");
+  if (!wasPlaced) {
+    ghost.style.width = drag.width + "px";
+    ghost.style.height = drag.height + "px";
+  }
   document.body.appendChild(ghost);
+  if (wasPlaced) {
+    var ghostRect = ghost.getBoundingClientRect();
+    drag.offsetX = ghostRect.width / 2;
+    drag.offsetY = ghostRect.height / 2;
+  }
 
   drag.ghost = ghost;
   drag.item.classList.add("dd-dragging");
