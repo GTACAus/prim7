@@ -922,7 +922,7 @@
                         </div>
                         <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
 
-                    <div class="prediction-check" id="ballBouncePredictionCheck" hidden>
+                    <div class="prediction-check" id="ballBouncePredictionCheck" data-activity hidden>
                         <p class="prediction-label">Interpret the results</p>
 
                         <h3>Use your averages to interpret the results</h3>
@@ -956,13 +956,14 @@
                                 <span>bounces.</span>
                             </div>
 
-                            <div class="ball-bounce-prediction-result">
+                            <div class="ball-bounce-prediction-result" data-mc-question>
                                 <strong>My reasoned prediction was</strong>
 
-                                <div class="prediction-buttons">
+                                <div class="prediction-buttons" data-mc-choices>
                                     <button
                                         id="ballBouncePredictionSupported"
                                         type="button"
+                                        data-mc-choice="supported"
                                         class="general-button prediction-button"
                                     >
                                         Supported
@@ -971,6 +972,7 @@
                                     <button
                                         id="ballBouncePredictionUnsupported"
                                         type="button"
+                                        data-mc-choice="unsupported"
                                         class="general-button prediction-button"
                                     >
                                         Not supported
@@ -1015,6 +1017,7 @@
         <script type="module">
           import { InvestigationQuestionActivity } from "../scripts/activities/investigation-question-activity.js";
           import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
+          import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
 
             /* ==================================================
                VIDEO PANEL
@@ -1315,16 +1318,14 @@
                BALL BOUNCE - INTERPRET THE RESULTS
                ================================================== */
 
-            function initialisePredictionCheck() {
-                const buttons = document.querySelectorAll("#ballBouncePredictionCheck .prediction-button");
+            /* No right answer here: the activity only records which button is picked. */
+            let ballBouncePredictionActivity = null;
 
-                buttons.forEach(function (button) {
-                    button.addEventListener("click", function () {
-                        buttons.forEach(function (other) {
-                            other.classList.toggle("selected-answer", other === button);
-                        });
-                    });
-                });
+            function initialisePredictionCheck() {
+                ballBouncePredictionActivity = new MultipleChoiceActivity(
+                    document.getElementById("ballBouncePredictionCheck"),
+                    { classes: { selected: "selected-answer", correct: "mc-correct", incorrect: "mc-incorrect" } }
+                );
             }
 
             /* ==================================================
@@ -1361,9 +1362,7 @@
                 predictionCheck.hidden = true;
                 clearTableEntries(predictionCheck);
 
-                predictionCheck.querySelectorAll(".prediction-button").forEach(function (button) {
-                    button.classList.remove("selected-answer");
-                });
+                ballBouncePredictionActivity.reset();
             }
 
             const DEV_MODE = false;
