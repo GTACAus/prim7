@@ -388,8 +388,7 @@ const travellerGuideSpecies = [
     let expeditionState = createFreshExpeditionState();
     let m4BatfishDragDrop = null; /* Mission 4 guided batfish labelling */
     let m2DiagramLabel = null; /* Mission 2 - label the completed rust diagram */
-    let m2RustSymbolMatch = null; /* Mission 2 scientific-symbol item-match */
-    let m2RustSymbolMatchTest = null; /* Mission 2 scientific-symbol item-match (TEST: per-round option sets + diagram) */
+    let m2RustSymbolMatchTest = null; /* Mission 2 scientific-symbol item-match (per-round option sets + diagram) */
     const stageActivities = {}; /* stage id -> the multiple-choice / button-reveal / text-response activity for that stage */
 
     function getStageActivity(stage) {
@@ -544,49 +543,6 @@ const travellerGuideSpecies = [
         alt: "Jar lid on the rust experiment"
       },
     ];
-
-    function isRustSymbolMatchComplete() {
-      return Boolean(m2RustSymbolMatch) && m2RustSymbolMatch.isComplete();
-    }
-
-    function getRustSymbolMatchState() {
-      return m2RustSymbolMatch ? m2RustSymbolMatch.getState() : { index: 0, total: 0 };
-    }
-
-    function resetRustSymbolMatch() {
-      if (m2RustSymbolMatch) m2RustSymbolMatch.reset();
-    }
-
-    function initRustSymbolMatchActivity() {
-      const root = document.getElementById("m2RustSymbolMatch");
-      if (!root) return;
-
-      m2RustSymbolMatch = new ItemMatchActivity(root, {
-        items: RUST_SYMBOL_ITEMS,
-        sequenceLength: RUST_SYMBOL_ITEMS.length,
-        randomise: false,
-        completeLabel: "All parts matched",
-        completeMessage: "All four parts matched. Press CHECK to continue.",
-        onIncorrect: function() {
-          const feedback = getStageFeedback("m2-drag-and-drop");
-          if (feedback) {
-            setActivityFeedback(
-              feedback,
-              "try-again",
-              "Try again",
-              "That symbol does not match the highlighted part. Look carefully at its shape and try another symbol."
-            );
-          }
-        },
-        onChange: function(state) {
-          expeditionState.selections.rustSymbolMatch = { rounds: state.roundIds, index: state.index };
-          clearCurrentStageFeedback();
-          saveCurrentPageData();
-          renderControls();
-        }
-      });
-      m2RustSymbolMatch.restore(expeditionState.selections.rustSymbolMatch);
-    }
 
     /* The three liquids compared in the experiment. Shared by the "liquid"
        round's diagram piece below: whichever volume option is correct gets
@@ -827,11 +783,6 @@ const travellerGuideSpecies = [
       },
     ];
 
-    /* The main diagram's own coordinate space - diagramPosition values above
-       are x/y inside this box. Keep it in sync with the viewBox on the
-       <svg data-im-diagram> element in lesson5.html. */
-    const RUST_DIAGRAM_VIEWBOX = { width: 240, height: 220 };
-
     /* One round per highlighted part of the experiment (RUST_SYMBOL_ITEMS).
        A round's options are every RUST_SYMBOL_OPTIONS item that lists that
        round's id in its `rounds` map - nothing is picked at random, so what
@@ -946,19 +897,14 @@ const travellerGuideSpecies = [
         completedMissions: [false, false, false, false],
         completedStages: {},
         selections: {
-          diagramExample: "",
-          rustSymbolMatch: { index: 0 },
           rustSymbolMatchTest: { index: 0 },
           rustScientificDrawing: "",
           diagramLabels: {},
-          drawing: "",
           shallowFish1: "",
-          shallowFish2: "",
           clownfishDiagram: "",
           batfishLabels: {},
           frogfishLabels: {},
-          species: "",
-          observations: []
+          species: ""
         },
         mission5: {
           phase: "sonar",
@@ -967,8 +913,7 @@ const travellerGuideSpecies = [
           optionIds: [],
           contactId: "",
           observeEnded: false,
-          drawingFinished: false,
-          scienceChecks: []
+          drawingFinished: false
         }
       };
     }
@@ -1061,23 +1006,6 @@ const travellerGuideSpecies = [
       renderExpedition();
     }
 
-    function toggleObservationChip(button) {
-      const label = button.textContent.trim();
-      const observations = expeditionState.selections.observations;
-      const existingIndex = observations.indexOf(label);
-
-      if (existingIndex >= 0) {
-        observations.splice(existingIndex, 1);
-      } else {
-        observations.push(label);
-      }
-
-      clearCurrentStageFeedback();
-      saveCurrentPageData();
-      renderSelections();
-      renderControls();
-    }
-
     function openFrogfishExampleModal() {
       const modal = document.getElementById("frogfishExampleModal");
       if (!modal) return;
@@ -1097,19 +1025,8 @@ const travellerGuideSpecies = [
 
       if (stage.type === "read") return true;
 
-      if (stage.type === "selection") {
-        return Boolean(expeditionState.selections[stage.choiceGroup]);
-      }
-
       if (stage.type === "multiple-choice" || stage.type === "button-reveal") {
-        const activity = getStageActivity(stage);
-        return Boolean(activity) && activity.isComplete();
-      }
-
-      if (stage.type === "choice-set") {
-        return Object.keys(stage.answers || {}).every(function(groupName) {
-          return expeditionState.selections[groupName] === stage.answers[groupName];
-        });
+        return isActivityComplete(stage);
       }
 
       if (stage.type === "text-response") {
@@ -1125,10 +1042,6 @@ const travellerGuideSpecies = [
 
       if (stage.type === "item-match") {
         return isRustSymbolMatchTestComplete();
-      }
-
-      if (stage.type === "observations") {
-        return expeditionState.selections.observations.length >= stage.requiredCount;
       }
 
       if (stage.type === "finale") {
@@ -1210,12 +1123,8 @@ const travellerGuideSpecies = [
           message = "Select the matching symbol for the photo shown before checking.";
         } else if (stage.type === "text-response") {
           message = "Complete all six frogfish labels before checking.";
-        } else if (stage.type === "observations") {
-          message = "Select at least three observable features before completing the final mission.";
         } else if (stage.type === "finale") {
           message = "Finish your scientific drawing and tick the box to say it is done before completing the expedition.";
-        } else if (stage.type === "selection") {
-          message = "Choose one of the available options before checking this stage.";
         }
 
         setActivityFeedback(feedback, "try-again", "Not quite yet", message);
@@ -1273,41 +1182,13 @@ const travellerGuideSpecies = [
     }
 
     function markSelectedAnswer(stage, isCorrect) {
-      if (!stage) return;
+      if (stage.type !== "multiple-choice") return;
 
-      if (stage.type === "choice-set") {
-        Object.keys(stage.answers || {}).forEach(function(groupName) {
-          const group = document.querySelector('[data-choice-group="' + groupName + '"]');
-          if (!group) return;
-          const selected = group.querySelector(".choice-card.selected");
-          if (!selected) return;
-          const correct = selected.dataset.value === stage.answers[groupName];
-          selected.classList.remove("correct", "incorrect");
-          selected.classList.add(correct ? "correct" : "incorrect");
-        });
-        return;
-      }
+      const picked = document.querySelector("#" + stage.activityId + " .choice-card.selected");
+      if (!picked) return;
 
-      if (stage.type === "multiple-choice") {
-        const root = document.getElementById(stage.activityId);
-        const picked = root && root.querySelector(".choice-card.selected");
-        if (!picked) return;
-
-        picked.classList.remove("correct", "incorrect");
-        picked.classList.add(isCorrect ? "correct" : "incorrect");
-        return;
-      }
-
-      if (!stage.choiceGroup || stage.type === "selection") return;
-
-      const group = document.querySelector('[data-choice-group="' + stage.choiceGroup + '"]');
-      if (!group) return;
-
-      const selected = group.querySelector(".choice-card.selected");
-      if (!selected) return;
-
-      selected.classList.remove("correct", "incorrect");
-      selected.classList.add(isCorrect ? "correct" : "incorrect");
+      picked.classList.remove("correct", "incorrect");
+      picked.classList.add(isCorrect ? "correct" : "incorrect");
     }
 
     function goNextMission() {
@@ -1398,12 +1279,6 @@ const travellerGuideSpecies = [
         resetShallowWatersVideo();
       }
 
-      if (stage.type === "choice-set") {
-        Object.keys(stage.answers || {}).forEach(function(groupName) {
-          expeditionState.selections[groupName] = "";
-        });
-      }
-
       if (stage.type === "text-response") {
         expeditionState.selections.frogfishLabels = {};
         getStageActivity(stage)?.reset();
@@ -1423,16 +1298,11 @@ const travellerGuideSpecies = [
         resetRustSymbolMatchTest();
       }
 
-      if (stage.type === "observations") {
-        expeditionState.selections.observations = [];
-      }
-
       if (stage.type === "finale") {
         expeditionState.mission5.phase = "sonar";
         expeditionState.mission5.contactId = "";
         expeditionState.mission5.observeEnded = false;
         expeditionState.mission5.drawingFinished = false;
-        expeditionState.mission5.scienceChecks = [];
         expeditionState.completedStages["m5-identify"] = false;
         expeditionState.selections.species = "";
         stageActivities["m5-identify"]?.reset();
@@ -1764,7 +1634,6 @@ const travellerGuideSpecies = [
       clearMission5Timers();
       expeditionState.mission5.phase = "capture";
       expeditionState.mission5.drawingFinished = false;
-      expeditionState.mission5.scienceChecks = [];
       saveCurrentPageData();
       renderExpedition();
 
@@ -1885,7 +1754,6 @@ const travellerGuideSpecies = [
       renderSubstageNavigation();
       renderScienceCheck();
       renderMission5();
-      renderSelections();
       renderControls();
       renderDepth();
     }
@@ -2029,21 +1897,6 @@ const travellerGuideSpecies = [
     panel.classList.toggle("unlocked", unlocked);
     }
 
-    function renderSelections() {
-      ["diagramExample", "drawing", "shallowFish2"].forEach(function(groupName) {
-        const value = expeditionState.selections[groupName];
-        const group = document.querySelector('[data-choice-group="' + groupName + '"]');
-        if (!group) return;
-
-        group.querySelectorAll(".choice-card").forEach(function(card) {
-          const selected = card.dataset.value === value;
-          card.classList.toggle("selected", selected);
-          card.setAttribute("aria-pressed", selected ? "true" : "false");
-        });
-      });
-
-    }
-
     function showM4FishPreview(button) {
       const sourceImage = button.querySelector(".choice-image");
       const preview = document.getElementById("m4FishPreview");
@@ -2063,60 +1916,43 @@ const travellerGuideSpecies = [
       preview.hidden = false;
     }
 
-    function stageHasInput(stage) {
-      if (!stage) return false;
-      if (stage.type === "read") return true;
-      if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
-      if (stage.type === "multiple-choice") return choiceHasSelection(getStageActivity(stage));
-      if (stage.type === "button-reveal") {
-        const activity = getStageActivity(stage);
-        return Boolean(activity) && activity.isComplete();
-      }
-      if (stage.type === "text-response") return allFrogfishLabelsComplete();
-      if (stage.type === "dragdrop") {
-        if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
-        return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
-      }
-      if (stage.type === "item-match") {
-        return isRustSymbolMatchTestComplete();
-      }
-      if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
-      if (stage.type === "finale") {
-        return (
-          expeditionState.mission5.phase === "drawing" &&
-          expeditionState.mission5.drawingFinished
-        );
-      }
-      if (stage.choiceGroup) return Boolean(expeditionState.selections[stage.choiceGroup]);
-      return true;
+    function hasPlacements(stage) {
+      const key = stage.id === "m2-drag-and-drop" ? "diagramLabels" : "batfishLabels";
+      return Object.keys(expeditionState.selections[key] || {}).length > 0;
     }
 
+    function isActivityComplete(stage) {
+      const activity = getStageActivity(stage);
+      return Boolean(activity) && activity.isComplete();
+    }
+
+    /* Whether CHECK has something to check. */
+    function stageHasInput(stage) {
+      if (!stage) return false;
+      switch (stage.type) {
+        case "multiple-choice": return choiceHasSelection(getStageActivity(stage));
+        case "button-reveal": return isActivityComplete(stage);
+        case "text-response": return allFrogfishLabelsComplete();
+        case "dragdrop": return hasPlacements(stage);
+        case "item-match": return isRustSymbolMatchTestComplete();
+        case "finale": return expeditionState.mission5.phase === "drawing" && expeditionState.mission5.drawingFinished;
+        default: return true;
+      }
+    }
+
+    /* Whether RESET has anything to clear. */
     function stageHasResettableInput(stage) {
       if (!stage) return false;
-      if (stage.type === "read") return Boolean(expeditionState.completedStages[stage.id]);
-      if (stage.type === "choice-set") return Object.keys(stage.answers || {}).some(function(groupName) { return Boolean(expeditionState.selections[groupName]); });
-      if (stage.type === "multiple-choice") return choiceHasSelection(getStageActivity(stage));
-      if (stage.type === "button-reveal") {
-        const activity = getStageActivity(stage);
-        return Boolean(activity) && activity.isComplete();
+      switch (stage.type) {
+        case "read": return Boolean(expeditionState.completedStages[stage.id]);
+        case "multiple-choice": return choiceHasSelection(getStageActivity(stage));
+        case "button-reveal": return isActivityComplete(stage);
+        case "text-response": return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
+        case "dragdrop": return hasPlacements(stage);
+        case "item-match": return getRustSymbolMatchTestState().index > 0;
+        case "finale": return expeditionState.mission5.phase !== "sonar" || Boolean(expeditionState.completedStages[stage.id]);
+        default: return false;
       }
-      if (stage.type === "text-response") return Object.keys(expeditionState.selections.frogfishLabels || {}).length > 0;
-      if (stage.type === "dragdrop") {
-        if (stage.id === "m2-drag-and-drop") return Object.keys(expeditionState.selections.diagramLabels || {}).length > 0;
-        return Object.keys(expeditionState.selections.batfishLabels || {}).length > 0;
-      }
-      if (stage.type === "item-match") {
-        return getRustSymbolMatchTestState().index > 0;
-      }
-      if (stage.type === "observations") return expeditionState.selections.observations.length > 0;
-      if (stage.type === "finale") {
-        return (
-          expeditionState.mission5.phase !== "sonar" ||
-          Boolean(expeditionState.completedStages[stage.id])
-        );
-      }
-      if (stage.choiceGroup) return Boolean(expeditionState.selections[stage.choiceGroup]);
-      return false;
     }
 
     function renderControls() {
@@ -2217,23 +2053,6 @@ const travellerGuideSpecies = [
       const percent = Math.round((completedCount / missionConfig.length) * 100);
       document.getElementById("depthLabel").textContent = percent + "%";
       document.getElementById("depthFill").style.width = percent + "%";
-    }
-
-    function openEquipmentSymbols() {
-      const modal = document.getElementById("equipmentSymbolsModal");
-      if (!modal) return;
-      modal.style.display = "block";
-      modal.setAttribute("aria-hidden", "false");
-      if (typeof growModalFromTrigger === "function") {
-        growModalFromTrigger(modal);
-      }
-    }
-
-    function closeEquipmentSymbols() {
-      const modal = document.getElementById("equipmentSymbolsModal");
-      if (!modal) return;
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
     }
 
     let shallowWatersTimers = [];
@@ -2450,7 +2269,6 @@ const travellerGuideSpecies = [
       initShallowWatersActivity();
       initFrogfishLabelsActivity();
 
-      initRustSymbolMatchActivity();
       initRustSymbolMatchTestActivity();
       initDiagramLabelActivity();
 
@@ -2474,18 +2292,8 @@ const travellerGuideSpecies = [
         });
       }
 
-      const equipmentModal = document.getElementById("equipmentSymbolsModal");
-      if (equipmentModal) {
-        equipmentModal.addEventListener("click", function(event) {
-          if (event.target === equipmentModal) closeEquipmentSymbols();
-        });
-      }
-
       document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") {
-          closeEquipmentSymbols();
-          closeFrogfishExampleModal();
-        }
+        if (event.key === "Escape") closeFrogfishExampleModal();
       });
 
       renderExpedition();
@@ -2660,7 +2468,6 @@ const travellerGuideSpecies = [
     /* This file is an ES module, so its functions are not global; expose the ones the HTML calls from inline handlers. */
     Object.assign(window, {
       checkCurrentMission,
-      closeEquipmentSymbols,
       closeFrogfishExampleModal,
       closeImageZoomModal,
       findAnotherMission5Animal,
