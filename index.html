@@ -76,6 +76,7 @@
             margin: auto;
             height: 90%;
             opacity: 0.4;
+            transition: transform 0.2s;
         }
         .lesson-card span { position: relative; }
         .lesson-number {
@@ -90,7 +91,8 @@
             line-height: 1.2;
             transition: transform 0.2s;
         }
-        .lesson-card:hover .lesson-subtitle {
+        .lesson-card:hover .lesson-subtitle,
+        .lesson-card:hover img {
             transform: scale(1.07);
         }
         .arrow {
