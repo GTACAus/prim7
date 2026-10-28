@@ -4,190 +4,176 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scientific Inquiry Lesson Overview</title>
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="styles/build_style.css" rel="stylesheet" type="text/css" />
     <style>
-        :root {
-            --cream: #f9f6e7;
-            --yellow: #ffcd1f;
-            --orange: #ff6d3a;
-            --purple: #4c34e5;
-            --ink: #272a24;
-        }
-        * { box-sizing: border-box; }
         body {
-            margin: 0;
-            font-family: Figtree, Arial, sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--ink);
+            background: white;
         }
-        main {
-            max-width: 1024px;
+        /* everything is sized in vh so the whole pathway fits on one screen */
+        .page { padding: 1.5vh 0; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+        .lesson-heading {
+            margin-bottom: 0;
+        }
+        #hero {
+            display: block;
+            font-size: 2.3vh;
             margin: 0 auto;
-            padding: 24px 16px 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        .hero {
-            background: var(--yellow);
-            border-radius: 26px;
-            padding: 24px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 420px;
+            width: 70%;
+            padding: 1vh 20px;
+            border: 3px solid var(--line);
+            border-top: 6px solid var(--yellow);
+            box-shadow: var(--shadow-small);
+            border-radius: 20px;
             user-select: none;
         }
-        .hero h1 { margin: 0; color: #222e88; font-size: 30px; line-height: 1.2; }
-        .hero img { width: 90px; height: 90px; object-fit: contain; }
-        .row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
+        #hero span:last-child {
+            font-size: 3vh;
+            color: var(--purple);
+            text-transform: uppercase;
         }
-        .middle-row {
-            background-color: var(--yellow);
-            border-radius: 20px;
-            padding: 30px 20px;
-        }
-        .group.pair {
-            background: var(--yellow);
+        .pathway { display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex: 1; padding-top: 1vh; }
+        .pair {
+            display: flex;
+            gap: 20px;
+            width: 60%;
+            background: var(--soft-orange);
             border: 6px solid var(--orange);
+            border-radius: 20px;
+            padding: 1.2vh 0;
+            justify-content: center;
         }
-        .group {
-            background: var(--yellow);
-            border-radius: 27px;
-            padding: 16px;
+        .lesson-card {
+            position: relative;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
-        .card {
-            background: var(--cream);
-            border: 3px solid var(--ink);
-            border-radius: 25px;
-            padding: 16px 20px;
-        }
-        .card {
-            box-shadow: 0 5px 0 rgba(39, 42, 36, 0.4);
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            color: inherit;
+            justify-content: center;
+            gap: 0;
+            width: min(100%, 300px);
+            min-height: 9vh;
+            padding: 0.8vh 12px;
+            overflow: hidden;
+            background: white;
+            border: 2px solid var(--line);
+            border-top: 6px solid var(--accent);
+            border-radius: 16px;
+            box-shadow: var(--shadow-small);
+            color: var(--text);
+            text-align: center;
             text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            transition: transform 0.2s, background 0.2s;
         }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 9px 0 rgba(39, 42, 36, 0.45); }
-        .card:focus-visible { outline: 5px solid var(--purple); outline-offset: 3px; }
-        .card img { width: 80px; height: 80px; object-fit: contain; flex: none; }
-        .lesson { color: var(--purple); margin-bottom: 8px; }
-                .flow { gap: 24px 56px; }
-        .flow > .card { position: relative; }
-        .flow > .card:not(:last-child)::after {
-            content: "";
+        .lesson-card:hover {
+            background: var(--soft-green);
+            transform: translateY(-3px);
+        }
+        .lesson-card img {
             position: absolute;
-            left: calc(100% + 8px);
-            top: 50%;
-            width: 40px;
-            height: 30px;
-            transform: translateY(-50%);
-            background: var(--orange);
-            clip-path: polygon(0 25%, 55% 25%, 55% 0, 100% 50%, 55% 100%, 55% 75%, 0 75%);
+            inset: 0;
+            margin: auto;
+            height: 90%;
+            opacity: 0.4;
         }
-        @media (max-width: 700px) { .flow > .card::after { display: none; } }
-        .stack { display: flex; flex-direction: column; gap: 24px; }
-        .pair .row { grid-template-columns: 1fr 1fr; }
-        .pair .card { padding: 12px 14px; }
-        .pair .card img { width: 56px; height: 56px; }
-        .road {
-            height: 64px;
-            background: var(--orange);
-            /* elbow arrow: down from the right column, left, then down into the left column */
-            clip-path: polygon(
-                calc(75% - 12px) 0, calc(75% + 12px) 0, calc(75% + 12px) 36px,
-                calc(25% + 12px) 36px, calc(25% + 12px) 40px, calc(25% + 28px) 40px,
-                25% 64px, calc(25% - 28px) 40px, calc(25% - 12px) 40px,
-                calc(25% - 12px) 12px, calc(75% - 12px) 12px
-            );
+        .lesson-card span { position: relative; }
+        .lesson-number {
+            color: var(--purple);
+            font-size: 2vh;
+            font-weight: 700;
+            line-height: 1.2;
         }
-        .road.down { clip-path: polygon(calc(25% - 12px) 0, calc(25% + 12px) 0, calc(25% + 12px) 40px, calc(25% + 28px) 40px, 25% 64px, calc(25% - 28px) 40px, calc(25% - 12px) 40px); }
-        @media (max-width: 700px) { .pair .row { grid-template-columns: 1fr; } .road { display: none; } }
-        .locked { opacity: 0.5; pointer-events: none; }
+        .lesson-subtitle {
+            font-weight: 700;
+            font-size: 1.3vh;
+            line-height: 1.2;
+        }
+        .arrow {
+            width: 3.4vh;
+            height: 4vh;
+            background: var(--orange);
+            clip-path: polygon(30% 0, 70% 0, 70% 50%, 100% 50%, 50% 100%, 0 50%, 30% 50%);
+        }
+        .unavailable { opacity: 0.5; pointer-events: none; }
+        @media (max-width: 720px) { .pair { flex-direction: column; align-items: center; } }
     </style>
 </head>
 <body>
-    <main>
-        <div class="hero">
-            <h1>Scientific Inquiry<br />starts here</h1>
-            <img src="./images/index/inquiry.png" alt="Scientific inquiry icon" />
-        </div>
-        <div class="row flow">
-            <a href="lesson1/lesson1.html" class="card" data-stage="1">
-                    <div><div class="lesson">Lesson 1</div><div>Questioning and Predicting</div></div>
-                    <img src="./images/index/lesson1.png" alt="Questioning and predicting icon" />
-                </a>
-            <a href="lesson2/lesson2.html" class="card" data-stage="2">
-                    <div><div class="lesson">Lesson 2</div><div>Planning a Fair Test Experiment</div></div>
-                    <img src="./images/index/lesson2.png" alt="Planning and conducting icon" />
-                </a>
-        </div>
-        <div class="road" data-stage="3"></div>
-        <div data-stage="3">Processing, modelling and analysing</div>
-        <div class="stack">
-            <section class="group pair" data-stage="3">
-                <div class="row flow">
-                    <a href="lesson3/lesson3.html" class="card" data-stage="3">
-                        <div><div class="lesson">Lesson 3</div><div>Tables</div></div>
-                        <img src="./images/index/lesson3.png" alt="Tables icon" />
-                    </a>
-                    <a href="lesson3/lesson3-2.html" class="card" data-stage="3">
-                        <div><div class="lesson">Lesson 3-2</div><div>Tables 2</div></div>
-                        <img src="./images/index/lesson3.png" alt="Tables 2 icon" />
-                    </a>
-                </div>
-            </section>
-            <div class="road down" data-stage="4"></div>
-            <section class="group pair" data-stage="4">
-                <div class="row flow">
-                    <a href="lesson4/lesson4.html" class="card" data-stage="4">
-                        <div><div class="lesson">Lesson 4</div><div>Graphs</div></div>
-                        <img src="./images/index/lesson4.png" alt="Graphs icon" />
-                    </a>
-                    <a href="lesson4/lesson4-2.html" class="card" data-stage="4">
-                        <div><div class="lesson">Lesson 4-2</div><div>Graphs 2</div></div>
-                        <img src="./images/index/lesson4.png" alt="Graphs 2 icon" />
-                    </a>
-                </div>
-            </section>
-        </div>
-        <div class="road down" data-stage="5"></div>
-        <div class="row flow">
-            <a href="lesson5/lesson5.html" class="card" data-stage="5">
-                <div><div class="lesson">Lesson 5</div><div>Scientific<br />Drawings</div></div>
-                <img src="./images/index/lesson5.png" alt="Scientific drawings icon" />
+    <main class="page">
+        <header class="lesson-heading">
+            <h1 id="hero">
+                <span>Scientific Inquiry</span>
+                <span>starts here</span>
+            </h1>
+        </header>
+        
+        <div class="pathway">
+            <div class="arrow" data-stage="2" aria-hidden="true"></div>
+            <a href="lesson1/lesson1.html" class="lesson-card" style="--accent: var(--purple)" data-stage="1">
+                <img src="./images/index/lesson1.png" alt="" />
+                <span class="lesson-number">Lesson 1</span>
+                <span class="lesson-subtitle">Questioning and Predicting</span>
             </a>
-            <a href="blank-lesson-6.html" class="card" data-stage="6">
-                    <div><div class="lesson">Lesson 6</div><div>Evaluating and Communicating:<br />Scientific Poster</div></div>
-                    <img src="./images/index/lesson6.png" alt="Evaluating and communicating icon" />
-                </a>
+            <div class="arrow" data-stage="2" aria-hidden="true"></div>
+            <a href="lesson2/lesson2.html" class="lesson-card" style="--accent: var(--orange)" data-stage="2">
+                <img src="./images/index/lesson2.png" alt="" />
+                <span class="lesson-number">Lesson 2</span>
+                <span class="lesson-subtitle">Planning a Fair Test Experiment</span>
+            </a>
+            <div class="arrow" data-stage="3" aria-hidden="true"></div>
+            <div class="pair">
+                <a href="lesson3/lesson3.html" class="lesson-card" style="--accent: var(--green)" data-stage="3">
+                <img src="./images/index/lesson3.png" alt="" />
+                <span class="lesson-number">Lesson 3</span>
+                <span class="lesson-subtitle">Tables</span>
+            </a>
+                <a href="lesson3/lesson3-2.html" class="lesson-card" style="--accent: var(--green)" data-stage="3">
+                <img src="./images/index/lesson3.png" alt="" />
+                <span class="lesson-number">Lesson 3-2</span>
+                <span class="lesson-subtitle">Tables 2</span>
+            </a>
+            </div>
+            <div class="arrow" data-stage="4" aria-hidden="true"></div>
+            <div class="pair">
+                <a href="lesson4/lesson4.html" class="lesson-card" style="--accent: var(--blue)" data-stage="4">
+                <img src="./images/index/lesson4.png" alt="" />
+                <span class="lesson-number">Lesson 4</span>
+                <span class="lesson-subtitle">Graphs</span>
+            </a>
+                <a href="lesson4/lesson4-2.html" class="lesson-card" style="--accent: var(--blue)" data-stage="4">
+                <img src="./images/index/lesson4.png" alt="" />
+                <span class="lesson-number">Lesson 4-2</span>
+                <span class="lesson-subtitle">Graphs 2</span>
+            </a>
+            </div>
+            <div class="arrow" data-stage="5" aria-hidden="true"></div>
+            <a href="lesson5/lesson5.html" class="lesson-card" style="--accent: var(--yellow)" data-stage="5">
+                <img src="./images/index/lesson5.png" alt="" />
+                <span class="lesson-number">Lesson 5</span>
+                <span class="lesson-subtitle">Scientific Drawings</span>
+            </a>
+            <div class="arrow" data-stage="6" aria-hidden="true"></div>
+            <a href="blank-lesson-6.html" class="lesson-card" style="--accent: var(--lavender)" data-stage="6">
+                <img src="./images/index/lesson6.png" alt="" />
+                <span class="lesson-number">Lesson 6</span>
+                <span class="lesson-subtitle">Evaluating and Communicating: Scientific Poster</span>
+            </a>
         </div>
     </main>
     <script>
-        // Lessons up to availableLesson are unlocked. Click the hero 5 times to unlock everything.
+        // Lessons up to availableLesson are unlocked. Click the heading 5 times to unlock everything.
         const availableLesson = 5;
         let showAll = false;
 
         function updateVisibility() {
             document.querySelectorAll("[data-stage]").forEach((item) => {
-                item.classList.toggle("locked", !showAll && Number(item.dataset.stage) > availableLesson);
+                item.classList.toggle("unavailable", !showAll && Number(item.dataset.stage) > availableLesson);
             });
         }
         updateVisibility();
 
         let heroClicks = 0;
-        document.querySelector(".hero").addEventListener("click", () => {
+        document.getElementById("hero").addEventListener("click", () => {
             if (!showAll && ++heroClicks >= 5) {
                 showAll = true;
                 updateVisibility();
