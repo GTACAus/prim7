@@ -1966,7 +1966,22 @@
     // directly inside openFullscreen()/closeFullscreen(), so they also stay
     // correct when fullscreen is left some other way (Esc key, browser UI)
     // instead of only when this button is clicked.
+    // Only the fullscreen element's subtree is rendered while fullscreen, so
+    // the body-level modals are moved inside it on entry and back on exit.
+    const FULLSCREEN_MODAL_IDS = [
+      "pdfModal", "imageZoomModal", "frogfishExampleModal", "teacherModal", "glossaryModal"
+    ];
+
+    function moveModalsForFullscreen() {
+      const host = isFullscreen() ? elem : document.body;
+      FULLSCREEN_MODAL_IDS.forEach(function (id) {
+        const modal = document.getElementById(id);
+        if (modal && modal.parentNode !== host) host.appendChild(modal);
+      });
+    }
+
     function onFullscreenChange() {
+      moveModalsForFullscreen();
       if (isFullscreen()) {
         button.onclick = closeFullscreen;
         button.querySelector("span").textContent = "Close Full Screen";

@@ -521,7 +521,8 @@ DragDropActivity.prototype._startGhost = function (drag) {
     ghost.style.width = drag.width + "px";
     ghost.style.height = drag.height + "px";
   }
-  document.body.appendChild(ghost);
+  /* In fullscreen only the fullscreen element's subtree is rendered, so a ghost on <body> would be invisible. */
+  (document.fullscreenElement || document.webkitFullscreenElement || document.body).appendChild(ghost);
   if (wasPlaced) {
     var ghostRect = ghost.getBoundingClientRect();
     drag.offsetX = ghostRect.width / 2;
