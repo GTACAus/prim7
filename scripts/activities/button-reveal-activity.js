@@ -58,7 +58,9 @@ function ButtonActivity(root, options) {
 
   var self = this;
   if (this.trigger) {
-    this.trigger.addEventListener("click", function () { self._press(); });
+    this.trigger.addEventListener("click", function () {
+      self._press();
+    });
   }
 
   this.setComplete(false);
@@ -70,7 +72,9 @@ ButtonActivity.prototype.constructor = ButtonActivity;
 /* ---------- public API ---------- */
 
 ButtonActivity.prototype.reset = function () {
-  Array.prototype.forEach.call(this.targets, function (target) { target.hidden = true; });
+  Array.prototype.forEach.call(this.targets, function (target) {
+    target.hidden = true;
+  });
   this._setRevealed(false);
   if (this.trigger) this.trigger.hidden = false;
   this.setComplete(false);
@@ -84,13 +88,18 @@ ButtonActivity.prototype.reset = function () {
 ButtonActivity.prototype._setRevealed = function (revealed) {
   var selector = this.root.dataset.reveals;
   if (!selector) return;
-  Array.prototype.forEach.call(document.querySelectorAll(selector), function (element) {
-    element.hidden = !revealed;
-  });
+  Array.prototype.forEach.call(
+    document.querySelectorAll(selector),
+    function (element) {
+      element.hidden = !revealed;
+    },
+  );
 };
 
 ButtonActivity.prototype._press = function () {
-  Array.prototype.forEach.call(this.targets, function (target) { target.hidden = false; });
+  Array.prototype.forEach.call(this.targets, function (target) {
+    target.hidden = false;
+  });
   this._setRevealed(true);
   if (this.hideTrigger && this.trigger) this.trigger.hidden = true;
 
@@ -100,16 +109,18 @@ ButtonActivity.prototype._press = function () {
   this.setComplete(true);
 };
 
-
 // Initialise all stop and checks
 function initialiseStopAndCheckActivities() {
-  Array.prototype.forEach.call(document.querySelectorAll(".stop-and-check[data-activity]"), function(root) {
-    new ButtonActivity(root);
-  });
+  Array.prototype.forEach.call(
+    document.querySelectorAll(".stop-and-check[data-activity]"),
+    function (root) {
+      new ButtonActivity(root);
+    },
+  );
   console.log("Stop and Checks Loaded");
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   initialiseStopAndCheckActivities();
 });
 

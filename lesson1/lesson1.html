@@ -1,1367 +1,1542 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta
-         name="viewport"
-         content="width=device-width, initial-scale=1.0">
-      <title>Lesson 1 - Questioning and Predicting</title>
-      <link
-         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
-         rel="stylesheet">
-      <link
-         href="../styles/build_style.css"
-         rel="stylesheet"
-         type="text/css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson 1 - Questioning and Predicting</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
 
-      <!--
+    <!--
         Late print and mobile overrides. These used to sit at the end of
         build_style.css, so they must load after it but before the
         stylesheets that were already overriding them.
       -->
-      <link
-         href="../styles/overrides.css"
-         rel="stylesheet"
-         type="text/css">
+    <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
 
-      <link
-         href="../styles/reasoned_prediction_builder.css"
-         rel="stylesheet"
-         type="text/css">
+    <link
+      href="../styles/reasoned_prediction_builder.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-      <link
-         href="../styles/lesson1_styles/lesson1_activities.css"
-         rel="stylesheet"
-         type="text/css">
+    <link
+      href="../styles/lesson1_styles/lesson1_activities.css"
+      rel="stylesheet"
+      type="text/css"
+    />
 
-      <link
-        href="../styles/lesson1_styles/lesson1.css"
-        rel="stylesheet"
-        type="text/css">
-      <link
-        href="../styles/lesson1_styles/flashcards.css"
-        rel="stylesheet"
-        type="text/css">
-   </head>
-   <body>
-      <div class="page-header-wrapper">
-        <header class="page-header">
-          <button class="general-button home-button" onclick="window.location.href='../index.html'">
-            <p class="bounce-symbol">🏠</p>
-            <p>Home</p>
+    <link
+      href="../styles/lesson1_styles/lesson1.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="../styles/lesson1_styles/flashcards.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <div class="page-header-wrapper">
+      <header class="page-header">
+        <button
+          class="general-button home-button"
+          onclick="window.location.href = '../index.html'"
+        >
+          <p class="bounce-symbol">🏠</p>
+          <p>Home</p>
+        </button>
+        <button class="general-button glossary-button" onclick="openGlossary()">
+          <p class="bounce-symbol">📖</p>
+          <p>Vocabulary</p>
+        </button>
+      </header>
+    </div>
+
+    <!-- Vocabulary Modal -->
+    <div class="modal" id="glossaryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="teacher-label">Lesson 1: Questioning and Predicting</p>
+            <h2>Glossary Terms</h2>
+          </div>
+          <!-- Vocabulary Button -->
+          <button
+            class="close-button"
+            onclick="closeGlossary()"
+            aria-label="Close glossary"
+          >
+            ×
           </button>
-          <button class="general-button glossary-button" onclick="openGlossary()">
-            <p class="bounce-symbol">📖</p>
-            <p>Vocabulary</p>
-          </button>
-          
-        </header>
+        </div>
+        <div class="vocab-list">
+          <div class="vocab-card">
+            <h3>Experiment</h3>
+            <p>
+              A test scientists carry out to answer a testable question by
+              changing one thing and measuring the effect it has on something
+              else.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Question</h3>
+            <p>
+              Something you are curious about after making an observation. In
+              science, a good question leads to an investigation.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Observation</h3>
+            <p>
+              Something you notice happening by using your senses, such as
+              seeing, hearing, or feeling. In science, observations help you ask
+              questions and understand what is happening.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Prediction</h3>
+            <p>
+              An educated guess about what the result of an experiment will be,
+              based on your knowledge of the relationship between two things.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Reasoned Prediction</h3>
+            <p>
+              A prediction that is based on scientific knowledge and evidence,
+              explaining why a particular outcome is expected.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Measure</h3>
+            <p>
+              To observe and record the effect that a change has on something.
+              This is the result you collect during an experiment using a tool
+              or method such as a ruler, stopwatch, or scale.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Change</h3>
+            <p>
+              To make something different from what it was. In an experiment,
+              this is the one thing you deliberately adjust to see what effect
+              it has on something else.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Testable question</h3>
+            <p>
+              A question that can be answered by doing an experiment where you
+              change something and measure the effect it has on something else.
+            </p>
+          </div>
+
+          <div class="vocab-card">
+            <h3>Untestable question</h3>
+            <p>
+              A question that cannot be answered through an experiment, usually
+              because it is based on personal opinion or cannot be measured.
+            </p>
+          </div>
+        </div>
       </div>
-      
-      <!-- Vocabulary Modal -->
-      <div class="modal" id="glossaryModal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div>
-              <p class="teacher-label">
-                Lesson 1: Questioning and Predicting
-              </p>
-              <h2>Glossary Terms</h2>
+    </div>
+
+    <!-- ---------- Hidden Teacher Menu ---------- -->
+
+    <div class="teacher-modal" id="teacherModal">
+      <div class="teacher-panel">
+        <div class="teacher-panel-header">
+          <div>
+            <p class="teacher-label">Teacher tools</p>
+
+            <h2>Jump to an activity</h2>
+          </div>
+
+          <button
+            type="button"
+            class="teacher-close"
+            onclick="closeTeacherMenu()"
+            aria-label="Close teacher menu"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="teacher-section-list"></div>
+
+        <div class="teacher-actions">
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherShowAll()"
+          >
+            Show all sections
+          </button>
+
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherResetView()"
+          >
+            Reset student view
+          </button>
+        </div>
+
+        <p class="teacher-note">
+          Teacher mode changes navigation only. Student answers are not deleted.
+        </p>
+      </div>
+    </div>
+
+    <main class="page">
+      <!-- ---------- Header ---------- -->
+      <header class="lesson-intro">
+        <!-- Lesson 1 heading and summary -->
+        <div class="lesson-heading">
+          <span class="lesson-label"> Lesson 1 </span>
+          <h1 id="teacherTrigger" title="Questioning and Predicting">
+            Questioning and Predicting
+          </h1>
+
+          <p class="lesson-summary">
+            Asking questions and making predictions like a scientist
+          </p>
+
+          <a
+            class="worksheet-button general-button"
+            href="../worksheets/l1-worksheet.pdf"
+            download
+          >
+            <p class="bounce-symbol">📄</p>
+            <p>Download worksheet</p>
+          </a>
+        </div>
+        <!-- Introductory Grid (Contains Learning Objectives and See Think Wonder)-->
+        <div class="intro-grid">
+          <section class="intro-card objectives-card">
+            <!-- Learning Objective -->
+            <p class="intro-eyebrow">Learning objective</p>
+            <p class="learning-objective-text">
+              Learn to ask <strong>testable questions</strong> and make reasoned
+              predictions for a scientific <strong>experiment</strong>
+            </p>
+            <!-- Success Criteria -->
+            <p class="success-heading">Success criteria</p>
+            <ol class="objective-list">
+              <li>
+                I can classify whether a <strong>question</strong> is testable
+                or untestable
+              </li>
+              <li>I can write a <strong>testable question</strong></li>
+              <li>
+                I can make <strong>predictions</strong> and give a reason for my
+                choice
+              </li>
+            </ol>
+          </section>
+          <section class="intro-card observation-card">
+            <p class="intro-eyebrow">Think like a scientist</p>
+            <h2>See, Think, Wonder</h2>
+            <p>
+              As scientists we are curious. We observe the world around us. We
+              ask <strong>questions</strong> about how the world works. To do
+              this we can use a thinking tool called
+              <strong>See, Think, Wonder</strong>. Follow these steps to make
+              <strong>observations</strong> and ask <strong>questions</strong>:
+            </p>
+            <div class="stw-explanation">
+              <div>
+                <strong>See</strong>
+                <span>What do you notice?</span>
+              </div>
+              <div>
+                <strong>Think</strong>
+                <span>What do you think is happening?</span>
+              </div>
+              <div>
+                <strong>Wonder</strong>
+                <span>What questions do you have?</span>
+              </div>
             </div>
-              <!-- Vocabulary Button -->
+          </section>
+        </div>
+      </header>
+      <!-- ---------- End of Header ---------- -->
+      <!-- ---------- Explicit Teaching: Introduction Image ---------- -->
+      <section class="section" id="observe-experiment">
+        <h2 class="section-title">Observe the Experiment</h2>
+        <div class="diagram-box diagram-activity">
+          <p class="activity-instruction">
+            Look at the image below. It shows a fair test being done. Use the
+            <strong><i>See, Think, Wonder</i></strong> tool to make
+            <strong>observations</strong> and ask <strong>questions</strong>.
+          </p>
+        </div>
+        <div class="image-box">
+          <img src="../images/lesson1/l1-default.png" alt="Toy car example" />
+        </div>
+      </section>
+      <!-- ---------- Explicit Teaching: What is a Testable Question? ---------- -->
+      <section class="section" id="testable-question-intro">
+        <h2 class="section-title">Make a testable question</h2>
+        <div class="diagram-box diagram-activity">
+          <h3>What is a testable question?</h3>
+          <p class="activity-instruction">
+            It is answered by doing an experiment. You change one thing and
+            <strong>measure</strong> the effect on something else. It explores
+            the relationship between two different things.
+          </p>
+        </div>
+        <div class="intro-grid question-comparison-grid">
+          <div class="intro-card testable-card">
+            <p class="intro-eyebrow">Testable questions</p>
+            <ul>
+              <li>Can be answered by doing an <strong>experiment</strong>.</li>
+              <li>Explore the relationship between two things.</li>
+              <li>
+                One thing is changed and its effect on another thing is
+                <strong>measured</strong>.
+              </li>
+              <li>
+                Different scientists should reach a similar answer when
+                conducting the same <strong>experiment</strong>.
+              </li>
+            </ul>
+          </div>
+          <div class="intro-card untestable-card">
+            <p class="intro-eyebrow">Untestable questions</p>
+            <ul>
+              <li>
+                May be answered using personal opinions, values or beliefs.
+              </li>
+              <li>
+                Do not explore the effect of <strong>changing</strong> one
+                thing.
+              </li>
+              <li>
+                Cannot be answered using <strong>measurable</strong> evidence
+                from an <strong>experiment</strong>.
+              </li>
+              <li>
+                Are not by <strong>changing</strong> one thing and
+                <strong>measuring</strong> the effect on another thing.
+              </li>
+              <li>Different people may provide different answers.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="diagram-box diagram-activity question-example-intro">
+          <p class="activity-instruction">
+            Look at the following examples from our See, Think, Wonder exercise.
+          </p>
+        </div>
+        <div class="intro-grid question-example-grid">
+          <div class="intro-card testable-card">
+            <p class="intro-eyebrow">Testable question</p>
+            <p class="example-question">
+              Does changing the angle of the ramp affect how far the car
+              travels?
+            </p>
+            <div class="question-check-list">
+              <div class="question-check-row">
+                <span class="question-check-icon correct">✓</span>
+                <div>
+                  <strong>Is something being changed?</strong>
+                  <p>Yes. The angle of the ramp is changed.</p>
+                </div>
+              </div>
+              <div class="question-check-row">
+                <span class="question-check-icon correct">✓</span>
+                <div>
+                  <strong>Can the effect be measured?</strong>
+                  <p>Yes. Measure the distance the car travels.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="intro-card untestable-card">
+            <p class="intro-eyebrow">Untestable question</p>
+            <p class="example-question">
+              Does changing the angle of the ramp affect how much fun the car
+              has?
+            </p>
+            <div class="question-check-list">
+              <div class="question-check-row">
+                <span class="question-check-icon correct">✓</span>
+                <div>
+                  <strong>Is something being changed?</strong>
+                  <p>Yes. The angle of the ramp is changed.</p>
+                </div>
+              </div>
+              <div class="question-check-row">
+                <span class="question-check-icon incorrect">×</span>
+                <div>
+                  <strong>Can the effect be measured?</strong>
+                  <p>No. Fun is based on personal opinion.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="intro-card testable-card">
+            <p class="intro-eyebrow">Testable question</p>
+            <p class="example-question">
+              What will changing the size of the car do to the distance the car
+              travels?
+            </p>
+            <div class="question-check-list">
+              <div class="question-check-row">
+                <span class="question-check-icon correct">✓</span>
+                <div>
+                  <strong>Is something being changed?</strong>
+                  <p>Yes. The size of the car is changed.</p>
+                </div>
+              </div>
+              <div class="question-check-row">
+                <span class="question-check-icon correct">✓</span>
+                <div>
+                  <strong>Can the effect be measured?</strong>
+                  <p>Yes. Measure the distance the car travels.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="intro-card untestable-card">
+            <p class="intro-eyebrow">Untestable question</p>
+            <p class="example-question">How far does the red car travel?</p>
+            <div class="question-check-list">
+              <div class="question-check-row">
+                <span class="question-check-icon incorrect">×</span>
+                <div>
+                  <strong>Is something being changed?</strong>
+                  <p>No. Nothing is changed.</p>
+                </div>
+              </div>
+              <div class="question-check-row">
+                <span class="question-check-icon correct">✓</span>
+                <div>
+                  <strong>Can the effect be measured?</strong>
+                  <p>Yes. The distance the car travels can be measured.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          class="next-button general-button"
+          onclick="unlockSection('flashcards', 'testable-question-intro')"
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
+      <!-- ---------- Flashcards ---------- -->
+      <section class="section locked" id="flashcards">
+        <h2 class="section-title">Testable or Non-testable?</h2>
+        <div class="flashcard-box" id="flashcardsActivity" data-activity>
+          <main class="flashcard-content">
+            <div class="layout">
+              <div class="pile-section">
+                <h2 data-flashcard-pile-label="left"></h2>
+                <div
+                  id="left-pile"
+                  data-flashcard-pile="left"
+                  class="pile-container"
+                ></div>
+                <p id="left-count" data-flashcard-count="left">0</p>
+              </div>
+              <div class="center-section">
+                <div id="card-area">
+                  <div id="current-card" data-flashcard-card class=""></div>
+                  <div id="done-message" data-flashcard-done>
+                    <span>🎉</span>
+                    <p>All Sorted!</p>
+                  </div>
+                </div>
+                <p id="progress" data-flashcard-progress></p>
+                <div class="btn-row">
+                  <button
+                    id="btn-investigable"
+                    class="general-button"
+                    data-flashcard-sort="left"
+                  >
+                    Testable
+                  </button>
+                  <button
+                    id="btn-uninvestigable"
+                    class="general-button"
+                    data-flashcard-sort="right"
+                  >
+                    Non-Testable
+                  </button>
+                </div>
+                <button
+                  id="reset-btn"
+                  class="general-button hidden"
+                  data-reset-trigger
+                >
+                  Reset
+                </button>
+              </div>
+              <div class="pile-section">
+                <h2 data-flashcard-pile-label="right" class="mb-3"></h2>
+                <div
+                  id="right-pile"
+                  data-flashcard-pile="right"
+                  class="pile-container"
+                ></div>
+                <p id="right-count" data-flashcard-count="right">0</p>
+              </div>
+            </div>
+          </main>
+        </div>
+        <button
+          id="flashcardsNextButton"
+          class="next-button general-button"
+          onclick="unlockSection('testable-questions', 'flashcards')"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
+
+      <!-- Part C: How do we write testable questions? -->
+      <section class="section locked" id="testable-questions">
+        <h2 class="section-title">How do we write testable questions?</h2>
+        <div class="diagram-box diagram-activity">
+          <p class="activity-instruction">
+            A <strong>testable question</strong> describes two things:
+          </p>
+          <ol>
+            <li>What is being <strong>changed</strong> and</li>
+            <li>What is being <strong>measured</strong>.</li>
+          </ol>
+          <p>
+            <strong>Testable questions</strong> begin with words like
+            <strong><i>What, How, Does and If</i></strong
+            >.
+          </p>
+        </div>
+
+        <!-- Student activity -->
+        <div class="testable-question-activity">
+          <div class="activity-heading">
+            <p class="activity-eyebrow">Your turn</p>
+            <h3>Create a testable question</h3>
+            <p>
+              Think back to what you were curious about during the
+              <strong>See, Think, Wonder</strong> activity. Spin the wheel to
+              choose a <strong>question</strong> structure.
+            </p>
+          </div>
+          <div class="question-wheel-layout">
+            <!-- Wheel side -->
+            <div class="wheel-panel">
+              <div class="question-wheel-wrapper">
+                <div
+                  class="question-wheel"
+                  id="questionWheel"
+                  aria-label="Question starter wheel"
+                >
+                  <span class="wheel-label wheel-label-what">What</span>
+                  <span class="wheel-label wheel-label-how">How</span>
+                  <span class="wheel-label wheel-label-does">Does</span>
+                  <span class="wheel-label wheel-label-if">If</span>
+                </div>
+                <div class="wheel-pointer" aria-hidden="true"></div>
+              </div>
               <button
-                 class="close-button"
-                 onclick="closeGlossary()"
-                 aria-label="Close glossary">
-              ×
+                type="button"
+                class="general-button spin-wheel-button"
+                id="spinQuestionWheel"
+              >
+                Spin the wheel
               </button>
-            </div>
-            <div class="vocab-list">
-
-              <div class="vocab-card">
-                <h3>Experiment</h3>
-                <p>
-                  A test scientists carry out to answer a testable question by changing one thing and measuring the effect it has on something else.
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Question</h3>
-                <p>
-                  Something you are curious about after making an observation. In science, a good question leads to an investigation.
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Observation</h3>
-                <p>
-                  Something you notice happening by using your senses, such as seeing, hearing, or feeling. In science, observations help you ask questions and understand what is happening. 
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Prediction</h3>
-                <p>
-                  An educated guess about what the result of an experiment will be, based on your knowledge of the relationship between two things.
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Reasoned Prediction</h3>
-                <p>
-                  A prediction that is based on scientific knowledge and evidence, explaining why a particular outcome is expected.
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Measure</h3>
-                <p>
-                  To observe and record the effect that a change has on something. This is the result you collect during an experiment using a tool or method such as a ruler, stopwatch, or scale.
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Change</h3>
-                <p>
-                  To make something different from what it was. In an experiment, this is the one thing you deliberately adjust to see what effect it has on something else.
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Testable question</h3>
-                <p>
-                  A question that can be answered by doing an experiment where you change something and measure the effect it has on something else.
-                </p>
-              </div>
-
-              <div class="vocab-card">
-                <h3>Untestable question</h3>
-                <p>
-                  A question that cannot be answered through an experiment, usually because it is based on personal opinion or cannot be measured.
-                </p>
-              </div>
-
-            </div>
-         </div>
-      </div>
-
-            <!-- ---------- Hidden Teacher Menu ---------- -->
-
-      <div
-          class="teacher-modal"
-          id="teacherModal">
-
-          <div class="teacher-panel">
-
-              <div class="teacher-panel-header">
-
-                  <div>
-                      <p class="teacher-label">
-                          Teacher tools
-                      </p>
-
-                      <h2>
-                          Jump to an activity
-                      </h2>
-                  </div>
-
-                  <button
-                      type="button"
-                      class="teacher-close"
-                      onclick="closeTeacherMenu()"
-                      aria-label="Close teacher menu">
-                      ×
-                  </button>
-
-              </div>
-
-              <div class="teacher-section-list"></div>
-
-              <div class="teacher-actions">
-
-                  <button
-                      type="button"
-                      class="teacher-secondary-button"
-                      onclick="teacherShowAll()">
-                      Show all sections
-                  </button>
-
-                  <button
-                      type="button"
-                      class="teacher-secondary-button"
-                      onclick="teacherResetView()">
-                      Reset student view
-                  </button>
-
-              </div>
-
-              <p class="teacher-note">
-                  Teacher mode changes navigation only. Student answers are not deleted.
+              <p class="wheel-result" id="wheelResult" aria-live="polite">
+                Spin the wheel to receive a <strong>question</strong> structure.
               </p>
-
-          </div>
-
-      </div>
-
-      <main class="page">
-         <!-- ---------- Header ---------- --> 
-         <header class="lesson-intro">
-            <!-- Lesson 1 heading and summary -->
-            <div class="lesson-heading">
-               <span class="lesson-label">
-               Lesson 1
-               </span>
-               <h1
-                  id="teacherTrigger"
-                  title="Questioning and Predicting">
-                  Questioning and Predicting
-              </h1>
-              
-               <p class="lesson-summary">
-                
-                  Asking questions and making predictions like a scientist
-               </p>
-               
-              <a
-                class="worksheet-button
-                general-button"
-                href="../worksheets/l1-worksheet.pdf"
-                download> 
-                <p class="bounce-symbol">📄</p>
-                <p>Download worksheet</p>
-              </a>
             </div>
-            <!-- Introductory Grid (Contains Learning Objectives and See Think Wonder)-->
-            <div class="intro-grid">
-               <section class="intro-card objectives-card">
-                  <!-- Learning Objective -->
-                  <p class="intro-eyebrow">Learning objective</p>
-                  <p class="learning-objective-text">
-                     Learn to ask <strong>testable questions</strong> and make reasoned predictions for a scientific <strong>experiment</strong>
-                  </p>
-                  <!-- Success Criteria -->
-                  <p class="success-heading">Success criteria</p>
-                  <ol class="objective-list">
-                     <li>
-                        I can classify whether a <strong>question</strong> is testable or untestable
-                     </li>
-                     <li>
-                        I can write a <strong>testable question</strong>
-                     </li>
-                     <li> 
-                        I can make <strong>predictions</strong> and give a reason for my choice
-                     </li>
-                  </ol>
-               </section>
-               <section class="intro-card observation-card">
-                  <p class="intro-eyebrow">Think like a scientist</p>
-                  <h2>See, Think, Wonder</h2>
-                  <p>
-                    As scientists we are curious.
-                    We observe the world around us.
-                    We ask <strong>questions</strong> about how the world works. 
-                    To do this we can use a thinking tool called <strong>See, Think, Wonder</strong>.
-                    Follow these steps to make <strong>observations</strong> and ask <strong>questions</strong>:
-                  </p>
-                  <div class="stw-explanation">
-                     <div>
-                        <strong>See</strong>
-                        <span>What do you notice?</span>
-                     </div>
-                     <div>
-                        <strong>Think</strong>
-                        <span>What do you think is happening?</span>
-                     </div>
-                     <div>
-                        <strong>Wonder</strong>
-                        <span>What questions do you have?</span>
-                     </div>
-                  </div>
-               </section>
-            </div>
-         </header>
-         <!-- ---------- End of Header ---------- -->
-         <!-- ---------- Explicit Teaching: Introduction Image ---------- -->
-         <section class="section" id="observe-experiment">
-            <h2 class="section-title">
-               Observe the Experiment
-            </h2>
-            <div class="diagram-box diagram-activity">
-               <p class="activity-instruction">
-                  Look at the image below.
-                  It shows a fair test being done.
-                  Use the <strong><i>See, Think, Wonder</i></strong> tool to make <strong>observations</strong> and ask <strong>questions</strong>.
-               </p>
-            </div>
-            <div class="image-box">
-               <img
-                  src="../images/lesson1/l1-default.png"
-                  alt="Toy car example">
-            </div>
-         </section>
-         <!-- ---------- Explicit Teaching: What is a Testable Question? ---------- -->
-         <section class="section" id="testable-question-intro">
-            <h2 class="section-title">
-               Make a testable question
-            </h2>
-            <div class="diagram-box diagram-activity">
-               <h3>
-                  What is a testable question?
-               </h3>
-               <p class="activity-instruction">
-                  It is answered by doing an experiment.
-                  You change one thing and <strong>measure</strong> the effect on something else.
-                  It explores the relationship between two different things.
-               </p>
-            </div>
-            <div class="intro-grid question-comparison-grid">
-               <div class="intro-card testable-card">
-                  <p class="intro-eyebrow">
-                     Testable questions
-                  </p>
-                  <ul>
-                     <li>Can be answered by doing an <strong>experiment</strong>.</li>
-                     <li>
-                        Explore the relationship between two things.
-                     </li>
-                     <li>
-                        One thing is changed and its effect on another thing is <strong>measured</strong>.
-                     </li>
-                     <li>
-                        Different scientists should reach a similar answer when conducting
-                        the same <strong>experiment</strong>.
-                     </li>
-                  </ul>
-               </div>
-               <div class="intro-card untestable-card">
-                  <p class="intro-eyebrow">
-                     Untestable questions
-                  </p>
-                  <ul>
-                     <li>May be answered using personal opinions, values or beliefs.</li>
-                     <li>Do not explore the effect of <strong>changing</strong> one thing.</li>
-                     <li>Cannot be answered using <strong>measurable</strong> evidence from an <strong>experiment</strong>.</li>
-                     <li>Are not by <strong>changing</strong> one thing and <strong>measuring</strong> the effect on another thing.</li>
-                     <li>Different people may provide different answers.</li>
-                  </ul>
-               </div>
-            </div>
-            <div class="diagram-box diagram-activity question-example-intro">
-               <p class="activity-instruction">
-                  Look at the following examples from our See, Think, Wonder exercise.
-               </p>
-            </div>
-            <div class="intro-grid question-example-grid">
-               <div class="intro-card testable-card">
-                  <p class="intro-eyebrow">
-                     Testable question
-                  </p>
-                  <p class="example-question">
-                     Does changing the angle of the ramp affect how far the car travels?
-                  </p>
-                  <div class="question-check-list">
-                     <div class="question-check-row">
-                        <span class="question-check-icon correct">✓</span>
-                        <div>
-                           <strong>Is something being changed?</strong>
-                           <p>Yes. The angle of the ramp is changed.</p>
-                        </div>
-                     </div>
-                     <div class="question-check-row">
-                        <span class="question-check-icon correct">✓</span>
-                        <div>
-                           <strong>Can the effect be measured?</strong>
-                           <p>Yes. Measure the distance the car travels.</p>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="intro-card untestable-card">
-                  <p class="intro-eyebrow">
-                     Untestable question
-                  </p>
-                  <p class="example-question">
-                     Does changing the angle of the ramp affect how much fun the car has?
-                  </p>
-                  <div class="question-check-list">
-                     <div class="question-check-row">
-                        <span class="question-check-icon correct">✓</span>
-                        <div>
-                           <strong>Is something being changed?</strong>
-                           <p>Yes. The angle of the ramp is changed.</p>
-                        </div>
-                     </div>
-                     <div class="question-check-row">
-                        <span class="question-check-icon incorrect">×</span>
-                        <div>
-                           <strong>Can the effect be measured?</strong>
-                           <p>No. Fun is based on personal opinion.</p>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="intro-card testable-card">
-                  <p class="intro-eyebrow">
-                     Testable question
-                  </p>
-                  <p class="example-question">
-                     What will changing the size of the car do to the distance the car travels?
-                  </p>
-                  <div class="question-check-list">
-                     <div class="question-check-row">
-                        <span class="question-check-icon correct">✓</span>
-                        <div>
-                           <strong>Is something being changed?</strong>
-                           <p>Yes. The size of the car is changed.</p>
-                        </div>
-                     </div>
-                     <div class="question-check-row">
-                        <span class="question-check-icon correct">✓</span>
-                        <div>
-                           <strong>Can the effect be measured?</strong>
-                           <p>Yes. Measure the distance the car travels.</p>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="intro-card untestable-card">
-                  <p class="intro-eyebrow">
-                     Untestable question
-                  </p>
-                  <p class="example-question">
-                     How far does the red car travel?
-                  </p>
-                  <div class="question-check-list">
-                     <div class="question-check-row">
-                        <span class="question-check-icon incorrect">×</span>
-                        <div>
-                           <strong>Is something being changed?</strong>
-                           <p>No. Nothing is changed.</p>
-                        </div>
-                     </div>
-                     <div class="question-check-row">
-                        <span class="question-check-icon correct">✓</span>
-                        <div>
-                           <strong>Can the effect be measured?</strong>
-                           <p>
-                              Yes. The distance the car travels can be measured.
-                           </p>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <button
-               class="next-button general-button"
-               onclick="unlockSection('flashcards', 'testable-question-intro')">
-            Next
-            </button>
-            <p class="completed-note">
-               Completed — next activity unlocked.
-            </p>
-         </section>
-         <!-- ---------- Flashcards ---------- --> 
-         <section class="section locked" id="flashcards">
-            <h2 class="section-title">
-               Testable or Non-testable?
-            </h2>
-            <div class="flashcard-box" id="flashcardsActivity" data-activity>
-               <main class="flashcard-content">
-                <div class="layout">
-                  <div class="pile-section">
-                    <h2 data-flashcard-pile-label="left"></h2>
-                    <div id="left-pile" data-flashcard-pile="left" class="pile-container"></div>
-                    <p id="left-count" data-flashcard-count="left">0</p>
-                  </div>
-                  <div class="center-section">
-                    <div id="card-area">
-                      <div id="current-card" data-flashcard-card class=""></div>
-                      <div id="done-message" data-flashcard-done>
-                        <span>🎉</span>
-                        <p>All Sorted!</p>
-                      </div>
-                    </div>
-                    <p id="progress" data-flashcard-progress></p>
-                    <div class="btn-row">
-                      <button id="btn-investigable" class="general-button" data-flashcard-sort="left">Testable</button>
-                      <button id="btn-uninvestigable" class="general-button" data-flashcard-sort="right">Non-Testable</button>
-                    </div>
-                    <button id="reset-btn" class="general-button hidden" data-reset-trigger>Reset</button>
-                  </div>
-                  <div class="pile-section">
-                    <h2 data-flashcard-pile-label="right" class="mb-3"></h2>
-                    <div id="right-pile" data-flashcard-pile="right" class="pile-container"></div>
-                    <p id="right-count" data-flashcard-count="right">0</p>
-                  </div>
-                </div>
-              </main>
-            </div>
-            <button
-               id="flashcardsNextButton"
-               class="next-button general-button"
-               onclick="unlockSection('testable-questions', 'flashcards')"
-               hidden>
-            Next
-            </button>
-            <p class="completed-note">
-               Completed — next activity unlocked.
-            </p>
-         </section>
-
-         <!-- Part C: How do we write testable questions? -->
-         <section class="section locked" id="testable-questions">
-            <h2 class="section-title">
-               How do we write testable questions?
-            </h2>
-            <div class="diagram-box diagram-activity">
-               <p class="activity-instruction">
-                  A <strong>testable question</strong> describes two things: 
-                  <ol>
-                    <li>What is being <strong>changed</strong> and </li>
-                    <li>What is being <strong>measured</strong>.</li>
-                  </ol>
-                  <strong>Testable questions</strong> begin with words like <strong><i>What, How, Does and If</i></strong>.
-               </p>
-            </div>
-
-            <!-- Student activity -->
-            <div class="testable-question-activity">
-               <div class="activity-heading">
-                  <p class="activity-eyebrow">Your turn</p>
-                  <h3>Create a testable question</h3>
-                  <p>
-                     Think back to what you were curious about during the
-                     <strong>See, Think, Wonder</strong> activity.
-                     Spin the wheel to choose a <strong>question</strong> structure.
-                  </p>
-               </div>
-               <div class="question-wheel-layout">
-                  <!-- Wheel side -->
-                  <div class="wheel-panel">
-                     <div class="question-wheel-wrapper">
-                        <div
-                           class="question-wheel"
-                           id="questionWheel"
-                           aria-label="Question starter wheel">
-                           <span class="wheel-label wheel-label-what">What</span>
-                           <span class="wheel-label wheel-label-how">How</span>
-                           <span class="wheel-label wheel-label-does">Does</span>
-                           <span class="wheel-label wheel-label-if">If</span>
-                        </div>
-                        <div class="wheel-pointer" aria-hidden="true"></div>
-                     </div>
-                     <button
-                        type="button"
-                        class="general-button spin-wheel-button"
-                        id="spinQuestionWheel">
-                     Spin the wheel
-                     </button>
-                     <p class="wheel-result" id="wheelResult" aria-live="polite">
-                        Spin the wheel to receive a <strong>question</strong> structure.
-                     </p>
-                  </div>
-                  <!-- Question-writing side -->
-                  <div class="question-builder-panel">
-                     <h4>Your question structures</h4>
-                     <div
-                        class="selected-question-template"
-                        id="selectedQuestionTemplate"
-                        aria-live="polite">
-                        <p class="template-placeholder">
-                           Your question structures will appear here.
-                        </p>
-                     </div>
-                  </div>
-                </div>
-                <div class="reset-button-container">
-                  <button type="button" class="general-button reset-btn" onclick="resetWheel()">Reset</button>
-                </div>
-            </div>
-            <button
-               id="testableQuestionsNextButton"
-               class="next-button general-button"
-               onclick="unlockSection('reasoned-prediction', 'testable-questions')"
-               hidden>
-            Next
-            </button>
-            <p class="completed-note">
-               Completed — next activity unlocked.
-            </p>
-         </section>
-         
-         <section
-            class="section locked"
-            id="reasoned-prediction">
-            <h2 class="section-title">
-               Writing a Reasoned Prediction
-            </h2>
-            <div class="diagram-box diagram-activity">
-               <p class="activity-instruction">
-                  You have a <strong>testable question</strong>.
-                  Next you make a <strong>reasoned prediction</strong>.
-                  State what you think the result will be.
-                  Then provide a reason for your choice. 
-                  
+            <!-- Question-writing side -->
+            <div class="question-builder-panel">
+              <h4>Your question structures</h4>
+              <div
+                class="selected-question-template"
+                id="selectedQuestionTemplate"
+                aria-live="polite"
+              >
+                <p class="template-placeholder">
+                  Your question structures will appear here.
                 </p>
-                <p class="activity-instruction">
-                  In a <strong>reasoned prediction</strong> you make an educated guess.
-                  This is based on your knowledge about the relationship between two things.
-                  The thing you <strong>change</strong> and the thing you will <strong>measure</strong>. 
-                </p>
-                <p class="activity-instruction">
-                  You can use a graphic organiser to help you write a <strong>reasoned prediction</strong>.
-
-               </p>
-            </div>
-            <!-- <div class="diagram-box diagram-activity"> -->
-            <div class="prediction-organiser">
-               <div class="prediction-organiser-row row-header">
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-tq-label">Testable question:</span></div>
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-change-label">Change this</span>
-                  </div>
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-col-measure-label">Measure this</span>
-                  </div>
-               </div>
-               <!-- Relationship row -->
-               <div class="prediction-organiser-row row-relationship">
-                  <div class="prediction-organiser-cell cell-label">
-                     <span class="cell-sublabel" data-template-id="org-row-rel-label">Relationship:</span>
-                     <span class="cell-helper" data-template-id="org-row-rel-label"></span>
-                  </div>
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-cause-label">Cause</span> <span class="cell-helper" data-template-id="org-cause-helper">increase / decrease<br>
-                     
-                     with / without<br>
-                     condition 1 versus condition 2</span>
-                  </div>
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel" data-template-id="org-effect-label">Effect (result)</span> <span class="cell-helper" data-template-id="org-effect-helper">increase / decrease / stay the same<br>
-                     
-                  </div>
-               </div>
-               <!-- Prediction row -->
-               <div class="prediction-organiser-row row-prediction">
-                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-pred-label">Prediction:</span>
-                  </div>
-                  <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-if">If I do this</span>
-                  </div>
-                  <div class="prediction-organiser-cell"><span class="cell-helper" data-template-id="org-pred-then">then this will happen</span>
-                  </div>
-               </div>
-               <!-- Reason row -->
-               <div class="prediction-organiser-row row-reason">
-                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-reason-label">Reason:</span>
-                  </div>
-                  <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-reason-body">This is because…</span>
-                  </div>
-               </div>
-               <!-- Reasoned prediction row -->
-               <div class="prediction-organiser-row row-full">
-                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel" data-template-id="org-row-full-label">Reasoned prediction:</span>
-                  </div>
-                  <div class="prediction-organiser-cell span-2"><span class="cell-helper" data-template-id="org-full-body">If I do this then this will happen. This is because of this.</span>
-                  </div>
-               </div>
-            </div>
-            <button
-               class="next-button general-button"
-               onclick="unlockSection('reasoned-builder', 'reasoned-prediction')">
-            Next
-            </button>
-            <p class="completed-note">
-               Completed — next activity unlocked.
-            </p>
-         </section>
-         <!-- ---------- Reasoned Prediction Builder ---------- -->
-         <section
-            class="section locked"
-            id="reasoned-builder">
-            <h2 class="section-title">
-               MAKE A REASONED PREDICTION
-            </h2>
-            <div class="diagram-box diagram-activity">
-              <p class="activity-instruction">
-                Choose your investigation question.
-                Then use the graphic organiser to build a <strong>reasoned prediction</strong>.
-                Watch the two videos below to learn how to do this.
-              </p>
-
-              <div class="video-help-buttons">
-                <button
-                  type="button"
-                  class="general-button"
-                  onclick="openVideoModal('../videos/lesson1/reasoned-prediction-v2.mp4', 'Video guide 1')">
-                  ▶ How to use the reasoned prediction builder
-                </button>
-
-                <button
-                  type="button"
-                  class="general-button"
-                  onclick="openVideoModal('../videos/lesson1/reasoned-prediction-example-v2.mp4', 'Video guide 2')">
-                  ▶ Worked example
-                </button>
               </div>
             </div>
-            <!-- Shared video modal -->
-            <div
-              class="modal video-modal"
-              id="videoModal"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="videoModalTitle">
-
-              <div class="modal-content video-modal-content">
-                <div class="modal-header">
-                  <h2 id="videoModalTitle">Video guide</h2>
-
-                  <button
-                    type="button"
-                    class="close-button"
-                    onclick="closeVideoModal()"
-                    aria-label="Close video">
-                    ×
-                  </button>
-                </div>
-
-                <video
-                  id="videoModalPlayer"
-                  class="video-modal-player"
-                  controls
-                  preload="metadata">
-                  Your browser does not support video playback.
-                </video>
-              </div>
-            </div>
-            <div class="reasoned-builder" id="reasonedPredictionActivity" data-activity>
-              <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
-                <div class="prediction-organiser-row row-header">
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
-                  <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
-                </div>
-
-                <div class="prediction-organiser-row row-variables">
-                  <div class="prediction-organiser-cell cell-label">
-                    <span class="cell-sublabel">Testable Question</span>
-                    <span class="cell-helper">Identify the two things in your testable question</span>
-                  </div>
-
-                  <div class="prediction-organiser-cell">
-            <label class="cell-sublabel" for="changeVariable">
-              The thing I am changing
-            </label>
-
-          <select
-            id="changeVariable"
-            data-prediction-change
-            class="prediction-select">
-
-            <option value="">
-              Choose what you are changing
-            </option>
-
-            <option value="the angle of the ramp">
-              The angle of the ramp
-            </option>
-
-            <option value="the colour of the car">
-              The colour of the car
-            </option>
-
-            <option value="the size of the car">
-              The size of the car
-            </option>
-
-            <option value="the size of the car's wheels">
-              The size of the car's wheels
-            </option>
-
-          </select>
-
-
           </div>
-
-                  <div class="prediction-organiser-cell">
-            <label class="cell-sublabel" for="measureVariable">
-              The thing I am measuring
-            </label>
-
-          <select
-            id="measureVariable"
-            data-prediction-measure
-            class="prediction-select">
-
-            <option value="">
-              Choose what you are measuring
-            </option>
-
-            <option value="the distance the car travels">
-              The distance the car travels
-            </option>
-
-          </select>
-
-
-          </div>
-
-
-                </div>
-
-                <div class="prediction-organiser-row row-relationship">
-                  <div class="prediction-organiser-cell cell-label">
-                    <span class="cell-sublabel">Relationship</span>
-                    <span class="cell-helper">Choose what you will change and what you think will happen</span>
-                  </div>
-                  <div class="prediction-organiser-cell">
-                    <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
-                    <div class="relationship-area">
-                      <select id="causeRelationshipType" data-prediction-cause-type class="prediction-select">
-                        <option value="">Choose a relationship type</option>
-                        <option value="increase-decrease">Increase / decrease</option>
-                        <option value="with-without">With / without</option>
-                        <option value="condition-comparison">Condition 1 versus condition 2</option>
-                      </select>
-                      <div data-prediction-cause-buttons class="relationship-buttons"></div>
-
-                      <div data-prediction-condition-inputs class="condition-comparison-inputs">
-                        <input
-                          data-prediction-condition-one
-                          class="condition-input"
-                          type="text"
-                          placeholder="Starting condition, e.g. blue">
-
-                        <input
-                          data-prediction-condition-two
-                          class="condition-input"
-                          type="text"
-                          placeholder="New condition, e.g. red">
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="prediction-organiser-cell">
-                    <span class="cell-sublabel">Effect or result</span>
-                    <div class="relationship-buttons three-options">
-                      <button type="button" class="relationship-option" data-prediction-effect="increase">Increase</button>
-                      <button type="button" class="relationship-option" data-prediction-effect="decrease">Decrease</button>
-                      <button type="button" class="relationship-option" data-prediction-effect="stay-the-same">Stay the same</button>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="prediction-organiser-row row-prediction">
-                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
-                  <div class="prediction-organiser-cell"><div data-prediction-cause-text class="generated-text placeholder">Choose a cause relationship.</div></div>
-                  <div class="prediction-organiser-cell"><div data-prediction-effect-text class="generated-text placeholder">Choose an effect or result.</div></div>
-                </div>
-
-                <div class="prediction-organiser-row row-reason">
-                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
-                  <div class="prediction-organiser-cell span-2 reason-inline">
-                    <label class="cell-helper" for="reasonInput">This is because...</label>
-                    <div data-prediction-reason-row class="permanent-input-row">
-                      <input id="reasonInput" data-prediction-reason-input type="text" class="prediction-input" placeholder="Explain why you expect this result">
-                    </div>
-                    <div data-prediction-reason-answer class="submitted-answer"></div>
-                  </div>
-                </div>
-
-                <div class="prediction-organiser-row row-full">
-                  <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
-                  <div class="prediction-organiser-cell span-2">
-                    <div data-prediction-full-text class="generated-text final-prediction placeholder" aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="reset-button-container">
-                <button type="button" class="reset-btn general-button" data-reset-trigger>Reset</button>
-              </div>
-            </div>
+          <div class="reset-button-container">
             <button
               type="button"
-              class="next-button general-button"
-              onclick="unlockSection('testing-predictions', 'reasoned-builder')"
-              hidden>
-              Next
+              class="general-button reset-btn"
+              onclick="resetWheel()"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+        <button
+          id="testableQuestionsNextButton"
+          class="next-button general-button"
+          onclick="unlockSection('reasoned-prediction', 'testable-questions')"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
+
+      <section class="section locked" id="reasoned-prediction">
+        <h2 class="section-title">Writing a Reasoned Prediction</h2>
+        <div class="diagram-box diagram-activity">
+          <p class="activity-instruction">
+            You have a <strong>testable question</strong>. Next you make a
+            <strong>reasoned prediction</strong>. State what you think the
+            result will be. Then provide a reason for your choice.
+          </p>
+          <p class="activity-instruction">
+            In a <strong>reasoned prediction</strong> you make an educated
+            guess. This is based on your knowledge about the relationship
+            between two things. The thing you <strong>change</strong> and the
+            thing you will <strong>measure</strong>.
+          </p>
+          <p class="activity-instruction">
+            You can use a graphic organiser to help you write a
+            <strong>reasoned prediction</strong>.
+          </p>
+        </div>
+        <!-- <div class="diagram-box diagram-activity"> -->
+        <div class="prediction-organiser">
+          <div class="prediction-organiser-row row-header">
+            <div class="prediction-organiser-cell">
+              <span class="cell-sublabel" data-template-id="org-col-tq-label"
+                >Testable question:</span
+              >
+            </div>
+            <div class="prediction-organiser-cell">
+              <span
+                class="cell-sublabel"
+                data-template-id="org-col-change-label"
+                >Change this</span
+              >
+            </div>
+            <div class="prediction-organiser-cell">
+              <span
+                class="cell-sublabel"
+                data-template-id="org-col-measure-label"
+                >Measure this</span
+              >
+            </div>
+          </div>
+          <!-- Relationship row -->
+          <div class="prediction-organiser-row row-relationship">
+            <div class="prediction-organiser-cell cell-label">
+              <span class="cell-sublabel" data-template-id="org-row-rel-label"
+                >Relationship:</span
+              >
+              <span
+                class="cell-helper"
+                data-template-id="org-row-rel-label"
+              ></span>
+            </div>
+            <div class="prediction-organiser-cell">
+              <span class="cell-sublabel" data-template-id="org-cause-label"
+                >Cause</span
+              >
+              <span class="cell-helper" data-template-id="org-cause-helper"
+                >increase / decrease<br />
+
+                with / without<br />
+                condition 1 versus condition 2</span
+              >
+            </div>
+            <div class="prediction-organiser-cell">
+              <span class="cell-sublabel" data-template-id="org-effect-label"
+                >Effect (result)</span
+              >
+              <span class="cell-helper" data-template-id="org-effect-helper"
+                >increase / decrease / stay the same</span
+              >
+              <br />
+            </div>
+          </div>
+          <!-- Prediction row -->
+          <div class="prediction-organiser-row row-prediction">
+            <div class="prediction-organiser-cell cell-label">
+              <span class="cell-sublabel" data-template-id="org-row-pred-label"
+                >Prediction:</span
+              >
+            </div>
+            <div class="prediction-organiser-cell">
+              <span class="cell-helper" data-template-id="org-pred-if"
+                >If I do this</span
+              >
+            </div>
+            <div class="prediction-organiser-cell">
+              <span class="cell-helper" data-template-id="org-pred-then"
+                >then this will happen</span
+              >
+            </div>
+          </div>
+          <!-- Reason row -->
+          <div class="prediction-organiser-row row-reason">
+            <div class="prediction-organiser-cell cell-label">
+              <span
+                class="cell-sublabel"
+                data-template-id="org-row-reason-label"
+                >Reason:</span
+              >
+            </div>
+            <div class="prediction-organiser-cell span-2">
+              <span class="cell-helper" data-template-id="org-reason-body"
+                >This is because…</span
+              >
+            </div>
+          </div>
+          <!-- Reasoned prediction row -->
+          <div class="prediction-organiser-row row-full">
+            <div class="prediction-organiser-cell cell-label">
+              <span class="cell-sublabel" data-template-id="org-row-full-label"
+                >Reasoned prediction:</span
+              >
+            </div>
+            <div class="prediction-organiser-cell span-2">
+              <span class="cell-helper" data-template-id="org-full-body"
+                >If I do this then this will happen. This is because of
+                this.</span
+              >
+            </div>
+          </div>
+        </div>
+        <button
+          class="next-button general-button"
+          onclick="unlockSection('reasoned-builder', 'reasoned-prediction')"
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
+      <!-- ---------- Reasoned Prediction Builder ---------- -->
+      <section class="section locked" id="reasoned-builder">
+        <h2 class="section-title">MAKE A REASONED PREDICTION</h2>
+        <div class="diagram-box diagram-activity">
+          <p class="activity-instruction">
+            Choose your investigation question. Then use the graphic organiser
+            to build a <strong>reasoned prediction</strong>. Watch the two
+            videos below to learn how to do this.
+          </p>
+
+          <div class="video-help-buttons">
+            <button
+              type="button"
+              class="general-button"
+              onclick="
+                openVideoModal(
+                  '../videos/lesson1/reasoned-prediction-v2.mp4',
+                  'Video guide 1',
+                )
+              "
+            >
+              ▶ How to use the reasoned prediction builder
             </button>
 
-          <p class="completed-note">
-            Completed — next activity unlocked.
+            <button
+              type="button"
+              class="general-button"
+              onclick="
+                openVideoModal(
+                  '../videos/lesson1/reasoned-prediction-example-v2.mp4',
+                  'Video guide 2',
+                )
+              "
+            >
+              ▶ Worked example
+            </button>
+          </div>
+        </div>
+        <!-- Shared video modal -->
+        <div
+          class="modal video-modal"
+          id="videoModal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="videoModalTitle"
+        >
+          <div class="modal-content video-modal-content">
+            <div class="modal-header">
+              <h2 id="videoModalTitle">Video guide</h2>
+
+              <button
+                type="button"
+                class="close-button"
+                onclick="closeVideoModal()"
+                aria-label="Close video"
+              >
+                ×
+              </button>
+            </div>
+
+            <video
+              id="videoModalPlayer"
+              class="video-modal-player"
+              controls
+              preload="metadata"
+            >
+              Your browser does not support video playback.
+            </video>
+          </div>
+        </div>
+        <div
+          class="reasoned-builder"
+          id="reasonedPredictionActivity"
+          data-activity
+        >
+          <div
+            class="prediction-organiser"
+            aria-label="Reasoned prediction graphic organiser"
+          >
+            <div class="prediction-organiser-row row-header">
+              <div class="prediction-organiser-cell">
+                <span class="cell-sublabel"></span>
+              </div>
+              <div class="prediction-organiser-cell">
+                <span class="cell-sublabel">Change this</span>
+              </div>
+              <div class="prediction-organiser-cell">
+                <span class="cell-sublabel">Measure this</span>
+              </div>
+            </div>
+
+            <div class="prediction-organiser-row row-variables">
+              <div class="prediction-organiser-cell cell-label">
+                <span class="cell-sublabel">Testable Question</span>
+                <span class="cell-helper"
+                  >Identify the two things in your testable question</span
+                >
+              </div>
+
+              <div class="prediction-organiser-cell">
+                <label class="cell-sublabel" for="changeVariable">
+                  The thing I am changing
+                </label>
+
+                <select
+                  id="changeVariable"
+                  data-prediction-change
+                  class="prediction-select"
+                >
+                  <option value="">Choose what you are changing</option>
+
+                  <option value="the angle of the ramp">
+                    The angle of the ramp
+                  </option>
+
+                  <option value="the colour of the car">
+                    The colour of the car
+                  </option>
+
+                  <option value="the size of the car">
+                    The size of the car
+                  </option>
+
+                  <option value="the size of the car's wheels">
+                    The size of the car's wheels
+                  </option>
+                </select>
+              </div>
+
+              <div class="prediction-organiser-cell">
+                <label class="cell-sublabel" for="measureVariable">
+                  The thing I am measuring
+                </label>
+
+                <select
+                  id="measureVariable"
+                  data-prediction-measure
+                  class="prediction-select"
+                >
+                  <option value="">Choose what you are measuring</option>
+
+                  <option value="the distance the car travels">
+                    The distance the car travels
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="prediction-organiser-row row-relationship">
+              <div class="prediction-organiser-cell cell-label">
+                <span class="cell-sublabel">Relationship</span>
+                <span class="cell-helper"
+                  >Choose what you will change and what you think will
+                  happen</span
+                >
+              </div>
+              <div class="prediction-organiser-cell">
+                <label class="cell-sublabel" for="causeRelationshipType"
+                  >Cause</label
+                >
+                <div class="relationship-area">
+                  <select
+                    id="causeRelationshipType"
+                    data-prediction-cause-type
+                    class="prediction-select"
+                  >
+                    <option value="">Choose a relationship type</option>
+                    <option value="increase-decrease">
+                      Increase / decrease
+                    </option>
+                    <option value="with-without">With / without</option>
+                    <option value="condition-comparison">
+                      Condition 1 versus condition 2
+                    </option>
+                  </select>
+                  <div
+                    data-prediction-cause-buttons
+                    class="relationship-buttons"
+                  ></div>
+
+                  <div
+                    data-prediction-condition-inputs
+                    class="condition-comparison-inputs"
+                  >
+                    <input
+                      data-prediction-condition-one
+                      class="condition-input"
+                      type="text"
+                      placeholder="Starting condition, e.g. blue"
+                    />
+
+                    <input
+                      data-prediction-condition-two
+                      class="condition-input"
+                      type="text"
+                      placeholder="New condition, e.g. red"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="prediction-organiser-cell">
+                <span class="cell-sublabel">Effect or result</span>
+                <div class="relationship-buttons three-options">
+                  <button
+                    type="button"
+                    class="relationship-option"
+                    data-prediction-effect="increase"
+                  >
+                    Increase
+                  </button>
+                  <button
+                    type="button"
+                    class="relationship-option"
+                    data-prediction-effect="decrease"
+                  >
+                    Decrease
+                  </button>
+                  <button
+                    type="button"
+                    class="relationship-option"
+                    data-prediction-effect="stay-the-same"
+                  >
+                    Stay the same
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="prediction-organiser-row row-prediction">
+              <div class="prediction-organiser-cell cell-label">
+                <span class="cell-sublabel">Prediction</span>
+              </div>
+              <div class="prediction-organiser-cell">
+                <div
+                  data-prediction-cause-text
+                  class="generated-text placeholder"
+                >
+                  Choose a cause relationship.
+                </div>
+              </div>
+              <div class="prediction-organiser-cell">
+                <div
+                  data-prediction-effect-text
+                  class="generated-text placeholder"
+                >
+                  Choose an effect or result.
+                </div>
+              </div>
+            </div>
+
+            <div class="prediction-organiser-row row-reason">
+              <div class="prediction-organiser-cell cell-label">
+                <span class="cell-sublabel">Reason</span>
+              </div>
+              <div class="prediction-organiser-cell span-2 reason-inline">
+                <label class="cell-helper" for="reasonInput"
+                  >This is because...</label
+                >
+                <div data-prediction-reason-row class="permanent-input-row">
+                  <input
+                    id="reasonInput"
+                    data-prediction-reason-input
+                    type="text"
+                    class="prediction-input"
+                    placeholder="Explain why you expect this result"
+                  />
+                </div>
+                <div
+                  data-prediction-reason-answer
+                  class="submitted-answer"
+                ></div>
+              </div>
+            </div>
+
+            <div class="prediction-organiser-row row-full">
+              <div class="prediction-organiser-cell cell-label">
+                <span class="cell-sublabel">Reasoned prediction</span>
+              </div>
+              <div class="prediction-organiser-cell span-2">
+                <div
+                  data-prediction-full-text
+                  class="generated-text final-prediction placeholder"
+                  aria-live="polite"
+                >
+                  Complete the organiser to build your reasoned prediction.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reset-button-container">
+            <button
+              type="button"
+              class="reset-btn general-button"
+              data-reset-trigger
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="next-button general-button"
+          onclick="unlockSection('testing-predictions', 'reasoned-builder')"
+          hidden
+        >
+          Next
+        </button>
+
+        <p class="completed-note">Completed — next activity unlocked.</p>
+      </section>
+
+      <!-- ---------- Testing Reasoned Predictions ---------- -->
+      <section class="section locked" id="testing-predictions">
+        <h2 class="section-title">HOW TO TEST REASONED PREDICTIONS</h2>
+
+        <div class="diagram-box diagram-activity">
+          <p class="activity-instruction">
+            To test a <strong>reasoned prediction</strong>, you do an
+            <strong>experiment</strong>. Below are four
+            <strong>experiments</strong> rolling cars down ramps. For each,
+            decide if the <strong>reasoned prediction</strong> is either:
           </p>
-         </section>
+          <ol>
+            <li><strong>Supported</strong></li>
+            <li><strong>Unsupported</strong></li>
+          </ol>
+        </div>
 
-         <!-- ---------- Testing Reasoned Predictions ---------- -->
-        <section
-          class="section locked"
-          id="testing-predictions">
+        <div
+          class="prediction-test-list"
+          id="testingPredictionsActivity"
+          data-activity
+        >
+          <!-- Example 1 -->
+          <article
+            class="prediction-test-card"
+            id="predictionTest1"
+            data-mc-question
+            data-mc-answer="true"
+          >
+            <div class="prediction-test-heading">
+              <span class="prediction-test-number">Example 1</span>
+              <h3>Changing the ramp angle</h3>
+            </div>
 
-          <h2 class="section-title">
-              HOW TO TEST REASONED PREDICTIONS
-          </h2>
+            <div class="prediction-statement-grid">
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Testable question
+                </span>
 
-          <div class="diagram-box diagram-activity">
-              <p class="activity-instruction">
-                To test a <strong>reasoned prediction</strong>, you do an <strong>experiment</strong>.
-                Below are four <strong>experiments</strong> rolling cars down ramps.
-                For each, decide if the <strong>reasoned prediction</strong> is either:
-                <ol>
-                  <li><strong>Supported</strong></li>
-                  <li><strong>Unsupported</strong></li>
-                </ol>
+                <p>
+                  Does <strong>changing</strong> the angle of the ramp
+                  <strong>affect</strong> how far the car travels?
+                </p>
+              </div>
+
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Reasoned prediction
+                </span>
+
+                <p>
+                  If I <strong>increase the angle of the ramp</strong>, then
+                  this will
+                  <strong>increase how far the car will travel</strong>. This is
+                  because the car gains more speed travelling down the ramp.
+                </p>
+              </div>
+            </div>
+
+            <h4 class="prediction-results-heading">Experiment results</h4>
+
+            <div class="prediction-result-image">
+              <img
+                src="../images/lesson1/l1-example1.png"
+                alt="Experiment results"
+              />
+            </div>
+
+            <div class="prediction-choice-area">
+              <p class="prediction-choice-question">
+                Do the results support the reasoned prediction?
               </p>
-          </div>
-
-          <div class="prediction-test-list" id="testingPredictionsActivity" data-activity>
-
-              <!-- Example 1 -->
-              <article
-                class="prediction-test-card"
-                id="predictionTest1"
-                data-mc-question
-                data-mc-answer="true">
-
-                <div class="prediction-test-heading">
-                    <span class="prediction-test-number">Example 1</span>
-                    <h3>Changing the ramp angle</h3>
-                </div>
-
-                <div class="prediction-statement-grid">
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Testable question
-                      </span>
-
-                      <p>
-                        Does <strong>changing</strong> the angle of the ramp <strong>affect</strong> how far the car travels?
-                      </p>
-                    </div>
-
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Reasoned prediction
-                      </span>
-
-                      <p>
-                        If I <strong>increase the angle of the ramp</strong>, then this will <strong>increase how far the car will travel</strong>.
-                        This is because the car gains more speed travelling down the ramp.
-                      </p>
-                    </div>
-                </div>
-
-                <h4 class="prediction-results-heading">
-                    Experiment results
-                </h4>
-
-                <div class="prediction-result-image">
-
-                    <img
-                        src="../images/lesson1/l1-example1.png"
-                        alt="Experiment results">
-
-                </div>
-
-                
-
-                <div class="prediction-choice-area">
-                    <p class="prediction-choice-question">
-                      Do the results support the reasoned prediction?
-                    </p>
-
-                    <div class="prediction-choice-buttons" data-mc-choices>
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="true">
-                          Supported
-                      </button>
-
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="false">
-                          Not supported
-                      </button>
-                    </div>
-
-                    <div
-                      class="prediction-feedback"
-                      data-mc-feedback
-                      data-correct-text="It is supported. Increasing the angle of the ramp causes the car to travel further."
-                      data-incorrect-text="Try again. The results show that increasing the angle of the ramp causes the car to travel further."
-                      role="status"
-                      aria-live="polite"
-                      hidden>
-                    </div>
-                </div>
-              </article>
-
-              <!-- Example 2 -->
-              <article
-                class="prediction-test-card"
-                id="predictionTest2"
-                data-mc-question
-                data-mc-answer="true">
-
-                <div class="prediction-test-heading">
-                    <span class="prediction-test-number">Example 2</span>
-                    <h3>Changing the car colour</h3>
-                </div>
-
-                <div class="prediction-statement-grid">
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Testable question
-                      </span>
-
-                      <p>
-                        Does <strong>changing</strong> the colour of a car <strong>affect</strong> how far the car travels?
-                      </p>
-                    </div>
-
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Reasoned prediction
-                      </span>
-
-                      <p>
-                        If I <strong>change the colour of the car from blue to red</strong>, then <strong>the distance the car travels will stay the same</strong>.
-                        This is because colour does not affect how fast the car travels down the ramp.
-                      </p>
-                    </div>
-                </div>
-
-                <h4 class="prediction-results-heading">
-                    Experiment results
-                </h4>
-
-                <div class="prediction-result-image">
-
-                    <img
-                        src="../images/lesson1/l1-example2.png"
-                        alt="Experiment results">
-
-                </div>
-
-                <div class="prediction-choice-area">
-                    <p class="prediction-choice-question">
-                      Do the results support the reasoned prediction?
-                    </p>
-
-                    <div class="prediction-choice-buttons" data-mc-choices>
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="true">
-                          Supported
-                      </button>
-
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="false">
-                          Not supported
-                      </button>
-                    </div>
-
-                    <div
-                      class="prediction-feedback"
-                      data-mc-feedback
-                      data-correct-text="It is supported because the results show that both cars travel the same distance."
-                      data-incorrect-text="Try again. The results show that both cars travel the same distance."
-                      role="status"
-                      aria-live="polite"
-                      hidden>
-                    </div>
-                </div>
-              </article>
-
-              <!-- Example 3 -->
-              <article
-                class="prediction-test-card"
-                id="predictionTest3"
-                data-mc-question
-                data-mc-answer="false">
-
-                <div class="prediction-test-heading">
-                    <span class="prediction-test-number">Example 3</span>
-                    <h3>Changing the size of the car</h3>
-                </div>
-
-                <div class="prediction-statement-grid">
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Testable question
-                      </span>
-
-                      <p>
-                        If we <strong>change</strong> the size of a car, how does this <strong>affect</strong> the distance it travels?
-                      </p>
-                    </div>
-
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Reasoned prediction
-                      </span>
-
-                      <p>
-                        If I <strong>increase the size of the car</strong>, then <strong>the distance the car travels will decrease</strong>.
-                        This is because bigger objects stop rolling sooner.
-                      </p>
-                    </div>
-                </div>
-
-                <h4 class="prediction-results-heading">
-                    Experiment results
-                </h4>
-
-                <div class="prediction-result-image">
-
-                    <img
-                        src="../images/lesson1/l1-example3.png"
-                        alt="Experiment results">
-
-                </div>
-
-                <div class="prediction-choice-area">
-                    <p class="prediction-choice-question">
-                      Do the results support the reasoned prediction?
-                    </p>
-
-                    <div class="prediction-choice-buttons" data-mc-choices>
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="true">
-                          Supported
-                      </button>
-
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="false">
-                          Not supported
-                      </button>
-                    </div>
-
-                    <div
-                      class="prediction-feedback"
-                      data-mc-feedback
-                      data-correct-text="It is not supported. The bigger car travels further than the smaller car."
-                      data-incorrect-text="Try again. The results show that the bigger car travels further than the smaller car."
-                      role="status"
-                      aria-live="polite"
-                      hidden>
-                    </div>
-                </div>
-              </article>
-
-              <!-- Example 4 -->
-              <article
-                class="prediction-test-card"
-                id="predictionTest4"
-                data-mc-question
-                data-mc-answer="false">
-
-                <div class="prediction-test-heading">
-                    <span class="prediction-test-number">Example 4</span>
-                    <h3>Changing the wheel size</h3>
-                </div>
-
-                <div class="prediction-statement-grid">
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Testable question
-                      </span>
-
-                      <p>
-                          How does <strong>changing</strong> the size of a car's wheels <strong>affect</strong> the distance it will travel?
-                      </p>
-                    </div>
-
-                    <div class="prediction-statement">
-                      <span class="prediction-statement-label">
-                          Reasoned prediction
-                      </span>
-
-                      <p>
-                          If I <strong>increase the size of the car's wheels</strong>, then
-                          <strong>the distance the car travels will increase</strong>.
-                          This is because bigger wheels will make it travel faster.
-                      </p>
-                    </div>
-                </div>
-
-                <h4 class="prediction-results-heading">
-                    Experiment results
-                </h4>
-
-                <div class="prediction-result-image">
-
-                    <img
-                        src="../images/lesson1/l1-example4.png"
-                        alt="Experiment results">
-
-                </div>
-
-                <div class="prediction-choice-area">
-                    <p class="prediction-choice-question">
-                      Do the results support the reasoned prediction?
-                    </p>
-
-                    <div class="prediction-choice-buttons" data-mc-choices>
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="true">
-                          Supported
-                      </button>
-
-                      <button
-                          type="button"
-                          class="general-button prediction-choice-button"
-                          data-mc-choice="false">
-                          Not supported
-                      </button>
-                    </div>
-
-                    <div
-                      class="prediction-feedback"
-                      data-mc-feedback
-                      data-correct-text="It is not supported because the results show that the car with smaller wheels travels further than the car with bigger wheels."
-                      data-incorrect-text="Try again. The results show that the car with smaller wheels travels further than the car with bigger wheels."
-                      role="status"
-                      aria-live="polite"
-                      hidden>
-                    </div>
-                </div>
-              </article>
-
-          </div>
-
-          <div class="prediction-test-completion" id="predictionTestCompletion" hidden>
-              <strong>Well done! You practiced:</strong>
-              <ol>
-                <li>Writing a testable question</li>
-                <li>Making a prediction and giving a reason for your choice</li>
-              </ol>
-          </div>
-
-          <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()" > 
-            <p class="bounce-symbol">💾</p>
-            <p>Save my work</p>
-          </button>
-        </section>
-
-        <div class="return-to-top">
-          <a class="return-to-top-button general-button" href="#">
-            <p class="bounce-symbol">↑</p>
-            <p>Return to Top</p>
-          </a>
-        </div>        
-
-      </main>
-      <script src="../scripts/common_functions.js"></script>
-      <script type="module">
-        import { initSectionActivitiesIn } from "../scripts/activities/activity-sections.js";
-        import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
-        import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
-        import { FlashcardsActivity } from "../scripts/lesson1_scripts/flashcards-activity.js";
-
-        let reasonedPredictionActivity = null;
-        let testingPredictionsActivity = null;
-        let flashcardsActivity = null;
-
-        function initialiseFlashcards() {
-          const root = document.getElementById("flashcardsActivity");
-          if (!root) {
-            return;
-          }
-
-          flashcardsActivity = new FlashcardsActivity(root);
+
+              <div class="prediction-choice-buttons" data-mc-choices>
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="true"
+                >
+                  Supported
+                </button>
+
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="false"
+                >
+                  Not supported
+                </button>
+              </div>
+
+              <div
+                class="prediction-feedback"
+                data-mc-feedback
+                data-correct-text="It is supported. Increasing the angle of the ramp causes the car to travel further."
+                data-incorrect-text="Try again. The results show that increasing the angle of the ramp causes the car to travel further."
+                role="status"
+                aria-live="polite"
+                hidden
+              ></div>
+            </div>
+          </article>
+
+          <!-- Example 2 -->
+          <article
+            class="prediction-test-card"
+            id="predictionTest2"
+            data-mc-question
+            data-mc-answer="true"
+          >
+            <div class="prediction-test-heading">
+              <span class="prediction-test-number">Example 2</span>
+              <h3>Changing the car colour</h3>
+            </div>
+
+            <div class="prediction-statement-grid">
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Testable question
+                </span>
+
+                <p>
+                  Does <strong>changing</strong> the colour of a car
+                  <strong>affect</strong> how far the car travels?
+                </p>
+              </div>
+
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Reasoned prediction
+                </span>
+
+                <p>
+                  If I
+                  <strong>change the colour of the car from blue to red</strong
+                  >, then
+                  <strong
+                    >the distance the car travels will stay the same</strong
+                  >. This is because colour does not affect how fast the car
+                  travels down the ramp.
+                </p>
+              </div>
+            </div>
+
+            <h4 class="prediction-results-heading">Experiment results</h4>
+
+            <div class="prediction-result-image">
+              <img
+                src="../images/lesson1/l1-example2.png"
+                alt="Experiment results"
+              />
+            </div>
+
+            <div class="prediction-choice-area">
+              <p class="prediction-choice-question">
+                Do the results support the reasoned prediction?
+              </p>
+
+              <div class="prediction-choice-buttons" data-mc-choices>
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="true"
+                >
+                  Supported
+                </button>
+
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="false"
+                >
+                  Not supported
+                </button>
+              </div>
+
+              <div
+                class="prediction-feedback"
+                data-mc-feedback
+                data-correct-text="It is supported because the results show that both cars travel the same distance."
+                data-incorrect-text="Try again. The results show that both cars travel the same distance."
+                role="status"
+                aria-live="polite"
+                hidden
+              ></div>
+            </div>
+          </article>
+
+          <!-- Example 3 -->
+          <article
+            class="prediction-test-card"
+            id="predictionTest3"
+            data-mc-question
+            data-mc-answer="false"
+          >
+            <div class="prediction-test-heading">
+              <span class="prediction-test-number">Example 3</span>
+              <h3>Changing the size of the car</h3>
+            </div>
+
+            <div class="prediction-statement-grid">
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Testable question
+                </span>
+
+                <p>
+                  If we <strong>change</strong> the size of a car, how does this
+                  <strong>affect</strong> the distance it travels?
+                </p>
+              </div>
+
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Reasoned prediction
+                </span>
+
+                <p>
+                  If I <strong>increase the size of the car</strong>, then
+                  <strong>the distance the car travels will decrease</strong>.
+                  This is because bigger objects stop rolling sooner.
+                </p>
+              </div>
+            </div>
+
+            <h4 class="prediction-results-heading">Experiment results</h4>
+
+            <div class="prediction-result-image">
+              <img
+                src="../images/lesson1/l1-example3.png"
+                alt="Experiment results"
+              />
+            </div>
+
+            <div class="prediction-choice-area">
+              <p class="prediction-choice-question">
+                Do the results support the reasoned prediction?
+              </p>
+
+              <div class="prediction-choice-buttons" data-mc-choices>
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="true"
+                >
+                  Supported
+                </button>
+
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="false"
+                >
+                  Not supported
+                </button>
+              </div>
+
+              <div
+                class="prediction-feedback"
+                data-mc-feedback
+                data-correct-text="It is not supported. The bigger car travels further than the smaller car."
+                data-incorrect-text="Try again. The results show that the bigger car travels further than the smaller car."
+                role="status"
+                aria-live="polite"
+                hidden
+              ></div>
+            </div>
+          </article>
+
+          <!-- Example 4 -->
+          <article
+            class="prediction-test-card"
+            id="predictionTest4"
+            data-mc-question
+            data-mc-answer="false"
+          >
+            <div class="prediction-test-heading">
+              <span class="prediction-test-number">Example 4</span>
+              <h3>Changing the wheel size</h3>
+            </div>
+
+            <div class="prediction-statement-grid">
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Testable question
+                </span>
+
+                <p>
+                  How does <strong>changing</strong> the size of a car's wheels
+                  <strong>affect</strong> the distance it will travel?
+                </p>
+              </div>
+
+              <div class="prediction-statement">
+                <span class="prediction-statement-label">
+                  Reasoned prediction
+                </span>
+
+                <p>
+                  If I <strong>increase the size of the car's wheels</strong>,
+                  then
+                  <strong>the distance the car travels will increase</strong>.
+                  This is because bigger wheels will make it travel faster.
+                </p>
+              </div>
+            </div>
+
+            <h4 class="prediction-results-heading">Experiment results</h4>
+
+            <div class="prediction-result-image">
+              <img
+                src="../images/lesson1/l1-example4.png"
+                alt="Experiment results"
+              />
+            </div>
+
+            <div class="prediction-choice-area">
+              <p class="prediction-choice-question">
+                Do the results support the reasoned prediction?
+              </p>
+
+              <div class="prediction-choice-buttons" data-mc-choices>
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="true"
+                >
+                  Supported
+                </button>
+
+                <button
+                  type="button"
+                  class="general-button prediction-choice-button"
+                  data-mc-choice="false"
+                >
+                  Not supported
+                </button>
+              </div>
+
+              <div
+                class="prediction-feedback"
+                data-mc-feedback
+                data-correct-text="It is not supported because the results show that the car with smaller wheels travels further than the car with bigger wheels."
+                data-incorrect-text="Try again. The results show that the car with smaller wheels travels further than the car with bigger wheels."
+                role="status"
+                aria-live="polite"
+                hidden
+              ></div>
+            </div>
+          </article>
+        </div>
+
+        <div
+          class="prediction-test-completion"
+          id="predictionTestCompletion"
+          hidden
+        >
+          <strong>Well done! You practiced:</strong>
+          <ol>
+            <li>Writing a testable question</li>
+            <li>Making a prediction and giving a reason for your choice</li>
+          </ol>
+        </div>
+
+        <button
+          type="button"
+          class="save-work-button general-button"
+          onclick="downloadLessonPDF()"
+        >
+          <p class="bounce-symbol">💾</p>
+          <p>Save my work</p>
+        </button>
+      </section>
+
+      <div class="return-to-top">
+        <a class="return-to-top-button general-button" href="#">
+          <p class="bounce-symbol">↑</p>
+          <p>Return to Top</p>
+        </a>
+      </div>
+    </main>
+    <script src="../scripts/common_functions.js"></script>
+    <script type="module">
+      import { initSectionActivitiesIn } from "../scripts/activities/activity-sections.js";
+      import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
+      import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
+      import { FlashcardsActivity } from "../scripts/lesson1_scripts/flashcards-activity.js";
+
+      let reasonedPredictionActivity = null;
+      let testingPredictionsActivity = null;
+      let flashcardsActivity = null;
+
+      function initialiseFlashcards() {
+        const root = document.getElementById("flashcardsActivity");
+        if (!root) {
+          return;
         }
 
-        function initialisePredictionTable() {
-          const root = document.getElementById("reasonedPredictionActivity");
-          if (!root) {
-            return;
-          }
+        flashcardsActivity = new FlashcardsActivity(root);
+      }
 
-          reasonedPredictionActivity = new PredictionTableActivity(root);
+      function initialisePredictionTable() {
+        const root = document.getElementById("reasonedPredictionActivity");
+        if (!root) {
+          return;
         }
 
-        function initialiseTestingPredictions() {
-          const root = document.getElementById("testingPredictionsActivity");
-          if (!root) {
-            return;
-          }
+        reasonedPredictionActivity = new PredictionTableActivity(root);
+      }
 
-          testingPredictionsActivity = new MultipleChoiceActivity(root, {
-            onAnswer: function() {
-              const completionMessage = document.getElementById("predictionTestCompletion");
-              if (!completionMessage) {
-                return;
-              }
+      function initialiseTestingPredictions() {
+        const root = document.getElementById("testingPredictionsActivity");
+        if (!root) {
+          return;
+        }
 
-              const allCorrect = testingPredictionsActivity.isComplete();
-              completionMessage.hidden = !allCorrect;
-
-              if (allCorrect) {
-                completionMessage.scrollIntoView({ behavior: "smooth", block: "nearest" });
-              }
+        testingPredictionsActivity = new MultipleChoiceActivity(root, {
+          onAnswer: function () {
+            const completionMessage = document.getElementById(
+              "predictionTestCompletion",
+            );
+            if (!completionMessage) {
+              return;
             }
-          });
+
+            const allCorrect = testingPredictionsActivity.isComplete();
+            completionMessage.hidden = !allCorrect;
+
+            if (allCorrect) {
+              completionMessage.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+            }
+          },
+        });
+      }
+
+      const DEV_MODE = false;
+      if (DEV_MODE) window.addEventListener("DOMContentLoaded", teacherShowAll);
+
+      const sectionIds = [
+        { id: "observe-experiment", label: "Observe the experiment" },
+        {
+          id: "testable-question-intro",
+          label: "What is a testable question?",
+        },
+        { id: "flashcards", label: "Testable or non-testable?" },
+        { id: "testable-questions", label: "Write testable questions" },
+        { id: "reasoned-prediction", label: "Writing a reasoned prediction" },
+        { id: "reasoned-builder", label: "Build a reasoned prediction" },
+        { id: "testing-predictions", label: "Test reasoned predictions" },
+      ];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initialiseTeacherMenu === "function") {
+          initialiseTeacherMenu(sectionIds, sectionIds[0].id);
         }
 
-        const DEV_MODE = false;
-        if (DEV_MODE) window.addEventListener("DOMContentLoaded", teacherShowAll);
-
-        const sectionIds = [
-          { id: "observe-experiment", label: "Observe the experiment" },
-          { id: "testable-question-intro", label: "What is a testable question?" },
-          { id: "flashcards", label: "Testable or non-testable?" },
-          { id: "testable-questions", label: "Write testable questions" },
-          { id: "reasoned-prediction", label: "Writing a reasoned prediction" },
-          { id: "reasoned-builder", label: "Build a reasoned prediction" },
-          { id: "testing-predictions", label: "Test reasoned predictions" },
-        ];
-
-        document.addEventListener("DOMContentLoaded", function() {
-          if (typeof initialiseTeacherMenu === "function") {
-            initialiseTeacherMenu(sectionIds, sectionIds[0].id);
-          }
-
-          initialisePredictionTable();
-          initialiseTestingPredictions();
-          initialiseFlashcards();
-          initSectionActivitiesIn(document);
-        });
+        initialisePredictionTable();
+        initialiseTestingPredictions();
+        initialiseFlashcards();
+        initSectionActivitiesIn(document);
+      });
     </script>
-      
-      <!-- Question Wheel Script -->
-      <script>
-         const questionWheel =
-           document.getElementById("questionWheel");
-         
-         const spinQuestionWheelButton =
-           document.getElementById("spinQuestionWheel");
-         
-         const wheelResult =
-           document.getElementById("wheelResult");
-         
-         const selectedQuestionTemplate =
-           document.getElementById("selectedQuestionTemplate");
-         
-         
-         /* ----------------------------------------
+
+    <!-- Question Wheel Script -->
+    <script>
+      const questionWheel = document.getElementById("questionWheel");
+
+      const spinQuestionWheelButton =
+        document.getElementById("spinQuestionWheel");
+
+      const wheelResult = document.getElementById("wheelResult");
+
+      const selectedQuestionTemplate = document.getElementById(
+        "selectedQuestionTemplate",
+      );
+
+      /* ----------------------------------------
             Question structures
             ---------------------------------------- */
-         
-         const questionStructures = [
-           {
-             word: "What",
-             starterClass: "starter-what",
-         
-             buildEditableSentence: function() {
-               return `
+
+      const questionStructures = [
+        {
+          word: "What",
+          starterClass: "starter-what",
+
+          buildEditableSentence: function () {
+            return `
                  <span class="sentence-starter starter-what">
                    What
                  </span>
@@ -1384,10 +1559,10 @@
          
                  <span>?</span>
                `;
-             },
-         
-             buildSavedSentence: function(changed, measured) {
-               return `
+          },
+
+          buildSavedSentence: function (changed, measured) {
+            return `
                  <span class="sentence-starter starter-what">
                    What
                  </span>
@@ -1403,15 +1578,15 @@
                    </span>?
                  </span>
                `;
-             }
-           },
-         
-           {
-             word: "How",
-             starterClass: "starter-how",
-         
-             buildEditableSentence: function() {
-               return `
+          },
+        },
+
+        {
+          word: "How",
+          starterClass: "starter-how",
+
+          buildEditableSentence: function () {
+            return `
                  <span class="sentence-starter starter-how">
                    How
                  </span>
@@ -1434,10 +1609,10 @@
          
                  <span>?</span>
                `;
-             },
-         
-             buildSavedSentence: function(changed, measured) {
-               return `
+          },
+
+          buildSavedSentence: function (changed, measured) {
+            return `
                  <span class="sentence-starter starter-how">
                    How
                  </span>
@@ -1453,15 +1628,15 @@
                    </span>?
                  </span>
                `;
-             }
-           },
-         
-           {
-             word: "Does",
-             starterClass: "starter-does",
-         
-             buildEditableSentence: function() {
-               return `
+          },
+        },
+
+        {
+          word: "Does",
+          starterClass: "starter-does",
+
+          buildEditableSentence: function () {
+            return `
                  <span class="sentence-starter starter-does">
                    Does
                  </span>
@@ -1484,10 +1659,10 @@
          
                  <span>?</span>
                `;
-             },
-         
-             buildSavedSentence: function(changed, measured) {
-               return `
+          },
+
+          buildSavedSentence: function (changed, measured) {
+            return `
                  <span class="sentence-starter starter-does">
                    Does
                  </span>
@@ -1503,15 +1678,15 @@
                    </span>?
                  </span>
                `;
-             }
-           },
-         
-           {
-             word: "If",
-             starterClass: "starter-if",
-         
-             buildEditableSentence: function() {
-               return `
+          },
+        },
+
+        {
+          word: "If",
+          starterClass: "starter-if",
+
+          buildEditableSentence: function () {
+            return `
                  <span class="sentence-starter starter-if">
                    If
                  </span>
@@ -1534,10 +1709,10 @@
          
                  <span>?</span>
                `;
-             },
-         
-             buildSavedSentence: function(changed, measured) {
-               return `
+          },
+
+          buildSavedSentence: function (changed, measured) {
+            return `
                  <span class="sentence-starter starter-if">
                    If
                  </span>
@@ -1553,348 +1728,265 @@
                    </span>?
                  </span>
                `;
-             }
-           }
-         ];
-         
-         
-         /* ----------------------------------------
+          },
+        },
+      ];
+
+      /* ----------------------------------------
             Wheel state
             ---------------------------------------- */
-         
-         let currentWheelRotation = 0;
-         let wheelIsSpinning = false;
-         let questionCardCount = 0;
-         const usedQuestionStarters = new Set();
-         let wheelSpinTimeout = null;
 
-         function resetWheel() {
-          if (wheelSpinTimeout !== null) {
-            clearTimeout(wheelSpinTimeout);
-            wheelSpinTimeout = null;
-          }
+      let currentWheelRotation = 0;
+      let wheelIsSpinning = false;
+      let questionCardCount = 0;
+      const usedQuestionStarters = new Set();
+      let wheelSpinTimeout = null;
 
-          wheelIsSpinning = false;
-          questionCardCount = 0;
-          usedQuestionStarters.clear();
-          
-          // Reset the wheel position
-          questionWheel.style.transition = "none";             
-          
-          // questionWheel.style.transform = "rotate(0deg)";
-          
-          questionWheel.querySelectorAll(".wheel-label").forEach(label => {
-            label.style.transition = "none";
-          });
+      function resetWheel() {
+        if (wheelSpinTimeout !== null) {
+          clearTimeout(wheelSpinTimeout);
+          wheelSpinTimeout = null;
+        }
 
-          currentWheelRotation = 0;
-          questionWheel.style.transform = "rotate(0deg)";
-          questionWheel.querySelectorAll(".wheel-label").forEach(label => {
-            label.style.transform = "translate(-50%, -50%)";
-          });
+        wheelIsSpinning = false;
+        questionCardCount = 0;
+        usedQuestionStarters.clear();
 
-          questionWheel.offsetWidth;
+        // Reset the wheel position
+        questionWheel.style.transition = "none";
 
-          questionWheel.style.transition = "";
+        // questionWheel.style.transform = "rotate(0deg)";
 
-          questionWheel.querySelectorAll(".wheel-label").forEach(label => {
-              label.style.transition = "";
-          });
+        questionWheel.querySelectorAll(".wheel-label").forEach((label) => {
+          label.style.transition = "none";
+        });
 
-          // Clear all question cards
-          selectedQuestionTemplate.innerHTML = `
+        currentWheelRotation = 0;
+        questionWheel.style.transform = "rotate(0deg)";
+        questionWheel.querySelectorAll(".wheel-label").forEach((label) => {
+          label.style.transform = "translate(-50%, -50%)";
+        });
+
+        questionWheel.offsetWidth;
+
+        questionWheel.style.transition = "";
+
+        questionWheel.querySelectorAll(".wheel-label").forEach((label) => {
+          label.style.transition = "";
+        });
+
+        // Clear all question cards
+        selectedQuestionTemplate.innerHTML = `
             <div class="template-placeholder">
               Spin the wheel to generate a question starter.
             </div>
           `;
 
-          wheelResult.textContent = "Spin the wheel to receive a question structure.";
-          wheelResult.style.backgroundColor = "";
+        wheelResult.textContent =
+          "Spin the wheel to receive a question structure.";
+        wheelResult.style.backgroundColor = "";
 
-          // Enable spinning again
-          spinQuestionWheelButton.disabled = false;
-         }
-         
-         /* ----------------------------------------
+        // Enable spinning again
+        spinQuestionWheelButton.disabled = false;
+      }
+
+      /* ----------------------------------------
             Protect student text
             ---------------------------------------- */
-         
-         function escapeQuestionHTML(text) {
-           const temporaryElement =
-             document.createElement("div");
-         
-           temporaryElement.textContent = text;
-         
-           return temporaryElement.innerHTML;
-         }
-         
-         /* ----------------------------------------
+
+      function escapeQuestionHTML(text) {
+        const temporaryElement = document.createElement("div");
+
+        temporaryElement.textContent = text;
+
+        return temporaryElement.innerHTML;
+      }
+
+      /* ----------------------------------------
           Submit one individual sentence blank
           ---------------------------------------- */
-         
-         function connectQuestionInput(
-            input,
-            questionCard
-          ) {
-            let isSubmitting = false;
 
-            function saveQuestionInput() {
-              /*
+      function connectQuestionInput(input, questionCard) {
+        let isSubmitting = false;
+
+        function saveQuestionInput() {
+          /*
                 Do nothing if:
                 - this input is already being submitted;
                 - it has already been replaced by an answer chip;
                 - nothing has been typed.
               */
-              if (
-                isSubmitting ||
-                !input.isConnected ||
-                input.value.trim() === ""
-              ) {
-                return;
-              }
+          if (isSubmitting || !input.isConnected || input.value.trim() === "") {
+            return;
+          }
 
-              isSubmitting = true;
+          isSubmitting = true;
 
-              submitQuestionPart(
-                input,
-                questionCard
-              );
+          submitQuestionPart(input, questionCard);
 
-              /*
+          /*
                 If the input still exists, submission may have been
                 blocked, so allow the student to try again.
               */
-              if (input.isConnected) {
-                isSubmitting = false;
-              }
-            }
+          if (input.isConnected) {
+            isSubmitting = false;
+          }
+        }
 
-            /*
+        /*
               Method 1: Press Enter.
             */
-            input.addEventListener(
-              "keydown",
-              function(event) {
-                if (event.key !== "Enter") {
-                  return;
-                }
+        input.addEventListener("keydown", function (event) {
+          if (event.key !== "Enter") {
+            return;
+          }
 
-                event.preventDefault();
+          event.preventDefault();
 
-                saveQuestionInput();
-              }
-            );
+          saveQuestionInput();
+        });
 
-            /*
+        /*
               Method 2: Click or Tab away from the input.
             */
-            input.addEventListener(
-              "blur",
-              function() {
-                saveQuestionInput();
-              }
-            );
-          }
-         
-         function submitQuestionPart(
-         input,
-         questionCard
-         ) {
-         const answer =
-          getValidStudentInput(input);
+        input.addEventListener("blur", function () {
+          saveQuestionInput();
+        });
+      }
+
+      function submitQuestionPart(input, questionCard) {
+        const answer = getValidStudentInput(input);
 
         if (answer === null) {
           return;
         }
-         
-         const questionPart =
-           input.dataset.questionPart;
-         
-         const placeholder =
-           input.getAttribute("placeholder");
-         
-         /*
+
+        const questionPart = input.dataset.questionPart;
+
+        const placeholder = input.getAttribute("placeholder");
+
+        /*
            Create the permanent-looking answer chip.
          */
-         const submittedAnswer =
-           document.createElement("span");
-         
-         submittedAnswer.className =
-           "submitted-variable submitted-question-part";
-         
-         submittedAnswer.dataset.questionPart =
-           questionPart;
-         
-         submittedAnswer.dataset.placeholder =
-           placeholder;
-         
-         const answerText =
-           document.createElement("span");
-         
-         answerText.className =
-           "submitted-question-part-text";
-         
-         answerText.textContent = answer;
-         
-         const deleteButton =
-           document.createElement("button");
-         
-         deleteButton.type = "button";
-         deleteButton.className =
-           "delete-answer submitted-part-delete";
-         
-         deleteButton.textContent = "×";
-         
-         deleteButton.setAttribute(
-           "aria-label",
-           "Delete " + answer
-         );
-         
-         submittedAnswer.appendChild(
-           answerText
-         );
-         
-         submittedAnswer.appendChild(
-           deleteButton
-         );
-         
-         /*
+        const submittedAnswer = document.createElement("span");
+
+        submittedAnswer.className =
+          "submitted-variable submitted-question-part";
+
+        submittedAnswer.dataset.questionPart = questionPart;
+
+        submittedAnswer.dataset.placeholder = placeholder;
+
+        const answerText = document.createElement("span");
+
+        answerText.className = "submitted-question-part-text";
+
+        answerText.textContent = answer;
+
+        const deleteButton = document.createElement("button");
+
+        deleteButton.type = "button";
+        deleteButton.className = "delete-answer submitted-part-delete";
+
+        deleteButton.textContent = "×";
+
+        deleteButton.setAttribute("aria-label", "Delete " + answer);
+
+        submittedAnswer.appendChild(answerText);
+
+        submittedAnswer.appendChild(deleteButton);
+
+        /*
            Replace only this input with its submitted answer.
          */
-         input.replaceWith(submittedAnswer);
-         
-         deleteButton.addEventListener(
-           "click",
-           function() {
-             restoreQuestionInput(
-               submittedAnswer,
-               questionCard
-             );
-           }
-         );
-         
-         updateWheelQuestionCard(
-           questionCard
-         );
-         }
-         
-         
-         /* ----------------------------------------
+        input.replaceWith(submittedAnswer);
+
+        deleteButton.addEventListener("click", function () {
+          restoreQuestionInput(submittedAnswer, questionCard);
+        });
+
+        updateWheelQuestionCard(questionCard);
+      }
+
+      /* ----------------------------------------
           Restore one deleted sentence blank
           ---------------------------------------- */
-         
-         function restoreQuestionInput(
-         submittedAnswer,
-         questionCard
-         ) {
-         const questionPart =
-           submittedAnswer.dataset.questionPart;
-         
-         const placeholder =
-           submittedAnswer.dataset.placeholder;
-         
-         const restoredInput =
-           document.createElement("input");
-         
-         restoredInput.type = "text";
-         
-         restoredInput.className =
-           "question-template-input";
-         
-         restoredInput.dataset.questionPart =
-           questionPart;
-         
-         restoredInput.placeholder =
-           placeholder;
-         
-         submittedAnswer.replaceWith(
-           restoredInput
-         );
-         
-         connectQuestionInput(
-           restoredInput,
-           questionCard
-         );
-         
-         updateWheelQuestionCard(
-           questionCard
-         );
-         
-         restoredInput.focus();
-         }
-         
-         
-         /* ----------------------------------------
+
+      function restoreQuestionInput(submittedAnswer, questionCard) {
+        const questionPart = submittedAnswer.dataset.questionPart;
+
+        const placeholder = submittedAnswer.dataset.placeholder;
+
+        const restoredInput = document.createElement("input");
+
+        restoredInput.type = "text";
+
+        restoredInput.className = "question-template-input";
+
+        restoredInput.dataset.questionPart = questionPart;
+
+        restoredInput.placeholder = placeholder;
+
+        submittedAnswer.replaceWith(restoredInput);
+
+        connectQuestionInput(restoredInput, questionCard);
+
+        updateWheelQuestionCard(questionCard);
+
+        restoredInput.focus();
+      }
+
+      /* ----------------------------------------
           Enable Save when both blanks are complete
           ---------------------------------------- */
-         
-         function updateWheelQuestionCard(
-         questionCard
-         ) {
-         const changedAnswer =
-           questionCard.querySelector(
-             '.submitted-question-part[data-question-part="changed"]'
-           );
-         
-         const measuredAnswer =
-           questionCard.querySelector(
-             '.submitted-question-part[data-question-part="measured"]'
-           );
-         
-         const saveButton =
-           questionCard.querySelector(
-             ".wheel-save-button"
-           );
-         
-         const bothAnswersComplete =
-           changedAnswer &&
-           measuredAnswer;
-         
-         saveButton.disabled =
-           !bothAnswersComplete;
-         
-         /*
+
+      function updateWheelQuestionCard(questionCard) {
+        const changedAnswer = questionCard.querySelector(
+          '.submitted-question-part[data-question-part="changed"]',
+        );
+
+        const measuredAnswer = questionCard.querySelector(
+          '.submitted-question-part[data-question-part="measured"]',
+        );
+
+        const saveButton = questionCard.querySelector(".wheel-save-button");
+
+        const bothAnswersComplete = changedAnswer && measuredAnswer;
+
+        saveButton.disabled = !bothAnswersComplete;
+
+        /*
            Remove an old error message once the student
            has changed one of the answers.
          */
-         const message =
-           questionCard.querySelector(
-             ".wheel-question-message"
-           );
-         
-         message.classList.remove(
-           "visible",
-           "success"
-         );
-         
-         message.textContent = "";
-         }
-         
-         
-         /* ----------------------------------------
+        const message = questionCard.querySelector(".wheel-question-message");
+
+        message.classList.remove("visible", "success");
+
+        message.textContent = "";
+      }
+
+      /* ----------------------------------------
             Add one new question card
             ---------------------------------------- */
-         
-         function addQuestionCard(questionStructure) {
-           const placeholder =
-             selectedQuestionTemplate.querySelector(
-               ".template-placeholder"
-             );
-         
-           if (placeholder) {
-             placeholder.remove();
-           }
-         
-           questionCardCount += 1;
-         
-           const questionCard =
-             document.createElement("div");
-         
-           questionCard.className = "wheel-question-card";
-           questionCard.dataset.questionStarter =
-            questionStructure.word;
-         
-           questionCard.innerHTML = `
+
+      function addQuestionCard(questionStructure) {
+        const placeholder = selectedQuestionTemplate.querySelector(
+          ".template-placeholder",
+        );
+
+        if (placeholder) {
+          placeholder.remove();
+        }
+
+        questionCardCount += 1;
+
+        const questionCard = document.createElement("div");
+
+        questionCard.className = "wheel-question-card";
+        questionCard.dataset.questionStarter = questionStructure.word;
+
+        questionCard.innerHTML = `
          <div class="wheel-question-card-header">
          
            <span class="wheel-question-number">
@@ -1947,357 +2039,280 @@
          Save my question
          </button>
            `;
-         
-           selectedQuestionTemplate.appendChild(
-             questionCard
-           );
-         
-           const saveButton =
-             questionCard.querySelector(
-               ".wheel-save-button"
-             );
-         
-           saveButton.addEventListener(
-             "click",
-             function() {
-               saveQuestionCard(
-                 questionCard,
-                 questionStructure
-               );
-             }
-           );
-         
-           questionCard
-         .querySelectorAll(".question-template-input")
-         .forEach(function(input) {
-           connectQuestionInput(
-             input,
-             questionCard
-           );
-         });
-         
-           const firstInput =
-             questionCard.querySelector(
-               ".question-template-input"
-             );
-         
-           if (firstInput) {
-             firstInput.focus();
-           }
-         
-           questionCard.scrollIntoView({
-             behavior: "smooth",
-             block: "nearest"
-           });
-         }
-         
-         
-         /* ----------------------------------------
+
+        selectedQuestionTemplate.appendChild(questionCard);
+
+        const saveButton = questionCard.querySelector(".wheel-save-button");
+
+        saveButton.addEventListener("click", function () {
+          saveQuestionCard(questionCard, questionStructure);
+        });
+
+        questionCard
+          .querySelectorAll(".question-template-input")
+          .forEach(function (input) {
+            connectQuestionInput(input, questionCard);
+          });
+
+        const firstInput = questionCard.querySelector(
+          ".question-template-input",
+        );
+
+        if (firstInput) {
+          firstInput.focus();
+        }
+
+        questionCard.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+
+      /* ----------------------------------------
           Save one completed question
           ---------------------------------------- */
-         
-         function saveQuestionCard(
-         questionCard,
-         questionStructure
-         ) {
-         /*
+
+      function saveQuestionCard(questionCard, questionStructure) {
+        /*
            After Enter is pressed, the inputs have been replaced
            by submitted-answer spans. Therefore, we look for those
            spans instead of looking for input elements.
          */
-         const changedAnswer =
-           questionCard.querySelector(
-             '.submitted-question-part[data-question-part="changed"]'
-           );
-         
-         const measuredAnswer =
-           questionCard.querySelector(
-             '.submitted-question-part[data-question-part="measured"]'
-           );
-         
-         const changedCheck =
-           questionCard.querySelector(
-             '[data-check="changed"]'
-           );
-         
-         const measuredCheck =
-           questionCard.querySelector(
-             '[data-check="measured"]'
-           );
-         
-         const message =
-           questionCard.querySelector(
-             ".wheel-question-message"
-           );
-         
-         message.classList.remove("success");
-         
-         /*
+        const changedAnswer = questionCard.querySelector(
+          '.submitted-question-part[data-question-part="changed"]',
+        );
+
+        const measuredAnswer = questionCard.querySelector(
+          '.submitted-question-part[data-question-part="measured"]',
+        );
+
+        const changedCheck = questionCard.querySelector(
+          '[data-check="changed"]',
+        );
+
+        const measuredCheck = questionCard.querySelector(
+          '[data-check="measured"]',
+        );
+
+        const message = questionCard.querySelector(".wheel-question-message");
+
+        message.classList.remove("success");
+
+        /*
            This should normally be prevented by the disabled
            Save button, but it is useful as a safety check.
          */
-         if (!changedAnswer || !measuredAnswer) {
-           message.textContent =
-             "Press Enter after completing both sentence blanks.";
-         
-           message.classList.add("visible");
-         
-           return;
-         }
-         
-         /*
+        if (!changedAnswer || !measuredAnswer) {
+          message.textContent =
+            "Press Enter after completing both sentence blanks.";
+
+          message.classList.add("visible");
+
+          return;
+        }
+
+        /*
            The student must also complete both checklist items.
          */
-         if (
-           !changedCheck.checked ||
-           !measuredCheck.checked
-         ) {
-           message.textContent =
-             "Check both boxes before saving your question.";
-         
-           message.classList.add("visible");
-         
-           return;
-         }
-         
-         /*
+        if (!changedCheck.checked || !measuredCheck.checked) {
+          message.textContent = "Check both boxes before saving your question.";
+
+          message.classList.add("visible");
+
+          return;
+        }
+
+        /*
            Read only the answer text, without including the ×.
          */
-         const changedValue =
-           changedAnswer.querySelector(
-             ".submitted-question-part-text"
-           ).textContent.trim();
-         
-         const measuredValue =
-           measuredAnswer.querySelector(
-             ".submitted-question-part-text"
-           ).textContent.trim();
-         
-         const sentence =
-           questionCard.querySelector(
-             ".question-template-sentence"
-           );
-         
-         /*
+        const changedValue = changedAnswer
+          .querySelector(".submitted-question-part-text")
+          .textContent.trim();
+
+        const measuredValue = measuredAnswer
+          .querySelector(".submitted-question-part-text")
+          .textContent.trim();
+
+        const sentence = questionCard.querySelector(
+          ".question-template-sentence",
+        );
+
+        /*
            Convert the editable sentence into its final,
            permanently saved appearance.
          */
-         sentence.innerHTML =
-           questionStructure.buildSavedSentence(
-             changedValue,
-             measuredValue
-           );
-         
-         const checklist =
-           questionCard.querySelector(
-             ".wheel-question-checklist"
-           );
-         
-         if (checklist) {
-           checklist.remove();
-         }
-         
-         const saveButton =
-           questionCard.querySelector(
-             ".wheel-save-button"
-           );
-         
-         if (saveButton) {
-           saveButton.remove();
-         }
-         
-         message.textContent =
-           "Question saved.";
-         
-         message.classList.add(
-           "visible",
-           "success"
-         );
-         
-         questionCard.classList.add("saved");
-         
-         usedQuestionStarters.add(questionStructure.word);
-         
-         if (usedQuestionStarters.size === 2) {
-          const nextButton = document.getElementById("testableQuestionsNextButton");
-          nextButton.hidden = false;
-         }
-
-         if (usedQuestionStarters.size === questionStructures.length) {
-           spinQuestionWheelButton.disabled = true;
-           wheelResult.textContent =
-             "You have used all four question starters!";
-         }
-         }
-         
-         function getUnsavedQuestionCards() {
-         return selectedQuestionTemplate.querySelectorAll(
-         ".wheel-question-card:not(.saved)"
-         );
-         }
-         
-         /* ----------------------------------------
-            Spin the wheel
-            ---------------------------------------- */
-         
-         spinQuestionWheelButton.addEventListener(
-           "click",
-           function() {
-             wheelResult.style.backgroundColor = "var(--soft-purple)";
-         
-             
-             if (wheelIsSpinning) {
-               return;
-             }
-         
-             wheelIsSpinning = true;
-             spinQuestionWheelButton.disabled = true;
-         
-             wheelResult.textContent =
-               "The wheel is spinning...";
-         
-             const destinationAngles = [
-               0,
-               90,
-               270,
-               180
-             ];
-         
-             const selectedIndex =
-               Math.floor(
-                 Math.random() *
-                 questionStructures.length
-               );
-         
-             const selectedQuestionStructure =
-               questionStructures[
-                 Math.floor(Math.random() * questionStructures.length)
-               ];
-         
-             const selectedDestination = destinationAngles[selectedIndex];
-         
-             const currentPosition =
-               (
-                 (currentWheelRotation % 360) +
-                 360
-               ) % 360;
-         
-             const rotationToDestination =
-               (
-                 selectedDestination -
-                 currentPosition +
-                 360
-               ) % 360;
-         
-             const extraSpins = 5 * 360;
-         
-             currentWheelRotation +=
-               extraSpins +
-               rotationToDestination;
-         
-             questionWheel.style.transform =
-               `rotate(${currentWheelRotation}deg)`;
-         
-             questionWheel
-               .querySelectorAll(".wheel-label")
-               .forEach(function(label) {
-                 label.style.transform =
-                   `translate(-50%, -50%) rotate(${-currentWheelRotation}deg)`;
-               });
-         
-             wheelSpinTimeout = window.setTimeout(
-               function() {
-                wheelSpinTimeout = null;
-
-                 const selectedQuestionStructure =
-                   questionStructures[selectedIndex];
-         
-        const unsavedQuestionCards = getUnsavedQuestionCards();
-
-        const starterAlreadySaved =
-        usedQuestionStarters.has(
-        selectedQuestionStructure.word
+        sentence.innerHTML = questionStructure.buildSavedSentence(
+          changedValue,
+          measuredValue,
         );
 
-        const starterAlreadyBeingWritten =
-        Array.from(unsavedQuestionCards).some(card => {
+        const checklist = questionCard.querySelector(
+          ".wheel-question-checklist",
+        );
 
-          if (card.dataset.questionStarter !== selectedQuestionStructure.word) {
-            return false;
-          }
+        if (checklist) {
+          checklist.remove();
+        }
 
-          const hasInputs =
-            Array.from(card.querySelectorAll(".question-template-input"))
-              .some(input => input.value.trim() !== "");
+        const saveButton = questionCard.querySelector(".wheel-save-button");
 
-          const hasSubmittedAnswers =
-            card.querySelectorAll(".submitted-question-part").length > 0;
+        if (saveButton) {
+          saveButton.remove();
+        }
 
-          return hasInputs || hasSubmittedAnswers;
-        });
-         
-         if (
-         starterAlreadySaved ||
-         starterAlreadyBeingWritten
-         ) {
-         wheelResult.innerHTML = `
+        message.textContent = "Question saved.";
+
+        message.classList.add("visible", "success");
+
+        questionCard.classList.add("saved");
+
+        usedQuestionStarters.add(questionStructure.word);
+
+        if (usedQuestionStarters.size === 2) {
+          const nextButton = document.getElementById(
+            "testableQuestionsNextButton",
+          );
+          nextButton.hidden = false;
+        }
+
+        if (usedQuestionStarters.size === questionStructures.length) {
+          spinQuestionWheelButton.disabled = true;
+          wheelResult.textContent = "You have used all four question starters!";
+        }
+      }
+
+      function getUnsavedQuestionCards() {
+        return selectedQuestionTemplate.querySelectorAll(
+          ".wheel-question-card:not(.saved)",
+        );
+      }
+
+      /* ----------------------------------------
+            Spin the wheel
+            ---------------------------------------- */
+
+      spinQuestionWheelButton.addEventListener("click", function () {
+        wheelResult.style.backgroundColor = "var(--soft-purple)";
+
+        if (wheelIsSpinning) {
+          return;
+        }
+
+        wheelIsSpinning = true;
+        spinQuestionWheelButton.disabled = true;
+
+        wheelResult.textContent = "The wheel is spinning...";
+
+        const destinationAngles = [0, 90, 270, 180];
+
+        const selectedIndex = Math.floor(
+          Math.random() * questionStructures.length,
+        );
+
+        const selectedQuestionStructure =
+          questionStructures[
+            Math.floor(Math.random() * questionStructures.length)
+          ];
+
+        const selectedDestination = destinationAngles[selectedIndex];
+
+        const currentPosition = ((currentWheelRotation % 360) + 360) % 360;
+
+        const rotationToDestination =
+          (selectedDestination - currentPosition + 360) % 360;
+
+        const extraSpins = 5 * 360;
+
+        currentWheelRotation += extraSpins + rotationToDestination;
+
+        questionWheel.style.transform = `rotate(${currentWheelRotation}deg)`;
+
+        questionWheel
+          .querySelectorAll(".wheel-label")
+          .forEach(function (label) {
+            label.style.transform = `translate(-50%, -50%) rotate(${-currentWheelRotation}deg)`;
+          });
+
+        wheelSpinTimeout = window.setTimeout(function () {
+          wheelSpinTimeout = null;
+
+          const selectedQuestionStructure = questionStructures[selectedIndex];
+
+          const unsavedQuestionCards = getUnsavedQuestionCards();
+
+          const starterAlreadySaved = usedQuestionStarters.has(
+            selectedQuestionStructure.word,
+          );
+
+          const starterAlreadyBeingWritten = Array.from(
+            unsavedQuestionCards,
+          ).some((card) => {
+            if (
+              card.dataset.questionStarter !== selectedQuestionStructure.word
+            ) {
+              return false;
+            }
+
+            const hasInputs = Array.from(
+              card.querySelectorAll(".question-template-input"),
+            ).some((input) => input.value.trim() !== "");
+
+            const hasSubmittedAnswers =
+              card.querySelectorAll(".submitted-question-part").length > 0;
+
+            return hasInputs || hasSubmittedAnswers;
+          });
+
+          if (starterAlreadySaved || starterAlreadyBeingWritten) {
+            wheelResult.innerHTML = `
          <strong>${selectedQuestionStructure.word}</strong>
          has already been used.<br>
          Spin again to choose a different question starter.
          `;
-         
-         wheelResult.style.backgroundColor =
-         "var(--orange)";
-         
-         spinQuestionWheelButton.disabled = false;
-         wheelIsSpinning = false;
-         
-         return;
-         }
-         
-                 wheelResult.innerHTML = `
+
+            wheelResult.style.backgroundColor = "var(--orange)";
+
+            spinQuestionWheelButton.disabled = false;
+            wheelIsSpinning = false;
+
+            return;
+          }
+
+          wheelResult.innerHTML = `
          You landed on
          <strong>
          ${selectedQuestionStructure.word}
          </strong>.
          `;
-         
-         /*
+
+          /*
          A different starter was selected.
          
          Remove the previous unfinished question,
          including any text that has not been saved,
          before showing the new structure.
          */
-         unsavedQuestionCards.forEach(card => {
+          unsavedQuestionCards.forEach((card) => {
+            const hasInputs = Array.from(
+              card.querySelectorAll(".question-template-input"),
+            ).some((input) => input.value.trim() !== "");
 
-        const hasInputs =
-          Array.from(card.querySelectorAll(".question-template-input"))
-            .some(input => input.value.trim() !== "");
+            const hasSubmittedAnswers =
+              card.querySelectorAll(".submitted-question-part").length > 0;
 
-        const hasSubmittedAnswers =
-          card.querySelectorAll(".submitted-question-part").length > 0;
+            if (!hasInputs && !hasSubmittedAnswers) {
+              card.remove();
+              questionCardCount--;
+            }
+          });
 
-        if (!hasInputs && !hasSubmittedAnswers) {
-          card.remove();
-          questionCardCount--;
-        }
+          addQuestionCard(selectedQuestionStructure);
 
+          spinQuestionWheelButton.disabled = false;
+
+          wheelIsSpinning = false;
+        }, 3250);
       });
-         
-         addQuestionCard(
-         selectedQuestionStructure
-         );
-         
-                 spinQuestionWheelButton.disabled =
-                   false;
-         
-                 wheelIsSpinning = false;
-               },
-               3250
-             );
-           }
-         );
-      </script>
-   </body>
+    </script>
+  </body>
 </html>

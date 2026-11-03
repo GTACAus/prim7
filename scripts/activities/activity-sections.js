@@ -19,7 +19,9 @@
    ================================================== */
 
 function collectActivities(section) {
-  const activities = Array.prototype.slice.call(section.querySelectorAll("[data-activity]"));
+  const activities = Array.prototype.slice.call(
+    section.querySelectorAll("[data-activity]"),
+  );
   if (section.matches("[data-activity]")) activities.push(section);
   return activities;
 }
@@ -42,14 +44,19 @@ function initSectionActivities(section) {
 }
 
 function initSectionActivitiesIn(root) {
-  Array.prototype.forEach.call((root || document).querySelectorAll(".section"), initSectionActivities);
+  Array.prototype.forEach.call(
+    (root || document).querySelectorAll(".section"),
+    initSectionActivities,
+  );
 }
 
 // Appends a Next button to every section except the last, skipping any
 // section that already has one. Call before initSectionActivitiesIn() so
 // the activity watcher can find and gate the new buttons.
 function createNextButtons(root) {
-  const sections = Array.prototype.slice.call((root || document).querySelectorAll(".section"));
+  const sections = Array.prototype.slice.call(
+    (root || document).querySelectorAll(".section"),
+  );
 
   sections.slice(0, -1).forEach(function (section) {
     if (section.querySelector(".next-button")) return;
@@ -64,6 +71,5 @@ function createNextButtons(root) {
     section.appendChild(button);
   });
 }
-
 
 export { initSectionActivities, initSectionActivitiesIn };

@@ -73,7 +73,8 @@ function DragDropActivity(root, options) {
   Activity.call(this, root, options);
 
   this.tray = root.querySelector("[data-dd-tray]");
-  const trayHeading = this.tray && this.tray.getAttribute("data-dd-tray-heading");
+  const trayHeading =
+    this.tray && this.tray.getAttribute("data-dd-tray-heading");
   if (trayHeading) {
     const heading = document.createElement("p");
     heading.className = "dd-tray-heading";
@@ -81,7 +82,9 @@ function DragDropActivity(root, options) {
     this.tray.insertBefore(heading, this.tray.firstChild);
   }
 
-  this.slots = Array.prototype.slice.call(root.querySelectorAll("[data-dd-slot]"));
+  this.slots = Array.prototype.slice.call(
+    root.querySelectorAll("[data-dd-slot]"),
+  );
   this.items = {};
   this.selectedItem = null;
   this.drag = null;
@@ -91,19 +94,30 @@ function DragDropActivity(root, options) {
 
   var self = this;
 
-  Array.prototype.forEach.call(root.querySelectorAll("[data-dd-item]"), function (item) {
-    self.items[item.dataset.ddItem] = item;
-    item.tabIndex = 0;
-    item.setAttribute("role", "button");
-    item.setAttribute("aria-pressed", "false");
-    item.addEventListener("pointerdown", function (event) { self._onPointerDown(event, item); });
-    item.addEventListener("keydown", function (event) { self._onItemKey(event, item); });
-    item.addEventListener("dragstart", function (event) { event.preventDefault(); }); /* native image/text drag would cancel the pointer drag */
-  });
+  Array.prototype.forEach.call(
+    root.querySelectorAll("[data-dd-item]"),
+    function (item) {
+      self.items[item.dataset.ddItem] = item;
+      item.tabIndex = 0;
+      item.setAttribute("role", "button");
+      item.setAttribute("aria-pressed", "false");
+      item.addEventListener("pointerdown", function (event) {
+        self._onPointerDown(event, item);
+      });
+      item.addEventListener("keydown", function (event) {
+        self._onItemKey(event, item);
+      });
+      item.addEventListener("dragstart", function (event) {
+        event.preventDefault();
+      }); /* native image/text drag would cancel the pointer drag */
+    },
+  );
 
   this.slots.forEach(function (slot) {
     slot.tabIndex = 0;
-    slot.addEventListener("click", function () { self._onSlotActivate(slot); });
+    slot.addEventListener("click", function () {
+      self._onSlotActivate(slot);
+    });
     slot.addEventListener("keydown", function (event) {
       if (event.target !== slot) return;
       if (event.key === "Enter" || event.key === " ") {
@@ -119,7 +133,11 @@ function DragDropActivity(root, options) {
     var nodes = Array.prototype.filter.call(slot.childNodes, function (node) {
       return !(node.nodeType === 1 && node.hasAttribute("data-dd-item"));
     });
-    if (nodes.some(function (node) { return node.nodeType === 1 || node.textContent.trim(); })) {
+    if (
+      nodes.some(function (node) {
+        return node.nodeType === 1 || node.textContent.trim();
+      })
+    ) {
       self.placeholders.set(slot, { nodes: nodes, hidden: false });
     }
   });
@@ -169,7 +187,9 @@ DragDropActivity.prototype.isComplete = function () {
   /* Activity's constructor can call this (via the depends-on recheck) before this.slots exists */
   if (!this.slots) return false;
   var self = this;
-  return this.slots.every(function (slot) { return Boolean(self._itemIn(slot)); });
+  return this.slots.every(function (slot) {
+    return Boolean(self._itemIn(slot));
+  });
 };
 
 DragDropActivity.prototype.isCorrect = function () {
@@ -178,18 +198,26 @@ DragDropActivity.prototype.isCorrect = function () {
   return this.slots.every(function (slot) {
     if (!slot.dataset.ddAnswer) return true;
     var item = self._itemIn(slot);
-    return Boolean(item) && self._slotAccepts(slot, item.dataset.ddItem) && !self._isDuplicateInGroup(slot, item);
+    return (
+      Boolean(item) &&
+      self._slotAccepts(slot, item.dataset.ddItem) &&
+      !self._isDuplicateInGroup(slot, item)
+    );
   });
 };
 
-DragDropActivity.prototype.getTrayItemCount = function() {
+DragDropActivity.prototype.getTrayItemCount = function () {
   return this.tray.children.length;
-}
+};
 
 /* ---------- internals ---------- */
 
 DragDropActivity.prototype._slotById = function (id) {
-  return this.slots.filter(function (slot) { return slot.dataset.ddSlot === id; })[0] || null;
+  return (
+    this.slots.filter(function (slot) {
+      return slot.dataset.ddSlot === id;
+    })[0] || null
+  );
 };
 
 DragDropActivity.prototype._itemIn = function (slot) {
@@ -221,10 +249,14 @@ DragDropActivity.prototype._refreshFilled = function () {
     var placeholder = self.placeholders.get(slot);
     if (!placeholder) return;
     if (filled && !placeholder.hidden) {
-      placeholder.nodes.forEach(function (node) { if (node.parentNode === slot) slot.removeChild(node); });
+      placeholder.nodes.forEach(function (node) {
+        if (node.parentNode === slot) slot.removeChild(node);
+      });
       placeholder.hidden = true;
     } else if (!filled && placeholder.hidden) {
-      placeholder.nodes.forEach(function (node) { slot.appendChild(node); });
+      placeholder.nodes.forEach(function (node) {
+        slot.appendChild(node);
+      });
       placeholder.hidden = false;
     }
   });
@@ -233,8 +265,15 @@ DragDropActivity.prototype._refreshFilled = function () {
 DragDropActivity.prototype._returnAllToTray = function () {
   var self = this;
   this.tray.hidden = false; // Unhide tray incase it was hidden
-  Object.keys(this.items).forEach(function (id) { self._put(self.items[id], null); });
-  Array.prototype.forEach.call(this.root.querySelectorAll(".dd-clone"), function (clone) { clone.remove(); });
+  Object.keys(this.items).forEach(function (id) {
+    self._put(self.items[id], null);
+  });
+  Array.prototype.forEach.call(
+    this.root.querySelectorAll(".dd-clone"),
+    function (clone) {
+      clone.remove();
+    },
+  );
   this._refreshFilled();
 };
 
@@ -257,9 +296,15 @@ DragDropActivity.prototype._spawnClone = function (sourceItem) {
   clone.setAttribute("aria-pressed", "false");
 
   var self = this;
-  clone.addEventListener("pointerdown", function (event) { self._onPointerDown(event, clone); });
-  clone.addEventListener("keydown", function (event) { self._onItemKey(event, clone); });
-  clone.addEventListener("dragstart", function (event) { event.preventDefault(); });
+  clone.addEventListener("pointerdown", function (event) {
+    self._onPointerDown(event, clone);
+  });
+  clone.addEventListener("keydown", function (event) {
+    self._onItemKey(event, clone);
+  });
+  clone.addEventListener("dragstart", function (event) {
+    event.preventDefault();
+  });
 
   return clone;
 };
@@ -374,22 +419,33 @@ DragDropActivity.prototype._onReject = function (item, slot) {
   slot.classList.remove("dd-rejected");
   void slot.offsetWidth; /* restarts the reject animation on repeated wrong drops */
   slot.classList.add("dd-rejected");
-  window.setTimeout(function () { slot.classList.remove("dd-rejected"); }, 500);
+  window.setTimeout(function () {
+    slot.classList.remove("dd-rejected");
+  }, 500);
 
   var itemId = item.dataset.ddItem;
   var slotId = slot.dataset.ddSlot;
 
-  if (typeof this.options.onIncorrect === "function") this.options.onIncorrect(itemId, slotId);
-  this.root.dispatchEvent(new CustomEvent("dd:incorrect", {
-    detail: { itemId: itemId, slotId: slotId },
-    bubbles: true
-  }));
+  if (typeof this.options.onIncorrect === "function")
+    this.options.onIncorrect(itemId, slotId);
+  this.root.dispatchEvent(
+    new CustomEvent("dd:incorrect", {
+      detail: { itemId: itemId, slotId: slotId },
+      bubbles: true,
+    }),
+  );
 };
 
 DragDropActivity.prototype._changed = function () {
   var placements = this.getPlacements();
-  if (typeof this.options.onChange === "function") this.options.onChange(placements);
-  this.root.dispatchEvent(new CustomEvent("dd:change", { detail: { placements: placements }, bubbles: true }));
+  if (typeof this.options.onChange === "function")
+    this.options.onChange(placements);
+  this.root.dispatchEvent(
+    new CustomEvent("dd:change", {
+      detail: { placements: placements },
+      bubbles: true,
+    }),
+  );
   this.setComplete(this.isComplete() && this.isCorrect());
 };
 
@@ -428,7 +484,10 @@ DragDropActivity.prototype._onItemKey = function (event, item) {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     this._toggleSelect(item);
-  } else if ((event.key === "Delete" || event.key === "Backspace") && this._slotOf(item)) {
+  } else if (
+    (event.key === "Delete" || event.key === "Backspace") &&
+    this._slotOf(item)
+  ) {
     event.preventDefault();
     this._clearSelection();
     this._place(item, null);
@@ -455,12 +514,16 @@ DragDropActivity.prototype._onPointerDown = function (event, item) {
     height: rect.height,
     moved: false,
     ghost: null,
-    hoverSlot: null
+    hoverSlot: null,
   };
 
   var self = this;
-  this._move = function (e) { self._onPointerMove(e); };
-  this._up = function (e) { self._onPointerUp(e); };
+  this._move = function (e) {
+    self._onPointerMove(e);
+  };
+  this._up = function (e) {
+    self._onPointerUp(e);
+  };
   document.addEventListener("pointermove", this._move);
   document.addEventListener("pointerup", this._up);
   document.addEventListener("pointercancel", this._up);
@@ -471,15 +534,20 @@ DragDropActivity.prototype._onPointerMove = function (event) {
   if (!drag || event.pointerId !== drag.pointerId) return;
 
   if (!drag.moved) {
-    if (Math.abs(event.clientX - drag.startX) + Math.abs(event.clientY - drag.startY) < DRAG_THRESHOLD) return;
+    if (
+      Math.abs(event.clientX - drag.startX) +
+        Math.abs(event.clientY - drag.startY) <
+      DRAG_THRESHOLD
+    )
+      return;
     drag.moved = true;
     this._clearSelection();
     this._startGhost(drag);
   }
 
   event.preventDefault();
-  drag.ghost.style.left = (event.clientX - drag.offsetX) + "px";
-  drag.ghost.style.top = (event.clientY - drag.offsetY) + "px";
+  drag.ghost.style.left = event.clientX - drag.offsetX + "px";
+  drag.ghost.style.top = event.clientY - drag.offsetY + "px";
   this._setHoverSlot(this._slotAt(event.clientX, event.clientY));
 };
 
@@ -510,7 +578,9 @@ DragDropActivity.prototype._onPointerUp = function (event) {
 
 DragDropActivity.prototype._startGhost = function (drag) {
   var ghost = drag.item.cloneNode(true);
-  ghost.removeAttribute("tabindex"); /* keeps data-dd-item so item styling applies; it lives on <body>, outside the root, so lookups never see it */
+  ghost.removeAttribute(
+    "tabindex",
+  ); /* keeps data-dd-item so item styling applies; it lives on <body>, outside the root, so lookups never see it */
   ghost.classList.remove("dd-selected", "dd-placed");
   ghost.classList.add("dd-ghost");
   /* A placed item is sized to its slot, so measuring it would give a ghost unlike
@@ -522,7 +592,11 @@ DragDropActivity.prototype._startGhost = function (drag) {
     ghost.style.height = drag.height + "px";
   }
   /* In fullscreen only the fullscreen element's subtree is rendered, so a ghost on <body> would be invisible. */
-  (document.fullscreenElement || document.webkitFullscreenElement || document.body).appendChild(ghost);
+  (
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.body
+  ).appendChild(ghost);
   if (wasPlaced) {
     var ghostRect = ghost.getBoundingClientRect();
     drag.offsetX = ghostRect.width / 2;
@@ -550,6 +624,5 @@ DragDropActivity.prototype._setHoverSlot = function (slot, dragOverride) {
   /* the ghost bobs while over a slot (styled in drag_and_drop_base.css) */
   if (drag.ghost) drag.ghost.classList.toggle("dd-ghost-hover", Boolean(slot));
 };
-
 
 export { DragDropActivity };

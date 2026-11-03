@@ -1,191 +1,272 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scientific Inquiry Lesson Overview</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link href="styles/build_style.css" rel="stylesheet" type="text/css" />
     <style>
-        body {
-            background: var(--cream);
-        }
-        /* everything is sized in vh so the whole pathway fits on one screen */
-        .page { padding: 1.5vh 0; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
-        .lesson-heading {
-            margin-bottom: 0;
-        }
-        #hero {
-            display: block;
-            font-size: 2.3vh;
-            margin: 0 auto;
-            width: 70%;
-            padding: 1vh 20px;
-            background: white;
-            border: 3px solid var(--line);
-            border-top: 6px solid var(--yellow);
-            box-shadow: var(--shadow-small);
-            border-radius: 20px;
-            user-select: none;
-        }
-        #hero span:last-child {
-            font-size: 3vh;
-            color: var(--purple);
-            text-transform: uppercase;
-        }
-        .pathway { display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex: 1; padding-top: 1vh; }
+      body {
+        background: var(--cream);
+      }
+      /* everything is sized in vh so the whole pathway fits on one screen */
+      .page {
+        padding: 1.5vh 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .lesson-heading {
+        margin-bottom: 0;
+      }
+      #hero {
+        display: block;
+        font-size: 2.3vh;
+        margin: 0 auto;
+        width: 70%;
+        padding: 1vh 20px;
+        background: white;
+        border: 3px solid var(--line);
+        border-top: 6px solid var(--yellow);
+        box-shadow: var(--shadow-small);
+        border-radius: 20px;
+        user-select: none;
+      }
+      #hero span:last-child {
+        font-size: 3vh;
+        color: var(--purple);
+        text-transform: uppercase;
+      }
+      .pathway {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        padding-top: 1vh;
+      }
+      .pair {
+        display: flex;
+        gap: 20px;
+        width: 60%;
+        background: var(--soft-orange);
+        border: 6px solid var(--orange);
+        border-radius: 20px;
+        padding: 1.2vh 0;
+        justify-content: center;
+      }
+      .lesson-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        width: min(100%, 300px);
+        min-height: 9vh;
+        padding: 0.8vh 12px;
+        overflow: hidden;
+        background: white;
+        border: 2px solid var(--line);
+        border-top: 6px solid var(--accent);
+        border-radius: 16px;
+        box-shadow: var(--shadow-small);
+        color: var(--text);
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition:
+          transform 0.2s,
+          background 0.2s;
+      }
+      .lesson-card:hover {
+        background: color-mix(in srgb, var(--accent) 20%, white 80%);
+        transform: translateY(-3px);
+      }
+      .lesson-card img {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        height: 90%;
+        opacity: 0.4;
+        transition: transform 0.2s;
+      }
+      .lesson-card span {
+        position: relative;
+      }
+      .lesson-number {
+        color: var(--purple);
+        font-size: 2vh;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .lesson-subtitle {
+        font-weight: 700;
+        font-size: 1.3vh;
+        line-height: 1.2;
+        transition: transform 0.2s;
+      }
+      .lesson-card:hover .lesson-subtitle,
+      .lesson-card:hover img {
+        transform: scale(1.07);
+      }
+      .arrow {
+        width: 3.4vh;
+        height: 4vh;
+        background: var(--orange);
+        clip-path: polygon(
+          30% 0,
+          70% 0,
+          70% 50%,
+          100% 50%,
+          50% 100%,
+          0 50%,
+          30% 50%
+        );
+      }
+      .unavailable {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      @media (max-width: 720px) {
         .pair {
-            display: flex;
-            gap: 20px;
-            width: 60%;
-            background: var(--soft-orange);
-            border: 6px solid var(--orange);
-            border-radius: 20px;
-            padding: 1.2vh 0;
-            justify-content: center;
+          flex-direction: column;
+          align-items: center;
         }
-        .lesson-card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-            width: min(100%, 300px);
-            min-height: 9vh;
-            padding: 0.8vh 12px;
-            overflow: hidden;
-            background: white;
-            border: 2px solid var(--line);
-            border-top: 6px solid var(--accent);
-            border-radius: 16px;
-            box-shadow: var(--shadow-small);
-            color: var(--text);
-            text-align: center;
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: transform 0.2s, background 0.2s;
-        }
-        .lesson-card:hover {
-            background: color-mix(in srgb, var(--accent) 20%, white 80%);
-            transform: translateY(-3px);
-        }
-        .lesson-card img {
-            position: absolute;
-            inset: 0;
-            margin: auto;
-            height: 90%;
-            opacity: 0.4;
-            transition: transform 0.2s;
-        }
-        .lesson-card span { position: relative; }
-        .lesson-number {
-            color: var(--purple);
-            font-size: 2vh;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .lesson-subtitle {
-            font-weight: 700;
-            font-size: 1.3vh;
-            line-height: 1.2;
-            transition: transform 0.2s;
-        }
-        .lesson-card:hover .lesson-subtitle,
-        .lesson-card:hover img {
-            transform: scale(1.07);
-        }
-        .arrow {
-            width: 3.4vh;
-            height: 4vh;
-            background: var(--orange);
-            clip-path: polygon(30% 0, 70% 0, 70% 50%, 100% 50%, 50% 100%, 0 50%, 30% 50%);
-        }
-        .unavailable { opacity: 0.5; pointer-events: none; }
-        @media (max-width: 720px) { .pair { flex-direction: column; align-items: center; } }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <main class="page">
-        <header class="lesson-heading">
-            <h1 id="hero">
-                <span>Scientific Inquiry</span>
-                <span>starts here</span>
-            </h1>
-        </header>
-        
-        <div class="pathway">
-            <div class="arrow" data-stage="2" aria-hidden="true"></div>
-            <a href="lesson1/lesson1.html" class="lesson-card" style="--accent: var(--purple)" data-stage="1">
-                <img src="./images/index/lesson1.png" alt="" />
-                <span class="lesson-number">Lesson 1</span>
-                <span class="lesson-subtitle">Questioning and Predicting</span>
-            </a>
-            <div class="arrow" data-stage="2" aria-hidden="true"></div>
-            <a href="lesson2/lesson2.html" class="lesson-card" style="--accent: var(--orange)" data-stage="2">
-                <img src="./images/index/lesson2.png" alt="" />
-                <span class="lesson-number">Lesson 2</span>
-                <span class="lesson-subtitle">Planning a Fair Test Experiment</span>
-            </a>
-            <div class="arrow" data-stage="3" aria-hidden="true"></div>
-            <div class="pair">
-                <a href="lesson3/lesson3.html" class="lesson-card" style="--accent: var(--green)" data-stage="3">
-                <img src="./images/index/lesson3.png" alt="" />
-                <span class="lesson-number">Lesson 3</span>
-                <span class="lesson-subtitle">Tables</span>
-            </a>
-                <a href="lesson3/lesson3-2.html" class="lesson-card" style="--accent: var(--green)" data-stage="3">
-                <img src="./images/index/lesson3.png" alt="" />
-                <span class="lesson-number">Lesson 3: Part B</span>
-                <span class="lesson-subtitle">Tables: Part B</span>
-            </a>
-            </div>
-            <div class="arrow" data-stage="4" aria-hidden="true"></div>
-            <div class="pair">
-                <a href="lesson4/lesson4.html" class="lesson-card" style="--accent: var(--blue)" data-stage="4">
-                <img src="./images/index/lesson4.png" alt="" />
-                <span class="lesson-number">Lesson 4</span>
-                <span class="lesson-subtitle">Graphs</span>
-            </a>
-                <a href="lesson4/lesson4-2.html" class="lesson-card" style="--accent: var(--blue)" data-stage="4">
-                <img src="./images/index/lesson4.png" alt="" />
-                <span class="lesson-number">Lesson 4: Part B</span>
-                <span class="lesson-subtitle">Graphs: Part B</span>
-            </a>
-            </div>
-            <div class="arrow" data-stage="5" aria-hidden="true"></div>
-            <a href="lesson5/lesson5.html" class="lesson-card" style="--accent: var(--yellow)" data-stage="5">
-                <img src="./images/index/lesson5.png" alt="" />
-                <span class="lesson-number">Lesson 5</span>
-                <span class="lesson-subtitle">Scientific Drawings</span>
-            </a>
-            <div class="arrow" data-stage="6" aria-hidden="true"></div>
-            <a href="blank-lesson-6.html" class="lesson-card" style="--accent: var(--lavender)" data-stage="6">
-                <img src="./images/index/lesson6.png" alt="" />
-                <span class="lesson-number">Lesson 6</span>
-                <span class="lesson-subtitle">Evaluating and Communicating: Scientific Poster</span>
-            </a>
+      <header class="lesson-heading">
+        <h1 id="hero">
+          <span>Scientific Inquiry</span>
+          <span>starts here</span>
+        </h1>
+      </header>
+
+      <div class="pathway">
+        <div class="arrow" data-stage="2" aria-hidden="true"></div>
+        <a
+          href="lesson1/lesson1.html"
+          class="lesson-card"
+          style="--accent: var(--purple)"
+          data-stage="1"
+        >
+          <img src="./images/index/lesson1.png" alt="" />
+          <span class="lesson-number">Lesson 1</span>
+          <span class="lesson-subtitle">Questioning and Predicting</span>
+        </a>
+        <div class="arrow" data-stage="2" aria-hidden="true"></div>
+        <a
+          href="lesson2/lesson2.html"
+          class="lesson-card"
+          style="--accent: var(--orange)"
+          data-stage="2"
+        >
+          <img src="./images/index/lesson2.png" alt="" />
+          <span class="lesson-number">Lesson 2</span>
+          <span class="lesson-subtitle">Planning a Fair Test Experiment</span>
+        </a>
+        <div class="arrow" data-stage="3" aria-hidden="true"></div>
+        <div class="pair">
+          <a
+            href="lesson3/lesson3.html"
+            class="lesson-card"
+            style="--accent: var(--green)"
+            data-stage="3"
+          >
+            <img src="./images/index/lesson3.png" alt="" />
+            <span class="lesson-number">Lesson 3</span>
+            <span class="lesson-subtitle">Tables</span>
+          </a>
+          <a
+            href="lesson3/lesson3-2.html"
+            class="lesson-card"
+            style="--accent: var(--green)"
+            data-stage="3"
+          >
+            <img src="./images/index/lesson3.png" alt="" />
+            <span class="lesson-number">Lesson 3: Part B</span>
+            <span class="lesson-subtitle">Tables: Part B</span>
+          </a>
         </div>
+        <div class="arrow" data-stage="4" aria-hidden="true"></div>
+        <div class="pair">
+          <a
+            href="lesson4/lesson4.html"
+            class="lesson-card"
+            style="--accent: var(--blue)"
+            data-stage="4"
+          >
+            <img src="./images/index/lesson4.png" alt="" />
+            <span class="lesson-number">Lesson 4</span>
+            <span class="lesson-subtitle">Graphs</span>
+          </a>
+          <a
+            href="lesson4/lesson4-2.html"
+            class="lesson-card"
+            style="--accent: var(--blue)"
+            data-stage="4"
+          >
+            <img src="./images/index/lesson4.png" alt="" />
+            <span class="lesson-number">Lesson 4: Part B</span>
+            <span class="lesson-subtitle">Graphs: Part B</span>
+          </a>
+        </div>
+        <div class="arrow" data-stage="5" aria-hidden="true"></div>
+        <a
+          href="lesson5/lesson5.html"
+          class="lesson-card"
+          style="--accent: var(--yellow)"
+          data-stage="5"
+        >
+          <img src="./images/index/lesson5.png" alt="" />
+          <span class="lesson-number">Lesson 5</span>
+          <span class="lesson-subtitle">Scientific Drawings</span>
+        </a>
+        <div class="arrow" data-stage="6" aria-hidden="true"></div>
+        <a
+          href="blank-lesson-6.html"
+          class="lesson-card"
+          style="--accent: var(--lavender)"
+          data-stage="6"
+        >
+          <img src="./images/index/lesson6.png" alt="" />
+          <span class="lesson-number">Lesson 6</span>
+          <span class="lesson-subtitle"
+            >Evaluating and Communicating: Scientific Poster</span
+          >
+        </a>
+      </div>
     </main>
     <script>
-        // Lessons up to availableLesson are unlocked. Click the heading 5 times to unlock everything.
-        const availableLesson = 5;
-        let showAll = false;
+      // Lessons up to availableLesson are unlocked. Click the heading 5 times to unlock everything.
+      const availableLesson = 5;
+      let showAll = false;
 
-        function updateVisibility() {
-            document.querySelectorAll("[data-stage]").forEach((item) => {
-                item.classList.toggle("unavailable", !showAll && Number(item.dataset.stage) > availableLesson);
-            });
-        }
-        updateVisibility();
-
-        let heroClicks = 0;
-        document.getElementById("hero").addEventListener("click", () => {
-            if (!showAll && ++heroClicks >= 5) {
-                showAll = true;
-                updateVisibility();
-            }
+      function updateVisibility() {
+        document.querySelectorAll("[data-stage]").forEach((item) => {
+          item.classList.toggle(
+            "unavailable",
+            !showAll && Number(item.dataset.stage) > availableLesson,
+          );
         });
+      }
+      updateVisibility();
+
+      let heroClicks = 0;
+      document.getElementById("hero").addEventListener("click", () => {
+        if (!showAll && ++heroClicks >= 5) {
+          showAll = true;
+          updateVisibility();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

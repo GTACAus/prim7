@@ -10,16 +10,29 @@ import { ButtonActivity } from "../activities/button-reveal-activity.js";
 import { MultipleChoiceActivity } from "../activities/multiple-choice-activity.js";
 
 // Reuse lesson 4's existing choice button styling.
-export const CHOICE_CLASSES = { correct: "correct-choice", incorrect: "try-again-choice" };
+export const CHOICE_CLASSES = {
+  correct: "correct-choice",
+  incorrect: "try-again-choice",
+};
 
 // Analysis questions report into a shared .challenge-feedback box (see data-mc-feedback-target).
-export const ANALYSIS_CLASSES = Object.assign({}, CHOICE_CLASSES, { feedbackCorrect: "success", feedbackIncorrect: "try-again" });
+export const ANALYSIS_CLASSES = Object.assign({}, CHOICE_CLASSES, {
+  feedbackCorrect: "success",
+  feedbackIncorrect: "try-again",
+});
 
 // The prediction and more/less buttons only keep the "selected" look for a correct pick.
-export const PICK_CLASSES = { selected: "mc-picked", correct: "selected-answer", incorrect: "try-again-choice" };
+export const PICK_CLASSES = {
+  selected: "mc-picked",
+  correct: "selected-answer",
+  incorrect: "try-again-choice",
+};
 
 // A prediction check: picked buttons as above, plus the shared feedback box.
-export const PREDICTION_CLASSES = Object.assign({}, PICK_CLASSES, { feedbackCorrect: "success", feedbackIncorrect: "try-again" });
+export const PREDICTION_CLASSES = Object.assign({}, PICK_CLASSES, {
+  feedbackCorrect: "success",
+  feedbackIncorrect: "try-again",
+});
 
 export function byId(id) {
   return document.getElementById(id);
@@ -28,7 +41,10 @@ export function byId(id) {
 export function multipleChoice(id, options) {
   const root = byId(id);
   if (!root) return null;
-  return new MultipleChoiceActivity(root, Object.assign({ classes: CHOICE_CLASSES }, options));
+  return new MultipleChoiceActivity(
+    root,
+    Object.assign({ classes: CHOICE_CLASSES }, options),
+  );
 }
 
 // Scales a graph's HTML axis-slot text with the graph (the SVG scales with its width).
@@ -39,7 +55,8 @@ export function scaleAxisSlotText() {
     if (!wrap.querySelector(".axis-slot")) return;
 
     new ResizeObserver(function () {
-      wrap.style.fontSize = Math.max(9, Math.min(14, wrap.clientWidth * 0.021)) + "px";
+      wrap.style.fontSize =
+        Math.max(9, Math.min(14, wrap.clientWidth * 0.021)) + "px";
     }).observe(wrap);
   });
 }
@@ -55,16 +72,22 @@ function restoreCompleteness() {
   activities.forEach(function (activity) {
     if (activity instanceof MultipleChoiceActivity) {
       activity.questions.forEach(function (question) {
-        const answered = Array.prototype.some.call(question.choices, function (choice) {
-          return choice.classList.contains(activity.classes.correct);
-        });
+        const answered = Array.prototype.some.call(
+          question.choices,
+          function (choice) {
+            return choice.classList.contains(activity.classes.correct);
+          },
+        );
         if (answered) {
           question.element.dataset.mcCorrect = "true";
           question.element.dataset.mcLastCorrect = "true";
         }
       });
     } else if (activity instanceof ButtonActivity) {
-      if (activity.trigger && (activity.trigger.hidden || activity.trigger.disabled)) {
+      if (
+        activity.trigger &&
+        (activity.trigger.hidden || activity.trigger.disabled)
+      ) {
         activity.root.dataset.activityComplete = "true";
       }
     }

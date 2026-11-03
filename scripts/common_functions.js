@@ -27,27 +27,28 @@
   pass both ids behave exactly as before.
 */
 function unlockSection(nextSectionId, currentSectionId) {
-  const currentSection = typeof currentSectionId === 'string'
-    ? document.getElementById(currentSectionId)
-    : currentSectionId;
+  const currentSection =
+    typeof currentSectionId === "string"
+      ? document.getElementById(currentSectionId)
+      : currentSectionId;
 
   let nextSection;
   if (nextSectionId) {
     nextSection = document.getElementById(nextSectionId);
   } else if (currentSection) {
-    const sections = Array.from(document.querySelectorAll('.section'));
+    const sections = Array.from(document.querySelectorAll(".section"));
     nextSection = sections[sections.indexOf(currentSection) + 1];
   }
 
-  if (currentSection) currentSection.classList.add('completed');
+  if (currentSection) currentSection.classList.add("completed");
   if (!nextSection) return;
 
-  nextSection.classList.remove('locked');
+  nextSection.classList.remove("locked");
 
   setTimeout(() => {
     nextSection.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
+      behavior: "smooth",
+      block: "start",
     });
   }, 100);
 }
@@ -67,11 +68,14 @@ function unlockSection(nextSectionId, currentSectionId) {
 */
 let lastModalTrigger = null;
 
-document.addEventListener("click", function(event) {
-  lastModalTrigger =
-    event.target.closest("button, a, [onclick], .yeast-card") ||
-    event.target;
-}, true);
+document.addEventListener(
+  "click",
+  function (event) {
+    lastModalTrigger =
+      event.target.closest("button, a, [onclick], .yeast-card") || event.target;
+  },
+  true,
+);
 
 /*
   Grow a modal out of the element that opened it.
@@ -111,19 +115,17 @@ function growModalFromTrigger(modal, trigger) {
 
   const source = trigger || lastModalTrigger;
   const sourceBox =
-    source && source.isConnected
-      ? source.getBoundingClientRect()
-      : null;
+    source && source.isConnected ? source.getBoundingClientRect() : null;
 
   if (sourceBox && sourceBox.width) {
     box.style.setProperty(
       "--origin-x",
-      (sourceBox.left + sourceBox.width / 2 - restingBox.left) + "px"
+      sourceBox.left + sourceBox.width / 2 - restingBox.left + "px",
     );
 
     box.style.setProperty(
       "--origin-y",
-      (sourceBox.top + sourceBox.height / 2 - restingBox.top) + "px"
+      sourceBox.top + sourceBox.height / 2 - restingBox.top + "px",
     );
 
     /*
@@ -135,7 +137,7 @@ function growModalFromTrigger(modal, trigger) {
     */
     const startScale = Math.max(
       0.08,
-      Math.min(sourceBox.width / restingBox.width, 0.9)
+      Math.min(sourceBox.width / restingBox.width, 0.9),
     );
 
     box.style.setProperty("--start-scale", startScale);
@@ -152,25 +154,24 @@ function growModalFromTrigger(modal, trigger) {
 }
 
 function openGlossary() {
-  const modal = document.getElementById('glossaryModal');
+  const modal = document.getElementById("glossaryModal");
 
   if (modal) {
-    modal.style.display = 'block';
+    modal.style.display = "block";
     growModalFromTrigger(modal);
   }
 }
 
 function closeGlossary() {
-  const modal = document.getElementById('glossaryModal');
+  const modal = document.getElementById("glossaryModal");
 
   if (modal) {
-    modal.style.display = 'none';
+    modal.style.display = "none";
   }
-
 }
 
-window.addEventListener('click', function(event) {
-  const modal = document.getElementById('glossaryModal');
+window.addEventListener("click", function (event) {
+  const modal = document.getElementById("glossaryModal");
 
   if (modal && event.target === modal) {
     closeGlossary();
@@ -184,7 +185,6 @@ window.addEventListener('click', function(event) {
 let profanityList = [];
 let profanityReady = false;
 let profanityLoadingPromise = null;
-
 
 /*
   Automatically work out where cypher.txt is located.
@@ -200,23 +200,17 @@ let profanityLoadingPromise = null;
 */
 function getClassroomLanguageFilePath() {
   const commonScript = Array.from(
-    document.querySelectorAll("script[src]")
-  ).find(function(script) {
-    return script.src.includes(
-      "common_functions.js"
-    );
+    document.querySelectorAll("script[src]"),
+  ).find(function (script) {
+    return script.src.includes("common_functions.js");
   });
 
   if (!commonScript) {
     return "cypher.txt";
   }
 
-  return new URL(
-    "../cypher.txt",
-    commonScript.src
-  ).href;
+  return new URL("../cypher.txt", commonScript.src).href;
 }
-
 
 /*
   Decode the Caesar-ciphered word list.
@@ -224,30 +218,19 @@ function getClassroomLanguageFilePath() {
 function caesarCipher(text, shift) {
   return text
     .split("")
-    .map(function(character) {
+    .map(function (character) {
       if (!/[a-z]/i.test(character)) {
         return character;
       }
 
       const code = character.charCodeAt(0);
 
-      const base =
-        code >= 65 && code <= 90
-          ? 65
-          : 97;
+      const base = code >= 65 && code <= 90 ? 65 : 97;
 
-      return String.fromCharCode(
-        (
-          code -
-          base +
-          shift +
-          26
-        ) % 26 + base
-      );
+      return String.fromCharCode(((code - base + shift + 26) % 26) + base);
     })
     .join("");
 }
-
 
 /*
   Convert common substitutions before checking.
@@ -272,7 +255,6 @@ function normaliseForProfanityCheck(text) {
     .trim();
 }
 
-
 /*
   Load the blocked-language list once per page.
 */
@@ -286,53 +268,41 @@ async function initialiseClassroomLanguageFilter() {
   return profanityLoadingPromise;
 }
 
-
 async function loadClassroomLanguageFilter() {
-  const profanityFilePath =
-    getClassroomLanguageFilePath();
+  const profanityFilePath = getClassroomLanguageFilePath();
 
   setStudentTextFieldsLoading(true);
 
   try {
-    const response =
-      await fetch(profanityFilePath);
+    const response = await fetch(profanityFilePath);
 
     if (!response.ok) {
       throw new Error(
         "Could not fetch " +
-        profanityFilePath +
-        ". HTTP status: " +
-        response.status
+          profanityFilePath +
+          ". HTTP status: " +
+          response.status,
       );
     }
 
-    const encodedText =
-      await response.text();
+    const encodedText = await response.text();
 
-    const decodedText =
-      caesarCipher(encodedText, -3);
+    const decodedText = caesarCipher(encodedText, -3);
 
     profanityList = decodedText
       .split(/\r?\n/)
-      .map(function(entry) {
+      .map(function (entry) {
         const trimmedEntry = entry.trim();
 
-        const hasWildcard =
-          trimmedEntry.endsWith("*");
+        const hasWildcard = trimmedEntry.endsWith("*");
 
-        const entryWithoutWildcard =
-          hasWildcard
-            ? trimmedEntry.slice(0, -1)
-            : trimmedEntry;
+        const entryWithoutWildcard = hasWildcard
+          ? trimmedEntry.slice(0, -1)
+          : trimmedEntry;
 
-        const cleanedEntry =
-          normaliseForProfanityCheck(
-            entryWithoutWildcard
-          );
+        const cleanedEntry = normaliseForProfanityCheck(entryWithoutWildcard);
 
-        return hasWildcard
-          ? cleanedEntry + "*"
-          : cleanedEntry;
+        return hasWildcard ? cleanedEntry + "*" : cleanedEntry;
       })
       .filter(Boolean);
 
@@ -341,7 +311,7 @@ async function loadClassroomLanguageFilter() {
     console.log(
       "Classroom language filter loaded:",
       profanityList.length,
-      "blocked entries."
+      "blocked entries.",
     );
 
     /*
@@ -350,19 +320,14 @@ async function loadClassroomLanguageFilter() {
       here.
     */
     document.dispatchEvent(new Event("language-filter-ready"));
-
   } catch (error) {
     profanityReady = false;
 
-    console.error(
-      "Classroom language filter failed to load:",
-      error
-    );
+    console.error("Classroom language filter failed to load:", error);
   } finally {
     setStudentTextFieldsLoading(false);
   }
 }
-
 
 /*
   Temporarily prevent student submissions while the
@@ -372,45 +337,35 @@ async function loadClassroomLanguageFilter() {
   textarea that should not be treated as a student answer.
 */
 function setStudentTextFieldsLoading(isLoading) {
-  const fields =
-    document.querySelectorAll(
-      [
-        'input[type="text"]:not([data-language-filter="off"])',
-        'textarea:not([data-language-filter="off"])'
-      ].join(",")
-    );
+  const fields = document.querySelectorAll(
+    [
+      'input[type="text"]:not([data-language-filter="off"])',
+      'textarea:not([data-language-filter="off"])',
+    ].join(","),
+  );
 
-  fields.forEach(function(field) {
+  fields.forEach(function (field) {
     if (isLoading) {
       if (!field.disabled) {
-        field.dataset.languageFilterDisabled =
-          "true";
+        field.dataset.languageFilterDisabled = "true";
 
         field.disabled = true;
       }
 
-      field.setAttribute(
-        "aria-busy",
-        "true"
-      );
+      field.setAttribute("aria-busy", "true");
 
       return;
     }
 
-    if (
-      field.dataset.languageFilterDisabled ===
-      "true"
-    ) {
+    if (field.dataset.languageFilterDisabled === "true") {
       field.disabled = false;
 
-      delete field.dataset
-        .languageFilterDisabled;
+      delete field.dataset.languageFilterDisabled;
     }
 
     field.removeAttribute("aria-busy");
   });
 }
-
 
 /*
   Return true when student text contains a blocked word
@@ -418,26 +373,20 @@ function setStudentTextFieldsLoading(isLoading) {
 */
 function containsProfanity(text) {
   if (!profanityReady) {
-    console.warn(
-      "Profanity check attempted before the list was ready."
-    );
+    console.warn("Profanity check attempted before the list was ready.");
 
     return false;
   }
 
-  const normalisedText =
-    normaliseForProfanityCheck(text);
+  const normalisedText = normaliseForProfanityCheck(text);
 
   if (normalisedText === "") {
     return false;
   }
 
-  const words =
-    normalisedText
-      .split(/\s+/)
-      .filter(Boolean);
+  const words = normalisedText.split(/\s+/).filter(Boolean);
 
-  return profanityList.some(function(blockedEntry) {
+  return profanityList.some(function (blockedEntry) {
     /*
       A trailing * means:
       block any word beginning with this text.
@@ -446,10 +395,9 @@ function containsProfanity(text) {
       fuck* blocks fuck, fucks, fucking, fuckj, etc.
     */
     if (blockedEntry.endsWith("*")) {
-      const blockedStart =
-        blockedEntry.slice(0, -1);
+      const blockedStart = blockedEntry.slice(0, -1);
 
-      return words.some(function(word) {
+      return words.some(function (word) {
         return word.startsWith(blockedStart);
       });
     }
@@ -458,20 +406,15 @@ function containsProfanity(text) {
       Multi-word blocked phrases.
     */
     if (blockedEntry.includes(" ")) {
-      return normalisedText.includes(
-        blockedEntry
-      );
+      return normalisedText.includes(blockedEntry);
     }
 
     /*
       Ordinary exact blocked words.
     */
-    return words.includes(
-      blockedEntry
-    );
+    return words.includes(blockedEntry);
   });
 }
-
 
 /*
   Display standard feedback when an answer is blocked.
@@ -479,18 +422,15 @@ function containsProfanity(text) {
 function showBlockedLanguageFeedback(input) {
   input.value = "";
 
-  input.setCustomValidity(
-    "Please use appropriate classroom language."
-  );
+  input.setCustomValidity("Please use appropriate classroom language.");
 
   input.reportValidity();
   input.focus();
 
-  window.setTimeout(function() {
+  window.setTimeout(function () {
     input.setCustomValidity("");
   }, 2000);
 }
-
 
 /*
   Read and validate a student's text field.
@@ -508,16 +448,14 @@ function getValidStudentInput(input) {
     return null;
   }
 
-  const isTextInput =
-    input.matches('input[type="text"]');
+  const isTextInput = input.matches('input[type="text"]');
 
-  const isTextArea =
-    input.matches("textarea");
+  const isTextArea = input.matches("textarea");
 
   if (!isTextInput && !isTextArea) {
     console.warn(
       "getValidStudentInput received an unsupported element:",
-      input
+      input,
     );
 
     return null;
@@ -525,7 +463,7 @@ function getValidStudentInput(input) {
 
   if (!profanityReady) {
     console.warn(
-      "Student input was checked before the language filter finished loading."
+      "Student input was checked before the language filter finished loading.",
     );
 
     input.focus();
@@ -591,7 +529,6 @@ function getSafeStudentPreviewValue(input) {
   return value;
 }
 
-
 /*
   Automatically initialise the filter on every page that
   loads common_functions.js.
@@ -600,7 +537,7 @@ if (document.readyState === "loading") {
   document.addEventListener(
     "DOMContentLoaded",
     initialiseClassroomLanguageFilter,
-    { once: true }
+    { once: true },
   );
 } else {
   initialiseClassroomLanguageFilter();
@@ -611,15 +548,15 @@ if (document.readyState === "loading") {
    Prevent scroll changes and negative values.
    ================================================== */
 
-document.addEventListener("DOMContentLoaded", function() {
-  document.querySelectorAll(".table-number-input").forEach(function(input) {
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".table-number-input").forEach(function (input) {
     input.min = "0";
 
-    input.addEventListener("wheel", function() {
+    input.addEventListener("wheel", function () {
       input.blur();
     });
 
-    input.addEventListener("keydown", function(event) {
+    input.addEventListener("keydown", function (event) {
       if (
         event.key === "-" ||
         event.key === "ArrowUp" ||
@@ -629,7 +566,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
 
-    input.addEventListener("input", function() {
+    input.addEventListener("input", function () {
       if (input.value !== "" && Number(input.value) < 0) {
         input.value = 0;
       }
@@ -641,7 +578,7 @@ document.addEventListener("DOMContentLoaded", function() {
 STOP AND CHECK FUNCTIONS
    ================================================== */
 
-function showStopAndCheckAnswer(button, additionalFunction = function() {}) {
+function showStopAndCheckAnswer(button, additionalFunction = function () {}) {
   const stopAndCheck = button.closest(".stop-and-check");
   const answer = stopAndCheck.querySelector(".stop-and-check-answer");
   const section = button.closest(".section");
@@ -653,11 +590,13 @@ function showStopAndCheckAnswer(button, additionalFunction = function() {}) {
   additionalFunction();
 }
 
-function resetStopAndCheck(stopAndCheck, additionalFunction = function() {}) {
+function resetStopAndCheck(stopAndCheck, additionalFunction = function () {}) {
   stopAndCheck.querySelector(".stop-and-check-answer").hidden = true;
   const button = stopAndCheck.querySelector(".stop-and-check-button");
   button.hidden = false;
-  button.onclick = function() { showStopAndCheckAnswer(button, additionalFunction); }
+  button.onclick = function () {
+    showStopAndCheckAnswer(button, additionalFunction);
+  };
 
   button.innerHTML = "";
   const content = document.createElement("p");
@@ -668,7 +607,7 @@ function resetStopAndCheck(stopAndCheck, additionalFunction = function() {}) {
   bounceSymbol.classList.add("bounce-symbol");
   button.appendChild(content);
   button.appendChild(bounceSymbol);
-  
+
   stopAndCheck.hidden = true;
 }
 
@@ -682,7 +621,6 @@ let teacherNavigationFirstSectionId = "";
 let teacherClickCount = 0;
 let teacherClickTimer = null;
 
-
 /*
   Set up the hidden teacher menu for the current page.
 
@@ -691,19 +629,12 @@ let teacherClickTimer = null;
   2. The section that should remain open when the
      student view is reset.
 */
-function initialiseTeacherMenu(
-  sections,
-  firstSectionId,
-  backLink
-) {
-  const teacherTrigger =
-    document.getElementById("teacherTrigger");
+function initialiseTeacherMenu(sections, firstSectionId, backLink) {
+  const teacherTrigger = document.getElementById("teacherTrigger");
 
-  const teacherModal =
-    document.getElementById("teacherModal");
+  const teacherModal = document.getElementById("teacherModal");
 
-  const sectionList =
-    document.querySelector(".teacher-section-list");
+  const sectionList = document.querySelector(".teacher-section-list");
 
   if (!teacherTrigger || !teacherModal || !sectionList) {
     return;
@@ -712,18 +643,18 @@ function initialiseTeacherMenu(
   // Accept either the old flat array of id strings or the
   // new array of { id, label } objects, so existing pages
   // that haven't been updated yet don't break.
-  const normalisedSections = (Array.isArray(sections) ? sections : [])
-    .map(function (section) {
+  const normalisedSections = (Array.isArray(sections) ? sections : []).map(
+    function (section) {
       if (typeof section === "string") {
         return { id: section, label: section };
       }
       return section;
-    });
+    },
+  );
 
-  teacherNavigationSectionIds =
-    normalisedSections.map(function (section) {
-      return section.id;
-    });
+  teacherNavigationSectionIds = normalisedSections.map(function (section) {
+    return section.id;
+  });
 
   teacherNavigationFirstSectionId =
     firstSectionId || teacherNavigationSectionIds[0] || "";
@@ -734,7 +665,7 @@ function initialiseTeacherMenu(
   normalisedSections.forEach(function (section, index) {
     const button = document.createElement("button");
     button.type = "button";
-    button.innerHTML = (index + 1) + ". " + section.label;
+    button.innerHTML = index + 1 + ". " + section.label;
 
     button.addEventListener("click", function () {
       teacherJump(section.id);
@@ -757,57 +688,42 @@ function initialiseTeacherMenu(
     sectionList.appendChild(backButton);
   }
 
-  teacherTrigger.addEventListener(
-    "click",
-    function() {
-      teacherClickCount += 1;
+  teacherTrigger.addEventListener("click", function () {
+    teacherClickCount += 1;
+
+    clearTimeout(teacherClickTimer);
+
+    teacherClickTimer = window.setTimeout(function () {
+      teacherClickCount = 0;
+    }, 1800);
+
+    if (teacherClickCount >= 5) {
+      teacherClickCount = 0;
 
       clearTimeout(teacherClickTimer);
 
-      teacherClickTimer =
-        window.setTimeout(
-          function() {
-            teacherClickCount = 0;
-          },
-          1800
-        );
-
-      if (teacherClickCount >= 5) {
-        teacherClickCount = 0;
-
-        clearTimeout(teacherClickTimer);
-
-        openTeacherMenu();
-      }
+      openTeacherMenu();
     }
-  );
+  });
 
-  teacherModal.addEventListener(
-    "click",
-    function(event) {
-      if (event.target === teacherModal) {
-        closeTeacherMenu();
-      }
+  teacherModal.addEventListener("click", function (event) {
+    if (event.target === teacherModal) {
+      closeTeacherMenu();
     }
-  );
+  });
 
-  document.addEventListener(
-    "keydown",
-    function(event) {
-      if (event.key === "Escape") {
-        closeTeacherMenu();
-      }
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeTeacherMenu();
     }
-  );
+  });
 }
-
 
 /*
   Open the hidden teacher navigation menu.
 */
 function openTeacherMenu() {
-  const teacherModal =
-    document.getElementById("teacherModal");
+  const teacherModal = document.getElementById("teacherModal");
 
   if (teacherModal) {
     teacherModal.classList.add("open");
@@ -815,27 +731,23 @@ function openTeacherMenu() {
   }
 }
 
-
 /*
   Close the hidden teacher navigation menu.
 */
 function closeTeacherMenu() {
-  const teacherModal =
-    document.getElementById("teacherModal");
+  const teacherModal = document.getElementById("teacherModal");
 
   if (teacherModal) {
     teacherModal.classList.remove("open");
   }
 }
 
-
 /*
   Open and move to one lesson section without marking
   earlier activities as completed.
 */
 function teacherJump(sectionId) {
-  const section =
-    document.getElementById(sectionId);
+  const section = document.getElementById(sectionId);
 
   if (!section) {
     return;
@@ -846,37 +758,29 @@ function teacherJump(sectionId) {
 
   closeTeacherMenu();
 
-  window.setTimeout(
-    function() {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    },
-    100
-  );
+  window.setTimeout(function () {
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 100);
 }
-
 
 /*
   Reveal every section listed by the current lesson.
 */
 function teacherShowAll() {
-  teacherNavigationSectionIds.forEach(
-    function(sectionId) {
-      const section =
-        document.getElementById(sectionId);
+  teacherNavigationSectionIds.forEach(function (sectionId) {
+    const section = document.getElementById(sectionId);
 
-      if (section) {
-        section.classList.remove("locked");
-        section.hidden = false;
-      }
+    if (section) {
+      section.classList.remove("locked");
+      section.hidden = false;
     }
-  );
+  });
 
   closeTeacherMenu();
 }
-
 
 /*
   Return the page to its original student-navigation state.
@@ -909,28 +813,22 @@ function resetLessonPage() {
   window.location.reload();
 }
 
-
 function teacherResetView() {
-  teacherNavigationSectionIds.forEach(
-    function(sectionId) {
-      const section =
-        document.getElementById(sectionId);
+  teacherNavigationSectionIds.forEach(function (sectionId) {
+    const section = document.getElementById(sectionId);
 
-      if (!section) {
-        return;
-      }
-
-      section.classList.remove("completed");
-
-      if (
-        sectionId === teacherNavigationFirstSectionId
-      ) {
-        section.classList.remove("locked");
-      } else {
-        section.classList.add("locked");
-      }
+    if (!section) {
+      return;
     }
-  );
+
+    section.classList.remove("completed");
+
+    if (sectionId === teacherNavigationFirstSectionId) {
+      section.classList.remove("locked");
+    } else {
+      section.classList.add("locked");
+    }
+  });
 
   closeTeacherMenu();
 
@@ -939,7 +837,7 @@ function teacherResetView() {
 
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 }
 
@@ -969,7 +867,6 @@ function openVideoModal(videoSource, videoTitle) {
 
   player.load();
 }
-
 
 function closeVideoModal() {
   const modal = document.getElementById("videoModal");
@@ -1035,7 +932,6 @@ function openPdfModal(pdfSource, pdfTitle) {
   growModalFromTrigger(modal);
 }
 
-
 function closePdfModal() {
   const modal = document.getElementById("pdfModal");
   const frame = document.getElementById("pdfModalFrame");
@@ -1052,8 +948,7 @@ function closePdfModal() {
   document.body.style.overflow = "";
 }
 
-
-window.addEventListener("click", function(event) {
+window.addEventListener("click", function (event) {
   const videoModal = document.getElementById("videoModal");
   const pdfModal = document.getElementById("pdfModal");
 
@@ -1066,8 +961,7 @@ window.addEventListener("click", function(event) {
   }
 });
 
-
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") {
     closeVideoModal();
     closePdfModal();
@@ -1078,7 +972,7 @@ document.addEventListener("keydown", function(event) {
    SHARED SAVE-AS-PDF FUNCTION
    ================================================== */
 
-    /* ---------- Download completed lesson as PDF ---------- */
+/* ---------- Download completed lesson as PDF ---------- */
 
 let sectionsLockedBeforePrint = [];
 
@@ -1091,19 +985,18 @@ let sectionsLockedBeforePrint = [];
 */
 function restoreSectionsAfterPrint() {
   if (sectionsLockedBeforePrint.length === 0) {
-    document.body.classList.remove('printing-lesson');
+    document.body.classList.remove("printing-lesson");
     return;
   }
 
-  sectionsLockedBeforePrint.forEach(section => {
-    section.classList.add('locked');
+  sectionsLockedBeforePrint.forEach((section) => {
+    section.classList.add("locked");
   });
 
   sectionsLockedBeforePrint = [];
 
-  document.body.classList.remove('printing-lesson');
+  document.body.classList.remove("printing-lesson");
 }
-
 
 function downloadLessonPDF() {
   /*
@@ -1125,23 +1018,23 @@ function downloadLessonPDF() {
     they can be restored after printing.
   */
   sectionsLockedBeforePrint = Array.from(
-    document.querySelectorAll('.section.locked')
+    document.querySelectorAll(".section.locked"),
   );
 
   /*
     Temporarily show the entire lesson in the PDF.
   */
-  sectionsLockedBeforePrint.forEach(section => {
-    section.classList.remove('locked');
+  sectionsLockedBeforePrint.forEach((section) => {
+    section.classList.remove("locked");
   });
 
-  document.body.classList.add('printing-lesson');
+  document.body.classList.add("printing-lesson");
 
   /*
     Give the browser a moment to redraw the newly
     revealed sections before opening Print.
   */
-  setTimeout(function() {
+  setTimeout(function () {
     window.print();
   }, 300);
 }
@@ -1155,12 +1048,10 @@ function downloadLessonPDF() {
   cancelled - and a missed signal would leave the whole
   lesson unlocked.
 */
-window.addEventListener('afterprint', restoreSectionsAfterPrint);
+window.addEventListener("afterprint", restoreSectionsAfterPrint);
 
 const lessonPrintMedia =
-  typeof window.matchMedia === "function"
-    ? window.matchMedia('print')
-    : null;
+  typeof window.matchMedia === "function" ? window.matchMedia("print") : null;
 
 if (lessonPrintMedia) {
   const handlePrintMediaChange = function (event) {
@@ -1170,7 +1061,7 @@ if (lessonPrintMedia) {
   };
 
   if (typeof lessonPrintMedia.addEventListener === "function") {
-    lessonPrintMedia.addEventListener('change', handlePrintMediaChange);
+    lessonPrintMedia.addEventListener("change", handlePrintMediaChange);
   } else if (typeof lessonPrintMedia.addListener === "function") {
     /* Older browsers. */
     lessonPrintMedia.addListener(handlePrintMediaChange);
@@ -1181,11 +1072,7 @@ function connectEnterAndBlurSave(input, saveFunction) {
   let isSubmitting = false;
 
   function saveInput() {
-    if (
-      isSubmitting ||
-      !input.isConnected ||
-      input.value.trim() === ""
-    ) {
+    if (isSubmitting || !input.isConnected || input.value.trim() === "") {
       return;
     }
 
@@ -1197,7 +1084,7 @@ function connectEnterAndBlurSave(input, saveFunction) {
     }
   }
 
-  input.addEventListener("keydown", function(event) {
+  input.addEventListener("keydown", function (event) {
     if (event.key !== "Enter") {
       return;
     }
@@ -1221,19 +1108,18 @@ function connectEnterAndBlurSave(input, saveFunction) {
   - null when empty or blocked.
 */
 
-
 /*
   Read the visible text from an answer that may also
   contain a delete button (see createDeleteAnswerButton).
 */
 function getAnswerText(element) {
   if (!element) {
-    return '';
+    return "";
   }
 
   const clone = element.cloneNode(true);
 
-  clone.querySelectorAll('button').forEach(button => {
+  clone.querySelectorAll("button").forEach((button) => {
     button.remove();
   });
 
@@ -1244,26 +1130,16 @@ function getAnswerText(element) {
   Create the standard orange × button used beside
   submitted student answers.
 */
-function createDeleteAnswerButton(
-  ariaLabel,
-  deleteFunction
-) {
-  const deleteButton =
-    document.createElement("button");
+function createDeleteAnswerButton(ariaLabel, deleteFunction) {
+  const deleteButton = document.createElement("button");
 
   deleteButton.type = "button";
   deleteButton.className = "delete-answer";
   deleteButton.textContent = "×";
 
-  deleteButton.setAttribute(
-    "aria-label",
-    ariaLabel
-  );
+  deleteButton.setAttribute("aria-label", ariaLabel);
 
-  deleteButton.addEventListener(
-    "click",
-    deleteFunction
-  );
+  deleteButton.addEventListener("click", deleteFunction);
 
   return deleteButton;
 }
@@ -1272,55 +1148,36 @@ function createDeleteAnswerButton(
   Apply a standard success or try-again message
   to an activity feedback box.
 */
-function setActivityFeedback(
-  feedbackElement,
-  feedbackType,
-  title,
-  message
-) {
+function setActivityFeedback(feedbackElement, feedbackType, title, message) {
   if (!feedbackElement) {
     return;
   }
 
-  feedbackElement.className =
-    "variable-feedback";
+  feedbackElement.className = "variable-feedback";
 
   if (feedbackType === "success") {
-    feedbackElement.classList.add(
-      "feedback-success"
-    );
+    feedbackElement.classList.add("feedback-success");
   }
 
   if (feedbackType === "try-again") {
-    feedbackElement.classList.add(
-      "feedback-try-again"
-    );
+    feedbackElement.classList.add("feedback-try-again");
   }
 
   feedbackElement.innerHTML = "";
 
-  const titleElement =
-    document.createElement("strong");
+  const titleElement = document.createElement("strong");
 
-  titleElement.className =
-    "ball-pair-feedback-title";
+  titleElement.className = "ball-pair-feedback-title";
 
   titleElement.textContent = title;
 
-  const messageElement =
-    document.createElement("span");
+  const messageElement = document.createElement("span");
 
-  messageElement.className =
-    "ball-pair-feedback-text";
+  messageElement.className = "ball-pair-feedback-text";
 
   messageElement.innerHTML = message;
 
-  feedbackElement.appendChild(
-    titleElement
-  );
+  feedbackElement.appendChild(titleElement);
 
-  feedbackElement.appendChild(
-    messageElement
-  );
+  feedbackElement.appendChild(messageElement);
 }
-

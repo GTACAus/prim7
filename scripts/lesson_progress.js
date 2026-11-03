@@ -50,7 +50,7 @@ import { Activity } from "./activities/activity-base.js";
     ".modal",
     ".teacher-modal",
     ".yeast-mobile-modal",
-    "[data-progress-reset]"
+    "[data-progress-reset]",
   ].join(", ");
 
   let elements = [];
@@ -113,7 +113,7 @@ import { Activity } from "./activities/activity-base.js";
 
   function describe(element) {
     const entry = {
-      h: element.hidden ? 1 : 0
+      h: element.hidden ? 1 : 0,
     };
 
     const className = readClassName(element);
@@ -183,11 +183,13 @@ import { Activity } from "./activities/activity-base.js";
     instead, keyed by the activity's id.
   */
   function dragDropActivities() {
-    return Activity.all().filter(function (activity) {
-      return typeof activity.getPlacements === "function";
-    }).filter(function (activity) {
-      return activity.root.id && activity.root.isConnected;
-    });
+    return Activity.all()
+      .filter(function (activity) {
+        return typeof activity.getPlacements === "function";
+      })
+      .filter(function (activity) {
+        return activity.root.id && activity.root.isConnected;
+      });
   }
 
   function collectDragDrop() {
@@ -207,11 +209,13 @@ import { Activity } from "./activities/activity-base.js";
     page. Its elements are skipped by the generic save.
   */
   function inputActivities() {
-    return Activity.all().filter(function (activity) {
-      return typeof activity.getAnswers === "function";
-    }).filter(function (activity) {
-      return activity.root.id && activity.root.isConnected;
-    });
+    return Activity.all()
+      .filter(function (activity) {
+        return typeof activity.getAnswers === "function";
+      })
+      .filter(function (activity) {
+        return activity.root.id && activity.root.isConnected;
+      });
   }
 
   function collectInputResponses() {
@@ -288,7 +292,7 @@ import { Activity } from "./activities/activity-base.js";
         load is kept as a simple fingerprint.
       */
       count: elements.length,
-      changes: changes
+      changes: changes,
     };
 
     try {
@@ -451,7 +455,6 @@ import { Activity } from "./activities/activity-base.js";
 
     applyAll();
 
-
     /*
       Replaying is done last, once every value is back in
       place: an average can only be worked out after the
@@ -495,9 +498,7 @@ import { Activity } from "./activities/activity-base.js";
   }
 
   function start() {
-    elements = Array.prototype.slice.call(
-      document.querySelectorAll("body *")
-    );
+    elements = Array.prototype.slice.call(document.querySelectorAll("body *"));
 
     elements.forEach(function (element, index) {
       element.setAttribute(TAG, String(index));
@@ -552,4 +553,4 @@ import { Activity } from "./activities/activity-base.js";
   window.clearLessonProgress = function () {
     clearProgress();
   };
-}());
+})();

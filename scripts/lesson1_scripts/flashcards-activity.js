@@ -64,7 +64,7 @@ var DEFAULT_QUESTIONS = [
   { text: "Do heavier objects fall faster?", answer: "left" },
   { text: "What is the best sport?", answer: "right" },
   { text: "Does salt change the boiling point of water?", answer: "left" },
-  { text: "Are cats smarter than dogs?", answer: "right" }
+  { text: "Are cats smarter than dogs?", answer: "right" },
 ];
 
 function shuffle(list) {
@@ -89,24 +89,29 @@ function FlashcardsActivity(root, options) {
   this.sortButtons = root.querySelectorAll("[data-flashcard-sort]");
   this.piles = {
     left: root.querySelector('[data-flashcard-pile="left"]'),
-    right: root.querySelector('[data-flashcard-pile="right"]')
+    right: root.querySelector('[data-flashcard-pile="right"]'),
   };
   this.counts = {
     left: root.querySelector('[data-flashcard-count="left"]'),
-    right: root.querySelector('[data-flashcard-count="right"]')
+    right: root.querySelector('[data-flashcard-count="right"]'),
   };
 
   if (this.options.labels) {
     var self = this;
     ["left", "right"].forEach(function (side) {
-      var label = root.querySelector('[data-flashcard-pile-label="' + side + '"]');
-      if (label && self.options.labels[side]) label.textContent = self.options.labels[side];
+      var label = root.querySelector(
+        '[data-flashcard-pile-label="' + side + '"]',
+      );
+      if (label && self.options.labels[side])
+        label.textContent = self.options.labels[side];
     });
   }
 
   var self = this;
   Array.prototype.forEach.call(this.sortButtons, function (button) {
-    button.addEventListener("click", function () { self._sort(button.dataset.flashcardSort); });
+    button.addEventListener("click", function () {
+      self._sort(button.dataset.flashcardSort);
+    });
   });
 
   this._startDeck();
@@ -135,7 +140,9 @@ FlashcardsActivity.prototype._startDeck = function () {
   if (this.counts.left) this.counts.left.textContent = "0";
   if (this.counts.right) this.counts.right.textContent = "0";
 
-  Array.prototype.forEach.call(this.sortButtons, function (button) { button.disabled = false; });
+  Array.prototype.forEach.call(this.sortButtons, function (button) {
+    button.disabled = false;
+  });
   if (this.done) this.done.classList.remove("visible");
 
   var resetTrigger = this.root.querySelector("[data-reset-trigger]");
@@ -143,7 +150,12 @@ FlashcardsActivity.prototype._startDeck = function () {
 
   if (this.card) {
     this.card.style.opacity = "1";
-    this.card.classList.remove("hidden", "card-fly-left", "card-fly-right", "card-fly-up");
+    this.card.classList.remove(
+      "hidden",
+      "card-fly-left",
+      "card-fly-right",
+      "card-fly-up",
+    );
   }
 
   this.setComplete(false);
@@ -155,15 +167,23 @@ FlashcardsActivity.prototype._showCard = function () {
 
   if (this.index < this.deck.length) {
     this.card.textContent = this.deck[this.index].text;
-    this.card.classList.remove("hidden", "card-fly-left", "card-fly-right", "card-fly-up");
-    if (this.progress) this.progress.textContent = (this.index + 1) + " of " + this.deck.length;
+    this.card.classList.remove(
+      "hidden",
+      "card-fly-left",
+      "card-fly-right",
+      "card-fly-up",
+    );
+    if (this.progress)
+      this.progress.textContent = this.index + 1 + " of " + this.deck.length;
     return;
   }
 
   this.card.classList.add("hidden");
   if (this.done) this.done.classList.add("visible");
   if (this.progress) this.progress.textContent = "All sorted!";
-  Array.prototype.forEach.call(this.sortButtons, function (button) { button.disabled = true; });
+  Array.prototype.forEach.call(this.sortButtons, function (button) {
+    button.disabled = true;
+  });
 
   this.setComplete(true);
 };
@@ -183,7 +203,9 @@ FlashcardsActivity.prototype._sort = function (direction) {
   }
 
   if (isCorrect) {
-    this.card.classList.add(direction === "left" ? "card-fly-left" : "card-fly-right");
+    this.card.classList.add(
+      direction === "left" ? "card-fly-left" : "card-fly-right",
+    );
     window.setTimeout(function () {
       self._addToPile(direction, self.deck[self.index].text);
       self.index++;
@@ -216,6 +238,5 @@ FlashcardsActivity.prototype._addToPile = function (direction, text) {
   var count = this.counts[direction];
   if (count) count.textContent = this.counted[direction];
 };
-
 
 export { FlashcardsActivity };

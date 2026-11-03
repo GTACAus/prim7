@@ -141,7 +141,9 @@ ItemMatchActivity.prototype.getState = function () {
     total: this.rounds.length,
     currentId: this.rounds[this.index] ? this.rounds[this.index].id : null,
     complete: this.isComplete(),
-    roundIds: this.rounds.map(function (item) { return item.id; })
+    roundIds: this.rounds.map(function (item) {
+      return item.id;
+    }),
   };
 };
 
@@ -165,11 +167,15 @@ ItemMatchActivity.prototype.restore = function (state) {
   state = state || {};
   var self = this;
   var savedIds = Array.isArray(state.rounds) ? state.rounds : null;
-  var resolved = savedIds && savedIds.length === this.sequenceLength
-    ? savedIds.map(function (id) { return self._roundById(id); })
-    : null;
+  var resolved =
+    savedIds && savedIds.length === this.sequenceLength
+      ? savedIds.map(function (id) {
+          return self._roundById(id);
+        })
+      : null;
 
-  this.rounds = resolved && resolved.every(Boolean) ? resolved : this._pickRounds();
+  this.rounds =
+    resolved && resolved.every(Boolean) ? resolved : this._pickRounds();
   if (this.mode === "sets") this._shuffleCurrentOptions();
   this.index = Math.min(Math.max(state.index || 0, 0), this.rounds.length);
   this.completed = this.isComplete();
@@ -207,14 +213,18 @@ ItemMatchActivity.prototype._roundById = function (id) {
 ItemMatchActivity.prototype._isCorrectAnswer = function (round, itemId) {
   if (this.mode === "legacy") return round.id === itemId;
 
-  var matched = round.options.filter(function (option) { return option.id === itemId; })[0];
+  var matched = round.options.filter(function (option) {
+    return option.id === itemId;
+  })[0];
   return Boolean(matched && matched.correct);
 };
 
 ItemMatchActivity.prototype._changed = function () {
   var state = this.getState();
   if (typeof this.options.onChange === "function") this.options.onChange(state);
-  this.root.dispatchEvent(new CustomEvent("im:change", { detail: { state: state }, bubbles: true }));
+  this.root.dispatchEvent(
+    new CustomEvent("im:change", { detail: { state: state }, bubbles: true }),
+  );
   this.setComplete(this.isComplete());
 };
 
@@ -242,11 +252,15 @@ ItemMatchActivity.prototype._initLegacyMode = function () {
   this.placeholderText = this.root.querySelector("[data-im-placeholder-text]");
   this.roundLabel = this.root.querySelector("[data-im-round-label]");
   this.itemLabel = this.root.querySelector("[data-im-item-label]");
-  this.buttons = Array.prototype.slice.call(this.root.querySelectorAll("[data-im-option]"));
+  this.buttons = Array.prototype.slice.call(
+    this.root.querySelectorAll("[data-im-option]"),
+  );
 
   var self = this;
   this.buttons.forEach(function (button) {
-    button.addEventListener("click", function () { self._onLegacyOptionClick(button); });
+    button.addEventListener("click", function () {
+      self._onLegacyOptionClick(button);
+    });
   });
 
   /* Picks an initial round order and renders it, but doesn't fire onChange: the
@@ -275,13 +289,18 @@ ItemMatchActivity.prototype._onLegacyOptionClick = function (button) {
   if (this.check(button.dataset.imValue)) {
     button.classList.remove("incorrect");
     button.classList.add("correct");
-    window.setTimeout(function () { button.classList.remove("correct"); }, ADVANCE_DELAY);
+    window.setTimeout(function () {
+      button.classList.remove("correct");
+    }, ADVANCE_DELAY);
   } else {
     button.classList.remove("incorrect");
     void button.offsetWidth; /* restarts the shake animation on repeated wrong clicks */
     button.classList.add("incorrect");
-    window.setTimeout(function () { button.classList.remove("incorrect"); }, INCORRECT_FLASH);
-    if (typeof this.options.onIncorrect === "function") this.options.onIncorrect(button.dataset.imValue);
+    window.setTimeout(function () {
+      button.classList.remove("incorrect");
+    }, INCORRECT_FLASH);
+    if (typeof this.options.onIncorrect === "function")
+      this.options.onIncorrect(button.dataset.imValue);
   }
 };
 
@@ -294,12 +313,18 @@ ItemMatchActivity.prototype._renderLegacy = function () {
   });
 
   if (complete) {
-    if (this.roundLabel) this.roundLabel.textContent = this.rounds.length + " of " + this.rounds.length + " · complete";
-    if (this.itemLabel) this.itemLabel.textContent = this.options.completeLabel || "All matched";
+    if (this.roundLabel)
+      this.roundLabel.textContent =
+        this.rounds.length + " of " + this.rounds.length + " · complete";
+    if (this.itemLabel)
+      this.itemLabel.textContent = this.options.completeLabel || "All matched";
     setHidden(this.referenceImage, true);
     if (this.placeholder) {
       setHidden(this.placeholder, false);
-      if (this.placeholderText) this.placeholderText.textContent = this.options.completeMessage || "All items matched. Press CHECK to continue.";
+      if (this.placeholderText)
+        this.placeholderText.textContent =
+          this.options.completeMessage ||
+          "All items matched. Press CHECK to continue.";
     }
     return;
   }
@@ -307,10 +332,15 @@ ItemMatchActivity.prototype._renderLegacy = function () {
   var round = this.rounds[this.index];
   var label = round.label || round.id;
 
-  if (this.roundLabel) this.roundLabel.textContent = (this.index + 1) + " of " + this.rounds.length;
+  if (this.roundLabel)
+    this.roundLabel.textContent = this.index + 1 + " of " + this.rounds.length;
   if (this.itemLabel) this.itemLabel.textContent = label;
 
-  var src = round.image || (typeof this.options.getImageSrc === "function" ? this.options.getImageSrc(round) : null);
+  var src =
+    round.image ||
+    (typeof this.options.getImageSrc === "function"
+      ? this.options.getImageSrc(round)
+      : null);
 
   if (!this.referenceImage) return;
 
@@ -335,7 +365,9 @@ ItemMatchActivity.prototype._renderLegacy = function () {
     setHidden(img, true);
     if (placeholder) {
       setHidden(placeholder, false);
-      if (placeholderText) placeholderText.textContent = "Unable to load image of " + label.toLowerCase();
+      if (placeholderText)
+        placeholderText.textContent =
+          "Unable to load image of " + label.toLowerCase();
     }
   };
   img.src = src;
@@ -351,7 +383,9 @@ ItemMatchActivity.prototype._initSetsMode = function () {
   this.sequenceLength = this._allRounds.length;
 
   this.diagram = this.root.querySelector("[data-im-diagram]");
-  this.diagramPlaceholder = this.root.querySelector("[data-im-diagram-placeholder]");
+  this.diagramPlaceholder = this.root.querySelector(
+    "[data-im-diagram-placeholder]",
+  );
   this.roundLabel = this.root.querySelector("[data-im-round-label]");
   this.itemLabel = this.root.querySelector("[data-im-item-label]");
   this.promptContent = this.root.querySelector("[data-im-prompt-content]");
@@ -375,7 +409,9 @@ ItemMatchActivity.prototype._initSetsMode = function () {
    same round never reshuffles the choices the student is looking at. */
 ItemMatchActivity.prototype._shuffleCurrentOptions = function () {
   this.rounds.forEach(function (round) {
-    round._options = this.options.shuffleOptions ? shuffle(round.options) : round.options.slice();
+    round._options = this.options.shuffleOptions
+      ? shuffle(round.options)
+      : round.options.slice();
   }, this);
 };
 
@@ -389,18 +425,25 @@ ItemMatchActivity.prototype._onSetsOptionClick = function (button) {
     /* The options row is rebuilt for the next round as soon as check()
        advances, so hold that back briefly - otherwise the "correct"
        flash never gets a chance to show. */
-    Array.prototype.slice.call(this.optionsContainer.querySelectorAll("[data-im-option]")).forEach(function (other) {
-      other.disabled = true;
-    });
+    Array.prototype.slice
+      .call(this.optionsContainer.querySelectorAll("[data-im-option]"))
+      .forEach(function (other) {
+        other.disabled = true;
+      });
     button.classList.remove("incorrect");
     button.classList.add("correct");
-    window.setTimeout(function () { self.check(itemId); }, ADVANCE_DELAY);
+    window.setTimeout(function () {
+      self.check(itemId);
+    }, ADVANCE_DELAY);
   } else {
     button.classList.remove("incorrect");
     void button.offsetWidth; /* restarts the shake animation on repeated wrong clicks */
     button.classList.add("incorrect");
-    window.setTimeout(function () { button.classList.remove("incorrect"); }, INCORRECT_FLASH);
-    if (typeof this.options.onIncorrect === "function") this.options.onIncorrect(itemId);
+    window.setTimeout(function () {
+      button.classList.remove("incorrect");
+    }, INCORRECT_FLASH);
+    if (typeof this.options.onIncorrect === "function")
+      this.options.onIncorrect(itemId);
   }
 };
 
@@ -408,10 +451,13 @@ ItemMatchActivity.prototype._renderSets = function () {
   this._renderDiagram();
 
   var complete = this.isComplete();
-  
+
   if (complete) {
-    if (this.roundLabel) this.roundLabel.textContent = this.rounds.length + " of " + this.rounds.length + " · complete";
-    if (this.itemLabel) this.itemLabel.textContent = this.options.completeLabel || "All matched";
+    if (this.roundLabel)
+      this.roundLabel.textContent =
+        this.rounds.length + " of " + this.rounds.length + " · complete";
+    if (this.itemLabel)
+      this.itemLabel.textContent = this.options.completeLabel || "All matched";
     if (this.promptContent) this.promptContent.innerHTML = "";
     if (this.optionsContainer) this.optionsContainer.innerHTML = "";
     return;
@@ -420,7 +466,8 @@ ItemMatchActivity.prototype._renderSets = function () {
   var round = this.rounds[this.index];
   var label = round.label || round.id;
 
-  if (this.roundLabel) this.roundLabel.textContent = (this.index + 1) + " of " + this.rounds.length;
+  if (this.roundLabel)
+    this.roundLabel.textContent = this.index + 1 + " of " + this.rounds.length;
   if (this.itemLabel) this.itemLabel.textContent = label;
   if (this.promptContent) this.promptContent.innerHTML = round.promptHtml || "";
 
@@ -453,9 +500,11 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 ItemMatchActivity.prototype._renderDiagram = function () {
   if (!this.diagram) return;
 
-  Array.prototype.slice.call(this.diagram.querySelectorAll(".im-diagram-piece")).forEach(function (piece) {
-    piece.remove();
-  });
+  Array.prototype.slice
+    .call(this.diagram.querySelectorAll(".im-diagram-piece"))
+    .forEach(function (piece) {
+      piece.remove();
+    });
 
   var solved = this.rounds.slice(0, this.index);
   setHidden(this.diagramPlaceholder, solved.length > 0);
@@ -463,8 +512,11 @@ ItemMatchActivity.prototype._renderDiagram = function () {
   var isSvgDiagram = this.diagram.namespaceURI === SVG_NS;
 
   solved.forEach(function (round) {
-    var correctOption = round.options.filter(function (option) { return option.correct; })[0];
-    var markup = round.diagramHtml || (correctOption && correctOption.html) || "";
+    var correctOption = round.options.filter(function (option) {
+      return option.correct;
+    })[0];
+    var markup =
+      round.diagramHtml || (correctOption && correctOption.html) || "";
     if (!markup) return;
 
     var piece = isSvgDiagram
@@ -475,8 +527,15 @@ ItemMatchActivity.prototype._renderDiagram = function () {
     piece.dataset.imDiagramFor = round.id;
 
     if (isSvgDiagram) {
-      var transform = round.diagramTransform
-        || (round.diagramPosition ? "translate(" + round.diagramPosition.x + "," + round.diagramPosition.y + ")" : null);
+      var transform =
+        round.diagramTransform ||
+        (round.diagramPosition
+          ? "translate(" +
+            round.diagramPosition.x +
+            "," +
+            round.diagramPosition.y +
+            ")"
+          : null);
       if (transform) piece.setAttribute("transform", transform);
     }
 
@@ -488,6 +547,5 @@ ItemMatchActivity.prototype._renderDiagram = function () {
     this.diagram.appendChild(piece);
   }, this);
 };
-
 
 export { ItemMatchActivity };

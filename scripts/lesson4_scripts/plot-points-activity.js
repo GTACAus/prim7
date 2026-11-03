@@ -67,14 +67,17 @@ function PlotPointsActivity(root, options) {
   this.point = root.querySelector("#" + idPrefix + "IntersectionPoint");
   this.outlines = root.querySelector("#" + idPrefix + "OutlinesLayer");
 
-  this.stage = "waiting";   /* waiting -> category -> y -> intersection -> animating -> complete */
+  this.stage =
+    "waiting"; /* waiting -> category -> y -> intersection -> animating -> complete */
   this.built = new Set();
   this.selectedIndex = null;
   this.selectedY = null;
 
   function onActivate(selector, handler) {
     root.querySelectorAll(selector).forEach(function (group) {
-      function activate() { handler(group); }
+      function activate() {
+        handler(group);
+      }
       group.addEventListener("click", activate);
       group.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
@@ -85,18 +88,36 @@ function PlotPointsActivity(root, options) {
     });
   }
 
-  onActivate("." + prefix + "-x-choice", function (group) { self._chooseCategory(Number(group.dataset[prefix + "XIndex"])); });
-  onActivate("." + prefix + "-y-choice", function (group) { self._chooseY(Number(group.dataset[prefix + "YValue"])); });
-  this.svg.addEventListener("click", function (event) { self._handleIntersection(event); });
+  onActivate("." + prefix + "-x-choice", function (group) {
+    self._chooseCategory(Number(group.dataset[prefix + "XIndex"]));
+  });
+  onActivate("." + prefix + "-y-choice", function (group) {
+    self._chooseY(Number(group.dataset[prefix + "YValue"]));
+  });
+  this.svg.addEventListener("click", function (event) {
+    self._handleIntersection(event);
+  });
 
   /* Open for business once the named activity is complete. */
   var enabledBy = root.dataset.plotEnabledBy;
   function recheck() {
-    var gate = enabledBy && Activity.all().filter(function (activity) { return activity.id === enabledBy; })[0];
-    if (self.stage === "waiting" && (!enabledBy || (gate && gate.isComplete()))) {
+    var gate =
+      enabledBy &&
+      Activity.all().filter(function (activity) {
+        return activity.id === enabledBy;
+      })[0];
+    if (
+      self.stage === "waiting" &&
+      (!enabledBy || (gate && gate.isComplete()))
+    ) {
       self.stage = "category";
       self._setPrompt(null);
-    } else if (self.stage === "category" && self.built.size === 0 && gate && !gate.isComplete()) {
+    } else if (
+      self.stage === "category" &&
+      self.built.size === 0 &&
+      gate &&
+      !gate.isComplete()
+    ) {
       self.stage = "waiting";
     }
   }
@@ -125,8 +146,14 @@ PlotPointsActivity.prototype.reset = function () {
     bar.setAttribute("height", 0);
     bar.classList.remove("visible");
   }, this);
-  root.querySelectorAll("." + prefix + "-x-choice").forEach(function (group) { group.classList.remove("active", "complete"); });
-  root.querySelectorAll("[data-" + prefix + "-value-label]").forEach(function (label) { label.classList.remove("visible"); });
+  root.querySelectorAll("." + prefix + "-x-choice").forEach(function (group) {
+    group.classList.remove("active", "complete");
+  });
+  root
+    .querySelectorAll("[data-" + prefix + "-value-label]")
+    .forEach(function (label) {
+      label.classList.remove("visible");
+    });
 
   this.built = new Set();
   this.selectedIndex = null;
@@ -150,9 +177,14 @@ PlotPointsActivity.prototype._setPrompt = function (title, text) {
 PlotPointsActivity.prototype._setActive = function (axis, value) {
   var prefix = this.prefix;
   var key = axis === "x" ? prefix + "XIndex" : prefix + "YValue";
-  this.root.querySelectorAll("." + prefix + "-" + axis + "-choice").forEach(function (group) {
-    group.classList.toggle("active", value !== null && Number(group.dataset[key]) === value);
-  });
+  this.root
+    .querySelectorAll("." + prefix + "-" + axis + "-choice")
+    .forEach(function (group) {
+      group.classList.toggle(
+        "active",
+        value !== null && Number(group.dataset[key]) === value,
+      );
+    });
 };
 
 PlotPointsActivity.prototype._clearGuides = function () {
@@ -165,7 +197,11 @@ PlotPointsActivity.prototype._chooseCategory = function (index) {
   if (this.stage !== "category") return;
 
   if (this.built.has(index)) {
-    this._feedback("try-again", "That bar is already complete.", " Choose one of the remaining animal categories.");
+    this._feedback(
+      "try-again",
+      "That bar is already complete.",
+      " Choose one of the remaining animal categories.",
+    );
     return;
   }
 
@@ -182,8 +218,15 @@ PlotPointsActivity.prototype._chooseCategory = function (index) {
   this.point.classList.remove("visible", "wrong");
 
   this.stage = "y";
-  this._setPrompt(this.items[index].label + " selected.", "Now click the y-axis value that represents this animal's average count.");
-  this._feedback("", "Follow the category upwards.", " The vertical dotted line keeps going through the plotting area so you can line it up with a y-value.");
+  this._setPrompt(
+    this.items[index].label + " selected.",
+    "Now click the y-axis value that represents this animal's average count.",
+  );
+  this._feedback(
+    "",
+    "Follow the category upwards.",
+    " The vertical dotted line keeps going through the plotting area so you can line it up with a y-value.",
+  );
 };
 
 PlotPointsActivity.prototype._chooseY = function (value) {
@@ -193,10 +236,14 @@ PlotPointsActivity.prototype._chooseY = function (value) {
   /* A wrong value never creates the horizontal guide, so the next task is
      always locating the intersection of the correct x and y. */
   if (Math.abs(value - this.targets[this.selectedIndex]) > 0.001) {
-    var wrongChoice = this.root.querySelector("[data-" + this.prefix + "-y-value='" + value + "']");
+    var wrongChoice = this.root.querySelector(
+      "[data-" + this.prefix + "-y-value='" + value + "']",
+    );
     if (wrongChoice) {
       wrongChoice.classList.add("try-again");
-      window.setTimeout(function () { wrongChoice.classList.remove("try-again"); }, 550);
+      window.setTimeout(function () {
+        wrongChoice.classList.remove("try-again");
+      }, 550);
     }
 
     this._setActive("y", null);
@@ -205,8 +252,13 @@ PlotPointsActivity.prototype._chooseY = function (value) {
     this.selectedY = null;
     this.stage = "y";
 
-    this._feedback("try-again", "Check the average in the table.",
-      " That y-axis value does not match the average for " + this.items[this.selectedIndex].label + ". Check the table and try again.");
+    this._feedback(
+      "try-again",
+      "Check the average in the table.",
+      " That y-axis value does not match the average for " +
+        this.items[this.selectedIndex].label +
+        ". Check the table and try again.",
+    );
     return;
   }
 
@@ -220,8 +272,15 @@ PlotPointsActivity.prototype._chooseY = function (value) {
   this.point.classList.remove("visible", "wrong");
 
   this.stage = "intersection";
-  this._setPrompt("Where do the two dotted lines meet?", "Click the intersection to mark the data point before the bar is drawn.");
-  this._feedback("success", "Correct y-value.", " Now use the vertical and horizontal guides together and mark where they intersect.");
+  this._setPrompt(
+    "Where do the two dotted lines meet?",
+    "Click the intersection to mark the data point before the bar is drawn.",
+  );
+  this._feedback(
+    "success",
+    "Correct y-value.",
+    " Now use the vertical and horizontal guides together and mark where they intersect.",
+  );
 };
 
 PlotPointsActivity.prototype._svgPoint = function (event) {
@@ -233,8 +292,19 @@ PlotPointsActivity.prototype._svgPoint = function (event) {
 };
 
 PlotPointsActivity.prototype._handleIntersection = function (event) {
-  if (this.stage !== "intersection" || this.selectedIndex === null || this.selectedY === null) return;
-  if (event.target.closest && event.target.closest("." + this.prefix + "-x-choice, ." + this.prefix + "-y-choice")) return;
+  if (
+    this.stage !== "intersection" ||
+    this.selectedIndex === null ||
+    this.selectedY === null
+  )
+    return;
+  if (
+    event.target.closest &&
+    event.target.closest(
+      "." + this.prefix + "-x-choice, ." + this.prefix + "-y-choice",
+    )
+  )
+    return;
 
   var point = this._svgPoint(event);
   if (!point) return;
@@ -243,7 +313,11 @@ PlotPointsActivity.prototype._handleIntersection = function (event) {
   var targetY = this.graph.y(this.selectedY);
 
   if (Math.hypot(point.x - targetX, point.y - targetY) > MOVE_TOLERANCE) {
-    this._feedback("try-again", "Find the crossing point.", " Place the point where the vertical and horizontal dotted guides intersect.");
+    this._feedback(
+      "try-again",
+      "Find the crossing point.",
+      " Place the point where the vertical and horizontal dotted guides intersect.",
+    );
     return;
   }
 
@@ -254,19 +328,27 @@ PlotPointsActivity.prototype._handleIntersection = function (event) {
 
   this.stage = "animating";
   var value = this.targets[this.selectedIndex];
-  this._feedback("success", "Correct data point.", Math.abs(value) < 0.001
-    ? " This value is 0, so its bar has zero height and stays on the baseline. Watch how the graph records it."
-    : " Watch how that point becomes the top of a bar that starts at zero.");
+  this._feedback(
+    "success",
+    "Correct data point.",
+    Math.abs(value) < 0.001
+      ? " This value is 0, so its bar has zero height and stays on the baseline. Watch how the graph records it."
+      : " Watch how that point becomes the top of a bar that starts at zero.",
+  );
   this._animateBar(this.selectedIndex, value);
 };
 
 PlotPointsActivity.prototype._finishCategory = function (index, isZero) {
   var prefix = this.prefix;
-  var valueLabel = this.root.querySelector("[data-" + prefix + "-value-label='" + index + "']");
+  var valueLabel = this.root.querySelector(
+    "[data-" + prefix + "-value-label='" + index + "']",
+  );
   if (valueLabel) valueLabel.classList.add("visible");
 
   this.built.add(index);
-  var category = this.root.querySelector("[data-" + prefix + "-x-index='" + index + "']");
+  var category = this.root.querySelector(
+    "[data-" + prefix + "-x-index='" + index + "']",
+  );
   if (category) {
     category.classList.remove("active");
     category.classList.add("complete");
@@ -280,15 +362,24 @@ PlotPointsActivity.prototype._finishCategory = function (index, isZero) {
   if (this.built.size === this.items.length) {
     this.stage = "complete";
     this.setComplete(true);
-    this.root.dispatchEvent(new CustomEvent("plot:complete", { bubbles: true }));
+    this.root.dispatchEvent(
+      new CustomEvent("plot:complete", { bubbles: true }),
+    );
     return;
   }
 
   this.stage = "category";
-  this._setPrompt(isZero ? "Zero-height bar complete." : "Bar complete.", "Choose another animal category on the x-axis.");
-  this._feedback("success", this.items[index].label + " is complete.", isZero
-    ? " Its average is 0, so there is no coloured bar above the baseline. The 0 label records the result. Choose another category."
-    : " Its value is shown above the bar. Notice that the bar begins at zero and its top reaches the plotted point. Choose another category.");
+  this._setPrompt(
+    isZero ? "Zero-height bar complete." : "Bar complete.",
+    "Choose another animal category on the x-axis.",
+  );
+  this._feedback(
+    "success",
+    this.items[index].label + " is complete.",
+    isZero
+      ? " Its average is 0, so there is no coloured bar above the baseline. The 0 label records the result. Choose another category."
+      : " Its value is shown above the bar. Notice that the bar begins at zero and its top reaches the plotted point. Choose another category.",
+  );
 };
 
 PlotPointsActivity.prototype._animateBar = function (index, value) {
@@ -299,13 +390,23 @@ PlotPointsActivity.prototype._animateBar = function (index, value) {
   var right = centre + this.plot.barWidth / 2;
   var bottom = this.plot.bottom;
   var outlines = this.outlines;
-  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduceMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var isZero = Math.abs(value) < 0.001;
   var prefix = this.prefix;
-  var bar = this.root.querySelector("[data-" + prefix + "-bar='" + index + "']");
+  var bar = this.root.querySelector(
+    "[data-" + prefix + "-bar='" + index + "']",
+  );
 
   function drawLine(x1, y1, x2, y2, seconds) {
-    var line = svgEl("line", { "class": prefix + "-bar-outline", x1: x1, y1: y1, x2: x2, y2: y2 });
+    var line = svgEl("line", {
+      class: prefix + "-bar-outline",
+      x1: x1,
+      y1: y1,
+      x2: x2,
+      y2: y2,
+    });
     outlines.appendChild(line);
 
     var length = Math.hypot(x2 - x1, y2 - y1);
@@ -313,7 +414,9 @@ PlotPointsActivity.prototype._animateBar = function (index, value) {
     line.style.strokeDashoffset = String(length);
 
     requestAnimationFrame(function () {
-      line.style.transition = reduceMotion ? "none" : "stroke-dashoffset " + seconds + "s ease";
+      line.style.transition = reduceMotion
+        ? "none"
+        : "stroke-dashoffset " + seconds + "s ease";
       line.style.strokeDashoffset = "0";
     });
   }
@@ -321,7 +424,13 @@ PlotPointsActivity.prototype._animateBar = function (index, value) {
   /* Zero is still data: a zero-height bar isn't faked as a positive one.
      Briefly draw a line along the baseline, reveal the 0 label, leave no area. */
   if (isZero) {
-    var zeroMarker = svgEl("line", { "class": prefix + "-zero-bar-marker", x1: left, x2: right, y1: bottom, y2: bottom });
+    var zeroMarker = svgEl("line", {
+      class: prefix + "-zero-bar-marker",
+      x1: left,
+      x2: right,
+      y1: bottom,
+      y2: bottom,
+    });
     var width = right - left;
     zeroMarker.style.strokeDasharray = String(width);
     zeroMarker.style.strokeDashoffset = String(width);
@@ -329,20 +438,30 @@ PlotPointsActivity.prototype._animateBar = function (index, value) {
 
     requestAnimationFrame(function () {
       zeroMarker.classList.add("visible");
-      zeroMarker.style.transition = reduceMotion ? "none" : "stroke-dashoffset .65s ease, opacity .3s ease";
+      zeroMarker.style.transition = reduceMotion
+        ? "none"
+        : "stroke-dashoffset .65s ease, opacity .3s ease";
       zeroMarker.style.strokeDashoffset = "0";
     });
 
-    window.setTimeout(function () {
-      if (bar) {
-        bar.setAttribute("y", bottom);
-        bar.setAttribute("height", 0);
-        bar.classList.add("visible");
-      }
-      self._finishCategory(index, true);
-      zeroMarker.classList.add("fade-out");
-      window.setTimeout(function () { zeroMarker.remove(); }, reduceMotion ? 0 : 350);
-    }, reduceMotion ? 0 : 900);
+    window.setTimeout(
+      function () {
+        if (bar) {
+          bar.setAttribute("y", bottom);
+          bar.setAttribute("height", 0);
+          bar.classList.add("visible");
+        }
+        self._finishCategory(index, true);
+        zeroMarker.classList.add("fade-out");
+        window.setTimeout(
+          function () {
+            zeroMarker.remove();
+          },
+          reduceMotion ? 0 : 350,
+        );
+      },
+      reduceMotion ? 0 : 900,
+    );
     return;
   }
 
@@ -365,10 +484,11 @@ PlotPointsActivity.prototype._animateBar = function (index, value) {
     bar.setAttribute("height", bottom - y);
     bar.classList.add("visible");
 
-    window.setTimeout(function () { self._finishCategory(index, false); }, fillDuration);
+    window.setTimeout(function () {
+      self._finishCategory(index, false);
+    }, fillDuration);
   }, topDuration + sideDuration);
 };
-
 
 /* ==================================================
    LINE PLOT (lesson 4-2)
@@ -419,39 +539,109 @@ var NUMBER_WORDS = { 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven" };
    returning text, or [title, text] for feedback. */
 var DEFAULT_MESSAGES = {
   plotTitle: function (c) {
-    return (c.multi ? c.series.shortLabel + " · " : "") + "Point " + (c.i + 1) + " of " + c.n + ": plot (" + c.pt.x + ", " + partBFormatAverage(c.pt.y) + ").";
+    return (
+      (c.multi ? c.series.shortLabel + " · " : "") +
+      "Point " +
+      (c.i + 1) +
+      " of " +
+      c.n +
+      ": plot (" +
+      c.pt.x +
+      ", " +
+      partBFormatAverage(c.pt.y) +
+      ")."
+    );
   },
   plotText: function () {
     return "Move the dotted guides until they cross at the highlighted row's x-value and average, then click the graph.";
   },
   hint: function (c) {
-    var x = c.pt.x, y = partBFormatAverage(c.pt.y);
-    if (c.dx <= 26 && c.dy > 26) return " Your x-position is close. Check the y-value: " + y + ".";
-    if (c.dy <= 26 && c.dx > 26) return " Your y-position is close. Check the x-value: " + x + ".";
-    return " Find " + x + " on the x-axis, then move across to " + y + " on the y-axis.";
+    var x = c.pt.x,
+      y = partBFormatAverage(c.pt.y);
+    if (c.dx <= 26 && c.dy > 26)
+      return " Your x-position is close. Check the y-value: " + y + ".";
+    if (c.dy <= 26 && c.dx > 26)
+      return " Your y-position is close. Check the x-value: " + x + ".";
+    return (
+      " Find " +
+      x +
+      " on the x-axis, then move across to " +
+      y +
+      " on the y-axis."
+    );
   },
-  aria: function (c) { return c.pt.x + ", " + partBFormatAverage(c.pt.y); },
-  pointPlotted: function () { return ["Correct point.", " It snapped to the measured coordinate. Now plot the next highlighted row."]; },
+  aria: function (c) {
+    return c.pt.x + ", " + partBFormatAverage(c.pt.y);
+  },
+  pointPlotted: function () {
+    return [
+      "Correct point.",
+      " It snapped to the measured coordinate. Now plot the next highlighted row.",
+    ];
+  },
   connectBegin: function (c) {
-    return ["All " + c.word + " data points are plotted.", " Click any point to start the line, then connect neighbouring points until the whole pattern is joined."];
+    return [
+      "All " + c.word + " data points are plotted.",
+      " Click any point to start the line, then connect neighbouring points until the whole pattern is joined.",
+    ];
   },
   connectBad: function () {
-    return ["Connect neighbouring points.", " A line graph joins each point to the next x-value. Choose a point beside the end of the line you have already made."];
+    return [
+      "Connect neighbouring points.",
+      " A line graph joins each point to the next x-value. Choose a point beside the end of the line you have already made.",
+    ];
   },
   connectOk: function (c) {
-    return ["Point connected.", " Keep joining a neighbouring point until all " + c.word + " are part of one continuous line."];
+    return [
+      "Point connected.",
+      " Keep joining a neighbouring point until all " +
+        c.word +
+        " are part of one continuous line.",
+    ];
   },
   /* guided style only */
-  xWrong: function (c) { return ["Check the highlighted table row.", " The x-value for this point is " + c.pt.x + "."]; },
-  yWrong: function (c) { return ["Check the average in the highlighted row.", " The y-value for this point is " + partBFormatAverage(c.pt.y) + "."]; },
-  xRight: function () { return ["Correct x-value.", " Follow the vertical dotted guide upward, then choose the average count on the y-axis."]; },
-  yRight: function () { return ["Correct y-value.", " Use the vertical and horizontal dotted guides together. Mark the point where they cross."]; },
-  intersectionMiss: function () { return ["Find the crossing point.", " Click where the vertical and horizontal dotted guides intersect."]; },
-  pointDone: function (c) { return ["Point " + (c.i + 1) + " of " + c.n + " plotted.", " Move to the next highlighted row and start again with its x-value."]; },
+  xWrong: function (c) {
+    return [
+      "Check the highlighted table row.",
+      " The x-value for this point is " + c.pt.x + ".",
+    ];
+  },
+  yWrong: function (c) {
+    return [
+      "Check the average in the highlighted row.",
+      " The y-value for this point is " + partBFormatAverage(c.pt.y) + ".",
+    ];
+  },
+  xRight: function () {
+    return [
+      "Correct x-value.",
+      " Follow the vertical dotted guide upward, then choose the average count on the y-axis.",
+    ];
+  },
+  yRight: function () {
+    return [
+      "Correct y-value.",
+      " Use the vertical and horizontal dotted guides together. Mark the point where they cross.",
+    ];
+  },
+  intersectionMiss: function () {
+    return [
+      "Find the crossing point.",
+      " Click where the vertical and horizontal dotted guides intersect.",
+    ];
+  },
+  pointDone: function (c) {
+    return [
+      "Point " + (c.i + 1) + " of " + c.n + " plotted.",
+      " Move to the next highlighted row and start again with its x-value.",
+    ];
+  },
   /* optional */
-  seriesDone: null,     /* [title, text] after a line that is not the last is connected */
-  connectPrompt: null,  /* [title, text] for the connect prompt box */
-  labels: null          /* (phase "plot" | "connect" | "complete", seriesIndex) -> [stepLabel, hint, badge] */
+  seriesDone:
+    null /* [title, text] after a line that is not the last is connected */,
+  connectPrompt: null /* [title, text] for the connect prompt box */,
+  labels:
+    null /* (phase "plot" | "connect" | "complete", seriesIndex) -> [stepLabel, hint, badge] */,
 };
 
 function LinePlotActivity(root, options) {
@@ -472,32 +662,51 @@ function LinePlotActivity(root, options) {
     hint: this.el.hint && this.el.hint.textContent,
     badge: this.el.badge && this.el.badge.textContent,
     feedbackHtml: this.el.feedback.innerHTML,
-    feedbackClass: this.el.feedback.className
+    feedbackClass: this.el.feedback.className,
   };
 
-  this.stage = "waiting";   /* waiting -> plot (guided: x -> y -> intersection) -> connect -> complete */
+  this.stage =
+    "waiting"; /* waiting -> plot (guided: x -> y -> intersection) -> connect -> complete */
   this.seriesIndex = 0;
   this.plotIndex = 0;
-  this.plotted = this.series.map(function () { return 0; });
-  this.connected = this.series.map(function () { return []; });
+  this.plotted = this.series.map(function () {
+    return 0;
+  });
+  this.connected = this.series.map(function () {
+    return [];
+  });
 
-  this.svg.addEventListener("click", function (event) { self._onSvgClick(event); });
+  this.svg.addEventListener("click", function (event) {
+    self._onSvgClick(event);
+  });
   if (!this.guided) {
-    this.svg.addEventListener("pointermove", function (event) { self._moveCrosshair(event); });
-    this.svg.addEventListener("pointerleave", function () { self._hideGuides(); });
+    this.svg.addEventListener("pointermove", function (event) {
+      self._moveCrosshair(event);
+    });
+    this.svg.addEventListener("pointerleave", function () {
+      self._hideGuides();
+    });
   } else {
     root.querySelectorAll("[data-lp-x]").forEach(function (group) {
-      self._onActivate(group, function () { self._chooseX(Number(group.dataset.lpX), group); });
+      self._onActivate(group, function () {
+        self._chooseX(Number(group.dataset.lpX), group);
+      });
     });
     root.querySelectorAll("[data-lp-y]").forEach(function (group) {
-      self._onActivate(group, function () { self._chooseY(Number(group.dataset.lpY), group); });
+      self._onActivate(group, function () {
+        self._chooseY(Number(group.dataset.lpY), group);
+      });
     });
   }
 
   /* Open for business once the named activity is complete. */
   var enabledBy = root.dataset.plotEnabledBy;
   function recheck() {
-    var gate = enabledBy && Activity.all().filter(function (activity) { return activity.id === enabledBy; })[0];
+    var gate =
+      enabledBy &&
+      Activity.all().filter(function (activity) {
+        return activity.id === enabledBy;
+      })[0];
     var open = !enabledBy || (gate && gate.isComplete());
     if (self.stage === "waiting" && open) self._start();
     else if (self.stage !== "waiting" && !open) self._backToWaiting();
@@ -535,10 +744,17 @@ LinePlotActivity.prototype._onActivate = function (element, handler) {
 LinePlotActivity.prototype._context = function (extra) {
   var series = this.series[this.seriesIndex];
   var n = series.points.length;
-  return Object.assign({
-    series: series, multi: this.series.length > 1, n: n, i: this.plotIndex,
-    pt: series.points[this.plotIndex], word: NUMBER_WORDS[n] || String(n)
-  }, extra);
+  return Object.assign(
+    {
+      series: series,
+      multi: this.series.length > 1,
+      n: n,
+      i: this.plotIndex,
+      pt: series.points[this.plotIndex],
+      word: NUMBER_WORDS[n] || String(n),
+    },
+    extra,
+  );
 };
 
 /* message is [title, text]; type "" is the neutral blue box. */
@@ -556,20 +772,32 @@ LinePlotActivity.prototype._setLabels = function (phase) {
 };
 
 LinePlotActivity.prototype._hideGuides = function () {
-  [this.el.vertical, this.el.horizontal, this.el.marker].forEach(function (guide) {
-    if (guide) guide.classList.remove("visible", "wrong");
-  });
+  [this.el.vertical, this.el.horizontal, this.el.marker].forEach(
+    function (guide) {
+      if (guide) guide.classList.remove("visible", "wrong");
+    },
+  );
 };
 
 LinePlotActivity.prototype._highlightRows = function () {
   var self = this;
-  var plotting = this.stage === "plot" || this.stage === "x" || this.stage === "y" || this.stage === "intersection";
+  var plotting =
+    this.stage === "plot" ||
+    this.stage === "x" ||
+    this.stage === "y" ||
+    this.stage === "intersection";
 
   this.series.forEach(function (series, si) {
     if (!series.tableBody) return;
     series.tableBody.querySelectorAll("tr").forEach(function (row, rowIndex) {
-      row.classList.toggle("partc-complete-row", rowIndex < self.plotted[si] || self.plotted[si] >= series.points.length);
-      row.classList.toggle("partc-current-row", plotting && si === self.seriesIndex && rowIndex === self.plotIndex);
+      row.classList.toggle(
+        "partc-complete-row",
+        rowIndex < self.plotted[si] || self.plotted[si] >= series.points.length,
+      );
+      row.classList.toggle(
+        "partc-current-row",
+        plotting && si === self.seriesIndex && rowIndex === self.plotIndex,
+      );
     });
   });
 };
@@ -586,7 +814,12 @@ LinePlotActivity.prototype._legend = function () {
   var self = this;
   var section = this.root.closest("section");
   section.querySelectorAll("[data-plot-legend]").forEach(function (item) {
-    item.classList.toggle("is-active", self.stage !== "complete" && self.stage !== "waiting" && item.dataset.plotLegend === self.series[self.seriesIndex].key);
+    item.classList.toggle(
+      "is-active",
+      self.stage !== "complete" &&
+        self.stage !== "waiting" &&
+        item.dataset.plotLegend === self.series[self.seriesIndex].key,
+    );
   });
   section.classList.toggle("plant-graph-complete", this.stage === "complete");
 };
@@ -611,23 +844,31 @@ LinePlotActivity.prototype._start = function () {
 
 LinePlotActivity.prototype._backToWaiting = function () {
   this._hideGuides();
-  this.svg.querySelectorAll("[data-lp-x], [data-lp-y]").forEach(function (group) {
-    group.classList.remove("active", "complete", "try-again");
-  });
+  this.svg
+    .querySelectorAll("[data-lp-x], [data-lp-y]")
+    .forEach(function (group) {
+      group.classList.remove("active", "complete", "try-again");
+    });
 
   this.series.forEach(function (series) {
     series.layer.innerHTML = "";
     series.path.setAttribute("points", "");
     if (series.tableBody) {
-      series.tableBody.querySelectorAll("tr").forEach(function (row) { row.classList.remove("partc-current-row", "partc-complete-row"); });
+      series.tableBody.querySelectorAll("tr").forEach(function (row) {
+        row.classList.remove("partc-current-row", "partc-complete-row");
+      });
     }
   });
 
   this.stage = "waiting";
   this.seriesIndex = 0;
   this.plotIndex = 0;
-  this.plotted = this.series.map(function () { return 0; });
-  this.connected = this.series.map(function () { return []; });
+  this.plotted = this.series.map(function () {
+    return 0;
+  });
+  this.connected = this.series.map(function () {
+    return [];
+  });
 
   this.el.plotPrompt.box.hidden = true;
   if (this.el.connectPrompt) this.el.connectPrompt.box.hidden = true;
@@ -652,8 +893,14 @@ LinePlotActivity.prototype._svgPoint = function (event) {
 
 LinePlotActivity.prototype._insidePlot = function (point) {
   /* a little slack so points on the axes themselves (x = 0, y = 0) can be clicked */
-  var plot = this.plot, slack = 10;
-  return point.x >= plot.left - slack && point.x <= plot.right + slack && point.y >= plot.top - slack && point.y <= plot.bottom + slack;
+  var plot = this.plot,
+    slack = 10;
+  return (
+    point.x >= plot.left - slack &&
+    point.x <= plot.right + slack &&
+    point.y >= plot.top - slack &&
+    point.y <= plot.bottom + slack
+  );
 };
 
 /* ----- crosshair style ----- */
@@ -690,7 +937,10 @@ LinePlotActivity.prototype._placeFromCrosshair = function (event) {
   var dy = Math.abs(point.y - target.py);
 
   if (Math.hypot(dx, dy) > this.tolerance) {
-    this._say("try-again", ["Use both axes.", this.messages.hint(this._context({ dx: dx, dy: dy }))]);
+    this._say("try-again", [
+      "Use both axes.",
+      this.messages.hint(this._context({ dx: dx, dy: dy })),
+    ]);
     return;
   }
 
@@ -701,13 +951,18 @@ LinePlotActivity.prototype._placeFromCrosshair = function (event) {
 
 LinePlotActivity.prototype._flash = function (group) {
   group.classList.add("try-again");
-  window.setTimeout(function () { group.classList.remove("try-again"); }, 550);
+  window.setTimeout(function () {
+    group.classList.remove("try-again");
+  }, 550);
 };
 
 LinePlotActivity.prototype._setActive = function (axis, value) {
   var key = axis === "x" ? "lpX" : "lpY";
   this.svg.querySelectorAll("[data-lp-" + axis + "]").forEach(function (group) {
-    group.classList.toggle("active", value !== null && Number(group.dataset[key]) === value);
+    group.classList.toggle(
+      "active",
+      value !== null && Number(group.dataset[key]) === value,
+    );
   });
 };
 
@@ -752,7 +1007,11 @@ LinePlotActivity.prototype._chooseY = function (value, group) {
 };
 
 LinePlotActivity.prototype._placeFromGuides = function (event) {
-  if (event.target.closest && event.target.closest("[data-lp-x], [data-lp-y], .linegraph-point")) return;
+  if (
+    event.target.closest &&
+    event.target.closest("[data-lp-x], [data-lp-y], .linegraph-point")
+  )
+    return;
   var point = this._svgPoint(event);
   if (!point) return;
 
@@ -766,7 +1025,9 @@ LinePlotActivity.prototype._placeFromGuides = function (event) {
   marker.setAttribute("cx", target.px);
   marker.setAttribute("cy", target.py);
   marker.classList.add("visible");
-  window.setTimeout(function () { marker.classList.remove("visible"); }, 280);
+  window.setTimeout(function () {
+    marker.classList.remove("visible");
+  }, 280);
 
   var tick = this.svg.querySelector("[data-lp-x='" + target.x + "']");
   if (tick) tick.classList.add("complete");
@@ -782,16 +1043,22 @@ LinePlotActivity.prototype._plotPoint = function () {
   var index = this.plotIndex;
 
   var circle = svgEl("circle", {
-    "class": "linegraph-point" + (series.pointClass ? " " + series.pointClass : ""),
-    cx: c.pt.px, cy: c.pt.py, r: 8, "aria-label": this.messages.aria(c)
+    class:
+      "linegraph-point" + (series.pointClass ? " " + series.pointClass : ""),
+    cx: c.pt.px,
+    cy: c.pt.py,
+    r: 8,
+    "aria-label": this.messages.aria(c),
   });
   circle.addEventListener("click", function (event) {
-    if (self.stage !== "connect" || series !== self.series[self.seriesIndex]) return;
+    if (self.stage !== "connect" || series !== self.series[self.seriesIndex])
+      return;
     event.stopPropagation();
     self._connect(index, circle);
   });
   circle.addEventListener("keydown", function (event) {
-    if (self.stage !== "connect" || series !== self.series[self.seriesIndex]) return;
+    if (self.stage !== "connect" || series !== self.series[self.seriesIndex])
+      return;
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       self._connect(index, circle);
@@ -809,7 +1076,10 @@ LinePlotActivity.prototype._plotPoint = function () {
     this.stage = this.guided ? "x" : "plot";
     this._highlightRows();
     this._updatePrompt();
-    this._say("", this.guided ? this.messages.pointDone(c) : this.messages.pointPlotted(c));
+    this._say(
+      "",
+      this.guided ? this.messages.pointDone(c) : this.messages.pointPlotted(c),
+    );
     return;
   }
 
@@ -838,7 +1108,10 @@ LinePlotActivity.prototype._beginConnect = function () {
     point.classList.add("connectable");
     point.setAttribute("tabindex", "0");
     point.setAttribute("role", "button");
-    point.setAttribute("aria-label", point.getAttribute("aria-label") + ". Click to connect this point.");
+    point.setAttribute(
+      "aria-label",
+      point.getAttribute("aria-label") + ". Click to connect this point.",
+    );
   });
 
   this._highlightRows();
@@ -853,15 +1126,19 @@ LinePlotActivity.prototype._connect = function (index, circle) {
   var prepend = false;
   var allowed = order.length === 0;
   if (!allowed) {
-    if (index === order[0] - 1) { allowed = true; prepend = true; }
-    else if (index === order[order.length - 1] + 1) allowed = true;
+    if (index === order[0] - 1) {
+      allowed = true;
+      prepend = true;
+    } else if (index === order[order.length - 1] + 1) allowed = true;
   }
 
   var c = this._context({ i: series.points.length - 1 });
 
   if (!allowed) {
     circle.classList.add("connect-error");
-    window.setTimeout(function () { circle.classList.remove("connect-error"); }, 550);
+    window.setTimeout(function () {
+      circle.classList.remove("connect-error");
+    }, 550);
     this._say("try-again", this.messages.connectBad(c));
     return;
   }
@@ -870,9 +1147,14 @@ LinePlotActivity.prototype._connect = function (index, circle) {
   else order.push(index);
 
   circle.classList.add("connected");
-  series.path.setAttribute("points", order.map(function (i) {
-    return series.points[i].px + "," + series.points[i].py;
-  }).join(" "));
+  series.path.setAttribute(
+    "points",
+    order
+      .map(function (i) {
+        return series.points[i].px + "," + series.points[i].py;
+      })
+      .join(" "),
+  );
 
   if (order.length === series.points.length) {
     this._finishSeries();
@@ -892,7 +1174,8 @@ LinePlotActivity.prototype._finishSeries = function () {
   if (this.el.connectPrompt) this.el.connectPrompt.box.hidden = true;
 
   if (this.seriesIndex < this.series.length - 1) {
-    var done = this.messages.seriesDone && this.messages.seriesDone(this._context());
+    var done =
+      this.messages.seriesDone && this.messages.seriesDone(this._context());
     this.seriesIndex += 1;
     this._beginSeries();
     if (done) this._say("success", done);
@@ -912,6 +1195,5 @@ LinePlotActivity.prototype._finishSeries = function () {
   this.setComplete(true);
   this.root.dispatchEvent(new CustomEvent("plot:complete", { bubbles: true }));
 };
-
 
 export { PlotPointsActivity, LinePlotActivity };

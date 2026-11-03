@@ -1,5 +1,3 @@
-
-
 (function initialiseLesson4_2() {
   /* ==================================================
      NUMBER LINE ACTIVITY
@@ -32,17 +30,24 @@
     const barRow = activity.querySelector(".bar-stack-row");
     const yAxis = activity.querySelector(".y-axis");
     const graphToggleButton = activity.querySelector(".graph-toggle-button");
-    const countersHiddenButton = activity.querySelector(".hide-counters-button");
+    const countersHiddenButton = activity.querySelector(
+      ".hide-counters-button",
+    );
     const graphBuildPrompt = activity.querySelector(".graph-build-prompt");
-    const graphBuildInstruction = activity.querySelector(".graph-build-instruction");
+    const graphBuildInstruction = activity.querySelector(
+      ".graph-build-instruction",
+    );
     const findAllPrompt = activity.querySelector(".find-all-prompt");
     const findAllButton = activity.querySelector(".find-all-button");
 
-    const graphCompleteFeedback = activity.querySelector(".graph-complete-feedback");
-    
+    const graphCompleteFeedback = activity.querySelector(
+      ".graph-complete-feedback",
+    );
+
     const speciesButtons = Array.from(
-      document.getElementById("number-line-animal-buttons")
-              .querySelectorAll(".species-select-button")
+      document
+        .getElementById("number-line-animal-buttons")
+        .querySelectorAll(".species-select-button"),
     );
 
     const SVG_NS = "http://www.w3.org/2000/svg";
@@ -70,7 +75,15 @@
        the data points, then click those points from left to right to
        connect the line: distance on the x-axis, count found on the y-axis.
     --------------------------------------------------------------- */
-    const barColours = ["#ffd747", "#7c4dff", "#5cc8ff", "#b7e9a8", "#ff8a65", "#c792ea", "#4fd1c5"];
+    const barColours = [
+      "#ffd747",
+      "#7c4dff",
+      "#5cc8ff",
+      "#b7e9a8",
+      "#ff8a65",
+      "#c792ea",
+      "#4fd1c5",
+    ];
     const CYLINDER_UNIT_HEIGHT = 10;
     const CYLINDER_DIAMETER = 80;
     // How much taller the chart gets, per animal, once "Hide counters"
@@ -79,10 +92,9 @@
     // roomier without drifting out of sync with the axis.
     const STRETCH_FACTOR = 4;
     const DISTANCES = [];
-    const TARGET_SPECIES = speciesButtons.map(
-      (btn) => btn.dataset.species
-    );
-    for (let d = MIN_DISTANCE; d <= MAX_DISTANCE; d += STEP) DISTANCES.push(String(d));
+    const TARGET_SPECIES = speciesButtons.map((btn) => btn.dataset.species);
+    for (let d = MIN_DISTANCE; d <= MAX_DISTANCE; d += STEP)
+      DISTANCES.push(String(d));
 
     const hotspotSpecies = new Map(); // hotspotId -> species name
     const hotspotFound = new Map(); // hotspotId -> boolean
@@ -108,38 +120,49 @@
       preloadedNumberLineImages.push(image);
     }
 
-    preloadNumberLineImage("../images/lesson4/number_line_activity/Rockplatform.png");
+    preloadNumberLineImage(
+      "../images/lesson4/number_line_activity/Rockplatform.png",
+    );
     templates.forEach((template) => {
       const background = template.content.querySelector(".stage-bg");
       if (background) preloadNumberLineImage(background.getAttribute("src"));
     });
 
     speciesButtons.forEach((btn, i) => {
-      speciesColours.set(btn.dataset.species, barColours[i % barColours.length]);
+      speciesColours.set(
+        btn.dataset.species,
+        barColours[i % barColours.length],
+      );
     });
 
     templates.forEach((template) => {
       const distance = template.dataset.distance;
-      template.content.querySelectorAll(".animal-hotspot").forEach((hotspot) => {
-        const id = "nl-hotspot-" + (nextHotspotSeq += 1);
-        hotspot.dataset.hotspotId = id;
+      template.content
+        .querySelectorAll(".animal-hotspot")
+        .forEach((hotspot) => {
+          const id = "nl-hotspot-" + (nextHotspotSeq += 1);
+          hotspot.dataset.hotspotId = id;
 
-        const name = hotspot.dataset.animal;
-        hotspotSpecies.set(id, name);
-        hotspotFound.set(id, false);
-        hotspotDistance.set(id, distance);
+          const name = hotspot.dataset.animal;
+          hotspotSpecies.set(id, name);
+          hotspotFound.set(id, false);
+          hotspotDistance.set(id, distance);
 
-        if (!speciesColours.has(name)) {
-          speciesColours.set(name, barColours[speciesColours.size % barColours.length]);
-        }
-      });
+          if (!speciesColours.has(name)) {
+            speciesColours.set(
+              name,
+              barColours[speciesColours.size % barColours.length],
+            );
+          }
+        });
     });
 
     // How many hotspots of `name` exist at `distance` (its ceiling for that column).
     function maxAtDistance(name, distance) {
       let total = 0;
       hotspotSpecies.forEach((species, id) => {
-        if (species === name && hotspotDistance.get(id) === distance) total += 1;
+        if (species === name && hotspotDistance.get(id) === distance)
+          total += 1;
       });
       return total;
     }
@@ -148,7 +171,12 @@
     function foundAtDistance(name, distance) {
       let total = 0;
       hotspotSpecies.forEach((species, id) => {
-        if (species === name && hotspotDistance.get(id) === distance && hotspotFound.get(id)) total += 1;
+        if (
+          species === name &&
+          hotspotDistance.get(id) === distance &&
+          hotspotFound.get(id)
+        )
+          total += 1;
       });
       return total;
     }
@@ -210,7 +238,7 @@
 
       parent.style.setProperty("--cylinder-diameter", diameter + "px");
       parent.style.setProperty("--cylinder-height", height + "px");
-      
+
       block.style.width = diameter + "px";
       block.style.height = height + "px";
       block.style.setProperty("--colour", colour);
@@ -252,10 +280,13 @@
     function ensureSpeciesSearchTimer(name) {
       if (speciesSearchStartedAt.has(name)) return;
       speciesSearchStartedAt.set(name, Date.now());
-      speciesSearchTimeout.set(name, window.setTimeout(() => {
-        speciesSearchTimeout.delete(name);
-        updateProgressAndGraphButton();
-      }, FIND_ALL_DELAY_MS));
+      speciesSearchTimeout.set(
+        name,
+        window.setTimeout(() => {
+          speciesSearchTimeout.delete(name);
+          updateProgressAndGraphButton();
+        }, FIND_ALL_DELAY_MS),
+      );
     }
 
     function clearSpeciesSearchTimers() {
@@ -359,17 +390,17 @@
         const groupRect = group.getBoundingClientRect();
         const columnRect = column.getBoundingClientRect();
 
-        const x =
-          groupRect.left -
-          wrapRect.left +
-          groupRect.width / 2;
+        const x = groupRect.left - wrapRect.left + groupRect.width / 2;
 
         const groundY = columnRect.bottom - wrapRect.top;
 
         const y = groundY - count * activeUnitHeight;
 
         pointsByDistance.set(distance, { x, y });
-        tickTargetsByDistance.set(distance, { x: x - TICK_WIDTH / 2, y: groundY });
+        tickTargetsByDistance.set(distance, {
+          x: x - TICK_WIDTH / 2,
+          y: groundY,
+        });
       });
 
       tickTargetsByDistance.forEach((target, distance) => {
@@ -425,7 +456,9 @@
           circle.setAttribute("tabindex", "0");
           circle.setAttribute("role", "button");
           circle.setAttribute("aria-label", distance + " metres point");
-          circle.addEventListener("click", () => connectGraphPoint(circle, distance));
+          circle.addEventListener("click", () =>
+            connectGraphPoint(circle, distance),
+          );
           circle.addEventListener("keydown", (event) => {
             if (event.key === "Enter" || event.key === " ") {
               event.preventDefault();
@@ -435,12 +468,15 @@
           circlesByDistance.set(distance, circle);
           lineOverlaySvg.appendChild(circle);
         }
-        circle.classList.toggle("is-connected", connectedOrder.includes(distance));
+        circle.classList.toggle(
+          "is-connected",
+          connectedOrder.includes(distance),
+        );
         circle.classList.toggle(
           "is-next",
           isGraphMode &&
             connectedOrder.length < DISTANCES.length &&
-            distance === DISTANCES[connectedOrder.length]
+            distance === DISTANCES[connectedOrder.length],
         );
       });
 
@@ -528,15 +564,19 @@
 
     function refreshGraphPointGuidance() {
       const connectedOrder = getConnectedOrder();
-      const nextDistance = connectedOrder.length < DISTANCES.length
-        ? DISTANCES[connectedOrder.length]
-        : null;
+      const nextDistance =
+        connectedOrder.length < DISTANCES.length
+          ? DISTANCES[connectedOrder.length]
+          : null;
 
       circlesByDistance.forEach((circle, distance) => {
-        circle.classList.toggle("is-connected", connectedOrder.includes(distance));
+        circle.classList.toggle(
+          "is-connected",
+          connectedOrder.includes(distance),
+        );
         circle.classList.toggle(
           "is-next",
-          isGraphMode && nextDistance !== null && distance === nextDistance
+          isGraphMode && nextDistance !== null && distance === nextDistance,
         );
       });
     }
@@ -560,7 +600,9 @@
 
         if (graphBuildInstruction) {
           graphBuildInstruction.textContent =
-            "Connect the points from left to right. Click " + expectedDistance + " m next.";
+            "Connect the points from left to right. Click " +
+            expectedDistance +
+            " m next.";
         }
         return;
       }
@@ -583,7 +625,8 @@
 
       const currentGraphComplete = Boolean(
         selectedSpecies &&
-        (graphConnections.get(selectedSpecies) || []).length === DISTANCES.length
+        (graphConnections.get(selectedSpecies) || []).length ===
+          DISTANCES.length,
       );
 
       if (graphCompleteFeedback) {
@@ -660,8 +703,14 @@
         searchTimeElapsed(selectedSpecies) >= FIND_ALL_DELAY_MS;
       if (findAllPrompt) findAllPrompt.hidden = !stuckLongEnough;
 
-      const quadrantFound = selected !== null ? foundAtDistance(selectedSpecies, String(selected)) : 0;
-      const quadrantMax = selected !== null ? maxAtDistance(selectedSpecies, String(selected)) : 0;
+      const quadrantFound =
+        selected !== null
+          ? foundAtDistance(selectedSpecies, String(selected))
+          : 0;
+      const quadrantMax =
+        selected !== null
+          ? maxAtDistance(selectedSpecies, String(selected))
+          : 0;
 
       for (const speciesProgress of progressEl) {
         const title = speciesProgress.querySelector(".species-progress-title");
@@ -670,12 +719,15 @@
         title.textContent = selectedSpecies + ": found ";
         count.textContent = quadrantFound + " of " + quadrantMax;
 
-        count.animate([
-          { opacity: 0, transform: "translateY(0) scale(0.5)" },
-          { opacity: 1, transform: "translateY(-6px)" },
-          { transform: "translateY(2px) scale(1)" },
-          { transform: "translateY(0)" },
-        ], { duration: 500 });
+        count.animate(
+          [
+            { opacity: 0, transform: "translateY(0) scale(0.5)" },
+            { opacity: 1, transform: "translateY(-6px)" },
+            { transform: "translateY(2px) scale(1)" },
+            { transform: "translateY(0)" },
+          ],
+          { duration: 500 },
+        );
       }
 
       if (graphBuildPrompt) graphBuildPrompt.hidden = !allFound;
@@ -693,7 +745,9 @@
       if (!isGraphMode) {
         if (graphBuildInstruction) {
           graphBuildInstruction.textContent =
-            "You found every " + selectedSpecies + ". Now show those five counts as data points.";
+            "You found every " +
+            selectedSpecies +
+            ". Now show those five counts as data points.";
         }
         if (graphToggleButton) {
           graphToggleButton.disabled = false;
@@ -713,13 +767,17 @@
         }
         if (countersHiddenButton) {
           countersHiddenButton.hidden = false;
-          countersHiddenButton.textContent = isCountersHidden ? "Show counters" : "Hide counters";
+          countersHiddenButton.textContent = isCountersHidden
+            ? "Show counters"
+            : "Hide counters";
         }
       } else {
         const nextDistance = DISTANCES[connectedOrder.length];
         if (graphBuildInstruction) {
           graphBuildInstruction.textContent =
-            "Click the highlighted points from left to right to connect the line. Start with " + nextDistance + " m.";
+            "Click the highlighted points from left to right to connect the line. Start with " +
+            nextDistance +
+            " m.";
         }
         if (countersHiddenButton) countersHiddenButton.hidden = true;
       }
@@ -739,7 +797,7 @@
       columnEntriesByDistance.forEach((entry, distance) => {
         entry.group.classList.toggle(
           "is-current-distance",
-          selected !== null && String(selected) === String(distance)
+          selected !== null && String(selected) === String(distance),
         );
       });
     }
@@ -761,7 +819,8 @@
         }
         const placeholder = document.createElement("p");
         placeholder.className = "stack-placeholder";
-        placeholder.textContent = "Select a distance, then choose an animal on the left. Its counts will appear here.";
+        placeholder.textContent =
+          "Select a distance, then choose an animal on the left. Its counts will appear here.";
         barRow.appendChild(placeholder);
         if (yAxis) yAxis.innerHTML = "";
         lastRenderedSpecies = null;
@@ -782,8 +841,9 @@
 
       const colour = speciesColours.get(selectedSpecies) || barColours[0];
       const maxUnits = overallMaxForSpecies(selectedSpecies);
-      
-      activeUnitHeight = isGraphMode && isCountersHidden
+
+      activeUnitHeight =
+        isGraphMode && isCountersHidden
           ? CYLINDER_UNIT_HEIGHT * STRETCH_FACTOR
           : CYLINDER_UNIT_HEIGHT;
 
@@ -839,14 +899,14 @@
         entry.label.innerHTML = distance + " m<span>" + count + "</span>";
         entry.group.classList.toggle(
           "is-current-distance",
-          selected !== null && String(selected) === String(distance)
+          selected !== null && String(selected) === String(distance),
         );
 
         columnEntries.push({
           group: entry.group,
           column: entry.column,
           count,
-          distance
+          distance,
         });
       });
 
@@ -872,7 +932,10 @@
         };
 
         if (typeof background.decode === "function") {
-          background.decode().catch(() => {}).then(finish);
+          background
+            .decode()
+            .catch(() => {})
+            .then(finish);
         } else {
           finish();
         }
@@ -906,14 +969,18 @@
 
         if (sprite && overlay) {
           overlay.style.maskImage = 'url("' + sprite.getAttribute("src") + '")';
-          overlay.style.webkitMaskImage = 'url("' + sprite.getAttribute("src") + '")';
+          overlay.style.webkitMaskImage =
+            'url("' + sprite.getAttribute("src") + '")';
           const colour = speciesColours.get(name);
           if (colour) overlay.style.background = colour;
         }
 
         hotspot.classList.toggle("found", Boolean(hotspotFound.get(id)));
         hotspot.classList.toggle("highlighted", highlightedHotspotIds.has(id));
-        hotspot.classList.toggle("is-inactive", !selectedSpecies || name !== selectedSpecies);
+        hotspot.classList.toggle(
+          "is-inactive",
+          !selectedSpecies || name !== selectedSpecies,
+        );
       });
     }
 
@@ -939,7 +1006,8 @@
         // the points again once this species is complete.
         isGraphMode = false;
         isCountersHidden = false;
-        if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
+        if (chartWrap)
+          chartWrap.classList.remove("is-graph-mode", "counters-hidden");
         resetGraphConnections();
         renderChart();
       });
@@ -950,7 +1018,8 @@
       isGraphMode = false;
       isCountersHidden = false;
       resetGraphConnections();
-      if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
+      if (chartWrap)
+        chartWrap.classList.remove("is-graph-mode", "counters-hidden");
       if (graphToggleButton) {
         graphToggleButton.hidden = false;
         graphToggleButton.textContent = "Show data points";
@@ -987,7 +1056,8 @@
 
       isGraphMode = false;
       isCountersHidden = false;
-      if (chartWrap) chartWrap.classList.remove("is-graph-mode", "counters-hidden");
+      if (chartWrap)
+        chartWrap.classList.remove("is-graph-mode", "counters-hidden");
       resetGraphConnections();
 
       if (speciesSearchTimeout.has(name)) {
@@ -1033,11 +1103,15 @@
 
     if (countersHiddenButton) {
       countersHiddenButton.addEventListener("click", () => {
-        if (countersHiddenButton.disabled || countersHiddenButton.hidden) return;
+        if (countersHiddenButton.disabled || countersHiddenButton.hidden)
+          return;
         isCountersHidden = !isCountersHidden;
         countersHiddenButton.classList.toggle("is-active", isCountersHidden);
-        countersHiddenButton.textContent = isCountersHidden ? "Show counters" : "Hide counters";
-        if (chartWrap) chartWrap.classList.toggle("counters-hidden", isCountersHidden);
+        countersHiddenButton.textContent = isCountersHidden
+          ? "Show counters"
+          : "Hide counters";
+        if (chartWrap)
+          chartWrap.classList.toggle("counters-hidden", isCountersHidden);
         renderChart();
       });
     }
@@ -1046,14 +1120,18 @@
       hotspotFound.forEach((_value, id) => hotspotFound.set(id, false));
       highlightedHotspotIds.clear();
       if (panelBody) {
-        panelBody.querySelectorAll(".animal-hotspot.found").forEach((h) => h.classList.remove("found"));
-        panelBody.querySelectorAll(".animal-hotspot.highlighted").forEach((h) => h.classList.remove("highlighted"));
+        panelBody
+          .querySelectorAll(".animal-hotspot.found")
+          .forEach((h) => h.classList.remove("found"));
+        panelBody
+          .querySelectorAll(".animal-hotspot.highlighted")
+          .forEach((h) => h.classList.remove("highlighted"));
       }
 
       selectedSpecies = null;
       isGraphMode = false;
       isCountersHidden = false;
-      resetAllGraphConnections()
+      resetAllGraphConnections();
       clearSpeciesSearchTimers();
       if (chartWrap) {
         chartWrap.classList.remove("is-graph-mode", "counters-hidden");
@@ -1096,7 +1174,8 @@
 
       const stageRect = stage.getBoundingClientRect();
       const pointRect = point.getBoundingClientRect();
-      if (!stageRect.width || !pointRect.width) return percentFor(fallbackDistance);
+      if (!stageRect.width || !pointRect.width)
+        return percentFor(fallbackDistance);
 
       const pointCentre = pointRect.left + pointRect.width / 2;
       return ((pointCentre - stageRect.left) / stageRect.width) * 100;
@@ -1117,9 +1196,11 @@
     }
 
     function fillPanelContent(distance) {
-      const template = templates.find((t) => t.dataset.distance === String(distance));
+      const template = templates.find(
+        (t) => t.dataset.distance === String(distance),
+      );
       panelBody.innerHTML = "";
-      if (template) {       
+      if (template) {
         panelBody.appendChild(template.content.cloneNode(true));
         wireUpHotspots(panelBody);
         revealAnimalStageWhenReady(panelBody);
@@ -1184,7 +1265,7 @@
 
       selected = target;
       updateSelectedDistanceHighlight();
-      
+
       speciesButtons.forEach((btn) => {
         btn.disabled = false;
       });
@@ -1210,7 +1291,8 @@
         p.classList.remove("is-selected");
         p.setAttribute("aria-expanded", "false");
       });
-      note.textContent = "Select a point to look for the animals at that distance.";
+      note.textContent =
+        "Select a point to look for the animals at that distance.";
     }
 
     function step(direction) {
@@ -1256,7 +1338,7 @@
     //     WALKING -> PLACING.
     let personState = PersonMove.IDLE;
     let currentDistance = 0; // updated the instant a walk starts, not on arrival - always "where the marker is currently headed"
-    let lastDirection = 1;   // which way the marker is currently facing
+    let lastDirection = 1; // which way the marker is currently facing
     let personStandingTimer = null;
 
     function clearPendingPersonTimers() {
@@ -1302,7 +1384,7 @@
       // target, not the original starting point) gives the direction of
       // the leg actually being walked right now, not the very first one.
       const rawDirection = Math.sign(target - currentDistance);
-      const direction = rawDirection !== 0 ? rawDirection : (lastDirection || 1);
+      const direction = rawDirection !== 0 ? rawDirection : lastDirection || 1;
       lastDirection = direction;
       currentDistance = target;
 
@@ -1342,7 +1424,10 @@
         return;
       }
 
-      if (personState === PersonMove.IDLE || personState === PersonMove.WALKING) {
+      if (
+        personState === PersonMove.IDLE ||
+        personState === PersonMove.WALKING
+      ) {
         // Already IDLE-to-first-click, or already mid-walk: just (re)walk
         // straight to the new target - no need to replay the standing gif.
         enterWalking(target, point);
@@ -1359,7 +1444,9 @@
     function resetPerson() {
       enterIdle();
       currentDistance = 0;
-      const firstPoint = points.find((point) => point.dataset.distance === String(MIN_DISTANCE));
+      const firstPoint = points.find(
+        (point) => point.dataset.distance === String(MIN_DISTANCE),
+      );
       person.style.left = personLeftForPoint(firstPoint, MIN_DISTANCE) + "%";
       person.style.transform = "translateX(-50%)";
     }
@@ -1407,22 +1494,26 @@
   const DEV_MODE = false;
 
   const sectionIds = [
-      { id: "marine-snail-context", label: "Victorian Marine Snails" },
-      { id: "number-line-activity", label: "Explore How a Line Graph Works" },
-      { id: "line-graph-elephant", label: "Turn a Data Table into a Line Graph" },
-      { id: "line-graph-conniwinks", label: "Build a Line Graph" },
-      { id: "line-graph-yeast", label: "Practise Applying the Principles" },
-      { id: "line-graph-plants", label: "Plotting Time on the x-axis" },
+    { id: "marine-snail-context", label: "Victorian Marine Snails" },
+    { id: "number-line-activity", label: "Explore How a Line Graph Works" },
+    { id: "line-graph-elephant", label: "Turn a Data Table into a Line Graph" },
+    { id: "line-graph-conniwinks", label: "Build a Line Graph" },
+    { id: "line-graph-yeast", label: "Practise Applying the Principles" },
+    { id: "line-graph-plants", label: "Plotting Time on the x-axis" },
   ];
 
   const teacherBackLink = {
-      label: "← Back to Part A",
-      href: "lesson4.html",
+    label: "← Back to Part A",
+    href: "lesson4.html",
   };
 
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     if (typeof initialiseTeacherMenu === "function") {
-      initialiseTeacherMenu(sectionIds, "marine-snail-context", teacherBackLink);
+      initialiseTeacherMenu(
+        sectionIds,
+        "marine-snail-context",
+        teacherBackLink,
+      );
     }
 
     if (DEV_MODE && typeof teacherShowAll === "function") {

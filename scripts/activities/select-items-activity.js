@@ -55,14 +55,21 @@ function SelectItemsActivity(root, options) {
   Activity.call(this, root, options);
 
   var self = this;
-  this.selectedClass = (this.options.classes && this.options.classes.selected) || "selected";
-  this.items = Array.prototype.slice.call(root.querySelectorAll("[data-select-item]"));
-  this.revealTargets = Array.prototype.slice.call(root.querySelectorAll("[data-select-reveal]"));
+  this.selectedClass =
+    (this.options.classes && this.options.classes.selected) || "selected";
+  this.items = Array.prototype.slice.call(
+    root.querySelectorAll("[data-select-item]"),
+  );
+  this.revealTargets = Array.prototype.slice.call(
+    root.querySelectorAll("[data-select-reveal]"),
+  );
 
   this.items.forEach(function (item) {
     var input = self._inputOf(item);
     if (input) {
-      input.addEventListener("change", function () { self._changed(); });
+      input.addEventListener("change", function () {
+        self._changed();
+      });
     } else {
       item.setAttribute("aria-pressed", "false");
       item.addEventListener("click", function () {
@@ -82,8 +89,13 @@ SelectItemsActivity.prototype.constructor = SelectItemsActivity;
 
 SelectItemsActivity.prototype.getSelected = function () {
   var self = this;
-  return this.items.filter(function (item) { return self._isSelected(item); })
-    .map(function (item) { return self._idOf(item); });
+  return this.items
+    .filter(function (item) {
+      return self._isSelected(item);
+    })
+    .map(function (item) {
+      return self._idOf(item);
+    });
 };
 
 SelectItemsActivity.prototype.setSelected = function (ids) {
@@ -97,9 +109,13 @@ SelectItemsActivity.prototype.setSelected = function (ids) {
 SelectItemsActivity.prototype.getRequired = function () {
   /* Called by the base constructor (depends-on check) before this.items exists. */
   var total = this.items ? this.items.length : 0;
-  var configured = this.options.required !== undefined ? this.options.required : this.root.dataset.selectRequired;
+  var configured =
+    this.options.required !== undefined
+      ? this.options.required
+      : this.root.dataset.selectRequired;
   var required = Number(configured);
-  if (configured === undefined || configured === "all" || !(required > 0)) return total;
+  if (configured === undefined || configured === "all" || !(required > 0))
+    return total;
   return Math.min(required, total);
 };
 
@@ -110,7 +126,9 @@ SelectItemsActivity.prototype.isComplete = function () {
 
 SelectItemsActivity.prototype.reset = function () {
   var self = this;
-  this.items.forEach(function (item) { self._setItemSelected(item, false); });
+  this.items.forEach(function (item) {
+    self._setItemSelected(item, false);
+  });
   this._update(true);
 };
 
@@ -146,21 +164,25 @@ SelectItemsActivity.prototype._changed = function () {
 SelectItemsActivity.prototype._update = function (notify) {
   var complete = this.isComplete();
 
-  this.revealTargets.forEach(function (target) { target.hidden = !complete; });
+  this.revealTargets.forEach(function (target) {
+    target.hidden = !complete;
+  });
 
   if (notify) {
     var detail = {
       selected: this.getSelected(),
       count: this.getSelected().length,
       required: this.getRequired(),
-      complete: complete
+      complete: complete,
     };
-    if (typeof this.options.onChange === "function") this.options.onChange(detail);
-    this.root.dispatchEvent(new CustomEvent("select:change", { detail: detail, bubbles: true }));
+    if (typeof this.options.onChange === "function")
+      this.options.onChange(detail);
+    this.root.dispatchEvent(
+      new CustomEvent("select:change", { detail: detail, bubbles: true }),
+    );
   }
 
   this.setComplete(complete);
 };
-
 
 export { SelectItemsActivity };

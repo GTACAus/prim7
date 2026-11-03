@@ -58,28 +58,36 @@ import { Activity } from "./activity-base.js";
 var DEFAULT_PROMPTS = {
   independent: "Choose the variable that is changed.",
   dependent: "Choose the variable that is measured.",
-  controlled: "Choose all the variables that must be kept the same."
+  controlled: "Choose all the variables that must be kept the same.",
 };
 
 var DEFAULT_MESSAGES = {
   defaultMessage: "Choose a variable type, then select the matching variable.",
-  chooseModeFirst: "Choose Independent Variable, Dependent Variable or Controlled Variable first.",
+  chooseModeFirst:
+    "Choose Independent Variable, Dependent Variable or Controlled Variable first.",
 
-  independentWrongType: "That is a measurable outcome. Choose a variable that you can change.",
+  independentWrongType:
+    "That is a measurable outcome. Choose a variable that you can change.",
   independentWrong: "Try again. Which variable is changed in the question?",
   independentSuccess: "Independent variable selected.",
 
-  dependentWrongType: "That is a variable you can change or keep the same. Choose a measurable result instead.",
+  dependentWrongType:
+    "That is a variable you can change or keep the same. Choose a measurable result instead.",
   dependentWrong: "Try again. Which result is observed or measured?",
   dependentSuccess: "Dependent variable selected.",
 
-  controlledNeedsBoth: "Choose one independent variable and one dependent variable before selecting the controlled variables.",
-  controlledWrongType: "That is a measurable outcome, not a variable that needs to be kept the same.",
-  controlledWrong: "Try again. That variable is not controlled in this investigation.",
-  controlledMore: "Controlled variable selected. Choose any other variables that must be kept the same.",
+  controlledNeedsBoth:
+    "Choose one independent variable and one dependent variable before selecting the controlled variables.",
+  controlledWrongType:
+    "That is a measurable outcome, not a variable that needs to be kept the same.",
+  controlledWrong:
+    "Try again. That variable is not controlled in this investigation.",
+  controlledMore:
+    "Controlled variable selected. Choose any other variables that must be kept the same.",
   controlledDone: "All controlled variables have been selected.",
 
-  allDone: "You identified the independent, dependent and controlled variables."
+  allDone:
+    "You identified the independent, dependent and controlled variables.",
 };
 
 function VariableSortActivity(root, options) {
@@ -90,7 +98,11 @@ function VariableSortActivity(root, options) {
   this.isFixed = Boolean(this.answers);
 
   this.prompts = this.options.prompts || DEFAULT_PROMPTS;
-  this.messages = Object.assign({}, DEFAULT_MESSAGES, this.options.messages || {});
+  this.messages = Object.assign(
+    {},
+    DEFAULT_MESSAGES,
+    this.options.messages || {},
+  );
 
   this.modeButtons = root.querySelectorAll("[data-sort-mode]");
   this.tiles = root.querySelectorAll("[data-sort-tile]");
@@ -103,12 +115,18 @@ function VariableSortActivity(root, options) {
   var self = this;
 
   Array.prototype.forEach.call(this.modeButtons, function (button) {
-    button.addEventListener("click", function () { self._setMode(button.dataset.sortMode); });
+    button.addEventListener("click", function () {
+      self._setMode(button.dataset.sortMode);
+    });
   });
 
   Array.prototype.forEach.call(this.tiles, function (tile) {
-    tile.addEventListener("click", function () { self._selectTile(tile); });
-    tile.addEventListener("animationend", function () { tile.classList.remove("buzz"); });
+    tile.addEventListener("click", function () {
+      self._selectTile(tile);
+    });
+    tile.addEventListener("animationend", function () {
+      tile.classList.remove("buzz");
+    });
   });
 
   this._showMessage(this.messages.defaultMessage);
@@ -133,7 +151,13 @@ VariableSortActivity.prototype.reset = function () {
 
   Array.prototype.forEach.call(this.tiles, function (tile) {
     tile.disabled = false;
-    tile.classList.remove("is-independent", "is-dependent", "is-controlled", "is-classified", "buzz");
+    tile.classList.remove(
+      "is-independent",
+      "is-dependent",
+      "is-controlled",
+      "is-classified",
+      "buzz",
+    );
 
     var typeText = tile.querySelector(".variable-tile-type");
     if (typeText) typeText.remove();
@@ -177,8 +201,14 @@ VariableSortActivity.prototype._selectTile = function (tile) {
   else if (mode === "controlled") this._selectControlled(tile, variableName);
 };
 
-VariableSortActivity.prototype._selectIndependent = function (tile, variableName) {
-  if (!this.isFixed && this.openOptions.independent.indexOf(variableName) === -1) {
+VariableSortActivity.prototype._selectIndependent = function (
+  tile,
+  variableName,
+) {
+  if (
+    !this.isFixed &&
+    this.openOptions.independent.indexOf(variableName) === -1
+  ) {
     this._buzz(tile, this.messages.independentWrongType);
     return;
   }
@@ -195,8 +225,14 @@ VariableSortActivity.prototype._selectIndependent = function (tile, variableName
   this._checkComplete();
 };
 
-VariableSortActivity.prototype._selectDependent = function (tile, variableName) {
-  if (!this.isFixed && this.openOptions.dependent.indexOf(variableName) === -1) {
+VariableSortActivity.prototype._selectDependent = function (
+  tile,
+  variableName,
+) {
+  if (
+    !this.isFixed &&
+    this.openOptions.dependent.indexOf(variableName) === -1
+  ) {
     this._buzz(tile, this.messages.dependentWrongType);
     return;
   }
@@ -213,13 +249,19 @@ VariableSortActivity.prototype._selectDependent = function (tile, variableName) 
   this._checkComplete();
 };
 
-VariableSortActivity.prototype._selectControlled = function (tile, variableName) {
+VariableSortActivity.prototype._selectControlled = function (
+  tile,
+  variableName,
+) {
   if (!this.isFixed && (!this.independentComplete || !this.dependentComplete)) {
     this._buzz(tile, this.messages.controlledNeedsBoth);
     return;
   }
 
-  if (!this.isFixed && this.openOptions.controlled.indexOf(variableName) === -1) {
+  if (
+    !this.isFixed &&
+    this.openOptions.controlled.indexOf(variableName) === -1
+  ) {
     this._buzz(tile, this.messages.controlledWrongType);
     return;
   }
@@ -231,15 +273,26 @@ VariableSortActivity.prototype._selectControlled = function (tile, variableName)
 
   this._classify(tile, "controlled", "Controlled variable");
 
-  var controlledButton = this.root.querySelector('[data-sort-mode="controlled"]');
+  var controlledButton = this.root.querySelector(
+    '[data-sort-mode="controlled"]',
+  );
   if (controlledButton) controlledButton.classList.add("mode-complete");
 
   var self = this;
   var controlledDone = this.isFixed
-    ? this.answers.controlled.every(function (name) { return self._tileFor(name) && self._tileFor(name).classList.contains("is-controlled"); })
+    ? this.answers.controlled.every(function (name) {
+        return (
+          self._tileFor(name) &&
+          self._tileFor(name).classList.contains("is-controlled")
+        );
+      })
     : this.openOptions.controlled.every(function (name) {
         var tile = self._tileFor(name);
-        return tile && (tile.classList.contains("is-independent") || tile.classList.contains("is-controlled"));
+        return (
+          tile &&
+          (tile.classList.contains("is-independent") ||
+            tile.classList.contains("is-controlled"))
+        );
       });
 
   if (controlledDone) {
@@ -285,7 +338,8 @@ VariableSortActivity.prototype._finishMode = function (mode) {
 
   /* Independent and dependent can only be chosen once; controlled stays
      available because several tiles need to be classified into it. */
-  if (mode === "independent" || mode === "dependent") modeButton.disabled = true;
+  if (mode === "independent" || mode === "dependent")
+    modeButton.disabled = true;
 };
 
 VariableSortActivity.prototype._buzz = function (tile, message) {
@@ -297,7 +351,9 @@ VariableSortActivity.prototype._buzz = function (tile, message) {
 
 VariableSortActivity.prototype._showMessage = function (message, variant) {
   if (!this.feedback) return;
-  this.feedback.className = variant ? "variable-feedback " + variant : "variable-feedback";
+  this.feedback.className = variant
+    ? "variable-feedback " + variant
+    : "variable-feedback";
   this.feedback.innerHTML = message;
 };
 
@@ -305,11 +361,14 @@ VariableSortActivity.prototype._checkComplete = function () {
   var self = this;
 
   var complete = this.isFixed
-    ? [this.answers.independent, this.answers.dependent].concat(this.answers.controlled).every(function (name) {
-        var tile = self._tileFor(name);
-        return tile && tile.classList.contains("is-classified");
-      })
-    : this.root.querySelectorAll("[data-sort-tile].is-classified").length === this.tiles.length;
+    ? [this.answers.independent, this.answers.dependent]
+        .concat(this.answers.controlled)
+        .every(function (name) {
+          var tile = self._tileFor(name);
+          return tile && tile.classList.contains("is-classified");
+        })
+    : this.root.querySelectorAll("[data-sort-tile].is-classified").length ===
+      this.tiles.length;
 
   if (!complete) return;
 
@@ -322,11 +381,12 @@ VariableSortActivity.prototype._checkComplete = function () {
   });
 
   /* Disable any tiles that were never classified (fixed mode can leave some unused). */
-  Array.prototype.forEach.call(this.tiles, function (tile) { tile.disabled = true; });
+  Array.prototype.forEach.call(this.tiles, function (tile) {
+    tile.disabled = true;
+  });
 
   this._showMessage(this.messages.allDone, "feedback-success");
   this.setComplete(true);
 };
-
 
 export { VariableSortActivity };

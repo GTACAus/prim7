@@ -1,1395 +1,1676 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Lesson 3 Part B - Using a Table to Record Data for a Fair Test</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Lesson 3 Part B - Using a Table to Record Data for a Fair Test
+    </title>
 
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
-        <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
-        <!-- Late print and mobile overrides: must stay before lesson3.css,
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../styles/build_style.css" rel="stylesheet" type="text/css" />
+    <!-- Late print and mobile overrides: must stay before lesson3.css,
          which has its own @media print block. -->
-        <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
-        <link href="../styles/reasoned_prediction_builder.css" rel="stylesheet" type="text/css" />
-        <link href="../styles/lesson3_styles/lesson3.css" rel="stylesheet" type="text/css" />
-    </head>
+    <link href="../styles/overrides.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../styles/reasoned_prediction_builder.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="../styles/lesson3_styles/lesson3.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
 
-    <body>
-        <div class="page-header-wrapper">
-            <header class="page-header">
-                <button class="general-button home-button" onclick="window.location.href='../index.html'">
-                    <p class="bounce-symbol">🏠</p>
-                    <p>Home</p>
-                </button>
+  <body>
+    <div class="page-header-wrapper">
+      <header class="page-header">
+        <button
+          class="general-button home-button"
+          onclick="window.location.href = '../index.html'"
+        >
+          <p class="bounce-symbol">🏠</p>
+          <p>Home</p>
+        </button>
 
-                <button id="back-to-part1-button" class="general-button" onclick="window.location.href='lesson3.html'">
-                    <p class="bounce-symbol">←</p>
-                    <p>Part A</p>
-                </button>
-                <button class="general-button glossary-button" onclick="openGlossary()">
-                    <p class="bounce-symbol">📖</p>
-                    <p>Vocabulary</p>
-                </button>
-            </header>
-        </div>
+        <button
+          id="back-to-part1-button"
+          class="general-button"
+          onclick="window.location.href = 'lesson3.html'"
+        >
+          <p class="bounce-symbol">←</p>
+          <p>Part A</p>
+        </button>
+        <button class="general-button glossary-button" onclick="openGlossary()">
+          <p class="bounce-symbol">📖</p>
+          <p>Vocabulary</p>
+        </button>
+      </header>
+    </div>
 
-        <!-- ==================================================
+    <!-- ==================================================
        VOCABULARY MODAL
        Placeholder definitions can be refined later.
        ================================================== -->
-        <div class="modal" id="glossaryModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <p class="teacher-label">Lesson 3 Part B: Using a Table to Record Data for a Fair Test</p>
-                        <h2>Glossary Terms</h2>
-                    </div>
+    <div class="modal" id="glossaryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="teacher-label">
+              Lesson 3 Part B: Using a Table to Record Data for a Fair Test
+            </p>
+            <h2>Glossary Terms</h2>
+          </div>
 
-                    <button type="button" class="close-button" onclick="closeGlossary()" aria-label="Close glossary">
-                        ×
-                    </button>
-                </div>
-
-                <div class="vocab-list">
-                    <div class="vocab-card">
-                        <h3>Data</h3>
-                        <p>
-                            The observations or measurements you collect during an investigation. Data can be numbers
-                            (e.g. temperature, height) or descriptions (e.g. colour, texture).
-                        </p>
-                    </div>
-                    <div class="vocab-card">
-                        <h3>Units</h3>
-                        <p>
-                            The standard amount or portion of something that is measured, e.g. cm for length, kg for
-                            weight, minutes for time.
-                        </p>
-                    </div>
-                    <div class="vocab-card">
-                        <h3>Table</h3>
-                        <p>An organised arrangement of columns and rows used to display data.</p>
-                    </div>
-                    <div class="vocab-card">
-                        <h3>Repeat tests</h3>
-                        <p>
-                            The same test carried out two or more times under exactly the same conditions, to check that
-                            your results are consistent.
-                        </p>
-                    </div>
-                    <div class="vocab-card">
-                        <h3>Independent variable</h3>
-                        <p>The one variable changed during a fair test experiment.</p>
-                    </div>
-                    <div class="vocab-card">
-                        <h3>Dependent variable</h3>
-                        <p>The result that is observed or measured during a fair test experiment.</p>
-                    </div>
-                </div>
-            </div>
+          <button
+            type="button"
+            class="close-button"
+            onclick="closeGlossary()"
+            aria-label="Close glossary"
+          >
+            ×
+          </button>
         </div>
 
-        <!-- ==================================================
+        <div class="vocab-list">
+          <div class="vocab-card">
+            <h3>Data</h3>
+            <p>
+              The observations or measurements you collect during an
+              investigation. Data can be numbers (e.g. temperature, height) or
+              descriptions (e.g. colour, texture).
+            </p>
+          </div>
+          <div class="vocab-card">
+            <h3>Units</h3>
+            <p>
+              The standard amount or portion of something that is measured, e.g.
+              cm for length, kg for weight, minutes for time.
+            </p>
+          </div>
+          <div class="vocab-card">
+            <h3>Table</h3>
+            <p>
+              An organised arrangement of columns and rows used to display data.
+            </p>
+          </div>
+          <div class="vocab-card">
+            <h3>Repeat tests</h3>
+            <p>
+              The same test carried out two or more times under exactly the same
+              conditions, to check that your results are consistent.
+            </p>
+          </div>
+          <div class="vocab-card">
+            <h3>Independent variable</h3>
+            <p>The one variable changed during a fair test experiment.</p>
+          </div>
+          <div class="vocab-card">
+            <h3>Dependent variable</h3>
+            <p>
+              The result that is observed or measured during a fair test
+              experiment.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================
        HIDDEN TEACHER MENU
        Opened by clicking the lesson title five times.
        ================================================== -->
-        <div class="teacher-modal" id="teacherModal">
-            <div class="teacher-panel">
-                <div class="teacher-panel-header">
-                    <div>
-                        <p class="teacher-label">Teacher tools</p>
-                        <h2>Jump to an activity</h2>
-                    </div>
+    <div class="teacher-modal" id="teacherModal">
+      <div class="teacher-panel">
+        <div class="teacher-panel-header">
+          <div>
+            <p class="teacher-label">Teacher tools</p>
+            <h2>Jump to an activity</h2>
+          </div>
 
-                    <button
-                        type="button"
-                        class="teacher-close"
-                        onclick="closeTeacherMenu()"
-                        aria-label="Close teacher menu"
-                    >
-                        ×
-                    </button>
-                </div>
-
-                <div class="teacher-section-list"></div>
-
-                <div class="teacher-actions">
-                    <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">
-                        Show all sections
-                    </button>
-
-                    <button type="button" class="teacher-secondary-button" onclick="teacherResetView()">
-                        Reset student view
-                    </button>
-                </div>
-
-                <p class="teacher-note">
-                    Jumping between activities changes navigation only. Reset student view clears every answer on this
-                    page.
-                </p>
-            </div>
+          <button
+            type="button"
+            class="teacher-close"
+            onclick="closeTeacherMenu()"
+            aria-label="Close teacher menu"
+          >
+            ×
+          </button>
         </div>
 
-        <main class="page lesson3-page">
-            <header class="lesson-intro lesson3-intro">
-                <div class="lesson-heading">
-                    <span class="lesson-label">Lesson 3 &middot; Part B</span>
-                    <h1 id="teacherTrigger">Using a Table to Record Data for a Fair Test - Part B</h1>
-                    <p class="lesson-summary">Practice what you have learned by doing a ball bounce experiment</p>
+        <div class="teacher-section-list"></div>
 
-                    <a class="worksheet-button general-button" href="../worksheets/l3b-worksheet.pdf" download>
-                        <p class="bounce-symbol">📄</p>
-                        <p>Download worksheet</p>
-                    </a>
-                </div>
-            </header>
+        <div class="teacher-actions">
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherShowAll()"
+          >
+            Show all sections
+          </button>
 
-            <section class="intro-card objectives-card objectives-card-wide practice-plan-card">
-                <p class="intro-eyebrow">Put it into practice</p>
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherResetView()"
+          >
+            Reset student view
+          </button>
+        </div>
 
-                <h2>Practice what you have learned by doing a ball-bounce experiment</h2>
+        <p class="teacher-note">
+          Jumping between activities changes navigation only. Reset student view
+          clears every answer on this page.
+        </p>
+      </div>
+    </div>
 
-                <div class="practice-plan">
-                    <div class="yeast-results-step-heading practice-plan-step">
-                        <span>STEP 1</span>
+    <main class="page lesson3-page">
+      <header class="lesson-intro lesson3-intro">
+        <div class="lesson-heading">
+          <span class="lesson-label">Lesson 3 &middot; Part B</span>
+          <h1 id="teacherTrigger">
+            Using a Table to Record Data for a Fair Test - Part B
+          </h1>
+          <p class="lesson-summary">
+            Practice what you have learned by doing a ball bounce experiment
+          </p>
 
-                        <div>
-                            <h3>Plan a fair test</h3>
-                        </div>
-                    </div>
+          <a
+            class="worksheet-button general-button"
+            href="../worksheets/l3b-worksheet.pdf"
+            download
+          >
+            <p class="bounce-symbol">📄</p>
+            <p>Download worksheet</p>
+          </a>
+        </div>
+      </header>
 
-                    <div class="yeast-results-step-heading practice-plan-step">
-                        <span>STEP 2</span>
+      <section
+        class="intro-card objectives-card objectives-card-wide practice-plan-card"
+      >
+        <p class="intro-eyebrow">Put it into practice</p>
 
-                        <div>
-                            <h3>Collect results into a table</h3>
-                        </div>
-                    </div>
+        <h2>
+          Practice what you have learned by doing a ball-bounce experiment
+        </h2>
 
-                    <div class="yeast-results-step-heading practice-plan-step">
-                        <span>STEP 3</span>
+        <div class="practice-plan">
+          <div class="yeast-results-step-heading practice-plan-step">
+            <span>STEP 1</span>
 
-                        <div>
-                            <h3>Use the results to check your prediction</h3>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <div>
+              <h3>Plan a fair test</h3>
+            </div>
+          </div>
 
-            <div class="intro-grid">
-                <section class="intro-card observation-card">
-                    <p class="intro-eyebrow">Think like a scientist</p>
-                    <h2>The Fair-Test Formula</h2>
+          <div class="yeast-results-step-heading practice-plan-step">
+            <span>STEP 2</span>
 
-                    <p>
-                        A <strong>fair test</strong> experiment helps us to find out if changing one thing causes a
-                        measureable effect in another thing.
-                    </p>
+            <div>
+              <h3>Collect results into a table</h3>
+            </div>
+          </div>
 
-                    <div class="formula-card">
-                        <div class="formula-step">
-                            <div id="formula-step-independent" class="formula-step-number">1</div>
-                            <div>
-                                <strong>Change one factor</strong>
-                                <span>Choose the independent variable.</span>
-                            </div>
-                        </div>
+          <div class="yeast-results-step-heading practice-plan-step">
+            <span>STEP 3</span>
 
-                        <div class="formula-step">
-                            <div id="formula-step-dependent" class="formula-step-number">2</div>
-                            <div>
-                                <strong>Measure the effect this causes</strong>
-                                <span>Measure the dependent variable.</span>
-                            </div>
-                        </div>
+            <div>
+              <h3>Use the results to check your prediction</h3>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                        <div class="formula-step">
-                            <div id="formula-step-units" class="formula-step-number">3</div>
-                            <div>
-                                <strong>Keep everything else the same</strong>
-                                <span>Control all other variables.</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+      <div class="intro-grid">
+        <section class="intro-card observation-card">
+          <p class="intro-eyebrow">Think like a scientist</p>
+          <h2>The Fair-Test Formula</h2>
 
-                <section class="intro-card observation-card">
-                    <p class="intro-eyebrow">Think like a scientist</p>
-                    <h2>Scientific Table Formula</h2>
+          <p>
+            A <strong>fair test</strong> experiment helps us to find out if
+            changing one thing causes a measureable effect in another thing.
+          </p>
 
-                    <p>
-                        When scientists carry out fair tests, they use tables to record <strong>data</strong>. This
-                        helps them to see patterns, trends, and relationships in the <strong>data</strong>.
-                    </p>
-
-                    <div class="formula-card">
-                        <div class="formula-step">
-                            <div id="formula-step-independent" class="formula-step-number">1</div>
-                            <div>
-                                <strong>The independent variable and how you will change it</strong>
-                                <span> This goes in the left-hand column of the table </span>
-                            </div>
-                        </div>
-
-                        <div class="formula-step">
-                            <div id="formula-step-dependent" class="formula-step-number">2</div>
-                            <div>
-                                <strong>The dependent variable and the measurements you make</strong>
-                                <span> Put in the column to the right </span>
-                            </div>
-                        </div>
-
-                        <div class="formula-step">
-                            <div id="formula-step-units" class="formula-step-number">3</div>
-                            <div>
-                                <strong>Repeat each test three times</strong>
-                                <span>
-                                    Record each repeat as test 1, test 2, and test 3. This helps you to spot errors
-                                    should they occur
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+          <div class="formula-card">
+            <div class="formula-step">
+              <div id="formula-step-independent" class="formula-step-number">
+                1
+              </div>
+              <div>
+                <strong>Change one factor</strong>
+                <span>Choose the independent variable.</span>
+              </div>
             </div>
 
-            <section class="section data-table-section" id="build-your-own-table">
-                <h2 class="section-title">Complete a Scientific Table for the Ball-Bounce Experiment</h2>
+            <div class="formula-step">
+              <div id="formula-step-dependent" class="formula-step-number">
+                2
+              </div>
+              <div>
+                <strong>Measure the effect this causes</strong>
+                <span>Measure the dependent variable.</span>
+              </div>
+            </div>
 
-                <!-- ==================================================
+            <div class="formula-step">
+              <div id="formula-step-units" class="formula-step-number">3</div>
+              <div>
+                <strong>Keep everything else the same</strong>
+                <span>Control all other variables.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="intro-card observation-card">
+          <p class="intro-eyebrow">Think like a scientist</p>
+          <h2>Scientific Table Formula</h2>
+
+          <p>
+            When scientists carry out fair tests, they use tables to record
+            <strong>data</strong>. This helps them to see patterns, trends, and
+            relationships in the <strong>data</strong>.
+          </p>
+
+          <div class="formula-card">
+            <div class="formula-step">
+              <div id="formula-step-independent" class="formula-step-number">
+                1
+              </div>
+              <div>
+                <strong
+                  >The independent variable and how you will change it</strong
+                >
+                <span> This goes in the left-hand column of the table </span>
+              </div>
+            </div>
+
+            <div class="formula-step">
+              <div id="formula-step-dependent" class="formula-step-number">
+                2
+              </div>
+              <div>
+                <strong
+                  >The dependent variable and the measurements you make</strong
+                >
+                <span> Put in the column to the right </span>
+              </div>
+            </div>
+
+            <div class="formula-step">
+              <div id="formula-step-units" class="formula-step-number">3</div>
+              <div>
+                <strong>Repeat each test three times</strong>
+                <span>
+                  Record each repeat as test 1, test 2, and test 3. This helps
+                  you to spot errors should they occur
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="section data-table-section" id="build-your-own-table">
+        <h2 class="section-title">
+          Complete a Scientific Table for the Ball-Bounce Experiment
+        </h2>
+
+        <!-- ==================================================
      BALL BOUNCE EXPERIMENT SETUP
      ================================================== -->
 
-                <div class="ball-bounce-setup">
-                    <div class="lesson3-planning-heading">
-                        <span>1</span>
+        <div class="ball-bounce-setup">
+          <div class="lesson3-planning-heading">
+            <span>1</span>
 
-                        <div>
-                            <p class="lesson3-planning-eyebrow">Experiment setup</p>
+            <div>
+              <p class="lesson3-planning-eyebrow">Experiment setup</p>
 
-                            <h3>Look at the ball-bounce experiment</h3>
-                        </div>
-                    </div>
+              <h3>Look at the ball-bounce experiment</h3>
+            </div>
+          </div>
 
-                    <p class="lesson3-planning-instruction">
-                        A table tennis ball is dropped from the same height onto two different surfaces. The number of
-                        bounces is counted before the ball stops.
-                    </p>
+          <p class="lesson3-planning-instruction">
+            A table tennis ball is dropped from the same height onto two
+            different surfaces. The number of bounces is counted before the ball
+            stops.
+          </p>
 
-                    <div class="ball-bounce-setup-image">
-                        <img src="../images/lesson3/Ball Bounce.png" alt="Ball bounce experiment setup" />
-                    </div>
-                </div>
+          <div class="ball-bounce-setup-image">
+            <img
+              src="../images/lesson3/Ball Bounce.png"
+              alt="Ball bounce experiment setup"
+            />
+          </div>
+        </div>
 
-                <!-- ==================================================
+        <!-- ==================================================
      BALL BOUNCE VARIABLES
      ================================================== -->
 
-                <div class="ball-bounce-variables" id="ballBounceVariables">
-                    <div class="lesson3-planning-heading">
-                        <span>2</span>
+        <div class="ball-bounce-variables" id="ballBounceVariables">
+          <div class="lesson3-planning-heading">
+            <span>2</span>
 
-                        <div>
-                            <p class="lesson3-planning-eyebrow">Variables</p>
+            <div>
+              <p class="lesson3-planning-eyebrow">Variables</p>
 
-                            <h3>Identify the variables in the fair test</h3>
-                        </div>
-                    </div>
+              <h3>Identify the variables in the fair test</h3>
+            </div>
+          </div>
 
-                    <p class="lesson3-planning-instruction">
-                        Complete the table to identify what is changed, what is measured, and what needs to stay the
-                        same.
-                    </p>
+          <p class="lesson3-planning-instruction">
+            Complete the table to identify what is changed, what is measured,
+            and what needs to stay the same.
+          </p>
 
-                    <div class="ball-bounce-variables-table">
-                        <div class="ball-bounce-variable-row">
-                            <div class="ball-bounce-variable-label">
-                                <strong>Independent variable</strong>
-                                <span>What is changed?</span>
-                            </div>
+          <div class="ball-bounce-variables-table">
+            <div class="ball-bounce-variable-row">
+              <div class="ball-bounce-variable-label">
+                <strong>Independent variable</strong>
+                <span>What is changed?</span>
+              </div>
 
-                            <div class="ball-bounce-variable-answer">
-                                <select id="ballBounceIndependent">
-                                    <option value="">Choose...</option>
-                                    <option value="surface">Type of surface</option>
-                                    <option value="bounces">Number of bounces</option>
-                                    <option value="ball">Type of ball</option>
-                                </select>
-                            </div>
-                        </div>
+              <div class="ball-bounce-variable-answer">
+                <select id="ballBounceIndependent">
+                  <option value="">Choose...</option>
+                  <option value="surface">Type of surface</option>
+                  <option value="bounces">Number of bounces</option>
+                  <option value="ball">Type of ball</option>
+                </select>
+              </div>
+            </div>
 
-                        <div class="ball-bounce-variable-row">
-                            <div class="ball-bounce-variable-label">
-                                <strong>Dependent variable</strong>
-                                <span>What is measured?</span>
-                            </div>
+            <div class="ball-bounce-variable-row">
+              <div class="ball-bounce-variable-label">
+                <strong>Dependent variable</strong>
+                <span>What is measured?</span>
+              </div>
 
-                            <div class="ball-bounce-variable-answer">
-                                <select id="ballBounceDependent">
-                                    <option value="">Choose...</option>
-                                    <option value="surface">Type of surface</option>
-                                    <option value="bounces">Number of bounces</option>
-                                    <option value="height">Drop height</option>
-                                </select>
-                            </div>
-                        </div>
+              <div class="ball-bounce-variable-answer">
+                <select id="ballBounceDependent">
+                  <option value="">Choose...</option>
+                  <option value="surface">Type of surface</option>
+                  <option value="bounces">Number of bounces</option>
+                  <option value="height">Drop height</option>
+                </select>
+              </div>
+            </div>
 
-                        <div class="ball-bounce-variable-row">
-                            <div class="ball-bounce-variable-label">
-                                <strong>Controlled variables</strong>
-                                <span>What must stay the same?</span>
-                            </div>
+            <div class="ball-bounce-variable-row">
+              <div class="ball-bounce-variable-label">
+                <strong>Controlled variables</strong>
+                <span>What must stay the same?</span>
+              </div>
 
-                            <div class="ball-bounce-variable-answer ball-bounce-controlled-options">
-                                <label>
-                                    <input type="checkbox" value="same-ball" data-ball-control="same-ball" />
-                                    Same table tennis ball
-                                </label>
+              <div
+                class="ball-bounce-variable-answer ball-bounce-controlled-options"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                    value="same-ball"
+                    data-ball-control="same-ball"
+                  />
+                  Same table tennis ball
+                </label>
 
-                                <label>
-                                    <input type="checkbox" value="same-height" data-ball-control="same-height" />
-                                    Same drop height
-                                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="same-height"
+                    data-ball-control="same-height"
+                  />
+                  Same drop height
+                </label>
 
-                                <label>
-                                    <input type="checkbox" value="same-method" data-ball-control="same-method" />
-                                    Same dropping method
-                                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="same-method"
+                    data-ball-control="same-method"
+                  />
+                  Same dropping method
+                </label>
 
-                                <label>
-                                    <input type="checkbox" value="same-surface" data-ball-control="same-surface" />
-                                    Same surface
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        id="ballBounceVariablesFeedback"
-                        class="variable-feedback"
-                        role="status"
-                        aria-live="polite"
-                        hidden
-                    >
-                        Choose the independent variable, dependent variable and controlled variables.
-                    </div>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="same-surface"
+                    data-ball-control="same-surface"
+                  />
+                  Same surface
+                </label>
+              </div>
+            </div>
+          </div>
+          <div
+            id="ballBounceVariablesFeedback"
+            class="variable-feedback"
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+            Choose the independent variable, dependent variable and controlled
+            variables.
+          </div>
 
-                    <div class="reset-button-container">
-                        <button type="button" id="ballBounceVariablesCheck" class="general-button">
-                            Check Answers
-                        </button>
-                    </div>
-                </div>
+          <div class="reset-button-container">
+            <button
+              type="button"
+              id="ballBounceVariablesCheck"
+              class="general-button"
+            >
+              Check Answers
+            </button>
+          </div>
+        </div>
 
-                <!-- ==================================================
+        <!-- ==================================================
           PLAN THE BALL BOUNCE INVESTIGATION
           ================================================== -->
 
-                <div class="lesson3-planning-activity pop-in" id="ballBouncePlanning" hidden>
-                    <!-- ---------- TESTABLE QUESTION ---------- -->
+        <div
+          class="lesson3-planning-activity pop-in"
+          id="ballBouncePlanning"
+          hidden
+        >
+          <!-- ---------- TESTABLE QUESTION ---------- -->
 
-                    <div class="lesson3-planning-heading">
-                        <span>3</span>
+          <div class="lesson3-planning-heading">
+            <span>3</span>
 
-                        <div>
-                            <p class="lesson3-planning-eyebrow">Testable question</p>
-                            <h3>Create your testable question</h3>
-                        </div>
+            <div>
+              <p class="lesson3-planning-eyebrow">Testable question</p>
+              <h3>Create your testable question</h3>
+            </div>
+          </div>
+
+          <p class="lesson3-planning-instruction">
+            Choose a question structure, then enter the
+            <strong>independent variable</strong> and
+            <strong>dependent variable</strong> for your ball-bounce experiment.
+          </p>
+
+          <div id="ballBounceQuestion" data-activity>
+            <div class="question-structure-grid" id="questionStructureGrid">
+              <button
+                type="button"
+                class="question-structure-card question-structure-what"
+                data-question-structure="what"
+                aria-pressed="false"
+              >
+                When I change the ______, what happens to the ______?
+              </button>
+
+              <button
+                type="button"
+                class="question-structure-card question-structure-how"
+                data-question-structure="how"
+                aria-pressed="false"
+              >
+                How does changing the ______ affect the ______?
+              </button>
+
+              <button
+                type="button"
+                class="question-structure-card question-structure-does"
+                data-question-structure="does"
+                aria-pressed="false"
+              >
+                Does changing the ______ affect the ______?
+              </button>
+
+              <button
+                type="button"
+                class="question-structure-card question-structure-if"
+                data-question-structure="if"
+                aria-pressed="false"
+              >
+                If I change the ______, what happens to the ______?
+              </button>
+            </div>
+
+            <div
+              class="investigation-question-builder"
+              id="investigationQuestionBuilder"
+              data-question-builder
+              aria-live="polite"
+            >
+              <p class="question-builder-placeholder">
+                Select a question structure above to begin.
+              </p>
+            </div>
+          </div>
+
+          <!-- ---------- REASONED PREDICTION ---------- -->
+
+          <div
+            id="predictionTable"
+            class="pop-in"
+            data-activity
+            data-activity-depends-on="ballBounceQuestion"
+          >
+            <div class="lesson3-planning-heading prediction-heading">
+              <span>4</span>
+              <div>
+                <p class="lesson3-planning-eyebrow">Reasoned prediction</p>
+                <h3>Make your reasoned prediction</h3>
+              </div>
+            </div>
+            <p class="lesson3-planning-instruction">
+              Use your testable question to predict what you think will happen
+              and explain why.
+            </p>
+            <div class="reasoned-builder">
+              <div
+                class="prediction-organiser"
+                aria-label="Reasoned prediction graphic organiser"
+              >
+                <div class="prediction-organiser-row row-header">
+                  <div class="prediction-organiser-cell">
+                    <span class="cell-sublabel"></span>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <span class="cell-sublabel">Change this</span>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <span class="cell-sublabel">Measure this</span>
+                  </div>
+                </div>
+                <div class="prediction-organiser-row row-variables">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Testable Question</span>
+                    <span class="cell-helper"
+                      >Identify the two things in your testable question</span
+                    >
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <label class="cell-sublabel" for="changeVariable">
+                      The thing I am changing
+                    </label>
+                    <div
+                      id="changeVariable"
+                      data-prediction-change
+                      class="generated-text placeholder"
+                    >
+                      The thing I am changing
                     </div>
-
-                    <p class="lesson3-planning-instruction">
-                        Choose a question structure, then enter the
-                        <strong>independent variable</strong> and <strong>dependent variable</strong> for your
-                        ball-bounce experiment.
-                    </p>
-
-                    <div id="ballBounceQuestion" data-activity>
-                    <div class="question-structure-grid" id="questionStructureGrid">
-                        <button
-                            type="button"
-                            class="question-structure-card question-structure-what"
-                            data-question-structure="what"
-                            aria-pressed="false"
-                        >
-                            When I change the ______, what happens to the ______?
-                        </button>
-
-                        <button
-                            type="button"
-                            class="question-structure-card question-structure-how"
-                            data-question-structure="how"
-                            aria-pressed="false"
-                        >
-                            How does changing the ______ affect the ______?
-                        </button>
-
-                        <button
-                            type="button"
-                            class="question-structure-card question-structure-does"
-                            data-question-structure="does"
-                            aria-pressed="false"
-                        >
-                            Does changing the ______ affect the ______?
-                        </button>
-
-                        <button
-                            type="button"
-                            class="question-structure-card question-structure-if"
-                            data-question-structure="if"
-                            aria-pressed="false"
-                        >
-                            If I change the ______, what happens to the ______?
-                        </button>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <label class="cell-sublabel" for="measureVariable">
+                      The thing I am measuring
+                    </label>
+                    <div
+                      id="measureVariable"
+                      data-prediction-measure
+                      class="generated-text placeholder"
+                    >
+                      The thing I am measuring
                     </div>
-
-                    <div class="investigation-question-builder" id="investigationQuestionBuilder" data-question-builder aria-live="polite">
-                        <p class="question-builder-placeholder">Select a question structure above to begin.</p>
+                  </div>
+                </div>
+                <div class="prediction-organiser-row row-relationship">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Relationship</span>
+                    <span class="cell-helper"
+                      >Choose what you will change and what you think will
+                      happen</span
+                    >
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <label class="cell-sublabel" for="causeRelationshipType"
+                      >Cause</label
+                    >
+                    <div class="relationship-area">
+                      <select
+                        id="causeRelationshipType"
+                        data-prediction-cause-type
+                        class="prediction-select"
+                      >
+                        <option value="">Choose a relationship type</option>
+                        <option value="increase-decrease">
+                          Increase / decrease
+                        </option>
+                        <option value="with-without">With / without</option>
+                        <option value="condition-comparison">
+                          Condition 1 versus condition 2
+                        </option>
+                      </select>
+                      <div
+                        id="causeRelationshipButtons"
+                        data-prediction-cause-buttons
+                        class="relationship-buttons"
+                      ></div>
+                      <div
+                        id="conditionComparisonInputs"
+                        data-prediction-condition-inputs
+                        class="condition-comparison-inputs"
+                      >
+                        <input
+                          id="conditionOneInput"
+                          data-prediction-condition-one
+                          class="condition-input"
+                          type="text"
+                          placeholder="Starting condition, e.g. blue"
+                        />
+                        <input
+                          id="conditionTwoInput"
+                          data-prediction-condition-two
+                          class="condition-input"
+                          type="text"
+                          placeholder="New condition, e.g. red"
+                        />
+                      </div>
                     </div>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <span class="cell-sublabel">Effect or result</span>
+                    <div
+                      id="effectRelationshipButtons"
+                      class="relationship-buttons three-options"
+                    >
+                      <button
+                        type="button"
+                        class="relationship-option"
+                        data-prediction-effect="increase"
+                      >
+                        Increase
+                      </button>
+                      <button
+                        type="button"
+                        class="relationship-option"
+                        data-prediction-effect="decrease"
+                      >
+                        Decrease
+                      </button>
+                      <button
+                        type="button"
+                        class="relationship-option"
+                        data-prediction-effect="stay-the-same"
+                      >
+                        Stay the same
+                      </button>
                     </div>
-
-                    <!-- ---------- REASONED PREDICTION ---------- -->
-
-                    <div id="predictionTable" class="pop-in" data-activity data-activity-depends-on="ballBounceQuestion">
-                        <div class="lesson3-planning-heading prediction-heading">
-                            <span>4</span>
-                            <div>
-                                <p class="lesson3-planning-eyebrow">Reasoned prediction</p>
-                                <h3>Make your reasoned prediction</h3>
-                            </div>
-                        </div>
-                        <p class="lesson3-planning-instruction">
-                            Use your testable question to predict what you think will happen and explain why.
-                        </p>
-                        <div class="reasoned-builder">
-                            <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
-                                <div class="prediction-organiser-row row-header">
-                                    <div class="prediction-organiser-cell"><span class="cell-sublabel"></span></div>
-                                    <div class="prediction-organiser-cell">
-                                        <span class="cell-sublabel">Change this</span>
-                                    </div>
-                                    <div class="prediction-organiser-cell">
-                                        <span class="cell-sublabel">Measure this</span>
-                                    </div>
-                                </div>
-                                <div class="prediction-organiser-row row-variables">
-                                    <div class="prediction-organiser-cell cell-label">
-                                        <span class="cell-sublabel">Testable Question</span>
-                                        <span class="cell-helper"
-                                            >Identify the two things in your testable question</span
-                                        >
-                                    </div>
-                                    <div class="prediction-organiser-cell">
-                                        <label class="cell-sublabel" for="changeVariable">
-                                            The thing I am changing
-                                        </label>
-                                        <div id="changeVariable" data-prediction-change class="generated-text placeholder">
-                                            The thing I am changing
-                                        </div>
-                                    </div>
-                                    <div class="prediction-organiser-cell">
-                                        <label class="cell-sublabel" for="measureVariable">
-                                            The thing I am measuring
-                                        </label>
-                                        <div id="measureVariable" data-prediction-measure class="generated-text placeholder">
-                                            The thing I am measuring
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="prediction-organiser-row row-relationship">
-                                    <div class="prediction-organiser-cell cell-label">
-                                        <span class="cell-sublabel">Relationship</span>
-                                        <span class="cell-helper"
-                                            >Choose what you will change and what you think will happen</span
-                                        >
-                                    </div>
-                                    <div class="prediction-organiser-cell">
-                                        <label class="cell-sublabel" for="causeRelationshipType">Cause</label>
-                                        <div class="relationship-area">
-                                            <select id="causeRelationshipType" data-prediction-cause-type class="prediction-select">
-                                                <option value="">Choose a relationship type</option>
-                                                <option value="increase-decrease">Increase / decrease</option>
-                                                <option value="with-without">With / without</option>
-                                                <option value="condition-comparison">
-                                                    Condition 1 versus condition 2
-                                                </option>
-                                            </select>
-                                            <div id="causeRelationshipButtons" data-prediction-cause-buttons class="relationship-buttons"></div>
-                                            <div id="conditionComparisonInputs" data-prediction-condition-inputs class="condition-comparison-inputs">
-                                                <input
-                                                    id="conditionOneInput" data-prediction-condition-one
-                                                    class="condition-input"
-                                                    type="text"
-                                                    placeholder="Starting condition, e.g. blue"
-                                                />
-                                                <input
-                                                    id="conditionTwoInput" data-prediction-condition-two
-                                                    class="condition-input"
-                                                    type="text"
-                                                    placeholder="New condition, e.g. red"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="prediction-organiser-cell">
-                                        <span class="cell-sublabel">Effect or result</span>
-                                        <div id="effectRelationshipButtons" class="relationship-buttons three-options">
-                                            <button type="button" class="relationship-option" data-prediction-effect="increase">
-                                                Increase
-                                            </button>
-                                            <button type="button" class="relationship-option" data-prediction-effect="decrease">
-                                                Decrease
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="relationship-option"
-                                                data-prediction-effect="stay-the-same"
-                                            >
-                                                Stay the same
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="prediction-organiser-row row-prediction">
-                                    <div class="prediction-organiser-cell cell-label">
-                                        <span class="cell-sublabel">Prediction</span>
-                                    </div>
-                                    <div class="prediction-organiser-cell">
-                                        <div id="predictionIf" data-prediction-cause-text class="generated-text placeholder">
-                                            Choose a cause relationship.
-                                        </div>
-                                    </div>
-                                    <div class="prediction-organiser-cell">
-                                        <div id="predictionThen" data-prediction-effect-text class="generated-text placeholder">
-                                            Choose an effect or result.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="prediction-organiser-row row-reason">
-                                    <div class="prediction-organiser-cell cell-label">
-                                        <span class="cell-sublabel">Reason</span>
-                                    </div>
-                                    <div class="prediction-organiser-cell span-2 reason-inline">
-                                        <label class="cell-helper" for="reasonInput">This is because...</label>
-                                        <div id="reasonInputRow" data-prediction-reason-row class="permanent-input-row">
-                                            <input
-                                                id="reasonInput" data-prediction-reason-input
-                                                type="text"
-                                                class="prediction-input"
-                                                placeholder="Explain why you expect this result"
-                                            />
-                                        </div>
-                                        <div id="reasonAnswer" data-prediction-reason-answer class="submitted-answer"></div>
-                                    </div>
-                                </div>
-                                <div class="prediction-organiser-row row-full">
-                                    <div class="prediction-organiser-cell cell-label">
-                                        <span class="cell-sublabel">Reasoned prediction</span>
-                                    </div>
-                                    <div class="prediction-organiser-cell span-2">
-                                        <div
-                                            id="reasonedPrediction" data-prediction-full-text
-                                            class="generated-text final-prediction placeholder"
-                                            aria-live="polite"
-                                        >
-                                            Complete the organiser to build your reasoned prediction.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  </div>
+                </div>
+                <div class="prediction-organiser-row row-prediction">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Prediction</span>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <div
+                      id="predictionIf"
+                      data-prediction-cause-text
+                      class="generated-text placeholder"
+                    >
+                      Choose a cause relationship.
                     </div>
+                  </div>
+                  <div class="prediction-organiser-cell">
+                    <div
+                      id="predictionThen"
+                      data-prediction-effect-text
+                      class="generated-text placeholder"
+                    >
+                      Choose an effect or result.
+                    </div>
+                  </div>
+                </div>
+                <div class="prediction-organiser-row row-reason">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Reason</span>
+                  </div>
+                  <div class="prediction-organiser-cell span-2 reason-inline">
+                    <label class="cell-helper" for="reasonInput"
+                      >This is because...</label
+                    >
+                    <div
+                      id="reasonInputRow"
+                      data-prediction-reason-row
+                      class="permanent-input-row"
+                    >
+                      <input
+                        id="reasonInput"
+                        data-prediction-reason-input
+                        type="text"
+                        class="prediction-input"
+                        placeholder="Explain why you expect this result"
+                      />
+                    </div>
+                    <div
+                      id="reasonAnswer"
+                      data-prediction-reason-answer
+                      class="submitted-answer"
+                    ></div>
+                  </div>
+                </div>
+                <div class="prediction-organiser-row row-full">
+                  <div class="prediction-organiser-cell cell-label">
+                    <span class="cell-sublabel">Reasoned prediction</span>
+                  </div>
+                  <div class="prediction-organiser-cell span-2">
+                    <div
+                      id="reasonedPrediction"
+                      data-prediction-full-text
+                      class="generated-text final-prediction placeholder"
+                      aria-live="polite"
+                    >
+                      Complete the organiser to build your reasoned prediction.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                    <!-- ==================================================
+          <!-- ==================================================
      WHY REPEAT EACH TEST? - Insertion - initially this was in the yeast section
      ================================================== -->
 
-                    <div class="repeat-tests-inline pop-in" id="repeatTestsInline" hidden>
-                        <div class="repeat-tests-card">
-                            <div class="repeat-tests-explanation">
-                                <h3>Why repeat each test 3 times?</h3>
+          <div class="repeat-tests-inline pop-in" id="repeatTestsInline" hidden>
+            <div class="repeat-tests-card">
+              <div class="repeat-tests-explanation">
+                <h3>Why repeat each test 3 times?</h3>
 
-                                <p>
-                                    In a fair test experiment, we repeat each test
-                                    <strong>3 times</strong> using the same conditions.
-                                </p>
+                <p>
+                  In a fair test experiment, we repeat each test
+                  <strong>3 times</strong> using the same conditions.
+                </p>
 
-                                <p>We do this to:</p>
+                <p>We do this to:</p>
 
-                                <ul>
-                                    <li>Check for mistakes when setting up each test.</li>
-                                    <li>Check for errors when making measurements.</li>
-                                    <li>Spot any strange results.</li>
-                                    <li>Make the results more reliable and trustworthy.</li>
-                                </ul>
-                            </div>
+                <ul>
+                  <li>Check for mistakes when setting up each test.</li>
+                  <li>Check for errors when making measurements.</li>
+                  <li>Spot any strange results.</li>
+                  <li>Make the results more reliable and trustworthy.</li>
+                </ul>
+              </div>
 
-                            <div class="repeat-tests-example">
-                                <p class="repeat-tests-label">Example</p>
+              <div class="repeat-tests-example">
+                <p class="repeat-tests-label">Example</p>
 
-                                <h3>Three table tennis-ball bounce tests</h3>
+                <h3>Three table tennis-ball bounce tests</h3>
 
-                                <p>Look at the results from three repeats of the same table tennis-ball test.</p>
+                <p>
+                  Look at the results from three repeats of the same table
+                  tennis-ball test.
+                </p>
 
-                                <img
-                                    class="repeat-tests-image"
-                                    src="../images/lesson3/Repeat Tests.png"
-                                    alt="Diagram showing three table tennis-ball bounce tests on grass, with one unusual result"
-                                />
-                            </div>
-                        </div>
-
-                        <div id="repeatTestsStop" class="stop-and-check">
-                            <div class="stop-and-check-content">
-                                <p>
-                                    Look at the diagram above. A fair test was repeated 3 times to see how high a table
-                                    tennis ball bounces on grass.
-                                </p>
-
-                                <p>
-                                    <strong>Why is it important to repeat a test 3 times?</strong>
-                                </p>
-
-                                <p>
-                                    <strong>What would happen if you only did the first test?</strong>
-                                </p>
-                            </div>
-
-                            <div class="stop-and-check-answer" hidden>
-                                Repeating a test helps us check whether the results are consistent and makes it easier
-                                to spot mistakes or unusual results. If we only used one result, that result might be
-                                unusual or affected by an error, so our conclusion could be misleading.
-                            </div>
-
-                            <button
-                                type="button"
-                                class="stop-and-check-button general-button"
-                                onclick="ballBounceRepeatStopAndCheck(this)"
-                            >
-                                <p>Check Your Answer</p>
-                                <p class="bounce-symbol">✅</p>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- ---------- OBSERVE THE EXPERIMENT ---------- -->
-
-
-                </div>
-                <div id="ballBounceTests" class="lesson3-planning-activity pop-in" hidden>
-                        <div class="lesson3-planning-heading observation-heading">
-                            <span>5</span>
-
-                            <div>
-                                <p class="lesson3-planning-eyebrow">Observe the experiment</p>
-                                <h3>Watch the ball-bounce tests</h3>
-                            </div>
-                        </div>
-
-                        <p class="lesson3-planning-instruction">
-                            Watch both videos and record the number of bounces from each test in your data table below.
-                        </p>
-
-                        <div class="ball-bounce-video-grid">
-                            <div class="ball-bounce-video-card">
-                                <p class="ball-bounce-video-label">Condition 1</p>
-                                <h3>Hard surface</h3>
-                                <p>Watch all three tests and record the number of bounces.</p>
-
-                                <button
-                                    type="button"
-                                    class="general-button watch-video-button"
-                                    onclick="openLesson3Video(
-          this,
-          '../videos/lesson3/Hard Trial 2.mp4',
-          'Ball Bounce Experiment - Hard Surface'
-        )"
-                                >
-                                    <p class="bounce-symbol">▶</p>
-                                    <p>Watch</p>
-                                </button>
-                            </div>
-
-                            <div class="ball-bounce-video-card">
-                                <p class="ball-bounce-video-label">Condition 2</p>
-                                <h3>Soft surface</h3>
-                                <p>Watch all three tests and record the number of bounces.</p>
-
-                                <button
-                                    type="button"
-                                    class="general-button watch-video-button"
-                                    onclick="openLesson3Video(
-          this,
-          '../videos/lesson3/Soft Trial 2.mp4',
-          'Ball Bounce Experiment - Soft Surface'
-        )"
-      >
-        <p class="bounce-symbol">▶</p>
-        <p>Watch</p>
-      </button>
-    </div>
-  
-  </div>
-  
-  
-  
-                        <div class="data-table-card bounce-table-card">
-                            <div class="custom-table-note">
-                                <p>Number boxes only accept numbers.</p>
-                                <p class="custom-table-note-detail">The variables in this experiment have no units, so you can leave the units boxes empty.</p>
-                            </div>
-                            <div class="experiment-table-scroll">
-                                <table
-                                    class="experiment-table experiment-table-average custom-table"
-                                    aria-label="Student-built experiment table"
-                                >
-                                    <thead>
-                                        <tr>
-                                            <th class="independent-heading" rowspan="2">
-                                                <div class="table-heading-fields">
-                                                    <input
-                                                        class="table-text-input axis-text-input lesson3-filtered-text"
-                                                        type="text"
-                                                        maxlength="50"
-                                                        placeholder="Independent variable"
-                                                        aria-label="Independent variable"
-                                                    />
-
-                                                    <input
-                                                        class="table-text-input table-units-input lesson3-filtered-text"
-                                                        type="text"
-                                                        maxlength="15"
-                                                        placeholder="Units"
-                                                        aria-label="Independent variable units"
-                                                    />
-                                                </div>
-                                            </th>
-
-                                            <th class="dependent-heading bounce-dependent" colspan="4">
-                                                <div class="table-heading-fields">
-                                                    <input
-                                                        class="table-text-input table-heading-input lesson3-filtered-text"
-                                                        type="text"
-                                                        maxlength="70"
-                                                        placeholder="Dependent variable"
-                                                        aria-label="Dependent variable"
-                                                    />
-
-                                                    <input
-                                                        class="table-text-input table-units-input lesson3-filtered-text"
-                                                        type="text"
-                                                        maxlength="15"
-                                                        placeholder="Units"
-                                                        aria-label="Dependent variable units"
-                                                    />
-                                                </div>
-                                            </th>
-                                        </tr>
-
-                                        <tr>
-                                            <th class="test-heading bounce-heading">
-                                                <input
-                                                    class="table-text-input lesson3-filtered-text"
-                                                    type="text"
-                                                    maxlength="30"
-                                                    placeholder="Test 1"
-                                                    aria-label="First test heading"
-                                                />
-                                            </th>
-
-                                            <th class="test-heading bounce-heading">
-                                                <input
-                                                    class="table-text-input lesson3-filtered-text"
-                                                    type="text"
-                                                    maxlength="30"
-                                                    placeholder="Test 2"
-                                                    aria-label="Second test heading"
-                                                />
-                                            </th>
-
-                                            <th class="test-heading bounce-heading">
-                                                <input
-                                                    class="table-text-input lesson3-filtered-text"
-                                                    type="text"
-                                                    maxlength="30"
-                                                    placeholder="Test 3"
-                                                    aria-label="Third test heading"
-                                                />
-                                            </th>
-
-                                            <th class="average-heading">Average</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr data-input-average-row>
-                                            <th class="independent-value bounce-value">
-                                                <input
-                                                    class="table-text-input lesson3-filtered-text"
-                                                    type="text"
-                                                    maxlength="35"
-                                                    placeholder="Row label"
-                                                    aria-label="First row label"
-                                                />
-                                            </th>
-                                            <td>
-                                                <input
-                                                    class="table-number-input"
-                                                    type="number"
-                                                    step="any"
-                                                    inputmode="decimal"
-                                                    aria-label="First row test 1"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    class="table-number-input"
-                                                    type="number"
-                                                    step="any"
-                                                    inputmode="decimal"
-                                                    aria-label="First row test 2"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    class="table-number-input"
-                                                    type="number"
-                                                    step="any"
-                                                    inputmode="decimal"
-                                                    aria-label="First row test 3"
-                                                />
-                                            </td>
-                                            <td class="average-cell">
-                                                <button
-                                                    class="average-button general-button"
-                                                    type="button"
-                                                    onclick="calculateInputAverage(this)"
-                                                >
-                                                    Calculate
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr data-input-average-row>
-                                            <th class="independent-value bounce-value">
-                                                <input
-                                                    class="table-text-input lesson3-filtered-text"
-                                                    type="text"
-                                                    maxlength="35"
-                                                    placeholder="Row label"
-                                                    aria-label="Second row label"
-                                                />
-                                            </th>
-                                            <td>
-                                                <input
-                                                    class="table-number-input"
-                                                    type="number"
-                                                    step="any"
-                                                    inputmode="decimal"
-                                                    aria-label="Second row test 1"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    class="table-number-input"
-                                                    type="number"
-                                                    step="any"
-                                                    inputmode="decimal"
-                                                    aria-label="Second row test 2"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    class="table-number-input"
-                                                    type="number"
-                                                    step="any"
-                                                    inputmode="decimal"
-                                                    aria-label="Second row test 3"
-                                                />
-                                            </td>
-                                            <td class="average-cell">
-                                                <button
-                                                    class="average-button general-button"
-                                                    type="button"
-                                                    onclick="calculateInputAverage(this)"
-                                                >
-                                                    Calculate
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="reset-button-container lesson3-reset-container">
-                                <button type="button" class="general-button reset-btn" onclick="resetBallBounceTable()">
-                                    Reset
-                                </button>
-                            </div>
-                        </div>
-                        <div class="activity-feedback table-activity-feedback" id="customTableFeedback" hidden></div>
-
-                    <div class="prediction-check" id="ballBouncePredictionCheck" data-activity hidden>
-                        <p class="prediction-label">Interpret the results</p>
-
-                        <h3>Use your averages to interpret the results</h3>
-
-                        <div class="ball-bounce-interpretation">
-                            <div class="ball-bounce-interpretation-row">
-                                <span>The average number of bounces on a <strong>hard surface</strong> was</span>
-
-                                <input
-                                    type="number"
-                                    class="table-number-input result-average-input"
-                                    step="any"
-                                    inputmode="decimal"
-                                    aria-label="Average number of bounces on the hard surface"
-                                />
-
-                                <span>bounces.</span>
-                            </div>
-
-                            <div class="ball-bounce-interpretation-row">
-                                <span>The average number of bounces on a <strong>soft surface</strong> was</span>
-
-                                <input
-                                    type="number"
-                                    class="table-number-input result-average-input"
-                                    step="any"
-                                    inputmode="decimal"
-                                    aria-label="Average number of bounces on the soft surface"
-                                />
-
-                                <span>bounces.</span>
-                            </div>
-
-                            <div class="ball-bounce-prediction-result" data-mc-question>
-                                <strong>My reasoned prediction was</strong>
-
-                                <div class="prediction-buttons" data-mc-choices>
-                                    <button
-                                        id="ballBouncePredictionSupported"
-                                        type="button"
-                                        data-mc-choice="supported"
-                                        class="general-button prediction-button"
-                                    >
-                                        Supported
-                                    </button>
-
-                                    <button
-                                        id="ballBouncePredictionUnsupported"
-                                        type="button"
-                                        data-mc-choice="unsupported"
-                                        class="general-button prediction-button"
-                                    >
-                                        Not supported
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    </div>
-                <button type="button" class="save-work-button general-button" onclick="downloadLessonPDF()">
-                    <p class="bounce-symbol">💾</p>
-                    <p>Save my work</p>
-                </button>
-            </section>
-            <!-- Lesson 3 inline video panel for data-entry videos -->
-            <div class="video-dropdown-panel" id="lesson3VideoPanel" hidden>
-                <div class="video-dropdown-header">
-                    <h2 id="lesson3VideoTitle">Video guide</h2>
-
-                    <button type="button" class="close-button" onclick="closeLesson3Video()" aria-label="Close video">
-                        ×
-                    </button>
-                </div>
-
-                <video id="lesson3VideoPlayer" class="video-modal-player" controls preload="metadata">
-                    Your browser does not support video playback.
-                </video>
+                <img
+                  class="repeat-tests-image"
+                  src="../images/lesson3/Repeat Tests.png"
+                  alt="Diagram showing three table tennis-ball bounce tests on grass, with one unusual result"
+                />
+              </div>
             </div>
 
-            <div class="return-to-top">
-                <a class="return-to-top-button general-button" href="#">
-                    <p class="bounce-symbol">↑</p>
-                    <p>Return to Top</p>
-                </a>
+            <div id="repeatTestsStop" class="stop-and-check">
+              <div class="stop-and-check-content">
+                <p>
+                  Look at the diagram above. A fair test was repeated 3 times to
+                  see how high a table tennis ball bounces on grass.
+                </p>
+
+                <p>
+                  <strong>Why is it important to repeat a test 3 times?</strong>
+                </p>
+
+                <p>
+                  <strong
+                    >What would happen if you only did the first test?</strong
+                  >
+                </p>
+              </div>
+
+              <div class="stop-and-check-answer" hidden>
+                Repeating a test helps us check whether the results are
+                consistent and makes it easier to spot mistakes or unusual
+                results. If we only used one result, that result might be
+                unusual or affected by an error, so our conclusion could be
+                misleading.
+              </div>
+
+              <button
+                type="button"
+                class="stop-and-check-button general-button"
+                onclick="ballBounceRepeatStopAndCheck(this)"
+              >
+                <p>Check Your Answer</p>
+                <p class="bounce-symbol">✅</p>
+              </button>
             </div>
-        </main>
+          </div>
+          <!-- ---------- OBSERVE THE EXPERIMENT ---------- -->
+        </div>
+        <div
+          id="ballBounceTests"
+          class="lesson3-planning-activity pop-in"
+          hidden
+        >
+          <div class="lesson3-planning-heading observation-heading">
+            <span>5</span>
 
-        <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
-        <script src="../scripts/common_functions.js"></script>
-        <script type="module" src="../scripts/lesson_progress.js"></script>
-        <script type="module">
-          import { InvestigationQuestionActivity } from "../scripts/activities/investigation-question-activity.js";
-          import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
-          import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
+            <div>
+              <p class="lesson3-planning-eyebrow">Observe the experiment</p>
+              <h3>Watch the ball-bounce tests</h3>
+            </div>
+          </div>
 
-            /* ==================================================
+          <p class="lesson3-planning-instruction">
+            Watch both videos and record the number of bounces from each test in
+            your data table below.
+          </p>
+
+          <div class="ball-bounce-video-grid">
+            <div class="ball-bounce-video-card">
+              <p class="ball-bounce-video-label">Condition 1</p>
+              <h3>Hard surface</h3>
+              <p>Watch all three tests and record the number of bounces.</p>
+
+              <button
+                type="button"
+                class="general-button watch-video-button"
+                onclick="
+                  openLesson3Video(
+                    this,
+                    '../videos/lesson3/Hard Trial 2.mp4',
+                    'Ball Bounce Experiment - Hard Surface',
+                  )
+                "
+              >
+                <p class="bounce-symbol">▶</p>
+                <p>Watch</p>
+              </button>
+            </div>
+
+            <div class="ball-bounce-video-card">
+              <p class="ball-bounce-video-label">Condition 2</p>
+              <h3>Soft surface</h3>
+              <p>Watch all three tests and record the number of bounces.</p>
+
+              <button
+                type="button"
+                class="general-button watch-video-button"
+                onclick="
+                  openLesson3Video(
+                    this,
+                    '../videos/lesson3/Soft Trial 2.mp4',
+                    'Ball Bounce Experiment - Soft Surface',
+                  )
+                "
+              >
+                <p class="bounce-symbol">▶</p>
+                <p>Watch</p>
+              </button>
+            </div>
+          </div>
+
+          <div class="data-table-card bounce-table-card">
+            <div class="custom-table-note">
+              <p>Number boxes only accept numbers.</p>
+              <p class="custom-table-note-detail">
+                The variables in this experiment have no units, so you can leave
+                the units boxes empty.
+              </p>
+            </div>
+            <div class="experiment-table-scroll">
+              <table
+                class="experiment-table experiment-table-average custom-table"
+                aria-label="Student-built experiment table"
+              >
+                <thead>
+                  <tr>
+                    <th class="independent-heading" rowspan="2">
+                      <div class="table-heading-fields">
+                        <input
+                          class="table-text-input axis-text-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="50"
+                          placeholder="Independent variable"
+                          aria-label="Independent variable"
+                        />
+
+                        <input
+                          class="table-text-input table-units-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="15"
+                          placeholder="Units"
+                          aria-label="Independent variable units"
+                        />
+                      </div>
+                    </th>
+
+                    <th class="dependent-heading bounce-dependent" colspan="4">
+                      <div class="table-heading-fields">
+                        <input
+                          class="table-text-input table-heading-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="70"
+                          placeholder="Dependent variable"
+                          aria-label="Dependent variable"
+                        />
+
+                        <input
+                          class="table-text-input table-units-input lesson3-filtered-text"
+                          type="text"
+                          maxlength="15"
+                          placeholder="Units"
+                          aria-label="Dependent variable units"
+                        />
+                      </div>
+                    </th>
+                  </tr>
+
+                  <tr>
+                    <th class="test-heading bounce-heading">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="30"
+                        placeholder="Test 1"
+                        aria-label="First test heading"
+                      />
+                    </th>
+
+                    <th class="test-heading bounce-heading">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="30"
+                        placeholder="Test 2"
+                        aria-label="Second test heading"
+                      />
+                    </th>
+
+                    <th class="test-heading bounce-heading">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="30"
+                        placeholder="Test 3"
+                        aria-label="Third test heading"
+                      />
+                    </th>
+
+                    <th class="average-heading">Average</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-input-average-row>
+                    <th class="independent-value bounce-value">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="35"
+                        placeholder="Row label"
+                        aria-label="First row label"
+                      />
+                    </th>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="First row test 1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="First row test 2"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="First row test 3"
+                      />
+                    </td>
+                    <td class="average-cell">
+                      <button
+                        class="average-button general-button"
+                        type="button"
+                        onclick="calculateInputAverage(this)"
+                      >
+                        Calculate
+                      </button>
+                    </td>
+                  </tr>
+                  <tr data-input-average-row>
+                    <th class="independent-value bounce-value">
+                      <input
+                        class="table-text-input lesson3-filtered-text"
+                        type="text"
+                        maxlength="35"
+                        placeholder="Row label"
+                        aria-label="Second row label"
+                      />
+                    </th>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="Second row test 1"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="Second row test 2"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="table-number-input"
+                        type="number"
+                        step="any"
+                        inputmode="decimal"
+                        aria-label="Second row test 3"
+                      />
+                    </td>
+                    <td class="average-cell">
+                      <button
+                        class="average-button general-button"
+                        type="button"
+                        onclick="calculateInputAverage(this)"
+                      >
+                        Calculate
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="reset-button-container lesson3-reset-container">
+              <button
+                type="button"
+                class="general-button reset-btn"
+                onclick="resetBallBounceTable()"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+          <div
+            class="activity-feedback table-activity-feedback"
+            id="customTableFeedback"
+            hidden
+          ></div>
+
+          <div
+            class="prediction-check"
+            id="ballBouncePredictionCheck"
+            data-activity
+            hidden
+          >
+            <p class="prediction-label">Interpret the results</p>
+
+            <h3>Use your averages to interpret the results</h3>
+
+            <div class="ball-bounce-interpretation">
+              <div class="ball-bounce-interpretation-row">
+                <span
+                  >The average number of bounces on a
+                  <strong>hard surface</strong> was</span
+                >
+
+                <input
+                  type="number"
+                  class="table-number-input result-average-input"
+                  step="any"
+                  inputmode="decimal"
+                  aria-label="Average number of bounces on the hard surface"
+                />
+
+                <span>bounces.</span>
+              </div>
+
+              <div class="ball-bounce-interpretation-row">
+                <span
+                  >The average number of bounces on a
+                  <strong>soft surface</strong> was</span
+                >
+
+                <input
+                  type="number"
+                  class="table-number-input result-average-input"
+                  step="any"
+                  inputmode="decimal"
+                  aria-label="Average number of bounces on the soft surface"
+                />
+
+                <span>bounces.</span>
+              </div>
+
+              <div class="ball-bounce-prediction-result" data-mc-question>
+                <strong>My reasoned prediction was</strong>
+
+                <div class="prediction-buttons" data-mc-choices>
+                  <button
+                    id="ballBouncePredictionSupported"
+                    type="button"
+                    data-mc-choice="supported"
+                    class="general-button prediction-button"
+                  >
+                    Supported
+                  </button>
+
+                  <button
+                    id="ballBouncePredictionUnsupported"
+                    type="button"
+                    data-mc-choice="unsupported"
+                    class="general-button prediction-button"
+                  >
+                    Not supported
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="save-work-button general-button"
+          onclick="downloadLessonPDF()"
+        >
+          <p class="bounce-symbol">💾</p>
+          <p>Save my work</p>
+        </button>
+      </section>
+      <!-- Lesson 3 inline video panel for data-entry videos -->
+      <div class="video-dropdown-panel" id="lesson3VideoPanel" hidden>
+        <div class="video-dropdown-header">
+          <h2 id="lesson3VideoTitle">Video guide</h2>
+
+          <button
+            type="button"
+            class="close-button"
+            onclick="closeLesson3Video()"
+            aria-label="Close video"
+          >
+            ×
+          </button>
+        </div>
+
+        <video
+          id="lesson3VideoPlayer"
+          class="video-modal-player"
+          controls
+          preload="metadata"
+        >
+          Your browser does not support video playback.
+        </video>
+      </div>
+
+      <div class="return-to-top">
+        <a class="return-to-top-button general-button" href="#">
+          <p class="bounce-symbol">↑</p>
+          <p>Return to Top</p>
+        </a>
+      </div>
+    </main>
+
+    <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
+    <script src="../scripts/common_functions.js"></script>
+    <script type="module" src="../scripts/lesson_progress.js"></script>
+    <script type="module">
+      import { InvestigationQuestionActivity } from "../scripts/activities/investigation-question-activity.js";
+      import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
+      import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
+
+      /* ==================================================
                VIDEO PANEL
                ================================================== */
 
-            function openLesson3Video(button, videoSource, videoTitle) {
-                const panel = document.getElementById("lesson3VideoPanel");
-                const player = document.getElementById("lesson3VideoPlayer");
+      function openLesson3Video(button, videoSource, videoTitle) {
+        const panel = document.getElementById("lesson3VideoPanel");
+        const player = document.getElementById("lesson3VideoPlayer");
 
-                player.pause();
-                player.src = videoSource;
-                document.getElementById("lesson3VideoTitle").textContent = videoTitle || "Video guide";
+        player.pause();
+        player.src = videoSource;
+        document.getElementById("lesson3VideoTitle").textContent =
+          videoTitle || "Video guide";
 
-                button.closest(".ball-bounce-video-grid").insertAdjacentElement("afterend", panel);
+        button
+          .closest(".ball-bounce-video-grid")
+          .insertAdjacentElement("afterend", panel);
 
-                panel.hidden = false;
-                player.load();
-                panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
+        panel.hidden = false;
+        player.load();
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
 
-            function closeLesson3Video() {
-                const player = document.getElementById("lesson3VideoPlayer");
+      function closeLesson3Video() {
+        const player = document.getElementById("lesson3VideoPlayer");
 
-                player.pause();
-                player.removeAttribute("src");
-                player.load();
+        player.pause();
+        player.removeAttribute("src");
+        player.load();
 
-                document.getElementById("lesson3VideoPanel").hidden = true;
-            }
+        document.getElementById("lesson3VideoPanel").hidden = true;
+      }
 
-            /* ==================================================
+      /* ==================================================
                BALL BOUNCE - IDENTIFY THE VARIABLES
                ================================================== */
 
-            function initialiseBallBounceVariables() {
-                const independent = document.getElementById("ballBounceIndependent");
-                const dependent = document.getElementById("ballBounceDependent");
-                const checkButton = document.getElementById("ballBounceVariablesCheck");
-                const feedback = document.getElementById("ballBounceVariablesFeedback");
+      function initialiseBallBounceVariables() {
+        const independent = document.getElementById("ballBounceIndependent");
+        const dependent = document.getElementById("ballBounceDependent");
+        const checkButton = document.getElementById("ballBounceVariablesCheck");
+        const feedback = document.getElementById("ballBounceVariablesFeedback");
 
-                checkButton.addEventListener("click", function () {
-                    const controls = Array.from(document.querySelectorAll("[data-ball-control]:checked")).map(
-                        function (checkbox) {
-                            return checkbox.dataset.ballControl;
-                        }
-                    );
+        checkButton.addEventListener("click", function () {
+          const controls = Array.from(
+            document.querySelectorAll("[data-ball-control]:checked"),
+          ).map(function (checkbox) {
+            return checkbox.dataset.ballControl;
+          });
 
-                    const correct =
-                        independent.value === "surface" &&
-                        dependent.value === "bounces" &&
-                        ["same-ball", "same-height", "same-method"].every(function (control) {
-                            return controls.includes(control);
-                        }) &&
-                        !controls.includes("same-surface");
+          const correct =
+            independent.value === "surface" &&
+            dependent.value === "bounces" &&
+            ["same-ball", "same-height", "same-method"].every(
+              function (control) {
+                return controls.includes(control);
+              },
+            ) &&
+            !controls.includes("same-surface");
 
-                    feedback.hidden = false;
-                    feedback.className = "variable-feedback " + (correct ? "feedback-success" : "feedback-try-again");
-                    feedback.textContent = correct
-                        ? "Correct! You identified the variables in the ball-bounce fair test."
-                        : "Not quite. Check what is changed, what is measured, and what needs to stay the same.";
+          feedback.hidden = false;
+          feedback.className =
+            "variable-feedback " +
+            (correct ? "feedback-success" : "feedback-try-again");
+          feedback.textContent = correct
+            ? "Correct! You identified the variables in the ball-bounce fair test."
+            : "Not quite. Check what is changed, what is measured, and what needs to stay the same.";
 
-                    if (!correct) return;
+          if (!correct) return;
 
-                    const planning = document.getElementById("ballBouncePlanning");
+          const planning = document.getElementById("ballBouncePlanning");
 
-                    planning.hidden = false;
-                    planning.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                    checkButton.disabled = true;
-                });
-            }
+          planning.hidden = false;
+          planning.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          checkButton.disabled = true;
+        });
+      }
 
-            /* ==================================================
+      /* ==================================================
                BALL BOUNCE - TESTABLE QUESTION AND REASONED PREDICTION
                The question feeds the prediction (it is unavailable until
                the question is complete); the "why repeat" block appears
                once the prediction is complete.
                ================================================== */
 
-            let ballBounceQuestion = null;
-            let ballBouncePrediction = null;
+      let ballBounceQuestion = null;
+      let ballBouncePrediction = null;
 
-            function initialiseBallBounceQuestionAndPrediction() {
-                ballBounceQuestion = new InvestigationQuestionActivity(document.getElementById("ballBounceQuestion"), {
-                    inputType: "text",
-                    textInputClass: "lesson3-question-input",
-                    onChange: function (state) {
-                        if (!ballBouncePrediction) return;
+      function initialiseBallBounceQuestionAndPrediction() {
+        ballBounceQuestion = new InvestigationQuestionActivity(
+          document.getElementById("ballBounceQuestion"),
+          {
+            inputType: "text",
+            textInputClass: "lesson3-question-input",
+            onChange: function (state) {
+              if (!ballBouncePrediction) return;
 
-                        ballBouncePrediction.setContext({
-                            structure: state.structure,
-                            change: state.firstAnswer,
-                            measure: state.secondAnswer,
-                        });
-                    },
-                });
+              ballBouncePrediction.setContext({
+                structure: state.structure,
+                change: state.firstAnswer,
+                measure: state.secondAnswer,
+              });
+            },
+          },
+        );
 
-                ballBouncePrediction = new PredictionTableActivity(document.getElementById("predictionTable"));
+        ballBouncePrediction = new PredictionTableActivity(
+          document.getElementById("predictionTable"),
+        );
 
-                const repeatTests = document.getElementById("repeatTestsInline");
+        const repeatTests = document.getElementById("repeatTestsInline");
 
-                document.addEventListener("activity:change", function (event) {
-                    if (event.detail.id !== "predictionTable") return;
+        document.addEventListener("activity:change", function (event) {
+          if (event.detail.id !== "predictionTable") return;
 
-                    const wasHidden = repeatTests.hidden;
+          const wasHidden = repeatTests.hidden;
 
-                    repeatTests.hidden = !event.detail.complete;
+          repeatTests.hidden = !event.detail.complete;
 
-                    if (wasHidden && event.detail.complete) {
-                        repeatTests.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                    }
-                });
-            }
+          if (wasHidden && event.detail.complete) {
+            repeatTests.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            });
+          }
+        });
+      }
 
-            /* Reveals the data table after the "why repeat" check. */
-            function ballBounceRepeatStopAndCheck(button) {
-                showStopAndCheckAnswer(button, function () {
-                    const tests = document.getElementById("ballBounceTests");
+      /* Reveals the data table after the "why repeat" check. */
+      function ballBounceRepeatStopAndCheck(button) {
+        showStopAndCheckAnswer(button, function () {
+          const tests = document.getElementById("ballBounceTests");
 
-                    tests.hidden = false;
-                    tests.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                });
-            }
+          tests.hidden = false;
+          tests.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      }
 
-            /* ==================================================
+      /* ==================================================
                BALL BOUNCE - SAVED TABLE ENTRIES
                Every text and number box in the table (and the averages
                below it) turns into a saved answer with a clear button.
                The number stays on the hidden input so averages can read it.
                ================================================== */
 
-            function initialiseTableEntries() {
-                const inputs = document.querySelectorAll(
-                    "#build-your-own-table .lesson3-filtered-text, #build-your-own-table .table-number-input"
-                );
+      function initialiseTableEntries() {
+        const inputs = document.querySelectorAll(
+          "#build-your-own-table .lesson3-filtered-text, #build-your-own-table .table-number-input",
+        );
 
-                inputs.forEach(function (input) {
-                    const isNumber = input.type === "number";
+        inputs.forEach(function (input) {
+          const isNumber = input.type === "number";
 
-                    const control = document.createElement("div");
-                    control.className = "table-entry-control" + (isNumber ? " table-number-control" : "");
+          const control = document.createElement("div");
+          control.className =
+            "table-entry-control" + (isNumber ? " table-number-control" : "");
 
-                    const inputRow = document.createElement("div");
-                    inputRow.className = "table-entry-input-row";
+          const inputRow = document.createElement("div");
+          inputRow.className = "table-entry-input-row";
 
-                    const answerBox = document.createElement("div");
-                    answerBox.className = "table-entry-answer" + (isNumber ? " table-number-answer" : "");
-                    answerBox.setAttribute("aria-live", "polite");
+          const answerBox = document.createElement("div");
+          answerBox.className =
+            "table-entry-answer" + (isNumber ? " table-number-answer" : "");
+          answerBox.setAttribute("aria-live", "polite");
 
-                    input.parentElement.insertBefore(control, input);
-                    control.appendChild(inputRow);
-                    inputRow.appendChild(input);
-                    control.appendChild(answerBox);
+          input.parentElement.insertBefore(control, input);
+          control.appendChild(inputRow);
+          inputRow.appendChild(input);
+          control.appendChild(answerBox);
 
-                    function saveEntry() {
-                        let value;
+          function saveEntry() {
+            let value;
 
-                        if (isNumber) {
-                            value = input.value.trim();
+            if (isNumber) {
+              value = input.value.trim();
 
-                            if (value === "") return;
+              if (value === "") return;
 
-                            if (!Number.isFinite(Number(value))) {
-                                input.focus();
-                                return;
-                            }
-                        } else {
-                            value = getValidStudentInput(input);
+              if (!Number.isFinite(Number(value))) {
+                input.focus();
+                return;
+              }
+            } else {
+              value = getValidStudentInput(input);
 
-                            if (value === null) return;
-                        }
-
-                        const answerText = document.createElement("span");
-                        answerText.className = "table-entry-answer-text";
-                        answerText.textContent = value;
-
-                        const deleteButton = createDeleteAnswerButton("Clear " + value, function () {
-                            answerBox.classList.remove("visible");
-                            answerBox.innerHTML = "";
-                            inputRow.style.display = "block";
-                            input.value = "";
-
-                            if (isNumber) resetAverageForNumberInput(input);
-
-                            input.focus();
-                        });
-
-                        answerBox.innerHTML = "";
-                        answerBox.appendChild(answerText);
-                        answerBox.appendChild(deleteButton);
-
-                        inputRow.style.display = "none";
-                        answerBox.classList.add("visible");
-
-                        if (!isNumber) input.value = "";
-                    }
-
-                    connectEnterAndBlurSave(input, saveEntry);
-                });
+              if (value === null) return;
             }
 
-            /* ==================================================
+            const answerText = document.createElement("span");
+            answerText.className = "table-entry-answer-text";
+            answerText.textContent = value;
+
+            const deleteButton = createDeleteAnswerButton(
+              "Clear " + value,
+              function () {
+                answerBox.classList.remove("visible");
+                answerBox.innerHTML = "";
+                inputRow.style.display = "block";
+                input.value = "";
+
+                if (isNumber) resetAverageForNumberInput(input);
+
+                input.focus();
+              },
+            );
+
+            answerBox.innerHTML = "";
+            answerBox.appendChild(answerText);
+            answerBox.appendChild(deleteButton);
+
+            inputRow.style.display = "none";
+            answerBox.classList.add("visible");
+
+            if (!isNumber) input.value = "";
+          }
+
+          connectEnterAndBlurSave(input, saveEntry);
+        });
+      }
+
+      /* ==================================================
                BALL BOUNCE - AVERAGES
                ================================================== */
 
-            function formatAverage(value) {
-                return Number.isInteger(value) ? String(value) : value.toFixed(1).replace(/\.0$/, "");
-            }
+      function formatAverage(value) {
+        return Number.isInteger(value)
+          ? String(value)
+          : value.toFixed(1).replace(/\.0$/, "");
+      }
 
-            function createCalculateButton() {
-                const button = document.createElement("button");
+      function createCalculateButton() {
+        const button = document.createElement("button");
 
-                button.type = "button";
-                button.classList.add("average-button", "general-button");
-                button.textContent = "Calculate";
-                button.addEventListener("click", function () {
-                    calculateInputAverage(button);
-                });
+        button.type = "button";
+        button.classList.add("average-button", "general-button");
+        button.textContent = "Calculate";
+        button.addEventListener("click", function () {
+          calculateInputAverage(button);
+        });
 
-                return button;
-            }
+        return button;
+      }
 
-            /* Put a Calculate button back in place of a calculated average. */
-            function restoreCalculateButton(cell) {
-                cell.classList.remove("average-result");
-                cell.innerHTML = "";
-                cell.appendChild(createCalculateButton());
-            }
+      /* Put a Calculate button back in place of a calculated average. */
+      function restoreCalculateButton(cell) {
+        cell.classList.remove("average-result");
+        cell.innerHTML = "";
+        cell.appendChild(createCalculateButton());
+      }
 
-            function resetAverageForNumberInput(input) {
-                const row = input.closest("[data-input-average-row]");
-                const cell = row && row.querySelector(".average-cell");
+      function resetAverageForNumberInput(input) {
+        const row = input.closest("[data-input-average-row]");
+        const cell = row && row.querySelector(".average-cell");
 
-                if (cell && cell.classList.contains("average-result")) {
-                    restoreCalculateButton(cell);
-                }
-            }
+        if (cell && cell.classList.contains("average-result")) {
+          restoreCalculateButton(cell);
+        }
+      }
 
-            function showAverageValue(button, average) {
-                const cell = button.closest(".average-cell");
+      function showAverageValue(button, average) {
+        const cell = button.closest(".average-cell");
 
-                cell.innerHTML = "";
-                cell.classList.add("average-result");
+        cell.innerHTML = "";
+        cell.classList.add("average-result");
 
-                const resultWrapper = document.createElement("div");
-                resultWrapper.className = "average-result-wrapper";
+        const resultWrapper = document.createElement("div");
+        resultWrapper.className = "average-result-wrapper";
 
-                const resultText = document.createElement("span");
-                resultText.className = "average-result-value";
-                resultText.textContent = formatAverage(average);
+        const resultText = document.createElement("span");
+        resultText.className = "average-result-value";
+        resultText.textContent = formatAverage(average);
 
-                const clearButton = document.createElement("button");
-                clearButton.type = "button";
-                clearButton.className = "average-clear-button";
-                clearButton.textContent = "×";
-                clearButton.setAttribute("aria-label", "Clear calculated average");
-                clearButton.addEventListener("click", function () {
-                    restoreCalculateButton(cell);
-                });
+        const clearButton = document.createElement("button");
+        clearButton.type = "button";
+        clearButton.className = "average-clear-button";
+        clearButton.textContent = "×";
+        clearButton.setAttribute("aria-label", "Clear calculated average");
+        clearButton.addEventListener("click", function () {
+          restoreCalculateButton(cell);
+        });
 
-                resultWrapper.appendChild(resultText);
-                resultWrapper.appendChild(clearButton);
-                cell.appendChild(resultWrapper);
-            }
+        resultWrapper.appendChild(resultText);
+        resultWrapper.appendChild(clearButton);
+        cell.appendChild(resultWrapper);
+      }
 
-            function calculateInputAverage(button) {
-                const row = button.closest("[data-input-average-row]");
-                const feedback = document.getElementById("customTableFeedback");
+      function calculateInputAverage(button) {
+        const row = button.closest("[data-input-average-row]");
+        const feedback = document.getElementById("customTableFeedback");
 
-                const values = Array.from(row.querySelectorAll(".table-number-input")).map(function (input) {
-                    return input.value.trim() === "" ? NaN : Number(input.value);
-                });
+        const values = Array.from(
+          row.querySelectorAll(".table-number-input"),
+        ).map(function (input) {
+          return input.value.trim() === "" ? NaN : Number(input.value);
+        });
 
-                if (values.some(Number.isNaN)) {
-                    feedback.hidden = false;
-                    feedback.className = "activity-feedback table-activity-feedback feedback-try-again";
-                    feedback.innerHTML =
-                        "<strong>Add all three results first.</strong><span>The average can be calculated once each test has a number.</span>";
-                    return;
-                }
+        if (values.some(Number.isNaN)) {
+          feedback.hidden = false;
+          feedback.className =
+            "activity-feedback table-activity-feedback feedback-try-again";
+          feedback.innerHTML =
+            "<strong>Add all three results first.</strong><span>The average can be calculated once each test has a number.</span>";
+          return;
+        }
 
-                if (feedback.classList.contains("feedback-try-again")) {
-                    feedback.hidden = true;
-                }
+        if (feedback.classList.contains("feedback-try-again")) {
+          feedback.hidden = true;
+        }
 
-                const total = values.reduce(function (sum, value) {
-                    return sum + value;
-                }, 0);
+        const total = values.reduce(function (sum, value) {
+          return sum + value;
+        }, 0);
 
-                showAverageValue(button, total / values.length);
+        showAverageValue(button, total / values.length);
 
-                /* Once every average is calculated, the interpretation panel appears. */
-                if (!document.querySelector("#build-your-own-table .average-button")) {
-                    document.getElementById("ballBouncePredictionCheck").hidden = false;
-                }
-            }
+        /* Once every average is calculated, the interpretation panel appears. */
+        if (!document.querySelector("#build-your-own-table .average-button")) {
+          document.getElementById("ballBouncePredictionCheck").hidden = false;
+        }
+      }
 
-            /* ==================================================
+      /* ==================================================
                BALL BOUNCE - INTERPRET THE RESULTS
                ================================================== */
 
-            /* No right answer here: the activity only records which button is picked. */
-            let ballBouncePredictionActivity = null;
+      /* No right answer here: the activity only records which button is picked. */
+      let ballBouncePredictionActivity = null;
 
-            function initialisePredictionCheck() {
-                ballBouncePredictionActivity = new MultipleChoiceActivity(
-                    document.getElementById("ballBouncePredictionCheck"),
-                    { classes: { selected: "selected-answer", correct: "mc-correct", incorrect: "mc-incorrect" } }
-                );
-            }
+      function initialisePredictionCheck() {
+        ballBouncePredictionActivity = new MultipleChoiceActivity(
+          document.getElementById("ballBouncePredictionCheck"),
+          {
+            classes: {
+              selected: "selected-answer",
+              correct: "mc-correct",
+              incorrect: "mc-incorrect",
+            },
+          },
+        );
+      }
 
-            /* ==================================================
+      /* ==================================================
                BALL BOUNCE - RESET
                ================================================== */
 
-            function clearTableEntries(scope) {
-                scope.querySelectorAll(".table-entry-control").forEach(function (control) {
-                    control.querySelector("input").value = "";
-                    control.querySelector(".table-entry-input-row").style.display = "block";
+      function clearTableEntries(scope) {
+        scope
+          .querySelectorAll(".table-entry-control")
+          .forEach(function (control) {
+            control.querySelector("input").value = "";
+            control.querySelector(".table-entry-input-row").style.display =
+              "block";
 
-                    const answerBox = control.querySelector(".table-entry-answer");
+            const answerBox = control.querySelector(".table-entry-answer");
 
-                    answerBox.classList.remove("visible");
-                    answerBox.innerHTML = "";
-                });
-            }
+            answerBox.classList.remove("visible");
+            answerBox.innerHTML = "";
+          });
+      }
 
-            function resetBallBounceTable() {
-                const tableCard = document.querySelector("#build-your-own-table .bounce-table-card");
+      function resetBallBounceTable() {
+        const tableCard = document.querySelector(
+          "#build-your-own-table .bounce-table-card",
+        );
 
-                clearTableEntries(tableCard);
+        clearTableEntries(tableCard);
 
-                tableCard.querySelectorAll(".average-cell").forEach(restoreCalculateButton);
+        tableCard
+          .querySelectorAll(".average-cell")
+          .forEach(restoreCalculateButton);
 
-                const feedback = document.getElementById("customTableFeedback");
+        const feedback = document.getElementById("customTableFeedback");
 
-                feedback.hidden = true;
-                feedback.innerHTML = "";
+        feedback.hidden = true;
+        feedback.innerHTML = "";
 
-                /* The interpretation panel copies numbers from the table, so it goes back too. */
-                const predictionCheck = document.getElementById("ballBouncePredictionCheck");
+        /* The interpretation panel copies numbers from the table, so it goes back too. */
+        const predictionCheck = document.getElementById(
+          "ballBouncePredictionCheck",
+        );
 
-                predictionCheck.hidden = true;
-                clearTableEntries(predictionCheck);
+        predictionCheck.hidden = true;
+        clearTableEntries(predictionCheck);
 
-                ballBouncePredictionActivity.reset();
-            }
+        ballBouncePredictionActivity.reset();
+      }
 
-            const DEV_MODE = false;
-            if (DEV_MODE) window.addEventListener("DOMContentLoaded", teacherShowAll);
+      const DEV_MODE = false;
+      if (DEV_MODE) window.addEventListener("DOMContentLoaded", teacherShowAll);
 
-            const sectionIds = [
-                { id: "build-your-own-table", label: "Ball bounce experiment: complete the table" },
-                { id: "ballBouncePlanning", label: "Create Your Testable Question and Make Your Reasoned Prediction" },
-                { id: "ballBounceTests", label: "Why Do We Repeat Experiments 3 Times?" },
-            ];
+      const sectionIds = [
+        {
+          id: "build-your-own-table",
+          label: "Ball bounce experiment: complete the table",
+        },
+        {
+          id: "ballBouncePlanning",
+          label:
+            "Create Your Testable Question and Make Your Reasoned Prediction",
+        },
+        {
+          id: "ballBounceTests",
+          label: "Why Do We Repeat Experiments 3 Times?",
+        },
+      ];
 
-            const teacherBackLink = {
-                label: "← Back to Part A",
-                href: "lesson3.html",
-            };
+      const teacherBackLink = {
+        label: "← Back to Part A",
+        href: "lesson3.html",
+      };
 
-            document.addEventListener("DOMContentLoaded", function () {
-                initialiseTeacherMenu(sectionIds, "build-your-own-table", teacherBackLink);
+      document.addEventListener("DOMContentLoaded", function () {
+        initialiseTeacherMenu(
+          sectionIds,
+          "build-your-own-table",
+          teacherBackLink,
+        );
 
-                initialiseTableEntries();
-                initialiseBallBounceVariables();
-                initialiseBallBounceQuestionAndPrediction();
-                initialisePredictionCheck();
-            });
+        initialiseTableEntries();
+        initialiseBallBounceVariables();
+        initialiseBallBounceQuestionAndPrediction();
+        initialisePredictionCheck();
+      });
 
-          /* Called from inline handlers / shared scripts, which cannot see module scope. */
-          Object.assign(window, { openLesson3Video, closeLesson3Video, ballBounceRepeatStopAndCheck, calculateInputAverage, resetBallBounceTable });
-        </script>
-    </body>
+      /* Called from inline handlers / shared scripts, which cannot see module scope. */
+      Object.assign(window, {
+        openLesson3Video,
+        closeLesson3Video,
+        ballBounceRepeatStopAndCheck,
+        calculateInputAverage,
+        resetBallBounceTable,
+      });
+    </script>
+  </body>
 </html>

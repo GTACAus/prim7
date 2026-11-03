@@ -59,23 +59,23 @@ var DEFAULT_TEMPLATES = {
   what: {
     parts: ["When I change the ", ", what happens to the ", "?"],
     firstPlaceholder: "What will you change?",
-    secondPlaceholder: "What will you measure?"
+    secondPlaceholder: "What will you measure?",
   },
   how: {
     parts: ["How does changing the ", " affect the ", "?"],
     firstPlaceholder: "What will you change?",
-    secondPlaceholder: "What will you measure?"
+    secondPlaceholder: "What will you measure?",
   },
   does: {
     parts: ["Does changing the ", " affect the ", "?"],
     firstPlaceholder: "What will you change?",
-    secondPlaceholder: "What will you measure?"
+    secondPlaceholder: "What will you measure?",
   },
   if: {
     parts: ["If I change the ", ", what happens to the ", "?"],
     firstPlaceholder: "What will you change?",
-    secondPlaceholder: "What will you measure?"
-  }
+    secondPlaceholder: "What will you measure?",
+  },
 };
 
 function InvestigationQuestionActivity(root, options) {
@@ -102,7 +102,8 @@ function InvestigationQuestionActivity(root, options) {
 }
 
 InvestigationQuestionActivity.prototype = Object.create(Activity.prototype);
-InvestigationQuestionActivity.prototype.constructor = InvestigationQuestionActivity;
+InvestigationQuestionActivity.prototype.constructor =
+  InvestigationQuestionActivity;
 
 /* ---------- public API ---------- */
 
@@ -111,7 +112,7 @@ InvestigationQuestionActivity.prototype.getState = function () {
     structure: this.state.structure,
     firstAnswer: this.state.firstAnswer,
     secondAnswer: this.state.secondAnswer,
-    text: this._getCompletedText()
+    text: this._getCompletedText(),
   };
 };
 
@@ -134,10 +135,13 @@ InvestigationQuestionActivity.prototype._renderPlaceholder = function () {
   if (!this.builder) return;
   this.completedElement = null;
   this.builder.classList.remove("builder-active");
-  this.builder.innerHTML = '<p class="question-builder-placeholder">Select a question structure above to begin.</p>';
+  this.builder.innerHTML =
+    '<p class="question-builder-placeholder">Select a question structure above to begin.</p>';
 };
 
-InvestigationQuestionActivity.prototype._selectStructure = function (structureName) {
+InvestigationQuestionActivity.prototype._selectStructure = function (
+  structureName,
+) {
   var template = this.templates[structureName];
   if (!template || !this.builder) return;
 
@@ -155,9 +159,13 @@ InvestigationQuestionActivity.prototype._selectStructure = function (structureNa
   var sentence = document.createElement("div");
   sentence.className = "question-builder-sentence";
   sentence.appendChild(document.createTextNode(template.parts[0]));
-  sentence.appendChild(this._createBlank("firstAnswer", template.firstPlaceholder));
+  sentence.appendChild(
+    this._createBlank("firstAnswer", template.firstPlaceholder),
+  );
   sentence.appendChild(document.createTextNode(template.parts[1]));
-  sentence.appendChild(this._createBlank("secondAnswer", template.secondPlaceholder));
+  sentence.appendChild(
+    this._createBlank("secondAnswer", template.secondPlaceholder),
+  );
   sentence.appendChild(document.createTextNode(template.parts[2]));
 
   this.completedElement = document.createElement("div");
@@ -171,7 +179,10 @@ InvestigationQuestionActivity.prototype._selectStructure = function (structureNa
   this.setComplete(false);
 };
 
-InvestigationQuestionActivity.prototype._createBlank = function (fieldName, placeholderText) {
+InvestigationQuestionActivity.prototype._createBlank = function (
+  fieldName,
+  placeholderText,
+) {
   var self = this;
 
   var wrapper = document.createElement("span");
@@ -286,21 +297,31 @@ InvestigationQuestionActivity.prototype._renderCompleted = function () {
 /* ---------- internals ---------- */
 
 InvestigationQuestionActivity.prototype._isComplete = function () {
-  return Boolean(this.state.structure && this.state.firstAnswer && this.state.secondAnswer);
+  return Boolean(
+    this.state.structure && this.state.firstAnswer && this.state.secondAnswer,
+  );
 };
 
 InvestigationQuestionActivity.prototype._getCompletedText = function () {
   var template = this.templates[this.state.structure];
-  if (!template || !this.state.firstAnswer || !this.state.secondAnswer) return "";
+  if (!template || !this.state.firstAnswer || !this.state.secondAnswer)
+    return "";
 
-  return template.parts[0] + this.state.firstAnswer + template.parts[1] + this.state.secondAnswer + template.parts[2];
+  return (
+    template.parts[0] +
+    this.state.firstAnswer +
+    template.parts[1] +
+    this.state.secondAnswer +
+    template.parts[2]
+  );
 };
 
 InvestigationQuestionActivity.prototype._notify = function () {
   var state = this.getState();
   if (typeof this.options.onChange === "function") this.options.onChange(state);
-  this.root.dispatchEvent(new CustomEvent("question:change", { detail: state, bubbles: true }));
+  this.root.dispatchEvent(
+    new CustomEvent("question:change", { detail: state, bubbles: true }),
+  );
 };
-
 
 export { InvestigationQuestionActivity };

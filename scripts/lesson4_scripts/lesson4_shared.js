@@ -45,8 +45,9 @@ function partBFormatAverage(value) {
 
 function svgEl(tag, attrs, text) {
   const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
-  Object.keys(attrs || {}).forEach(function(name) {
-    if (attrs[name] !== null && attrs[name] !== undefined) element.setAttribute(name, attrs[name]);
+  Object.keys(attrs || {}).forEach(function (name) {
+    if (attrs[name] !== null && attrs[name] !== undefined)
+      element.setAttribute(name, attrs[name]);
   });
   if (text !== undefined) element.textContent = text;
   return element;
@@ -65,20 +66,22 @@ function BarGraph(config) {
   this.layers = config.layers;
 }
 
-BarGraph.prototype.y = function(value) {
+BarGraph.prototype.y = function (value) {
   const plot = this.plot;
   return plot.bottom - (value / plot.maxY) * (plot.bottom - plot.top);
 };
 
 /* The y and height attributes for a bar showing this value. */
-BarGraph.prototype.barBox = function(value) {
+BarGraph.prototype.barBox = function (value) {
   const height = (value / this.plot.maxY) * (this.plot.bottom - this.plot.top);
   return { y: this.plot.bottom - height, height: height };
 };
 
-BarGraph.prototype.clear = function() {
+BarGraph.prototype.clear = function () {
   const layers = this.layers;
-  Object.keys(layers).forEach(function(name) { layers[name].innerHTML = ""; });
+  Object.keys(layers).forEach(function (name) {
+    layers[name].innerHTML = "";
+  });
 };
 
 /*
@@ -87,28 +90,51 @@ BarGraph.prototype.clear = function() {
   group (with a hit area) whose attr holds its value, as Part B's plotting uses.
   options.labelEvery (default 1) labels only every n-th value; every value still gets a grid line.
 */
-BarGraph.prototype.drawGrid = function(options) {
+BarGraph.prototype.drawGrid = function (options) {
   const plot = this.plot;
   const choice = options && options.choice;
   const labelEvery = (options && options.labelEvery) || 1;
 
   for (let value = 0; value <= plot.maxY; value += 1) {
     const y = this.y(value);
-    this.layers.grid.appendChild(svgEl("line", { "class": "graph-grid-line", x1: plot.left, x2: plot.right, y1: y, y2: y }));
+    this.layers.grid.appendChild(
+      svgEl("line", {
+        class: "graph-grid-line",
+        x1: plot.left,
+        x2: plot.right,
+        y1: y,
+        y2: y,
+      }),
+    );
     if (value % labelEvery !== 0) continue;
 
-    const label = svgEl("text", { "class": "tick-label", x: 103, y: y + 4, "text-anchor": "end" }, value);
+    const label = svgEl(
+      "text",
+      { class: "tick-label", x: 103, y: y + 4, "text-anchor": "end" },
+      value,
+    );
     if (!choice) {
       this.layers.yTicks.appendChild(label);
       continue;
     }
 
     const group = svgEl("g", {
-      "class": choice.className, tabindex: 0, role: "button",
-      "aria-label": "Choose " + value + " on the y-axis"
+      class: choice.className,
+      tabindex: 0,
+      role: "button",
+      "aria-label": "Choose " + value + " on the y-axis",
     });
     group.setAttribute(choice.attr, value);
-    group.appendChild(svgEl("rect", { "class": choice.hitClass, x: 68, y: y - 14, width: 48, height: 28, rx: 6 }));
+    group.appendChild(
+      svgEl("rect", {
+        class: choice.hitClass,
+        x: 68,
+        y: y - 14,
+        width: 48,
+        height: 28,
+        rx: 6,
+      }),
+    );
     group.appendChild(label);
     this.layers.yTicks.appendChild(group);
   }
@@ -119,22 +145,37 @@ BarGraph.prototype.drawGrid = function(options) {
   With options.choice ({ className, hitClass, attr }) each label is a button group whose attr
   holds its label (Part-B-style guided plotting).
 */
-BarGraph.prototype.drawXTicks = function(ticks, options) {
+BarGraph.prototype.drawXTicks = function (ticks, options) {
   const choice = options && options.choice;
 
-  ticks.forEach(function(tick) {
-    const label = svgEl("text", { "class": "tick-label", x: tick.x, y: 394, "text-anchor": "middle" }, tick.label);
+  ticks.forEach(function (tick) {
+    const label = svgEl(
+      "text",
+      { class: "tick-label", x: tick.x, y: 394, "text-anchor": "middle" },
+      tick.label,
+    );
     if (!choice) {
       this.layers.xTicks.appendChild(label);
       return;
     }
 
     const group = svgEl("g", {
-      "class": choice.className, tabindex: 0, role: "button",
-      "aria-label": "Choose " + tick.label + " on the x-axis"
+      class: choice.className,
+      tabindex: 0,
+      role: "button",
+      "aria-label": "Choose " + tick.label + " on the x-axis",
     });
     group.setAttribute(choice.attr, tick.label);
-    group.appendChild(svgEl("rect", { "class": choice.hitClass, x: tick.x - 40, y: 371, width: 80, height: 44, rx: 6 }));
+    group.appendChild(
+      svgEl("rect", {
+        class: choice.hitClass,
+        x: tick.x - 40,
+        y: 371,
+        width: 80,
+        height: 44,
+        rx: 6,
+      }),
+    );
     group.appendChild(label);
     this.layers.xTicks.appendChild(group);
   }, this);
@@ -145,15 +186,24 @@ BarGraph.prototype.drawXTicks = function(ticks, options) {
   attributes for the text; options.className its classes. With options.choice
   ({ className, hitClass, attr }) the label sits in a button group (Part B).
 */
-BarGraph.prototype.drawCategories = function(options) {
+BarGraph.prototype.drawCategories = function (options) {
   const self = this;
   const choice = options.choice;
 
-  this.items.forEach(function(item, index) {
+  this.items.forEach(function (item, index) {
     const centre = self.plot.centres[index];
-    const label = svgEl("text", Object.assign({
-      "class": options.className, x: centre, y: 394, "text-anchor": "middle"
-    }, options.attrs ? options.attrs(index) : {}));
+    const label = svgEl(
+      "text",
+      Object.assign(
+        {
+          class: options.className,
+          x: centre,
+          y: 394,
+          "text-anchor": "middle",
+        },
+        options.attrs ? options.attrs(index) : {},
+      ),
+    );
     label.appendChild(svgEl("tspan", { x: centre, dy: 0 }, item.short[0]));
     label.appendChild(svgEl("tspan", { x: centre, dy: 14 }, item.short[1]));
 
@@ -163,11 +213,22 @@ BarGraph.prototype.drawCategories = function(options) {
     }
 
     const group = svgEl("g", {
-      "class": choice.className, tabindex: 0, role: "button",
-      "aria-label": "Choose " + item.label + " on the x-axis"
+      class: choice.className,
+      tabindex: 0,
+      role: "button",
+      "aria-label": "Choose " + item.label + " on the x-axis",
     });
     group.setAttribute(choice.attr, index);
-    group.appendChild(svgEl("rect", { "class": choice.hitClass, x: centre - 52, y: 373, width: 104, height: 55, rx: 6 }));
+    group.appendChild(
+      svgEl("rect", {
+        class: choice.hitClass,
+        x: centre - 52,
+        y: 373,
+        width: 104,
+        height: 55,
+        rx: 6,
+      }),
+    );
     group.appendChild(label);
     self.layers.categories.appendChild(group);
   });
@@ -181,23 +242,47 @@ BarGraph.prototype.drawCategories = function(options) {
 
   fill: true colours the bar with the item's colour.
 */
-BarGraph.prototype.drawBars = function(series) {
+BarGraph.prototype.drawBars = function (series) {
   const self = this;
 
-  this.items.forEach(function(item, index) {
+  this.items.forEach(function (item, index) {
     const centre = self.plot.centres[index];
 
-    series.forEach(function(entry) {
+    series.forEach(function (entry) {
       const x = entry.x(centre);
-      entry.layer.appendChild(svgEl("rect", Object.assign({
-        "class": entry.className, x: x, y: self.plot.bottom, width: self.plot.barWidth, height: 0, rx: 4,
-        fill: entry.fill ? item.colour : null
-      }, entry.attrs(index))));
+      entry.layer.appendChild(
+        svgEl(
+          "rect",
+          Object.assign(
+            {
+              class: entry.className,
+              x: x,
+              y: self.plot.bottom,
+              width: self.plot.barWidth,
+              height: 0,
+              rx: 4,
+              fill: entry.fill ? item.colour : null,
+            },
+            entry.attrs(index),
+          ),
+        ),
+      );
 
       const label = entry.label;
-      label.layer.appendChild(svgEl("text", Object.assign({
-        "class": label.className, x: label.x(centre, x), y: label.y(index)
-      }, label.attrs(index)), label.text(index)));
+      label.layer.appendChild(
+        svgEl(
+          "text",
+          Object.assign(
+            {
+              class: label.className,
+              x: label.x(centre, x),
+              y: label.y(index),
+            },
+            label.attrs(index),
+          ),
+          label.text(index),
+        ),
+      );
     });
   });
 };
@@ -207,10 +292,20 @@ function fillTableBody(body, rows, rowAttrName) {
   if (!body) return;
   body.innerHTML = "";
 
-  rows.forEach(function(cells, index) {
+  rows.forEach(function (cells, index) {
     const row = document.createElement("tr");
     if (rowAttrName) row.setAttribute(rowAttrName, index);
-    row.innerHTML = cells.map(function(cell) { return "<td" + (cell.cls ? ' class="' + cell.cls + '"' : "") + ">" + (cell.html !== undefined ? cell.html : cell) + "</td>"; }).join("");
+    row.innerHTML = cells
+      .map(function (cell) {
+        return (
+          "<td" +
+          (cell.cls ? ' class="' + cell.cls + '"' : "") +
+          ">" +
+          (cell.html !== undefined ? cell.html : cell) +
+          "</td>"
+        );
+      })
+      .join("");
     body.appendChild(row);
   });
 }

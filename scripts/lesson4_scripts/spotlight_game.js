@@ -1,14 +1,14 @@
-const stage = document.getElementById('stage');
-const photo = document.getElementById('photo');
-const glow = document.getElementById('glow');
+const stage = document.getElementById("stage");
+const photo = document.getElementById("photo");
+const glow = document.getElementById("glow");
 function setSpot(xPct, yPct, radius) {
-  stage.style.setProperty('--x', xPct + '%');
-  stage.style.setProperty('--y', yPct + '%');
-  stage.style.setProperty('--r', radius + 'px');
+  stage.style.setProperty("--x", xPct + "%");
+  stage.style.setProperty("--y", yPct + "%");
+  stage.style.setProperty("--r", radius + "px");
 }
 // start fully dark (spot off-canvas)
 setSpot(-50, -50, 140);
-stage.addEventListener('mousemove', (e) => {
+stage.addEventListener("mousemove", (e) => {
   const rect = stage.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
@@ -16,30 +16,34 @@ stage.addEventListener('mousemove', (e) => {
   const yPct = (y / rect.height) * 100;
   setSpot(xPct, yPct, 140);
 });
-stage.addEventListener('mouseleave', () => {
+stage.addEventListener("mouseleave", () => {
   setSpot(-50, -50, 140);
 });
 // touch support
-stage.addEventListener('touchmove', (e) => {
-  const touch = e.touches[0];
-  if (!touch) return;
-  const rect = stage.getBoundingClientRect();
-  const x = touch.clientX - rect.left;
-  const y = touch.clientY - rect.top;
-  setSpot((x / rect.width) * 100, (y / rect.height) * 100, 140);
-  e.preventDefault();
-}, { passive: false });
+stage.addEventListener(
+  "touchmove",
+  (e) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const rect = stage.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    setSpot((x / rect.width) * 100, (y / rect.height) * 100, 140);
+    e.preventDefault();
+  },
+  { passive: false },
+);
 
 // Hidden animals on top of the forest photo: clicking one marks it as
 // found with a coloured overlay, and syncs the matching counter by ±1.
 // Each hotspot's overlay is masked to that hotspot's own <img> (its src),
 // not a shared per-species file — so any number of different sprites per
 // animal type each get an overlay matching their own silhouette.
-document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
-  const sprite = hotspot.querySelector('img');
-  const overlay = hotspot.querySelector('.animal-overlay');
+document.querySelectorAll(".animal-hotspot").forEach((hotspot) => {
+  const sprite = hotspot.querySelector("img");
+  const overlay = hotspot.querySelector(".animal-overlay");
   if (sprite && overlay) {
-    const maskUrl = 'url("' + sprite.getAttribute('src') + '")';
+    const maskUrl = 'url("' + sprite.getAttribute("src") + '")';
     overlay.style.maskImage = maskUrl;
     overlay.style.webkitMaskImage = maskUrl;
     // Match any flip/rotation applied to the sprite (e.g. scaleX(-1)) so
@@ -50,13 +54,15 @@ document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
     }
   }
 
-  hotspot.addEventListener('click', () => {
-    const wasFound = hotspot.classList.contains('found');
-    hotspot.classList.toggle('found');
-    const nowFound = hotspot.classList.contains('found');
+  hotspot.addEventListener("click", () => {
+    const wasFound = hotspot.classList.contains("found");
+    hotspot.classList.toggle("found");
+    const nowFound = hotspot.classList.contains("found");
 
     const type = hotspot.dataset.animal;
-    const counter = document.querySelector('.animal-counter[data-animal-counter="' + type + '"]');
+    const counter = document.querySelector(
+      '.animal-counter[data-animal-counter="' + type + '"]',
+    );
     if (!counter) return;
 
     if (nowFound && !wasFound) {
@@ -68,42 +74,42 @@ document.querySelectorAll('.animal-hotspot').forEach((hotspot) => {
 });
 
 function startNight() {
-  stage.classList.add('is-night');
-  const nightButton = document.getElementById('waitForNightButton');
+  stage.classList.add("is-night");
+  const nightButton = document.getElementById("waitForNightButton");
   if (nightButton) nightButton.disabled = true;
 
   // The counters are only meaningful once the torch is out and animals
   // can be found, so keep them hidden until night actually starts.
-  const counterPanel = document.getElementById('animalCounterPanel');
-  const checkCountButton = document.getElementById('checkAnimalCountButton');
-  if (counterPanel) counterPanel.style.display = '';
-  if (checkCountButton) checkCountButton.style.display = '';
- }
+  const counterPanel = document.getElementById("animalCounterPanel");
+  const checkCountButton = document.getElementById("checkAnimalCountButton");
+  if (counterPanel) counterPanel.style.display = "";
+  if (checkCountButton) checkCountButton.style.display = "";
+}
 
 function returnToDay(keepNightPromptHidden = false) {
-  stage.classList.remove('is-night');
-  const nightButton = document.getElementById('waitForNightButton');
-  const nightPrompt = document.getElementById('nightPrompt');
+  stage.classList.remove("is-night");
+  const nightButton = document.getElementById("waitForNightButton");
+  const nightPrompt = document.getElementById("nightPrompt");
   if (keepNightPromptHidden) {
     // The activity is finished (every animal found and counted correctly):
     // swap back to the daytime photo, but don't let the "wait until night"
     // prompt/button reappear over it.
-    if (nightPrompt) nightPrompt.style.display = 'none';
+    if (nightPrompt) nightPrompt.style.display = "none";
   } else {
     // A normal reset: re-arm the prompt/button so the activity can be
     // played again, and hide the counters until night starts again.
-    if (nightPrompt) nightPrompt.style.display = '';
+    if (nightPrompt) nightPrompt.style.display = "";
     if (nightButton) nightButton.disabled = false;
-    const counterPanel = document.getElementById('animalCounterPanel');
-    const checkCountButton = document.getElementById('checkAnimalCountButton');
-  if (counterPanel) counterPanel.style.display = 'none';
-  if (checkCountButton) checkCountButton.style.display = 'none';
+    const counterPanel = document.getElementById("animalCounterPanel");
+    const checkCountButton = document.getElementById("checkAnimalCountButton");
+    if (counterPanel) counterPanel.style.display = "none";
+    if (checkCountButton) checkCountButton.style.display = "none";
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const nightButton = document.getElementById('waitForNightButton');
-  if (nightButton) nightButton.addEventListener('click', startNight);
+document.addEventListener("DOMContentLoaded", () => {
+  const nightButton = document.getElementById("waitForNightButton");
+  if (nightButton) nightButton.addEventListener("click", startNight);
 });
 
 /* ==================================================
@@ -114,8 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
    ================================================== */
 
 const colourPalette = [
-  'var(--yellow)', 'var(--mint)', 'var(--blue)',
-  'var(--lavender)', 'var(--green)', 'var(--purple)'
+  "var(--yellow)",
+  "var(--mint)",
+  "var(--blue)",
+  "var(--lavender)",
+  "var(--green)",
+  "var(--purple)",
 ];
 
 function colourForIndex(index) {
@@ -123,11 +133,11 @@ function colourForIndex(index) {
 }
 
 function countHotspotsByType() {
-  const hotspots = document.querySelectorAll('#animalLayer .animal-hotspot');
+  const hotspots = document.querySelectorAll("#animalLayer .animal-hotspot");
   const countsByType = {};
 
   hotspots.forEach((hotspot) => {
-    const type = hotspot.dataset.animal || 'animal';
+    const type = hotspot.dataset.animal || "animal";
     countsByType[type] = (countsByType[type] || 0) + 1;
   });
 
@@ -135,21 +145,23 @@ function countHotspotsByType() {
 }
 
 function renderAnimalCounterDots(counter, count) {
-  const circle = counter.querySelector('.counter-circle');
+  const circle = counter.querySelector(".counter-circle");
 
   // Remove only the dots, not the animal image
-  circle.querySelectorAll('.counter-dot').forEach(dot => dot.remove());
+  circle.querySelectorAll(".counter-dot").forEach((dot) => dot.remove());
 
   for (let index = 0; index < count; index += 1) {
-    const dot = document.createElement('span');
-    dot.className = 'counter-dot';
+    const dot = document.createElement("span");
+    dot.className = "counter-dot";
     dot.style.backgroundColor = counter.dataset.dotColour;
     circle.appendChild(dot);
   }
 }
 
 function getHotspotsByType(type) {
-  return Array.from(document.querySelectorAll('.animal-hotspot[data-animal="' + type + '"]'));
+  return Array.from(
+    document.querySelectorAll('.animal-hotspot[data-animal="' + type + '"]'),
+  );
 }
 
 function pickRandomElement(elements) {
@@ -167,15 +179,19 @@ function syncHotspotsForCounterChange(type, counterValue) {
   const actualCount = hotspots.length;
   const desiredFoundCount = Math.min(counterValue, actualCount);
 
-  const currentlyFound = hotspots.filter((hotspot) => hotspot.classList.contains('found'));
+  const currentlyFound = hotspots.filter((hotspot) =>
+    hotspot.classList.contains("found"),
+  );
 
   if (desiredFoundCount > currentlyFound.length) {
-    const available = hotspots.filter((hotspot) => !hotspot.classList.contains('found'));
+    const available = hotspots.filter(
+      (hotspot) => !hotspot.classList.contains("found"),
+    );
     let needed = desiredFoundCount - currentlyFound.length;
 
     while (needed > 0 && available.length) {
       const target = pickRandomElement(available);
-      target.classList.add('found');
+      target.classList.add("found");
       available.splice(available.indexOf(target), 1);
       needed -= 1;
     }
@@ -185,7 +201,7 @@ function syncHotspotsForCounterChange(type, counterValue) {
 
     while (excess > 0 && stillFound.length) {
       const target = pickRandomElement(stillFound);
-      target.classList.remove('found');
+      target.classList.remove("found");
       stillFound.splice(stillFound.indexOf(target), 1);
       excess -= 1;
     }
@@ -202,9 +218,9 @@ function changeAnimalCount(counter, delta, syncHotspots = true) {
   if (next === current) return;
 
   counter.dataset.value = String(next);
-  counter.classList.remove('counter-correct', 'counter-incorrect');
+  counter.classList.remove("counter-correct", "counter-incorrect");
   renderAnimalCounterDots(counter, next);
-  counter.querySelector('.counter-value-text').textContent = String(next);
+  counter.querySelector(".counter-value-text").textContent = String(next);
 
   if (syncHotspots) {
     syncHotspotsForCounterChange(counter.dataset.animalCounter, next);
@@ -212,53 +228,57 @@ function changeAnimalCount(counter, delta, syncHotspots = true) {
 }
 
 function getAnimalColourFor(type) {
-  const hotspot = document.querySelector('.animal-hotspot[data-animal="' + type + '"]');
-  if (!hotspot) return 'var(--orange)'; // fallback if no matching hotspot exists
+  const hotspot = document.querySelector(
+    '.animal-hotspot[data-animal="' + type + '"]',
+  );
+  if (!hotspot) return "var(--orange)"; // fallback if no matching hotspot exists
 
-  const computed = getComputedStyle(hotspot).getPropertyValue('--animal-colour').trim();
-  return computed || 'var(--orange)';
+  const computed = getComputedStyle(hotspot)
+    .getPropertyValue("--animal-colour")
+    .trim();
+  return computed || "var(--orange)";
 }
 
 function getAnimalImage(type, imageSrc) {
   const hotspot = document.querySelector(
-    `.animal-hotspot[data-animal="${type}"] img`
+    `.animal-hotspot[data-animal="${type}"] img`,
   );
 
-  return hotspot ? hotspot.getAttribute('src') : imageSrc;
+  return hotspot ? hotspot.getAttribute("src") : imageSrc;
 }
 
 function createAnimalCounter(type, actualCount, imageSource) {
   const maxCount = actualCount + 3; // headroom above the correct answer
-  const counter = document.createElement('div');
+  const counter = document.createElement("div");
 
-  counter.className = 'animal-counter';
+  counter.className = "animal-counter";
   counter.dataset.animalCounter = type;
-  counter.dataset.value = '0';
+  counter.dataset.value = "0";
   counter.dataset.max = String(maxCount);
   counter.dataset.dotColour = getAnimalColourFor(type);
 
-  const label = document.createElement('p');
-  label.className = 'animal-counter-label';
+  const label = document.createElement("p");
+  label.className = "animal-counter-label";
   label.textContent = type;
   counter.appendChild(label);
 
-  const circle = document.createElement('div');
-  circle.className = 'counter-circle';
-  circle.setAttribute('aria-hidden', 'true');
+  const circle = document.createElement("div");
+  circle.className = "counter-circle";
+  circle.setAttribute("aria-hidden", "true");
   counter.appendChild(circle);
 
   const imageSrc = getAnimalImage(type, imageSource);
   if (imageSrc) {
-    const image = document.createElement('img');
-    image.className = 'counter-image';
+    const image = document.createElement("img");
+    image.className = "counter-image";
     image.src = imageSrc;
     image.alt = type;
     circle.appendChild(image);
   }
 
-  const valueText = document.createElement('p');
-  valueText.className = 'counter-value-text';
-  valueText.textContent = '0';
+  const valueText = document.createElement("p");
+  valueText.className = "counter-value-text";
+  valueText.textContent = "0";
   counter.appendChild(valueText);
 
   // const buttonRow = document.createElement('div');
@@ -286,7 +306,7 @@ function createAnimalCounter(type, actualCount, imageSource) {
 }
 
 function buildAnimalCounters() {
-  const panel = document.getElementById('animalCounterPanel');
+  const panel = document.getElementById("animalCounterPanel");
   if (!panel) return;
 
   const countsByType = countHotspotsByType();
@@ -298,18 +318,22 @@ function buildAnimalCounters() {
     panel.appendChild(counter);
   });
 
-  const deerCounter = createAnimalCounter('Feral Deer', 0, '../images/lesson4/male_deer_1.png');
+  const deerCounter = createAnimalCounter(
+    "Feral Deer",
+    0,
+    "../images/lesson4/male_deer_1.png",
+  );
   panel.appendChild(deerCounter);
 }
 
 function checkAnimalCount() {
-  const feedback = document.getElementById('animalCountFeedback');
+  const feedback = document.getElementById("animalCountFeedback");
   if (!feedback) return;
 
   const countsByType = countHotspotsByType();
-  const counters = document.querySelectorAll('.animal-counter');
+  const counters = document.querySelectorAll(".animal-counter");
   let allCorrect = true;
-  let firstWrongLabel = '';
+  let firstWrongLabel = "";
 
   counters.forEach((counter) => {
     const type = counter.dataset.animalCounter;
@@ -317,62 +341,71 @@ function checkAnimalCount() {
     const guess = Number(counter.dataset.value);
     const correct = guess === actualCount;
 
-    counter.classList.toggle('counter-correct', correct);
-    counter.classList.toggle('counter-incorrect', !correct);
+    counter.classList.toggle("counter-correct", correct);
+    counter.classList.toggle("counter-incorrect", !correct);
 
     if (!correct && !firstWrongLabel) firstWrongLabel = type;
     if (!correct) allCorrect = false;
   });
 
-  feedback.classList.remove('success', 'try-again');
-  feedback.innerHTML = '';
-  const strong = document.createElement('strong');
+  feedback.classList.remove("success", "try-again");
+  feedback.innerHTML = "";
+  const strong = document.createElement("strong");
 
   if (allCorrect) {
-    feedback.classList.add('success');
-    strong.textContent = 'All counts match!';
+    feedback.classList.add("success");
+    strong.textContent = "All counts match!";
     feedback.appendChild(strong);
-    feedback.appendChild(document.createTextNode(' You found and counted every animal correctly.'));
+    feedback.appendChild(
+      document.createTextNode(" You found and counted every animal correctly."),
+    );
     revealStackButtons();
     returnToDay(true);
-    
+
     document.getElementById("collectingVisualisingStopAndCheck").hidden = false;
 
     return;
   }
 
-  feedback.classList.add('try-again');
-  strong.textContent = firstWrongLabel + ' needs another look.';
+  feedback.classList.add("try-again");
+  strong.textContent = firstWrongLabel + " needs another look.";
   feedback.appendChild(strong);
-  feedback.appendChild(document.createTextNode(' Move the torch around the whole photo, then adjust the counter to match what you found.'));
+  feedback.appendChild(
+    document.createTextNode(
+      " Move the torch around the whole photo, then adjust the counter to match what you found.",
+    ),
+  );
 }
 
 function resetAnimalCounters() {
-  document.querySelectorAll('.animal-counter').forEach((counter) => {
-    counter.dataset.value = '0';
-    counter.classList.remove('counter-correct', 'counter-incorrect');
+  document.querySelectorAll(".animal-counter").forEach((counter) => {
+    counter.dataset.value = "0";
+    counter.classList.remove("counter-correct", "counter-incorrect");
     renderAnimalCounterDots(counter, 0);
-    counter.querySelector('.counter-value-text').textContent = '0';
+    counter.querySelector(".counter-value-text").textContent = "0";
   });
 
-  const feedback = document.getElementById('animalCountFeedback');
+  const feedback = document.getElementById("animalCountFeedback");
   if (!feedback) return;
-  feedback.classList.remove('success', 'try-again');
-  feedback.innerHTML = '<strong>Use the torch to search first.</strong>Set each counter to how many of that animal you found hiding in the photo.';
+  feedback.classList.remove("success", "try-again");
+  feedback.innerHTML =
+    "<strong>Use the torch to search first.</strong>Set each counter to how many of that animal you found hiding in the photo.";
 
   hideStackVisuals();
   returnToDay();
-  document.querySelectorAll('.animal-hotspot.found').forEach(h => h.classList.remove('found'));
+  document
+    .querySelectorAll(".animal-hotspot.found")
+    .forEach((h) => h.classList.remove("found"));
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   buildAnimalCounters();
 
-  const counterPanel = document.getElementById('animalCounterPanel');
-  if (counterPanel) counterPanel.style.display = 'none';
+  const counterPanel = document.getElementById("animalCounterPanel");
+  if (counterPanel) counterPanel.style.display = "none";
 
-  const checkButton = document.getElementById('checkAnimalCountButton');
-  if (checkButton) checkButton.addEventListener('click', checkAnimalCount);
+  const checkButton = document.getElementById("checkAnimalCountButton");
+  if (checkButton) checkButton.addEventListener("click", checkAnimalCount);
 });
 
 /* ==================================================
@@ -382,26 +415,25 @@ document.addEventListener('DOMContentLoaded', () => {
    the same segments between bar and circle shapes.
    ================================================== */
 
-
 function getCheckedAnimalCounts() {
   const counts = [];
-  document.querySelectorAll('.animal-counter').forEach((counter) => {
+  document.querySelectorAll(".animal-counter").forEach((counter) => {
     counts.push({
       type: counter.dataset.animalCounter,
-      value: Number(counter.dataset.value)
+      value: Number(counter.dataset.value),
     });
   });
   return counts;
 }
 
 function createCylinder(parent, colour) {
-  const cylinder = document.createElement('div');
-  cylinder.className = 'cylinder';
+  const cylinder = document.createElement("div");
+  cylinder.className = "cylinder";
 
   const stripCount = 12;
 
   const diameter = 46; // circle diameter
-  const height = 7;   // cylinder thickness/height
+  const height = 7; // cylinder thickness/height
   const radius = diameter / 2;
 
   const circumference = 2 * Math.PI * radius;
@@ -410,29 +442,25 @@ function createCylinder(parent, colour) {
   const stripWidth = (circumference / stripCount) * 1.12;
 
   // Pass dimensions to CSS
-  parent.style.setProperty('--cylinder-diameter', `${diameter}px`);
-  parent.style.setProperty('--cylinder-height', `${height}px`);
+  parent.style.setProperty("--cylinder-diameter", `${diameter}px`);
+  parent.style.setProperty("--cylinder-height", `${height}px`);
 
   for (let i = 0; i < stripCount; i += 1) {
-    const strip = document.createElement('div');
-    strip.className = 'cylinder-strip';
+    const strip = document.createElement("div");
+    strip.className = "cylinder-strip";
 
     const angle = (360 / stripCount) * i;
 
-    strip.style.width = stripWidth + 'px';
-    strip.style.height = height + 'px';
-    strip.style.marginLeft = -(stripWidth / 2) + 'px';
+    strip.style.width = stripWidth + "px";
+    strip.style.height = height + "px";
+    strip.style.marginLeft = -(stripWidth / 2) + "px";
 
     strip.style.backgroundColor = colour;
 
-    strip.style.transform =
-      `rotateY(${angle}deg) translateZ(${radius}px)`;
+    strip.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
 
     const brightness =
-      0.72 + 0.28 * Math.max(
-        0,
-        Math.cos(angle * Math.PI / 180)
-      );
+      0.72 + 0.28 * Math.max(0, Math.cos((angle * Math.PI) / 180));
 
     strip.style.filter = `brightness(${brightness})`;
 
@@ -440,8 +468,8 @@ function createCylinder(parent, colour) {
   }
 
   // Circular cap
-  const top = document.createElement('div');
-  top.className = 'cylinder-top';
+  const top = document.createElement("div");
+  top.className = "cylinder-top";
   top.style.backgroundColor = colour;
 
   cylinder.appendChild(top);
@@ -450,25 +478,25 @@ function createCylinder(parent, colour) {
 }
 
 function buildStackVisual() {
-  const visual = document.getElementById('animalStackVisual');
-  const row = document.getElementById('stackRow');
+  const visual = document.getElementById("animalStackVisual");
+  const row = document.getElementById("stackRow");
   const counts = getCheckedAnimalCounts();
 
-  row.innerHTML = '';
-  row.classList.remove('circle-mode');
+  row.innerHTML = "";
+  row.classList.remove("circle-mode");
 
   counts.forEach((entry, groupIndex) => {
-    const group = document.createElement('div');
-    group.className = 'stack-group';
+    const group = document.createElement("div");
+    group.className = "stack-group";
 
-    const column = document.createElement('div');
-    column.className = 'bar-stack-column';
+    const column = document.createElement("div");
+    column.className = "bar-stack-column";
 
     for (let i = 0; i < entry.value; i += 1) {
-      const unit = document.createElement('div');
+      const unit = document.createElement("div");
 
-      unit.className = 'stack-unit';
-      unit.style.animationDelay = (i * 0.05) + 's';
+      unit.className = "stack-unit";
+      unit.style.animationDelay = i * 0.05 + "s";
 
       const colour = colourForIndex(groupIndex);
 
@@ -477,9 +505,9 @@ function buildStackVisual() {
       column.appendChild(unit);
     }
 
-    const label = document.createElement('div');
-    label.className = 'bar-stack-label';
-    label.innerHTML = entry.type + '<span>' + entry.value + '</span>';
+    const label = document.createElement("div");
+    label.className = "bar-stack-label";
+    label.innerHTML = entry.type + "<span>" + entry.value + "</span>";
 
     group.appendChild(column);
     group.appendChild(label);
@@ -487,31 +515,36 @@ function buildStackVisual() {
   });
 
   visual.hidden = false;
-  setStackShape('bar');
+  setStackShape("bar");
 }
 
 function setStackShape(mode) {
-  const row = document.getElementById('stackRow');
-  const title = document.getElementById('stackVisualTitle');
+  const row = document.getElementById("stackRow");
+  const title = document.getElementById("stackVisualTitle");
   if (!row) return;
 
-  row.classList.toggle('circle-mode', mode === 'circle');
+  row.classList.toggle("circle-mode", mode === "circle");
 
-title.textContent = mode === 'circle'
-  ? 'Each counter is one animal you found'
-  : 'Each counter is one animal you found';
+  title.textContent =
+    mode === "circle"
+      ? "Each counter is one animal you found"
+      : "Each counter is one animal you found";
 
-  document.getElementById('showBarStackButton').classList.toggle('stack-active', mode === 'bar');
-  document.getElementById('showCircleStackButton').classList.toggle('stack-active', mode === 'circle');
+  document
+    .getElementById("showBarStackButton")
+    .classList.toggle("stack-active", mode === "bar");
+  document
+    .getElementById("showCircleStackButton")
+    .classList.toggle("stack-active", mode === "circle");
 }
 
 function revealStackButtons() {
-  const intro = document.getElementById('visualiseCountsIntro');
-  const buttonsRow = document.getElementById('stackButtonsRow');
+  const intro = document.getElementById("visualiseCountsIntro");
+  const buttonsRow = document.getElementById("stackButtonsRow");
 
   if (intro) {
     intro.hidden = false;
-    intro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    intro.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   if (buttonsRow) {
@@ -522,26 +555,28 @@ function revealStackButtons() {
 }
 
 function hideStackVisuals() {
-  const intro = document.getElementById('visualiseCountsIntro');
-  const buttonsRow = document.getElementById('stackButtonsRow');
-  const visual = document.getElementById('animalStackVisual');
+  const intro = document.getElementById("visualiseCountsIntro");
+  const buttonsRow = document.getElementById("stackButtonsRow");
+  const visual = document.getElementById("animalStackVisual");
 
   if (intro) intro.hidden = true;
   if (buttonsRow) buttonsRow.hidden = true;
   if (visual) visual.hidden = true;
 
-  const row = document.getElementById('stackRow');
+  const row = document.getElementById("stackRow");
 
   if (row) {
-    row.innerHTML = '';
-    row.classList.remove('circle-mode');
+    row.innerHTML = "";
+    row.classList.remove("circle-mode");
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const barButton = document.getElementById('showBarStackButton');
-  const circleButton = document.getElementById('showCircleStackButton');
+document.addEventListener("DOMContentLoaded", () => {
+  const barButton = document.getElementById("showBarStackButton");
+  const circleButton = document.getElementById("showCircleStackButton");
 
-  if (barButton) barButton.addEventListener('click', () => setStackShape('bar'));
-  if (circleButton) circleButton.addEventListener('click', () => setStackShape('circle'));
+  if (barButton)
+    barButton.addEventListener("click", () => setStackShape("bar"));
+  if (circleButton)
+    circleButton.addEventListener("click", () => setStackShape("circle"));
 });

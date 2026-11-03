@@ -1,206 +1,239 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lesson 5 - Scientific Drawings</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 5 - Scientific Drawings</title>
 
-  <!--
+    <!--
     SHARED PRIM7 LAYER
     In the real repo, change these two paths to the normal shared-file locations.
     The concept package keeps copies beside this page so it can run immediately.
   -->
-  <link rel="stylesheet" href="../styles/build_style.css">
-  <link rel="stylesheet" href="../styles/lesson5_styles/drag_and_drop.css">
-  <link rel="stylesheet" href="../styles/lesson5_styles/lesson5.css">
+    <link rel="stylesheet" href="../styles/build_style.css" />
+    <link rel="stylesheet" href="../styles/lesson5_styles/drag_and_drop.css" />
+    <link rel="stylesheet" href="../styles/lesson5_styles/lesson5.css" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-<link
-  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap"
-  rel="stylesheet"
->
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
 
-  <script src="../scripts/common_functions.js" defer></script>
-  <script type="module" src="../scripts/lesson5_scripts/lesson5.js" defer></script>
+    <script src="../scripts/common_functions.js" defer></script>
+    <script
+      type="module"
+      src="../scripts/lesson5_scripts/lesson5.js"
+      defer
+    ></script>
 
-  <script
-    type="module"
-    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
-  </script>
-</head>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"
+    ></script>
+  </head>
 
-<body>
-  <div class="page-header-wrapper">
-    <header class="page-header">
-      <button
-        class="general-button home-button"
-        type="button"
-        onclick="window.location.href='../index.html'"
-      >
-        <p class="bounce-symbol">🏠</p>
-        <p>Home</p>
-      </button>
-
-      <button
-        class="general-button glossary-button"
-        type="button"
-        onclick="openGlossary()"
-      >
-        <p class="bounce-symbol">📖</p>
-        <p>Vocabulary</p>
-      </button>
-    </header>
-  </div>
-
-  <!-- Shared PDF modal: uses the same openPdfModal/closePdfModal behaviour as Lesson 3. -->
-  <div
-    class="modal pdf-modal"
-    id="pdfModal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="pdfModalTitle"
-  >
-    <div class="modal-content pdf-modal-content">
-      <div class="modal-header">
-        <div>
-          <p class="teacher-label">Project Possum resource</p>
-          <h2 id="pdfModalTitle">Reference sheet</h2>
-        </div>
+  <body>
+    <div class="page-header-wrapper">
+      <header class="page-header">
         <button
+          class="general-button home-button"
           type="button"
-          class="close-button"
-          onclick="closePdfModal()"
-          aria-label="Close PDF"
+          onclick="window.location.href = '../index.html'"
         >
-          &times;
+          <p class="bounce-symbol">🏠</p>
+          <p>Home</p>
         </button>
-      </div>
 
-      <iframe
-        id="pdfModalFrame"
-        class="pdf-modal-frame"
-        title="Document preview"
-      ></iframe>
-
-      <img
-        id="pdfModalImage"
-        class="pdf-modal-image"
-        alt="PDF reference sheet"
-      />
-
-      <div class="pdf-modal-actions">
-        <a
-          id="pdfModalDownload"
-          class="general-button"
-          href="#"
-          download
-        >
-          Download PDF
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Shared image zoom modal: used by the stage reference-image boxes (e.g. mission 4 batfish/frogfish). -->
-  <div
-    class="modal image-zoom-modal"
-    id="imageZoomModal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="imageZoomModalTitle"
-  >
-    <div class="modal-content image-zoom-modal-content">
-      <div class="modal-header">
-        <h2 id="imageZoomModalTitle">Reference image</h2>
         <button
+          class="general-button glossary-button"
           type="button"
-          class="close-button"
-          onclick="closeImageZoomModal()"
-          aria-label="Close image"
+          onclick="openGlossary()"
         >
-          &times;
+          <p class="bounce-symbol">📖</p>
+          <p>Vocabulary</p>
         </button>
-      </div>
-
-      <img
-        id="imageZoomModalImage"
-        class="image-zoom-modal-image"
-        alt=""
-      />
+      </header>
     </div>
-  </div>
 
-  <!-- Frogfish reference example: shown after students submit their own six labels. -->
-  <div id="frogfishExampleModal" role="dialog" aria-modal="true" aria-labelledby="frogfishExampleTitle" aria-hidden="true">
-    <div class="frogfish-example-content">
-      <div class="frogfish-example-header">
-        <div>
-          <h2 id="frogfishExampleTitle">Compare with an example</h2>
-          <p>Your labels are not automatically marked right or wrong. Compare your descriptions with this example and notice any scientific terms you may want to remember.</p>
+    <!-- Shared PDF modal: uses the same openPdfModal/closePdfModal behaviour as Lesson 3. -->
+    <div
+      class="modal pdf-modal"
+      id="pdfModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="pdfModalTitle"
+    >
+      <div class="modal-content pdf-modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="teacher-label">Project Possum resource</p>
+            <h2 id="pdfModalTitle">Reference sheet</h2>
+          </div>
+          <button
+            type="button"
+            class="close-button"
+            onclick="closePdfModal()"
+            aria-label="Close PDF"
+          >
+            &times;
+          </button>
         </div>
-        <button type="button" class="frogfish-example-close" onclick="closeFrogfishExampleModal()" aria-label="Close example">×</button>
-      </div>
 
-      <img
-        class="frogfish-example-image"
-        src="../images/lesson5/mission4/frogfish_answers.png"
-        alt="Example frogfish scientific diagram with labels"
-      >
+        <iframe
+          id="pdfModalFrame"
+          class="pdf-modal-frame"
+          title="Document preview"
+        ></iframe>
 
-      <div class="frogfish-example-actions">
-        <button type="button" class="expedition-button" onclick="closeFrogfishExampleModal()"><span>Continue</span></button>
+        <img
+          id="pdfModalImage"
+          class="pdf-modal-image"
+          alt="PDF reference sheet"
+        />
+
+        <div class="pdf-modal-actions">
+          <a id="pdfModalDownload" class="general-button" href="#" download>
+            Download PDF
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ==================================================
+    <!-- Shared image zoom modal: used by the stage reference-image boxes (e.g. mission 4 batfish/frogfish). -->
+    <div
+      class="modal image-zoom-modal"
+      id="imageZoomModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="imageZoomModalTitle"
+    >
+      <div class="modal-content image-zoom-modal-content">
+        <div class="modal-header">
+          <h2 id="imageZoomModalTitle">Reference image</h2>
+          <button
+            type="button"
+            class="close-button"
+            onclick="closeImageZoomModal()"
+            aria-label="Close image"
+          >
+            &times;
+          </button>
+        </div>
+
+        <img id="imageZoomModalImage" class="image-zoom-modal-image" alt="" />
+      </div>
+    </div>
+
+    <!-- Frogfish reference example: shown after students submit their own six labels. -->
+    <div
+      id="frogfishExampleModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="frogfishExampleTitle"
+      aria-hidden="true"
+    >
+      <div class="frogfish-example-content">
+        <div class="frogfish-example-header">
+          <div>
+            <h2 id="frogfishExampleTitle">Compare with an example</h2>
+            <p>
+              Your labels are not automatically marked right or wrong. Compare
+              your descriptions with this example and notice any scientific
+              terms you may want to remember.
+            </p>
+          </div>
+          <button
+            type="button"
+            class="frogfish-example-close"
+            onclick="closeFrogfishExampleModal()"
+            aria-label="Close example"
+          >
+            ×
+          </button>
+        </div>
+
+        <img
+          class="frogfish-example-image"
+          src="../images/lesson5/mission4/frogfish_answers.png"
+          alt="Example frogfish scientific diagram with labels"
+        />
+
+        <div class="frogfish-example-actions">
+          <button
+            type="button"
+            class="expedition-button"
+            onclick="closeFrogfishExampleModal()"
+          >
+            <span>Continue</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================
       HIDDEN TEACHER MENU
       Opened by clicking the lesson title five times.
       ================================================== -->
-  <div class="teacher-modal" id="teacherModal">
-    <div class="teacher-panel">
-      <div class="teacher-panel-header">
-        <div>
-          <p class="teacher-label">Teacher tools</p>
-          <h2>Jump to an activity</h2>
+    <div class="teacher-modal" id="teacherModal">
+      <div class="teacher-panel">
+        <div class="teacher-panel-header">
+          <div>
+            <p class="teacher-label">Teacher tools</p>
+            <h2>Jump to an activity</h2>
+          </div>
+
+          <button
+            type="button"
+            class="teacher-close"
+            onclick="closeTeacherMenu()"
+            aria-label="Close teacher menu"
+          >
+            ×
+          </button>
         </div>
 
-        <button type="button" class="teacher-close" onclick="closeTeacherMenu()" aria-label="Close teacher menu">
-          ×
-        </button>
+        <div class="teacher-section-list"></div>
+
+        <div class="teacher-actions">
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherShowAll()"
+          >
+            Show all sections
+          </button>
+
+          <button
+            type="button"
+            class="teacher-secondary-button"
+            onclick="teacherResetView()"
+          >
+            Reset student view
+          </button>
+        </div>
+
+        <p class="teacher-note">
+          Jumping between activities changes navigation only. Reset student view
+          clears every answer on this page.
+        </p>
       </div>
-
-      <div class="teacher-section-list"></div>
-
-      <div class="teacher-actions">
-        <button type="button" class="teacher-secondary-button" onclick="teacherShowAll()">Show all sections</button>
-
-        <button type="button" class="teacher-secondary-button" onclick="teacherResetView()">
-          Reset student view
-        </button>
-      </div>
-
-      <p class="teacher-note">Jumping between activities changes navigation only. Reset student view clears every answer on this page.</p>
     </div>
-  </div>
 
-  <main class="page expedition-page">
-
-    <div class="expedition-intro">
-      <header class="lesson-intro">
-
-<!-- SCIENTIFIC DRAWINGS HEADING, DOWNLOAD WORKSHEET BUTTON-->
+    <main class="page expedition-page">
+      <div class="expedition-intro">
+        <header class="lesson-intro">
+          <!-- SCIENTIFIC DRAWINGS HEADING, DOWNLOAD WORKSHEET BUTTON-->
 
           <div class="lesson-heading">
             <span class="lesson-label">Lesson 5</span>
-            <h1 id="teacherTrigger">
-              Scientific Drawings
-            </h1>
+            <h1 id="teacherTrigger">Scientific Drawings</h1>
             <p class="lesson-summary">
-              Scientific drawings help scientists to record and communicate their observations.
-              In this lesson, we will learn how to create a scientific drawing of a specimen.
+              Scientific drawings help scientists to record and communicate
+              their observations. In this lesson, we will learn how to create a
+              scientific drawing of a specimen.
             </p>
             <a
               class="worksheet-button general-button"
@@ -211,7 +244,6 @@
               <p>Download worksheet</p>
             </a>
           </div>
-
         </header>
 
         <!-- Learning objectives, success criteria-->
@@ -219,20 +251,28 @@
           <section class="intro-card objectives-card">
             <p class="intro-eyebrow">Learning objective</p>
             <p class="learning-objective-text">
-              We are learning how to create <strong>scientific drawings</strong> of specimens.
+              We are learning how to create
+              <strong>scientific drawings</strong> of specimens.
             </p>
             <p class="success-heading">Success criteria</p>
             <ol class="objective-list">
-              <li>I am learning how to observe and record details in my drawings.</li>
+              <li>
+                I am learning how to observe and record details in my drawings.
+              </li>
               <li>I can label parts of a specimen in my drawing.</li>
-              <li>I can use a scientific drawing to communicate my observations.</li>
+              <li>
+                I can use a scientific drawing to communicate my observations.
+              </li>
             </ol>
           </section>
 
           <section class="intro-card observation-card">
             <p class="intro-eyebrow">Think like a scientist</p>
             <h2>Constructing a scientific drawing</h2>
-            <p>How to construct a <strong>scientific drawing</strong> to represent observations:</p>
+            <p>
+              How to construct a <strong>scientific drawing</strong> to
+              represent observations:
+            </p>
             <div class="formula-card">
               <div class="formula-step">
                 <div class="formula-step-number">1</div>
@@ -255,1746 +295,2382 @@
             </div>
           </section>
         </div>
+      </div>
 
-    </div>
-
-    <div class="expedition-zoom-stage">
-
-    <div id="expedition-main">
-      <header class="expedition-banner" aria-label="Expedition Log header">
-        <div class="submarine-container" id="submarineContainer">
-          <div class="submarine-glow"></div>
-          <model-viewer
-            id="submarineViewer"
-            src="../images/lesson5/models/cartoon_submarine_animated.glb"
-            alt="Animated cartoon submarine"
-            autoplay
-            disable-zoom
-            shadow-intensity="3"
-            exposure="0.5"
-            camera-target="auto"
-            camera-orbit="135deg 75deg auto"
-            field-of-view="40deg"
+      <div class="expedition-zoom-stage">
+        <div id="expedition-main">
+          <header class="expedition-banner" aria-label="Expedition Log header">
+            <div class="submarine-container" id="submarineContainer">
+              <div class="submarine-glow"></div>
+              <model-viewer
+                id="submarineViewer"
+                src="../images/lesson5/models/cartoon_submarine_animated.glb"
+                alt="Animated cartoon submarine"
+                autoplay
+                disable-zoom
+                shadow-intensity="3"
+                exposure="0.5"
+                camera-target="auto"
+                camera-orbit="135deg 75deg auto"
+                field-of-view="40deg"
+              >
+              </model-viewer>
+            </div>
+            <div class="banner-copy">
+              <h1>Expedition Log</h1>
+              <h2>Deep Sea Explorers</h2>
+            </div>
+            <div
+              style="
+                display: inline-flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+              "
             >
-          </model-viewer>
-        </div>
-        <div class="banner-copy">
-          <h1>Expedition Log</h1>
-          <h2>Deep Sea Explorers</h2>
-        </div>
-        <div style="display: inline-flex; flex-direction: column; gap: 10px; align-items: center;">
-          <button type="button" id="fullScreenButton" class="expedition-button" onclick="openFullscreen()">
-            <span>Full Screen</span>
-          </button>
-          <button type="button" class="expedition-button field-guide-button" onclick="openGlossary()">
-            <span>Field guide</span>
-          </button>
-        </div>
-      </header>
-      <div class="game-shell">
-
-        <!-- ==================================================
+              <button
+                type="button"
+                id="fullScreenButton"
+                class="expedition-button"
+                onclick="openFullscreen()"
+              >
+                <span>Full Screen</span>
+              </button>
+              <button
+                type="button"
+                class="expedition-button field-guide-button"
+                onclick="openGlossary()"
+              >
+                <span>Field guide</span>
+              </button>
+            </div>
+          </header>
+          <div class="game-shell">
+            <!-- ==================================================
              LEFT: mission navigation / game progress
              ================================================== -->
 
-        <aside class="console-panel mission-nav" aria-label="Mission log">
-          <h2 class="console-heading"><span class="light" aria-hidden="true"></span>Mission log</h2>
-          <nav class="mission-list" id="missionList">
-            <button class="mission-button" data-mission="mission-1" data-number="01" type="button">
-              <strong>Mission 1</strong>
-              <span>Briefing</span>
-            </button>
-            <button class="mission-button" data-mission="mission-2" data-number="02" type="button" disabled>
-              <strong>Mission 2</strong>
-              <span>Experiment Set-Up: Rust Prevention</span>
-            </button>
-            <button class="mission-button" data-mission="mission-4" data-number="03" type="button" disabled>
-              <strong>Mission 3</strong>
-              <span>Shallow-Water Camera Trials</span>
-            </button>
-            <button class="mission-button" data-mission="mission-5" data-number="04" type="button" disabled>
-              <strong>Mission 4</strong>
-              <span>Unknown Species Detected</span>
-            </button>
-          </nav>
-          <div class="substage-nav" id="substageNav" hidden aria-label="Current mission stages"></div>
-          <div class="mission-nav-footer">
-            <strong>Expedition depth</strong>
-            <div class="depth-meter">
-              <span id="depthLabel">0%</span>
-              <div class="depth-track" aria-hidden="true">
-                <div class="depth-fill" id="depthFill"></div>
+            <aside class="console-panel mission-nav" aria-label="Mission log">
+              <h2 class="console-heading">
+                <span class="light" aria-hidden="true"></span>Mission log
+              </h2>
+              <nav class="mission-list" id="missionList">
+                <button
+                  class="mission-button"
+                  data-mission="mission-1"
+                  data-number="01"
+                  type="button"
+                >
+                  <strong>Mission 1</strong>
+                  <span>Briefing</span>
+                </button>
+                <button
+                  class="mission-button"
+                  data-mission="mission-2"
+                  data-number="02"
+                  type="button"
+                  disabled
+                >
+                  <strong>Mission 2</strong>
+                  <span>Experiment Set-Up: Rust Prevention</span>
+                </button>
+                <button
+                  class="mission-button"
+                  data-mission="mission-4"
+                  data-number="03"
+                  type="button"
+                  disabled
+                >
+                  <strong>Mission 3</strong>
+                  <span>Shallow-Water Camera Trials</span>
+                </button>
+                <button
+                  class="mission-button"
+                  data-mission="mission-5"
+                  data-number="04"
+                  type="button"
+                  disabled
+                >
+                  <strong>Mission 4</strong>
+                  <span>Unknown Species Detected</span>
+                </button>
+              </nav>
+              <div
+                class="substage-nav"
+                id="substageNav"
+                hidden
+                aria-label="Current mission stages"
+              ></div>
+              <div class="mission-nav-footer">
+                <strong>Expedition depth</strong>
+                <div class="depth-meter">
+                  <span id="depthLabel">0%</span>
+                  <div class="depth-track" aria-hidden="true">
+                    <div class="depth-fill" id="depthFill"></div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </aside>
+            </aside>
 
-        <!-- ==================================================
+            <!-- ==================================================
              CENTRE: one reusable stage; missions swap inside it
              ================================================== -->
-        <section class="console-panel stage-panel" aria-label="Mission stage">
-          <div class="stage-screen" id="stageScreen">
-            <section class="start-screen" id="startScreen">
-              <div class="start-card pop-in">
-                <p class="start-eyebrow">Expedition systems online</p>
-                <h3>Click start to dive into the deep</h3>
-                <p>
-                  Move through each mission one stage at a time. CHECK confirms the current stage,
-                  RESET clears the current response, and NEXT advances only after the stage is complete.
-                </p>
-                <button type="button" class="expedition-button start-button" onclick="startExpedition()">
-                  <span>Start expedition</span>
-                </button>
-              </div>
-            </section>
+            <section
+              class="console-panel stage-panel"
+              aria-label="Mission stage"
+            >
+              <div class="stage-screen" id="stageScreen">
+                <section class="start-screen" id="startScreen">
+                  <div class="start-card pop-in">
+                    <p class="start-eyebrow">Expedition systems online</p>
+                    <h3>Click start to dive into the deep</h3>
+                    <p>
+                      Move through each mission one stage at a time. CHECK
+                      confirms the current stage, RESET clears the current
+                      response, and NEXT advances only after the stage is
+                      complete.
+                    </p>
+                    <button
+                      type="button"
+                      class="expedition-button start-button"
+                      onclick="startExpedition()"
+                    >
+                      <span>Start expedition</span>
+                    </button>
+                  </div>
+                </section>
 
- <!-- ==================================================
+                <!-- ==================================================
      MISSION 1: BRIEFING (2 stages)
      ================================================== -->
-<section class="section expedition-mission" id="mission-1" data-mission-index="0">
-
-  <!-- ==================================================
+                <section
+                  class="section expedition-mission"
+                  id="mission-1"
+                  data-mission-index="0"
+                >
+                  <!-- ==================================================
        STAGE 1: DEEP-SEA EXPLORATION
        ================================================== -->
-  <div class="mission-stage" data-stage-id="m1-exploration">
-    <div class="mission-window">
+                  <div class="mission-stage" data-stage-id="m1-exploration">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 1: briefing</strong
+                        >
 
-      <div class="mission-window-bar">
-        <strong>Deep field terminal // mission 1: briefing</strong>
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-        <div class="window-dots" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </div>
-      </div>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 01</p>
+                          <span class="stage-progress-chip">Stage 1 of 2</span>
+                        </div>
 
-      <div class="mission-window-body">
+                        <h3>What is deep sea exploration?</h3>
 
-        <div class="stage-progress-row">
-          <p class="mission-label">Mission 01</p>
-          <span class="stage-progress-chip">Stage 1 of 2</span>
-        </div>
+                        <p class="mission-subtitle">
+                          <strong>Did you know?</strong>
+                          We know more about the surface of Mars than we do
+                          about the deepest parts of our own ocean! Deep sea
+                          exploration is how scientists use submarines, robots
+                          and underwater cameras to explore the ocean floor.
+                        </p>
 
-        <h3>What is deep sea exploration?</h3>
+                        <!-- ROW 1 -->
+                        <div class="story-grid">
+                          <figure class="media-card">
+                            <img
+                              src="../images/lesson5/mission1/deep-sea.png"
+                              alt="Deep-sea camera used to observe the ocean floor"
+                            />
+                            <figcaption>The deep-sea</figcaption>
+                          </figure>
 
-        <p class="mission-subtitle">
-          <strong>Did you know?</strong>
-          We know more about the surface of Mars than we do
-          about the deepest parts of our own ocean!
-          Deep sea exploration is how scientists use submarines,
-          robots and underwater cameras to explore the ocean floor.
-        </p>
+                          <div class="story-copy">
+                            <p>
+                              The deep sea has tough conditions: it is extremely
+                              dark, cold and has many layers that challenge
+                              animals to survive.
+                            </p>
+                          </div>
+                        </div>
 
+                        <!-- ROW 2 -->
+                        <div class="story-grid">
+                          <div class="story-copy">
+                            <h4>Where does the deep sea begin?</h4>
 
-        <!-- ROW 1 -->
-        <div class="story-grid">
+                            <p>
+                              The deep sea begins where sunlight can no longer
+                              reach underwater. This is generally around
+                              <strong>200 metres deep</strong>.
+                            </p>
+                          </div>
 
-          <figure class="media-card">
-            <img
-              src="../images/lesson5/mission1/deep-sea.png"
-              alt="Deep-sea camera used to observe the ocean floor"
-            >
-            <figcaption>The deep-sea</figcaption>
-          </figure>
+                          <figure class="media-card">
+                            <img
+                              src="../images/lesson5/mission1/hercules-rov.jpg"
+                              alt="Remotely operated vehicle Hercules exploring underwater"
+                            />
 
-          <div class="story-copy">
+                            <figcaption>
+                              Remotely operated vehicle “Hercules”
+                            </figcaption>
+                          </figure>
+                        </div>
 
-            <p>
-              The deep sea has tough conditions: it is extremely dark, cold
-              and has many layers that challenge animals to survive.
-            </p>
-          </div>
+                        <p class="activity-prompt">
+                          When you have reviewed the briefing, press
+                          <strong>CHECK</strong>.
+                        </p>
 
-        </div>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m1-exploration"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
-
-        <!-- ROW 2 -->
-        <div class="story-grid">
-
-          <div class="story-copy">
-            <h4>Where does the deep sea begin?</h4>
-
-            <p>
-              The deep sea begins where sunlight can no longer reach underwater.
-              This is generally around <strong>200 metres deep</strong>.
-            </p>
-          </div>
-
-          <figure class="media-card">
-            <img
-              src="../images/lesson5/mission1/hercules-rov.jpg"
-              alt="Remotely operated vehicle Hercules exploring underwater"
-            >
-
-            <figcaption>
-              Remotely operated vehicle “Hercules”
-            </figcaption>
-          </figure>
-
-        </div>
-
-
-        <p class="activity-prompt">
-          When you have reviewed the briefing, press <strong>CHECK</strong>.
-        </p>
-
-        <div
-          class="variable-feedback stage-feedback"
-          data-feedback="m1-exploration"
-          role="status"
-          aria-live="polite">
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================================================
+                  <!-- ==================================================
        STAGE 2: WHAT CAN GO WRONG?
        ================================================== -->
-  <div class="mission-stage" data-stage-id="m1-failure">
+                  <div class="mission-stage" data-stage-id="m1-failure">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 1: equipment
+                          failure</strong
+                        >
 
-    <div class="mission-window">
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-      <div class="mission-window-bar">
-        <strong>Deep field terminal // mission 1: equipment failure</strong>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 01</p>
+                          <span class="stage-progress-chip">Stage 2 of 2</span>
+                        </div>
 
-        <div class="window-dots" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </div>
-      </div>
+                        <h3>What can go wrong?</h3>
 
-      <div class="mission-window-body">
+                        <p class="mission-subtitle">
+                          Technology does not always work perfectly in the deep
+                          sea. Cameras can fail, footage can become corrupted,
+                          and the extreme pressure can damage equipment.
+                        </p>
 
-        <div class="stage-progress-row">
-          <p class="mission-label">Mission 01</p>
-          <span class="stage-progress-chip">Stage 2 of 2</span>
-        </div>
+                        <div class="media-compare">
+                          <!-- DAMAGED / GLITCHED FEED -->
+                          <figure class="media-card">
+                            <img
+                              data-glitch
+                              src="../images/lesson5/mission1/camera-footage.webp"
+                              alt="Corrupted camera footage from the remotely operated vehicle Hercules"
+                            />
 
+                            <figcaption>Corrupted camera feed</figcaption>
+                          </figure>
 
-        <h3>What can go wrong?</h3>
+                          <!-- NORMAL FEED -->
+                          <figure class="media-card">
+                            <img
+                              src="../images/lesson5/mission1/camera-footage.webp"
+                              alt="Clear camera footage from the remotely operated vehicle Hercules"
+                            />
 
-        <p class="mission-subtitle">
-          Technology does not always work perfectly in the deep sea.
-          Cameras can fail, footage can become corrupted, and the extreme
-          pressure can damage equipment.
-        </p>
+                            <figcaption>Clear camera feed</figcaption>
+                          </figure>
+                        </div>
 
+                        <div class="story-copy" style="margin-top: 16px">
+                          <h4>What happens if the image is lost?</h4>
 
-        <div class="media-compare">
+                          <p>
+                            If a camera fails, scientists still need a way to
+                            preserve what they observed. Careful observations
+                            and
+                            <strong>scientific drawings</strong> can provide a
+                            visual record when photographs or video are
+                            unavailable.
+                          </p>
+                        </div>
 
-          <!-- DAMAGED / GLITCHED FEED -->
-          <figure class="media-card">
+                        <p class="activity-prompt">
+                          Press <strong>CHECK</strong> when you understand why
+                          scientists need another way to record their
+                          observations.
+                        </p>
 
-            <img
-              data-glitch
-              src="../images/lesson5/mission1/camera-footage.webp"
-              alt="Corrupted camera footage from the remotely operated vehicle Hercules"
-            >
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m1-failure"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
 
-            <figcaption>
-              Corrupted camera feed
-            </figcaption>
-
-          </figure>
-
-
-          <!-- NORMAL FEED -->
-          <figure class="media-card">
-
-            <img
-              src="../images/lesson5/mission1/camera-footage.webp"
-              alt="Clear camera footage from the remotely operated vehicle Hercules"
-            >
-
-            <figcaption>
-              Clear camera feed
-            </figcaption>
-
-          </figure>
-
-        </div>
-
-
-        <div class="story-copy" style="margin-top:16px;">
-
-          <h4>What happens if the image is lost?</h4>
-
-          <p>
-            If a camera fails, scientists still need a way to preserve
-            what they observed. Careful observations and
-            <strong>scientific drawings</strong> can provide a visual record
-            when photographs or video are unavailable.
-          </p>
-
-        </div>
-
-
-        <p class="activity-prompt">
-          Press <strong>CHECK</strong> when you understand why scientists
-          need another way to record their observations.
-        </p>
-
-        <div
-          class="variable-feedback stage-feedback"
-          data-feedback="m1-failure"
-          role="status"
-          aria-live="polite">
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<!-- ==================================================
+                <!-- ==================================================
      MISSION 2: RUST INVESTIGATION
      ================================================== -->
-<section class="section expedition-mission locked" id="mission-2" data-mission-index="1">
-
-  <!-- ==================================================
+                <section
+                  class="section expedition-mission locked"
+                  id="mission-2"
+                  data-mission-index="1"
+                >
+                  <!-- ==================================================
      STAGE 1: INSPECT THE DAMAGED CAMERA
      ================================================== -->
 
-  <div class="mission-stage" data-stage-id="m2-rust-alert">
-    <div class="mission-window">
+                  <div class="mission-stage" data-stage-id="m2-rust-alert">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: camera
+                          damage</strong
+                        >
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-      <div class="mission-window-bar">
-        <strong>Deep field terminal // mission 2: camera damage</strong>
-        <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 1 of 8</span>
+                        </div>
 
-      <div class="mission-window-body">
+                        <h3>New mission alert</h3>
 
-        <div class="stage-progress-row">
-          <p class="mission-label">Mission 02</p>
-          <span class="stage-progress-chip">Stage 1 of 8</span>
-        </div>
+                        <p class="mission-subtitle">
+                          <strong
+                            >The submersible camera has been damaged!</strong
+                          >
+                          Inspect the camera closely and see if you can identify
+                          what is happening.
+                        </p>
 
-        <h3>New mission alert</h3>
+                        <div class="story-copy">
+                          <h4>Inspect the camera</h4>
+                          <p>
+                            Click the camera to switch between the working
+                            camera and the damaged camera. Click it again to
+                            switch back.
+                          </p>
+                          <p style="margin-top: 12px">
+                            <strong>Can you identify what is going on?</strong>
+                          </p>
+                        </div>
 
-        <p class="mission-subtitle">
-          <strong>The submersible camera has been damaged!</strong>
-          Inspect the camera closely and see if you can identify what is happening.
-        </p>
-
-        <div class="story-copy">
-          <h4>Inspect the camera</h4>
-          <p>
-            Click the camera to switch between the working camera and the damaged camera.
-            Click it again to switch back.
-          </p>
-          <p style="margin-top:12px;"><strong>Can you identify what is going on?</strong></p>
-        </div>
-
-        <!-- Reuses the existing mission-image-container CSS; the rust-camera-stack
+                        <!-- Reuses the existing mission-image-container CSS; the rust-camera-stack
              wrapper below keeps the gif confined to this box and layered over
              the static rusted-hercules.png instead of overlapping anything else. -->
-        <div class="mission-image-container">
-          <div class="rust-camera-stack">
-            <img class="rust-camera-base" src="../images/lesson5/mission2/rusted-hercules.png" alt="Rusted hercules vessel">
-            <img
-              id="rustCameraImage"
-              class="rust-camera-gif"
-              src="../images/lesson5/animations/camera_shutter.gif"
-              data-working-src="../images/lesson5/animations/camera_shutter.gif"
-              data-rusted-src="../images/lesson5/rusted-camera.png"
-              data-rusted="false"
-              alt="Working submersible camera animation"
-              role="button"
-              tabindex="0"
-              aria-pressed="false"
-              title="Click to inspect the camera"
-              style="cursor:pointer;"
-              onclick="toggleRustCamera(this)"
-              onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleRustCamera(this); }"
-            >
-          </div>
-        </div>
+                        <div class="mission-image-container">
+                          <div class="rust-camera-stack">
+                            <img
+                              class="rust-camera-base"
+                              src="../images/lesson5/mission2/rusted-hercules.png"
+                              alt="Rusted hercules vessel"
+                            />
+                            <img
+                              id="rustCameraImage"
+                              class="rust-camera-gif"
+                              src="../images/lesson5/animations/camera_shutter.gif"
+                              data-working-src="../images/lesson5/animations/camera_shutter.gif"
+                              data-rusted-src="../images/lesson5/rusted-camera.png"
+                              data-rusted="false"
+                              alt="Working submersible camera animation"
+                              role="button"
+                              tabindex="0"
+                              aria-pressed="false"
+                              title="Click to inspect the camera"
+                              style="cursor: pointer"
+                              onclick="toggleRustCamera(this)"
+                              onkeydown="
+                                if (
+                                  event.key === 'Enter' ||
+                                  event.key === ' '
+                                ) {
+                                  event.preventDefault();
+                                  toggleRustCamera(this);
+                                }
+                              "
+                            />
+                          </div>
+                        </div>
 
-        <p class="activity-prompt">
-          When you have inspected the camera, press <strong>CHECK</strong> to reveal the answer.
-        </p>
+                        <p class="activity-prompt">
+                          When you have inspected the camera, press
+                          <strong>CHECK</strong> to reveal the answer.
+                        </p>
 
-        <div
-          class="variable-feedback stage-feedback"
-          data-feedback="m2-rust-alert"
-          role="status"
-          aria-live="polite">
-        </div>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-rust-alert"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ==================================================
+                  <!-- ==================================================
      STAGE 2: RUST EXPERIMENT
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-rust-experiment">
+                  <div class="mission-stage" data-stage-id="m2-rust-experiment">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: rust
+                          experiment</strong
+                        >
 
-  <div class="mission-window">
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-    <div class="mission-window-bar">
-      <strong>Deep field terminal // mission 2: rust experiment</strong>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 2 of 8</span>
+                        </div>
 
-      <div class="window-dots" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+                        <h3>Rust experiment</h3>
 
-    <div class="mission-window-body">
+                        <p class="mission-subtitle">
+                          You will be investigating what happens to metal when
+                          it reacts with different liquids.
+                        </p>
 
-      <div class="stage-progress-row">
-        <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 2 of 8</span>
-      </div>
+                        <figure class="media-card">
+                          <img
+                            src="../images/lesson5/mission2/rust-experiment.png"
+                            alt="Three jars containing iron wool in water, saltwater and oil"
+                          />
 
-      <h3>Rust experiment</h3>
+                          <figcaption>
+                            Iron wool in water, saltwater and oil
+                          </figcaption>
+                        </figure>
 
-      <p class="mission-subtitle">
-        You will be investigating what happens to metal when it reacts
-        with different liquids.
-      </p>
+                        <div class="story-copy" style="margin-top: 16px">
+                          <p>
+                            This experiment uses <strong>iron wool</strong> to
+                            represent the metal of the deep-sea camera.
+                          </p>
 
-      <figure class="media-card">
-        <img
-          src="../images/lesson5/mission2/rust-experiment.png"
-          alt="Three jars containing iron wool in water, saltwater and oil"
-        >
+                          <p>
+                            You will observe what happens to the iron in
+                            <strong>three different liquids</strong> over time.
+                          </p>
+                        </div>
 
-        <figcaption>
-          Iron wool in water, saltwater and oil
-        </figcaption>
-      </figure>
+                        <p class="activity-prompt">
+                          Review the experiment set-up, then press
+                          <strong>CHECK</strong>.
+                        </p>
 
-      <div class="story-copy" style="margin-top:16px;">
-        <p>
-          This experiment uses <strong>iron wool</strong> to represent
-          the metal of the deep-sea camera.
-        </p>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-rust-experiment"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
-        <p>
-          You will observe what happens to the iron in
-          <strong>three different liquids</strong> over time.
-        </p>
-      </div>
-
-      <p class="activity-prompt">
-        Review the experiment set-up, then press <strong>CHECK</strong>.
-      </p>
-
-      <div
-        class="variable-feedback stage-feedback"
-        data-feedback="m2-rust-experiment"
-        role="status"
-        aria-live="polite">
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ==================================================
+                  <!-- ==================================================
      STAGE 3: SELECT SCIENTIFIC SYMBOLS
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-symbol-match">
+                  <div class="mission-stage" data-stage-id="m2-symbol-match">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: scientific
+                          symbols</strong
+                        >
 
-  <div class="mission-window">
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-    <div class="mission-window-bar">
-      <strong>Deep field terminal // mission 2: scientific symbols</strong>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 3 of 8</span>
+                        </div>
 
-      <div class="window-dots" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+                        <h3>Draw the experiment using scientific symbols</h3>
 
-    <div class="mission-window-body">
+                        <p class="mission-subtitle">
+                          <strong>Your task:</strong>
+                          Identify each highlighted part of the experiment and
+                          select the scientific symbol that best represents it.
+                        </p>
 
-      <div class="stage-progress-row">
-        <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 3 of 8</span>
-      </div>
-
-      <h3>Draw the experiment using scientific symbols</h3>
-
-      <p class="mission-subtitle">
-        <strong>Your task:</strong>
-        Identify each highlighted part of the experiment and select
-        the scientific symbol that best represents it.
-      </p>
-
-
-      <div class="item-match-activity" id="m2RustSymbolMatchTest" data-activity>
-
-        <!-- MAIN DIAGRAM FRAME: fills in with each correctly matched symbol.
+                        <div
+                          class="item-match-activity"
+                          id="m2RustSymbolMatchTest"
+                          data-activity
+                        >
+                          <!-- MAIN DIAGRAM FRAME: fills in with each correctly matched symbol.
              viewBox is the coordinate space every diagramPosition in
              RUST_SYMBOL_OPTION_POOL (lesson5.js) is measured against - keep
              them in sync if you resize this. -->
-        <div class="item-match-diagram-frame">
-          <svg
-            class="item-match-diagram"
-            data-im-diagram
-            viewBox="0 0 240 220"
-            role="img"
-            aria-label="Rust experiment diagram, built up as parts are matched">
-
-            <!-- Static background art (outlines, labels) can live here -
+                          <div class="item-match-diagram-frame">
+                            <svg
+                              class="item-match-diagram"
+                              data-im-diagram
+                              viewBox="0 0 240 220"
+                              role="img"
+                              aria-label="Rust experiment diagram, built up as parts are matched"
+                            >
+                              <!-- Static background art (outlines, labels) can live here -
                  the script only ever adds/removes its own .im-diagram-piece
                  groups, so anything else you put in this <svg> is left alone. -->
+                            </svg>
+                            <p
+                              class="item-match-diagram-placeholder"
+                              data-im-diagram-placeholder
+                            >
+                              Match each highlighted part to build the diagram.
+                            </p>
+                          </div>
 
-          </svg>
-          <p class="item-match-diagram-placeholder" data-im-diagram-placeholder>
-            Match each highlighted part to build the diagram.
-          </p>
-        </div>
+                          <div class="item-match-row" data-im-row>
+                            <!-- 1st item: the highlighted part of the experiment to match -->
+                            <div
+                              class="dd-reference item-match-reference"
+                              data-im-prompt
+                            >
+                              <span class="dd-caption">
+                                <span data-im-item-label></span>
+                                ·
+                                <span data-im-round-label></span>
+                              </span>
 
-        <div class="item-match-row" data-im-row>
+                              <div data-im-prompt-content></div>
+                            </div>
 
-          <!-- 1st item: the highlighted part of the experiment to match -->
-          <div class="dd-reference item-match-reference" data-im-prompt>
+                            <!-- 2nd-4th items: this round's symbol choices -->
+                            <div
+                              class="item-match-options"
+                              data-im-options
+                              role="group"
+                              aria-label="Scientific symbol choices"
+                            ></div>
+                          </div>
+                        </div>
 
-            <span class="dd-caption">
-              <span data-im-item-label></span>
-              ·
-              <span data-im-round-label></span>
-            </span>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-symbol-match"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
 
-            <div data-im-prompt-content></div>
+                        <p class="activity-prompt">
+                          Match all four parts of the experiment. When all four
+                          are complete, press <strong>CHECK</strong>.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-          </div>
-
-          <!-- 2nd-4th items: this round's symbol choices -->
-          <div
-            class="item-match-options"
-            data-im-options
-            role="group"
-            aria-label="Scientific symbol choices"
-          ></div>
-
-        </div>
-
-      </div>
-
-       <div
-        class="variable-feedback stage-feedback"
-        data-feedback="m2-symbol-match"
-        role="status"
-        aria-live="polite">
-      </div>
-
-      <p class="activity-prompt">
-        Match all four parts of the experiment.
-        When all four are complete, press <strong>CHECK</strong>.
-      </p>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ==================================================
+                  <!-- ==================================================
      STAGE 4: LABEL THE SCIENTIFIC DIAGRAM (DRAG AND DROP)
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-drag-and-drop">
+                  <div class="mission-stage" data-stage-id="m2-drag-and-drop">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: label the
+                          diagram</strong
+                        >
 
-  <div class="mission-window">
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-    <div class="mission-window-bar">
-      <strong>Deep field terminal // mission 2: label the diagram</strong>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 4 of 8</span>
+                        </div>
 
-      <div class="window-dots" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+                        <h3>Label the scientific diagram</h3>
 
-    <div class="mission-window-body">
+                        <p class="mission-subtitle">
+                          <strong>Your task:</strong>
+                          Here is the diagram you built. Drag each label to the
+                          end of the line that points to it.
+                        </p>
 
-      <div class="stage-progress-row">
-        <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 4 of 8</span>
-      </div>
-
-      <h3>Label the scientific diagram</h3>
-
-      <p class="mission-subtitle">
-        <strong>Your task:</strong>
-        Here is the diagram you built. Drag each label to the end of the
-        line that points to it.
-      </p>
-
-      <div class="dd-activity diagram-label-dd" id="m2DiagramLabel" data-activity>
-
-        <div class="diagram-label-board">
-
-          <!-- Filled in with a copy of the completed diagram from the
+                        <div
+                          class="dd-activity diagram-label-dd"
+                          id="m2DiagramLabel"
+                          data-activity
+                        >
+                          <div class="diagram-label-board">
+                            <!-- Filled in with a copy of the completed diagram from the
                previous stage (#m2RustSymbolMatchTest) - see
                syncDiagramLabelBoard() in lesson5.js. -->
-          <svg
-            class="diagram-label-diagram"
-            data-dl-diagram
-            viewBox="-120 -110 480 440"
-            role="img"
-            aria-label="Completed rust experiment diagram">
-          </svg>
+                            <svg
+                              class="diagram-label-diagram"
+                              data-dl-diagram
+                              viewBox="-120 -110 480 440"
+                              role="img"
+                              aria-label="Completed rust experiment diagram"
+                            ></svg>
 
-          <svg class="diagram-label-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <line data-dl-line="jar-lid" x1="90" y1="35" x2="74" y2="35"></line>
-            <line data-dl-line="jar" x1="90" y1="50" x2="74" y2="50"></line>
-            <line data-dl-line="steel-wool" x1="90" y1="65" x2="70" y2="58"></line>
-          </svg>
+                            <svg
+                              class="diagram-label-lines"
+                              viewBox="0 0 100 100"
+                              preserveAspectRatio="none"
+                              aria-hidden="true"
+                            >
+                              <line
+                                data-dl-line="jar-lid"
+                                x1="90"
+                                y1="35"
+                                x2="74"
+                                y2="35"
+                              ></line>
+                              <line
+                                data-dl-line="jar"
+                                x1="90"
+                                y1="50"
+                                x2="74"
+                                y2="50"
+                              ></line>
+                              <line
+                                data-dl-line="steel-wool"
+                                x1="90"
+                                y1="65"
+                                x2="70"
+                                y2="58"
+                              ></line>
+                            </svg>
 
-          <div data-dd-slot="label-jar-lid" data-dd-answer="jar-lid" style="--dd-x: 90%; --dd-y: 35%;" aria-label="Drop the label for the jar lid here"></div>
-          <div data-dd-slot="label-jar" data-dd-answer="jar" style="--dd-x: 90%; --dd-y: 50%;" aria-label="Drop the label for the jar here"></div>
-          <div data-dd-slot="label-steel-wool" data-dd-answer="steel-wool" style="--dd-x: 90%; --dd-y: 65%;" aria-label="Drop the label for the steel wool here"></div>
+                            <div
+                              data-dd-slot="label-jar-lid"
+                              data-dd-answer="jar-lid"
+                              style="--dd-x: 90%; --dd-y: 35%"
+                              aria-label="Drop the label for the jar lid here"
+                            ></div>
+                            <div
+                              data-dd-slot="label-jar"
+                              data-dd-answer="jar"
+                              style="--dd-x: 90%; --dd-y: 50%"
+                              aria-label="Drop the label for the jar here"
+                            ></div>
+                            <div
+                              data-dd-slot="label-steel-wool"
+                              data-dd-answer="steel-wool"
+                              style="--dd-x: 90%; --dd-y: 65%"
+                              aria-label="Drop the label for the steel wool here"
+                            ></div>
+                          </div>
 
-        </div>
+                          <div
+                            class="dd-tray diagram-label-tray"
+                            data-dd-tray
+                            aria-label="Diagram labels"
+                          >
+                            <div class="m4-label-token" data-dd-item="jar">
+                              Jar
+                            </div>
+                            <div class="m4-label-token" data-dd-item="jar-lid">
+                              Jar Lid
+                            </div>
+                            <div
+                              class="m4-label-token"
+                              data-dd-item="steel-wool"
+                            >
+                              Steel Wool
+                            </div>
+                          </div>
+                        </div>
 
-        <div class="dd-tray diagram-label-tray" data-dd-tray aria-label="Diagram labels">
-          <div class="m4-label-token" data-dd-item="jar">Jar</div>
-          <div class="m4-label-token" data-dd-item="jar-lid">Jar Lid</div>
-          <div class="m4-label-token" data-dd-item="steel-wool">Steel Wool</div>
-        </div>
+                        <p class="activity-prompt">
+                          Place all three labels, then press
+                          <strong>CHECK</strong>.
+                        </p>
 
-      </div>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-drag-and-drop"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
-      <p class="activity-prompt">
-        Place all three labels, then press <strong>CHECK</strong>.
-      </p>
-
-      <div
-        class="variable-feedback stage-feedback"
-        data-feedback="m2-drag-and-drop"
-        role="status"
-        aria-live="polite">
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ==================================================
+                  <!-- ==================================================
      STAGE 5: DRAW THE RUST EXPERIMENT
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-draw-rust-experiment">
+                  <div
+                    class="mission-stage"
+                    data-stage-id="m2-draw-rust-experiment"
+                  >
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: scientific
+                          drawing</strong
+                        >
 
-  <div class="mission-window">
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-    <div class="mission-window-bar">
-      <strong>Deep field terminal // mission 2: scientific drawing</strong>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 5 of 8</span>
+                        </div>
 
-      <div class="window-dots" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+                        <h3>Draw the rust experiment</h3>
 
-    <div class="mission-window-body">
+                        <p class="mission-subtitle">
+                          <strong>Your task:</strong>
+                          Draw a scientific diagram of this experiment.
+                        </p>
 
-      <div class="stage-progress-row">
-        <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 5 of 8</span>
-      </div>
+                        <figure class="media-card">
+                          <img
+                            src="../images/lesson5/mission2/rust-experiment.png"
+                            alt="Rust experiment showing iron wool in water, saltwater and oil"
+                          />
 
-      <h3>Draw the rust experiment</h3>
+                          <figcaption>
+                            Use this experiment set-up as the reference for your
+                            scientific drawing.
+                          </figcaption>
+                        </figure>
 
-      <p class="mission-subtitle">
-        <strong>Your task:</strong>
-        Draw a scientific diagram of this experiment.
-      </p>
+                        <div class="story-copy" style="margin-top: 16px">
+                          <h4>Use your Science Check</h4>
 
-      <figure class="media-card">
-        <img
-          src="../images/lesson5/mission2/rust-experiment.png"
-          alt="Rust experiment showing iron wool in water, saltwater and oil"
-        >
+                          <p>
+                            Use the checklist you unlocked earlier to help you
+                            create your scientific diagram.
+                          </p>
 
-        <figcaption>
-          Use this experiment set-up as the reference for your scientific drawing.
-        </figcaption>
-      </figure>
+                          <p style="margin-top: 10px">
+                            Remember to use the scientific symbols you
+                            identified in the previous stage.
+                          </p>
+                        </div>
 
-      <div class="story-copy" style="margin-top:16px;">
-        <h4>Use your Science Check</h4>
+                        <p class="activity-prompt">
+                          When you have finished your scientific drawing, press
+                          <strong>CHECK</strong>.
+                        </p>
 
-        <p>
-          Use the checklist you unlocked earlier to help you create
-          your scientific diagram.
-        </p>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-draw-rust-experiment"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
-        <p style="margin-top:10px;">
-          Remember to use the scientific symbols you identified in the previous stage.
-        </p>
-      </div>
-
-      <p class="activity-prompt">
-        When you have finished your scientific drawing,
-        press <strong>CHECK</strong>.
-      </p>
-
-      <div
-        class="variable-feedback stage-feedback"
-        data-feedback="m2-draw-rust-experiment"
-        role="status"
-        aria-live="polite">
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ==================================================
+                  <!-- ==================================================
      STAGE 6: CHOOSE THE SCIENTIFIC DRAWING
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-choose-scientific-drawing">
+                  <div
+                    class="mission-stage"
+                    data-stage-id="m2-choose-scientific-drawing"
+                  >
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: scientific drawing
+                          check</strong
+                        >
 
-  <div class="mission-window">
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-    <div class="mission-window-bar">
-      <strong>Deep field terminal // mission 2: scientific drawing check</strong>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 6 of 8</span>
+                        </div>
 
-      <div class="window-dots" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+                        <h3>Which is the correct scientific drawing?</h3>
 
-    <div class="mission-window-body">
+                        <p class="mission-subtitle">
+                          Compare the drawings below with the experiment. Select
+                          the option that best follows the rules of a scientific
+                          drawing.
+                        </p>
 
-      <div class="stage-progress-row">
-        <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 6 of 8</span>
-      </div>
+                        <!-- Small reference image -->
+                        <div class="mission-image-container">
+                          <img
+                            src="../images/lesson5/mission2/rust-experiment.png"
+                            alt="Reference image of the rust experiment with iron wool in water, saltwater and oil"
+                            style="max-width: 420px"
+                          />
+                        </div>
 
-      <h3>Which is the correct scientific drawing?</h3>
+                        <p class="activity-prompt">
+                          <strong>Your task:</strong>
+                          Select the correct scientific drawing of this
+                          experiment.
+                        </p>
 
-      <p class="mission-subtitle">
-        Compare the drawings below with the experiment.
-        Select the option that best follows the rules of a scientific drawing.
-      </p>
+                        <div id="m2ChooseDrawing" data-activity>
+                          <div data-mc-question data-mc-answer="option-2">
+                            <div
+                              class="choice-grid"
+                              data-mc-choices
+                              role="group"
+                              aria-label="Scientific drawing options"
+                            >
+                              <button
+                                type="button"
+                                class="choice-card media-choice"
+                                data-mc-choice="option-1"
+                              >
+                                <img
+                                  class="choice-image"
+                                  src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-1.png"
+                                  alt="Scientific drawing option 1"
+                                />
+                                <h4>Option A</h4>
+                              </button>
 
+                              <button
+                                type="button"
+                                class="choice-card media-choice"
+                                data-mc-choice="option-2"
+                              >
+                                <img
+                                  class="choice-image"
+                                  src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
+                                  alt="Scientific drawing option 2"
+                                />
+                                <h4>Option B</h4>
+                              </button>
 
-      <!-- Small reference image -->
-      <div class="mission-image-container">
-        <img
-          src="../images/lesson5/mission2/rust-experiment.png"
-          alt="Reference image of the rust experiment with iron wool in water, saltwater and oil"
-          style="max-width:420px;"
-        >
-      </div>
+                              <button
+                                type="button"
+                                class="choice-card media-choice"
+                                data-mc-choice="option-3"
+                              >
+                                <img
+                                  class="choice-image"
+                                  src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
+                                  alt="Scientific drawing option 3"
+                                />
+                                <h4>Option C</h4>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
 
+                        <p class="activity-prompt">
+                          Select one drawing, then press <strong>CHECK</strong>.
+                        </p>
 
-      <p class="activity-prompt">
-        <strong>Your task:</strong>
-        Select the correct scientific drawing of this experiment.
-      </p>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-choose-scientific-drawing"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
-
-      <div id="m2ChooseDrawing" data-activity>
-        <div data-mc-question data-mc-answer="option-2">
-          <div
-            class="choice-grid"
-            data-mc-choices
-            role="group"
-            aria-label="Scientific drawing options"
-          >
-
-            <button
-              type="button"
-              class="choice-card media-choice"
-              data-mc-choice="option-1"
-            >
-              <img
-                class="choice-image"
-                src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-1.png"
-                alt="Scientific drawing option 1"
-              >
-              <h4>Option A</h4>
-            </button>
-
-
-            <button
-              type="button"
-              class="choice-card media-choice"
-              data-mc-choice="option-2"
-            >
-              <img
-                class="choice-image"
-                src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-3.png"
-                alt="Scientific drawing option 2"
-              >
-              <h4>Option B</h4>
-            </button>
-
-
-            <button
-              type="button"
-              class="choice-card media-choice"
-              data-mc-choice="option-3"
-            >
-              <img
-                class="choice-image"
-                src="../images/lesson5/mission2/choose_drawing/rust-drawing-option-2.png"
-                alt="Scientific drawing option 3"
-              >
-              <h4>Option C</h4>
-            </button>
-
-          </div>
-        </div>
-      </div>
-
-
-      <p class="activity-prompt">
-        Select one drawing, then press <strong>CHECK</strong>.
-      </p>
-
-
-      <div
-        class="variable-feedback stage-feedback"
-        data-feedback="m2-choose-scientific-drawing"
-        role="status"
-        aria-live="polite">
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ==================================================
+                  <!-- ==================================================
      STAGE 7: RUST EXPERIMENT RESULTS
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-rust-results">
+                  <div class="mission-stage" data-stage-id="m2-rust-results">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: experiment
+                          results</strong
+                        >
 
-  <div class="mission-window">
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-    <div class="mission-window-bar">
-      <strong>Deep field terminal // mission 2: experiment results</strong>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 7 of 8</span>
+                        </div>
 
-      <div class="window-dots" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+                        <h3>Rust experiment results</h3>
 
-    <div class="mission-window-body">
+                        <p class="mission-subtitle">
+                          Here are the results from the rust experiment after
+                          <strong>24 hours</strong>.
+                        </p>
 
-      <div class="stage-progress-row">
-        <p class="mission-label">Mission 02</p>
-        <span class="stage-progress-chip">Stage 7 of 8</span>
-      </div>
+                        <figure class="media-card">
+                          <img
+                            src="../images/lesson5/mission2/rust-experiment-after.png"
+                            alt="Rust experiment after 24 hours showing iron wool in water, saltwater and oil"
+                          />
 
-      <h3>Rust experiment results</h3>
+                          <figcaption>
+                            Rust experiment after 24 hours
+                          </figcaption>
+                        </figure>
 
-      <p class="mission-subtitle">
-        Here are the results from the rust experiment after
-        <strong>24 hours</strong>.
-      </p>
+                        <div class="story-copy" style="margin-top: 16px">
+                          <h4>What can you conclude?</h4>
 
-      <figure class="media-card">
-        <img
-          src="../images/lesson5/mission2/rust-experiment-after.png"
-          alt="Rust experiment after 24 hours showing iron wool in water, saltwater and oil"
-        >
+                          <p>
+                            Compare the iron wool in the three jars. Which
+                            liquid caused the most rust?
+                          </p>
 
-        <figcaption>
-          Rust experiment after 24 hours
-        </figcaption>
-      </figure>
+                          <p style="margin-top: 10px">
+                            Which liquid appears to protect the iron from
+                            rusting?
+                          </p>
+                        </div>
 
-      <div class="story-copy" style="margin-top:16px;">
-        <h4>What can you conclude?</h4>
+                        <p class="activity-prompt">
+                          Think about your conclusion, then press
+                          <strong>CHECK</strong>
+                          to reveal the answer.
+                        </p>
 
-        <p>
-          Compare the iron wool in the three jars.
-          Which liquid caused the most rust?
-        </p>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-rust-results"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
 
-        <p style="margin-top:10px;">
-          Which liquid appears to protect the iron from rusting?
-        </p>
-      </div>
-
-      <p class="activity-prompt">
-        Think about your conclusion, then press <strong>CHECK</strong>
-        to reveal the answer.
-      </p>
-
-      <div
-        class="variable-feedback stage-feedback"
-        data-feedback="m2-rust-results"
-        role="status"
-        aria-live="polite">
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ==================================================
+                  <!-- ==================================================
      STAGE 8: CAMERA IS FIXED
      ================================================== -->
-<div class="mission-stage" data-stage-id="m2-camera-fixed">
-    <div class="mission-window">
+                  <div class="mission-stage" data-stage-id="m2-camera-fixed">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 2: fixed
+                          camera</strong
+                        >
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
 
-      <div class="mission-window-bar">
-        <strong>Deep field terminal // mission 2: fixed camera</strong>
-        <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 02</p>
+                          <span class="stage-progress-chip">Stage 8 of 8</span>
+                        </div>
 
-      <div class="mission-window-body">
+                        <h3>Mission 2 Complete</h3>
 
-        <div class="stage-progress-row">
-          <p class="mission-label">Mission 02</p>
-          <span class="stage-progress-chip">Stage 8 of 8</span>
-        </div>
+                        <div class="story-copy">
+                          <h4>The camera is fixed!</h4>
+                          <p>
+                            We used oil on the camera to keep it from rusting.
+                          </p>
+                        </div>
 
-        <h3>Mission 2 Complete</h3>
+                        <div id="m2GoShallowWaters" data-activity>
+                          <div
+                            id="goShallowWatersVideoContainer"
+                            class="shallow-waters-media"
+                            data-button-reveal
+                            hidden
+                          ></div>
 
-        <div class="story-copy">
-          <h4>The camera is fixed!</h4>
-          <p>
-            We used oil on the camera to keep it from rusting.
-          </p>
-        </div>
+                          <div
+                            role="group"
+                            aria-label="Go to shallow waters"
+                            style="
+                              display: flex;
+                              justify-content: center;
+                              margin-top: 20px;
+                            "
+                          >
+                            <button
+                              type="button"
+                              class="choice-card media-choice"
+                              data-button-trigger
+                              style="width: 30%"
+                            >
+                              <h4>Press to Go to Shallow Waters</h4>
+                            </button>
+                          </div>
+                        </div>
 
-        <div id="m2GoShallowWaters" data-activity>
-          <div id="goShallowWatersVideoContainer" class="shallow-waters-media" data-button-reveal hidden></div>
+                        <p class="activity-prompt">
+                          Before we go to the deep sea, let's make sure that you
+                          can use the camera to capture some animals in the
+                          shallow ocean waters.
+                        </p>
 
-          <div
-            role="group"
-            aria-label="Go to shallow waters"
-            style="display: flex; justify-content: center; margin-top: 20px;"
-          >
-            <button
-              type="button"
-              class="choice-card media-choice"
-              data-button-trigger
-              style="width: 30%"
-            >
-              <h4>Press to Go to Shallow Waters</h4>
-            </button>
-          </div>
-        </div>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m2-camera-fixed"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
 
-        <p class="activity-prompt">
-          Before we go to the deep sea, let's make sure that you can use the camera to capture some animals in the shallow ocean waters.
-        </p>
-
-        <div
-          class="variable-feedback stage-feedback"
-          data-feedback="m2-camera-fixed"
-          role="status"
-          aria-live="polite">
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</section>
-
-            <!-- ==================================================
+                <!-- ==================================================
                  MISSION 4: SHALLOW-WATER CAMERA TRIALS (4 activities)
                  Activity 1: identify fish using visible features
                  Activity 2: choose a good scientific drawing
                  Activity 3: drag-and-drop labels on a batfish drawing
                  Activity 4: independently label a frogfish
                  ================================================== -->
-            <section class="section expedition-mission locked" id="mission-4" data-mission-index="2">
-
-              <!-- ACTIVITY 1 ------------------------------------------------ -->
-              <div class="mission-stage" data-stage-id="m4-identify">
-
-                <div class="mission-window">
-
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: shallow-water camera test</strong>
-
-                    <div class="window-dots" aria-hidden="true">
-                      <span></span><span></span><span></span>
-                    </div>
-                  </div>
-
-
-                  <div class="mission-window-body">
-
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 03 · Activity 1</p>
-                      <span class="stage-progress-chip">Activity 1 of 4</span>
-                    </div>
-
-
-                    <h3>Camera repaired — test it in shallow water</h3>
-
-
-                    <div class="m4-preamble">
-                      <strong>System update:</strong>
-                      The camera repairs are complete. Before taking it back into the deep sea,
-                      test it in shallow water where the animals are easier to observe.
-
-                      Watch the camera footage carefully, then identify the fish by comparing
-                      its <strong>observable features</strong>.
-                    </div>
-
-
-                    <div class="m4-feature-cues" aria-label="Features to compare">
-                      <span>Body shape</span>
-                      <span>Fin shape &amp; position</span>
-                      <span>Mouth shape</span>
-                      <span>Markings</span>
-                    </div>
-
-
-                    <article class="shallow-fish-question">
-
-                      <h4>Live camera observation</h4>
-
-                      <p>
-                        Watch the footage, then select the reference fish that best matches
-                        the animal shown by the camera.
-                      </p>
-
-
-                      <!-- UNDERWATER VIDEO -->
-                      <div class="fish-question-image">
-
-                        <video
-                          src="../videos/lesson5/visdeurbel-fish-1.mp4"
-                          autoplay
-                          muted
-                          loop
-                          playsinline
-                          controls
-                          preload="metadata"
-                          aria-label="Underwater camera footage showing a fish to identify"
-                          style="width:100%; display:block;"
+                <section
+                  class="section expedition-mission locked"
+                  id="mission-4"
+                  data-mission-index="2"
+                >
+                  <!-- ACTIVITY 1 ------------------------------------------------ -->
+                  <div class="mission-stage" data-stage-id="m4-identify">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 3: shallow-water
+                          camera test</strong
                         >
-                          Your browser does not support the video element.
-                        </video>
 
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
                       </div>
 
-                      <div class="m4-fish-preview pop-in" id="m4FishPreview" hidden>
-                        <p><strong id="m4FishPreviewLabel">Selected reference</strong></p>
-                        <img id="m4FishPreviewImage" src="" alt="">
-                      </div>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 03 · Activity 1</p>
+                          <span class="stage-progress-chip"
+                            >Activity 1 of 4</span
+                          >
+                        </div>
 
-                      <!-- THREE ANSWER CHOICES -->
-                      <div id="m4IdentifyFish" data-activity>
-                        <div data-mc-question data-mc-answer="rudd">
+                        <h3>Camera repaired — test it in shallow water</h3>
+
+                        <div class="m4-preamble">
+                          <strong>System update:</strong>
+                          The camera repairs are complete. Before taking it back
+                          into the deep sea, test it in shallow water where the
+                          animals are easier to observe. Watch the camera
+                          footage carefully, then identify the fish by comparing
+                          its <strong>observable features</strong>.
+                        </div>
+
+                        <div
+                          class="m4-feature-cues"
+                          aria-label="Features to compare"
+                        >
+                          <span>Body shape</span>
+                          <span>Fin shape &amp; position</span>
+                          <span>Mouth shape</span>
+                          <span>Markings</span>
+                        </div>
+
+                        <article class="shallow-fish-question">
+                          <h4>Live camera observation</h4>
+
+                          <p>
+                            Watch the footage, then select the reference fish
+                            that best matches the animal shown by the camera.
+                          </p>
+
+                          <!-- UNDERWATER VIDEO -->
+                          <div class="fish-question-image">
+                            <video
+                              src="../videos/lesson5/visdeurbel-fish-1.mp4"
+                              autoplay
+                              muted
+                              loop
+                              playsinline
+                              controls
+                              preload="metadata"
+                              aria-label="Underwater camera footage showing a fish to identify"
+                              style="width: 100%; display: block"
+                            >
+                              Your browser does not support the video element.
+                            </video>
+                          </div>
+
                           <div
-                            class="choice-grid"
-                            data-mc-choices
-                            role="group"
-                            aria-label="Choose the fish that matches the underwater footage"
+                            class="m4-fish-preview pop-in"
+                            id="m4FishPreview"
+                            hidden
                           >
-
-                            <button
-                              type="button"
-                              class="choice-card media-choice"
-                              data-mc-choice="perch"
-                              onclick="showM4FishPreview(this)"
-                            >
-                              <img
-                                class="choice-image"
-                                src="../images/lesson5/mission4/yellowfin-tuna.png"
-                                alt="Reference fish A"
+                            <p>
+                              <strong id="m4FishPreviewLabel"
+                                >Selected reference</strong
                               >
-                              <h4>Reference A</h4>
-                            </button>
-
-
-                            <button
-                              type="button"
-                              class="choice-card media-choice"
-                              data-mc-choice="pike-perch"
-                              onclick="showM4FishPreview(this)"
-                            >
-                              <img
-                                class="choice-image"
-                                src="../images/lesson5/mission4/yellowperch.png"
-                                alt="Reference fish B"
-                              >
-                              <h4>Reference B</h4>
-                            </button>
-
-
-                            <button
-                              type="button"
-                              class="choice-card media-choice"
-                              data-mc-choice="rudd"
-                              onclick="showM4FishPreview(this)"
-                            >
-                              <img
-                                class="choice-image"
-                                src="../images/lesson5/mission4/bluestripe-snapper.png"
-                                alt="Reference fish C"
-                              >
-                              <h4>Reference C</h4>
-                            </button>
-
-                          </div>
-                        </div>
-                      </div>
-
-                    </article>
-
-
-                    <p class="activity-prompt">
-                      Select the fish that best matches the footage,
-                      then press <strong>CHECK</strong>.
-                    </p>
-
-
-                    <div
-                      class="variable-feedback stage-feedback"
-                      data-feedback="m4-identify"
-                      role="status"
-                      aria-live="polite">
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              <!-- ACTIVITY 2 ------------------------------------------------ -->
-              <div class="mission-stage" data-stage-id="m4-clownfish">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: scientific drawing test</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 03 · Activity 2</p>
-                      <span class="stage-progress-chip">Activity 2 of 4</span>
-                    </div>
-
-                    <div class="mission-image-zoom-container">
-                      <button
-                        type="button"
-                        class="mission-image-trigger"
-                        onclick="openImageZoomModal('../images/lesson5/mission4/clownfish.png', 'Clownfish', 'Photo of a clownfish')"
-                        aria-label="Zoom in on a photo of the clownfish"
-                      >
-                        <img src="../images/lesson5/mission4/clownfish.png" alt="">
-                      </button>
-                      <p>Click the image to zoom in</p>
-                    </div>
-
-                    <h3>Which clownfish is drawn like a scientist?</h3>
-                    <p class="mission-subtitle">
-                      A scientific drawing should show the important observable structures clearly. It is not an artwork:
-                      colour, decorative shading and unnecessary detail can make the record harder to interpret.
-                    </p>
-
-                    <div id="m4ClownfishDrawing" data-activity>
-                      <div data-mc-question data-mc-answer="scientific">
-                        <div class="drawing-choice-grid" data-mc-choices>
-
-                          <button type="button" class="choice-card m4-clownfish-choice" data-mc-choice="colour">
-                            <img
-                              class="choice-image"
-                              src="../images/lesson5/mission4/clownfish3.png"
-                              alt="Clownfish drawing option A with colour"
-                            >
-                            <h4>Drawing A</h4>
-                            <p>A colourful representation.</p>
-                          </button>
-
-                          <button type="button" class="choice-card m4-clownfish-choice" data-mc-choice="over-detailed">
-                            <img
-                              class="choice-image"
-                              src="../images/lesson5/mission4/clownfish2.png"
-                              alt="Clownfish drawing option B with heavy texture and shading"
-                            >
-                            <h4>Drawing B</h4>
-                            <p>Lots of texture and decorative detail.</p>
-                          </button>
-
-                          <button type="button" class="choice-card m4-clownfish-choice" data-mc-choice="scientific">
-                            <img
-                              class="choice-image"
-                              src="../images/lesson5/mission4/clownfish1.png"
-                              alt="Clownfish drawing option C using clear simple lines and main observable features"
-                            >
-                            <h4>Drawing C</h4>
-                            <p>Clear lines and the main visible features only.</p>
-                          </button>
-
-                        </div>
-                      </div>
-                    </div>
-
-                    <p class="activity-prompt">Choose the best scientific drawing, then press <strong>CHECK</strong>.</p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m4-clownfish" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- ACTIVITY 3 ------------------------------------------------ -->
-              <div class="mission-stage" data-stage-id="m4-batfish-labels">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: guided labelling</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 03 · Activity 3</p>
-                      <span class="stage-progress-chip">Activity 3 of 4</span>
-                    </div>
-
-                    <div class="mission-image-zoom-container">
-                      <button
-                        type="button"
-                        class="mission-image-trigger"
-                        onclick="openImageZoomModal('../images/lesson5/mission4/red-lipped-batfish.jpg', 'Red-lipped batfish', 'Photo of a red-lipped batfish')"
-                        aria-label="Zoom in on a photo of the red-lipped batfish"
-                      >
-                        <img src="../images/lesson5/mission4/red-lipped-batfish.jpg" alt="">
-                      </button>
-                      <p>Click the image to zoom in</p>
-                    </div>
-
-                    <h3>Label the red-lipped batfish</h3>
-                    <p class="mission-subtitle">
-                      The labels are provided for you this time. Follow each leader line from the fish to its end,
-                      then drag the correct label beside that line. This is guided practice before you label the next organism independently.
-                    </p>
-
-                    <div class="dd-activity m4-batfish-dd" id="m4BatfishDragDrop" data-activity>
-                      <div class="dd-board">
-                        <div class="dd-target m4-batfish-target">
-                          <span class="dd-caption">Scientific drawing</span>
-                          <img
-                            class="m4-batfish-diagram"
-                            src="../images/lesson5/mission4/red-lipped-batfish-diagram.png"
-                            alt="Front-view scientific drawing of a red-lipped batfish with five leader lines for guided labelling"
-                            onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
-                          >
-                          <div class="m4-asset-placeholder" hidden>
-                            <strong>Batfish diagram missing</strong>
-                            <span>Add the supplied file as <code>../images/lesson5/mission4/red-lipped-batfish-diagram.png</code>.</span>
+                            </p>
+                            <img id="m4FishPreviewImage" src="" alt="" />
                           </div>
 
-                          <!-- Drop zones are aligned beside the ends of the five leader lines in the 4:3 image. -->
-                          <div data-dd-slot="batfish-eye" data-dd-answer="eye" style="--dd-x: 16.2%; --dd-y: 21.4%; --dd-w: 24.7%;" aria-label="Drop the label for the eye here"></div>
-                          <div data-dd-slot="batfish-dorsal" data-dd-answer="dorsal-fin" style="--dd-x: 79.7%; --dd-y: 13.1%; --dd-w: 25.0%;" aria-label="Drop the label for the dorsal fin here"></div>
-                          <div data-dd-slot="batfish-snout" data-dd-answer="snout" style="--dd-x: 88.0%; --dd-y: 35.7%; --dd-w: 23.0%;" aria-label="Drop the label for the snout here"></div>
-                          <div data-dd-slot="batfish-pectoral" data-dd-answer="pectoral-fin" style="--dd-x: 16.0%; --dd-y: 86.6%; --dd-w: 24.5%;" aria-label="Drop the label for the pectoral fin here"></div>
-                          <div data-dd-slot="batfish-mouth" data-dd-answer="mouth" style="--dd-x: 82.5%; --dd-y: 83.1%; --dd-w: 22.5%;" aria-label="Drop the label for the mouth and red lips here"></div>
+                          <!-- THREE ANSWER CHOICES -->
+                          <div id="m4IdentifyFish" data-activity>
+                            <div data-mc-question data-mc-answer="rudd">
+                              <div
+                                class="choice-grid"
+                                data-mc-choices
+                                role="group"
+                                aria-label="Choose the fish that matches the underwater footage"
+                              >
+                                <button
+                                  type="button"
+                                  class="choice-card media-choice"
+                                  data-mc-choice="perch"
+                                  onclick="showM4FishPreview(this)"
+                                >
+                                  <img
+                                    class="choice-image"
+                                    src="../images/lesson5/mission4/yellowfin-tuna.png"
+                                    alt="Reference fish A"
+                                  />
+                                  <h4>Reference A</h4>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  class="choice-card media-choice"
+                                  data-mc-choice="pike-perch"
+                                  onclick="showM4FishPreview(this)"
+                                >
+                                  <img
+                                    class="choice-image"
+                                    src="../images/lesson5/mission4/yellowperch.png"
+                                    alt="Reference fish B"
+                                  />
+                                  <h4>Reference B</h4>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  class="choice-card media-choice"
+                                  data-mc-choice="rudd"
+                                  onclick="showM4FishPreview(this)"
+                                >
+                                  <img
+                                    class="choice-image"
+                                    src="../images/lesson5/mission4/bluestripe-snapper.png"
+                                    alt="Reference fish C"
+                                  />
+                                  <h4>Reference C</h4>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+
+                        <p class="activity-prompt">
+                          Select the fish that best matches the footage, then
+                          press <strong>CHECK</strong>.
+                        </p>
+
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m4-identify"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ACTIVITY 2 ------------------------------------------------ -->
+                  <div class="mission-stage" data-stage-id="m4-clownfish">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 3: scientific drawing
+                          test</strong
+                        >
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
                         </div>
                       </div>
 
-                      <div class="dd-tray m4-label-tray" data-dd-tray aria-label="Batfish labels">
-                        <div class="m4-label-token" data-dd-item="eye">Eye</div>
-                        <div class="m4-label-token" data-dd-item="mouth">Mouth (red lips)</div>
-                        <div class="m4-label-token" data-dd-item="snout">Snout</div>
-                        <div class="m4-label-token" data-dd-item="dorsal-fin">Dorsal fin</div>
-                        <div class="m4-label-token" data-dd-item="pectoral-fin">Pectoral fin</div>
-                      </div>
-                    </div>
-
-                    <p class="activity-prompt">
-                      Place all five labels beside the ends of the leader lines, then press <strong>CHECK</strong>.
-                    </p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m4-batfish-labels" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- ACTIVITY 4 ------------------------------------------------ -->
-              <div class="mission-stage" data-stage-id="m4-frogfish-labels">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // mission 3: independent labelling</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 03 · Activity 4</p>
-                      <span class="stage-progress-chip">Activity 4 of 4</span>
-                    </div>
-                    <div class="mission-image-zoom-container">
-                      <button
-                        type="button"
-                        class="mission-image-trigger"
-                        onclick="openImageZoomModal('../images/lesson5/mission4/Frogfish.webp', 'Frogfish', 'Photo of a frogfish')"
-                        aria-label="Zoom in on a photo of the frogfish"
-                      >
-                        <img src="../images/lesson5/mission4/Frogfish.webp" alt="">
-                      </button>
-                      <p>Click the image to zoom in</p>
-                    </div>
-                    <h3>Now label the frogfish yourself</h3>
-                    <p class="mission-subtitle">
-                      This time there is no word bank. Follow each leader line from the frogfish to a blank field and type the scientific label yourself.
-                      Use visible structures from the drawing, then press <strong>CHECK</strong> when all six labels are complete.
-                    </p>
-
-                    <div class="frogfish-labelling-grid">
-                      <div class="frogfish-image-stage" id="frogfishImageStage" data-activity>
-                          <img
-                            class="m4-frogfish-diagram"
-                            src="../images/lesson5/mission4/frogfish-diagram.png"
-                            alt="Front-view scientific drawing of a frogfish with five leader lines for guided labelling"
-                            onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 03 · Activity 2</p>
+                          <span class="stage-progress-chip"
+                            >Activity 2 of 4</span
                           >
-                        <div class="m4-asset-placeholder frogfish-placeholder" hidden>
-                          <strong>Frogfish diagram placeholder</strong>
-                          <span>Add the supplied diagram as <code>../images/lesson5/mission4/frogfish-diagram.png</code>.</span>
                         </div>
 
-                        <div class="frogfish-label-entry" data-tr-group data-tr-key="caudal-fin" data-tr-min="1" data-tr-max="1" style="--frog-left: 1.6%; --frog-top: 28.0%; --frog-width: 19%;">
-                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin at the back of the frogfish">
-                          <div data-tr-list></div>
+                        <div class="mission-image-zoom-container">
+                          <button
+                            type="button"
+                            class="mission-image-trigger"
+                            onclick="
+                              openImageZoomModal(
+                                '../images/lesson5/mission4/clownfish.png',
+                                'Clownfish',
+                                'Photo of a clownfish',
+                              )
+                            "
+                            aria-label="Zoom in on a photo of the clownfish"
+                          >
+                            <img
+                              src="../images/lesson5/mission4/clownfish.png"
+                              alt=""
+                            />
+                          </button>
+                          <p>Click the image to zoom in</p>
                         </div>
 
-                        <div class="frogfish-label-entry" data-tr-group data-tr-key="dorsal-fin" data-tr-min="1" data-tr-max="1" style="--frog-left: 17.0%; --frog-top: 11.9%; --frog-width: 20%;">
-                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the fin along the top of the frogfish">
-                          <div data-tr-list></div>
+                        <h3>Which clownfish is drawn like a scientist?</h3>
+                        <p class="mission-subtitle">
+                          A scientific drawing should show the important
+                          observable structures clearly. It is not an artwork:
+                          colour, decorative shading and unnecessary detail can
+                          make the record harder to interpret.
+                        </p>
+
+                        <div id="m4ClownfishDrawing" data-activity>
+                          <div data-mc-question data-mc-answer="scientific">
+                            <div class="drawing-choice-grid" data-mc-choices>
+                              <button
+                                type="button"
+                                class="choice-card m4-clownfish-choice"
+                                data-mc-choice="colour"
+                              >
+                                <img
+                                  class="choice-image"
+                                  src="../images/lesson5/mission4/clownfish3.png"
+                                  alt="Clownfish drawing option A with colour"
+                                />
+                                <h4>Drawing A</h4>
+                                <p>A colourful representation.</p>
+                              </button>
+
+                              <button
+                                type="button"
+                                class="choice-card m4-clownfish-choice"
+                                data-mc-choice="over-detailed"
+                              >
+                                <img
+                                  class="choice-image"
+                                  src="../images/lesson5/mission4/clownfish2.png"
+                                  alt="Clownfish drawing option B with heavy texture and shading"
+                                />
+                                <h4>Drawing B</h4>
+                                <p>Lots of texture and decorative detail.</p>
+                              </button>
+
+                              <button
+                                type="button"
+                                class="choice-card m4-clownfish-choice"
+                                data-mc-choice="scientific"
+                              >
+                                <img
+                                  class="choice-image"
+                                  src="../images/lesson5/mission4/clownfish1.png"
+                                  alt="Clownfish drawing option C using clear simple lines and main observable features"
+                                />
+                                <h4>Drawing C</h4>
+                                <p>
+                                  Clear lines and the main visible features
+                                  only.
+                                </p>
+                              </button>
+                            </div>
+                          </div>
                         </div>
 
-                        <div class="frogfish-label-entry" data-tr-group data-tr-key="lure" data-tr-min="1" data-tr-max="1" style="--frog-left: 80.0%; --frog-top: 7.7%; --frog-width: 19%;">
-                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish lure">
-                          <div data-tr-list></div>
-                        </div>
-
-                        <div class="frogfish-label-entry" data-tr-group data-tr-key="eye" data-tr-min="1" data-tr-max="1" style="--frog-left: 79.0%; --frog-top: 45.2%; --frog-width: 20%;">
-                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish eye">
-                          <div data-tr-list></div>
-                        </div>
-
-                        <div class="frogfish-label-entry" data-tr-group data-tr-key="mouth" data-tr-min="1" data-tr-max="1" style="--frog-left: 82.0%; --frog-top: 68.4%; --frog-width: 18%;">
-                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish mouth">
-                          <div data-tr-list></div>
-                        </div>
-
-                        <div class="frogfish-label-entry" data-tr-group data-tr-key="pectoral-fin" data-tr-min="1" data-tr-max="1" style="--frog-left: 2.0%; --frog-top: 90.7%; --frog-width: 20%;">
-                          <input type="text" data-tr-input maxlength="30" autocomplete="off" placeholder="Type label" aria-label="Label the frogfish pectoral fin">
-                          <div data-tr-list></div>
-                        </div>
+                        <p class="activity-prompt">
+                          Choose the best scientific drawing, then press
+                          <strong>CHECK</strong>.
+                        </p>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m4-clownfish"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
                       </div>
                     </div>
-
-                    <p class="activity-prompt">
-                      Label all six structures in your own words. Press <strong>ENTER</strong> or click elsewhere to save each label, then press <strong>CHECK</strong> to compare your work with an example.
-                    </p>
-                    <div class="variable-feedback stage-feedback" data-feedback="m4-frogfish-labels" role="status" aria-live="polite"></div>
                   </div>
-                </div>
-              </div>
-            </section>
-            <!-- ==================================================
+
+                  <!-- ACTIVITY 3 ------------------------------------------------ -->
+                  <div class="mission-stage" data-stage-id="m4-batfish-labels">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 3: guided
+                          labelling</strong
+                        >
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 03 · Activity 3</p>
+                          <span class="stage-progress-chip"
+                            >Activity 3 of 4</span
+                          >
+                        </div>
+
+                        <div class="mission-image-zoom-container">
+                          <button
+                            type="button"
+                            class="mission-image-trigger"
+                            onclick="
+                              openImageZoomModal(
+                                '../images/lesson5/mission4/red-lipped-batfish.jpg',
+                                'Red-lipped batfish',
+                                'Photo of a red-lipped batfish',
+                              )
+                            "
+                            aria-label="Zoom in on a photo of the red-lipped batfish"
+                          >
+                            <img
+                              src="../images/lesson5/mission4/red-lipped-batfish.jpg"
+                              alt=""
+                            />
+                          </button>
+                          <p>Click the image to zoom in</p>
+                        </div>
+
+                        <h3>Label the red-lipped batfish</h3>
+                        <p class="mission-subtitle">
+                          The labels are provided for you this time. Follow each
+                          leader line from the fish to its end, then drag the
+                          correct label beside that line. This is guided
+                          practice before you label the next organism
+                          independently.
+                        </p>
+
+                        <div
+                          class="dd-activity m4-batfish-dd"
+                          id="m4BatfishDragDrop"
+                          data-activity
+                        >
+                          <div class="dd-board">
+                            <div class="dd-target m4-batfish-target">
+                              <span class="dd-caption">Scientific drawing</span>
+                              <img
+                                class="m4-batfish-diagram"
+                                src="../images/lesson5/mission4/red-lipped-batfish-diagram.png"
+                                alt="Front-view scientific drawing of a red-lipped batfish with five leader lines for guided labelling"
+                                onerror="
+                                  this.hidden = true;
+                                  this.nextElementSibling.hidden = false;
+                                "
+                              />
+                              <div class="m4-asset-placeholder" hidden>
+                                <strong>Batfish diagram missing</strong>
+                                <span
+                                  >Add the supplied file as
+                                  <code
+                                    >../images/lesson5/mission4/red-lipped-batfish-diagram.png</code
+                                  >.</span
+                                >
+                              </div>
+
+                              <!-- Drop zones are aligned beside the ends of the five leader lines in the 4:3 image. -->
+                              <div
+                                data-dd-slot="batfish-eye"
+                                data-dd-answer="eye"
+                                style="
+                                  --dd-x: 16.2%;
+                                  --dd-y: 21.4%;
+                                  --dd-w: 24.7%;
+                                "
+                                aria-label="Drop the label for the eye here"
+                              ></div>
+                              <div
+                                data-dd-slot="batfish-dorsal"
+                                data-dd-answer="dorsal-fin"
+                                style="
+                                  --dd-x: 79.7%;
+                                  --dd-y: 13.1%;
+                                  --dd-w: 25%;
+                                "
+                                aria-label="Drop the label for the dorsal fin here"
+                              ></div>
+                              <div
+                                data-dd-slot="batfish-snout"
+                                data-dd-answer="snout"
+                                style="--dd-x: 88%; --dd-y: 35.7%; --dd-w: 23%"
+                                aria-label="Drop the label for the snout here"
+                              ></div>
+                              <div
+                                data-dd-slot="batfish-pectoral"
+                                data-dd-answer="pectoral-fin"
+                                style="
+                                  --dd-x: 16%;
+                                  --dd-y: 86.6%;
+                                  --dd-w: 24.5%;
+                                "
+                                aria-label="Drop the label for the pectoral fin here"
+                              ></div>
+                              <div
+                                data-dd-slot="batfish-mouth"
+                                data-dd-answer="mouth"
+                                style="
+                                  --dd-x: 82.5%;
+                                  --dd-y: 83.1%;
+                                  --dd-w: 22.5%;
+                                "
+                                aria-label="Drop the label for the mouth and red lips here"
+                              ></div>
+                            </div>
+                          </div>
+
+                          <div
+                            class="dd-tray m4-label-tray"
+                            data-dd-tray
+                            aria-label="Batfish labels"
+                          >
+                            <div class="m4-label-token" data-dd-item="eye">
+                              Eye
+                            </div>
+                            <div class="m4-label-token" data-dd-item="mouth">
+                              Mouth (red lips)
+                            </div>
+                            <div class="m4-label-token" data-dd-item="snout">
+                              Snout
+                            </div>
+                            <div
+                              class="m4-label-token"
+                              data-dd-item="dorsal-fin"
+                            >
+                              Dorsal fin
+                            </div>
+                            <div
+                              class="m4-label-token"
+                              data-dd-item="pectoral-fin"
+                            >
+                              Pectoral fin
+                            </div>
+                          </div>
+                        </div>
+
+                        <p class="activity-prompt">
+                          Place all five labels beside the ends of the leader
+                          lines, then press <strong>CHECK</strong>.
+                        </p>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m4-batfish-labels"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ACTIVITY 4 ------------------------------------------------ -->
+                  <div class="mission-stage" data-stage-id="m4-frogfish-labels">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // mission 3: independent
+                          labelling</strong
+                        >
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 03 · Activity 4</p>
+                          <span class="stage-progress-chip"
+                            >Activity 4 of 4</span
+                          >
+                        </div>
+                        <div class="mission-image-zoom-container">
+                          <button
+                            type="button"
+                            class="mission-image-trigger"
+                            onclick="
+                              openImageZoomModal(
+                                '../images/lesson5/mission4/Frogfish.webp',
+                                'Frogfish',
+                                'Photo of a frogfish',
+                              )
+                            "
+                            aria-label="Zoom in on a photo of the frogfish"
+                          >
+                            <img
+                              src="../images/lesson5/mission4/Frogfish.webp"
+                              alt=""
+                            />
+                          </button>
+                          <p>Click the image to zoom in</p>
+                        </div>
+                        <h3>Now label the frogfish yourself</h3>
+                        <p class="mission-subtitle">
+                          This time there is no word bank. Follow each leader
+                          line from the frogfish to a blank field and type the
+                          scientific label yourself. Use visible structures from
+                          the drawing, then press <strong>CHECK</strong> when
+                          all six labels are complete.
+                        </p>
+
+                        <div class="frogfish-labelling-grid">
+                          <div
+                            class="frogfish-image-stage"
+                            id="frogfishImageStage"
+                            data-activity
+                          >
+                            <img
+                              class="m4-frogfish-diagram"
+                              src="../images/lesson5/mission4/frogfish-diagram.png"
+                              alt="Front-view scientific drawing of a frogfish with five leader lines for guided labelling"
+                              onerror="
+                                this.hidden = true;
+                                this.nextElementSibling.hidden = false;
+                              "
+                            />
+                            <div
+                              class="m4-asset-placeholder frogfish-placeholder"
+                              hidden
+                            >
+                              <strong>Frogfish diagram placeholder</strong>
+                              <span
+                                >Add the supplied diagram as
+                                <code
+                                  >../images/lesson5/mission4/frogfish-diagram.png</code
+                                >.</span
+                              >
+                            </div>
+
+                            <div
+                              class="frogfish-label-entry"
+                              data-tr-group
+                              data-tr-key="caudal-fin"
+                              data-tr-min="1"
+                              data-tr-max="1"
+                              style="
+                                --frog-left: 1.6%;
+                                --frog-top: 28%;
+                                --frog-width: 19%;
+                              "
+                            >
+                              <input
+                                type="text"
+                                data-tr-input
+                                maxlength="30"
+                                autocomplete="off"
+                                placeholder="Type label"
+                                aria-label="Label the fin at the back of the frogfish"
+                              />
+                              <div data-tr-list></div>
+                            </div>
+
+                            <div
+                              class="frogfish-label-entry"
+                              data-tr-group
+                              data-tr-key="dorsal-fin"
+                              data-tr-min="1"
+                              data-tr-max="1"
+                              style="
+                                --frog-left: 17%;
+                                --frog-top: 11.9%;
+                                --frog-width: 20%;
+                              "
+                            >
+                              <input
+                                type="text"
+                                data-tr-input
+                                maxlength="30"
+                                autocomplete="off"
+                                placeholder="Type label"
+                                aria-label="Label the fin along the top of the frogfish"
+                              />
+                              <div data-tr-list></div>
+                            </div>
+
+                            <div
+                              class="frogfish-label-entry"
+                              data-tr-group
+                              data-tr-key="lure"
+                              data-tr-min="1"
+                              data-tr-max="1"
+                              style="
+                                --frog-left: 80%;
+                                --frog-top: 7.7%;
+                                --frog-width: 19%;
+                              "
+                            >
+                              <input
+                                type="text"
+                                data-tr-input
+                                maxlength="30"
+                                autocomplete="off"
+                                placeholder="Type label"
+                                aria-label="Label the frogfish lure"
+                              />
+                              <div data-tr-list></div>
+                            </div>
+
+                            <div
+                              class="frogfish-label-entry"
+                              data-tr-group
+                              data-tr-key="eye"
+                              data-tr-min="1"
+                              data-tr-max="1"
+                              style="
+                                --frog-left: 79%;
+                                --frog-top: 45.2%;
+                                --frog-width: 20%;
+                              "
+                            >
+                              <input
+                                type="text"
+                                data-tr-input
+                                maxlength="30"
+                                autocomplete="off"
+                                placeholder="Type label"
+                                aria-label="Label the frogfish eye"
+                              />
+                              <div data-tr-list></div>
+                            </div>
+
+                            <div
+                              class="frogfish-label-entry"
+                              data-tr-group
+                              data-tr-key="mouth"
+                              data-tr-min="1"
+                              data-tr-max="1"
+                              style="
+                                --frog-left: 82%;
+                                --frog-top: 68.4%;
+                                --frog-width: 18%;
+                              "
+                            >
+                              <input
+                                type="text"
+                                data-tr-input
+                                maxlength="30"
+                                autocomplete="off"
+                                placeholder="Type label"
+                                aria-label="Label the frogfish mouth"
+                              />
+                              <div data-tr-list></div>
+                            </div>
+
+                            <div
+                              class="frogfish-label-entry"
+                              data-tr-group
+                              data-tr-key="pectoral-fin"
+                              data-tr-min="1"
+                              data-tr-max="1"
+                              style="
+                                --frog-left: 2%;
+                                --frog-top: 90.7%;
+                                --frog-width: 20%;
+                              "
+                            >
+                              <input
+                                type="text"
+                                data-tr-input
+                                maxlength="30"
+                                autocomplete="off"
+                                placeholder="Type label"
+                                aria-label="Label the frogfish pectoral fin"
+                              />
+                              <div data-tr-list></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p class="activity-prompt">
+                          Label all six structures in your own words. Press
+                          <strong>ENTER</strong> or click elsewhere to save each
+                          label, then press <strong>CHECK</strong> to compare
+                          your work with an example.
+                        </p>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m4-frogfish-labels"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <!-- ==================================================
                  MISSION 5: UNKNOWN SPECIES
                  Final application: sonar -> observation -> camera
                  failure -> scientific drawing -> self-check.
                  ================================================== -->
 
-            <section class="section expedition-mission locked" id="mission-5" data-mission-index="3">
-              <div class="mission-stage" data-stage-id="m5-finale">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // unknown contact</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 04</p>
-                      <span class="stage-progress-chip">Final application</span>
-                    </div>
-                    <h3>Unknown Species Detected</h3>
-                    <p class="mission-subtitle">
-                      Sonar has detected movement near the expedition vehicle. Locate a contact, observe the organism,
-                      and create a scientific record if the camera system cannot capture it.
-                    </p>
-                    <!-- SONAR PHASE
+                <section
+                  class="section expedition-mission locked"
+                  id="mission-5"
+                  data-mission-index="3"
+                >
+                  <div class="mission-stage" data-stage-id="m5-finale">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong>Deep field terminal // unknown contact</strong>
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 04</p>
+                          <span class="stage-progress-chip"
+                            >Final application</span
+                          >
+                        </div>
+                        <h3>Unknown Species Detected</h3>
+                        <p class="mission-subtitle">
+                          Sonar has detected movement near the expedition
+                          vehicle. Locate a contact, observe the organism, and
+                          create a scientific record if the camera system cannot
+                          capture it.
+                        </p>
+                        <!-- SONAR PHASE
                          The CSS radar below is a working placeholder. If the team later
                          makes a Canva GIF, it can replace the radar artwork while the
                          .sonar-contact buttons remain as clickable HTML overlays. -->
-                    <div class="m5-phase" data-m5-phase="sonar">
-                      <div class="m5-panel">
-                        <div class="m5-status-strip">
-                          <span><span class="m5-status-light"></span>Sonar array online</span>
-                          <span>Scan sector 05</span>
-                        </div>
-                        <div class="sonar-layout">
-                          <div class="sonar-radar" id="mission5Sonar" aria-label="Sonar display with several detected contacts">
-                            <span class="sonar-crosshair-x" aria-hidden="true"></span>
-                            <span class="sonar-crosshair-y" aria-hidden="true"></span>
-                            <span class="sonar-sweep" aria-hidden="true"></span>
-                            <span class="sonar-centre" aria-hidden="true"></span>
-                            <button type="button" class="sonar-contact" data-contact="A" style="--contact-x: 28%; --contact-y: 37%; --contact-delay: -0.2s" aria-label="Investigate sonar contact A" onclick="selectSonarContact('A', this)"></button>
-                            <button type="button" class="sonar-contact" data-contact="B" style="--contact-x: 69%; --contact-y: 26%; --contact-delay: -0.9s" aria-label="Investigate sonar contact B" onclick="selectSonarContact('B', this)"></button>
-                            <button type="button" class="sonar-contact" data-contact="C" style="--contact-x: 76%; --contact-y: 67%; --contact-delay: -1.4s" aria-label="Investigate sonar contact C" onclick="selectSonarContact('C', this)"></button>
-                            <button type="button" class="sonar-contact" data-contact="D" style="--contact-x: 41%; --contact-y: 76%; --contact-delay: -0.55s" aria-label="Investigate sonar contact D" onclick="selectSonarContact('D', this)"></button>
-                            <button type="button" class="sonar-contact" data-contact="E" style="--contact-x: 55%; --contact-y: 49%; --contact-delay: -1.1s" aria-label="Investigate sonar contact E" onclick="selectSonarContact('E', this)"></button>
-                          </div>
-                          <article class="sonar-instructions">
-                            <h4>Multiple contacts detected</h4>
-                            <p>
-                              The sonar cannot identify what is moving through the water. Choose one contact to investigate.
-                            </p>
-                            <p>
-                              Once a contact is acquired, that organism stays assigned to your expedition even if the page is refreshed or the mission is reset.
-                            </p>
-                            <div class="sonar-legend">
-                              <span>● Yellow pulse = possible biological contact</span>
-                              <span>◎ Sweep = active sonar scan</span>
+                        <div class="m5-phase" data-m5-phase="sonar">
+                          <div class="m5-panel">
+                            <div class="m5-status-strip">
+                              <span
+                                ><span class="m5-status-light"></span>Sonar
+                                array online</span
+                              >
+                              <span>Scan sector 05</span>
                             </div>
-                          </article>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="m5-phase" data-m5-phase="tracking" hidden>
-                      <div class="m5-panel tracking-card">
-                        <div class="tracking-spinner" aria-hidden="true"></div>
-                        <h4>Tracking selected contact...</h4>
-                        <p>Matching sonar movement with the live observation feed.</p>
-                      </div>
-                    </div>
-                    <div class="m5-phase" data-m5-phase="observe" hidden>
-                      <div class="m5-panel">
-                        <div class="m5-status-strip">
-                          <span><span class="m5-status-light"></span>Live observation feed</span>
-                          <span id="mission5ContactLabel">Contact acquired</span>
-                        </div>
-                        <div class="creature-console">
-                          <div class="creature-feed">
-                            <span class="live-badge">Live feed</span>
-                            <img id="mission5LiveGif" data-m5-media="gif" src="" alt="Deep-sea organism selected for observation">
+                            <div class="sonar-layout">
+                              <div
+                                class="sonar-radar"
+                                id="mission5Sonar"
+                                aria-label="Sonar display with several detected contacts"
+                              >
+                                <span
+                                  class="sonar-crosshair-x"
+                                  aria-hidden="true"
+                                ></span>
+                                <span
+                                  class="sonar-crosshair-y"
+                                  aria-hidden="true"
+                                ></span>
+                                <span
+                                  class="sonar-sweep"
+                                  aria-hidden="true"
+                                ></span>
+                                <span
+                                  class="sonar-centre"
+                                  aria-hidden="true"
+                                ></span>
+                                <button
+                                  type="button"
+                                  class="sonar-contact"
+                                  data-contact="A"
+                                  style="
+                                    --contact-x: 28%;
+                                    --contact-y: 37%;
+                                    --contact-delay: -0.2s;
+                                  "
+                                  aria-label="Investigate sonar contact A"
+                                  onclick="selectSonarContact('A', this)"
+                                ></button>
+                                <button
+                                  type="button"
+                                  class="sonar-contact"
+                                  data-contact="B"
+                                  style="
+                                    --contact-x: 69%;
+                                    --contact-y: 26%;
+                                    --contact-delay: -0.9s;
+                                  "
+                                  aria-label="Investigate sonar contact B"
+                                  onclick="selectSonarContact('B', this)"
+                                ></button>
+                                <button
+                                  type="button"
+                                  class="sonar-contact"
+                                  data-contact="C"
+                                  style="
+                                    --contact-x: 76%;
+                                    --contact-y: 67%;
+                                    --contact-delay: -1.4s;
+                                  "
+                                  aria-label="Investigate sonar contact C"
+                                  onclick="selectSonarContact('C', this)"
+                                ></button>
+                                <button
+                                  type="button"
+                                  class="sonar-contact"
+                                  data-contact="D"
+                                  style="
+                                    --contact-x: 41%;
+                                    --contact-y: 76%;
+                                    --contact-delay: -0.55s;
+                                  "
+                                  aria-label="Investigate sonar contact D"
+                                  onclick="selectSonarContact('D', this)"
+                                ></button>
+                                <button
+                                  type="button"
+                                  class="sonar-contact"
+                                  data-contact="E"
+                                  style="
+                                    --contact-x: 55%;
+                                    --contact-y: 49%;
+                                    --contact-delay: -1.1s;
+                                  "
+                                  aria-label="Investigate sonar contact E"
+                                  onclick="selectSonarContact('E', this)"
+                                ></button>
+                              </div>
+                              <article class="sonar-instructions">
+                                <h4>Multiple contacts detected</h4>
+                                <p>
+                                  The sonar cannot identify what is moving
+                                  through the water. Choose one contact to
+                                  investigate.
+                                </p>
+                                <p>
+                                  Once a contact is acquired, that organism
+                                  stays assigned to your expedition even if the
+                                  page is refreshed or the mission is reset.
+                                </p>
+                                <div class="sonar-legend">
+                                  <span
+                                    >● Yellow pulse = possible biological
+                                    contact</span
+                                  >
+                                  <span>◎ Sweep = active sonar scan</span>
+                                </div>
+                              </article>
+                            </div>
                           </div>
-                          <article class="camera-side-card" id="mission5CaptureCard">
-                            <h4>Visual contact acquired</h4>
-                            <p>
-                              Observe the organism carefully. Try to capture a photograph for the expedition record before it moves away.
-                            </p>
-                            <button type="button" class="expedition-button capture-button" onclick="takeMission5Photo()">
-                              <span>Capture image</span>
-                            </button>
-                          </article>
-                          <article class="camera-side-card" id="mission5AwayCard" hidden>
-                            <h4>Contact lost</h4>
-                            <p>
-                              The organism swam out of range before an image could be captured. Return to the sonar to find another animal.
-                            </p>
-                            <button type="button" class="expedition-button capture-button" onclick="findAnotherMission5Animal()">
-                              <span>Find another animal</span>
-                            </button>
-                          </article>
                         </div>
-                      </div>
-                    </div>
-                    <div class="m5-phase" data-m5-phase="capture" hidden>
-                      <div class="m5-panel tracking-card">
-                        <div style="font-size:4rem" aria-hidden="true">📷</div>
-                        <h4>Capturing image...</h4>
-                        <p>Writing observation frame to the expedition record.</p>
-                      </div>
-                    </div>
-                    <div class="m5-phase" data-m5-phase="drawing" hidden>
-                      <!-- <div class="camera-failure-message pop-in">
+                        <div class="m5-phase" data-m5-phase="tracking" hidden>
+                          <div class="m5-panel tracking-card">
+                            <div
+                              class="tracking-spinner"
+                              aria-hidden="true"
+                            ></div>
+                            <h4>Tracking selected contact...</h4>
+                            <p>
+                              Matching sonar movement with the live observation
+                              feed.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="m5-phase" data-m5-phase="observe" hidden>
+                          <div class="m5-panel">
+                            <div class="m5-status-strip">
+                              <span
+                                ><span class="m5-status-light"></span>Live
+                                observation feed</span
+                              >
+                              <span id="mission5ContactLabel"
+                                >Contact acquired</span
+                              >
+                            </div>
+                            <div class="creature-console">
+                              <div class="creature-feed">
+                                <span class="live-badge">Live feed</span>
+                                <img
+                                  id="mission5LiveGif"
+                                  data-m5-media="gif"
+                                  src=""
+                                  alt="Deep-sea organism selected for observation"
+                                />
+                              </div>
+                              <article
+                                class="camera-side-card"
+                                id="mission5CaptureCard"
+                              >
+                                <h4>Visual contact acquired</h4>
+                                <p>
+                                  Observe the organism carefully. Try to capture
+                                  a photograph for the expedition record before
+                                  it moves away.
+                                </p>
+                                <button
+                                  type="button"
+                                  class="expedition-button capture-button"
+                                  onclick="takeMission5Photo()"
+                                >
+                                  <span>Capture image</span>
+                                </button>
+                              </article>
+                              <article
+                                class="camera-side-card"
+                                id="mission5AwayCard"
+                                hidden
+                              >
+                                <h4>Contact lost</h4>
+                                <p>
+                                  The organism swam out of range before an image
+                                  could be captured. Return to the sonar to find
+                                  another animal.
+                                </p>
+                                <button
+                                  type="button"
+                                  class="expedition-button capture-button"
+                                  onclick="findAnotherMission5Animal()"
+                                >
+                                  <span>Find another animal</span>
+                                </button>
+                              </article>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="m5-phase" data-m5-phase="capture" hidden>
+                          <div class="m5-panel tracking-card">
+                            <div style="font-size: 4rem" aria-hidden="true">
+                              📷
+                            </div>
+                            <h4>Capturing image...</h4>
+                            <p>
+                              Writing observation frame to the expedition
+                              record.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="m5-phase" data-m5-phase="drawing" hidden>
+                          <!-- <div class="camera-failure-message pop-in">
                         <strong>⚠ Camera capture failed</strong>
                         The image could not be saved. The live observation feed is still available, so make a scientific drawing while the organism remains in view.
                       </div> -->
-                      <div class="drawing-mission-grid">
-                        <div class="creature-feed">
-                          <span class="image-captured-badge">Image Captured</span>
-                          <img data-m5-media="static" src="" alt="Static image of the deep-sea organism for scientific drawing">
+                          <div class="drawing-mission-grid">
+                            <div class="creature-feed">
+                              <span class="image-captured-badge"
+                                >Image Captured</span
+                              >
+                              <img
+                                data-m5-media="static"
+                                src=""
+                                alt="Static image of the deep-sea organism for scientific drawing"
+                              />
+                            </div>
+                            <article class="drawing-instructions-card">
+                              <h4>Create the expedition record</h4>
+                              <p>
+                                Draw the organism from observation. Use the
+                                <strong>Science Check</strong> panel to review
+                                the same scientific-drawing rules.
+                              </p>
+                              <p>
+                                The computer is not judging your drawing. The
+                                checklist is your self-assessment before you
+                                complete the expedition.
+                              </p>
+                              <label class="drawing-finish-check">
+                                <input
+                                  type="checkbox"
+                                  id="mission5DrawingFinished"
+                                  onchange="
+                                    setMission5DrawingFinished(this.checked)
+                                  "
+                                />
+                                <span
+                                  >I have finished my scientific drawing.</span
+                                >
+                              </label>
+                            </article>
+                          </div>
                         </div>
-                        <article class="drawing-instructions-card">
-                          <h4>Create the expedition record</h4>
-                          <p>
-                            Draw the organism from observation. Use the <strong>Science Check</strong> panel to review the same scientific-drawing rules.
-                          </p>
-                          <p>
-                            The computer is not judging your drawing. The checklist is your self-assessment before you complete the expedition.
-                          </p>
-                          <label class="drawing-finish-check">
-                            <input type="checkbox" id="mission5DrawingFinished" onchange="setMission5DrawingFinished(this.checked)">
-                            <span>I have finished my scientific drawing.</span>
-                          </label>
-                        </article>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m5-finale"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
                       </div>
                     </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m5-finale" role="status" aria-live="polite"></div>
                   </div>
-                </div>
-              </div>
 
-              <!-- Identify the unknown creature-->
-              <div class="mission-stage" data-stage-id="m5-identify">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // species identification</strong>
-                    <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-                  </div>
-                  <div class="mission-window-body">
-                    <div class="stage-progress-row">
-                      <p class="mission-label">Mission 04</p>
-                      <span class="stage-progress-chip">Identify the species</span>
-                    </div>
-                    <h3>Which animal did you see?</h3>
-                    <p class="mission-subtitle">
-                      This is the image the camera recorded. Click the animal you think matches it, then press CHECK.
-                    </p>
-                    <div class="fish-question-image">
-                      <img data-m5-media="static" src="" alt="Static image of the organism recorded by the camera">
-                    </div>
-                    <div id="m5IdentifySpecies" data-activity>
-                      <div data-mc-question>
-                        <!-- Options are built by renderMission5Options() in lesson5.js -->
-                        <div class="choice-grid" id="mission5SpeciesChoices" data-mc-choices></div>
+                  <!-- Identify the unknown creature-->
+                  <div class="mission-stage" data-stage-id="m5-identify">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong
+                          >Deep field terminal // species identification</strong
+                        >
+                        <div class="window-dots" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
                       </div>
-                    </div>
-                    <div class="m5-complete-card pop-in" id="mission5IdentifyResult" hidden>
-                      <img data-m5-media="static" src="" alt="Deep-sea organism from the completed expedition">
-                      <div>
-                        <p class="mission-label">Expedition complete</p>
-                        <h4>Scientific record secured</h4>
-                        <p>
-                          The camera failed, but your scientific drawing preserved an observation of the organism.
+                      <div class="mission-window-body">
+                        <div class="stage-progress-row">
+                          <p class="mission-label">Mission 04</p>
+                          <span class="stage-progress-chip"
+                            >Identify the species</span
+                          >
+                        </div>
+                        <h3>Which animal did you see?</h3>
+                        <p class="mission-subtitle">
+                          This is the image the camera recorded. Click the
+                          animal you think matches it, then press CHECK.
                         </p>
-                        <span class="m5-species-reveal" id="mission5SpeciesName">Field guide match</span>
-                        <p id="mission5SpeciesNote"></p>
+                        <div class="fish-question-image">
+                          <img
+                            data-m5-media="static"
+                            src=""
+                            alt="Static image of the organism recorded by the camera"
+                          />
+                        </div>
+                        <div id="m5IdentifySpecies" data-activity>
+                          <div data-mc-question>
+                            <!-- Options are built by renderMission5Options() in lesson5.js -->
+                            <div
+                              class="choice-grid"
+                              id="mission5SpeciesChoices"
+                              data-mc-choices
+                            ></div>
+                          </div>
+                        </div>
+                        <div
+                          class="m5-complete-card pop-in"
+                          id="mission5IdentifyResult"
+                          hidden
+                        >
+                          <img
+                            data-m5-media="static"
+                            src=""
+                            alt="Deep-sea organism from the completed expedition"
+                          />
+                          <div>
+                            <p class="mission-label">Expedition complete</p>
+                            <h4>Scientific record secured</h4>
+                            <p>
+                              The camera failed, but your scientific drawing
+                              preserved an observation of the organism.
+                            </p>
+                            <span
+                              class="m5-species-reveal"
+                              id="mission5SpeciesName"
+                              >Field guide match</span
+                            >
+                            <p id="mission5SpeciesNote"></p>
+                          </div>
+                        </div>
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m5-identify"
+                          role="status"
+                          aria-live="polite"
+                        ></div>
                       </div>
                     </div>
-                    <div class="variable-feedback stage-feedback" data-feedback="m5-identify" role="status" aria-live="polite"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Pokedex -->
-              <div class="mission-stage" data-stage-id="m5-field-guide">
-                <div class="mission-window">
-                  <div class="mission-window-bar">
-                    <strong>Deep field terminal // species archive</strong>
                   </div>
 
-                  <div class="mission-window-body">
-                    <h3>Deep-Sea Field Guide</h3>
-                    <p>Click a creature to learn more about it!</p>
+                  <!-- Pokedex -->
+                  <div class="mission-stage" data-stage-id="m5-field-guide">
+                    <div class="mission-window">
+                      <div class="mission-window-bar">
+                        <strong>Deep field terminal // species archive</strong>
+                      </div>
 
-                    <!-- Buttons will appear automatically here -->
-                    <div id="creatureGrid"></div>
+                      <div class="mission-window-body">
+                        <h3>Deep-Sea Field Guide</h3>
+                        <p>Click a creature to learn more about it!</p>
 
-                    <!-- ONE information panel for all creatures -->
-                    <div id="creaturePanel" hidden>
-                      <img alt="Selected marine animal">
-                      <div class="creature-info">
-                        <span class="creature-info-kicker">Species file // Field notes</span>
-                        <h4></h4>
-                        <ul class="creature-facts"></ul>
+                        <!-- Buttons will appear automatically here -->
+                        <div id="creatureGrid"></div>
+
+                        <!-- ONE information panel for all creatures -->
+                        <div id="creaturePanel" hidden>
+                          <img alt="Selected marine animal" />
+                          <div class="creature-info">
+                            <span class="creature-info-kicker"
+                              >Species file // Field notes</span
+                            >
+                            <h4></h4>
+                            <ul class="creature-facts"></ul>
+                          </div>
+                        </div>
+
+                        <p class="activity-prompt">
+                          Explore the different ocean creatures and discover how
+                          their adaptations help them survive! Click CLOSE INFO
+                          to hide the information panel.
+                        </p>
+
+                        <div
+                          class="variable-feedback stage-feedback"
+                          data-feedback="m5-field-guide"
+                          role="status"
+                        ></div>
                       </div>
                     </div>
-
-                    <p class="activity-prompt">
-                      Explore the different ocean creatures and discover
-                      how their adaptations help them survive!
-                      Click CLOSE INFO to hide the information panel.
-                    </p>
-
-                    <div class="variable-feedback stage-feedback"
-                        data-feedback="m5-field-guide"
-                        role="status"></div>
                   </div>
-                </div>
+                  <!-- Pokedex -->
+                </section>
               </div>
-              <!-- Pokedex -->
-
+              <footer class="stage-controls" aria-label="Mission controls">
+                <div class="control-status" id="controlStatus">
+                  <strong>Stand by.</strong> Start the expedition to load
+                  Mission 1.
+                </div>
+                <button
+                  type="button"
+                  class="expedition-button control-button"
+                  id="checkButton"
+                  onclick="checkCurrentMission()"
+                  disabled
+                >
+                  <span>Check</span>
+                </button>
+                <button
+                  type="button"
+                  class="expedition-button control-button"
+                  id="resetButton"
+                  onclick="resetCurrentMission()"
+                  disabled
+                >
+                  <span>Reset</span>
+                </button>
+                <button
+                  type="button"
+                  class="expedition-button control-button"
+                  id="nextButton"
+                  onclick="goNextMission()"
+                  disabled
+                >
+                  <span>Next</span>
+                </button>
+              </footer>
             </section>
-
-          </div>
-          <footer class="stage-controls" aria-label="Mission controls">
-            <div class="control-status" id="controlStatus">
-              <strong>Stand by.</strong> Start the expedition to load Mission 1.
-            </div>
-            <button type="button" class="expedition-button control-button" id="checkButton" onclick="checkCurrentMission()" disabled>
-              <span>Check</span>
-            </button>
-            <button type="button" class="expedition-button control-button" id="resetButton" onclick="resetCurrentMission()" disabled>
-              <span>Reset</span>
-            </button>
-            <button type="button" class="expedition-button control-button" id="nextButton" onclick="goNextMission()" disabled>
-              <span>Next</span>
-            </button>
-          </footer>
-        </section>
-        <!-- ==================================================
+            <!-- ==================================================
              RIGHT: global science-check panel
              ================================================== -->
-        <aside class="console-panel science-panel" id="sciencePanel" aria-label="Science check">
-          <h2 class="console-heading">🔬 Science check</h2>
-          <div class="science-body">
-            <div class="science-lock">
-              <div class="lock-icon" aria-hidden="true">🔒</div>
-              <strong>Field drawing checklist locked</strong>
-              <p>Unlocks after you complete the scientific symbols activity.</p>
-            </div>
-            <p class="science-mode-note" id="scienceModeNote" hidden>
-              Reference only.
-            </p>
-            <div class="checkpoint-list" id="checkpointList">
-            </div>
+            <aside
+              class="console-panel science-panel"
+              id="sciencePanel"
+              aria-label="Science check"
+            >
+              <h2 class="console-heading">🔬 Science check</h2>
+              <div class="science-body">
+                <div class="science-lock">
+                  <div class="lock-icon" aria-hidden="true">🔒</div>
+                  <strong>Field drawing checklist locked</strong>
+                  <p>
+                    Unlocks after you complete the scientific symbols activity.
+                  </p>
+                </div>
+                <p class="science-mode-note" id="scienceModeNote" hidden>
+                  Reference only.
+                </p>
+                <div class="checkpoint-list" id="checkpointList"></div>
+              </div>
+              <div class="science-footer" id="scienceFooter">
+                <strong>Science Check:</strong> the scientific-drawing rules.
+              </div>
+            </aside>
           </div>
-          <div class="science-footer" id="scienceFooter">
-            <strong>Science Check:</strong> the scientific-drawing rules.
-          </div>
-        </aside>
-      </div>
-    </div>
-    </div>
-  </main>
-
-  <!-- Reuses the shared glossary modal structure + common_functions.js open/close functions. -->
-  <div class="modal" id="glossaryModal" aria-hidden="true">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div>
-          <p class="intro-eyebrow">Expedition field guide</p>
-          <h2>Key science language</h2>
         </div>
-        <button type="button" class="close-button" aria-label="Close glossary" onclick="closeGlossary()">×</button>
       </div>
+    </main>
 
-      <div class="vocab-list">
-        <article class="vocab-card">
-          <h3>Scientific diagram</h3>
-          <p>A simplified representation of an experimental set-up using clear conventions and equipment symbols.</p>
-        </article>
-        <article class="vocab-card">
-          <h3>Scientific drawing</h3>
-          <p>A clear, accurate line drawing used to record an observation.</p>
-        </article>
-        <article class="vocab-card">
-          <h3>Fair test</h3>
-          <p>An investigation where the variable being tested is changed while relevant conditions are kept the same.</p>
-        </article>
-        <article class="vocab-card">
-          <h3>Observation</h3>
-          <p>Information collected by carefully noticing and recording features or changes.</p>
-        </article>
+    <!-- Reuses the shared glossary modal structure + common_functions.js open/close functions. -->
+    <div class="modal" id="glossaryModal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="intro-eyebrow">Expedition field guide</p>
+            <h2>Key science language</h2>
+          </div>
+          <button
+            type="button"
+            class="close-button"
+            aria-label="Close glossary"
+            onclick="closeGlossary()"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="vocab-list">
+          <article class="vocab-card">
+            <h3>Scientific diagram</h3>
+            <p>
+              A simplified representation of an experimental set-up using clear
+              conventions and equipment symbols.
+            </p>
+          </article>
+          <article class="vocab-card">
+            <h3>Scientific drawing</h3>
+            <p>A clear, accurate line drawing used to record an observation.</p>
+          </article>
+          <article class="vocab-card">
+            <h3>Fair test</h3>
+            <p>
+              An investigation where the variable being tested is changed while
+              relevant conditions are kept the same.
+            </p>
+          </article>
+          <article class="vocab-card">
+            <h3>Observation</h3>
+            <p>
+              Information collected by carefully noticing and recording features
+              or changes.
+            </p>
+          </article>
+        </div>
       </div>
     </div>
-  </div>
 
+    // Setup for submarine model
+    <script>
+      const viewer = document.getElementById("submarineViewer");
+      const container = document.getElementById("submarineContainer");
 
-  // Setup for submarine model
-  <script>
-    const viewer = document.getElementById('submarineViewer');
-    const container = document.getElementById('submarineContainer');
+      const duration = 9;
+      const radiusX = 130;
+      const radiusY = 65;
 
-    const duration = 9;
-    const radiusX = 130;
-    const radiusY = 65;
+      let animationFrame;
 
-    let animationFrame;
+      function updateSubmarineGlow() {
+        const time = viewer.currentTime || 0;
+        const angle = (time / duration) * Math.PI * 2;
 
-    function updateSubmarineGlow() {
-      const time = viewer.currentTime || 0;
-      const angle = (time / duration) * Math.PI * 2;
+        const x = 50 + Math.sin(angle) * radiusX;
+        const y = 50 + Math.cos(angle) * radiusY;
 
-      const x = 50 + Math.sin(angle) * radiusX;
-      const y = 50 + Math.cos(angle) * radiusY;
+        container.style.setProperty("--glow-x", `${x}%`);
+        container.style.setProperty("--glow-y", `${y}%`);
 
-      container.style.setProperty('--glow-x', `${x}%`);
-      container.style.setProperty('--glow-y', `${y}%`);
-
-      animationFrame = requestAnimationFrame(updateSubmarineGlow);
-    }
-
-    viewer.addEventListener('load', () => {
-      cancelAnimationFrame(animationFrame);
-      updateSubmarineGlow();
-    });
-  </script>
-  <script>
-    /* Get the documentElement (<html>) to display the page in fullscreen */
-    const elem = document.querySelector(".expedition-zoom-stage");
-    const button = document.getElementById("fullScreenButton");
-
-    function isFullscreen() {
-      return !!(
-        document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.msFullscreenElement
-      );
-    }
-
-    /* View in fullscreen */
-    function openFullscreen() {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
+        animationFrame = requestAnimationFrame(updateSubmarineGlow);
       }
-    }
 
-    /* Close fullscreen */
-    function closeFullscreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
-      }
-    }
-
-    function scrollToExpeditionMain() {
-      // Force an instant jump regardless of the page's global
-      // `scroll-behavior: smooth`, which would otherwise animate this.
-      const html = document.documentElement;
-      const previousScrollBehavior = html.style.scrollBehavior;
-      html.style.scrollBehavior = "auto";
-      document.getElementById("expedition-main").scrollIntoView({ block: "start" });
-      html.style.scrollBehavior = previousScrollBehavior;
-    }
-
-    // The button's label/click handler and the close-time scroll are both
-    // driven off the browser's own fullscreenchange event rather than set
-    // directly inside openFullscreen()/closeFullscreen(), so they also stay
-    // correct when fullscreen is left some other way (Esc key, browser UI)
-    // instead of only when this button is clicked.
-    // Only the fullscreen element's subtree is rendered while fullscreen, so
-    // the body-level modals are moved inside it on entry and back on exit.
-    const FULLSCREEN_MODAL_IDS = [
-      "pdfModal", "imageZoomModal", "frogfishExampleModal", "teacherModal", "glossaryModal"
-    ];
-
-    function moveModalsForFullscreen() {
-      const host = isFullscreen() ? elem : document.body;
-      FULLSCREEN_MODAL_IDS.forEach(function (id) {
-        const modal = document.getElementById(id);
-        if (modal && modal.parentNode !== host) host.appendChild(modal);
+      viewer.addEventListener("load", () => {
+        cancelAnimationFrame(animationFrame);
+        updateSubmarineGlow();
       });
-    }
+    </script>
+    <script>
+      /* Get the documentElement (<html>) to display the page in fullscreen */
+      const elem = document.querySelector(".expedition-zoom-stage");
+      const button = document.getElementById("fullScreenButton");
 
-    function onFullscreenChange() {
-      moveModalsForFullscreen();
-      if (isFullscreen()) {
-        button.onclick = closeFullscreen;
-        button.querySelector("span").textContent = "Close Full Screen";
-      } else {
-        button.onclick = openFullscreen;
-        button.querySelector("span").textContent = "Full Screen";
-        scrollToExpeditionMain();
+      function isFullscreen() {
+        return !!(
+          document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.msFullscreenElement
+        );
       }
-    }
 
-    document.addEventListener("fullscreenchange", onFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", onFullscreenChange);
-    document.addEventListener("msfullscreenchange", onFullscreenChange);
-  </script>
-</body>
+      /* View in fullscreen */
+      function openFullscreen() {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          /* Safari */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          /* IE11 */
+          elem.msRequestFullscreen();
+        }
+      }
+
+      /* Close fullscreen */
+      function closeFullscreen() {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          /* Safari */
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          /* IE11 */
+          document.msExitFullscreen();
+        }
+      }
+
+      function scrollToExpeditionMain() {
+        // Force an instant jump regardless of the page's global
+        // `scroll-behavior: smooth`, which would otherwise animate this.
+        const html = document.documentElement;
+        const previousScrollBehavior = html.style.scrollBehavior;
+        html.style.scrollBehavior = "auto";
+        document
+          .getElementById("expedition-main")
+          .scrollIntoView({ block: "start" });
+        html.style.scrollBehavior = previousScrollBehavior;
+      }
+
+      // The button's label/click handler and the close-time scroll are both
+      // driven off the browser's own fullscreenchange event rather than set
+      // directly inside openFullscreen()/closeFullscreen(), so they also stay
+      // correct when fullscreen is left some other way (Esc key, browser UI)
+      // instead of only when this button is clicked.
+      // Only the fullscreen element's subtree is rendered while fullscreen, so
+      // the body-level modals are moved inside it on entry and back on exit.
+      const FULLSCREEN_MODAL_IDS = [
+        "pdfModal",
+        "imageZoomModal",
+        "frogfishExampleModal",
+        "teacherModal",
+        "glossaryModal",
+      ];
+
+      function moveModalsForFullscreen() {
+        const host = isFullscreen() ? elem : document.body;
+        FULLSCREEN_MODAL_IDS.forEach(function (id) {
+          const modal = document.getElementById(id);
+          if (modal && modal.parentNode !== host) host.appendChild(modal);
+        });
+      }
+
+      function onFullscreenChange() {
+        moveModalsForFullscreen();
+        if (isFullscreen()) {
+          button.onclick = closeFullscreen;
+          button.querySelector("span").textContent = "Close Full Screen";
+        } else {
+          button.onclick = openFullscreen;
+          button.querySelector("span").textContent = "Full Screen";
+          scrollToExpeditionMain();
+        }
+      }
+
+      document.addEventListener("fullscreenchange", onFullscreenChange);
+      document.addEventListener("webkitfullscreenchange", onFullscreenChange);
+      document.addEventListener("msfullscreenchange", onFullscreenChange);
+    </script>
+  </body>
 </html>

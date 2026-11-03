@@ -63,11 +63,22 @@ function AdjustSlidersActivity(root, options) {
   Activity.call(this, root, options);
 
   var self = this;
-  this.sets = (this.options.sets && this.options.sets.length) ? this.options.sets.slice() : [DEFAULT_SET];
-  this.rows = Array.prototype.slice.call(root.querySelectorAll("[data-slider-row]"));
-  this.inputs = this.rows.map(function (row) { return row.querySelector("[data-slider]"); });
-  this.setButtons = Array.prototype.slice.call(root.querySelectorAll("[data-slider-set]"));
-  this.initialValues = this.inputs.map(function (input) { return Number(input.defaultValue) || 0; });
+  this.sets =
+    this.options.sets && this.options.sets.length
+      ? this.options.sets.slice()
+      : [DEFAULT_SET];
+  this.rows = Array.prototype.slice.call(
+    root.querySelectorAll("[data-slider-row]"),
+  );
+  this.inputs = this.rows.map(function (row) {
+    return row.querySelector("[data-slider]");
+  });
+  this.setButtons = Array.prototype.slice.call(
+    root.querySelectorAll("[data-slider-set]"),
+  );
+  this.initialValues = this.inputs.map(function (input) {
+    return Number(input.defaultValue) || 0;
+  });
 
   this.activeSet = this.sets[0];
   this.values = {};
@@ -75,15 +86,22 @@ function AdjustSlidersActivity(root, options) {
   this._clearState();
 
   this.inputs.forEach(function (input, index) {
-    input.addEventListener("input", function () { self._onInput(index); });
+    input.addEventListener("input", function () {
+      self._onInput(index);
+    });
   });
 
   this.setButtons.forEach(function (button) {
-    button.addEventListener("click", function () { self.setActiveSet(button.dataset.sliderSet); });
+    button.addEventListener("click", function () {
+      self.setActiveSet(button.dataset.sliderSet);
+    });
   });
 
   var checkButton = root.querySelector("[data-slider-check]");
-  if (checkButton) checkButton.addEventListener("click", function () { self.check(); });
+  if (checkButton)
+    checkButton.addEventListener("click", function () {
+      self.check();
+    });
 
   this._render();
   this.setComplete(false);
@@ -106,7 +124,12 @@ AdjustSlidersActivity.prototype.setActiveSet = function (set) {
   if (this.sets.indexOf(set) === -1 || set === this.activeSet) return;
   this.activeSet = set;
   this._render();
-  this.root.dispatchEvent(new CustomEvent("sliders:setchange", { detail: { set: set }, bubbles: true }));
+  this.root.dispatchEvent(
+    new CustomEvent("sliders:setchange", {
+      detail: { set: set },
+      bubbles: true,
+    }),
+  );
 };
 
 AdjustSlidersActivity.prototype.check = function () {
@@ -127,12 +150,23 @@ AdjustSlidersActivity.prototype.check = function () {
   this._render();
 
   var allCorrect = !firstWrong;
-  this.root.dispatchEvent(new CustomEvent("sliders:check", {
-    detail: { results: results, allCorrect: allCorrect, firstWrong: firstWrong },
-    bubbles: true
-  }));
+  this.root.dispatchEvent(
+    new CustomEvent("sliders:check", {
+      detail: {
+        results: results,
+        allCorrect: allCorrect,
+        firstWrong: firstWrong,
+      },
+      bubbles: true,
+    }),
+  );
   if (firstWrong) {
-    this.root.dispatchEvent(new CustomEvent("sliders:setchange", { detail: { set: this.activeSet }, bubbles: true }));
+    this.root.dispatchEvent(
+      new CustomEvent("sliders:setchange", {
+        detail: { set: this.activeSet },
+        bubbles: true,
+      }),
+    );
   }
 
   this.setComplete(this.isComplete());
@@ -143,7 +177,12 @@ AdjustSlidersActivity.prototype.isComplete = function () {
   if (!this.checked) return false;
   var self = this;
   return this.sets.every(function (set) {
-    return self.checked[set].length > 0 && self.checked[set].every(function (state) { return state === true; });
+    return (
+      self.checked[set].length > 0 &&
+      self.checked[set].every(function (state) {
+        return state === true;
+      })
+    );
   });
 };
 
@@ -153,7 +192,12 @@ AdjustSlidersActivity.prototype.reset = function () {
   this.activeSet = this.sets[0];
   this._render();
   if (shownSet !== this.activeSet) {
-    this.root.dispatchEvent(new CustomEvent("sliders:setchange", { detail: { set: this.activeSet }, bubbles: true }));
+    this.root.dispatchEvent(
+      new CustomEvent("sliders:setchange", {
+        detail: { set: this.activeSet },
+        bubbles: true,
+      }),
+    );
   }
   this.setComplete(false);
 };
@@ -164,15 +208,18 @@ AdjustSlidersActivity.prototype._clearState = function () {
   var self = this;
   this.sets.forEach(function (set) {
     self.values[set] = self.initialValues.slice();
-    self.checked[set] = self.rows.map(function () { return null; });
+    self.checked[set] = self.rows.map(function () {
+      return null;
+    });
   });
 };
 
 /* data-slider-target (single set) or data-slider-target-<set> on the row. */
 AdjustSlidersActivity.prototype._targetOf = function (row, set) {
-  var key = set === DEFAULT_SET
-    ? "sliderTarget"
-    : "sliderTarget" + set.charAt(0).toUpperCase() + set.slice(1);
+  var key =
+    set === DEFAULT_SET
+      ? "sliderTarget"
+      : "sliderTarget" + set.charAt(0).toUpperCase() + set.slice(1);
   return Number(row.dataset[key]);
 };
 
@@ -184,10 +231,12 @@ AdjustSlidersActivity.prototype._onInput = function (index) {
   this._renderRow(index);
   this._renderSetButtons();
 
-  this.root.dispatchEvent(new CustomEvent("sliders:input", {
-    detail: { set: this.activeSet, index: index, value: value },
-    bubbles: true
-  }));
+  this.root.dispatchEvent(
+    new CustomEvent("sliders:input", {
+      detail: { set: this.activeSet, index: index, value: value },
+      bubbles: true,
+    }),
+  );
 
   this.setComplete(this.isComplete());
 };
@@ -217,7 +266,10 @@ AdjustSlidersActivity.prototype._renderRow = function (index) {
   var min = Number(input.min) || 0;
   var max = Number(input.max) || 100;
   var percent = max === min ? 0 : ((value - min) / (max - min)) * 100;
-  input.style.setProperty("--partd-fill", percent + "%"); /* the slider track colours itself from this */
+  input.style.setProperty(
+    "--partd-fill",
+    percent + "%",
+  ); /* the slider track colours itself from this */
 
   row.classList.toggle("correct-bar", state === true);
   row.classList.toggle("needs-fix", state === false);
@@ -233,10 +285,20 @@ AdjustSlidersActivity.prototype._renderSetButtons = function () {
   var self = this;
   this.setButtons.forEach(function (button) {
     var states = self.checked[button.dataset.sliderSet] || [];
-    button.classList.toggle("needs-fix", states.some(function (state) { return state === false; }));
-    button.classList.toggle("site-complete", states.length > 0 && states.every(function (state) { return state === true; }));
+    button.classList.toggle(
+      "needs-fix",
+      states.some(function (state) {
+        return state === false;
+      }),
+    );
+    button.classList.toggle(
+      "site-complete",
+      states.length > 0 &&
+        states.every(function (state) {
+          return state === true;
+        }),
+    );
   });
 };
-
 
 export { AdjustSlidersActivity };

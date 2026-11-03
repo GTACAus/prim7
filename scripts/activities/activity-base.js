@@ -41,7 +41,10 @@ var registry = {};
 function Activity(root, options) {
   if (!root) throw new Error("Activity: root element is required.");
   if (!root.hasAttribute("data-activity")) {
-    console.warn("Activity: root is missing the data-activity attribute.", root);
+    console.warn(
+      "Activity: root is missing the data-activity attribute.",
+      root,
+    );
   }
 
   this.root = root;
@@ -89,7 +92,9 @@ Activity.prototype.setAvailable = function (isAvailable) {
      the rest of it stays visible and usable. */
   if (hideTargets.length) {
     if (this.root.hasAttribute("data-activity-depends-on")) {
-      Array.prototype.forEach.call(hideTargets, function (element) { element.hidden = !isAvailable; });
+      Array.prototype.forEach.call(hideTargets, function (element) {
+        element.hidden = !isAvailable;
+      });
     }
     return;
   }
@@ -98,7 +103,7 @@ Activity.prototype.setAvailable = function (isAvailable) {
   this.root.toggleAttribute("inert", !isAvailable);
 
   if (this.root.hasAttribute("data-activity-depends-on")) {
-      this.root.hidden = !isAvailable;
+    this.root.hidden = !isAvailable;
   }
 };
 
@@ -114,8 +119,12 @@ Activity.prototype.setComplete = function (isComplete) {
   this.root.dataset.activityComplete = isComplete ? "true" : "false";
 
   var detail = { id: this.id, complete: Boolean(isComplete) };
-  this.root.dispatchEvent(new CustomEvent("activity:change", { bubbles: true, detail: detail }));
-  document.dispatchEvent(new CustomEvent("activity:change", { detail: detail }));
+  this.root.dispatchEvent(
+    new CustomEvent("activity:change", { bubbles: true, detail: detail }),
+  );
+  document.dispatchEvent(
+    new CustomEvent("activity:change", { detail: detail }),
+  );
 };
 
 Activity.prototype.isComplete = function () {
@@ -126,9 +135,14 @@ Activity.prototype.isComplete = function () {
 
 Activity.prototype._bindResetButtons = function () {
   var self = this;
-  Array.prototype.forEach.call(this.root.querySelectorAll("[data-reset-trigger]"), function (button) {
-    button.addEventListener("click", function () { self.reset(); });
-  });
+  Array.prototype.forEach.call(
+    this.root.querySelectorAll("[data-reset-trigger]"),
+    function (button) {
+      button.addEventListener("click", function () {
+        self.reset();
+      });
+    },
+  );
 };
 
 /* Default reset: clear every [data-reset] element inside the root (see
@@ -142,11 +156,16 @@ Activity.prototype.reset = function () {
 
 /* Every registered activity (those with a root id), e.g. for saving progress. */
 Activity.all = function () {
-  return Object.keys(registry).map(function (id) { return registry[id]; });
+  return Object.keys(registry).map(function (id) {
+    return registry[id];
+  });
 };
 
 Activity.resetFieldsIn = function (scope) {
-  Array.prototype.forEach.call(scope.querySelectorAll("[data-reset]"), Activity.resetField);
+  Array.prototype.forEach.call(
+    scope.querySelectorAll("[data-reset]"),
+    Activity.resetField,
+  );
 };
 
 /* How a single data-reset element is cleared, based on what kind of
@@ -166,7 +185,14 @@ Activity.resetField = function (element) {
     return;
   }
 
-  element.classList.remove("filled", "placed", "visible", "selected", "correct", "incorrect");
+  element.classList.remove(
+    "filled",
+    "placed",
+    "visible",
+    "selected",
+    "correct",
+    "incorrect",
+  );
 };
 
 /* A [data-reset-trigger] button that sits OUTSIDE every activity (e.g. one
@@ -177,21 +203,29 @@ Activity.resetField = function (element) {
    (data-activity-depends-on) also reset themselves when their prerequisite
    does, so the order doesn't matter. */
 document.addEventListener("DOMContentLoaded", function () {
-  Array.prototype.forEach.call(document.querySelectorAll("[data-reset-trigger]"), function (button) {
-    if (button.closest("[data-activity]")) return; /* owned by its own activity */
+  Array.prototype.forEach.call(
+    document.querySelectorAll("[data-reset-trigger]"),
+    function (button) {
+      if (button.closest("[data-activity]"))
+        return; /* owned by its own activity */
 
-    button.addEventListener("click", function () {
-      var scope = (button.dataset.resetTrigger && document.querySelector(button.dataset.resetTrigger)) ||
-        button.closest(".section") ||
-        document;
+      button.addEventListener("click", function () {
+        var scope =
+          (button.dataset.resetTrigger &&
+            document.querySelector(button.dataset.resetTrigger)) ||
+          button.closest(".section") ||
+          document;
 
-      Array.prototype.forEach.call(scope.querySelectorAll("[data-activity]"), function (element) {
-        var activity = registry[element.id];
-        if (activity) activity.reset();
+        Array.prototype.forEach.call(
+          scope.querySelectorAll("[data-activity]"),
+          function (element) {
+            var activity = registry[element.id];
+            if (activity) activity.reset();
+          },
+        );
       });
-    });
-  });
+    },
+  );
 });
-
 
 export { Activity };

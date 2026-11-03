@@ -1,378 +1,479 @@
 const variableConfig = {
-      size: {
-        label: "Ball size",
-        changeOptions: [
-          { value: "small-large", label: "Small ball vs large ball", pair: ["small", "large"] },
-          { value: "large-small", label: "Large ball vs small ball", pair: ["large", "small"] }
-        ],
-        controlOptions: [{ value: "large", label: "Large ball" }, { value: "small", label: "Small ball" }]
+  size: {
+    label: "Ball size",
+    changeOptions: [
+      {
+        value: "small-large",
+        label: "Small ball vs large ball",
+        pair: ["small", "large"],
       },
-      material: {
-        label: "Ball material",
-        changeOptions: [
-          { value: "basketball-pingpong", label: "Rubber vs plastic", pair: ["basketball", "pingpong"] },
-          { value: "basketball-tennis", label: "Rubber vs furry", pair: ["basketball", "tennis"] },
-          { value: "tennis-pingpong", label: "Furry vs plastic", pair: ["tennis", "pingpong"] }
-        ],
-        controlOptions: [
-          { value: "basketball", label: "Rubber" },
-          { value: "pingpong", label: "Plastic" },
-          { value: "tennis", label: "Furry" }
-        ]
+      {
+        value: "large-small",
+        label: "Large ball vs small ball",
+        pair: ["large", "small"],
       },
-      height: {
-        label: "Drop height",
-        changeOptions: [
-          { value: "1-1.5", label: "1 m vs 1.5 m", pair: ["1", "1.5"] },
-          { value: "1.5-1", label: "1.5 m vs 1 m", pair: ["1.5", "1"] }
-        ],
-        controlOptions: [{ value: "1", label: "1 m" }, { value: "1.5", label: "1.5 m" }]
+    ],
+    controlOptions: [
+      { value: "large", label: "Large ball" },
+      { value: "small", label: "Small ball" },
+    ],
+  },
+  material: {
+    label: "Ball material",
+    changeOptions: [
+      {
+        value: "basketball-pingpong",
+        label: "Rubber vs plastic",
+        pair: ["basketball", "pingpong"],
       },
-      firmness: {
-        label: "Squashiness",
-        changeOptions: [
-          { value: "firm-soft", label: "Firm ball vs soft ball", pair: ["firm", "soft"] },
-          { value: "soft-firm", label: "Soft ball vs firm ball", pair: ["soft", "firm"] }
-        ],
-        controlOptions: [{ value: "firm", label: "Firm ball" }, { value: "soft", label: "Soft ball" }]
+      {
+        value: "basketball-tennis",
+        label: "Rubber vs furry",
+        pair: ["basketball", "tennis"],
       },
-      surface: {
-        label: "Bounce surface",
-        changeOptions: [
-          {
-            value: "hard-soft",
-            label: "Hard surface vs soft surface",
-            pair: ["hard-surface", "soft-surface"]
-          },
-          {
-            value: "soft-hard",
-            label: "Soft surface vs hard surface",
-            pair: ["soft-surface", "hard-surface"]
-          }
-        ],
-        controlOptions: [
-          { value: "hard-surface", label: "Hard surface" },
-          { value: "soft-surface", label: "Soft surface" }
-        ]
-      }
-    };
+      {
+        value: "tennis-pingpong",
+        label: "Furry vs plastic",
+        pair: ["tennis", "pingpong"],
+      },
+    ],
+    controlOptions: [
+      { value: "basketball", label: "Rubber" },
+      { value: "pingpong", label: "Plastic" },
+      { value: "tennis", label: "Furry" },
+    ],
+  },
+  height: {
+    label: "Drop height",
+    changeOptions: [
+      { value: "1-1.5", label: "1 m vs 1.5 m", pair: ["1", "1.5"] },
+      { value: "1.5-1", label: "1.5 m vs 1 m", pair: ["1.5", "1"] },
+    ],
+    controlOptions: [
+      { value: "1", label: "1 m" },
+      { value: "1.5", label: "1.5 m" },
+    ],
+  },
+  firmness: {
+    label: "Squashiness",
+    changeOptions: [
+      {
+        value: "firm-soft",
+        label: "Firm ball vs soft ball",
+        pair: ["firm", "soft"],
+      },
+      {
+        value: "soft-firm",
+        label: "Soft ball vs firm ball",
+        pair: ["soft", "firm"],
+      },
+    ],
+    controlOptions: [
+      { value: "firm", label: "Firm ball" },
+      { value: "soft", label: "Soft ball" },
+    ],
+  },
+  surface: {
+    label: "Bounce surface",
+    changeOptions: [
+      {
+        value: "hard-soft",
+        label: "Hard surface vs soft surface",
+        pair: ["hard-surface", "soft-surface"],
+      },
+      {
+        value: "soft-hard",
+        label: "Soft surface vs hard surface",
+        pair: ["soft-surface", "hard-surface"],
+      },
+    ],
+    controlOptions: [
+      { value: "hard-surface", label: "Hard surface" },
+      { value: "soft-surface", label: "Soft surface" },
+    ],
+  },
+};
 
-    const measureOutcomes = [
-      { value: "bounceHeight", label: "Bounce height" },
-      { value: "bounceCount", label: "Number of bounces" },
-      { value: "bounceTime", label: "Time spent bouncing" }
-    ];
-    const measureTools = [
-      { value: "measuringTape", label: "Use measuring tape" },
-      { value: "ruler", label: "Use ruler" },
-      { value: "stopwatch", label: "Use stopwatch" },
-      { value: "count", label: "Count the bounces" },
-      { value: "video", label: "Record a video" },
-      { value: "estimate", label: "Estimate by eye" }
-    ];
+const measureOutcomes = [
+  { value: "bounceHeight", label: "Bounce height" },
+  { value: "bounceCount", label: "Number of bounces" },
+  { value: "bounceTime", label: "Time spent bouncing" },
+];
+const measureTools = [
+  { value: "measuringTape", label: "Use measuring tape" },
+  { value: "ruler", label: "Use ruler" },
+  { value: "stopwatch", label: "Use stopwatch" },
+  { value: "count", label: "Count the bounces" },
+  { value: "video", label: "Record a video" },
+  { value: "estimate", label: "Estimate by eye" },
+];
 
-    const state = {
-      stage: "change",
-      changeVariable: null,
-      changeSelections: {},
-      measureOutcome: null,
-      measureTool: null,
-      selectedControlVariable: null,
-     controls: {
-      size: "large",
-      material: "basketball",
-      height: "1.5",
-      firmness: "firm",
-      surface: "hard-surface"
-    }
-    };
+const state = {
+  stage: "change",
+  changeVariable: null,
+  changeSelections: {},
+  measureOutcome: null,
+  measureTool: null,
+  selectedControlVariable: null,
+  controls: {
+    size: "large",
+    material: "basketball",
+    height: "1.5",
+    firmness: "firm",
+    surface: "hard-surface",
+  },
+};
 
-    const getOptionLabel = (options, value) => options.find(option => option.value === value)?.label || "Not selected";
+const getOptionLabel = (options, value) =>
+  options.find((option) => option.value === value)?.label || "Not selected";
 
-    function buttonGroup(items, selectedValue, onClickName, disabledValue = null) {
-      return `<div class="choice-buttons">${items.map(item => `
+function buttonGroup(items, selectedValue, onClickName, disabledValue = null) {
+  return `<div class="choice-buttons">${items
+    .map(
+      (item) => `
         <button type="button" class="choice-button ${selectedValue === item.value ? "selected" : ""}"
           data-action="${onClickName}" data-value="${item.value}" ${disabledValue === item.value ? "disabled" : ""}>
           ${item.label}
-        </button>`).join("")}</div>`;
-    }
+        </button>`,
+    )
+    .join("")}</div>`;
+}
 
-    function selectControl(id, label, options, selectedValue) {
-      return `<div class="bk3-control">
+function selectControl(id, label, options, selectedValue) {
+  return `<div class="bk3-control">
         <label for="${id}">${label}</label>
-        <select id="${id}">${options.map(option => `<option value="${option.value}" ${option.value === selectedValue ? "selected" : ""}>${option.label}</option>`).join("")}</select>
+        <select id="${id}">${options.map((option) => `<option value="${option.value}" ${option.value === selectedValue ? "selected" : ""}>${option.label}</option>`).join("")}</select>
       </div>`;
-    }
+}
 
-    function renderControls() {
-      const root = document.getElementById("controlsRoot");
+function renderControls() {
+  const root = document.getElementById("controlsRoot");
 
-      if (state.stage === "change") {
-        const variables = Object.entries(variableConfig).map(([value, config]) => ({ value, label: config.label }));
-        let revealed = "";
-        if (state.changeVariable) {
-          const config = variableConfig[state.changeVariable];
-          const selected = state.changeSelections[state.changeVariable] || config.changeOptions[0].value;
-          revealed = `<div class="revealed-menu">
+  if (state.stage === "change") {
+    const variables = Object.entries(variableConfig).map(([value, config]) => ({
+      value,
+      label: config.label,
+    }));
+    let revealed = "";
+    if (state.changeVariable) {
+      const config = variableConfig[state.changeVariable];
+      const selected =
+        state.changeSelections[state.changeVariable] ||
+        config.changeOptions[0].value;
+      revealed = `<div class="revealed-menu">
             <div class="revealed-copy"><strong>${config.label}</strong><span>Choose how Experiment A and Experiment B will differ.</span></div>
             ${selectControl("changePairSelect", "Comparison", config.changeOptions, selected)}
           </div>`;
-        }
-        root.innerHTML = `<p class="control-instruction">What will you change?</p>
+    }
+    root.innerHTML = `<p class="control-instruction">What will you change?</p>
           ${buttonGroup(variables, state.changeVariable, "choose-change")}${revealed}`;
-      }
+  }
 
-      if (state.stage === "measure") {
-        let revealed = "";
-        if (state.measureOutcome) {
-          revealed = `<div class="revealed-menu">
+  if (state.stage === "measure") {
+    let revealed = "";
+    if (state.measureOutcome) {
+      revealed = `<div class="revealed-menu">
             <div class="revealed-copy"><strong>${getOptionLabel(measureOutcomes, state.measureOutcome)}</strong><span>Choose how students will measure it.</span></div>
             ${selectControl("measureToolSelect", "Measurement method", measureTools, state.measureTool || measureTools[0].value)}
           </div>`;
-        }
-        root.innerHTML = `<p class="control-instruction">What will you measure?</p>
+    }
+    root.innerHTML = `<p class="control-instruction">What will you measure?</p>
           ${buttonGroup(measureOutcomes, state.measureOutcome, "choose-measure")}${revealed}`;
-      }
+  }
 
-      if (state.stage === "control") {
-        const variables = Object.entries(variableConfig).map(([value, config]) => ({ value, label: config.label }));
-        let editor = `<div class="control-editor control-editor-empty">Select a controlled variable to choose the value that both experiments will share.</div>`;
-        if (state.selectedControlVariable && state.selectedControlVariable !== state.changeVariable) {
-          const config = variableConfig[state.selectedControlVariable];
-          editor = `<div class="revealed-menu control-editor">
+  if (state.stage === "control") {
+    const variables = Object.entries(variableConfig).map(([value, config]) => ({
+      value,
+      label: config.label,
+    }));
+    let editor = `<div class="control-editor control-editor-empty">Select a controlled variable to choose the value that both experiments will share.</div>`;
+    if (
+      state.selectedControlVariable &&
+      state.selectedControlVariable !== state.changeVariable
+    ) {
+      const config = variableConfig[state.selectedControlVariable];
+      editor = `<div class="revealed-menu control-editor">
             <div class="revealed-copy"><strong>${config.label}</strong><span>This setting will apply to both Experiment A and Experiment B.</span></div>
             ${selectControl("controlValueSelect", "Shared value", config.controlOptions, state.controls[state.selectedControlVariable])}
           </div>`;
-        }
-        root.innerHTML = `<p class="control-instruction">What will you keep the same?</p>
+    }
+    root.innerHTML = `<p class="control-instruction">What will you keep the same?</p>
           ${buttonGroup(variables, state.selectedControlVariable, "choose-control", state.changeVariable)}
           ${state.changeVariable ? `<p style="margin-top:9px;color:var(--muted);font-size:.9rem;">${variableConfig[state.changeVariable].label} is unavailable here because it is the variable being changed.</p>` : ""}
           ${editor}`;
-      }
+  }
 
-      wireControlEvents();
-    }
+  wireControlEvents();
+}
 
-    function wireControlEvents() {
-      document.querySelectorAll('[data-action="choose-change"]').forEach(button => {
-        button.addEventListener("click", () => {
-          state.changeVariable = button.dataset.value;
-          state.selectedControlVariable = null;
-          if (!state.changeSelections[state.changeVariable]) {
-            state.changeSelections[state.changeVariable] = variableConfig[state.changeVariable].changeOptions[0].value;
-          }
-          renderAll();
-        });
+function wireControlEvents() {
+  document
+    .querySelectorAll('[data-action="choose-change"]')
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        state.changeVariable = button.dataset.value;
+        state.selectedControlVariable = null;
+        if (!state.changeSelections[state.changeVariable]) {
+          state.changeSelections[state.changeVariable] =
+            variableConfig[state.changeVariable].changeOptions[0].value;
+        }
+        renderAll();
       });
+    });
 
-      document.querySelectorAll('[data-action="choose-measure"]').forEach(button => {
-        button.addEventListener("click", () => {
-          state.measureOutcome = button.dataset.value;
-          if (!state.measureTool) state.measureTool = measureTools[0].value;
-          renderAll();
-        });
+  document
+    .querySelectorAll('[data-action="choose-measure"]')
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        state.measureOutcome = button.dataset.value;
+        if (!state.measureTool) state.measureTool = measureTools[0].value;
+        renderAll();
       });
+    });
 
-      document.querySelectorAll('[data-action="choose-control"]').forEach(button => {
-        button.addEventListener("click", () => {
-          state.selectedControlVariable = button.dataset.value;
-          renderControls();
-        });
+  document
+    .querySelectorAll('[data-action="choose-control"]')
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        state.selectedControlVariable = button.dataset.value;
+        renderControls();
       });
+    });
 
-      document.getElementById("changePairSelect")?.addEventListener("change", event => {
-        state.changeSelections[state.changeVariable] = event.target.value;
-        renderVisuals();
-        updateBlueprint();
-      });
+  document
+    .getElementById("changePairSelect")
+    ?.addEventListener("change", (event) => {
+      state.changeSelections[state.changeVariable] = event.target.value;
+      renderVisuals();
+      updateBlueprint();
+    });
 
-      document.getElementById("measureToolSelect")?.addEventListener("change", event => {
-        state.measureTool = event.target.value;
-        updateBlueprint();
-      });
+  document
+    .getElementById("measureToolSelect")
+    ?.addEventListener("change", (event) => {
+      state.measureTool = event.target.value;
+      updateBlueprint();
+    });
 
-      document.getElementById("controlValueSelect")?.addEventListener("change", event => {
-        state.controls[state.selectedControlVariable] = event.target.value;
-        renderVisuals();
-        updateBlueprint();
-      });
-    }
+  document
+    .getElementById("controlValueSelect")
+    ?.addEventListener("change", (event) => {
+      state.controls[state.selectedControlVariable] = event.target.value;
+      renderVisuals();
+      updateBlueprint();
+    });
+}
 
-    function setBallMaterial(ball, material) {
-      ball.classList.remove("basketball", "pingpong", "tennis");
-      ball.classList.add(material);
-    }
-    function setBallSize(ball, size) { ball.style.setProperty("--size", size === "small" ? "82px" : "120px"); }
-    function setBallFirmness(ball, firmness) { ball.classList.toggle("soft", firmness === "soft"); }
-    function setHeight(ball, height) { ball.style.top = height === "1" ? "39%" : "21%"; }
-    function setSurface(element, type) {
-      element.className = `surface ${element.id === "surfaceA" ? "a" : "b"} ${type}`;
-      element.querySelector("span").textContent = getOptionLabel(variableConfig.surface.controlOptions, type);
-    }
+function setBallMaterial(ball, material) {
+  ball.classList.remove("basketball", "pingpong", "tennis");
+  ball.classList.add(material);
+}
+function setBallSize(ball, size) {
+  ball.style.setProperty("--size", size === "small" ? "82px" : "120px");
+}
+function setBallFirmness(ball, firmness) {
+  ball.classList.toggle("soft", firmness === "soft");
+}
+function setHeight(ball, height) {
+  ball.style.top = height === "1" ? "39%" : "21%";
+}
+function setSurface(element, type) {
+  element.className = `surface ${element.id === "surfaceA" ? "a" : "b"} ${type}`;
+  element.querySelector("span").textContent = getOptionLabel(
+    variableConfig.surface.controlOptions,
+    type,
+  );
+}
 
-    function renderVisuals() {
-      const valuesA = { ...state.controls };
-      const valuesB = { ...state.controls };
+function renderVisuals() {
+  const valuesA = { ...state.controls };
+  const valuesB = { ...state.controls };
 
-      if (state.changeVariable) {
-        const config = variableConfig[state.changeVariable];
-        const selectionValue = state.changeSelections[state.changeVariable] || config.changeOptions[0].value;
-        const pair = config.changeOptions.find(option => option.value === selectionValue).pair;
-        valuesA[state.changeVariable] = pair[0];
-        valuesB[state.changeVariable] = pair[1];
-      }
+  if (state.changeVariable) {
+    const config = variableConfig[state.changeVariable];
+    const selectionValue =
+      state.changeSelections[state.changeVariable] ||
+      config.changeOptions[0].value;
+    const pair = config.changeOptions.find(
+      (option) => option.value === selectionValue,
+    ).pair;
+    valuesA[state.changeVariable] = pair[0];
+    valuesB[state.changeVariable] = pair[1];
+  }
 
-      const ballA = document.getElementById("ballA");
-      const ballB = document.getElementById("ballB");
-      setBallSize(ballA, valuesA.size); setBallSize(ballB, valuesB.size);
-      setBallMaterial(ballA, valuesA.material); setBallMaterial(ballB, valuesB.material);
-      setBallFirmness(ballA, valuesA.firmness); setBallFirmness(ballB, valuesB.firmness);
-      setHeight(ballA, valuesA.height); setHeight(ballB, valuesB.height);
-      setSurface(document.getElementById("surfaceA"), valuesA.surface);
-      setSurface(document.getElementById("surfaceB"), valuesB.surface);
-    }
+  const ballA = document.getElementById("ballA");
+  const ballB = document.getElementById("ballB");
+  setBallSize(ballA, valuesA.size);
+  setBallSize(ballB, valuesB.size);
+  setBallMaterial(ballA, valuesA.material);
+  setBallMaterial(ballB, valuesB.material);
+  setBallFirmness(ballA, valuesA.firmness);
+  setBallFirmness(ballB, valuesB.firmness);
+  setHeight(ballA, valuesA.height);
+  setHeight(ballB, valuesB.height);
+  setSurface(document.getElementById("surfaceA"), valuesA.surface);
+  setSurface(document.getElementById("surfaceB"), valuesB.surface);
+}
 
-    function updateBlueprint() {
-      const changeText = state.changeVariable
-        ? `${variableConfig[state.changeVariable].label}: ${getOptionLabel(variableConfig[state.changeVariable].changeOptions, state.changeSelections[state.changeVariable])}`
-        : "Not selected yet";
-      document.getElementById("blueprintChange").textContent = changeText;
+function updateBlueprint() {
+  const changeText = state.changeVariable
+    ? `${variableConfig[state.changeVariable].label}: ${getOptionLabel(variableConfig[state.changeVariable].changeOptions, state.changeSelections[state.changeVariable])}`
+    : "Not selected yet";
+  document.getElementById("blueprintChange").textContent = changeText;
 
-      const measureText = state.measureOutcome
-        ? `${getOptionLabel(measureOutcomes, state.measureOutcome)}: ${getOptionLabel(measureTools, state.measureTool)}`
-        : "Not selected yet";
-      document.getElementById("blueprintMeasure").textContent = measureText;
+  const measureText = state.measureOutcome
+    ? `${getOptionLabel(measureOutcomes, state.measureOutcome)}: ${getOptionLabel(measureTools, state.measureTool)}`
+    : "Not selected yet";
+  document.getElementById("blueprintMeasure").textContent = measureText;
 
-      const controlledKeys = Object.keys(variableConfig).filter(key => key !== state.changeVariable);
-      document.getElementById("blueprintControl").textContent = controlledKeys
-        .map(key => `${variableConfig[key].label}: ${getOptionLabel(variableConfig[key].controlOptions, state.controls[key])}`)
-        .join("; ");
+  const controlledKeys = Object.keys(variableConfig).filter(
+    (key) => key !== state.changeVariable,
+  );
+  document.getElementById("blueprintControl").textContent = controlledKeys
+    .map(
+      (key) =>
+        `${variableConfig[key].label}: ${getOptionLabel(variableConfig[key].controlOptions, state.controls[key])}`,
+    )
+    .join("; ");
 
-      const note = document.getElementById("measurementNote");
-      note.textContent = state.measureOutcome
-        ? `${getOptionLabel(measureOutcomes, state.measureOutcome)}\n${getOptionLabel(measureTools, state.measureTool)}`
-        : "Choose what you will measure.";
-    }
+  const note = document.getElementById("measurementNote");
+  note.textContent = state.measureOutcome
+    ? `${getOptionLabel(measureOutcomes, state.measureOutcome)}\n${getOptionLabel(measureTools, state.measureTool)}`
+    : "Choose what you will measure.";
+}
 
-    function updateStageCopy() {
-      const prompt = document.getElementById("stagePrompt");
-      const status = document.getElementById("diagramStatus");
-      if (state.stage === "change") {
-        prompt.textContent = "Choose the one variable that will be different.";
-        status.textContent = "After choosing a variable, its comparison menu appears underneath.";
-      } else if (state.stage === "measure") {
-        prompt.textContent = "Choose one outcome to measure.";
-        status.textContent = "The same measurement-method menu is available for each outcome.";
-      } else {
-        prompt.textContent = "Choose the settings that both experiments will share.";
-        status.textContent = state.changeVariable
-          ? `${variableConfig[state.changeVariable].label} cannot be controlled because it is being changed.`
-          : "Choose a Change variable first to disable it here.";
-      }
-    }
+function updateStageCopy() {
+  const prompt = document.getElementById("stagePrompt");
+  const status = document.getElementById("diagramStatus");
+  if (state.stage === "change") {
+    prompt.textContent = "Choose the one variable that will be different.";
+    status.textContent =
+      "After choosing a variable, its comparison menu appears underneath.";
+  } else if (state.stage === "measure") {
+    prompt.textContent = "Choose one outcome to measure.";
+    status.textContent =
+      "The same measurement-method menu is available for each outcome.";
+  } else {
+    prompt.textContent =
+      "Choose the settings that both experiments will share.";
+    status.textContent = state.changeVariable
+      ? `${variableConfig[state.changeVariable].label} cannot be controlled because it is being changed.`
+      : "Choose a Change variable first to disable it here.";
+  }
+}
 
-    function setStage(stage) {
-      state.stage = stage;
-      document.querySelectorAll(".bk3-progress-step").forEach(button => button.classList.toggle("active", button.dataset.stage === stage));
-      renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint();
-    }
+function setStage(stage) {
+  state.stage = stage;
+  document
+    .querySelectorAll(".bk3-progress-step")
+    .forEach((button) =>
+      button.classList.toggle("active", button.dataset.stage === stage),
+    );
+  renderControls();
+  updateStageCopy();
+  renderVisuals();
+  updateBlueprint();
+}
 
-    function renderAll() { renderControls(); updateStageCopy(); renderVisuals(); updateBlueprint(); }
+function renderAll() {
+  renderControls();
+  updateStageCopy();
+  renderVisuals();
+  updateBlueprint();
+}
 
-        function resetBigKahuna() {
-      /*
+function resetBigKahuna() {
+  /*
         Return the Big Kahuna activity to its original state
         without refreshing the rest of Lesson 2.
       */
 
-      state.stage = "change";
+  state.stage = "change";
 
-      state.changeVariable = null;
-      state.changeSelections = {};
+  state.changeVariable = null;
+  state.changeSelections = {};
 
-      state.measureOutcome = null;
-      state.measureTool = null;
+  state.measureOutcome = null;
+  state.measureTool = null;
 
-      state.selectedControlVariable = null;
+  state.selectedControlVariable = null;
 
-      state.controls = {
-        size: "large",
-        material: "basketball",
-        height: "1.5",
-        firmness: "firm",
-        surface: "hard-surface"
-      };
+  state.controls = {
+    size: "large",
+    material: "basketball",
+    height: "1.5",
+    firmness: "firm",
+    surface: "hard-surface",
+  };
 
-      /*
+  /*
         Return the navigation buttons to the Change section.
       */
-      document
-        .querySelectorAll(".bk3-progress-step")
-        .forEach(function(button) {
-          button.classList.toggle(
-            "active",
-            button.dataset.stage === "change"
-          );
-        });
+  document.querySelectorAll(".bk3-progress-step").forEach(function (button) {
+    button.classList.toggle("active", button.dataset.stage === "change");
+  });
 
-      document.getElementById("blueprintWarning").hidden = true;
+  document.getElementById("blueprintWarning").hidden = true;
 
-      /*
+  /*
         Rebuild the controls, picture and blueprint
         using the reset state.
       */
-      renderAll();
-    }
+  renderAll();
+}
 
-    document.querySelectorAll(".bk3-progress-step").forEach(button => button.addEventListener("click", () => setStage(button.dataset.stage)));
-    document
-      .getElementById("bk4ResetButton")
-      ?.addEventListener("click", resetBigKahuna);
-    document.getElementById("finishButton").addEventListener("click", () => {
+document
+  .querySelectorAll(".bk3-progress-step")
+  .forEach((button) =>
+    button.addEventListener("click", () => setStage(button.dataset.stage)),
+  );
+document
+  .getElementById("bk4ResetButton")
+  ?.addEventListener("click", resetBigKahuna);
+document.getElementById("finishButton").addEventListener("click", () => {
+  const missing = [];
 
-        const missing = [];
+  if (!state.changeVariable) {
+    missing.push("a Change variable");
+  }
 
-        if (!state.changeVariable) {
-            missing.push("a Change variable");
-        }
+  if (!state.measureOutcome) {
+    missing.push("a Measure outcome");
+  }
 
-        if (!state.measureOutcome) {
-            missing.push("a Measure outcome");
-        }
+  if (!state.measureTool) {
+    missing.push("a Measurement tool");
+  }
 
-        if (!state.measureTool) {
-            missing.push("a Measurement tool");
-        }
+  if (!state.selectedControlVariable) {
+    missing.push("a Control variable");
+  }
 
-        if (!state.selectedControlVariable) {
-            missing.push("a Control variable");
-        }
+  const warning = document.getElementById("blueprintWarning");
+  warning.hidden = false;
+  warning.classList.remove("blueprint-success", "blueprint-warning");
 
-        const warning = document.getElementById("blueprintWarning");
-        warning.hidden = false;
-        warning.classList.remove("blueprint-success", "blueprint-warning");
+  if (missing.length === 0) {
+    warning.classList.add("blueprint-success");
+    warning.style.background = "var(--soft-green)";
+    warning.style.borderTop = "4px solid var(--green)";
 
-        if (missing.length === 0) {
-            warning.classList.add("blueprint-success");
-            warning.style.background = "var(--soft-green)";
-            warning.style.borderTop = "4px solid var(--green)";
-            
-            warning.innerHTML = `
+    warning.innerHTML = `
             <p class="success-message">
             You have selected all required options. Your experiment blueprint is complete!
             </p>
             `;
-          } else {
-            warning.classList.add("blueprint-warning");
-            warning.style.background = "var(--soft-orange)";
-            warning.style.borderTop = "4px solid var(--orange)";
-            
-            warning.innerHTML = `
+  } else {
+    warning.classList.add("blueprint-warning");
+    warning.style.background = "var(--soft-orange)";
+    warning.style.borderTop = "4px solid var(--orange)";
+
+    warning.innerHTML = `
             <ul>
-            ${missing.map(item => `<li>${item}</li>`).join("")}
+            ${missing.map((item) => `<li>${item}</li>`).join("")}
             </ul>
             `;
-        }
-    });
+  }
+});
 
-    renderAll();
+renderAll();

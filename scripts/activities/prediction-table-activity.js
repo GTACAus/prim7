@@ -66,22 +66,22 @@ import { Activity } from "./activity-base.js";
 var DEFAULT_CAUSE_OPTIONS = {
   "increase-decrease": [
     { value: "increase", label: "Increase" },
-    { value: "decrease", label: "Decrease" }
+    { value: "decrease", label: "Decrease" },
   ],
   "with-without": [
     { value: "with", label: "With" },
-    { value: "without", label: "Without" }
+    { value: "without", label: "Without" },
   ],
   "condition-comparison": [
     { value: "condition-one-to-two", label: "Condition 1" },
-    { value: "condition-two-to-one", label: "Condition 2" }
-  ]
+    { value: "condition-two-to-one", label: "Condition 2" },
+  ],
 };
 
 var EFFECT_PHRASES = {
   increase: "increase",
   decrease: "decrease",
-  "stay-the-same": "stay the same"
+  "stay-the-same": "stay the same",
 };
 
 function PredictionTableActivity(root, options) {
@@ -103,12 +103,17 @@ function PredictionTableActivity(root, options) {
     reasonRow: root.querySelector("[data-prediction-reason-row]"),
     reasonInput: root.querySelector("[data-prediction-reason-input]"),
     reasonAnswer: root.querySelector("[data-prediction-reason-answer]"),
-    fullText: root.querySelector("[data-prediction-full-text]")
+    fullText: root.querySelector("[data-prediction-full-text]"),
   };
 
-  this.usesDropdowns = Boolean(this.els.change) && this.els.change.tagName === "SELECT";
+  this.usesDropdowns =
+    Boolean(this.els.change) && this.els.change.tagName === "SELECT";
 
-  this.context = { structure: this.usesDropdowns ? "if" : "", change: "", measure: "" };
+  this.context = {
+    structure: this.usesDropdowns ? "if" : "",
+    change: "",
+    measure: "",
+  };
   this.selectedCause = "";
   this.selectedEffect = "";
   this.reason = "";
@@ -165,7 +170,8 @@ PredictionTableActivity.prototype.reset = function () {
   if (this.els.causeType) this.els.causeType.selectedIndex = 0;
   if (this.els.conditionOne) this.els.conditionOne.value = "";
   if (this.els.conditionTwo) this.els.conditionTwo.value = "";
-  if (this.els.conditionInputs) this.els.conditionInputs.classList.remove("visible");
+  if (this.els.conditionInputs)
+    this.els.conditionInputs.classList.remove("visible");
 
   Array.prototype.forEach.call(this.els.effectButtons, function (button) {
     button.classList.remove("selected");
@@ -180,23 +186,39 @@ PredictionTableActivity.prototype._bind = function () {
   var self = this;
 
   if (this.usesDropdowns) {
-    this.els.change.addEventListener("change", function () { self._render(); });
-    this.els.measure.addEventListener("change", function () { self._render(); });
+    this.els.change.addEventListener("change", function () {
+      self._render();
+    });
+    this.els.measure.addEventListener("change", function () {
+      self._render();
+    });
   }
 
   if (this.els.causeType) {
-    this.els.causeType.addEventListener("change", function () { self._renderCauseButtons(); });
+    this.els.causeType.addEventListener("change", function () {
+      self._renderCauseButtons();
+    });
   }
 
-  if (this.els.conditionOne) this.els.conditionOne.addEventListener("input", function () { self._render(); });
-  if (this.els.conditionTwo) this.els.conditionTwo.addEventListener("input", function () { self._render(); });
+  if (this.els.conditionOne)
+    this.els.conditionOne.addEventListener("input", function () {
+      self._render();
+    });
+  if (this.els.conditionTwo)
+    this.els.conditionTwo.addEventListener("input", function () {
+      self._render();
+    });
 
   Array.prototype.forEach.call(this.els.effectButtons, function (button) {
-    button.addEventListener("click", function () { self._selectEffect(button); });
+    button.addEventListener("click", function () {
+      self._selectEffect(button);
+    });
   });
 
   if (this.els.reasonInput) {
-    connectEnterAndBlurSave(this.els.reasonInput, function () { self._submitReason(); });
+    connectEnterAndBlurSave(this.els.reasonInput, function () {
+      self._submitReason();
+    });
   }
 };
 
@@ -204,7 +226,11 @@ PredictionTableActivity.prototype._bind = function () {
 
 PredictionTableActivity.prototype._setVariableText = function (element, value) {
   if (!element) return;
-  setGeneratedText(element, value, element.dataset.placeholder || "The thing I am changing");
+  setGeneratedText(
+    element,
+    value,
+    element.dataset.placeholder || "The thing I am changing",
+  );
 };
 
 PredictionTableActivity.prototype._renderCauseButtons = function () {
@@ -225,9 +251,12 @@ PredictionTableActivity.prototype._renderCauseButtons = function () {
 
       button.addEventListener("click", function () {
         self.selectedCause = choice.value;
-        Array.prototype.forEach.call(self.els.causeButtons.querySelectorAll(".relationship-option"), function (other) {
-          other.classList.remove("selected");
-        });
+        Array.prototype.forEach.call(
+          self.els.causeButtons.querySelectorAll(".relationship-option"),
+          function (other) {
+            other.classList.remove("selected");
+          },
+        );
         button.classList.add("selected");
         self._render();
       });
@@ -236,7 +265,10 @@ PredictionTableActivity.prototype._renderCauseButtons = function () {
     });
 
     if (this.els.conditionInputs) {
-      this.els.conditionInputs.classList.toggle("visible", relationshipType === "condition-comparison");
+      this.els.conditionInputs.classList.toggle(
+        "visible",
+        relationshipType === "condition-comparison",
+      );
     }
   }
 
@@ -245,7 +277,9 @@ PredictionTableActivity.prototype._renderCauseButtons = function () {
 
 PredictionTableActivity.prototype._selectEffect = function (button) {
   this.selectedEffect = button.dataset.predictionEffect;
-  Array.prototype.forEach.call(this.els.effectButtons, function (other) { other.classList.remove("selected"); });
+  Array.prototype.forEach.call(this.els.effectButtons, function (other) {
+    other.classList.remove("selected");
+  });
   button.classList.add("selected");
   this._render();
 };
@@ -283,20 +317,37 @@ PredictionTableActivity.prototype._submitReason = function () {
 };
 
 PredictionTableActivity.prototype._render = function () {
-  var change = this.usesDropdowns ? (this.els.change.value || "") : this.context.change;
-  var measure = this.usesDropdowns ? (this.els.measure.value || "") : this.context.measure;
+  var change = this.usesDropdowns
+    ? this.els.change.value || ""
+    : this.context.change;
+  var measure = this.usesDropdowns
+    ? this.els.measure.value || ""
+    : this.context.measure;
 
   this.context.change = change;
   this.context.measure = measure;
 
   var prediction = this._buildPredictionPhrases(change, measure);
 
-  if (this.els.causeText) setGeneratedText(this.els.causeText, prediction.cause, "Choose a cause relationship.");
-  if (this.els.effectText) setGeneratedText(this.els.effectText, prediction.effect, "Choose an effect or result.");
+  if (this.els.causeText)
+    setGeneratedText(
+      this.els.causeText,
+      prediction.cause,
+      "Choose a cause relationship.",
+    );
+  if (this.els.effectText)
+    setGeneratedText(
+      this.els.effectText,
+      prediction.effect,
+      "Choose an effect or result.",
+    );
 
   var fullPrediction = "";
   if (prediction.cause !== "" && prediction.effect !== "") {
-    var separator = (this.context.structure === "how" || this.context.structure === "does") ? " " : ", ";
+    var separator =
+      this.context.structure === "how" || this.context.structure === "does"
+        ? " "
+        : ", ";
     fullPrediction = prediction.cause + separator + prediction.effect + ".";
   }
 
@@ -304,13 +355,20 @@ PredictionTableActivity.prototype._render = function () {
   if (complete) fullPrediction += " This is because " + this.reason + ".";
 
   if (this.els.fullText) {
-    setGeneratedText(this.els.fullText, fullPrediction, "Complete the organiser to build your reasoned prediction.");
+    setGeneratedText(
+      this.els.fullText,
+      fullPrediction,
+      "Complete the organiser to build your reasoned prediction.",
+    );
   }
 
   this.setComplete(complete);
 };
 
-PredictionTableActivity.prototype._buildPredictionPhrases = function (change, measure) {
+PredictionTableActivity.prototype._buildPredictionPhrases = function (
+  change,
+  measure,
+) {
   var structure = this.context.structure;
   var causeAction = this._getCauseActionPhrase(change);
   var effectAction = EFFECT_PHRASES[this.selectedEffect] || "";
@@ -324,22 +382,24 @@ PredictionTableActivity.prototype._buildPredictionPhrases = function (change, me
     case "what":
       return {
         cause: "When I " + causeAction.verb,
-        effect: measure + " will " + effectAction
+        effect: measure + " will " + effectAction,
       };
 
     /* How does changing the _____ affect the _____? */
     case "how":
     case "does":
       return {
-        cause: causeAction.gerund.charAt(0).toUpperCase() + causeAction.gerund.slice(1),
-        effect: "will cause " + measure + " to " + effectAction
+        cause:
+          causeAction.gerund.charAt(0).toUpperCase() +
+          causeAction.gerund.slice(1),
+        effect: "will cause " + measure + " to " + effectAction,
       };
 
     /* If I change the _____, what happens to the _____? */
     case "if":
       return {
         cause: "If I " + causeAction.verb,
-        effect: "then " + measure + " will " + effectAction
+        effect: "then " + measure + " will " + effectAction,
       };
 
     default:
@@ -350,8 +410,12 @@ PredictionTableActivity.prototype._buildPredictionPhrases = function (change, me
 PredictionTableActivity.prototype._getCauseActionPhrase = function (change) {
   if (!change || !this.selectedCause) return null;
 
-  var conditionOne = this.els.conditionOne ? getSafeStudentPreviewValue(this.els.conditionOne) : "";
-  var conditionTwo = this.els.conditionTwo ? getSafeStudentPreviewValue(this.els.conditionTwo) : "";
+  var conditionOne = this.els.conditionOne
+    ? getSafeStudentPreviewValue(this.els.conditionOne)
+    : "";
+  var conditionTwo = this.els.conditionTwo
+    ? getSafeStudentPreviewValue(this.els.conditionTwo)
+    : "";
 
   switch (this.selectedCause) {
     case "increase":
@@ -363,31 +427,54 @@ PredictionTableActivity.prototype._getCauseActionPhrase = function (change) {
     case "with":
       return {
         verb: "conduct the experiment with " + change,
-        gerund: "conducting the experiment with " + change
+        gerund: "conducting the experiment with " + change,
       };
 
     case "without":
       return {
         verb: "conduct the experiment without " + change,
-        gerund: "conducting the experiment without " + change
+        gerund: "conducting the experiment without " + change,
       };
 
     case "condition-one-to-two":
       return {
-        verb: "change " + change + " from " + (conditionOne || "condition 1") + " to " + (conditionTwo || "condition 2"),
-        gerund: "changing " + change + " from " + (conditionOne || "condition 1") + " to " + (conditionTwo || "condition 2")
+        verb:
+          "change " +
+          change +
+          " from " +
+          (conditionOne || "condition 1") +
+          " to " +
+          (conditionTwo || "condition 2"),
+        gerund:
+          "changing " +
+          change +
+          " from " +
+          (conditionOne || "condition 1") +
+          " to " +
+          (conditionTwo || "condition 2"),
       };
 
     case "condition-two-to-one":
       return {
-        verb: "change " + change + " from " + (conditionTwo || "condition 2") + " to " + (conditionOne || "condition 1"),
-        gerund: "changing " + change + " from " + (conditionTwo || "condition 2") + " to " + (conditionOne || "condition 1")
+        verb:
+          "change " +
+          change +
+          " from " +
+          (conditionTwo || "condition 2") +
+          " to " +
+          (conditionOne || "condition 1"),
+        gerund:
+          "changing " +
+          change +
+          " from " +
+          (conditionTwo || "condition 2") +
+          " to " +
+          (conditionOne || "condition 1"),
       };
 
     default:
       return null;
   }
 };
-
 
 export { PredictionTableActivity };

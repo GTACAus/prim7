@@ -13,7 +13,12 @@ import { SelectItemsActivity } from "../activities/select-items-activity.js";
 import { AdjustSlidersActivity } from "./adjust-sliders-activity.js";
 import { PlotPointsActivity } from "./plot-points-activity.js";
 import {
-  ANALYSIS_CLASSES, PICK_CLASSES, byId, multipleChoice, restoreCompletenessOnLoad, scaleAxisSlotText
+  ANALYSIS_CLASSES,
+  PICK_CLASSES,
+  byId,
+  multipleChoice,
+  restoreCompletenessOnLoad,
+  scaleAxisSlotText,
 } from "./lesson4-activity-helpers.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -27,12 +32,21 @@ document.addEventListener("DOMContentLoaded", function () {
   new ButtonActivity(byId("partBAveragesActivity"), { hideTrigger: false });
   new DragDropActivity(byId("partBAxisActivity"), { strictSlots: true });
   multipleChoice("partBUnitCheck", { completionMode: "live" });
-  new PlotPointsActivity(byId("partBPlotActivity"), Object.assign({
-    prefix: "partb",
-    idPrefix: "partB",
-    feedbackId: "partBFeedback",
-    prompt: { title: byId("partBBuilderPromptTitle"), text: byId("partBBuilderPromptText") }
-  }, window.partBPlotConfig));
+  new PlotPointsActivity(
+    byId("partBPlotActivity"),
+    Object.assign(
+      {
+        prefix: "partb",
+        idPrefix: "partB",
+        feedbackId: "partBFeedback",
+        prompt: {
+          title: byId("partBBuilderPromptTitle"),
+          text: byId("partBBuilderPromptText"),
+        },
+      },
+      window.partBPlotConfig,
+    ),
+  );
   new SelectItemsActivity(byId("partBGraphCheck")); // every box in the construction checklist
   multipleChoice("partBAnalysisPanel", { classes: ANALYSIS_CLASSES });
 
