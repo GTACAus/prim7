@@ -135,6 +135,7 @@
         transition:
           left 0.45s ease,
           opacity 0.45s ease,
+          transform 0.45s ease,
           box-shadow 0.2s ease,
           background 0.45s ease,
           width 0.45s ease;
@@ -191,8 +192,8 @@
       }
       .lesson-card.is-previous,
       .lesson-card.is-next {
+        --rotate-amount: 30deg;
         z-index: 1;
-        width: clamp(190px, 32vw, 360px);
         cursor: pointer;
         opacity: 0.62;
         transition:
@@ -205,13 +206,13 @@
       .lesson-card.is-previous {
         left: max(0px, calc(50% - min(40vw, 460px)));
         transform: translate(-50%, -50%) scale(0.82) scale(var(--tilt-scale, 1))
-          rotate3d(0, 1, 0, -6deg) rotateX(var(--tilt-x, 0deg))
-          rotateY(var(--tilt-y, 0deg));
+          rotate3d(0, 1, 0, calc(-1 * var(--rotate-amount)))
+          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
       }
       .lesson-card.is-next {
         left: min(100%, calc(50% + min(40vw, 460px)));
         transform: translate(-50%, -50%) scale(0.82) scale(var(--tilt-scale, 1))
-          rotate3d(0, 1, 0, 6deg) rotateX(var(--tilt-x, 0deg))
+          rotate3d(0, 1, 0, var(--rotate-amount)) rotateX(var(--tilt-x, 0deg))
           rotateY(var(--tilt-y, 0deg));
       }
       .lesson-card.is-previous:hover,
@@ -219,12 +220,14 @@
         opacity: 0.88;
       }
       .lesson-card.is-previous:hover {
-        transform: translate(-50%, -50%) scale(0.88) rotate3d(0, 1, 0, -6deg)
+        transform: translate(-50%, -50%) scale(0.88)
+          rotate3d(0, 1, 0, calc(-1 * var(--rotate-amount)))
           rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
       }
       .lesson-card.is-next:hover {
-        transform: translate(-50%, -50%) scale(0.88) rotate3d(0, 1, 0, 6deg)
-          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+        transform: translate(-50%, -50%) scale(0.88)
+          rotate3d(0, 1, 0, var(--rotate-amount)) rotateX(var(--tilt-x, 0deg))
+          rotateY(var(--tilt-y, 0deg));
       }
       .lesson-card.is-hidden {
         z-index: 0;
