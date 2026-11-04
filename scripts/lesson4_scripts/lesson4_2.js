@@ -1228,6 +1228,9 @@
 
       updateProgressAndGraphButton();
       panel.classList.add("is-open");
+      if (typeof window.saveLessonProgress === "function") {
+        window.saveLessonProgress();
+      }
     }
 
     function showPanelFor(distance, point) {
@@ -1451,6 +1454,152 @@
       person.style.transform = "translateX(-50%)";
     }
 
+    window.getLessonProgressState = function () {
+      return {
+        numberLine: {
+          selectedDistance: selected,
+          panelOpen: panel.classList.contains("is-open"),
+          selectedSpecies: selectedSpecies,
+          foundHotspots: Array.from(hotspotFound.entries())
+            .filter(function (entry) {
+              return entry[1];
+            })
+            .map(function (entry) {
+              return entry[0];
+            }),
+          highlightedHotspots: Array.from(highlightedHotspotIds),
+          graphConnections: Array.from(graphConnections.entries()),
+          visitedDistances: Array.from(speciesVisitedDistances.entries()).map(
+            function (entry) {
+              return [entry[0], Array.from(entry[1])];
+            },
+          ),
+          searchElapsed: Array.from(speciesSearchStartedAt.entries()).map(
+            function (entry) {
+              return [entry[0], Date.now() - entry[1]];
+            },
+          ),
+          graphMode: isGraphMode,
+          countersHidden: isCountersHidden,
+        },
+      };
+    };
+
+    window.restoreLessonProgressState = function (saved) {
+      const state = saved && saved.numberLine;
+      if (!state) return;
+
+      closeAll();
+      resetAnimalTracking();
+      selected = null;
+      resetPerson();
+
+      (state.foundHotspots || []).forEach(function (id) {
+        if (hotspotFound.has(id)) hotspotFound.set(id, true);
+      });
+      highlightedHotspotIds.clear();
+      (state.highlightedHotspots || []).forEach(function (id) {
+        if (hotspotSpecies.has(id)) highlightedHotspotIds.add(id);
+      });
+
+      clearSpeciesSearchTimers();
+      (state.visitedDistances || []).forEach(function (entry) {
+        if (!TARGET_SPECIES.includes(entry[0]) || !Array.isArray(entry[1]))
+          return;
+        speciesVisitedDistances.set(
+          entry[0],
+          new Set(entry[1].filter(function (distance) {
+            return DISTANCES.includes(String(distance));
+          })),
+        );
+      });
+      (state.searchElapsed || []).forEach(function (entry) {
+        const name = entry[0];
+        const elapsed = Number(entry[1]);
+        if (!TARGET_SPECIES.includes(name) || !Number.isFinite(elapsed))
+          return;
+        speciesSearchStartedAt.set(name, Date.now() - elapsed);
+        const remaining = Math.max(0, FIND_ALL_DELAY_MS - elapsed);
+        speciesSearchTimeout.set(
+          name,
+          window.setTimeout(function () {
+            speciesSearchTimeout.delete(name);
+            updateProgressAndGraphButton();
+          }, remaining),
+        );
+      });
+
+      const distance = Number(state.selectedDistance);
+      const hasDistance =
+        state.selectedDistance !== null &&
+        state.selectedDistance !== undefined &&
+        Number.isFinite(distance) &&
+        DISTANCES.includes(String(distance));
+
+      speciesButtons.forEach(function (button) {
+        button.disabled = !hasDistance;
+      });
+
+      if (
+        typeof state.selectedSpecies === "string" &&
+        TARGET_SPECIES.includes(state.selectedSpecies)
+      ) {
+        selectSpecies(state.selectedSpecies);
+      }
+
+      (state.graphConnections || []).forEach(function (entry) {
+        if (
+          !TARGET_SPECIES.includes(entry[0]) ||
+          !Array.isArray(entry[1])
+        ) {
+          return;
+        }
+        graphConnections.set(
+          entry[0],
+          entry[1].filter(function (value) {
+            return DISTANCES.includes(String(value));
+          }),
+        );
+      });
+
+      isGraphMode = Boolean(state.graphMode);
+      isCountersHidden = Boolean(state.countersHidden);
+      if (chartWrap) {
+        chartWrap.classList.toggle("is-graph-mode", isGraphMode);
+        chartWrap.classList.toggle("counters-hidden", isCountersHidden);
+      }
+      if (countersHiddenButton) {
+        countersHiddenButton.classList.toggle("is-active", isCountersHidden);
+      }
+
+      if (hasDistance) {
+        selected = distance;
+        const point = points.find(function (item) {
+          return item.dataset.distance === String(distance);
+        });
+        points.forEach(function (item) {
+          const isSelected = item === point;
+          item.classList.toggle("is-selected", isSelected);
+          item.setAttribute("aria-expanded", String(isSelected));
+        });
+        note.textContent = "You selected " + distance + " metres.";
+        currentDistance = distance;
+        personState = state.panelOpen ? PersonMove.PLACING : PersonMove.IDLE;
+        person.src =
+          PERSON_IMAGE_BASE +
+          PERSON_IMAGES[state.panelOpen ? PersonMove.PLACING : PersonMove.STANDING];
+        person.style.left = personLeftForPoint(point, distance) + "%";
+        person.style.transform = "translateX(-50%) scaleX(1)";
+
+        if (state.panelOpen && point) {
+          openPanelFor(distance, point);
+        }
+      }
+
+      renderChart();
+      updateProgressAndGraphButton();
+    };
+
     points.forEach((point) => {
       point.setAttribute("aria-expanded", "false");
       point.addEventListener("click", () => {
@@ -1502,18 +1651,9 @@
     { id: "line-graph-plants", label: "Plotting Time on the x-axis" },
   ];
 
-  const teacherBackLink = {
-    label: "← Back to Part A",
-    href: "lesson4.html",
-  };
-
   document.addEventListener("DOMContentLoaded", function () {
     if (typeof initialiseTeacherMenu === "function") {
-      initialiseTeacherMenu(
-        sectionIds,
-        "marine-snail-context",
-        teacherBackLink,
-      );
+      initialiseTeacherMenu(sectionIds, "marine-snail-context");
     }
 
     if (DEV_MODE && typeof teacherShowAll === "function") {

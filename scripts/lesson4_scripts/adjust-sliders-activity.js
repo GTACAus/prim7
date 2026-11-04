@@ -120,6 +120,92 @@ AdjustSlidersActivity.prototype.getValues = function (set) {
   return this.values[set || this.activeSet].slice();
 };
 
+AdjustSlidersActivity.prototype.getProgressState = function () {
+  var values = {};
+  var checked = {};
+  this.sets.forEach(
+    function (set) {
+      values[set] = this.values[set].slice();
+      checked[set] = this.checked[set].slice();
+    }.bind(this),
+  );
+  return { activeSet: this.activeSet, values: values, checked: checked };
+};
+
+AdjustSlidersActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved || !saved.values || !saved.checked) return;
+
+  this._clearState();
+  this.sets.forEach(
+    function (set) {
+      var values = saved.values[set];
+      var checked = saved.checked[set];
+      if (
+        !Array.isArray(values) ||
+        !Array.isArray(checked) ||
+        values.length !== this.rows.length ||
+        checked.length !== this.rows.length
+      ) {
+        return;
+      }
+
+      this.values[set] = values.map(
+        function (value, index) {
+          var number = Number(value);
+          var input = this.inputs[index];
+          return Number.isFinite(number)
+            ? Math.min(Number(input.max), Math.max(Number(input.min), number))
+            : this.initialValues[index];
+        }.bind(this),
+      );
+      this.checked[set] = checked.map(function (value) {
+        return value === true || value === false ? value : null;
+      });
+    }.bind(this),
+  );
+
+  this.activeSet = this.sets.indexOf(saved.activeSet) !== -1
+    ? saved.activeSet
+    : this.sets[0];
+  this._render();
+
+  var results = {};
+  var firstWrong = null;
+  this.sets.forEach(
+    function (set) {
+      results[set] = this.checked[set].slice();
+      var wrongIndex = this.checked[set].indexOf(false);
+      if (wrongIndex !== -1 && !firstWrong) {
+        firstWrong = { set: set, index: wrongIndex };
+      }
+    }.bind(this),
+  );
+
+  this.root.dispatchEvent(
+    new CustomEvent("sliders:setchange", {
+      detail: { set: this.activeSet },
+      bubbles: true,
+    }),
+  );
+
+  if (this.checked[this.activeSet].some(function (value) {
+    return value !== null;
+  })) {
+    this.root.dispatchEvent(
+      new CustomEvent("sliders:check", {
+        detail: {
+          results: results,
+          allCorrect: this.isComplete(),
+          firstWrong: firstWrong,
+        },
+        bubbles: true,
+      }),
+    );
+  }
+
+  this.setComplete(this.isComplete());
+};
+
 AdjustSlidersActivity.prototype.setActiveSet = function (set) {
   if (this.sets.indexOf(set) === -1 || set === this.activeSet) return;
   this.activeSet = set;

@@ -195,6 +195,66 @@ MultipleChoiceActivity.prototype.reset = function () {
   this.setComplete(false);
 };
 
+MultipleChoiceActivity.prototype.getProgressState = function () {
+  var self = this;
+  return this.questions.map(function (question) {
+    var selected = Array.prototype.find.call(question.choices, function (choice) {
+      return choice.getAttribute("aria-pressed") === "true";
+    });
+
+    return {
+      selected: selected ? selected.dataset.mcChoice : null,
+      correct: question.element.dataset.mcCorrect === "true",
+      lastCorrect: question.element.dataset.mcLastCorrect,
+    };
+  });
+};
+
+MultipleChoiceActivity.prototype.restoreProgressState = function (saved) {
+  if (!Array.isArray(saved)) return;
+
+  var self = this;
+  this.questions.forEach(function (question, index) {
+    var state = saved[index];
+    if (!state) return;
+
+    delete question.element.dataset.mcCorrect;
+    delete question.element.dataset.mcLastCorrect;
+
+    if (state.correct) question.element.dataset.mcCorrect = "true";
+    if (typeof state.lastCorrect === "string") {
+      question.element.dataset.mcLastCorrect = state.lastCorrect;
+    }
+
+    Array.prototype.forEach.call(question.choices, function (choice) {
+      self._clearChoiceVisuals(choice);
+    });
+
+    var selected = Array.prototype.find.call(
+      question.choices,
+      function (choice) {
+        return choice.dataset.mcChoice === state.selected;
+      },
+    );
+
+    if (selected) {
+      var isCorrect = state.lastCorrect === "true";
+      selected.classList.add(
+        this.classes.selected,
+        isCorrect ? this.classes.correct : this.classes.incorrect,
+      );
+      selected.setAttribute("aria-pressed", "true");
+      this._showFeedback(question, selected, isCorrect);
+    }
+
+    if (typeof state.lastCorrect === "string") {
+      this._showSharedFeedback(question, state.lastCorrect === "true");
+    }
+  }, this);
+
+  this.setComplete(this.isComplete());
+};
+
 /* ---------- internals ---------- */
 
 /* Sequence mode: show question i only (null shows none). */

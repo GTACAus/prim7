@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      Lesson 3 Part A - Using a Table to Record Data for a Fair Test
+      Lesson 3 - Using a Table to Record Data for a Fair Test
     </title>
 
     <link
@@ -177,9 +177,9 @@
     <main class="page lesson3-page">
       <header class="lesson-intro lesson3-intro">
         <div class="lesson-heading">
-          <span class="lesson-label">Lesson 3 &middot; Part A</span>
+          <span class="lesson-label">Lesson 3</span>
           <h1 id="teacherTrigger">
-            Using a Table to Record Data for a Fair Test - Part A
+            Using a Table to Record Data for a Fair Test
           </h1>
           <p class="lesson-summary">
             Scientists organise results in <strong>data tables</strong> so that
@@ -1653,7 +1653,7 @@
           id="yeastHotStopAndThink"
           data-activity
           data-activity-depends-on="yeastPredictionCheck"
-          data-reveals="#yeastAverageNext, #yeastSaveWork"
+          data-reveals="#yeastSaveWork"
         >
           <div class="stop-and-check-content">
             <p>
@@ -1691,15 +1691,6 @@
             Reset
           </button>
         </div>
-
-        <button
-          id="yeastAverageNext"
-          class="next-page-button general-button"
-          onclick="window.location.href = 'lesson3-2.html'"
-          hidden
-        >
-          Next: Part B
-        </button>
 
         <button
           type="button"
@@ -2105,18 +2096,9 @@
         { id: "yeast-labels", label: "Yeast experiment: add the labels" },
       ];
 
-      const teacherBackLink = {
-        label: "← To Part B",
-        href: "lesson3-2.html",
-      };
-
       document.addEventListener("DOMContentLoaded", function () {
         if (typeof initialiseTeacherMenu === "function") {
-          initialiseTeacherMenu(
-            sectionIds,
-            "yeast-image-investigation",
-            teacherBackLink,
-          );
+          initialiseTeacherMenu(sectionIds, "yeast-image-investigation");
         }
 
         initialiseDragAndDrop();

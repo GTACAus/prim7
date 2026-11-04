@@ -180,6 +180,105 @@ PredictionTableActivity.prototype.reset = function () {
   this._renderCauseButtons();
 };
 
+PredictionTableActivity.prototype.getProgressState = function () {
+  return {
+    context: Object.assign({}, this.context),
+    causeType: this.els.causeType ? this.els.causeType.value : "",
+    selectedCause: this.selectedCause,
+    selectedEffect: this.selectedEffect,
+    conditionOne: this.els.conditionOne ? this.els.conditionOne.value : "",
+    conditionTwo: this.els.conditionTwo ? this.els.conditionTwo.value : "",
+    reason: this.reason,
+  };
+};
+
+PredictionTableActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved) return;
+
+  this.reason = typeof saved.reason === "string" ? saved.reason : "";
+  this.context = Object.assign(
+    { structure: this.usesDropdowns ? "if" : "", change: "", measure: "" },
+    saved.context || {},
+  );
+
+  if (this.usesDropdowns) {
+    if (this.els.change) this.els.change.value = this.context.change;
+    if (this.els.measure) this.els.measure.value = this.context.measure;
+  }
+  if (this.els.conditionOne) {
+    this.els.conditionOne.value = saved.conditionOne || "";
+  }
+  if (this.els.conditionTwo) {
+    this.els.conditionTwo.value = saved.conditionTwo || "";
+  }
+
+  if (this.els.causeType) {
+    this.els.causeType.value = saved.causeType || "";
+    this._renderCauseButtons();
+    var causeChoices = this.causeOptions[this.els.causeType.value] || [];
+    var causeIndex = causeChoices.findIndex(function (choice) {
+      return choice.value === saved.selectedCause;
+    });
+    if (causeIndex !== -1) {
+      var causeButton =
+        this.els.causeButtons &&
+        this.els.causeButtons.querySelectorAll(".relationship-option")[
+          causeIndex
+        ];
+      if (causeButton) {
+        this.selectedCause = saved.selectedCause;
+        causeButton.classList.add("selected");
+      }
+    }
+  }
+
+  this.selectedEffect =
+    typeof saved.selectedEffect === "string" ? saved.selectedEffect : "";
+  Array.prototype.forEach.call(this.els.effectButtons, function (button) {
+    button.classList.toggle(
+      "selected",
+      button.dataset.predictionEffect === this.selectedEffect,
+    );
+  }, this);
+
+  if (this.els.reasonAnswer) {
+    this.els.reasonAnswer.innerHTML = "";
+    this.els.reasonAnswer.classList.remove("visible");
+    if (this.reason) {
+      var answer = document.createElement("span");
+      answer.textContent = this.reason;
+
+      var editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.className = "delete-answer";
+      editButton.setAttribute("aria-label", "Edit your reason");
+      editButton.textContent = "×";
+      editButton.addEventListener(
+        "click",
+        function () {
+          this.reason = "";
+          this.els.reasonAnswer.classList.remove("visible");
+          this.els.reasonAnswer.innerHTML = "";
+          if (this.els.reasonRow) this.els.reasonRow.style.display = "block";
+          if (this.els.reasonInput) {
+            this.els.reasonInput.value = "";
+            this.els.reasonInput.focus();
+          }
+          this._render();
+        }.bind(this),
+      );
+
+      this.els.reasonAnswer.appendChild(answer);
+      this.els.reasonAnswer.appendChild(editButton);
+      this.els.reasonAnswer.classList.add("visible");
+      if (this.els.reasonRow) this.els.reasonRow.style.display = "none";
+      if (this.els.reasonInput) this.els.reasonInput.value = "";
+    }
+  }
+
+  this._render();
+};
+
 /* ---------- wiring ---------- */
 
 PredictionTableActivity.prototype._bind = function () {

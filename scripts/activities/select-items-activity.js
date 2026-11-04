@@ -106,6 +106,15 @@ SelectItemsActivity.prototype.setSelected = function (ids) {
   this._update(false);
 };
 
+SelectItemsActivity.prototype.getProgressState = function () {
+  return { selected: this.getSelected() };
+};
+
+SelectItemsActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved || !Array.isArray(saved.selected)) return;
+  this.setSelected(saved.selected);
+};
+
 SelectItemsActivity.prototype.getRequired = function () {
   /* Called by the base constructor (depends-on check) before this.items exists. */
   var total = this.items ? this.items.length : 0;

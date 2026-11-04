@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
        ================================================== */
 
 const EXPEDITION_STATE_KEY = "prim7-expedition-concept-state-v7";
+let storageErrorReported = false;
 
 const missionConfig = [
   {
@@ -203,7 +204,7 @@ const missionConfig = [
       Final-mission organism pool.
       Frogfish and sawshark are deliberately left out of this first pool because
       the storyboard itself flags them as borderline examples for the deep-sea framing.
-      The chosen species is saved in sessionStorage and is not rerolled by Reset.
+      The chosen species is saved in localStorage and is not rerolled by Reset.
     */
 /*
       Each id doubles as the file name:
@@ -1037,7 +1038,22 @@ function getCurrentStage() {
 }
 
 function loadExpeditionState() {
-  const saved = sessionStorage.getItem(EXPEDITION_STATE_KEY);
+  let saved;
+  try {
+    saved = localStorage.getItem(EXPEDITION_STATE_KEY);
+    if (!saved) {
+      const sessionSaved = sessionStorage.getItem(EXPEDITION_STATE_KEY);
+      if (sessionSaved) {
+        localStorage.setItem(EXPEDITION_STATE_KEY, sessionSaved);
+        sessionStorage.removeItem(EXPEDITION_STATE_KEY);
+        saved = sessionSaved;
+      }
+    }
+  } catch (error) {
+    reportStorageError("Could not access saved Expedition Log progress.", error);
+    return;
+  }
+
   if (!saved) return;
 
   try {
@@ -1074,11 +1090,26 @@ function loadExpeditionState() {
 }
 
 function saveCurrentPageData() {
-  sessionStorage.setItem(EXPEDITION_STATE_KEY, JSON.stringify(expeditionState));
+  try {
+    localStorage.setItem(EXPEDITION_STATE_KEY, JSON.stringify(expeditionState));
+  } catch (error) {
+    reportStorageError("Could not save Expedition Log progress.", error);
+  }
 }
 
 function clearPageSavedData() {
-  sessionStorage.removeItem(EXPEDITION_STATE_KEY);
+  try {
+    localStorage.removeItem(EXPEDITION_STATE_KEY);
+    sessionStorage.removeItem(EXPEDITION_STATE_KEY);
+  } catch (error) {
+    reportStorageError("Could not clear saved Expedition Log progress.", error);
+  }
+}
+
+function reportStorageError(message, error) {
+  if (storageErrorReported) return;
+  storageErrorReported = true;
+  console.warn(message, error);
 }
 
 function startExpedition() {
@@ -2738,12 +2769,14 @@ document.addEventListener("keydown", function (event) {
 /* This file is an ES module, so its functions are not global; expose the ones the HTML calls from inline handlers. */
 Object.assign(window, {
   checkCurrentMission,
+  clearPageSavedData,
   closeFrogfishExampleModal,
   closeImageZoomModal,
   findAnotherMission5Animal,
   goNextMission,
   openImageZoomModal,
   resetCurrentMission,
+  saveCurrentPageData,
   selectSonarContact,
   setMission5DrawingFinished,
   showM4FishPreview,
