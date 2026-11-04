@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scientific Inquiry Lesson Overview</title>
+    <title>Scientific Inquiry Lab Overview</title>
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
       rel="stylesheet"
@@ -11,132 +11,338 @@
     <link href="styles/build_style.css" rel="stylesheet" type="text/css" />
     <style>
       body {
-        background: var(--cream);
+        min-height: 100vh;
+        background: radial-gradient(
+          ellipse at 50% 48%,
+          #fffdf4 0,
+          var(--cream) 68%
+        );
       }
-      /* everything is sized in vh so the whole pathway fits on one screen */
       .page {
-        padding: 1.5vh 0;
-        height: 100vh;
+        box-sizing: border-box;
         display: flex;
+        width: 100%;
+        min-height: 100vh;
         flex-direction: column;
         justify-content: space-between;
+        overflow: hidden;
+        padding: clamp(24px, 5vh, 56px) 0;
       }
       .lesson-heading {
-        margin-bottom: 0;
+        z-index: 1;
+        margin: 0;
+        align-items: center;
+        align-self: center;
       }
       #hero {
-        display: block;
-        font-size: 2.3vh;
-        margin: 0 auto;
-        width: 70%;
-        padding: 1vh 20px;
-        background: white;
-        border: 3px solid var(--line);
-        border-top: 6px solid var(--yellow);
-        box-shadow: var(--shadow-small);
-        border-radius: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: none;
+        box-shadow: none;
         user-select: none;
       }
+      #hero span:first-child {
+        color: var(--text);
+        font-size: clamp(3rem, 4vw, 5rem);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
       #hero span:last-child {
-        font-size: 3vh;
         color: var(--purple);
+        font-size: clamp(1rem, 1.5vw, 2rem);
+        font-weight: 700;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
       }
-      .pathway {
+      .carousel {
+        position: relative;
+        display: grid;
+        grid-template-columns: 56px minmax(0, 1fr) 56px;
+        grid-template-rows: clamp(300px, 52vh, 500px) auto;
+        width: min(calc(100% - 32px), 1280px);
+        flex: 0 0 auto;
+        justify-self: center;
+        align-items: center;
+        justify-items: center;
+        column-gap: 12px;
+        min-height: 360px;
+        margin: 2rem auto;
+      }
+      .carousel-track {
+        position: relative;
+        align-self: stretch;
+        grid-column: 1 / -1;
+        grid-row: 1;
+        width: 100%;
+        perspective: 1200px;
+      }
+      #description {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        flex: 1;
-        padding-top: 1vh;
-      }
-      .pair {
-        display: flex;
-        gap: 20px;
-        width: 60%;
-        background: var(--soft-orange);
-        border: 6px solid var(--orange);
+        max-width: 700px;
+        width: 100%;
+        margin: 0 20px;
+        padding: 20px;
+        border: 2px solid var(--charcoal);
+        background: white;
+        box-shadow: var(--shadow-medium);
         border-radius: 20px;
-        padding: 1.2vh 0;
-        justify-content: center;
+      }
+      #description h2,
+      p {
+        margin: 0;
+        margin-bottom: 10px;
+      }
+      #description h2 {
+        margin-bottom: 25px;
       }
       .lesson-card {
-        position: relative;
+        position: absolute;
+        top: 50%;
+        left: 50%;
         display: flex;
+        box-sizing: border-box;
+        width: clamp(220px, 60vw, 550px);
+        min-height: clamp(260px, 44vh, 430px);
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0;
-        width: min(100%, 300px);
-        min-height: 9vh;
-        padding: 0.8vh 12px;
+        gap: 0.8rem;
         overflow: hidden;
-        background: white;
+        padding: clamp(20px, 4vw, 48px);
         border: 2px solid var(--line);
-        border-top: 6px solid var(--accent);
-        border-radius: 16px;
-        box-shadow: var(--shadow-small);
+        border-top: 8px solid var(--accent);
+        border-radius: 28px;
+        background: white;
+        box-shadow:
+          0 16px 36px rgb(0 0 0 / 40%),
+          var(--tilt-shadow, 0 0 0 transparent);
+
         color: var(--text);
         text-align: center;
         text-decoration: none;
         text-transform: uppercase;
+        transform: translate(-50%, -50%) scale(0.86)
+          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
         transition:
-          transform 0.2s,
-          background 0.2s;
-      }
-      .lesson-card:hover {
-        background: color-mix(in srgb, var(--accent) 20%, white 80%);
-        transform: translateY(-3px);
+          left 0.45s ease,
+          opacity 0.45s ease,
+          box-shadow 0.2s ease,
+          background 0.45s ease,
+          width 0.45s ease;
+        will-change: left, transform, width;
       }
       .lesson-card img {
         position: absolute;
-        inset: 0;
+        inset: 10% 12%;
+        width: 76%;
+        height: 80%;
         margin: auto;
-        height: 90%;
-        opacity: 0.4;
-        transition: transform 0.2s;
+        object-fit: contain;
+        opacity: 0.2;
+        pointer-events: none;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
       }
       .lesson-card span {
         position: relative;
       }
       .lesson-number {
         color: var(--purple);
-        font-size: 2vh;
+        font-size: clamp(1.3rem, 2.4vw, 2rem);
         font-weight: 700;
         line-height: 1.2;
+        transition: transform 0.45s ease;
       }
       .lesson-subtitle {
+        max-width: 17ch;
+        font-size: clamp(0.9rem, 1.5vw, 1.2rem);
         font-weight: 700;
-        font-size: 1.3vh;
-        line-height: 1.2;
-        transition: transform 0.2s;
+        line-height: 1.35;
+        transition: transform 0.45s ease;
       }
-      .lesson-card:hover .lesson-subtitle,
-      .lesson-card:hover img {
-        transform: scale(1.07);
+      .lesson-card.is-current {
+        z-index: 2;
+        opacity: 1;
+        box-shadow:
+          0 24px 54px rgb(0 0 0 / 40%),
+          var(--tilt-shadow, 0 0 0 transparent);
+        transform: translate(-50%, -50%) scale(1) scale(var(--tilt-scale, 1))
+          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
       }
-      .arrow {
-        width: 3.4vh;
-        height: 4vh;
-        background: var(--orange);
-        clip-path: polygon(
-          30% 0,
-          70% 0,
-          70% 50%,
-          100% 50%,
-          50% 100%,
-          0 50%,
-          30% 50%
-        );
+      .lesson-card.is-current:not(.unavailable):hover {
+        background: color-mix(in srgb, var(--accent) 20%, white 80%);
       }
-      .unavailable {
-        opacity: 0.5;
+      .lesson-card.is-current:not(.unavailable):hover .lesson-subtitle {
+        transform: scale(1.5);
+      }
+
+      .lesson-card.is-current img {
+        opacity: 0.28;
+      }
+      .lesson-card.is-previous,
+      .lesson-card.is-next {
+        z-index: 1;
+        width: clamp(190px, 32vw, 360px);
+        cursor: pointer;
+        opacity: 0.62;
+        transition:
+          left 0.45s ease,
+          opacity 0.45s ease,
+          box-shadow 0.2s ease,
+          transform 0.45s ease,
+          width 0.45s ease;
+      }
+      .lesson-card.is-previous {
+        left: max(0px, calc(50% - min(40vw, 460px)));
+        transform: translate(-50%, -50%) scale(0.82) scale(var(--tilt-scale, 1))
+          rotate3d(0, 1, 0, -6deg) rotateX(var(--tilt-x, 0deg))
+          rotateY(var(--tilt-y, 0deg));
+      }
+      .lesson-card.is-next {
+        left: min(100%, calc(50% + min(40vw, 460px)));
+        transform: translate(-50%, -50%) scale(0.82) scale(var(--tilt-scale, 1))
+          rotate3d(0, 1, 0, 6deg) rotateX(var(--tilt-x, 0deg))
+          rotateY(var(--tilt-y, 0deg));
+      }
+      .lesson-card.is-previous:hover,
+      .lesson-card.is-next:hover {
+        opacity: 0.88;
+      }
+      .lesson-card.is-previous:hover {
+        transform: translate(-50%, -50%) scale(0.88) rotate3d(0, 1, 0, -6deg)
+          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      }
+      .lesson-card.is-next:hover {
+        transform: translate(-50%, -50%) scale(0.88) rotate3d(0, 1, 0, 6deg)
+          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      }
+      .lesson-card.is-hidden {
+        z-index: 0;
+        opacity: 0;
         pointer-events: none;
+        transform: translate(-50%, -50%) scale(0.7) rotateX(var(--tilt-x, 0deg))
+          rotateY(var(--tilt-y, 0deg));
       }
-      @media (max-width: 720px) {
-        .pair {
-          flex-direction: column;
-          align-items: center;
+      .lesson-card.unavailable {
+        filter: grayscale(0.5);
+        opacity: 0.38;
+      }
+      .lesson-card.is-current.unavailable {
+        opacity: 0.55;
+      }
+      .carousel-control {
+        position: relative;
+        z-index: 3;
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        justify-self: center;
+        border: 2px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        box-shadow: var(--shadow-small);
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .carousel-control:hover:not(:disabled) {
+        background: var(--yellow);
+      }
+      .carousel-control:disabled {
+        cursor: default;
+        opacity: 0.35;
+      }
+      .carousel-control::before {
+        width: 10px;
+        height: 10px;
+        border-top: 3px solid var(--text);
+        border-right: 3px solid var(--text);
+        content: "";
+      }
+      .carousel-control--previous {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .carousel-control--previous::before {
+        margin-left: 5px;
+        transform: rotate(-135deg);
+      }
+      .carousel-control--next {
+        grid-column: 3;
+        grid-row: 1;
+      }
+      .carousel-control--next::before {
+        margin-right: 5px;
+        transform: rotate(45deg);
+      }
+      .carousel-status {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      .lesson-card:focus-visible,
+      .carousel-control:focus-visible,
+      #hero:focus-visible {
+        outline: 4px solid var(--purple);
+        outline-offset: 5px;
+      }
+      @media (max-width: 600px) {
+        .page {
+          padding: 28px 0;
+        }
+        .carousel {
+          grid-template-columns: 40px minmax(0, 1fr) 40px;
+          grid-template-rows: min(54vh, 400px) auto;
+          min-height: 340px;
+          margin: 1rem auto;
+        }
+        .carousel-track {
+          height: min(54vh, 400px);
+        }
+        .lesson-card {
+          width: min(68vw, 310px);
+          min-height: clamp(250px, 40vh, 360px);
+        }
+        .lesson-card.is-previous,
+        .lesson-card.is-next {
+          width: min(54vw, 250px);
+        }
+        .lesson-card.is-previous {
+          left: 20%;
+        }
+        .lesson-card.is-next {
+          left: 80%;
+        }
+        .carousel-control {
+          width: 40px;
+          height: 40px;
+        }
+        #description {
+          padding: 16px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
         }
       }
     </style>
@@ -150,31 +356,33 @@
         </h1>
       </header>
 
-      <div class="pathway">
-        <div class="arrow" data-stage="2" aria-hidden="true"></div>
-        <a
-          href="lesson1/lesson1.html"
-          class="lesson-card"
-          style="--accent: var(--purple)"
-          data-stage="1"
-        >
-          <img src="./images/index/lesson1.png" alt="" />
-          <span class="lesson-number">Lesson 1</span>
-          <span class="lesson-subtitle">Questioning and Predicting</span>
-        </a>
-        <div class="arrow" data-stage="2" aria-hidden="true"></div>
-        <a
-          href="lesson2/lesson2.html"
-          class="lesson-card"
-          style="--accent: var(--orange)"
-          data-stage="2"
-        >
-          <img src="./images/index/lesson2.png" alt="" />
-          <span class="lesson-number">Lesson 2</span>
-          <span class="lesson-subtitle">Planning a Fair Test Experiment</span>
-        </a>
-        <div class="arrow" data-stage="3" aria-hidden="true"></div>
-        <div class="pair">
+      <section class="carousel" aria-label="Choose a lesson">
+        <button
+          class="carousel-control carousel-control--previous"
+          type="button"
+          aria-label="Show previous lesson"
+        ></button>
+        <div class="carousel-track">
+          <a
+            href="lesson1/lesson1.html"
+            class="lesson-card"
+            style="--accent: var(--purple)"
+            data-stage="1"
+          >
+            <img src="./images/index/lesson1.png" alt="" />
+            <h2 class="lesson-number">Lesson 1</h2>
+            <span class="lesson-subtitle">Questioning and Predicting</span>
+          </a>
+          <a
+            href="lesson2/lesson2.html"
+            class="lesson-card"
+            style="--accent: var(--orange)"
+            data-stage="2"
+          >
+            <img src="./images/index/lesson2.png" alt="" />
+            <h2 class="lesson-number">Lesson 2</h2>
+            <span class="lesson-subtitle">Planning a Fair Test Experiment</span>
+          </a>
           <a
             href="lesson3/lesson3.html"
             class="lesson-card"
@@ -182,7 +390,7 @@
             data-stage="3"
           >
             <img src="./images/index/lesson3.png" alt="" />
-            <span class="lesson-number">Lesson 3</span>
+            <h2 class="lesson-number">Lesson 3</h2>
             <span class="lesson-subtitle">Tables</span>
           </a>
           <a
@@ -192,12 +400,9 @@
             data-stage="3"
           >
             <img src="./images/index/lesson3.png" alt="" />
-            <span class="lesson-number">Lesson 3: Part B</span>
+            <h2 class="lesson-number">Lesson 4</h2>
             <span class="lesson-subtitle">Tables: Part B</span>
           </a>
-        </div>
-        <div class="arrow" data-stage="4" aria-hidden="true"></div>
-        <div class="pair">
           <a
             href="lesson4/lesson4.html"
             class="lesson-card"
@@ -205,8 +410,8 @@
             data-stage="4"
           >
             <img src="./images/index/lesson4.png" alt="" />
-            <span class="lesson-number">Lesson 4</span>
-            <span class="lesson-subtitle">Graphs</span>
+            <h2 class="lesson-number">Lesson 5</h2>
+            <span class="lesson-subtitle">Bar Graphs</span>
           </a>
           <a
             href="lesson4/lesson4-2.html"
@@ -215,40 +420,395 @@
             data-stage="4"
           >
             <img src="./images/index/lesson4.png" alt="" />
-            <span class="lesson-number">Lesson 4: Part B</span>
-            <span class="lesson-subtitle">Graphs: Part B</span>
+            <h2 class="lesson-number">Lesson 6</h2>
+            <span class="lesson-subtitle">Line Graphs</span>
+          </a>
+          <a
+            href="lesson5/lesson5.html"
+            class="lesson-card"
+            style="--accent: var(--yellow)"
+            data-stage="5"
+          >
+            <img src="./images/index/lesson5.png" alt="" />
+            <h2 class="lesson-number">Lesson 7</h2>
+            <span class="lesson-subtitle">Scientific Drawings</span>
+          </a>
+          <a
+            href="blank-lesson-6.html"
+            class="lesson-card"
+            style="--accent: var(--lavender)"
+            data-stage="6"
+          >
+            <img src="./images/index/lesson6.png" alt="" />
+            <h2 class="lesson-number">Lesson 8</h2>
+            <span class="lesson-subtitle"
+              >Evaluating and Communicating: Scientific Poster</span
+            >
           </a>
         </div>
-        <div class="arrow" data-stage="5" aria-hidden="true"></div>
-        <a
-          href="lesson5/lesson5.html"
-          class="lesson-card"
-          style="--accent: var(--yellow)"
-          data-stage="5"
-        >
-          <img src="./images/index/lesson5.png" alt="" />
-          <span class="lesson-number">Lesson 5</span>
-          <span class="lesson-subtitle">Scientific Drawings</span>
-        </a>
-        <div class="arrow" data-stage="6" aria-hidden="true"></div>
-        <a
-          href="blank-lesson-6.html"
-          class="lesson-card"
-          style="--accent: var(--lavender)"
-          data-stage="6"
-        >
-          <img src="./images/index/lesson6.png" alt="" />
-          <span class="lesson-number">Lesson 6</span>
-          <span class="lesson-subtitle"
-            >Evaluating and Communicating: Scientific Poster</span
-          >
-        </a>
-      </div>
+        <button
+          class="carousel-control carousel-control--next"
+          type="button"
+          aria-label="Show next lesson"
+        ></button>
+        <div
+          id="description"
+          aria-label="Description of the current lesson"
+        ></div>
+      </section>
+      <p class="carousel-status" aria-live="polite"></p>
     </main>
     <script>
-      // Lessons up to availableLesson are unlocked. Click the heading 5 times to unlock everything.
+      // ─────────────────────────────────────────────
+      // Carousel configuration
+      // ─────────────────────────────────────────────
+
+      // Lessons up to availableLesson are unlocked.
+      // Click the heading 5 times to unlock everything.
+
       const availableLesson = 5;
       let showAll = false;
+
+      const cards = [...document.querySelectorAll(".lesson-card")];
+
+      const carouselTrack = document.querySelector(".carousel-track");
+      const previousButton = document.querySelector(
+        ".carousel-control--previous",
+      );
+      const nextButton = document.querySelector(".carousel-control--next");
+      const status = document.querySelector(".carousel-status");
+
+      let currentIndex = 0;
+
+      // ─────────────────────────────────────────────
+      // Tilt configuration
+      // ─────────────────────────────────────────────
+
+      const MAX_ROTATION = 5; // Maximum rotation in degrees
+
+      const BASE_SCALE = 1.02; // Scale when hovering at the centre
+      const EXTRA_SCALE = 0.02; // Additional scale toward corners
+
+      const SMOOTHING = 0.15; // 0.08 - 0.15 feels good
+
+      const MAX_SHADOW_OFFSET = 10; // Maximum shadow offset in px
+      const BASE_SHADOW_BLUR = 10; // Minimum shadow blur in px
+      const EXTRA_SHADOW_BLUR = 10; // Additional blur toward corners
+
+      const SHADOW_OPACITY = 0.4;
+
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      // ─────────────────────────────────────────────
+      // Animation state
+      // ─────────────────────────────────────────────
+
+      const activeCards = new Set();
+
+      let animationRunning = false;
+
+      // ─────────────────────────────────────────────
+      // Initialise card objects
+      // ─────────────────────────────────────────────
+
+      const cardStates = cards.map((element) => ({
+        element,
+
+        // Hover state
+        hovered: false,
+
+        // Current rendered values
+        currentRotateX: 0,
+        currentRotateY: 0,
+        currentScale: 1,
+
+        currentShadowX: 0,
+        currentShadowY: 0,
+        currentShadowOpacity: 0,
+
+        // Target values
+        targetRotateX: 0,
+        targetRotateY: 0,
+        targetScale: 1,
+
+        targetShadowX: 0,
+        targetShadowY: 0,
+        targetShadowOpacity: 0,
+
+        // Normalized mouse position (-1 to 1)
+        dx: 0,
+        dy: 0,
+      }));
+
+      // ─────────────────────────────────────────────
+      // Lesson descriptions
+      // ─────────────────────────────────────────────
+
+      const lessonDescriptions = [
+        "Lesson 1 Description",
+        "Lesson 2 Description",
+        "Lesson 3 Description",
+        "Lesson 4 Description",
+        "Lesson 5 Description",
+        "Lesson 6 Description",
+        "Lesson 7 Description",
+        "Lesson 8 Description",
+      ];
+
+      // ─────────────────────────────────────────────
+      // Animation utilities
+      // ─────────────────────────────────────────────
+
+      function startAnimation() {
+        if (reduceMotion || animationRunning) return;
+
+        animationRunning = true;
+
+        requestAnimationFrame(animate);
+      }
+
+      function isSettled(card) {
+        const threshold = 0.001;
+
+        return (
+          Math.abs(card.targetRotateX - card.currentRotateX) < threshold &&
+          Math.abs(card.targetRotateY - card.currentRotateY) < threshold &&
+          Math.abs(card.targetScale - card.currentScale) < threshold &&
+          Math.abs(card.targetShadowX - card.currentShadowX) < threshold &&
+          Math.abs(card.targetShadowY - card.currentShadowY) < threshold &&
+          Math.abs(card.targetShadowOpacity - card.currentShadowOpacity) <
+            threshold
+        );
+      }
+
+      function updateCardStyles(card) {
+        const distance = Math.min(
+          Math.sqrt(card.dx * card.dx + card.dy * card.dy),
+          1,
+        );
+
+        const blur = BASE_SHADOW_BLUR + distance * EXTRA_SHADOW_BLUR;
+
+        // Update CSS custom properties.
+        // This preserves the carousel's own transform.
+
+        card.element.style.setProperty("--tilt-x", `${card.currentRotateX}deg`);
+
+        card.element.style.setProperty("--tilt-y", `${card.currentRotateY}deg`);
+
+        card.element.style.setProperty("--tilt-scale", card.currentScale);
+
+        // Shadow
+        card.element.style.setProperty(
+          "--tilt-shadow",
+          `
+            ${card.currentShadowX}px
+            ${card.currentShadowY}px
+            ${blur}px
+            rgba(0, 0, 0, ${card.currentShadowOpacity})
+        `,
+        );
+      }
+
+      // ─────────────────────────────────────────────
+      // Animation loop
+      // ─────────────────────────────────────────────
+
+      function animate() {
+        for (const card of activeCards) {
+          // ─────────────────────────────────────
+          // Rotation and scale
+          // ─────────────────────────────────────
+
+          card.currentRotateX +=
+            (card.targetRotateX - card.currentRotateX) * SMOOTHING;
+
+          card.currentRotateY +=
+            (card.targetRotateY - card.currentRotateY) * SMOOTHING;
+
+          card.currentScale +=
+            (card.targetScale - card.currentScale) * SMOOTHING;
+
+          // ─────────────────────────────────────
+          // Shadow interpolation
+          // ─────────────────────────────────────
+
+          card.currentShadowOpacity +=
+            (card.targetShadowOpacity - card.currentShadowOpacity) * SMOOTHING;
+
+          card.currentShadowX +=
+            (card.targetShadowX - card.currentShadowX) * SMOOTHING;
+
+          card.currentShadowY +=
+            (card.targetShadowY - card.currentShadowY) * SMOOTHING;
+
+          // Apply updated styles
+          updateCardStyles(card);
+
+          // ─────────────────────────────────────
+          // Check whether card has settled
+          // ─────────────────────────────────────
+
+          if (!card.hovered && isSettled(card)) {
+            // Snap to exact target values
+            card.currentRotateX = card.targetRotateX;
+            card.currentRotateY = card.targetRotateY;
+            card.currentScale = card.targetScale;
+
+            card.currentShadowX = card.targetShadowX;
+            card.currentShadowY = card.targetShadowY;
+            card.currentShadowOpacity = card.targetShadowOpacity;
+
+            updateCardStyles(card);
+
+            // No longer needs animation
+            activeCards.delete(card);
+          }
+        }
+
+        // Continue only while cards are active
+        if (activeCards.size > 0) {
+          requestAnimationFrame(animate);
+        } else {
+          animationRunning = false;
+        }
+      }
+
+      // ─────────────────────────────────────────────
+      // Reset tilt
+      // ─────────────────────────────────────────────
+
+      function resetTilt() {
+        cardStates.forEach((card) => {
+          card.hovered = false;
+
+          card.targetRotateX = 0;
+          card.targetRotateY = 0;
+          card.targetScale = 1;
+
+          card.targetShadowOpacity = 0;
+
+          // Preserve the last shadow position while it fades out.
+          // This prevents the shadow from jumping on mouseleave.
+
+          if (!reduceMotion) {
+            activeCards.add(card);
+          } else {
+            card.currentRotateX = 0;
+            card.currentRotateY = 0;
+            card.currentScale = 1;
+
+            card.currentShadowOpacity = 0;
+
+            updateCardStyles(card);
+          }
+        });
+
+        startAnimation();
+      }
+
+      // ─────────────────────────────────────────────
+      // Tilt event listeners
+      // ─────────────────────────────────────────────
+
+      cardStates.forEach((card, index) => {
+        const element = card.element;
+
+        element.addEventListener("mouseenter", () => {
+          // Only tilt the currently selected lesson
+          if (
+            index !== currentIndex ||
+            element.classList.contains("unavailable")
+          ) {
+            return;
+          }
+
+          card.hovered = true;
+
+          activeCards.add(card);
+
+          startAnimation();
+        });
+
+        element.addEventListener("mousemove", (event) => {
+          // Only tilt the currently selected lesson
+          if (
+            index !== currentIndex ||
+            element.classList.contains("unavailable")
+          ) {
+            return;
+          }
+
+          const rect = element.getBoundingClientRect();
+
+          // Mouse position normalised to -1..1
+
+          card.dx =
+            (event.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+
+          card.dy =
+            (event.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+
+          // Clamp values
+
+          card.dx = Math.max(-1, Math.min(1, card.dx));
+          card.dy = Math.max(-1, Math.min(1, card.dy));
+
+          // ─────────────────────────────────────
+          // Rotation
+          // ─────────────────────────────────────
+
+          card.targetRotateY = card.dx * MAX_ROTATION;
+          card.targetRotateX = -card.dy * MAX_ROTATION;
+
+          // ─────────────────────────────────────
+          // Scale
+          // ─────────────────────────────────────
+
+          const distance = Math.min(
+            Math.sqrt(card.dx * card.dx + card.dy * card.dy),
+            1,
+          );
+
+          card.targetScale = BASE_SCALE + distance * EXTRA_SCALE;
+
+          // ─────────────────────────────────────
+          // Shadow
+          // ─────────────────────────────────────
+
+          card.targetShadowOpacity = SHADOW_OPACITY;
+
+          card.targetShadowX = -card.dx * MAX_SHADOW_OFFSET;
+          card.targetShadowY = card.dy * MAX_SHADOW_OFFSET;
+
+          activeCards.add(card);
+
+          startAnimation();
+        });
+
+        element.addEventListener("mouseleave", () => {
+          card.hovered = false;
+
+          // Return to original position
+          card.targetRotateX = 0;
+          card.targetRotateY = 0;
+          card.targetScale = 1;
+
+          // Fade shadow out
+          card.targetShadowOpacity = 0;
+
+          // Keep animating until the card settles
+          activeCards.add(card);
+
+          startAnimation();
+        });
+      });
+
+      // ─────────────────────────────────────────────
+      // Carousel functionality
+      // ─────────────────────────────────────────────
 
       function updateVisibility() {
         document.querySelectorAll("[data-stage]").forEach((item) => {
@@ -256,14 +816,109 @@
             "unavailable",
             !showAll && Number(item.dataset.stage) > availableLesson,
           );
+
+          item.setAttribute(
+            "aria-disabled",
+            String(item.classList.contains("unavailable")),
+          );
         });
       }
+
+      function showDescription(index) {
+        const description = document.getElementById("description");
+
+        description.innerHTML = "";
+
+        const heading = document.createElement("h2");
+        const content = document.createElement("p");
+
+        description.appendChild(heading);
+        description.appendChild(content);
+
+        heading.textContent = `Lesson ${index + 1}`;
+        content.textContent = lessonDescriptions[index];
+      }
+
+      function showLesson(index) {
+        // Reset any active tilt before changing lessons
+        resetTilt();
+
+        currentIndex = Math.max(0, Math.min(index, cards.length - 1));
+
+        cards.forEach((card, cardIndex) => {
+          const offset = cardIndex - currentIndex;
+
+          card.classList.toggle("is-current", offset === 0);
+          card.classList.toggle("is-previous", offset === -1);
+          card.classList.toggle("is-next", offset === 1);
+          card.classList.toggle("is-hidden", Math.abs(offset) > 1);
+
+          card.tabIndex = Math.abs(offset) <= 1 ? 0 : -1;
+
+          card.setAttribute("aria-hidden", String(Math.abs(offset) > 1));
+
+          if (offset === 0) {
+            card.setAttribute("aria-current", "true");
+          } else {
+            card.removeAttribute("aria-current");
+          }
+        });
+
+        previousButton.disabled = currentIndex === 0;
+        nextButton.disabled = currentIndex === cards.length - 1;
+
+        status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
+
+        showDescription(currentIndex);
+      }
+
+      // ─────────────────────────────────────────────
+      // Carousel controls
+      // ─────────────────────────────────────────────
+
+      previousButton.addEventListener("click", () => {
+        showLesson(currentIndex - 1);
+      });
+
+      nextButton.addEventListener("click", () => {
+        showLesson(currentIndex + 1);
+      });
+
+      // ─────────────────────────────────────────────
+      // Card click behaviour
+      // ─────────────────────────────────────────────
+
+      cards.forEach((card, index) => {
+        card.addEventListener("click", (event) => {
+          if (
+            index !== currentIndex ||
+            card.classList.contains("unavailable")
+          ) {
+            event.preventDefault();
+
+            showLesson(index);
+          }
+        });
+      });
+
+      // ─────────────────────────────────────────────
+      // Initialise carousel
+      // ─────────────────────────────────────────────
+
       updateVisibility();
 
+      showLesson(currentIndex);
+
+      // ─────────────────────────────────────────────
+      // Unlock all lessons
+      // ─────────────────────────────────────────────
+
       let heroClicks = 0;
+
       document.getElementById("hero").addEventListener("click", () => {
         if (!showAll && ++heroClicks >= 5) {
           showAll = true;
+
           updateVisibility();
         }
       });
