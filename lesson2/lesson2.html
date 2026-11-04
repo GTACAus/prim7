@@ -1928,14 +1928,15 @@ function initialiseBallPairActivity() {
       }
     }
 
-    /* Placeholder so the shared PDF function can safely call it.
-       Add localStorage saving here when Lesson 2 interactions are built. */
     function saveCurrentPageData() {
-      console.log("Lesson 2 skeleton: no saved activity data yet.");
+      if (typeof window.saveLessonProgress === "function") {
+        window.saveLessonProgress();
+      }
     }
 
     /* Called from inline handlers / shared scripts, which cannot see module scope. */
     Object.assign(window, { resetQuestionAndPrediction, saveCurrentPageData });
   </script>
+  <script type="module" src="../scripts/lesson_progress.js"></script>
 </body>
 </html>

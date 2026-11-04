@@ -163,6 +163,96 @@ PlotPointsActivity.prototype.reset = function () {
   this.setComplete(false);
 };
 
+PlotPointsActivity.prototype.getProgressState = function () {
+  return {
+    stage: this.stage,
+    built: Array.from(this.built),
+    selectedIndex: this.selectedIndex,
+    selectedY: this.selectedY,
+  };
+};
+
+PlotPointsActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved || !Array.isArray(saved.built)) return;
+
+  this.reset();
+  var validBuilt = saved.built.filter(
+    function (index) {
+      return Number.isInteger(index) && index >= 0 && index < this.items.length;
+    }.bind(this),
+  );
+  var prefix = this.prefix;
+  validBuilt.forEach(
+    function (index) {
+      var value = this.targets[index];
+      var y = this.graph.y(value);
+      var bar = this.root.querySelector(
+        "[data-" + prefix + "-bar='" + index + "']",
+      );
+      var label = this.root.querySelector(
+        "[data-" + prefix + "-value-label='" + index + "']",
+      );
+      var category = this.root.querySelector(
+        "[data-" + prefix + "-x-index='" + index + "']",
+      );
+
+      if (bar) {
+        bar.setAttribute("y", y);
+        bar.setAttribute("height", this.plot.bottom - y);
+        bar.classList.add("visible");
+      }
+      if (label) label.classList.add("visible");
+      if (category) category.classList.add("complete");
+      this.built.add(index);
+    }.bind(this),
+  );
+
+  var selectedIndex =
+    Number.isInteger(saved.selectedIndex) &&
+    saved.selectedIndex >= 0 &&
+    saved.selectedIndex < this.items.length &&
+    !this.built.has(saved.selectedIndex)
+      ? saved.selectedIndex
+      : null;
+  if (selectedIndex !== null && this.stage === "category") {
+    this._chooseCategory(selectedIndex);
+    if (
+      saved.selectedY !== null &&
+      saved.selectedY !== undefined &&
+      Number.isFinite(Number(saved.selectedY))
+    ) {
+      this._chooseY(Number(saved.selectedY));
+    }
+  }
+
+  if (this.built.size === this.items.length) {
+    this.stage = "complete";
+    this.setComplete(true);
+    return;
+  }
+
+  if (
+    saved.stage === "intersection" ||
+    saved.stage === "animating" ||
+    saved.stage === "y"
+  ) {
+    if (selectedIndex !== null && this.stage === "category") {
+      this._chooseCategory(selectedIndex);
+    }
+    if (
+      selectedIndex !== null &&
+      saved.stage === "intersection" &&
+      saved.selectedY !== null &&
+      saved.selectedY !== undefined &&
+      Number.isFinite(Number(saved.selectedY))
+    ) {
+      this._chooseY(Number(saved.selectedY));
+    }
+  }
+
+  this.setComplete(false);
+};
+
 /* ---------- internals ---------- */
 
 PlotPointsActivity.prototype._feedback = function (type, title, text) {
@@ -727,6 +817,73 @@ LinePlotActivity.prototype.reset = function () {
   this._backToWaiting();
   this._recheck();
   this.setComplete(false);
+};
+
+LinePlotActivity.prototype.getProgressState = function () {
+  return {
+    stage: this.stage,
+    seriesIndex: this.seriesIndex,
+    plotIndex: this.plotIndex,
+    plotted: this.plotted.slice(),
+    connected: this.connected.map(function (order) {
+      return order.slice();
+    }),
+    activeX: this.svg.querySelector("[data-lp-x].active")?.dataset.lpX || null,
+    activeY: this.svg.querySelector("[data-lp-y].active")?.dataset.lpY || null,
+  };
+};
+
+LinePlotActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved || !Array.isArray(saved.plotted) || !Array.isArray(saved.connected))
+    return;
+
+  this._backToWaiting();
+  if (saved.stage === "waiting") return;
+  if (this.stage === "waiting") return;
+
+  this._start();
+  for (var seriesIndex = 0; seriesIndex < this.series.length; seriesIndex++) {
+    if (this.seriesIndex !== seriesIndex) break;
+
+    var plotted = Math.min(
+      this.series[seriesIndex].points.length,
+      Math.max(0, Number(saved.plotted[seriesIndex]) || 0),
+    );
+    while (this.plotIndex < plotted) {
+      this._plotPoint();
+    }
+
+    var order = Array.isArray(saved.connected[seriesIndex])
+      ? saved.connected[seriesIndex]
+      : [];
+    order.forEach(
+      function (index) {
+        var point = this.series[seriesIndex].layer.querySelectorAll(
+          ".linegraph-point",
+        )[index];
+        if (point) this._connect(index, point);
+      }.bind(this),
+    );
+  }
+
+  if (
+    this.guided &&
+    this.seriesIndex === saved.seriesIndex &&
+    (saved.stage === "y" || saved.stage === "intersection")
+  ) {
+    var xGroup = this.svg.querySelector(
+      '[data-lp-x="' + this.series[this.seriesIndex].points[this.plotIndex].x + '"]',
+    );
+    if (xGroup) this._chooseX(Number(xGroup.dataset.lpX), xGroup);
+    if (saved.stage === "intersection") {
+      var yGroup = this.svg.querySelector(
+        '[data-lp-y="' +
+          this.series[this.seriesIndex].points[this.plotIndex].y +
+          '"]',
+      );
+      if (yGroup) this._chooseY(Number(yGroup.dataset.lpY), yGroup);
+    }
+  }
 };
 
 /* ---------- internals ---------- */

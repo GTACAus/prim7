@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      Lesson 3 Part B - Using a Table to Record Data for a Fair Test
+      Lesson 3 - Tables in a Ball Bounce Experiment
     </title>
 
     <link
@@ -38,14 +38,6 @@
           <p>Home</p>
         </button>
 
-        <button
-          id="back-to-part1-button"
-          class="general-button"
-          onclick="window.location.href = 'lesson3.html'"
-        >
-          <p class="bounce-symbol">←</p>
-          <p>Part A</p>
-        </button>
         <button class="general-button glossary-button" onclick="openGlossary()">
           <p class="bounce-symbol">📖</p>
           <p>Vocabulary</p>
@@ -62,7 +54,7 @@
         <div class="modal-header">
           <div>
             <p class="teacher-label">
-              Lesson 3 Part B: Using a Table to Record Data for a Fair Test
+              Lesson 3: Tables
             </p>
             <h2>Glossary Terms</h2>
           </div>
@@ -173,12 +165,13 @@
     <main class="page lesson3-page">
       <header class="lesson-intro lesson3-intro">
         <div class="lesson-heading">
-          <span class="lesson-label">Lesson 3 &middot; Part B</span>
+          <span class="lesson-label">Lesson 3</span>
           <h1 id="teacherTrigger">
-            Using a Table to Record Data for a Fair Test - Part B
+            Tables in a Ball Bounce Experiment
           </h1>
           <p class="lesson-summary">
-            Practice what you have learned by doing a ball bounce experiment
+            Investigate a ball-bounce experiment and record your results in a
+            table.
           </p>
 
           <a
@@ -195,10 +188,11 @@
       <section
         class="intro-card objectives-card objectives-card-wide practice-plan-card"
       >
-        <p class="intro-eyebrow">Put it into practice</p>
+        <p class="intro-eyebrow">Ball-bounce investigation</p>
 
         <h2>
-          Practice what you have learned by doing a ball-bounce experiment
+          Plan a fair test, collect results and use a table to explore how high
+          a ball bounces.
         </h2>
 
         <div class="practice-plan">
@@ -1645,17 +1639,8 @@
         },
       ];
 
-      const teacherBackLink = {
-        label: "← Back to Part A",
-        href: "lesson3.html",
-      };
-
       document.addEventListener("DOMContentLoaded", function () {
-        initialiseTeacherMenu(
-          sectionIds,
-          "build-your-own-table",
-          teacherBackLink,
-        );
+        initialiseTeacherMenu(sectionIds, "build-your-own-table");
 
         initialiseTableEntries();
         initialiseBallBounceVariables();

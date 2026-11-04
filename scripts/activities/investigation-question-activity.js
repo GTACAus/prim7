@@ -116,6 +116,29 @@ InvestigationQuestionActivity.prototype.getState = function () {
   };
 };
 
+InvestigationQuestionActivity.prototype.getProgressState = function () {
+  return {
+    structure: this.state.structure,
+    firstAnswer: this.state.firstAnswer,
+    secondAnswer: this.state.secondAnswer,
+  };
+};
+
+InvestigationQuestionActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved || !this.templates[saved.structure]) return;
+
+  this._selectStructure(saved.structure);
+  var inputs = this.builder.querySelectorAll(".question-blank-input");
+  [saved.firstAnswer, saved.secondAnswer].forEach(function (answer, index) {
+    if (!answer || !inputs[index]) return;
+
+    inputs[index].value = answer;
+    inputs[index].dispatchEvent(
+      new Event(inputs[index].tagName === "SELECT" ? "change" : "blur"),
+    );
+  });
+};
+
 InvestigationQuestionActivity.prototype.reset = function () {
   this.state = { structure: "", firstAnswer: "", secondAnswer: "" };
 

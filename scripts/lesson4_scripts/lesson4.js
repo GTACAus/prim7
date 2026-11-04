@@ -1433,14 +1433,44 @@
     { id: "bar-compare", label: "Part D: Compare Site 1 and Site 2" },
   ];
 
-  const teacherBackLink = {
-    label: "← To Part B",
-    href: "lesson4-2.html",
+  window.getLessonProgressState = function () {
+    return {
+      partB: {
+        stage: partBStage,
+        axes: Object.assign({}, partBAxisValues),
+      },
+      partC: {
+        stage: partCStage,
+        axes: Object.assign({}, partCAxisValues),
+      },
+    };
+  };
+
+  window.restoreLessonProgressState = function (saved) {
+    if (!saved) return;
+    if (saved.partB) {
+      if (typeof saved.partB.stage === "string") {
+        partBStage = saved.partB.stage;
+      }
+      if (saved.partB.axes) {
+        partBAxisValues.x = saved.partB.axes.x || null;
+        partBAxisValues.y = saved.partB.axes.y || null;
+      }
+    }
+    if (saved.partC) {
+      if (typeof saved.partC.stage === "string") {
+        partCStage = saved.partC.stage;
+      }
+      if (saved.partC.axes) {
+        partCAxisValues.x = saved.partC.axes.x || null;
+        partCAxisValues.y = saved.partC.axes.y || null;
+      }
+    }
   };
 
   document.addEventListener("DOMContentLoaded", function () {
     if (typeof initialiseTeacherMenu === "function") {
-      initialiseTeacherMenu(lesson4SectionIds, "bar-practice", teacherBackLink);
+      initialiseTeacherMenu(lesson4SectionIds, "bar-practice");
     }
 
     if (DEV_MODE && typeof teacherShowAll === "function") {

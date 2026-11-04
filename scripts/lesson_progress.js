@@ -64,6 +64,54 @@ import { Activity } from "./activities/activity-base.js";
   let pendingAnswers = [];
   let reapplySavedState = null;
 
+  function progressActivities() {
+    return Activity.all().filter(function (activity) {
+      return (
+        typeof activity.getProgressState === "function" &&
+        typeof activity.restoreProgressState === "function" &&
+        activity.root.id &&
+        activity.root.isConnected
+      );
+    });
+  }
+
+  function collectActivityStates() {
+    const result = {};
+
+    progressActivities().forEach(function (activity) {
+      result[activity.root.id] = activity.getProgressState();
+    });
+
+    return result;
+  }
+
+  function collectPageState() {
+    return typeof window.getLessonProgressState === "function"
+      ? window.getLessonProgressState()
+      : null;
+  }
+
+  function restorePageState(saved) {
+    if (
+      saved !== null &&
+      typeof window.restoreLessonProgressState === "function"
+    ) {
+      window.restoreLessonProgressState(saved);
+    }
+  }
+
+  function restoreActivityStates(saved) {
+    if (!saved) {
+      return;
+    }
+
+    progressActivities().forEach(function (activity) {
+      if (Object.prototype.hasOwnProperty.call(saved, activity.root.id)) {
+        activity.restoreProgressState(saved[activity.root.id]);
+      }
+    });
+  }
+
   document.addEventListener("language-filter-ready", function () {
     languageFilterReady = true;
 
@@ -114,6 +162,9 @@ import { Activity } from "./activities/activity-base.js";
   function describe(element) {
     const entry = {
       h: element.hidden ? 1 : 0,
+      attrs: Array.prototype.map.call(element.attributes, function (attribute) {
+        return [attribute.name, attribute.value];
+      }),
     };
 
     const className = readClassName(element);
@@ -133,6 +184,14 @@ import { Activity } from "./activities/activity-base.js";
 
     if (isFormField(element)) {
       entry.v = element.value;
+    }
+
+    if ("checked" in element) {
+      entry.checked = element.checked ? 1 : 0;
+    }
+
+    if (element.children.length === 0 && element.tagName !== "INPUT") {
+      entry.t = element.textContent;
     }
 
     if (!element.classList) {
@@ -166,7 +225,9 @@ import { Activity } from "./activities/activity-base.js";
       current.s !== base.s ||
       current.v !== base.v ||
       current.d !== base.d ||
+      current.checked !== base.checked ||
       current.t !== base.t ||
+      JSON.stringify(current.attrs) !== JSON.stringify(base.attrs) ||
       current.a !== base.a ||
       current.answer !== base.answer ||
       current.average !== base.average
@@ -285,6 +346,8 @@ import { Activity } from "./activities/activity-base.js";
     const payload = {
       dragDrop: collectDragDrop(),
       inputResponses: collectInputResponses(),
+      activityStates: collectActivityStates(),
+      pageState: collectPageState(),
 
       /*
         A page whose markup has changed cannot safely be
@@ -298,7 +361,7 @@ import { Activity } from "./activities/activity-base.js";
     try {
       window.localStorage.setItem(storageKey(), JSON.stringify(payload));
     } catch (error) {
-      /* A full or blocked store just means no saving. */
+      console.warn("Could not save lesson progress.", error);
     }
   }
 
@@ -308,6 +371,20 @@ import { Activity } from "./activities/activity-base.js";
   }
 
   function apply(element, entry) {
+    if (Array.isArray(entry.attrs)) {
+      const savedAttributes = new Map(entry.attrs);
+
+      Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
+        if (!savedAttributes.has(attribute.name)) {
+          element.removeAttribute(attribute.name);
+        }
+      });
+
+      savedAttributes.forEach(function (value, name) {
+        element.setAttribute(name, value);
+      });
+    }
+
     if (typeof entry.c === "string") {
       element.className = entry.c;
     }
@@ -320,6 +397,10 @@ import { Activity } from "./activities/activity-base.js";
 
     if (isFormField(element) && typeof entry.v === "string") {
       element.value = entry.v;
+    }
+
+    if (typeof entry.checked === "number" && "checked" in element) {
+      element.checked = entry.checked === 1;
     }
 
     if (typeof entry.d === "number" && "disabled" in element) {
@@ -396,6 +477,7 @@ import { Activity } from "./activities/activity-base.js";
     try {
       stored = window.localStorage.getItem(storageKey());
     } catch (error) {
+      console.warn("Could not load lesson progress.", error);
       return;
     }
 
@@ -428,6 +510,10 @@ import { Activity } from "./activities/activity-base.js";
           apply(element, payload.changes[key]);
         }
       });
+
+      Activity.all().forEach(function (activity) {
+        activity.setComplete(activity.isComplete());
+      });
     }
 
     Object.keys(payload.changes).forEach(function (key) {
@@ -454,6 +540,7 @@ import { Activity } from "./activities/activity-base.js";
     restoreInputResponses(payload.inputResponses);
 
     applyAll();
+    restoreActivityStates(payload.activityStates);
 
     /*
       Replaying is done last, once every value is back in
@@ -476,6 +563,7 @@ import { Activity } from "./activities/activity-base.js";
       settles the page on how it actually looked.
     */
     applyAll();
+    restorePageState(payload.pageState);
 
     replaying = false;
   }
@@ -493,7 +581,7 @@ import { Activity } from "./activities/activity-base.js";
     try {
       window.localStorage.removeItem(storageKey());
     } catch (error) {
-      /* Nothing to do. */
+      console.warn("Could not clear lesson progress.", error);
     }
   }
 
@@ -529,6 +617,7 @@ import { Activity } from "./activities/activity-base.js";
     document.addEventListener("input", queueSave, true);
     document.addEventListener("change", queueSave, true);
     document.addEventListener("click", queueSave, true);
+    document.addEventListener("activity:change", queueSave, true);
     document.addEventListener("drop", queueSave, true);
     document.addEventListener("dd:change", queueSave, true);
     document.addEventListener("ir:change", queueSave, true);
@@ -552,5 +641,9 @@ import { Activity } from "./activities/activity-base.js";
   /* Used by the teacher menu's "Reset student view". */
   window.clearLessonProgress = function () {
     clearProgress();
+  };
+  window.saveLessonProgress = function () {
+    queueSave();
+    save();
   };
 })();

@@ -167,6 +167,92 @@ VariableSortActivity.prototype.reset = function () {
   this.setComplete(false);
 };
 
+VariableSortActivity.prototype.getProgressState = function () {
+  return {
+    selectedMode: this.selectedMode,
+    classifications: Array.prototype.map
+      .call(this.tiles, function (tile) {
+        return {
+          id: tile.dataset.sortTile,
+          role: ["independent", "dependent", "controlled"].find(function (
+            role,
+          ) {
+            return tile.classList.contains("is-" + role);
+          }),
+        };
+      })
+      .filter(function (entry) {
+        return Boolean(entry.role);
+      }),
+  };
+};
+
+VariableSortActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved || !Array.isArray(saved.classifications)) return;
+
+  this.reset();
+  var self = this;
+  saved.classifications.forEach(function (entry) {
+    var tile = self._tileFor(entry.id);
+    if (
+      !tile ||
+      ["independent", "dependent", "controlled"].indexOf(entry.role) === -1
+    ) {
+      return;
+    }
+
+    var label =
+      entry.role.charAt(0).toUpperCase() + entry.role.slice(1) + " variable";
+    self._classify(tile, entry.role, label);
+    if (entry.role === "independent") self.independentComplete = true;
+    if (entry.role === "dependent") self.dependentComplete = true;
+  });
+
+  if (this.independentComplete) this._finishMode("independent");
+  if (this.dependentComplete) this._finishMode("dependent");
+
+  var controlledButton = this.root.querySelector(
+    '[data-sort-mode="controlled"]',
+  );
+  var controlledDone = this.isFixed
+    ? this.answers.controlled.every(function (name) {
+        var tile = self._tileFor(name);
+        return tile && tile.classList.contains("is-controlled");
+      })
+    : this.openOptions.controlled.every(function (name) {
+        var tile = self._tileFor(name);
+        return (
+          tile &&
+          (tile.classList.contains("is-independent") ||
+            tile.classList.contains("is-controlled"))
+        );
+      });
+
+  if (controlledDone && controlledButton) {
+    controlledButton.classList.add("mode-complete");
+    controlledButton.disabled = true;
+  }
+
+  this._showMessage(this.messages.defaultMessage);
+  if (this.isComplete()) {
+    this._checkComplete();
+  } else if (saved.selectedMode) {
+    this._setMode(saved.selectedMode);
+  } else if (
+    saved.classifications.some(function (entry) {
+      return entry.role === "controlled";
+    })
+  ) {
+    this._showMessage(this.messages.controlledMore, "feedback-success");
+  } else if (this.dependentComplete) {
+    this._showMessage(this.messages.dependentSuccess, "feedback-success");
+  } else if (this.independentComplete) {
+    this._showMessage(this.messages.independentSuccess, "feedback-success");
+  }
+
+  this.setComplete(this.isComplete());
+};
+
 /* ---------- mode selection ---------- */
 
 VariableSortActivity.prototype._setMode = function (mode) {

@@ -128,6 +128,56 @@ FlashcardsActivity.prototype.reset = function () {
   this._startDeck();
 };
 
+FlashcardsActivity.prototype.getProgressState = function () {
+  return {
+    deck: this.deck.map(
+      function (question) {
+        return this.allQuestions.indexOf(question);
+      }.bind(this),
+    ),
+    index: this.index,
+    started: this.hasStarted,
+  };
+};
+
+FlashcardsActivity.prototype.restoreProgressState = function (saved) {
+  if (!saved || !Array.isArray(saved.deck)) return;
+
+  var deck = saved.deck.map(
+    function (index) {
+      return this.allQuestions[index];
+    }.bind(this),
+  );
+  if (
+    deck.length !== this.allQuestions.length ||
+    deck.some(function (question) {
+      return !question;
+    })
+  ) {
+    console.warn("Could not restore the saved flashcard deck.");
+    return;
+  }
+
+  this.deck = deck;
+  this.index = Math.min(
+    Math.max(Number(saved.index) || 0, 0),
+    this.deck.length,
+  );
+  this.counted = { left: 0, right: 0 };
+  this.hasStarted = Boolean(saved.started);
+  this.inputLocked = false;
+
+  if (this.piles.left) this.piles.left.innerHTML = "";
+  if (this.piles.right) this.piles.right.innerHTML = "";
+  for (var index = 0; index < this.index; index++) {
+    this._addToPile(this.deck[index].answer, this.deck[index].text);
+  }
+
+  var resetTrigger = this.root.querySelector("[data-reset-trigger]");
+  if (resetTrigger) resetTrigger.classList.toggle("hidden", !this.hasStarted);
+  this._showCard();
+};
+
 /* ---------- internals ---------- */
 
 FlashcardsActivity.prototype._startDeck = function () {

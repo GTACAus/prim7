@@ -33,7 +33,7 @@
       href="../styles/lesson1_styles/lesson1.css"
       rel="stylesheet"
       type="text/css"
-    />
+    />Okay
     <link
       href="../styles/lesson1_styles/flashcards.css"
       rel="stylesheet"
@@ -1970,7 +1970,7 @@
             Add one new question card
             ---------------------------------------- */
 
-      function addQuestionCard(questionStructure) {
+      function addQuestionCard(questionStructure, restoring) {
         const placeholder = selectedQuestionTemplate.querySelector(
           ".template-placeholder",
         );
@@ -2058,14 +2058,18 @@
           ".question-template-input",
         );
 
-        if (firstInput) {
+        if (firstInput && !restoring) {
           firstInput.focus();
         }
 
-        questionCard.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-        });
+        if (!restoring) {
+          questionCard.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        }
+
+        return questionCard;
       }
 
       /* ----------------------------------------
@@ -2132,6 +2136,9 @@
         const measuredValue = measuredAnswer
           .querySelector(".submitted-question-part-text")
           .textContent.trim();
+
+        questionCard.dataset.savedChanged = changedValue;
+        questionCard.dataset.savedMeasured = measuredValue;
 
         const sentence = questionCard.querySelector(
           ".question-template-sentence",
@@ -2311,8 +2318,162 @@
           spinQuestionWheelButton.disabled = false;
 
           wheelIsSpinning = false;
+          if (typeof window.saveLessonProgress === "function") {
+            window.saveLessonProgress();
+          }
         }, 3250);
       });
+
+      window.getLessonProgressState = function () {
+        return {
+          wheelRotation: currentWheelRotation,
+          wheelResult: wheelIsSpinning
+            ? "Spin the wheel to receive a question structure."
+            : wheelResult.textContent,
+          cards: Array.from(
+            selectedQuestionTemplate.querySelectorAll(".wheel-question-card"),
+          ).map(function (card) {
+            const values = {};
+            ["changed", "measured"].forEach(function (part) {
+              const submitted = card.querySelector(
+                '.submitted-question-part[data-question-part="' + part + '"]',
+              );
+              const input = card.querySelector(
+                '.question-template-input[data-question-part="' + part + '"]',
+              );
+              values[part] = {
+                text: card.classList.contains("saved")
+                  ? card.dataset[
+                      part === "changed" ? "savedChanged" : "savedMeasured"
+                    ] || ""
+                  : submitted
+                    ? submitted.querySelector(
+                        ".submitted-question-part-text",
+                      ).textContent
+                    : input
+                      ? input.value
+                      : "",
+                submitted:
+                  card.classList.contains("saved") || Boolean(submitted),
+              };
+            });
+
+            return {
+              starter: card.dataset.questionStarter,
+              saved: card.classList.contains("saved"),
+              values: values,
+              checks: {
+                changed: Boolean(
+                  card.querySelector('[data-check="changed"]')?.checked,
+                ) || card.classList.contains("saved"),
+                measured: Boolean(
+                  card.querySelector('[data-check="measured"]')?.checked,
+                ) || card.classList.contains("saved"),
+              },
+              message:
+                card.querySelector(".wheel-question-message")?.textContent ||
+                "",
+              messageVisible: Boolean(
+                card
+                  .querySelector(".wheel-question-message")
+                  ?.classList.contains("visible"),
+              ),
+            };
+          }),
+        };
+      };
+
+      window.restoreLessonProgressState = function (saved) {
+        if (!saved || !Array.isArray(saved.cards)) return;
+
+        resetWheel();
+        wheelIsSpinning = false;
+        currentWheelRotation = Number(saved.wheelRotation) || 0;
+        questionWheel.style.transform =
+          "rotate(" + currentWheelRotation + "deg)";
+
+        saved.cards.forEach(function (savedCard) {
+          const structure = questionStructures.find(function (item) {
+            return item.word === savedCard.starter;
+          });
+          if (!structure) return;
+
+          const card = addQuestionCard(structure, true);
+          ["changed", "measured"].forEach(function (part) {
+            const savedPart = savedCard.values && savedCard.values[part];
+            if (!savedPart) return;
+
+            const input = card.querySelector(
+              '.question-template-input[data-question-part="' + part + '"]',
+            );
+            if (input && savedPart.submitted && savedPart.text) {
+              const submitted = document.createElement("span");
+              submitted.className =
+                "submitted-variable submitted-question-part";
+              submitted.dataset.questionPart = part;
+              submitted.dataset.placeholder = input.placeholder;
+
+              const answerText = document.createElement("span");
+              answerText.className = "submitted-question-part-text";
+              answerText.textContent = savedPart.text;
+              submitted.appendChild(answerText);
+
+              const deleteButton = document.createElement("button");
+              deleteButton.type = "button";
+              deleteButton.className = "delete-answer submitted-part-delete";
+              deleteButton.textContent = "×";
+              deleteButton.setAttribute(
+                "aria-label",
+                "Delete " + savedPart.text,
+              );
+              deleteButton.addEventListener("click", function () {
+                restoreQuestionInput(submitted, card);
+              });
+
+              input.replaceWith(submitted);
+            } else if (input) {
+              input.value = savedPart.text || "";
+            }
+          });
+
+          ["changed", "measured"].forEach(function (part) {
+            const checkbox = card.querySelector('[data-check="' + part + '"]');
+            if (checkbox) {
+              checkbox.checked = Boolean(
+                savedCard.checks && savedCard.checks[part],
+              );
+            }
+          });
+
+          updateWheelQuestionCard(card);
+          const message = card.querySelector(".wheel-question-message");
+          if (message) {
+            message.textContent = savedCard.message || "";
+            message.classList.toggle(
+              "visible",
+              Boolean(savedCard.messageVisible),
+            );
+          }
+
+          if (
+            savedCard.saved &&
+            card.querySelectorAll(".submitted-question-part").length === 2
+          ) {
+            saveQuestionCard(card, structure);
+          }
+        });
+
+        wheelResult.textContent = saved.wheelResult || wheelResult.textContent;
+        const nextButton = document.getElementById(
+          "testableQuestionsNextButton",
+        );
+        if (nextButton) {
+          nextButton.hidden = usedQuestionStarters.size < 2;
+        }
+        spinQuestionWheelButton.disabled =
+          usedQuestionStarters.size === questionStructures.length;
+      };
     </script>
+    <script type="module" src="../scripts/lesson_progress.js"></script>
   </body>
 </html>
