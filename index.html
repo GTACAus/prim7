@@ -79,22 +79,59 @@
         grid-row: 1;
         width: 100%;
         perspective: 1200px;
+        touch-action: pan-y;
       }
       #description {
+        z-index: -1;
         grid-column: 1 / -1;
         grid-row: 2;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-align: center;
         max-width: 700px;
-        width: 100%;
         margin: 0 20px;
         padding: 20px;
         border: 2px solid var(--charcoal);
         background: white;
         box-shadow: var(--shadow-medium);
         border-radius: 20px;
+        width: 100%;
+      }
+      #description.is-transitioning {
+        --animation-length: 0.6s;
+        --bounce-amount: 20px;
+
+        animation: description-arrive var(--animation-length) ease both;
+      }
+      #description.is-transitioning * {
+        animation: description-content-fade var(--animation-length) ease both;
+      }
+      @keyframes description-content-fade {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      @keyframes description-arrive {
+        0% {
+          transform: translateY(-300px) scaleX(0.1);
+        }
+        50% {
+          transform: translateY(var(--bounce-amount)) scaleX(0.1);
+        }
+        75% {
+          transform: translateY(calc(-1 * var(--bounce-amount))) scaleX(1);
+        }
+        100% {
+          transform: translateY(0px);
+        }
       }
       #description h2,
       p {
@@ -103,6 +140,10 @@
       }
       #description h2 {
         margin-bottom: 25px;
+      }
+      #description p::before {
+        content: "Description: ";
+        font-weight: 700;
       }
       .lesson-card {
         position: absolute;
@@ -130,8 +171,11 @@
         text-align: center;
         text-decoration: none;
         text-transform: uppercase;
-        transform: translate(-50%, -50%) scale(0.86)
-          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+        transform: translate(-50%, -50%) scale(1);
+
+        rotate: var(--tilt-angle, 0deg);
+        scale: var(--tilt-scale, 1);
+
         transition:
           left 0.45s ease,
           opacity 0.45s ease,
@@ -177,8 +221,7 @@
         box-shadow:
           0 24px 54px rgb(0 0 0 / 40%),
           var(--tilt-shadow, 0 0 0 transparent);
-        transform: translate(-50%, -50%) scale(1) scale(var(--tilt-scale, 1))
-          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+        transform: translate(-50%, -50%) scale(1);
       }
       .lesson-card.is-current:not(.unavailable):hover {
         background: color-mix(in srgb, var(--accent) 20%, white 80%);
@@ -190,12 +233,23 @@
       .lesson-card.is-current img {
         opacity: 0.28;
       }
+      .carousel-track.is-swiping .lesson-card {
+        left: calc(50% + var(--swipe-x));
+        z-index: var(--swipe-z);
+        opacity: var(--swipe-opacity);
+        transform: translate(-50%, -50%) scale(var(--swipe-scale))
+          rotateY(var(--swipe-rotate));
+        transition: none;
+      }
       .lesson-card.is-previous,
       .lesson-card.is-next {
-        --rotate-amount: 30deg;
+        --scale-amount: 0.82;
         z-index: 1;
         cursor: pointer;
         opacity: 0.62;
+
+        transform: translate(-50%, -50%) scale(var(--scale-amount))
+          rotateY(var(--rotate-amount));
         transition:
           left 0.45s ease,
           opacity 0.45s ease,
@@ -204,41 +258,26 @@
           width 0.45s ease;
       }
       .lesson-card.is-previous {
+        --rotate-amount: calc(-1 * 30deg);
         left: max(0px, calc(50% - min(40vw, 460px)));
-        transform: translate(-50%, -50%) scale(0.82) scale(var(--tilt-scale, 1))
-          rotate3d(0, 1, 0, calc(-1 * var(--rotate-amount)))
-          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
       }
       .lesson-card.is-next {
+        --rotate-amount: 30deg;
         left: min(100%, calc(50% + min(40vw, 460px)));
-        transform: translate(-50%, -50%) scale(0.82) scale(var(--tilt-scale, 1))
-          rotate3d(0, 1, 0, var(--rotate-amount)) rotateX(var(--tilt-x, 0deg))
-          rotateY(var(--tilt-y, 0deg));
       }
       .lesson-card.is-previous:hover,
       .lesson-card.is-next:hover {
+        --scale-amount: 0.88;
         opacity: 0.88;
-      }
-      .lesson-card.is-previous:hover {
-        transform: translate(-50%, -50%) scale(0.88)
-          rotate3d(0, 1, 0, calc(-1 * var(--rotate-amount)))
-          rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-      }
-      .lesson-card.is-next:hover {
-        transform: translate(-50%, -50%) scale(0.88)
-          rotate3d(0, 1, 0, var(--rotate-amount)) rotateX(var(--tilt-x, 0deg))
-          rotateY(var(--tilt-y, 0deg));
       }
       .lesson-card.is-hidden {
         z-index: 0;
         opacity: 0;
         pointer-events: none;
-        transform: translate(-50%, -50%) scale(0.7) rotateX(var(--tilt-x, 0deg))
-          rotateY(var(--tilt-y, 0deg));
+        transform: translate(-50%, -50%) scale(1);
       }
       .lesson-card.unavailable {
         filter: grayscale(0.5);
-        opacity: 0.38;
       }
       .lesson-card.is-current.unavailable {
         opacity: 0.55;
@@ -347,6 +386,9 @@
           scroll-behavior: auto !important;
           transition-duration: 0.01ms !important;
         }
+        #description.is-transitioning {
+          animation-duration: 0.01ms;
+        }
       }
     </style>
   </head>
@@ -374,7 +416,9 @@
           >
             <img src="./images/index/lesson1.png" alt="" />
             <h2 class="lesson-number">Lesson 1</h2>
-            <span class="lesson-subtitle">Questioning and Predicting</span>
+            <span class="lesson-subtitle"
+              >Asking Scientific Questions & Making Predictions</span
+            >
           </a>
           <a
             href="lesson2/lesson2.html"
@@ -384,7 +428,7 @@
           >
             <img src="./images/index/lesson2.png" alt="" />
             <h2 class="lesson-number">Lesson 2</h2>
-            <span class="lesson-subtitle">Planning a Fair Test Experiment</span>
+            <span class="lesson-subtitle">Planning a Fair Test</span>
           </a>
           <a
             href="lesson3/lesson3.html"
@@ -395,18 +439,20 @@
             <img src="./images/index/lesson3.png" alt="" />
             <span class="lesson-number">Lesson 3</span>
             <span class="lesson-subtitle"
-              >Tables: Recording Fair-Test Data</span
+              >Organising Fair Test Data into a Table</span
             >
           </a>
           <a
             href="lesson3/lesson3-2.html"
             class="lesson-card"
-            style="--accent: var(--green)"
+            style="--accent: var(--purple)"
             data-stage="3"
           >
             <img src="./images/index/lesson3.png" alt="" />
-            <span class="lesson-number">Lesson 3</span>
-            <span class="lesson-subtitle">Tables: Ball Bounce Experiment</span>
+            <span class="lesson-number">Lesson 4</span>
+            <span class="lesson-subtitle"
+              >Science Inquiry Lab - Skills Check!</span
+            >
           </a>
           <a
             href="lesson4/lesson4.html"
@@ -415,8 +461,10 @@
             data-stage="4"
           >
             <img src="./images/index/lesson4.png" alt="" />
-            <span class="lesson-number">Lesson 4</span>
-            <span class="lesson-subtitle">Bar Graphs</span>
+            <span class="lesson-number">Lesson 5</span>
+            <span class="lesson-subtitle"
+              >Using Bar Graphs to Visualise Data</span
+            >
           </a>
           <a
             href="lesson4/lesson4-2.html"
@@ -425,8 +473,30 @@
             data-stage="4"
           >
             <img src="./images/index/lesson4.png" alt="" />
-            <span class="lesson-number">Lesson 4</span>
-            <span class="lesson-subtitle">Line Graphs</span>
+            <span class="lesson-number">Lesson 6</span>
+            <span class="lesson-subtitle"
+              >Using Line Graphs to Visualise Data</span
+            >
+          </a>
+          <a
+            href="lesson5/lesson5.html"
+            class="lesson-card"
+            style="--accent: var(--green)"
+            data-stage="5"
+          >
+            <img src="./images/index/lesson4.png" alt="" />
+            <span class="lesson-number">Lesson 7</span>
+            <span class="lesson-subtitle">Drawing Scientific Diagrams</span>
+          </a>
+          <a
+            href="lesson6/lesson6.html"
+            class="lesson-card"
+            style="--accent: var(--green)"
+            data-stage="6"
+          >
+            <img src="./images/index/lesson4.png" alt="" />
+            <span class="lesson-number">Lesson 8</span>
+            <span class="lesson-subtitle">Communicating Science</span>
           </a>
         </div>
         <button
@@ -467,10 +537,10 @@
       // Tilt configuration
       // ─────────────────────────────────────────────
 
-      const MAX_ROTATION = 5; // Maximum rotation in degrees
+      const MAX_ROTATION = 3; // Maximum rotation in degrees
 
-      const BASE_SCALE = 1.02; // Scale when hovering at the centre
-      const EXTRA_SCALE = 0.02; // Additional scale toward corners
+      const BASE_SCALE = 1.05; // Scale when hovering at the centre
+      const EXTRA_SCALE = 0.01; // Additional scale toward corners
 
       const SMOOTHING = 0.15; // 0.08 - 0.15 feels good
 
@@ -530,14 +600,14 @@
       // ─────────────────────────────────────────────
 
       const lessonDescriptions = [
-        "Lesson 1 Description",
-        "Lesson 2 Description",
-        "Lesson 3 Description",
-        "Lesson 4 Description",
-        "Lesson 5 Description",
-        "Lesson 6 Description",
-        "Lesson 7 Description",
-        "Lesson 8 Description",
+        "Use what you know about the world to ask questions and make predictions.",
+        "Learn how to plan a fair test and represent it as a diagram.",
+        "Collect data from a fair test and learn how to organize it into a table.",
+        "Apply what you have learned in lessons 1,2 and 3. Plan a fair test and record results in a table.",
+        "Learn how to convert data into a bar graph to help analyse results.",
+        "Learn how to convert data into a line graph to help analyse results.",
+        "Learn how to represent experiments as a diagram and observations as scientific drawings.",
+        "Learn how to report on a fair test using a scientific poster or scientific report.",
       ];
 
       // ─────────────────────────────────────────────
@@ -574,12 +644,18 @@
 
         const blur = BASE_SHADOW_BLUR + distance * EXTRA_SHADOW_BLUR;
 
-        // Update CSS custom properties.
-        // This preserves the carousel's own transform.
+        const x = card.currentRotateX;
+        const y = card.currentRotateY;
 
-        card.element.style.setProperty("--tilt-x", `${card.currentRotateX}deg`);
+        const angle = Math.hypot(x, y);
 
-        card.element.style.setProperty("--tilt-y", `${card.currentRotateY}deg`);
+        const axisX = angle > 0.0001 ? x / angle : 1;
+        const axisY = angle > 0.0001 ? y / angle : 0;
+
+        card.element.style.setProperty(
+          "--tilt-angle",
+          `${axisX} ${axisY} 0 ${angle}deg`,
+        );
 
         card.element.style.setProperty("--tilt-scale", card.currentScale);
 
@@ -793,6 +869,14 @@
       // Carousel functionality
       // ─────────────────────────────────────────────
 
+      const description = document.getElementById("description");
+
+      description.addEventListener("animationend", (event) => {
+        if (event.animationName === "description-arrive") {
+          description.classList.remove("is-transitioning");
+        }
+      });
+
       function updateVisibility() {
         document.querySelectorAll("[data-stage]").forEach((item) => {
           item.classList.toggle(
@@ -807,9 +891,7 @@
         });
       }
 
-      function showDescription(index) {
-        const description = document.getElementById("description");
-
+      function showDescription(index, animate = false) {
         description.innerHTML = "";
 
         const heading = document.createElement("h2");
@@ -820,9 +902,15 @@
 
         heading.textContent = `Lesson ${index + 1}`;
         content.textContent = lessonDescriptions[index];
+
+        if (animate && !reduceMotion) {
+          description.classList.remove("is-transitioning");
+          void description.offsetWidth;
+          description.classList.add("is-transitioning");
+        }
       }
 
-      function showLesson(index) {
+      function showLesson(index, animate = false) {
         // Reset any active tilt before changing lessons
         resetTilt();
 
@@ -852,7 +940,7 @@
 
         status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
 
-        showDescription(currentIndex);
+        showDescription(currentIndex, animate);
       }
 
       // ─────────────────────────────────────────────
@@ -860,12 +948,175 @@
       // ─────────────────────────────────────────────
 
       previousButton.addEventListener("click", () => {
-        showLesson(currentIndex - 1);
+        showLesson(currentIndex - 1, true);
       });
 
       nextButton.addEventListener("click", () => {
-        showLesson(currentIndex + 1);
+        showLesson(currentIndex + 1, true);
       });
+
+      let swipeStart = null;
+      let swipeClickCard = null;
+      let swipeClickTimeout = 0;
+
+      const SWIPE_THRESHOLD = 300;
+
+      function updateSwipePreview(deltaX) {
+        const trackWidth = carouselTrack.clientWidth;
+        const swipeDirection = deltaX < 0 ? 1 : -1;
+        let progress = Math.min(Math.abs(deltaX) / (trackWidth * 0.55), 1);
+
+        if (
+          (currentIndex === 0 && swipeDirection < 0) ||
+          (currentIndex === cards.length - 1 && swipeDirection > 0)
+        ) {
+          progress *= 0.18;
+        }
+
+        const swipeDistance =
+          window.innerWidth <= 600
+            ? trackWidth * 0.3
+            : Math.min(window.innerWidth * 0.4, 460);
+        const currentWidth = cards[currentIndex].getBoundingClientRect().width;
+        const sideWidth =
+          window.innerWidth <= 600
+            ? Math.min(window.innerWidth * 0.54, 250)
+            : currentWidth;
+
+        carouselTrack.classList.add("is-swiping");
+
+        cards.forEach((card, cardIndex) => {
+          const offset = cardIndex - currentIndex - swipeDirection * progress;
+          const distance = Math.abs(offset);
+          const visibleOffset = Math.min(distance, 1);
+          const sideOpacity =
+            distance <= 1
+              ? 1 - visibleOffset * 0.38
+              : Math.max(0, 0.62 * (1 - (distance - 1) / 0.6));
+
+          card.style.setProperty(
+            "--swipe-x",
+            `${Math.max(-1, Math.min(1, offset)) * swipeDistance}px`,
+          );
+
+          card.style.setProperty("--swipe-opacity", String(sideOpacity));
+          card.style.setProperty(
+            "--swipe-scale",
+            String(1 - visibleOffset * 0.18),
+          );
+          card.style.setProperty(
+            "--swipe-rotate",
+            `${Math.max(-1, Math.min(1, offset)) * 30}deg`,
+          );
+          card.style.setProperty(
+            "--swipe-z",
+            String(Math.max(0, 2 - Math.round(distance))),
+          );
+        });
+      }
+
+      function clearSwipePreview() {
+        carouselTrack.classList.remove("is-swiping");
+        cards.forEach((card) => {
+          card.style.removeProperty("--swipe-x");
+          card.style.removeProperty("--swipe-opacity");
+          card.style.removeProperty("--swipe-scale");
+          card.style.removeProperty("--swipe-rotate");
+          card.style.removeProperty("--swipe-z");
+        });
+      }
+
+      carouselTrack.addEventListener("pointerdown", (event) => {
+        if (event.pointerType !== "touch" || !event.isPrimary) {
+          return;
+        }
+
+        const target = event.target;
+        swipeStart = {
+          pointerId: event.pointerId,
+          x: event.clientX,
+          y: event.clientY,
+          card:
+            target instanceof Element ? target.closest(".lesson-card") : null,
+        };
+      });
+
+      carouselTrack.addEventListener("pointermove", (event) => {
+        if (!swipeStart || event.pointerId !== swipeStart.pointerId) {
+          return;
+        }
+
+        const deltaX = event.clientX - swipeStart.x;
+        const deltaY = event.clientY - swipeStart.y;
+
+        if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
+          updateSwipePreview(deltaX);
+        } else if (Math.abs(deltaY) > 8) {
+          clearSwipePreview();
+        }
+      });
+
+      carouselTrack.addEventListener("pointerup", (event) => {
+        if (!swipeStart || event.pointerId !== swipeStart.pointerId) {
+          return;
+        }
+
+        const deltaX = event.clientX - swipeStart.x;
+        const deltaY = event.clientY - swipeStart.y;
+        const swipedCard = swipeStart.card;
+        swipeStart = null;
+
+        const isSwipe =
+          Math.abs(deltaX) >= SWIPE_THRESHOLD &&
+          Math.abs(deltaX) > Math.abs(deltaY);
+
+        if (isSwipe) {
+          const nextIndex = currentIndex + (deltaX < 0 ? 1 : -1);
+          if (nextIndex !== currentIndex) {
+            showLesson(nextIndex, true);
+          }
+        }
+
+        clearSwipePreview();
+
+        if (!isSwipe) {
+          return;
+        }
+
+        if (swipedCard) {
+          swipeClickCard = swipedCard;
+          window.clearTimeout(swipeClickTimeout);
+          swipeClickTimeout = window.setTimeout(() => {
+            swipeClickCard = null;
+          }, 750);
+        }
+      });
+
+      carouselTrack.addEventListener("pointercancel", (event) => {
+        if (swipeStart?.pointerId === event.pointerId) {
+          swipeStart = null;
+          clearSwipePreview();
+        }
+      });
+
+      carouselTrack.addEventListener(
+        "click",
+        (event) => {
+          const target = event.target;
+          if (
+            swipeClickCard &&
+            event.detail > 0 &&
+            target instanceof Element &&
+            target.closest(".lesson-card") === swipeClickCard
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            swipeClickCard = null;
+            window.clearTimeout(swipeClickTimeout);
+          }
+        },
+        true,
+      );
 
       // ─────────────────────────────────────────────
       // Card click behaviour
@@ -879,7 +1130,7 @@
           ) {
             event.preventDefault();
 
-            showLesson(index);
+            showLesson(index, true);
           }
         });
       });
