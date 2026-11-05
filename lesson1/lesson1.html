@@ -285,9 +285,83 @@
             <strong>observations</strong> and ask <strong>questions</strong>.
           </p>
         </div>
-        <div class="image-box">
-          <img src="../images/lesson1/l1-default.png" alt="Toy car example" />
+        <div class="observe-experiment-grid">
+          <div class="image-box">
+            <img src="../images/lesson1/l1-default.png" alt="Toy car example" />
+          </div>
+          <div
+            class="think-box lesson1-stw-box"
+            id="observeStwActivity"
+            data-activity
+          >
+            <div
+              class="stw-column"
+              data-tr-group
+              data-tr-key="see"
+              data-tr-min="1"
+            >
+              <h3>See</h3>
+              <p>What do you notice?</p>
+              <div class="stw-input-row">
+                <input
+                  data-tr-input
+                  type="text"
+                  placeholder="Type something you see"
+                  aria-label="What do you see?"
+                />
+                <button type="button" data-tr-add>Add</button>
+              </div>
+              <ul class="stw-list" data-tr-list></ul>
+            </div>
+            <div
+              class="stw-column"
+              data-tr-group
+              data-tr-key="think"
+              data-tr-min="1"
+            >
+              <h3>Think</h3>
+              <p>What do you think is happening?</p>
+              <div class="stw-input-row">
+                <input
+                  data-tr-input
+                  type="text"
+                  placeholder="Type what you think"
+                  aria-label="What do you think?"
+                />
+                <button type="button" data-tr-add>Add</button>
+              </div>
+              <ul class="stw-list" data-tr-list></ul>
+            </div>
+            <div
+              class="stw-column"
+              data-tr-group
+              data-tr-key="wonder"
+              data-tr-min="1"
+            >
+              <h3>Wonder</h3>
+              <p>What questions do you have?</p>
+              <div class="stw-input-row">
+                <input
+                  data-tr-input
+                  type="text"
+                  placeholder="Type what you wonder"
+                  aria-label="What do you wonder?"
+                />
+                <button type="button" data-tr-add>Add</button>
+              </div>
+              <ul class="stw-list" data-tr-list></ul>
+            </div>
+          </div>
         </div>
+        <button
+          id="observeNextButton"
+          class="next-button general-button"
+          onclick="unlockSection('testable-question-intro', 'observe-experiment')"
+          hidden
+        >
+          Next
+        </button>
+        <p class="completed-note">Completed — next activity unlocked.</p>
       </section>
       <!-- ---------- Explicit Teaching: What is a Testable Question? ---------- -->
       <section class="section" id="testable-question-intro">
@@ -443,62 +517,87 @@
       <!-- ---------- Flashcards ---------- -->
       <section class="section locked" id="flashcards">
         <h2 class="section-title">Practice identifying if a question is testable or untestable</h2>
-        <div class="flashcard-box" id="flashcardsActivity" data-activity>
-          <main class="flashcard-content">
-            <div class="layout">
-              <div class="pile-section">
-                <h2 data-flashcard-pile-label="left"></h2>
-                <div
-                  id="left-pile"
-                  data-flashcard-pile="left"
-                  class="pile-container"
-                ></div>
-                <p id="left-count" data-flashcard-count="left">0</p>
-              </div>
-              <div class="center-section">
-                <div id="card-area">
-                  <div id="current-card" data-flashcard-card class=""></div>
-                  <div id="done-message" data-flashcard-done>
-                    <span>🎉</span>
-                    <p>All Sorted!</p>
+        <div class="flashcards-learning-grid">
+          <div class="flashcard-box" id="flashcardsActivity" data-activity>
+            <main class="flashcard-content">
+              <div class="layout">
+                <div class="pile-section">
+                  <h2 data-flashcard-pile-label="left"></h2>
+                  <div
+                    id="left-pile"
+                    data-flashcard-pile="left"
+                    class="pile-container"
+                  ></div>
+                  <p id="left-count" data-flashcard-count="left">0</p>
+                </div>
+                <div class="center-section">
+                  <div id="card-area">
+                    <div id="current-card" data-flashcard-card class=""></div>
+                    <div id="done-message" data-flashcard-done>
+                      <span>🎉</span>
+                      <p>All Sorted!</p>
+                    </div>
                   </div>
-                </div>
-                <p id="progress" data-flashcard-progress></p>
-                <div class="btn-row">
+                  <p id="progress" data-flashcard-progress></p>
+                  <div class="btn-row">
+                    <button
+                      id="btn-investigable"
+                      class="general-button"
+                      data-flashcard-sort="left"
+                    >
+                      Testable
+                    </button>
+                    <button
+                      id="btn-uninvestigable"
+                      class="general-button"
+                      data-flashcard-sort="right"
+                    >
+                      Non-Testable
+                    </button>
+                  </div>
                   <button
-                    id="btn-investigable"
-                    class="general-button"
-                    data-flashcard-sort="left"
+                    id="reset-btn"
+                    class="general-button hidden"
+                    data-reset-trigger
                   >
-                    Testable
-                  </button>
-                  <button
-                    id="btn-uninvestigable"
-                    class="general-button"
-                    data-flashcard-sort="right"
-                  >
-                    Non-Testable
+                    Reset
                   </button>
                 </div>
-                <button
-                  id="reset-btn"
-                  class="general-button hidden"
-                  data-reset-trigger
-                >
-                  Reset
-                </button>
+                <div class="pile-section">
+                  <h2 data-flashcard-pile-label="right" class="mb-3"></h2>
+                  <div
+                    id="right-pile"
+                    data-flashcard-pile="right"
+                    class="pile-container"
+                  ></div>
+                  <p id="right-count" data-flashcard-count="right">0</p>
+                </div>
               </div>
-              <div class="pile-section">
-                <h2 data-flashcard-pile-label="right" class="mb-3"></h2>
-                <div
-                  id="right-pile"
-                  data-flashcard-pile="right"
-                  class="pile-container"
-                ></div>
-                <p id="right-count" data-flashcard-count="right">0</p>
+            </main>
+          </div>
+          <aside
+            class="intro-card testable-card testable-question-guide"
+            aria-labelledby="testableQuestionGuideTitle"
+          >
+            <p class="intro-eyebrow">Testable question guide</p>
+            <h3 id="testableQuestionGuideTitle">What makes a question testable?</h3>
+            <div class="question-check-list">
+              <div class="question-check-row">
+                <span class="question-check-icon question-guide-icon" aria-hidden="true">1</span>
+                <div>
+                  <strong>Is something being changed?</strong>
+                  <p>A fair test changes one thing.</p>
+                </div>
+              </div>
+              <div class="question-check-row">
+                <span class="question-check-icon question-guide-icon" aria-hidden="true">2</span>
+                <div>
+                  <strong>Can the effect be measured?</strong>
+                  <p>Look for a result you can observe or measure.</p>
+                </div>
               </div>
             </div>
-          </main>
+          </aside>
         </div>
         <button
           id="flashcardsNextButton"
@@ -735,42 +834,32 @@
       <section class="section locked" id="reasoned-builder">
         <h2 class="section-title">MAKE A REASONED PREDICTION</h2>
         <div class="diagram-box diagram-activity">
-          <p class="activity-instruction">
-            1. Choose your testable question. <br>
-            2. Watch the video to learn how to create a <strong>reasoned prediction</strong>. <br>
-            3. Use the graphic organiser to create your <strong>reasoned prediction</strong>.
-
-            <!-- Choose your testable question. Then use the graphic organiser
-            to build a <strong>reasoned prediction</strong>. Watch the two
-            videos below to learn how to do this. -->
-          </p>
-
-          <div class="video-help-buttons">
+          <div class="prediction-video-layout">
+            <div class="prediction-video-instructions">
+              <p class="activity-instruction">
+                Follow these steps to create a
+                <strong>reasoned prediction</strong>:
+              </p>
+              <ol>
+                <li>Choose your testable question.</li>
+                <li>Watch the video to learn how to make a reasoned prediction.</li>
+                <li>Use the graphic organiser to write your prediction and reason.</li>
+              </ol>
+            </div>
             <button
               type="button"
-              class="general-button"
+              class="prediction-video-button"
+              aria-label="Watch the reasoned prediction video"
               onclick="
                 openVideoModal(
                   '../videos/lesson1/reasoned-prediction-v2.mp4',
-                  'Video guide 1',
+                  'Reasoned prediction video',
                 )
               "
             >
-              ▶ How to use the reasoned prediction builder
+              <span class="prediction-video-play" aria-hidden="true">▶</span>
+              <span class="prediction-video-label">Watch the video</span>
             </button>
-
-            <!-- <button
-              type="button"
-              class="general-button"
-              onclick="
-                openVideoModal(
-                  '../videos/lesson1/reasoned-prediction-example-v2.mp4',
-                  'Video guide 2',
-                )
-              "
-            >
-              ▶ Worked example
-            </button> -->
           </div>
         </div>
         <!-- Shared video modal -->
@@ -1437,11 +1526,21 @@
       import { initSectionActivitiesIn } from "../scripts/activities/activity-sections.js";
       import { MultipleChoiceActivity } from "../scripts/activities/multiple-choice-activity.js";
       import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
+      import { InputResponseActivity } from "../scripts/activities/input-response-activity.js";
       import { FlashcardsActivity } from "../scripts/lesson1_scripts/flashcards-activity.js";
 
       let reasonedPredictionActivity = null;
       let testingPredictionsActivity = null;
       let flashcardsActivity = null;
+
+      function initialiseObserveStw() {
+        const root = document.getElementById("observeStwActivity");
+        if (!root) {
+          return;
+        }
+
+        new InputResponseActivity(root);
+      }
 
       function initialiseFlashcards() {
         const root = document.getElementById("flashcardsActivity");
@@ -1512,6 +1611,7 @@
 
         initialisePredictionTable();
         initialiseTestingPredictions();
+        initialiseObserveStw();
         initialiseFlashcards();
         initSectionActivitiesIn(document);
       });
@@ -1782,12 +1882,12 @@
         // Clear all question cards
         selectedQuestionTemplate.innerHTML = `
             <div class="template-placeholder">
-              Spin the wheel to generate a question starter.
+              Spin the wheel to generate a question starter
             </div>
           `;
 
         wheelResult.textContent =
-          "Spin the wheel to receive a question structure.";
+          "Spin the wheel to receive a question structure";
         wheelResult.style.backgroundColor = "";
 
         // Enable spinning again
@@ -2293,7 +2393,7 @@
          You landed on
          <strong>
          ${selectedQuestionStructure.word}
-         </strong>.
+         </strong>
          `;
 
           /*
@@ -2332,7 +2432,7 @@
         return {
           wheelRotation: currentWheelRotation,
           wheelResult: wheelIsSpinning
-            ? "Spin the wheel to receive a question structure."
+            ? "Spin the wheel to receive a question structure"
             : wheelResult.textContent,
           cards: Array.from(
             selectedQuestionTemplate.querySelectorAll(".wheel-question-card"),
