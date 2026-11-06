@@ -356,6 +356,28 @@
         </button>
 
         <p class="completed-note">Completed — next activity unlocked.</p>
+        <div
+          class="lesson-completion-card"
+          data-lesson-completion-for="yeastHotStopAndThink"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          <div>
+            <strong>Well done! You have completed Lesson 3.</strong>
+            <p>In Lesson 3, you practiced:</p>
+            <ol class="lesson-recap-list">
+              <li>Observing and investigating yeast</li>
+              <li>Recording results and looking for patterns</li>
+              <li>Using results to check a prediction</li>
+            </ol>
+            <p>Click the Home button to choose your next lesson.</p>
+          </div>
+          <a class="general-button home-button lesson-completion-home" href="../index.html">
+            <span class="bounce-symbol" aria-hidden="true">🏠</span>
+            <span>Home</span>
+          </a>
+        </div>
       </section>
       <!-- Full-screen mobile overlay -->
       <div class="yeast-mobile-modal" id="yeastModal">
@@ -1717,6 +1739,7 @@
     <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
     <script src="../scripts/common_functions.js"></script>
     <script type="module" src="../scripts/lesson_progress.js"></script>
+    <script src="../scripts/activities/lesson-completion.js"></script>
     <script>
       const cards = document.querySelectorAll(".yeast-card");
 
