@@ -81,6 +81,38 @@
         perspective: 1200px;
         touch-action: pan-y;
       }
+      /* Grid mode: hide arrows + description, let the track size to its cards */
+      .carousel:has(.carousel-track.is-grid) {
+        grid-template-rows: auto;
+      }
+      .carousel:has(.carousel-track.is-grid) .carousel-control,
+      .carousel:has(.carousel-track.is-grid) #description {
+        display: none;
+      }
+      .carousel-track.is-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 280px);
+        grid-auto-rows: 1fr;
+        gap: 16px;
+        align-items: stretch;
+        justify-content: center;
+        height: auto;
+      }
+      .carousel-track.is-grid .lesson-card {
+        position: static;
+        width: auto;
+        min-height: 120px;
+        box-shadow: none;
+
+        transform: none;
+
+        rotate: none;
+        scale: 1;
+
+        transition: none;
+        will-change: none;
+      }
+
       #description {
         z-index: -1;
         grid-column: 1 / -1;
@@ -223,7 +255,8 @@
           var(--tilt-shadow, 0 0 0 transparent);
         transform: translate(-50%, -50%) scale(1);
       }
-      .lesson-card.is-current:not(.unavailable):hover {
+      .lesson-card.is-current:not(.unavailable):hover,
+      .carousel-track.is-grid .lesson-card:hover {
         background: color-mix(in srgb, var(--accent) 20%, white 80%);
       }
       .lesson-card.is-current:not(.unavailable):hover .lesson-subtitle {
@@ -595,6 +628,13 @@
         dy: 0,
       }));
 
+      const cardEventListeners = new Map(cards.map((card) => [card, []]));
+
+      function addCardEventListener(card, type, listener) {
+        card.addEventListener(type, listener);
+        cardEventListeners.get(card).push({ type, listener });
+      }
+
       // ─────────────────────────────────────────────
       // Lesson descriptions
       // ─────────────────────────────────────────────
@@ -775,7 +815,7 @@
       cardStates.forEach((card, index) => {
         const element = card.element;
 
-        element.addEventListener("mouseenter", () => {
+        addCardEventListener(element, "mouseenter", () => {
           // Only tilt the currently selected lesson
           if (
             index !== currentIndex ||
@@ -791,7 +831,7 @@
           startAnimation();
         });
 
-        element.addEventListener("mousemove", (event) => {
+        addCardEventListener(element, "mousemove", (event) => {
           // Only tilt the currently selected lesson
           if (
             index !== currentIndex ||
@@ -847,7 +887,7 @@
           startAnimation();
         });
 
-        element.addEventListener("mouseleave", () => {
+        addCardEventListener(element, "mouseleave", () => {
           card.hovered = false;
 
           // Return to original position
@@ -1123,7 +1163,7 @@
       // ─────────────────────────────────────────────
 
       cards.forEach((card, index) => {
-        card.addEventListener("click", (event) => {
+        addCardEventListener(card, "click", (event) => {
           if (
             index !== currentIndex ||
             card.classList.contains("unavailable")
@@ -1147,12 +1187,29 @@
       // Unlock all lessons
       // ─────────────────────────────────────────────
 
+      function removeEventListenersAndClasses() {
+        cards.forEach((card) => {
+          cardEventListeners.get(card).forEach(({ type, listener }) => {
+            card.removeEventListener(type, listener);
+          });
+          cardEventListeners.delete(card);
+          card.classList.remove(
+            "is-current",
+            "is-previous",
+            "is-next",
+            "is-hidden",
+          );
+        });
+      }
+
       let heroClicks = 0;
 
       document.getElementById("hero").addEventListener("click", () => {
         if (!showAll && ++heroClicks >= 5) {
           showAll = true;
 
+          removeEventListenersAndClasses();
+          carouselTrack.classList.add("is-grid");
           updateVisibility();
         }
       });
