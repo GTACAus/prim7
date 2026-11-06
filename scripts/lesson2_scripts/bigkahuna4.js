@@ -459,10 +459,22 @@ document.getElementById("finishButton").addEventListener("click", () => {
     warning.style.borderTop = "4px solid var(--green)";
 
     warning.innerHTML = `
-            <p class="success-message">
-            You have selected all required options. Your experiment blueprint is complete!
-            </p>
-            `;
+            <div class="lesson-completion-card">
+              <div>
+                <strong>Well done! You have completed Lesson 2.</strong>
+                <p>In Lesson 2, you practiced:</p>
+                <ol class="lesson-recap-list">
+                  <li>Identifying the variables in a fair test</li>
+                  <li>Planning a fair test experiment</li>
+                </ol>
+                <p>Click the Home button to choose your next lesson.</p>
+              </div>
+              <a class="general-button home-button lesson-completion-home" href="../index.html">
+                <span class="bounce-symbol" aria-hidden="true">🏠</span>
+                <span>Home</span>
+              </a>
+            </div>
+          `;
   } else {
     warning.classList.add("blueprint-warning");
     warning.style.background = "var(--soft-orange)";

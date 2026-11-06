@@ -1192,6 +1192,28 @@
           <p class="bounce-symbol">💾</p>
           <p>Save my work</p>
         </button>
+        <div
+          class="lesson-completion-card"
+          data-lesson-completion-for="ballBouncePredictionCheck"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          <div>
+            <strong>Well done! You have completed Lesson 3.</strong>
+            <p>In Lesson 3, you practiced:</p>
+            <ol class="lesson-recap-list">
+              <li>Planning a fair test for a ball-bounce experiment</li>
+              <li>Recording repeated results in a table</li>
+              <li>Using results to check a prediction</li>
+            </ol>
+            <p>Click the Home button to choose your next lesson.</p>
+          </div>
+          <a class="general-button home-button lesson-completion-home" href="../index.html">
+            <span class="bounce-symbol" aria-hidden="true">🏠</span>
+            <span>Home</span>
+          </a>
+        </div>
       </section>
       <!-- Lesson 3 inline video panel for data-entry videos -->
       <div class="video-dropdown-panel" id="lesson3VideoPanel" hidden>
@@ -1229,6 +1251,7 @@
     <!-- Shared functions include section unlocking, PDF printing and the cypher-based classroom language filter. -->
     <script src="../scripts/common_functions.js"></script>
     <script type="module" src="../scripts/lesson_progress.js"></script>
+    <script src="../scripts/activities/lesson-completion.js"></script>
     <script type="module">
       import { InvestigationQuestionActivity } from "../scripts/activities/investigation-question-activity.js";
       import { PredictionTableActivity } from "../scripts/activities/prediction-table-activity.js";
