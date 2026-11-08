@@ -342,26 +342,6 @@ function updateBlueprint() {
     : "Choose what you will measure.";
 }
 
-function updateStageCopy() {
-  const prompt = document.getElementById("stagePrompt");
-  const status = document.getElementById("diagramStatus");
-  if (state.stage === "change") {
-    prompt.textContent = "Choose the one variable that will be different.";
-    status.textContent =
-      "After choosing a variable, its comparison menu appears underneath.";
-  } else if (state.stage === "measure") {
-    prompt.textContent = "Choose one outcome to measure.";
-    status.textContent =
-      "The same measurement-method menu is available for each outcome.";
-  } else {
-    prompt.textContent =
-      "Choose the settings that both experiments will share.";
-    status.textContent = state.changeVariable
-      ? `${variableConfig[state.changeVariable].label} cannot be controlled because it is being changed.`
-      : "Choose a Change variable first to disable it here.";
-  }
-}
-
 function setStage(stage) {
   state.stage = stage;
   document
@@ -370,14 +350,12 @@ function setStage(stage) {
       button.classList.toggle("active", button.dataset.stage === stage),
     );
   renderControls();
-  updateStageCopy();
   renderVisuals();
   updateBlueprint();
 }
 
 function renderAll() {
   renderControls();
-  updateStageCopy();
   renderVisuals();
   updateBlueprint();
 }
