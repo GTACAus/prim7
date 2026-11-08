@@ -14,7 +14,6 @@
     var(--shadow-small);
 }
 
-
 /* ---------- Testable question ---------- */
 
 .variable-question {
@@ -40,7 +39,6 @@
 
   background: var(--blue);
 }
-
 
 /* ---------- Variable type buttons ---------- */
 
@@ -127,7 +125,6 @@
   border-top: 6px solid var(--green);
 }
 
-
 /* ---------- Variable choices ---------- */
 
 .variable-tile-grid {
@@ -186,7 +183,6 @@
   line-height: 1.25;
 }
 
-
 /* ---------- Feedback ---------- */
 
 .variable-feedback {
@@ -220,7 +216,6 @@
   cursor: not-allowed;
 }
 
-
 /* ---------- Selected / completed colours ---------- */
 
 .independent-mode-button.mode-active,
@@ -253,7 +248,6 @@
   border-top: 6px solid var(--green);
 }
 
-
 /* ---------- Incorrect answer animation ---------- */
 
 @keyframes variableTileBuzz {
@@ -278,7 +272,6 @@
 .variable-tile.buzz {
   animation: variableTileBuzz 0.28s ease;
 }
-
 
 /* ---------- Mobile ---------- */
 

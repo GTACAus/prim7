@@ -163,7 +163,7 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked::before {
   opacity: 1;
   transform: scale(1);
-  animation: pop-fade-in 0.5s ease-out; 
+  animation: pop-fade-in 0.5s ease-out;
 }
 
 /* Optional click animation */
@@ -561,20 +561,20 @@ input[type="checkbox"]:active {
 
 /* Class for making something pop and fade into the screen */
 .pop-in {
-  animation: pop-fade-in 0.5s ease
+  animation: pop-fade-in 0.5s ease;
 }
 
-@keyframes pop-fade-in {     
+@keyframes pop-fade-in {
   0% {
-      opacity: 0;
-      transform: translateY(0) scale(0.5);
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
   }
   30% {
-      opacity: 1;
-      transform: translateY(-6px);
+    opacity: 1;
+    transform: translateY(-6px);
   }
   60% {
-      transform: translateY(2px) scale(1);
+    transform: translateY(2px) scale(1);
   }
   100% {
     transform: translateY(0);
@@ -1413,7 +1413,7 @@ input[type="checkbox"]:active {
   background: var(--soft-purple);
 }
 
-.watch-video-button:hover{
+.watch-video-button:hover {
   background: var(--soft-blue);
 }
 
@@ -1522,7 +1522,7 @@ input[type="checkbox"]:active {
 }
 
 .next-button::after {
-  content: "  →";
+  content: "\2192"; /* Right arrow css code */
   display: inline-block;
   transition: transform 0.2s ease;
 }
@@ -1682,7 +1682,6 @@ input[type="checkbox"]:active {
   }
 }
 
-
 /* ==================================================
    SHARED PDF MODAL
    ================================================== */
@@ -1789,7 +1788,6 @@ input[type="checkbox"]:active {
     grid-template-columns: 1fr;
   }
 }
-
 
 /* ----- Reasoned prediction check -----*/
 .prediction-check {
