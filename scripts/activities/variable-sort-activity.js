@@ -81,7 +81,7 @@ var DEFAULT_MESSAGES = {
   controlledWrongType:
     "That is a measurable outcome, not a variable that needs to be kept the same.",
   controlledWrong:
-    "Try again. That variable is not controlled in this investigation.",
+    "Try again. That variable doesn't need to be controlled in this investigation.",
   controlledMore:
     "Controlled variable selected. Choose any other variables that must be kept the same.",
   controlledDone: "All controlled variables have been selected.",
