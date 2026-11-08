@@ -985,6 +985,16 @@
   color: var(--charcoal);
 }
 
+#sort-variables-one .variable-question,
+#sort-variables-two .variable-question {
+  font-weight: 400;
+}
+
+#sort-variables-one .variable-question strong,
+#sort-variables-two .variable-question strong {
+  font-weight: 700;
+}
+
 #choose-ball-pair .section-title {
   background: var(--orange);
   color: white;
