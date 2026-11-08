@@ -803,13 +803,8 @@ input[type="checkbox"]:active {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  margin: 24px 0 0;
   padding: 22px 24px;
   background: var(--soft-green);
-  border: 3px solid var(--line);
-  border-top: 8px solid var(--green);
-  border-radius: 20px;
-  box-shadow: 0 5px 0 var(--line);
 }
 
 .lesson-completion-card[hidden] {
