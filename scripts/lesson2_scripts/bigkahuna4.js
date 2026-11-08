@@ -445,12 +445,23 @@ document.getElementById("finishButton").addEventListener("click", () => {
                   <li>Identifying the variables in a fair test</li>
                   <li>Planning a fair test experiment</li>
                 </ol>
+                <p>You can save your work using the button here.</p>
                 <p>Click the Home button to choose your next lesson.</p>
               </div>
-              <a class="general-button home-button lesson-completion-home" href="../index.html">
-                <span class="bounce-symbol" aria-hidden="true">🏠</span>
-                <span>Home</span>
-              </a>
+              <div class="lesson-completion-actions">
+                <button
+                  type="button"
+                  class="save-work-button general-button"
+                  onclick="downloadLessonPDF()"
+                >
+                  <span class="bounce-symbol" aria-hidden="true">💾</span>
+                  <span>Save my work</span>
+                </button>
+                <a class="general-button home-button lesson-completion-home" href="../index.html">
+                  <span class="bounce-symbol" aria-hidden="true">🏠</span>
+                  <span>Home</span>
+                </a>
+              </div>
             </div>
           `;
   } else {

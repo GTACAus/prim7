@@ -1184,14 +1184,6 @@
             </div>
           </div>
         </div>
-        <button
-          type="button"
-          class="save-work-button general-button"
-          onclick="downloadLessonPDF()"
-        >
-          <p class="bounce-symbol">💾</p>
-          <p>Save my work</p>
-        </button>
         <div
           class="lesson-completion-card"
           data-lesson-completion-for="ballBouncePredictionCheck"
@@ -1207,12 +1199,23 @@
               <li>Recording repeated results in a table</li>
               <li>Using results to check a prediction</li>
             </ol>
+            <p>You can save your work using the button here.</p>
             <p>Click the Home button to choose your next lesson.</p>
           </div>
-          <a class="general-button home-button lesson-completion-home" href="../index.html">
-            <span class="bounce-symbol" aria-hidden="true">🏠</span>
-            <span>Home</span>
-          </a>
+          <div class="lesson-completion-actions">
+            <button
+              type="button"
+              class="save-work-button general-button"
+              onclick="downloadLessonPDF()"
+            >
+              <span class="bounce-symbol" aria-hidden="true">💾</span>
+              <span>Save my work</span>
+            </button>
+            <a class="general-button home-button lesson-completion-home" href="../index.html">
+              <span class="bounce-symbol" aria-hidden="true">🏠</span>
+              <span>Home</span>
+            </a>
+          </div>
         </div>
       </section>
       <!-- Lesson 3 inline video panel for data-entry videos -->

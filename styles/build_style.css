@@ -844,9 +844,27 @@ input[type="checkbox"]:active {
   text-decoration: none !important;
 }
 
+.lesson-completion-actions {
+  display: flex;
+  flex: 0 0 150px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.lesson-completion-actions .save-work-button {
+  width: 100%;
+  margin: 0;
+}
+
 .lesson-completion-card .general-button {
   flex: 0 0 auto;
   text-decoration: none;
+}
+
+.lesson-completion-actions .general-button {
+  justify-content: center;
+  margin: 0;
 }
 
 @media (max-width: 600px) {
@@ -854,6 +872,11 @@ input[type="checkbox"]:active {
     align-items: flex-start;
     flex-direction: column;
     padding: 18px;
+  }
+
+  .lesson-completion-actions {
+    width: 100%;
+    flex-basis: auto;
   }
 }
 
