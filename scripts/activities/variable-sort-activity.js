@@ -364,22 +364,7 @@ VariableSortActivity.prototype._selectControlled = function (
   );
   if (controlledButton) controlledButton.classList.add("mode-complete");
 
-  var self = this;
-  var controlledDone = this.isFixed
-    ? this.answers.controlled.every(function (name) {
-        return (
-          self._tileFor(name) &&
-          self._tileFor(name).classList.contains("is-controlled")
-        );
-      })
-    : this.openOptions.controlled.every(function (name) {
-        var tile = self._tileFor(name);
-        return (
-          tile &&
-          (tile.classList.contains("is-independent") ||
-            tile.classList.contains("is-controlled"))
-        );
-      });
+  var controlledDone = this._areControlledVariablesComplete();
 
   if (controlledDone) {
     if (controlledButton) {
@@ -400,6 +385,23 @@ VariableSortActivity.prototype._selectControlled = function (
 
 VariableSortActivity.prototype._tileFor = function (variableName) {
   return this.root.querySelector('[data-sort-tile="' + variableName + '"]');
+};
+
+VariableSortActivity.prototype._areControlledVariablesComplete = function () {
+  var self = this;
+  var controlledVariables = this.isFixed
+    ? this.answers.controlled
+    : this.openOptions.controlled;
+
+  return controlledVariables.every(function (name) {
+    var tile = self._tileFor(name);
+    if (!tile) return false;
+
+    return self.isFixed
+      ? tile.classList.contains("is-controlled")
+      : tile.classList.contains("is-independent") ||
+          tile.classList.contains("is-controlled");
+  });
 };
 
 VariableSortActivity.prototype._classify = function (tile, role, label) {
@@ -453,8 +455,9 @@ VariableSortActivity.prototype._checkComplete = function () {
           var tile = self._tileFor(name);
           return tile && tile.classList.contains("is-classified");
         })
-    : this.root.querySelectorAll("[data-sort-tile].is-classified").length ===
-      this.tiles.length;
+    : this.independentComplete &&
+      this.dependentComplete &&
+      this._areControlledVariablesComplete();
 
   if (!complete) return;
 
