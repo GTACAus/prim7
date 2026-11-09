@@ -232,6 +232,34 @@
   margin-top: 18px;
 }
 
+.question-builder-step {
+  margin-bottom: 16px;
+  padding: 20px;
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+}
+
+.question-builder-step[hidden] {
+  display: none;
+}
+
+.question-builder-step h3 {
+  margin: 0 0 6px;
+  color: var(--purple);
+  font-size: 1.15rem;
+}
+
+.question-builder-step > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.question-builder-step .question-structure-grid {
+  margin-top: 14px;
+}
+
 #design-question .question-structure-card {
   min-height: 110px;
   margin-bottom: 0;
@@ -612,7 +640,7 @@
 }
 
 .investigation-question-builder {
-  margin: 18px 0 24px;
+  margin: 14px 0 0;
   padding: 24px;
 
   background: var(--paper);
@@ -741,6 +769,22 @@
 
 .completed-investigation-question[hidden] {
   display: none;
+}
+
+#investigationQuestionBuilder .completed-investigation-question {
+  display: none;
+}
+
+.question-review {
+  background: var(--soft-green);
+}
+
+.question-review > p {
+  margin-top: 10px;
+  color: var(--text);
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.55;
 }
 
 @media (max-width: 650px) {

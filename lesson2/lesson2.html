@@ -1356,77 +1356,74 @@
        PART 1: INVESTIGATION QUESTION
        ================================ -->
 
-        <div class="diagram-box diagram-activity">
-          <ol class="ol-step-count">
-            <li>
-              Look at the ball bounce <strong>fair test</strong> mind map
-              diagram. It is near the top of the page.
-            </li>
-            <li>
-              Choose the <strong>independent variable</strong> (what you want to
-              change).
-            </li>
-            <li>
-              Choose the <strong>dependent variable</strong> (the thing you will
-              measure).
-            </li>
-            <li>
-              Select one of the question structures below by clicking on it.
-            </li>
-            <li>
-              Enter your <strong>variables</strong> to create your question.
-            </li>
-          </ol>
-        </div>
-
         <div id="investigationQuestionActivity" data-activity>
-          <div class="question-structure-grid" id="questionStructureGrid">
-            <button
-              type="button"
-              class="question-structure-card question-structure-what"
-              data-question-structure="what"
-              aria-pressed="false"
-            >
-              When I change the ______, what happens to the ______?
-            </button>
+          <div class="question-builder-step">
+            <h3>Step 1: Choose a question starter</h3>
+            <p>Choose one way to begin your fair test question.</p>
+            <div class="question-structure-grid" id="questionStructureGrid">
+              <button
+                type="button"
+                class="question-structure-card question-structure-what"
+                data-question-structure="what"
+                aria-pressed="false"
+              >
+                When I change the ______, what happens to the ______?
+              </button>
 
-            <button
-              type="button"
-              class="question-structure-card question-structure-how"
-              data-question-structure="how"
-              aria-pressed="false"
-            >
-              How does changing the ______ affect the ______?
-            </button>
+              <button
+                type="button"
+                class="question-structure-card question-structure-how"
+                data-question-structure="how"
+                aria-pressed="false"
+              >
+                How does changing the ______ affect the ______?
+              </button>
 
-            <button
-              type="button"
-              class="question-structure-card question-structure-does"
-              data-question-structure="does"
-              aria-pressed="false"
-            >
-              Does changing the ______ affect the ______?
-            </button>
+              <button
+                type="button"
+                class="question-structure-card question-structure-does"
+                data-question-structure="does"
+                aria-pressed="false"
+              >
+                Does changing the ______ affect the ______?
+              </button>
 
-            <button
-              type="button"
-              class="question-structure-card question-structure-if"
-              data-question-structure="if"
-              aria-pressed="false"
+              <button
+                type="button"
+                class="question-structure-card question-structure-if"
+                data-question-structure="if"
+                aria-pressed="false"
+              >
+                If I change the ______, what happens to the ______?
+              </button>
+            </div>
+          </div>
+
+          <div class="question-builder-step" id="questionStepTwo" hidden>
+            <h3>Step 2: Choose your variables</h3>
+            <p>
+              Choose what you will change and what you will measure. You can
+              choose either one first.
+            </p>
+            <div
+              class="investigation-question-builder"
+              id="investigationQuestionBuilder"
+              data-question-builder
+              aria-live="polite"
             >
-              If I change the ______, what happens to the ______?
-            </button>
+              <p class="question-builder-placeholder">
+                Select a question structure above to begin.
+              </p>
+            </div>
           </div>
 
           <div
-            class="investigation-question-builder"
-            id="investigationQuestionBuilder"
-            data-question-builder
-            aria-live="polite"
+            class="question-builder-step question-review"
+            id="questionStepThree"
+            hidden
           >
-            <p class="question-builder-placeholder">
-              Select a question structure above to begin.
-            </p>
+            <h3>Step 3: Check your testable question</h3>
+            <p id="completedQuestionPreview"></p>
           </div>
         </div>
 
@@ -2145,11 +2142,21 @@
         const root = document.getElementById("investigationQuestionActivity");
         if (!root) return;
 
+        const questionStepTwo = document.getElementById("questionStepTwo");
+        const questionStepThree = document.getElementById("questionStepThree");
+        const completedQuestionPreview = document.getElementById(
+          "completedQuestionPreview",
+        );
+
         investigationQuestionActivity = new InvestigationQuestionActivity(
           root,
           {
             variableOptions: dropdownAnswers,
             onChange: function (state) {
+              questionStepTwo.hidden = !state.structure;
+              questionStepThree.hidden = !state.text;
+              completedQuestionPreview.textContent = state.text;
+
               document.getElementById("autofillTestableQuestion").innerHTML =
                 state.text;
 
