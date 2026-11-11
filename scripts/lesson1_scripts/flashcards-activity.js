@@ -57,14 +57,14 @@ var FLY_DELAY = 350; /* ms for a correct card's fly-to-pile animation */
 var BOUNCE_DELAY = 600; /* ms a wrong card dims before returning to the deck */
 
 var DEFAULT_QUESTIONS = [
-  { text: "Does the amount of sunlight affect plant growth?", answer: "left" },
-  { text: "Which colour is the prettiest?", answer: "right" },
-  { text: "Does temperature affect how fast ice melts?", answer: "left" },
-  { text: "Is chocolate better than vanilla?", answer: "right" },
-  { text: "Do heavier objects fall faster?", answer: "left" },
-  { text: "What is the best sport?", answer: "right" },
-  { text: "Does salt change the boiling point of water?", answer: "left" },
-  { text: "Are cats smarter than dogs?", answer: "right" },
+  { text: "Does the height of a ramp affect how far a toy car travels?", answer: "left" },
+  { text: "Which toy car has the best design?", answer: "right" },
+  { text: "Does the ramp surface affect how fast a toy car rolls?", answer: "left" },
+  { text: "Is it more fun to race cars on a steep ramp?", answer: "right" },
+  { text: "Does the weight of a toy car affect how far it travels?", answer: "left" },
+  { text: "Which ramp colour looks the nicest?", answer: "right" },
+  { text: "Does the steepness of a ramp affect the speed of a toy car?", answer: "left" },
+  { text: "Is racing toy cars more exciting than racing bikes?", answer: "right" },
 ];
 
 function shuffle(list) {
