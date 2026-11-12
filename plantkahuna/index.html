@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9f6e7" />
+    <title>Plant Big Kahuna | Plan a Fair Test</title>
+    <!-- Standalone prototype: no Lesson 2 styles or scripts are loaded. -->
+    <link rel="stylesheet" href="../styles/plantkahuna_styles/plantkahuna.css" />
+    <script defer src="../scripts/plantkahuna_scripts/plantkahuna.js"></script>
+  </head>
+  <body>
+    <main class="pk-shell" id="plantKahuna">
+      <header class="pk-hero">
+        <div>
+          <p class="pk-eyebrow"><span class="pk-eyebrow-dot"></span> GTAC • Plant Lab</p>
+          <h1>Build a <span>plant fair test.</span></h1>
+          <p class="pk-subtitle">
+            Plan two pea plant experiments. Change <strong>one</strong> thing,
+            decide what to <strong>measure</strong>, and keep the rest the <strong>same</strong>.
+          </p>
+        </div>
+        <div class="pk-hero-mark" aria-hidden="true">🌱</div>
+      </header>
+
+      <nav class="pk-steps" id="pk-steps" aria-label="Experiment planning steps">
+        <button type="button" class="pk-step is-active" data-step="change" aria-current="step">
+          <span class="pk-step-number">1</span>
+          <span><strong>Change</strong><small>One variable</small></span>
+        </button>
+        <button type="button" class="pk-step" data-step="measure">
+          <span class="pk-step-number">2</span>
+          <span><strong>Measure</strong><small>The result</small></span>
+        </button>
+        <button type="button" class="pk-step" data-step="control">
+          <span class="pk-step-number">3</span>
+          <span><strong>Keep the same</strong><small>Other variables</small></span>
+        </button>
+      </nav>
+
+      <div class="pk-workspace">
+        <section class="pk-editor" aria-labelledby="pk-editor-heading">
+          <div id="pk-controls"></div>
+          <div class="pk-editor-footer">
+            <button class="pk-button pk-button-secondary" id="pk-back" type="button">← Back</button>
+            <button class="pk-button pk-button-primary" id="pk-next" type="button">Next →</button>
+          </div>
+        </section>
+
+        <section class="pk-experiments" aria-labelledby="pk-experiments-title">
+          <div class="pk-experiments-header">
+            <div>
+              <p class="pk-kicker">YOUR EXPERIMENT SETUP</p>
+              <h2 id="pk-experiments-title">Two plants. One fair test.</h2>
+            </div>
+            <button type="button" class="pk-text-button" id="pk-reset">↺ Reset</button>
+          </div>
+          <p class="pk-scene-lead" id="pk-scene-lead" aria-live="polite">
+            Both plants start with the same settings. Choose a variable to change.
+          </p>
+          <div class="pk-scene-grid" id="pk-scenes" aria-live="polite"></div>
+          <div class="pk-visual-note">
+            <span aria-hidden="true">💡</span>
+            <p>This picture shows your <strong>setup</strong>, not the results. Your real plants will tell you what happens.</p>
+          </div>
+        </section>
+      </div>
+
+      <section class="pk-plan" aria-labelledby="pk-plan-title">
+        <div class="pk-plan-heading">
+          <div>
+            <p class="pk-kicker">YOUR FAIR TEST PLAN</p>
+            <h2 id="pk-plan-title">Your experiment blueprint</h2>
+          </div>
+          <button type="button" class="pk-button pk-button-secondary pk-print" id="pk-print">Print plan</button>
+        </div>
+        <p class="pk-question" id="pk-question">Choose what you will change and measure to build your question.</p>
+        <div class="pk-blueprint-grid" id="pk-blueprint"></div>
+        <details class="pk-settings-details" id="pk-settings-details">
+          <summary>See all the settings for Plant A and Plant B</summary>
+          <div id="pk-settings-table"></div>
+        </details>
+        <div class="pk-check-row">
+          <button class="pk-button pk-button-check" id="pk-check" type="button">Check my fair test plan ✓</button>
+          <div class="pk-feedback" id="pk-feedback" role="status" aria-live="polite" hidden></div>
+        </div>
+      </section>
+
+      <footer class="pk-footer">
+        Standalone classroom prototype • No data is collected or saved • Images can be replaced with Canva assets later
+      </footer>
+    </main>
+  </body>
+</html>
