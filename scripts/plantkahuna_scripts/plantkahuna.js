@@ -8,8 +8,8 @@
    - Wrapped in an IIFE: no globals, no dependencies on existing lessons.
    - No student data is collected, persisted, or sent anywhere.
    - VARIABLES and MEASUREMENTS are the main places to edit options.
-   - drawPlantScene() creates a temporary SVG illustration. Later, replace
-     its visual layers with Canva PNG assets without rewriting the logic.
+   - VISUAL_ASSETS below is the ONLY place to register Canva images.
+     Leave slots blank to keep the temporary SVG drawing.
    - Everything is a PLANNING illustration. It does NOT simulate growth.
    ===================================================================== */
 
@@ -118,6 +118,50 @@
     lightExposure: "window",
     lightColour: "white",
   });
+
+  /* ================================================================
+     CANVA IMAGE ASSETS — EDIT HERE, NOT INSIDE drawPlantScene()
+
+     1. Export each component from Canva as a transparent PNG/WebP.
+     2. Save it inside plantkahuna/assets/visuals/.
+     3. Put the exact filename in the appropriate slot below.
+
+     Blank string = use the existing SVG illustration instead.
+     You can change just ONE item (such as the 150 mL beaker) and leave
+     everything else drawn. Values below match the experiment settings.
+
+     Tip: If Canva has a combined pot + soil cross-section, use
+     potAndSoil. Those files replace BOTH the drawn pot and soil.
+     ================================================================ */
+  const VISUAL_ASSETS = {
+    folder: "assets/visuals/", // relative to plantkahuna/index.html
+    backgrounds: { window: "", cupboard: "", lamp: "" },
+    lamps: { white: "", red: "", green: "" },
+    potAndSoil: {
+      "small-half": "", "small-full": "",
+      "large-half": "", "large-full": "",
+    },
+    pots: { small: "", large: "" },
+    soils: { half: "", full: "" },
+    seedlings: { normal: "" },
+    beakers: { "150": "", "300": "" },
+    fertiliser: { yes: "" },
+    clocks: { "1": "", "3": "" },
+  };
+
+  /* Each image slot uses one fixed 420 x 306 scene coordinate system.
+     Change these ONLY if a Canva export has a different transparent margin.
+     Images scale with the scene, so all cards remain responsive. */
+  const IMAGE_FRAMES = {
+    background: { x: 0, y: 0, width: 420, height: 306 },
+    lamp: { x: 100, y: 0, width: 220, height: 246 },
+    pot: { x: 129, y: 165, width: 162, height: 102 },
+    soil: { x: 154, y: 180, width: 112, height: 78 },
+    seedling: { x: 154, y: 76, width: 112, height: 118 },
+    beaker: { x: 326, y: 179, width: 67, height: 88 },
+    fertiliser: { x: 155, y: 169, width: 110, height: 55 },
+    clock: { x: 331, y: 35, width: 70, height: 67 },
+  };
 
   const STEPS = ["change", "measure", "control"];
   const root = document.getElementById("plantKahuna");
@@ -314,12 +358,19 @@
     next.textContent = index === 2 ? "Check plan ✓" : "Next →";
   }
 
-  /* ------------------------------------------------------------------
-     Temporary picture: two separate SVG cards, one for each condition.
-     All visual differences use the settings passed in here. Replace with
-     layers of real Canva assets later: pot, soil, beaker, fertiliser,
-     clock, window/cupboard and lamp colours. See README.md.
-     ------------------------------------------------------------------ */
+  /* ---------------------------------------------------------------
+     Asset helper. The rest of the experiment does not know whether a
+     visual is an image or a drawing. Relative PNG paths work in SVG.
+     No filename entered? Return the SVG fallback.
+     --------------------------------------------------------------- */
+  function visualLayer(filename, frame, fallbackSvg, fit = "xMidYMid meet") {
+    if (!filename || !String(filename).trim()) return fallbackSvg;
+    const path = VISUAL_ASSETS.folder + String(filename).trim();
+    return `<image href="${esc(path)}" x="${frame.x}" y="${frame.y}"
+      width="${frame.width}" height="${frame.height}"
+      preserveAspectRatio="${fit}" />`;
+  }
+
   function drawPlantScene(values, letter) {
     const uid = `pk-${letter.toLowerCase()}`;
     const growLamp = values.lightExposure === "lamp";
@@ -330,98 +381,115 @@
     const rimWidth = values.potSize === "large" ? 143 : 108;
     const xLeft = 210 - rimWidth / 2;
     const xRight = 210 + rimWidth / 2;
-    const bottomHalf = rimWidth * 0.37;
+    const bottomHalf = rimWidth * .37;
     const soilTop = values.soilFill === "full" ? 183 : 219;
     const soilColour = values.soilType === "garden" ? "#695038" : "#825c3d";
     const waterLevel = values.waterVolume === "300" ? 49 : 25;
-    const colour = ({ red: "#ff765f", green: "#69dd8a", white: "#fff6cf" })[values.lightColour] || "#fff6cf";
+    const colour = ({red:"#ff765f",green:"#69dd8a",white:"#fff6cf"})[values.lightColour] || "#fff6cf";
     const plantOpacity = dark ? ".88" : "1";
 
-    const backdrop = sky ? `
-        <rect x="28" y="20" width="123" height="118" rx="5" fill="#fffef9" stroke="#687a70" stroke-width="5"/>
-        <rect x="35" y="27" width="109" height="104" fill="#b7e6f7"/>
-        <circle cx="117" cy="51" r="15" fill="#ffda5a"/>
-        <path d="M36 120 L73 94 L99 110 L126 84 L144 105 V130 H35Z" fill="#92c7a6"/>
-        <path d="M89 25 V134 M34 78 H146" stroke="#fffef9" stroke-width="7"/>
-        <text x="89" y="151" text-anchor="middle" font-size="10" font-weight="800" fill="#57695e">WINDOW</text>`
+    const backdropFallback = sky ? `
+      <rect x="28" y="20" width="123" height="118" rx="5" fill="#fffef9" stroke="#687a70" stroke-width="5"/>
+      <rect x="35" y="27" width="109" height="104" fill="#b7e6f7"/>
+      <circle cx="117" cy="51" r="15" fill="#ffda5a"/>
+      <path d="M36 120 L73 94 L99 110 L126 84 L144 105 V130 H35Z" fill="#92c7a6"/>
+      <path d="M89 25 V134 M34 78 H146" stroke="#fffef9" stroke-width="7"/>
+      <text x="89" y="151" text-anchor="middle" font-size="10" font-weight="800" fill="#57695e">WINDOW</text>`
       : dark ? `
-        <rect x="20" y="15" width="380" height="255" rx="4" fill="#2f373a"/>
-        <path d="M20 15 L78 39 V244 L20 269Z" fill="#737b7b" stroke="#aab0aa" stroke-width="3"/>
-        <path d="M400 15 L344 39 V244 L400 269Z" fill="#737b7b" stroke="#aab0aa" stroke-width="3"/>
-        <circle cx="65" cy="141" r="4" fill="#eac689"/><circle cx="355" cy="141" r="4" fill="#eac689"/>
-        <text x="210" y="26" text-anchor="middle" font-size="11" font-weight="800" fill="#dfe2da">DARK CUPBOARD</text>`
-      : `
-        <path d="M20 0 H400" stroke="#444d4d" stroke-width="3" opacity=".5"/>
-        <path d="M210 0 V55" stroke="#1e2628" stroke-width="3"/>
-        <path d="M190 59 L229 59 L247 77 H172Z" fill="#1e2425"/>
-        <path d="M178 77 H241" stroke="#fff0cd" stroke-width="5" stroke-linecap="round"/>
-        <path d="M178 82 L103 246 H317 L241 82Z" fill="url(#${uid}-beam)" opacity=".76"/>
-        <text x="90" y="36" text-anchor="middle" font-size="11" font-weight="800" fill="#e9f2ee">GROW LAMP</text>`;
+      <rect x="20" y="15" width="380" height="255" rx="4" fill="#2f373a"/>
+      <path d="M20 15 L78 39 V244 L20 269Z" fill="#737b7b" stroke="#aab0aa" stroke-width="3"/>
+      <path d="M400 15 L344 39 V244 L400 269Z" fill="#737b7b" stroke="#aab0aa" stroke-width="3"/>
+      <circle cx="65" cy="141" r="4" fill="#eac689"/><circle cx="355" cy="141" r="4" fill="#eac689"/>
+      <text x="210" y="26" text-anchor="middle" font-size="11" font-weight="800" fill="#dfe2da">DARK CUPBOARD</text>` : "";
 
-    // Fertiliser is represented by small pale granules on the soil.
-    const fertiliserDots = values.fertiliser === "yes"
-      ? `<circle cx="${210 - rimWidth * .19}" cy="${soilTop + 6}" r="3.7" fill="#f2e9bb"/>
-         <circle cx="${210 + rimWidth * .04}" cy="${soilTop + 8}" r="3" fill="#f2e9bb"/>
-         <circle cx="${210 + rimWidth * .22}" cy="${soilTop + 5}" r="3.4" fill="#f2e9bb"/>`
-      : "";
+    const lampFallback = `
+      <path d="M20 0 H400" stroke="#444d4d" stroke-width="3" opacity=".5"/>
+      <path d="M210 0 V55" stroke="#1e2628" stroke-width="3"/>
+      <path d="M190 59 L229 59 L247 77 H172Z" fill="#1e2425"/>
+      <path d="M178 77 H241" stroke="#fff0cd" stroke-width="5" stroke-linecap="round"/>
+      <path d="M178 82 L103 246 H317 L241 82Z" fill="url(#${uid}-beam)" opacity=".76"/>
+      <text x="90" y="36" text-anchor="middle" font-size="11" font-weight="800" fill="#e9f2ee">GROW LAMP</text>`;
+
+    // Three asset strategies for the pot:
+    // 1. Combined cross-section (recommended) replaces the whole pot.
+    // 2. Separate pot + soil, allowing one layer to use a Canva image.
+    // 3. Leave all blank for the complete SVG fallback.
+    const potComposite = VISUAL_ASSETS.potAndSoil[`${values.potSize}-${values.soilFill}`];
+    const potFallbackBody = `
+      <path d="M${xLeft} 172 L${xRight} 172 L${210+bottomHalf} 260 Q210 266 ${210-bottomHalf} 260Z"
+        fill="#e9a37e" stroke="#8d503c" stroke-width="3"/>
+      <path d="M${xLeft+4} 182 L${210-bottomHalf+5} 257" stroke="#ffc09a" stroke-width="5" opacity=".6"/>
+      <path d="M${xRight-4} 182 L${210+bottomHalf-4} 257" stroke="#b7654d" stroke-width="5" opacity=".5"/>`;
+    const soilFallback = `
+      <g clip-path="url(#${uid}-pot-clip)">
+        <rect x="${xLeft}" y="${soilTop}" width="${rimWidth}" height="85" fill="${soilColour}"/>
+        <path d="M${xLeft} ${soilTop+17} Q210 ${soilTop-3} ${xRight} ${soilTop+15}" fill="none" stroke="#ae8b65" stroke-width="5" opacity=".7"/>
+        <circle cx="182" cy="${soilTop+31}" r="3" fill="#b99f7e"/>
+        <circle cx="230" cy="${soilTop+47}" r="4" fill="#ab8865"/>
+      </g>`;
+    const potRim = `
+      <ellipse cx="210" cy="173" rx="${rimWidth/2+3}" ry="9" fill="#a9563e" stroke="#82412d" stroke-width="2"/>
+      <ellipse cx="210" cy="174" rx="${rimWidth/2-4}" ry="5" fill="${values.soilFill === "full" ? soilColour : "#9d5d42"}"/>`;
+    const potLayers = potComposite
+      ? visualLayer(potComposite, IMAGE_FRAMES.pot, "")
+      : `${visualLayer(VISUAL_ASSETS.pots[values.potSize], IMAGE_FRAMES.pot, potFallbackBody)}
+         ${visualLayer(VISUAL_ASSETS.soils[values.soilFill], IMAGE_FRAMES.soil, soilFallback)}
+         ${!VISUAL_ASSETS.pots[values.potSize] ? potRim : ""}`;
+
+    const plantFallback = `<g opacity="${plantOpacity}" transform="translate(0,42) scale(1,0.78)" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M210 ${soilTop} Q217 164 211 139 T209 91" fill="none" stroke="#356e3a" stroke-width="5"/>
+      <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5"/>
+      <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5"/>
+      <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5"/>
+      <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5"/>
+      <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2"/>
+    </g>`;
+
+    const beakerFallback = `<g transform="translate(335,192)">
+      <rect x="0" y="0" width="43" height="66" rx="4" fill="#f5faff" fill-opacity=".72" stroke="#537a90" stroke-width="2"/>
+      <path d="M3 ${65-waterLevel} H40 V62 H3Z" fill="#54bee5" opacity=".86"/>
+      <path d="M27 16 h12 M30 34 h9 M27 48 h12" stroke="#527b8a" stroke-width="2"/>
+      <text x="21" y="-6" text-anchor="middle" font-size="11" fill="${dark ? "#e5f4f0" : "#33526b"}" font-weight="900">${values.waterVolume} mL</text>
+    </g>`;
+    const clockFallback = `<g transform="translate(335,43)">
+      <rect x="0" y="0" width="62" height="53" rx="9" fill="#fffefa" stroke="#657a72" stroke-width="2"/>
+      <path d="M0 14 H62" stroke="#657a72" stroke-width="2"/>
+      <path d="M14 0 v13 M48 0 v13" stroke="#657a72" stroke-width="5" stroke-linecap="round"/>
+      <text x="31" y="34" text-anchor="middle" font-size="18" font-weight="900" fill="#34443c">${values.wateringFrequency}</text>
+      <text x="31" y="45" text-anchor="middle" font-size="8" fill="#52665c">${values.wateringFrequency === "1" ? "DAY" : "DAYS"}</text>
+    </g>`;
+    const fertiliserFallback = `
+      <circle cx="${210-rimWidth*.19}" cy="${soilTop+6}" r="3.7" fill="#f2e9bb"/>
+      <circle cx="${210+rimWidth*.04}" cy="${soilTop+8}" r="3" fill="#f2e9bb"/>
+      <circle cx="${210+rimWidth*.22}" cy="${soilTop+5}" r="3.4" fill="#f2e9bb"/>`;
+
+    const backdropImage = VISUAL_ASSETS.backgrounds[values.lightExposure];
+    const background = visualLayer(backdropImage, IMAGE_FRAMES.background, backdropFallback, "xMidYMid slice");
+    const lamp = growLamp ? visualLayer(VISUAL_ASSETS.lamps[values.lightColour], IMAGE_FRAMES.lamp, lampFallback) : "";
 
     return `<svg class="pk-scene-picture" viewBox="0 0 420 306" role="img"
-      aria-label="${esc(letter === "A" ? "Plant A" : "Plant B")}: ${esc(Object.keys(VARIABLES).filter((key) => key !== "lightColour" || values.lightExposure === "lamp").map((key) => `${VARIABLES[key].label} ${labelFor(key, values[key])}`).join(", "))}">
+      aria-label="${esc(`Plant ${letter}: ` + Object.keys(VARIABLES).filter(key => key !== "lightColour" || growLamp).map(key=>`${VARIABLES[key].label}: ${labelFor(key,values[key])}`).join('; '))}">
       <defs>
         <linearGradient id="${uid}-beam" x1=".5" y1="0" x2=".5" y2="1">
-          <stop offset="0%" stop-color="${colour}" stop-opacity=".9" />
-          <stop offset="100%" stop-color="${colour}" stop-opacity=".05" />
+          <stop offset="0%" stop-color="${colour}" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="${colour}" stop-opacity=".05"/>
         </linearGradient>
         <clipPath id="${uid}-pot-clip">
-          <path d="M${xLeft + 7} 177 L${xRight - 7} 177 L${210 + bottomHalf - 4} 253 L${210 - bottomHalf + 4} 253Z"/>
+          <path d="M${xLeft+7} 177 L${xRight-7} 177 L${210+bottomHalf-4} 253 L${210-bottomHalf+4} 253Z"/>
         </clipPath>
       </defs>
       <rect width="420" height="306" fill="${wall}"/>
-      ${backdrop}
+      ${background}
+      ${lamp}
       <rect y="263" width="420" height="43" fill="${shelf}"/>
       <rect y="263" width="420" height="7" fill="#af855f" opacity=".3"/>
-      <ellipse cx="210" cy="267" rx="${rimWidth * .52}" ry="10" fill="#503d30" opacity=".18"/>
-
-      <!-- Pot: cut-away area makes full/half soil clearly visible. -->
-      <path d="M${xLeft} 172 L${xRight} 172 L${210 + bottomHalf} 260 Q210 266 ${210 - bottomHalf} 260Z"
-        fill="#e9a37e" stroke="#8d503c" stroke-width="3"/>
-      <g clip-path="url(#${uid}-pot-clip)">
-        <rect x="${xLeft}" y="${soilTop}" width="${rimWidth}" height="85" fill="${soilColour}"/>
-        <path d="M${xLeft} ${soilTop + 17} Q210 ${soilTop - 3} ${xRight} ${soilTop + 15}" fill="none" stroke="#ae8b65" stroke-width="5" opacity=".7"/>
-        <circle cx="182" cy="${soilTop + 31}" r="3" fill="#b99f7e"/>
-        <circle cx="230" cy="${soilTop + 47}" r="4" fill="#ab8865"/>
-        ${fertiliserDots}
-      </g>
-      <path d="M${xLeft + 4} 182 L${210 - bottomHalf + 5} 257" stroke="#ffc09a" stroke-width="5" opacity=".6" />
-      <path d="M${xRight - 4} 182 L${210 + bottomHalf - 4} 257" stroke="#b7654d" stroke-width="5" opacity=".5" />
-      <ellipse cx="210" cy="173" rx="${rimWidth / 2 + 3}" ry="9" fill="#a9563e" stroke="#82412d" stroke-width="2" />
-      <ellipse cx="210" cy="174" rx="${rimWidth / 2 - 4}" ry="5" fill="${soilColour}"/>
-      ${values.soilFill === "half" ? `<ellipse cx="210" cy="174" rx="${rimWidth / 2 - 5}" ry="4" fill="#c47756"/>` : ""}
-
-      <!-- The seedling is the same size in both cards: no results are predicted. -->
-      <g opacity="${plantOpacity}" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M210 ${soilTop} Q217 164 211 139 T209 91" fill="none" stroke="#356e3a" stroke-width="5"/>
-        <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5"/>
-        <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5"/>
-        <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5"/>
-        <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5"/>
-        <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2"/>
-      </g>
-      <!-- A beaker represents mL per watering, not liquid stored in the pot. -->
-      <g transform="translate(335,192)">
-        <rect x="0" y="0" width="43" height="66" rx="4" fill="#f5faff" fill-opacity=".72" stroke="#537a90" stroke-width="2"/>
-        <path d="M3 ${65 - waterLevel} H40 V62 H3Z" fill="#54bee5" opacity=".86"/>
-        <path d="M27 16 h12 M30 34 h9 M27 48 h12" stroke="#527b8a" stroke-width="2"/>
-        <text x="21" y="-6" text-anchor="middle" font-size="11" fill="${dark ? "#e5f4f0" : "#33526b"}" font-weight="900">${values.waterVolume} mL</text>
-      </g>
-      <!-- A calendar/clock makes watering frequency visually obvious. -->
-      <g transform="translate(335,43)">
-        <rect x="0" y="0" width="62" height="53" rx="9" fill="#fffefa" stroke="#657a72" stroke-width="2"/>
-        <path d="M0 14 H62" stroke="#657a72" stroke-width="2"/>
-        <path d="M14 0 v13 M48 0 v13" stroke="#657a72" stroke-width="5" stroke-linecap="round"/>
-        <text x="31" y="34" text-anchor="middle" font-size="18" font-weight="900" fill="#34443c">${values.wateringFrequency}</text>
-        <text x="31" y="45" text-anchor="middle" font-size="8" fill="#52665c">${values.wateringFrequency === "1" ? "DAY" : "DAYS"}</text>
-      </g>
+      <ellipse cx="210" cy="267" rx="${rimWidth*.52}" ry="10" fill="#503d30" opacity=".18"/>
+      ${potLayers}
+      <!-- Still a planning illustration, never a prediction of growth. -->
+      ${visualLayer(VISUAL_ASSETS.seedlings.normal, IMAGE_FRAMES.seedling, plantFallback)}
+      ${values.fertiliser === "yes" ? visualLayer(VISUAL_ASSETS.fertiliser.yes, IMAGE_FRAMES.fertiliser, fertiliserFallback) : ""}
+      ${visualLayer(VISUAL_ASSETS.beakers[values.waterVolume], IMAGE_FRAMES.beaker, beakerFallback)}
+      ${visualLayer(VISUAL_ASSETS.clocks[values.wateringFrequency], IMAGE_FRAMES.clock, clockFallback)}
     </svg>`;
   }
 
@@ -443,7 +511,10 @@
       ${drawPlantScene(values, letter)}
       <div class="pk-scene-details">
         <p class="pk-scene-difference">${changed ? `${esc(VARIABLES[state.changeVariable].label)}: ` : ""}${esc(mainValue)}</p>
-        <div class="pk-scene-pill-list">${pills.map((p) => `<span class="pk-scene-pill">${esc(p)}</span>`).join("")}</div>
+        <details class="pk-scene-extra">
+          <summary>See all settings</summary>
+          <div class="pk-scene-pill-list">${pills.map((p) => `<span class="pk-scene-pill">${esc(p)}</span>`).join("")}</div>
+        </details>
       </div>
     </article>`;
   }
@@ -488,9 +559,13 @@
       <article class="pk-blueprint-card change"><h3>🟡 Change</h3><p>${esc(plan.comparison)}</p></article>
       <article class="pk-blueprint-card measure"><h3>🟣 Measure</h3><p>${esc(plan.measure)}</p></article>
       <article class="pk-blueprint-card control"><h3>🟢 Keep the same</h3>
-        <p>${esc(status)}</p><ul>${relevantControlVariables().map((key) =>
-          `<li>${esc(VARIABLES[key].label)}: ${esc(labelFor(key, state.controls[key]))}</li>`).join("")}</ul>
-        ${state.changeVariable === "lightColour" ? "<p><strong>Light exposure:</strong> Grow lamp for both plants.</p>" : ""}
+        <p>${esc(status)}</p>
+        <details class="pk-control-summary">
+          <summary>See ${relevantControlVariables().length + (state.changeVariable === "lightColour" ? 1 : 0)} shared settings</summary>
+          <ul>${relevantControlVariables().map((key) =>
+            `<li>${esc(VARIABLES[key].label)}: ${esc(labelFor(key, state.controls[key]))}</li>`).join("")}
+          ${state.changeVariable === "lightColour" ? "<li>Light exposure: Grow lamp for both plants</li>" : ""}</ul>
+        </details>
       </article>`;
 
     const { a, b } = getSetups();
@@ -612,6 +687,20 @@
   byId("pk-reset").addEventListener("click", () => {
     state = initialState();
     hideFeedback(); render();
+  });
+  // Open details for printing so the complete plan is visible on paper.
+  // Restore their previous state after the print dialog closes.
+  let detailsBeforePrint = [];
+  window.addEventListener("beforeprint", () => {
+    detailsBeforePrint = Array.from(root.querySelectorAll("details"))
+      .map((element) => ({ element, wasOpen: element.open }));
+    detailsBeforePrint.forEach(({element}) => { element.open = true; });
+  });
+  window.addEventListener("afterprint", () => {
+    detailsBeforePrint.forEach(({element, wasOpen}) => {
+      if (element.isConnected) element.open = wasOpen;
+    });
+    detailsBeforePrint = [];
   });
   byId("pk-print").addEventListener("click", () => window.print());
 

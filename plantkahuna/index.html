@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f9f6e7" />
     <title>Plant Big Kahuna | Plan a Fair Test</title>
-    <!-- Standalone prototype: no Lesson 2 styles or scripts are loaded. -->
+    <!-- Shared GTAC base: colours, typography, button styles. -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/build_style.css" />
+    <!-- Plant-specific layout only. Load after the shared site styles. -->
     <link rel="stylesheet" href="../styles/plantkahuna_styles/plantkahuna.css" />
+    <!-- No common_functions.js for now: this page has no glossary, teacher menu or student text fields. -->
     <script defer src="../scripts/plantkahuna_scripts/plantkahuna.js"></script>
   </head>
   <body>
@@ -42,8 +46,8 @@
         <section class="pk-editor" aria-labelledby="pk-editor-heading">
           <div id="pk-controls"></div>
           <div class="pk-editor-footer">
-            <button class="pk-button pk-button-secondary" id="pk-back" type="button">← Back</button>
-            <button class="pk-button pk-button-primary" id="pk-next" type="button">Next →</button>
+            <button class="general-button pk-button pk-button-secondary" id="pk-back" type="button">← Back</button>
+            <button class="general-button pk-button pk-button-primary" id="pk-next" type="button">Next →</button>
           </div>
         </section>
 
@@ -72,7 +76,7 @@
             <p class="pk-kicker">YOUR FAIR TEST PLAN</p>
             <h2 id="pk-plan-title">Your experiment blueprint</h2>
           </div>
-          <button type="button" class="pk-button pk-button-secondary pk-print" id="pk-print">Print plan</button>
+          <button type="button" class="general-button pk-button pk-button-secondary pk-print" id="pk-print">Print plan</button>
         </div>
         <p class="pk-question" id="pk-question">Choose what you will change and measure to build your question.</p>
         <div class="pk-blueprint-grid" id="pk-blueprint"></div>
@@ -81,13 +85,13 @@
           <div id="pk-settings-table"></div>
         </details>
         <div class="pk-check-row">
-          <button class="pk-button pk-button-check" id="pk-check" type="button">Check my fair test plan ✓</button>
+          <button class="general-button pk-button pk-button-check" id="pk-check" type="button">Check my fair test plan ✓</button>
           <div class="pk-feedback" id="pk-feedback" role="status" aria-live="polite" hidden></div>
         </div>
       </section>
 
       <footer class="pk-footer">
-        Standalone classroom prototype • No data is collected or saved • Images can be replaced with Canva assets later
+        Plant Lab · Fair-test planning activity
       </footer>
     </main>
   </body>
