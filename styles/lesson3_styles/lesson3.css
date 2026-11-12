@@ -90,11 +90,11 @@
   padding: 28px;
 
   background: linear-gradient(
-  to bottom,
-  var(--paper) 0%,
-  var(--paper) 50%,
-  var(--blue) 300%
-);
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 50%,
+    var(--blue) 300%
+  );
 
   border: 3px solid var(--charcoal);
   border-radius: 24px;
@@ -111,7 +111,6 @@
   border: 2px solid var(--orange);
   border-left: 7px solid var(--orange);
   border-radius: 10px;
-
 
   font-size: 0.76rem;
   font-weight: 700;
@@ -132,7 +131,6 @@
   letter-spacing: normal;
   text-transform: none;
 }
-
 
 .experiment-table-scroll {
   width: 100%;
@@ -194,7 +192,6 @@
   text-transform: uppercase;
 }
 
-
 /* TEST / REPEAT TRIAL = NEUTRAL LAVENDER */
 .test-heading {
   background: var(--lavender);
@@ -222,7 +219,6 @@
   font-weight: 700;
   text-transform: uppercase;
 }
-
 
 /* VALUES OF THE INDEPENDENT VARIABLE = SOFT YELLOW */
 .independent-value {
@@ -344,7 +340,7 @@
   flex-direction: column;
   gap: 9px;
   align-items: center;
-  
+
   min-height: 130px;
   padding: 20px;
 
@@ -355,8 +351,7 @@
 
   box-shadow: var(--shadow-small);
 
-  transition: 
-    transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
 }
 
 .table-key-card:hover {
@@ -407,7 +402,7 @@
 
   width: 75%;
 
-  background:  var(--paper);
+  background: var(--paper);
   padding: 25px;
   border-radius: 16px;
 }
@@ -594,7 +589,6 @@
   appearance: textfield;
 }
 
-
 /* ---------- Student heading / label text fields ---------- */
 
 .table-text-input {
@@ -615,7 +609,6 @@
   opacity: 0.75;
 }
 
-
 /* Dependent-variable heading */
 .table-heading-input {
   max-width: 430px;
@@ -623,7 +616,6 @@
 
   background: var(--paper);
 }
-
 
 /* ---------- Ball-bounce data cells ---------- */
 
@@ -708,7 +700,6 @@
   }
 }
 
-
 /* ---------- Build-your-own table labels ---------- */
 
 #build-your-own-table .independent-value .table-text-input {
@@ -731,7 +722,7 @@
 
 .average-button {
   display: inline-flex;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
 
   width: clamp(80px, 7vw, 104px);
@@ -771,9 +762,9 @@
 
   margin: 0 0 10px;
   padding: 20px 22px;
-  
+
   background: var(--soft-blue);
-  
+
   border: 2px solid var(--charcoal);
   border-radius: 18px;
 }
@@ -986,7 +977,6 @@
   font-weight: 800;
 }
 
-
 /* ---------- Draggable labels ----------
    Behaviour (ghost, hover, reject) comes from styles/drag_and_drop_base.css;
    only the look is set here. */
@@ -997,6 +987,8 @@
   --dd-reject: var(--orange);
   --dd-ghost-scale: 1.05;
   --dd-ghost-rotate: 0deg;
+
+  border-radius: 20px;
 }
 
 .drag-label {
@@ -1030,7 +1022,6 @@
   width: max-content;
   max-width: 90vw;
 }
-
 
 /* ---------- Drop zones ---------- */
 
@@ -1105,13 +1096,11 @@
   border-color: var(--orange);
 }
 
-
 /* ---------- Dependent-variable drop area ---------- */
 
 #yeast-labels .drop-heading {
   padding: 10px 14px;
 }
-
 
 #yeast-labels .dependent-heading .label-drop-zone {
   min-height: 48px;
@@ -1122,14 +1111,12 @@
   border-color: rgba(255, 255, 255, 0.78);
 }
 
-
 #yeast-labels .dependent-heading .label-drop-zone.dd-hover {
   background: var(--soft-yellow);
   color: var(--text);
 
   border-color: var(--yellow);
 }
-
 
 #yeast-labels .dependent-heading .label-drop-zone.dd-filled {
   background: transparent;
@@ -1148,20 +1135,17 @@
   border-color: var(--yellow);
 }
 
-
 #yeast-labels .independent-heading .label-drop-zone.dd-filled {
   background: transparent;
   border-color: transparent;
   text-transform: uppercase;
 }
 
-
 /* ---------- Test-heading drop areas ---------- */
 
 #yeast-labels .test-heading {
   padding: 10px;
 }
-
 
 #yeast-labels .test-heading .label-drop-zone.dd-filled {
   background: transparent;
@@ -1170,13 +1154,11 @@
   text-transform: uppercase;
 }
 
-
 /* ---------- Temperature row labels ---------- */
 
 #yeast-labels .independent-value {
   padding: 10px;
 }
-
 
 #yeast-labels .independent-value .label-drop-zone.dd-filled {
   background: transparent;
@@ -1198,7 +1180,6 @@
   font-size: 1.05rem;
 }
 
-
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   #yeastActivity {
@@ -1214,7 +1195,7 @@
     grid-column: 1;
     grid-row: auto;
   }
-  
+
   #yeast-labels .table-label-bank {
     padding: 14px;
     gap: 9px;
@@ -1257,12 +1238,10 @@
   justify-content: space-between;
 }
 
-
 /* Make the input wrapper occupy the cell normally */
 .table-entry-input-row {
   width: 100%;
 }
-
 
 /* ---------- Permanent number answers ---------- */
 
@@ -1465,14 +1444,12 @@
   font-size: 0.95rem;
 }
 
-
 /* ---------- Try again / warning ---------- */
 
 .table-activity-feedback.feedback-try-again {
   background: var(--soft-orange);
   border-color: var(--orange);
 }
-
 
 /* ---------- Success ---------- */
 
@@ -1544,8 +1521,6 @@
   display: none !important;
 }
 
-
-
 /* ==================================================
    LESSON 3 - BALL BOUNCE PLANNING
    Testable question + reasoned prediction
@@ -1562,7 +1537,6 @@
 
   box-shadow: none;
 }
-
 
 /* ---------- Step headings ---------- */
 
@@ -1596,8 +1570,7 @@
   margin-bottom: 6px;
 }
 
-.lesson3-planning-heading.prediction-heading
-  + .lesson3-planning-instruction {
+.lesson3-planning-heading.prediction-heading + .lesson3-planning-instruction {
   margin-bottom: 10px;
 }
 
@@ -1623,7 +1596,6 @@
 
   font-size: 1.15rem;
 }
-
 
 /* ---------- Instructions ---------- */
 
@@ -1674,7 +1646,6 @@
   box-shadow: 0 6px 0 var(--line);
 }
 
-
 /* Same colour coding as Lesson 2 */
 
 .question-structure-card.question-structure-what {
@@ -1692,7 +1663,6 @@
 .question-structure-card.question-structure-if {
   border-top: 4px solid var(--purple);
 }
-
 
 /* Selected states */
 
@@ -1719,7 +1689,6 @@
   transform: translateY(0);
   box-shadow: none;
 }
-
 
 /* ---------- Question builder ---------- */
 
@@ -1787,7 +1756,6 @@
   border-color: var(--purple);
 }
 
-
 /* Completed question */
 
 .completed-investigation-question {
@@ -1822,7 +1790,6 @@
 
   background: transparent;
 }
-
 
 /* ---------- Responsive ---------- */
 
@@ -1925,48 +1892,48 @@
 }
 
 .yeast-image-activity {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 0 auto;
 }
 
 .yeast-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    aspect-ratio: 4 / 3;
-    cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
 
-    container-type: inline-size;
+  container-type: inline-size;
 }
 
 .yeast-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Number label */
 .yeast-number {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 3;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
 
-    background: rgba(0, 0, 0, 0.3);
-    color: var(--paper);
-    font-size: 20px;
-    font-weight: bold;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--paper);
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .yeast-card:hover .yeast-number {
@@ -1975,129 +1942,127 @@
 
 /* Hover information */
 .yeast-overlay {
-    position: absolute;
-    inset: 0;
+  position: absolute;
+  inset: 0;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-    padding: clamp(8px, 5cqw, 24px);
+  padding: clamp(8px, 5cqw, 24px);
 
-    background: rgba(0, 0, 0, 0.75);
-    color: var(--paper);
+  background: rgba(0, 0, 0, 0.75);
+  color: var(--paper);
 
-    opacity: 0;
-    transition: opacity 0.25s ease;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .yeast-mobile-modal {
-    display: none;
+  display: none;
 }
 
 /* Mobile */
 @media (max-width: 1000px) {
+  /* Stop the normal hover overlay appearing */
+  .yeast-card:hover .yeast-overlay {
+    opacity: 0;
+  }
 
-    /* Stop the normal hover overlay appearing */
-    .yeast-card:hover .yeast-overlay {
-        opacity: 0;
-    }
+  .yeast-mobile-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
 
-    .yeast-mobile-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 
-      /*
+    /*
         The backdrop fades quickly so the box is already visible while it
         grows. Visibility must last as long as the growth animation,
         otherwise the box is hidden part way through.
       */
-      transition:
-        opacity 0.12s ease,
-        visibility 0.32s ease;
-      }
-      
-    .yeast-mobile-modal-box {
-      position: relative;
-      width: 500px;
-      height: 50%;
+    transition:
+      opacity 0.12s ease,
+      visibility 0.32s ease;
+  }
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      
-      margin: auto;
-      padding: 40px;
+  .yeast-mobile-modal-box {
+    position: relative;
+    width: 500px;
+    height: 50%;
 
-      color: var(--paper);
-      background: rgba(0, 0, 0, 0.9);
-      border-radius: 16px;
-        
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    .yeast-mobile-modal.is-open {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
+    margin: auto;
+    padding: 40px;
 
-    .yeast-modal-content {
-        width: 100%;
-        max-width: 500px;
-        text-align: center;
-    }
+    color: var(--paper);
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 16px;
+  }
 
-    .yeast-modal-content h3 {
-        font-size: clamp(24px, 7vw, 38px);
-        margin: 0 0 20px;
-    }
+  .yeast-mobile-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 
-    .yeast-modal-content p {
-        font-size: clamp(16px, 4.5vw, 22px);
-        line-height: 1.5;
-        margin: 0;
-    }
+  .yeast-modal-content {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+  }
 
-    .yeast-modal-close {
-        position: absolute;
-        top: 0;
-        right: 0;
+  .yeast-modal-content h3 {
+    font-size: clamp(24px, 7vw, 38px);
+    margin: 0 0 20px;
+  }
 
-        border: 0;
-        background: transparent;
-        color: white;
+  .yeast-modal-content p {
+    font-size: clamp(16px, 4.5vw, 22px);
+    line-height: 1.5;
+    margin: 0;
+  }
 
-        font-size: 48px;
-        line-height: 1;
+  .yeast-modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
 
-        cursor: pointer;
-    }
+    border: 0;
+    background: transparent;
+    color: white;
+
+    font-size: 48px;
+    line-height: 1;
+
+    cursor: pointer;
+  }
 }
 
 .yeast-card:hover .yeast-overlay {
-    opacity: 1;
+  opacity: 1;
 }
 
 .yeast-overlay p {
-    margin: 0;
-    line-height: 1.5;
-    font-size: clamp(11px, 4cqw, 16px);
+  margin: 0;
+  line-height: 1.5;
+  font-size: clamp(11px, 4cqw, 16px);
 }
 
 /* Mobile */
 @media (max-width: 600px) {
-    .yeast-image-activity {
-        grid-template-columns: 1fr;
-    }
+  .yeast-image-activity {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ==================================================
@@ -2217,14 +2182,12 @@
   width: 100%;
   border: 2px solid var(--charcoal);
   border-radius: 12px;
-
 }
-
 
 .reasoned-prediction-box {
   position: relative;
   padding-top: 28px;
-  
+
   border: 2px solid var(--charcoal);
   border-top: 4px solid var(--green);
   box-shadow: none;
@@ -2465,7 +2428,6 @@
   box-shadow: var(--shadow-small);
 }
 
-
 /* ---------- Setup ---------- */
 
 .ball-bounce-setup {
@@ -2473,7 +2435,6 @@
 }
 
 .ball-bounce-setup-image {
-
   margin-top: 18px;
 
   display: flex;
@@ -2494,7 +2455,6 @@
 
   border-radius: 12px;
 }
-
 
 /* ---------- Variables ---------- */
 
@@ -2557,7 +2517,7 @@
 .ball-bounce-controlled-options label {
   flex: 0 1 calc(50% - 5px);
   box-sizing: border-box;
-  
+
   display: flex;
   align-items: center;
   gap: 9px;
@@ -2568,11 +2528,9 @@
 
   border: 2px solid var(--line);
   border-radius: 10px;
-  
+
   cursor: pointer;
 }
-
-
 
 /* ---------- Variables feedback ---------- */
 
@@ -2585,7 +2543,6 @@
 
   background: var(--soft-blue);
 }
-
 
 /* ---------- Planning steps 3-5 ---------- */
 
@@ -2601,7 +2558,6 @@
   border-top: 8px solid var(--mint);
 }
 
-
 /* Separate the stages without making more giant cards */
 
 #ballBouncePlanning .prediction-heading,
@@ -2612,7 +2568,6 @@
 
   border-top: 2px dashed var(--line);
 }
-
 
 /* ---------- Responsive ---------- */
 
