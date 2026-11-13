@@ -63,6 +63,13 @@
 .pk-option { display: flex; text-align: left; align-items: center; justify-content: flex-start; min-height: 58px; padding: 11px 13px; border: 2px solid #bfc9c0; border-radius: 13px; background: white; color: var(--pk-ink); font-weight: 750; line-height: 1.3; }
 .pk-option:hover { background: #f5f0ff; border-color: var(--pk-purple); }
 .pk-option.is-selected { background: var(--pk-soft-purple); border-color: var(--pk-purple); box-shadow: inset 0 0 0 1px var(--pk-purple); }
+/* Small live confirmation of the two conditions being compared.
+   Only appears after students choose a variable in Step 1. */
+.pk-change-summary { margin-top: 15px; padding: 11px 12px 12px; background: #f7f4ff; border: 1.5px solid #cfc6ff; border-left: 5px solid var(--pk-purple); border-radius: 13px; }
+.pk-change-summary-title { display: block; margin-bottom: 8px; color: #4227b7; font-size: .73rem; font-weight: 850; letter-spacing: .025em; }
+.pk-change-summary-pair { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 7px; }
+.pk-change-summary-value { min-width: 0; padding: 7px 8px; background: white; border: 1px solid #d3c9ff; border-radius: 999px; text-align: center; font-size: .84rem; font-weight: 800; line-height: 1.32; overflow-wrap: anywhere; }
+.pk-change-summary-vs { color: var(--pk-muted); font-size: .8rem; font-weight: 800; }
 .pk-compare-box { margin-top: 20px; background: #f4f7ef; border: 2px dashed #a3b0a2; border-radius: 16px; padding: 15px; }
 .pk-compare-box h3 { margin: 0 0 6px; font-size: 1rem; }
 .pk-compare-box p { color: var(--pk-muted); font-size: .85rem; margin: 0 0 10px; }
@@ -71,10 +78,6 @@
 .pk-radio-indicator { width: 17px; height: 17px; flex: 0 0 17px; border: 2px solid #949c96; border-radius: 50%; }
 .pk-comparison.is-selected .pk-radio-indicator { border: 5px solid var(--pk-purple); }
 .pk-tip { color: var(--pk-muted); padding: 0; border: 0; background: transparent; font-size: .84rem; margin: 13px 0 0 !important; }
-/* A proper button beside the scene makes A/B reversal discoverable. */
-.pk-swap { border: 2px solid var(--pk-purple); color: var(--pk-purple); background: var(--pk-soft-purple); padding: 9px 12px; border-radius: 11px; white-space: nowrap; font-size: .86rem; font-weight: 850; box-shadow: 0 3px 0 #8979d5; transition: transform .15s, box-shadow .15s, background-color .15s; }
-.pk-swap:hover { background: #cfc2ff; transform: translateY(-2px); box-shadow: 0 5px 0 #8979d5; }
-.pk-swap:active { transform: translateY(2px); box-shadow: 0 1px 0 #8979d5; }
 /* Base padding, border, font, shadow and hover movement come from .general-button. */
 .pk-button { padding: 10px 15px; font-weight: 800; border-radius: 11px; }
 .pk-button:disabled { cursor: default; opacity: .45; box-shadow: none; }
@@ -172,7 +175,6 @@
   .pk-hero h1 { font-size: 2rem; }
   .pk-experiments-header { flex-wrap: wrap; }
   .pk-scene-actions { justify-content: flex-start; }
-  .pk-swap { padding: 8px 10px; font-size: .8rem; }
   .pk-experiments, .pk-editor, .pk-plan { padding: 13px; }
   .pk-check-row .pk-button-check { width: 100%; }
 }

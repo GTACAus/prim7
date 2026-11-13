@@ -155,8 +155,16 @@
   const IMAGE_FRAMES = {
     background: { x: 0, y: 0, width: 420, height: 306 },
     lamp: { x: 100, y: 0, width: 220, height: 246 },
-    pot: { x: 129, y: 165, width: 162, height: 102 },
-    soil: { x: 154, y: 180, width: 112, height: 78 },
+    // Pot sizes are framed separately and share a bottom edge (y = 267).
+    // This matters when you add BOTH small and large Canva pot PNGs.
+    pot: {
+      small: { x: 156, y: 195, width: 108, height: 72 },
+      large: { x: 129, y: 165, width: 162, height: 102 },
+    },
+    soil: {
+      small: { x: 170, y: 212, width: 80, height: 46 },
+      large: { x: 154, y: 180, width: 112, height: 78 },
+    },
     seedling: { x: 154, y: 76, width: 112, height: 118 },
     beaker: { x: 326, y: 179, width: 67, height: 88 },
     fertiliser: { x: 155, y: 169, width: 110, height: 55 },
@@ -178,7 +186,6 @@
       step: "change",
       changeVariable: null,
       comparison: null,
-      reversed: false,
       measurement: null,
       measureAfterDays: "14",
       controls: { ...STARTING_CONTROLS },
@@ -213,8 +220,8 @@
     const b = { ...state.controls };
     const comparison = currentComparison();
     if (comparison) {
-      a[state.changeVariable] = state.reversed ? comparison.b : comparison.a;
-      b[state.changeVariable] = state.reversed ? comparison.a : comparison.b;
+      a[state.changeVariable] = comparison.a;
+      b[state.changeVariable] = comparison.b;
     }
 
     // Red/green/white tests require the SAME kind of lamp for both plants,
@@ -270,10 +277,24 @@
         </div>`;
       }
     }
+    // A compact confirmation just below the choices. It updates to match
+    // the selected comparison, including red/green/white and light/dark pairs.
+    // Keep it hidden until a variable is selected to avoid extra clutter.
+    const comparison = currentComparison();
+    const comparisonSummary = comparison ? `
+      <div class="pk-change-summary" aria-label="Current comparison">
+        <span class="pk-change-summary-title">Changing · ${esc(VARIABLES[state.changeVariable].label)}</span>
+        <div class="pk-change-summary-pair">
+          <strong class="pk-change-summary-value">${esc(labelFor(state.changeVariable, comparison.a))}</strong>
+          <span class="pk-change-summary-vs">vs</span>
+          <strong class="pk-change-summary-value">${esc(labelFor(state.changeVariable, comparison.b))}</strong>
+        </div>
+      </div>` : "";
+
     return `<p class="pk-kicker">STEP 1 OF 3 · INDEPENDENT VARIABLE</p>
       <h2 id="pk-editor-heading">What will you change?</h2>
       <p class="pk-help">Choose <strong>one thing</strong> to test.</p>
-      <div class="pk-options">${choices}</div>${pairSection}`;
+      <div class="pk-options">${choices}</div>${pairSection}${comparisonSummary}`;
   }
 
   function renderMeasure() {
@@ -406,6 +427,8 @@
     // 2. Separate pot + soil, allowing one layer to use a Canva image.
     // 3. Leave all blank for the complete SVG fallback.
     const potComposite = VISUAL_ASSETS.potAndSoil[`${values.potSize}-${values.soilFill}`];
+    const potFrame = IMAGE_FRAMES.pot[values.potSize];
+    const soilFrame = IMAGE_FRAMES.soil[values.potSize];
     const potFallbackBody = `
       <path d="M${xLeft} 172 L${xRight} 172 L${210+bottomHalf} 260 Q210 266 ${210-bottomHalf} 260Z"
         fill="#e9a37e" stroke="#8d503c" stroke-width="3"/>
@@ -422,9 +445,9 @@
       <ellipse cx="210" cy="173" rx="${rimWidth/2+3}" ry="9" fill="#a9563e" stroke="#82412d" stroke-width="2"/>
       <ellipse cx="210" cy="174" rx="${rimWidth/2-4}" ry="5" fill="${values.soilFill === "full" ? soilColour : "#9d5d42"}"/>`;
     const potLayers = potComposite
-      ? visualLayer(potComposite, IMAGE_FRAMES.pot, "")
-      : `${visualLayer(VISUAL_ASSETS.pots[values.potSize], IMAGE_FRAMES.pot, potFallbackBody)}
-         ${visualLayer(VISUAL_ASSETS.soils[values.soilFill], IMAGE_FRAMES.soil, soilFallback)}
+      ? visualLayer(potComposite, potFrame, "")
+      : `${visualLayer(VISUAL_ASSETS.pots[values.potSize], potFrame, potFallbackBody)}
+         ${visualLayer(VISUAL_ASSETS.soils[values.soilFill], soilFrame, soilFallback)}
          ${!VISUAL_ASSETS.pots[values.potSize] ? potRim : ""}`;
 
     const plantFallback = `<g opacity="${plantOpacity}" transform="translate(0,42) scale(1,0.78)" stroke-linecap="round" stroke-linejoin="round">
@@ -512,12 +535,9 @@
   function renderScenes() {
     const values = getSetups();
     scenes.innerHTML = sceneCard("A", values.a) + sceneCard("B", values.b);
-    // Swapping changes the assignments of the selected conditions, not
-    // which variable is being tested. Hide the button before a selection.
-    byId("pk-swap").hidden = !state.changeVariable;
     const lead = byId("pk-scene-lead");
     lead.textContent = state.changeVariable
-      ? `Only ${VARIABLES[state.changeVariable].label.toLowerCase()} changes between Plant A and Plant B.`
+      ? "All other settings are the same for both plants."
       : "Both plants start with the same settings. Choose a variable to change.";
   }
 
@@ -623,14 +643,12 @@
     if (variable) {
       state.changeVariable = variable.dataset.variable;
       state.comparison = VARIABLES[state.changeVariable].comparisons[0].id;
-      state.reversed = false;
       state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
     const pair = event.target.closest("[data-pair]");
     if (pair) {
       state.comparison = pair.dataset.pair;
-      state.reversed = false; // labels follow the selected comparison order
       state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
@@ -663,11 +681,6 @@
   byId("pk-steps").addEventListener("click", (event) => {
     const button = event.target.closest("[data-step]");
     if (button) setStep(button.dataset.step);
-  });
-  byId("pk-swap").addEventListener("click", () => {
-    if (!state.changeVariable) return;
-    state.reversed = !state.reversed;
-    hideFeedback(); render();
   });
   byId("pk-check").addEventListener("click", checkPlan);
   byId("pk-reset").addEventListener("click", () => {
