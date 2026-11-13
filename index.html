@@ -86,7 +86,7 @@
         grid-template-rows: auto;
       }
       .carousel:has(.carousel-track.is-grid) .carousel-control,
-      .carousel:has(.carousel-track.is-grid) #description {
+      .carousel:has(.carousel-track.is-grid) .overview {
         display: none;
       }
       .carousel-track.is-grid {
@@ -113,8 +113,10 @@
         will-change: none;
       }
 
-      #description {
-        z-index: -1;
+      .overview {
+        position: absolute;
+        bottom: 40px;
+
         grid-column: 1 / -1;
         grid-row: 2;
         box-sizing: border-box;
@@ -123,59 +125,49 @@
         align-items: center;
         text-align: center;
         max-width: 700px;
-        margin: 0 20px;
-        padding: 20px;
+        margin: 0 clamp(8px, 1.7vw, 20px);
+        padding: clamp(10px, 1.7vw, 20px);
         border: 2px solid var(--charcoal);
-        background: white;
+        background: transparent;
         box-shadow: var(--shadow-medium);
-        border-radius: 20px;
-        width: 100%;
-      }
-      #description.is-transitioning {
-        --animation-length: 0.6s;
-        --bounce-amount: 20px;
+        border-radius: clamp(12px, 1.7vw, 20px);
+        width: 90%;
+        text-transform: none;
 
-        animation: description-arrive var(--animation-length) ease both;
+        transition: background 0.25s ease;
       }
-      #description.is-transitioning * {
-        animation: description-content-fade var(--animation-length) ease both;
+      .lesson-card:not(.unavailable):hover .overview {
+        background: white;
       }
-      @keyframes description-content-fade {
-        0% {
-          opacity: 0;
-        }
-        50% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-      @keyframes description-arrive {
-        0% {
-          transform: translateY(-300px) scaleX(0.1);
-        }
-        50% {
-          transform: translateY(var(--bounce-amount)) scaleX(0.1);
-        }
-        75% {
-          transform: translateY(calc(-1 * var(--bounce-amount))) scaleX(1);
-        }
-        100% {
-          transform: translateY(0px);
-        }
-      }
-      #description h2,
-      p {
+      .overview h2,
+      .overview p {
         margin: 0;
-        margin-bottom: 10px;
+        margin-bottom: clamp(5px, 0.85vw, 10px);
       }
-      #description h2 {
-        margin-bottom: 25px;
+      .overview h2 {
+        margin-bottom: clamp(12px, 2.1vw, 25px);
+        text-transform: uppercase;
       }
-      #description p::before {
-        content: "Description: ";
+      .overview .experiment {
+        display: flex;
+        align-items: center;
+        gap: clamp(5px, 0.85vw, 10px);
+      }
+
+      .overview .experiment-heading {
+        font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+        margin-bottom: clamp(5px, 0.85vw, 10px);
+      }
+      .overview .experiment-content {
+        color: var(--paper);
+        background: var(--green);
+        padding: clamp(4px, 0.6vw, 7px);
+        border-radius: 99px;
+        border: 2px solid var(--charcoal);
         font-weight: 700;
+        box-shadow:
+          0 5px 5px rgb(0 0 0 / 40%),
+          0 0 0 transparent;
       }
       .lesson-card {
         position: absolute;
@@ -187,7 +179,7 @@
         min-height: clamp(260px, 44vh, 430px);
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
         gap: 0.8rem;
         overflow: hidden;
         padding: clamp(20px, 4vw, 48px);
@@ -219,12 +211,11 @@
       }
       .lesson-card img {
         position: absolute;
-        inset: 10% 12%;
-        width: 76%;
-        height: 80%;
+        inset: -10%;
+        height: 140%;
         margin: auto;
         object-fit: contain;
-        opacity: 0.2;
+        opacity: 0.1;
         pointer-events: none;
         transition:
           opacity 0.2s ease,
@@ -241,8 +232,8 @@
         transition: transform 0.45s ease;
       }
       .lesson-subtitle {
-        max-width: 17ch;
-        font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+        max-width: 50ch;
+        font-size: 1.6rem;
         font-weight: 700;
         line-height: 1.35;
         transition: transform 0.45s ease;
@@ -259,12 +250,9 @@
       .carousel-track.is-grid .lesson-card:hover {
         background: color-mix(in srgb, var(--accent) 20%, white 80%);
       }
-      .lesson-card.is-current:not(.unavailable):hover .lesson-subtitle {
-        transform: scale(1.5);
-      }
 
       .lesson-card.is-current img {
-        opacity: 0.28;
+        opacity: 0.1;
       }
       .carousel-track.is-swiping .lesson-card {
         left: calc(50% + var(--swipe-x));
@@ -377,7 +365,7 @@
         outline: 4px solid var(--purple);
         outline-offset: 5px;
       }
-      @media (max-width: 600px) {
+      @media (max-width: 700px) {
         .page {
           padding: 28px 0;
         }
@@ -394,6 +382,15 @@
           width: min(68vw, 310px);
           min-height: clamp(250px, 40vh, 360px);
         }
+        .lesson-subtitle {
+          font-size: clamp(0.8rem, 1vw, 1rem);
+        }
+        .overview .experiment {
+          flex-direction: column;
+        }
+        .overview .experiment-heading {
+          font-size: clamp(1rem, 5vw, 1.4rem);
+        }
         .lesson-card.is-previous,
         .lesson-card.is-next {
           width: min(54vw, 250px);
@@ -408,9 +405,6 @@
           width: 40px;
           height: 40px;
         }
-        #description {
-          padding: 16px;
-        }
       }
       @media (prefers-reduced-motion: reduce) {
         *,
@@ -418,9 +412,6 @@
         *::after {
           scroll-behavior: auto !important;
           transition-duration: 0.01ms !important;
-        }
-        #description.is-transitioning {
-          animation-duration: 0.01ms;
         }
       }
     </style>
@@ -537,10 +528,6 @@
           type="button"
           aria-label="Show next lesson"
         ></button>
-        <div
-          id="description"
-          aria-label="Description of the current lesson"
-        ></div>
       </section>
       <p class="carousel-status" aria-live="polite"></p>
     </main>
@@ -640,14 +627,46 @@
       // ─────────────────────────────────────────────
 
       const lessonDescriptions = [
-        "Use what you know about the world to ask questions and make predictions.",
-        "Learn how to plan a fair test and represent it as a diagram.",
-        "Collect data from a fair test and learn how to organize it into a table.",
-        "Apply what you have learned in lessons 1,2 and 3. Plan a fair test and record results in a table.",
-        "Learn how to convert data into a bar graph to help analyse results.",
-        "Learn how to convert data into a line graph to help analyse results.",
-        "Learn how to represent experiments as a diagram and observations as scientific drawings.",
-        "Learn how to report on a fair test using a scientific poster or scientific report.",
+        {
+          description:
+            "Use what you know about the world to ask questions and make predictions.",
+          experiment: "Toy Cars Rolling Down Ramps",
+        },
+        {
+          description:
+            "Learn how to plan a fair test and represent it as a diagram.",
+          experiment: "Ball Bounce Test",
+        },
+        {
+          description:
+            "Collect data from a fair test and learn how to organize it into a table.",
+          experiment: "Is Yeast Alive?",
+        },
+        {
+          description:
+            "Apply what you have learned in lessons 1,2 and 3. Plan a fair test and record results in a table.",
+          experiment: "Ball Bounce Test Continued",
+        },
+        {
+          description:
+            "Learn how to convert data into a bar graph to help analyse results.",
+          experiment: "Leadbeaters Possum Conservation",
+        },
+        {
+          description:
+            "Learn how to convert data into a line graph to help analyse results.",
+          experiment: "What lives in the intertidal zone?",
+        },
+        {
+          description:
+            "Learn how to represent experiments as a diagram and observations as scientific drawings.",
+          experiment: "Deep Sea Exploration + Rust experiment",
+        },
+        {
+          description:
+            "Learn how to report on a fair test using a scientific poster or scientific report.",
+          experiment: "Reaction Time Experiment",
+        },
       ];
 
       // ─────────────────────────────────────────────
@@ -703,11 +722,11 @@
         card.element.style.setProperty(
           "--tilt-shadow",
           `
-            ${card.currentShadowX}px
-            ${card.currentShadowY}px
-            ${blur}px
-            rgba(0, 0, 0, ${card.currentShadowOpacity})
-        `,
+                  ${card.currentShadowX}px
+                  ${card.currentShadowY}px
+                  ${blur}px
+                  rgba(0, 0, 0, ${card.currentShadowOpacity})
+              `,
         );
       }
 
@@ -909,14 +928,6 @@
       // Carousel functionality
       // ─────────────────────────────────────────────
 
-      const description = document.getElementById("description");
-
-      description.addEventListener("animationend", (event) => {
-        if (event.animationName === "description-arrive") {
-          description.classList.remove("is-transitioning");
-        }
-      });
-
       function updateVisibility() {
         document.querySelectorAll("[data-stage]").forEach((item) => {
           item.classList.toggle(
@@ -931,23 +942,36 @@
         });
       }
 
-      function showDescription(index, animate = false) {
-        description.innerHTML = "";
+      function createLessonOverview(index) {
+        const overview = document.createElement("div");
+        overview.ariaLabel = `Overview of lesson ${index}`;
+        overview.innerHTML = "";
+        overview.className = "overview";
 
-        const heading = document.createElement("h2");
-        const content = document.createElement("p");
+        const description = document.createElement("div");
+        description.className = "description";
+        const experiment = document.createElement("div");
+        experiment.className = "experiment";
 
-        description.appendChild(heading);
-        description.appendChild(content);
+        const experimentHeading = document.createElement("h2");
+        experimentHeading.textContent = "Experiment:";
+        experimentHeading.className = "experiment-heading";
+        experiment.appendChild(experimentHeading);
 
-        heading.textContent = `Lesson ${index + 1}`;
-        content.textContent = lessonDescriptions[index];
+        overview.appendChild(description);
+        overview.appendChild(experiment);
 
-        if (animate && !reduceMotion) {
-          description.classList.remove("is-transitioning");
-          void description.offsetWidth;
-          description.classList.add("is-transitioning");
-        }
+        const descriptionContent = document.createElement("p");
+        descriptionContent.textContent = lessonDescriptions[index].description;
+        descriptionContent.className = "description-content";
+        description.appendChild(descriptionContent);
+
+        const experimentContent = document.createElement("p");
+        experimentContent.textContent = lessonDescriptions[index].experiment;
+        experimentContent.className = "experiment-content";
+        experiment.appendChild(experimentContent);
+
+        return overview;
       }
 
       function showLesson(index, animate = false) {
@@ -979,8 +1003,6 @@
         nextButton.disabled = currentIndex === cards.length - 1;
 
         status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
-
-        showDescription(currentIndex, animate);
       }
 
       // ─────────────────────────────────────────────
@@ -1163,6 +1185,7 @@
       // ─────────────────────────────────────────────
 
       cards.forEach((card, index) => {
+        const animate = true;
         addCardEventListener(card, "click", (event) => {
           if (
             index !== currentIndex ||
@@ -1170,9 +1193,10 @@
           ) {
             event.preventDefault();
 
-            showLesson(index, true);
+            showLesson(index, animate);
           }
         });
+        card.appendChild(createLessonOverview(index));
       });
 
       // ─────────────────────────────────────────────

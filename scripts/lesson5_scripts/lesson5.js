@@ -998,6 +998,7 @@ function initDiagramLabelActivity() {
 function createFreshExpeditionState() {
   return {
     started: false,
+    teacherMode: false,
     currentMissionIndex: 0,
     currentStageIndex: 0,
     unlockedMissionIndex: 0,
@@ -1050,7 +1051,10 @@ function loadExpeditionState() {
       }
     }
   } catch (error) {
-    reportStorageError("Could not access saved Expedition Log progress.", error);
+    reportStorageError(
+      "Could not access saved Expedition Log progress.",
+      error,
+    );
     return;
   }
 
@@ -1151,6 +1155,7 @@ function setActiveStage(stageIndex) {
     return;
   }
 
+  stageOverviewOpen = false;
   expeditionState.currentStageIndex = stageIndex;
   saveCurrentPageData();
   renderExpedition();
@@ -1963,6 +1968,146 @@ function renderExpedition() {
   renderMission5();
   renderControls();
   renderDepth();
+  renderStageOverview();
+}
+
+/* ==================================================
+   TEACHER STAGE OVERVIEW
+   After "Show all sections", teachers get a grid of every stage in the
+   current mission. Clicking a card opens that stage as normal. The
+   "All stages" banner button brings the grid back.
+   ================================================== */
+
+let stageOverviewOpen = false;
+
+function toggleStageOverview() {
+  if (!expeditionState.teacherMode) return;
+  if (!expeditionState.started) {
+    expeditionState.started = true;
+    saveCurrentPageData();
+  }
+  stageOverviewOpen = !stageOverviewOpen;
+  renderExpedition();
+}
+
+function renderStageOverview() {
+  const overview = document.getElementById("stageOverview");
+  const toggleButton = document.getElementById("stageOverviewButton");
+  const mission = getCurrentMission();
+  const isOpen = Boolean(
+    stageOverviewOpen && expeditionState.started && mission,
+  );
+
+  if (toggleButton) {
+    toggleButton.hidden = !expeditionState.teacherMode;
+    toggleButton.setAttribute("aria-pressed", String(isOpen));
+    toggleButton.querySelector("span").textContent = isOpen
+      ? "Close stages"
+      : "All stages";
+  }
+
+  if (!overview) return;
+  overview.hidden = !isOpen;
+  if (!isOpen) {
+    overview.innerHTML = "";
+    return;
+  }
+
+  /* Hide the single active stage while the grid is showing. */
+  document
+    .querySelectorAll(".expedition-mission.active, .mission-stage.active")
+    .forEach(function (element) {
+      element.classList.remove("active");
+    });
+
+  const missionNumber = expeditionState.currentMissionIndex + 1;
+  overview.innerHTML =
+    '<div class="stage-overview-header">' +
+    '<p class="mission-label">Mission ' +
+    String(missionNumber).padStart(2, "0") +
+    "</p>" +
+    "<h3></h3>" +
+    "<p>Choose a stage to open it.</p>" +
+    "</div>" +
+    '<div class="stage-overview-grid"></div>';
+  overview.querySelector("h3").textContent = mission.title;
+
+  const grid = overview.querySelector(".stage-overview-grid");
+
+  mission.stages.forEach(function (stage, index) {
+    const stageElement = document.querySelector(
+      '[data-stage-id="' + stage.id + '"]',
+    );
+    const thumbnail =
+      (stageElement &&
+        stageElement.querySelector(".mission-window-body video[src]")) ||
+      stageElement.querySelector(".mission-window-body img[src]");
+
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "stage-overview-card";
+    card.classList.toggle(
+      "current",
+      index === expeditionState.currentStageIndex,
+    );
+    card.classList.toggle(
+      "complete",
+      Boolean(expeditionState.completedStages[stage.id]),
+    );
+
+    const media = document.createElement("div");
+    media.className = "stage-overview-media";
+    if (thumbnail) {
+      const mediaThumbnail = document.createElement(`${thumbnail.tagName}`);
+
+      console.log(
+        `name: ${thumbnail.attributes.item(0).name}, value: ${thumbnail.attributes.item(0).value}`,
+      );
+      // set attributes for both images and videos
+      for (const attr of thumbnail.attributes) {
+        if (attr.name === "controls") continue;
+        mediaThumbnail.setAttribute(attr.name, attr.value);
+      }
+
+      // mediaThumbnail.src = thumbnail.getAttribute("src");
+      // mediaThumbnail.alt = "";
+      // mediaThumbnail.loading = "lazy";
+      media.appendChild(mediaThumbnail);
+    } else {
+      media.classList.add("is-empty");
+      media.textContent = String(index + 1).padStart(2, "0");
+    }
+
+    const completeLabel = document.createElement("p");
+    completeLabel.className = "stage-progress-complete-label";
+    completeLabel.textContent = "Complete";
+
+    const chip = document.createElement("span");
+    chip.className = "stage-progress-chip";
+    chip.textContent = "Stage " + (index + 1) + " of " + mission.stages.length;
+
+    const title = document.createElement("strong");
+    title.textContent = stage.label;
+
+    card.append(media, chip, title, completeLabel);
+    card.addEventListener("click", function () {
+      setActiveStage(index);
+    });
+    grid.appendChild(card);
+  });
+
+  /* Nothing to check/reset while browsing the grid. */
+  ["checkButton", "resetButton", "nextButton"].forEach(function (id) {
+    const button = document.getElementById(id);
+    if (button) button.disabled = true;
+  });
+  const status = document.getElementById("controlStatus");
+  if (status) {
+    status.innerHTML =
+      "<strong>Teacher view.</strong> Choose a stage to open it.";
+  }
+
+  document.getElementById("stageScreen").scrollTop = 0;
 }
 
 function renderStage() {
@@ -2005,6 +2150,8 @@ function renderStage() {
   if (stageElement) stageElement.classList.add("active");
 
   if (stage && stage.id === "m2-drag-and-drop") syncDiagramLabelBoard();
+
+  if (stageOverviewOpen) return;
 
   missionElement.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -2460,6 +2607,7 @@ function lesson5TeacherJump(sectionId) {
 
   teacherUnlockMissions(index);
   closeTeacherMenu();
+  stageOverviewOpen = false;
   setActiveMission(sectionId);
 }
 
@@ -2468,6 +2616,9 @@ function lesson5TeacherShowAll() {
   missionConfig.forEach(function (mission, i) {
     expeditionState.unlockedStageIndices[i] = mission.stages.length - 1;
   });
+  expeditionState.teacherMode = true;
+  expeditionState.started = true;
+  stageOverviewOpen = true;
   closeTeacherMenu();
   saveCurrentPageData();
   renderExpedition();
@@ -2477,6 +2628,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* common_functions.js is deferred and runs after this script, so override its versions here. */
   window.teacherJump = lesson5TeacherJump;
   window.teacherShowAll = lesson5TeacherShowAll;
+  window.toggleStageOverview = toggleStageOverview;
 
   if (typeof initialiseTeacherMenu === "function") {
     initialiseTeacherMenu(sectionIds, "mission-1");

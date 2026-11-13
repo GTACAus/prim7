@@ -343,6 +343,15 @@
               >
                 <span>Field guide</span>
               </button>
+              <button
+                type="button"
+                id="stageOverviewButton"
+                class="expedition-button stage-overview-button"
+                onclick="toggleStageOverview()"
+                hidden
+              >
+                <span>All stages</span>
+              </button>
             </div>
           </header>
           <div class="game-shell">
@@ -439,6 +448,15 @@
                     </button>
                   </div>
                 </section>
+
+                <!-- Teacher-only grid of every stage in the current mission.
+                     Built by renderStageOverview() in lesson5.js. -->
+                <section
+                  class="stage-overview"
+                  id="stageOverview"
+                  aria-label="All stages in this mission"
+                  hidden
+                ></section>
 
                 <!-- ==================================================
      MISSION 1: BRIEFING (2 stages)
@@ -2435,7 +2453,9 @@
                               <li>Identifying a deep-sea creature</li>
                             </ol>
                             <p>You can save your work using the button here.</p>
-                            <p>Click the Home button to choose your next lesson.</p>
+                            <p>
+                              Click the Home button to choose your next lesson.
+                            </p>
                           </div>
                           <div class="lesson-completion-actions">
                             <button
@@ -2443,14 +2463,18 @@
                               class="save-work-button general-button"
                               onclick="downloadLessonPDF()"
                             >
-                              <span class="bounce-symbol" aria-hidden="true">💾</span>
+                              <span class="bounce-symbol" aria-hidden="true"
+                                >💾</span
+                              >
                               <span>Save my work</span>
                             </button>
                             <a
                               class="general-button home-button lesson-completion-home"
                               href="../index.html"
                             >
-                              <span class="bounce-symbol" aria-hidden="true">🏠</span>
+                              <span class="bounce-symbol" aria-hidden="true"
+                                >🏠</span
+                              >
                               <span>Home</span>
                             </a>
                           </div>
