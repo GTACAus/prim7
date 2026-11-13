@@ -138,8 +138,8 @@
     backgrounds: { window: "", cupboard: "", lamp: "" }, //ASSET PATHS PUT INTO EMPTY " " IF AVAILABLE. IF NOT, WILL USE SVG FALLBACK
     lamps: { white: "", red: "", green: "" },
     potAndSoil: {
-      "small-half": "", "small-full": "fullsoil.png",
-      "large-half": "", "large-full": "halfsoil.png",
+      "small-half": "", "small-full": "",
+      "large-half": "halfsoil.png", "large-full": "fullsoil.png",
     },
     pots: { small: "", large: "" },
     soils: { half: "", full: "" },
