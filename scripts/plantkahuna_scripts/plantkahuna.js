@@ -135,11 +135,11 @@
      ================================================================ */
   const VISUAL_ASSETS = {
     folder: "assets/visuals/", // relative to plantkahuna/index.html
-    backgrounds: { window: "", cupboard: "", lamp: "" },
+    backgrounds: { window: "", cupboard: "", lamp: "" }, //ASSET PATHS PUT INTO EMPTY " " IF AVAILABLE. IF NOT, WILL USE SVG FALLBACK
     lamps: { white: "", red: "", green: "" },
     potAndSoil: {
-      "small-half": "", "small-full": "",
-      "large-half": "", "large-full": "",
+      "small-half": "", "small-full": "fullsoil.png",
+      "large-half": "", "large-full": "halfsoil.png",
     },
     pots: { small: "", large: "" },
     soils: { half: "", full: "" },
