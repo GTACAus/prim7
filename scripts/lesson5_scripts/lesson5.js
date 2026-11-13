@@ -2064,11 +2064,11 @@ function renderStageOverview() {
         `name: ${thumbnail.attributes.item(0).name}, value: ${thumbnail.attributes.item(0).value}`,
       );
       // set attributes for both images and videos
-      for (let i = 0; i < thumbnail.length; i++) {
-        let attr = thumbnail.attributes.item(i);
-        console.log(attr.name);
+      for (const attr of thumbnail.attributes) {
+        if (attr.name === "controls") continue;
         mediaThumbnail.setAttribute(attr.name, attr.value);
       }
+
       // mediaThumbnail.src = thumbnail.getAttribute("src");
       // mediaThumbnail.alt = "";
       // mediaThumbnail.loading = "lazy";
