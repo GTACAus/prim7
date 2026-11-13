@@ -81,18 +81,18 @@
         perspective: 1200px;
         touch-action: pan-y;
       }
-      /* Grid mode: hide arrows + description, let the track size to its cards */
+      /* Grid mode: hide arrows, let the track size to its cards */
       .carousel:has(.carousel-track.is-grid) {
         grid-template-rows: auto;
+        width: min(calc(100% - 100px), 1980px);
       }
-      .carousel:has(.carousel-track.is-grid) .carousel-control,
-      .carousel:has(.carousel-track.is-grid) .overview {
+      .carousel:has(.carousel-track.is-grid) .carousel-control {
         display: none;
       }
       .carousel-track.is-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, 280px);
-        grid-auto-rows: 1fr;
+        grid-template-columns: repeat(auto-fit, min(100%, 550px));
+        grid-auto-rows: auto;
         gap: 16px;
         align-items: stretch;
         justify-content: center;
@@ -101,7 +101,10 @@
       .carousel-track.is-grid .lesson-card {
         position: static;
         width: auto;
-        min-height: 120px;
+        min-height: 0;
+        /* Match the carousel cards' shape (~550 x 400) */
+        aspect-ratio: 11 / 8;
+        padding: clamp(16px, 2vw, 28px);
         box-shadow: none;
 
         transform: none;
@@ -111,6 +114,14 @@
 
         transition: none;
         will-change: none;
+
+        animation: pop-fade-in 0.5s ease;
+      }
+      /* Grid mode: overview sits in the card's flow, under the title */
+      .carousel-track.is-grid .overview {
+        position: static;
+        width: 100%;
+        margin: auto 0 0;
       }
 
       .overview {
@@ -147,6 +158,11 @@
       .overview h2 {
         margin-bottom: clamp(12px, 2.1vw, 25px);
         text-transform: uppercase;
+      }
+      /* Reserve two lines so every overview is the same height */
+      .overview .description-content {
+        min-height: 2lh;
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
       }
       .overview .experiment {
         display: flex;
