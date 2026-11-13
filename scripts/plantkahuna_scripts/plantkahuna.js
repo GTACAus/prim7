@@ -19,37 +19,37 @@
   // A comparison lists Plant A's setting first, Plant B's setting second.
   const VARIABLES = {
     potSize: {
-      label: "Pot size", icon: "🪴", short: "Pot",
+      label: "Pot size", short: "Pot",
       options: [{ value: "small", label: "Small pot" }, { value: "large", label: "Large pot" }],
       comparisons: [{ id: "small-large", a: "small", b: "large", label: "Small pot vs large pot" }],
     },
     soilFill: {
-      label: "Soil level", icon: "🟤", short: "Soil level",
+      label: "Soil level", short: "Soil level",
       options: [{ value: "half", label: "Half full" }, { value: "full", label: "Full" }],
       comparisons: [{ id: "half-full", a: "half", b: "full", label: "Half full vs full" }],
     },
     soilType: {
-      label: "Soil type", icon: "🌾", short: "Soil type",
+      label: "Soil type", short: "Soil type",
       options: [{ value: "garden", label: "Garden soil" }, { value: "potting", label: "Potting mix" }],
       comparisons: [{ id: "garden-potting", a: "garden", b: "potting", label: "Garden soil vs potting mix" }],
     },
     waterVolume: {
-      label: "Water amount", icon: "💧", short: "Water",
+      label: "Water amount", short: "Water",
       options: [{ value: "150", label: "150 mL per watering" }, { value: "300", label: "300 mL per watering" }],
       comparisons: [{ id: "150-300", a: "150", b: "300", label: "150 mL vs 300 mL" }],
     },
     fertiliser: {
-      label: "Fertiliser", icon: "🌱", short: "Fertiliser",
+      label: "Fertiliser", short: "Fertiliser",
       options: [{ value: "no", label: "No fertiliser" }, { value: "yes", label: "Add fertiliser" }],
       comparisons: [{ id: "no-yes", a: "no", b: "yes", label: "Without vs with fertiliser" }],
     },
     wateringFrequency: {
-      label: "How often watered", icon: "🕒", short: "Water every",
+      label: "How often watered", short: "Water every",
       options: [{ value: "1", label: "Every day" }, { value: "3", label: "Every 3 days" }],
       comparisons: [{ id: "1-3", a: "1", b: "3", label: "Every day vs every 3 days" }],
     },
     lightExposure: {
-      label: "Light exposure", icon: "☀️", short: "Light",
+      label: "Light exposure", short: "Light",
       options: [
         { value: "window", label: "Near a window" },
         { value: "cupboard", label: "Dark cupboard" },
@@ -61,7 +61,7 @@
       ],
     },
     lightColour: {
-      label: "Light colour", icon: "💡", short: "Lamp colour",
+      label: "Light colour", short: "Lamp colour",
       options: [
         { value: "white", label: "White" },
         { value: "red", label: "Red" },
@@ -77,31 +77,31 @@
 
   const MEASUREMENTS = {
     height: {
-      label: "Plant height", icon: "📏", unit: "cm",
+      label: "Plant height", unit: "cm",
       tool: "Ruler",
       how: "Measure from the soil surface to the top of the plant. Use centimetres (cm).",
       question: "plant height",
     },
     leaves: {
-      label: "Number of leaves", icon: "🍃", unit: "leaves",
+      label: "Number of leaves", unit: "leaves",
       tool: "Count",
       how: "Count the opened leaves on each plant. Count the same way each time.",
       question: "the number of leaves",
     },
     leafLength: {
-      label: "Leaf length", icon: "📐", unit: "cm",
+      label: "Leaf length", unit: "cm",
       tool: "Ruler",
       how: "Measure the length of the same type of leaf on each plant, from base to tip.",
       question: "leaf length",
     },
     wilted: {
-      label: "Wilted leaves", icon: "🥀", unit: "leaves",
+      label: "Wilted leaves", unit: "leaves",
       tool: "Count",
       how: "Count the leaves that look droopy or wilted. Check at the same time of day.",
       question: "the number of wilted leaves",
     },
     condition: {
-      label: "Leaf condition", icon: "🔍", unit: "observations",
+      label: "Leaf condition", unit: "observations",
       tool: "Observation chart",
       how: "Look for green or yellow colour, holes, spots or white patches. Record what you see, not what caused it.",
       question: "leaf condition",
@@ -160,7 +160,7 @@
     seedling: { x: 154, y: 76, width: 112, height: 118 },
     beaker: { x: 326, y: 179, width: 67, height: 88 },
     fertiliser: { x: 155, y: 169, width: 110, height: 55 },
-    clock: { x: 331, y: 35, width: 70, height: 67 },
+    clock: { x: 299, y: 26, width: 114, height: 73 },
   };
 
   const STEPS = ["change", "measure", "control"];
@@ -244,8 +244,7 @@
     const text = config.label;
     return `<button type="button" class="pk-option ${selected === key ? "is-selected" : ""}"
       data-${action}="${esc(key)}" aria-pressed="${selected === key}">
-      <span class="pk-option-icon" aria-hidden="true">${config.icon}</span>
-      <span>${esc(text)}</span>
+      ${esc(text)}
     </button>`;
   }
 
@@ -253,31 +252,27 @@
     const choices = Object.keys(VARIABLES)
       .map((key) => optionButton(key, "variable", state.changeVariable, "variable"))
       .join("");
+    // Most variables have one ready-made A/B comparison. Selecting one should
+    // immediately show the setups; there is no need to click a single radio.
+    // Only show comparison choices where there are genuinely multiple pairs.
     let pairSection = "";
     if (state.changeVariable) {
-      const config = VARIABLES[state.changeVariable];
-      const comparisons = config.comparisons.map((item) =>
-        `<button type="button" class="pk-comparison ${state.comparison === item.id ? "is-selected" : ""}"
-          data-pair="${esc(item.id)}" aria-pressed="${state.comparison === item.id}">
-          <span class="pk-radio-indicator" aria-hidden="true"></span>${esc(item.label)}
-        </button>`).join("");
-      const specialTip = state.changeVariable === "lightColour"
-        ? "Both plants will be placed under grow lamps, away from sunlight. Only the lamp colour changes."
-        : state.changeVariable === "lightExposure"
-          ? "Keep pot, soil, water and all other settings the same. Changing location can also change temperature."
-          : state.changeVariable === "potSize"
-            ? "Check this with your teacher: using the same fill level in different pots does not give the same amount of soil."
-            : "Choose one difference. All the other settings will match in Plant A and Plant B.";
-      pairSection = `<div class="pk-compare-box">
-        <h3>How will the plants be different?</h3>
-        <p>Choose the two conditions you want to compare.</p>
-        ${comparisons}
-        <button type="button" class="pk-swap" id="pk-swap">⇄ Swap Plant A and Plant B</button>
-      </div><p class="pk-tip">${esc(specialTip)}</p>`;
+      const comparisons = VARIABLES[state.changeVariable].comparisons;
+      if (comparisons.length > 1) {
+        const buttons = comparisons.map((item) =>
+          `<button type="button" class="pk-comparison ${state.comparison === item.id ? "is-selected" : ""}"
+            data-pair="${esc(item.id)}" aria-pressed="${state.comparison === item.id}">
+            <span class="pk-radio-indicator" aria-hidden="true"></span>${esc(item.label)}
+          </button>`).join("");
+        pairSection = `<div class="pk-compare-box">
+          <h3>Which two settings will you compare?</h3>
+          ${buttons}
+        </div>`;
+      }
     }
     return `<p class="pk-kicker">STEP 1 OF 3 · INDEPENDENT VARIABLE</p>
       <h2 id="pk-editor-heading">What will you change?</h2>
-      <p class="pk-help">Pick <strong>one thing</strong> to test. The plants will have two different settings for this one variable.</p>
+      <p class="pk-help">Choose <strong>one thing</strong> to test.</p>
       <div class="pk-options">${choices}</div>${pairSection}`;
   }
 
@@ -352,10 +347,6 @@
       if (active) button.setAttribute("aria-current", "step");
       else button.removeAttribute("aria-current");
     });
-    const index = STEPS.indexOf(state.step);
-    byId("pk-back").disabled = index === 0;
-    const next = byId("pk-next");
-    next.textContent = index === 2 ? "Check plan ✓" : "Next →";
   }
 
   /* ---------------------------------------------------------------
@@ -451,12 +442,12 @@
       <path d="M27 16 h12 M30 34 h9 M27 48 h12" stroke="#527b8a" stroke-width="2"/>
       <text x="21" y="-6" text-anchor="middle" font-size="11" fill="${dark ? "#e5f4f0" : "#33526b"}" font-weight="900">${values.waterVolume} mL</text>
     </g>`;
-    const clockFallback = `<g transform="translate(335,43)">
-      <rect x="0" y="0" width="62" height="53" rx="9" fill="#fffefa" stroke="#657a72" stroke-width="2"/>
-      <path d="M0 14 H62" stroke="#657a72" stroke-width="2"/>
-      <path d="M14 0 v13 M48 0 v13" stroke="#657a72" stroke-width="5" stroke-linecap="round"/>
-      <text x="31" y="34" text-anchor="middle" font-size="18" font-weight="900" fill="#34443c">${values.wateringFrequency}</text>
-      <text x="31" y="45" text-anchor="middle" font-size="8" fill="#52665c">${values.wateringFrequency === "1" ? "DAY" : "DAYS"}</text>
+    // Only show watering frequency on the picture when it is being tested.
+    // Unlike the old tiny calendar, this label explains the actual setting.
+    const frequencyFallback = `<g transform="translate(301,31)">
+      <rect x="0" y="0" width="108" height="60" rx="10" fill="#fffefa" stroke="#657a72" stroke-width="2.5"/>
+      <text x="54" y="19" text-anchor="middle" font-size="11" font-weight="800" fill="#56695e">WATER EVERY</text>
+      <text x="54" y="43" text-anchor="middle" font-size="17" font-weight="900" fill="#283e33">${values.wateringFrequency === "1" ? "DAY" : "3 DAYS"}</text>
     </g>`;
     const fertiliserFallback = `
       <circle cx="${210-rimWidth*.19}" cy="${soilTop+6}" r="3.7" fill="#f2e9bb"/>
@@ -489,7 +480,7 @@
       ${visualLayer(VISUAL_ASSETS.seedlings.normal, IMAGE_FRAMES.seedling, plantFallback)}
       ${values.fertiliser === "yes" ? visualLayer(VISUAL_ASSETS.fertiliser.yes, IMAGE_FRAMES.fertiliser, fertiliserFallback) : ""}
       ${visualLayer(VISUAL_ASSETS.beakers[values.waterVolume], IMAGE_FRAMES.beaker, beakerFallback)}
-      ${visualLayer(VISUAL_ASSETS.clocks[values.wateringFrequency], IMAGE_FRAMES.clock, clockFallback)}
+      ${state.changeVariable === "wateringFrequency" ? visualLayer(VISUAL_ASSETS.clocks[values.wateringFrequency], IMAGE_FRAMES.clock, frequencyFallback) : ""}
     </svg>`;
   }
 
@@ -506,7 +497,6 @@
     return `<article class="pk-scene-card ${changed ? "is-changing" : ""}">
       <div class="pk-scene-top">
         <strong class="pk-plant-name">Plant ${letter}</strong>
-        <span class="pk-plant-tag">${changed ? "Compare this" : "Same setup"}</span>
       </div>
       ${drawPlantScene(values, letter)}
       <div class="pk-scene-details">
@@ -522,6 +512,9 @@
   function renderScenes() {
     const values = getSetups();
     scenes.innerHTML = sceneCard("A", values.a) + sceneCard("B", values.b);
+    // Swapping changes the assignments of the selected conditions, not
+    // which variable is being tested. Hide the button before a selection.
+    byId("pk-swap").hidden = !state.changeVariable;
     const lead = byId("pk-scene-lead");
     lead.textContent = state.changeVariable
       ? `Only ${VARIABLES[state.changeVariable].label.toLowerCase()} changes between Plant A and Plant B.`
@@ -556,9 +549,9 @@
       : "Choose what you will change and measure to build your question.";
     byId("pk-question").textContent = question;
     blueprint.innerHTML = `
-      <article class="pk-blueprint-card change"><h3>🟡 Change</h3><p>${esc(plan.comparison)}</p></article>
-      <article class="pk-blueprint-card measure"><h3>🟣 Measure</h3><p>${esc(plan.measure)}</p></article>
-      <article class="pk-blueprint-card control"><h3>🟢 Keep the same</h3>
+      <article class="pk-blueprint-card change"><h3>Change</h3><p>${esc(plan.comparison)}</p></article>
+      <article class="pk-blueprint-card measure"><h3>Measure</h3><p>${esc(plan.measure)}</p></article>
+      <article class="pk-blueprint-card control"><h3>Keep the same</h3>
         <p>${esc(status)}</p>
         <details class="pk-control-summary">
           <summary>See ${relevantControlVariables().length + (state.changeVariable === "lightColour" ? 1 : 0)} shared settings</summary>
@@ -637,16 +630,13 @@
     const pair = event.target.closest("[data-pair]");
     if (pair) {
       state.comparison = pair.dataset.pair;
+      state.reversed = false; // labels follow the selected comparison order
       state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
     const measure = event.target.closest("[data-measure]");
     if (measure) {
       state.measurement = measure.dataset.measure;
-      hideFeedback(); render(); return;
-    }
-    if (event.target.closest("#pk-swap")) {
-      state.reversed = !state.reversed;
       hideFeedback(); render(); return;
     }
     const jump = event.target.closest("[data-goto]");
@@ -674,14 +664,10 @@
     const button = event.target.closest("[data-step]");
     if (button) setStep(button.dataset.step);
   });
-  byId("pk-back").addEventListener("click", () => {
-    const index = STEPS.indexOf(state.step);
-    if (index > 0) setStep(STEPS[index - 1]);
-  });
-  byId("pk-next").addEventListener("click", () => {
-    const index = STEPS.indexOf(state.step);
-    if (index < STEPS.length - 1) setStep(STEPS[index + 1]);
-    else checkPlan();
+  byId("pk-swap").addEventListener("click", () => {
+    if (!state.changeVariable) return;
+    state.reversed = !state.reversed;
+    hideFeedback(); render();
   });
   byId("pk-check").addEventListener("click", checkPlan);
   byId("pk-reset").addEventListener("click", () => {

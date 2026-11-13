@@ -42,7 +42,6 @@
 .pk-hero h1 { margin: 0; font-size: clamp(2rem, 3.3vw, 3.15rem); letter-spacing: -.055em; line-height: 1.14; }
 .pk-hero h1 span { color: var(--pk-purple); }
 .pk-subtitle { margin: 11px 0 0; max-width: 720px; color: #454c46; font-size: 1rem; }
-.pk-hero-mark { font-size: 5.4rem; background: #e5f8dd; border: 3px solid var(--pk-ink); border-radius: 26px; padding: 4px 25px; transform: rotate(4deg); box-shadow: 5px 6px 0 var(--pk-ink); }
 
 .pk-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
 .pk-step { display: flex; align-items: center; gap: 12px; text-align: left; padding: 13px 16px; color: var(--pk-ink); background: white; border: 2px solid var(--pk-ink); border-radius: 17px; box-shadow: 0 4px 0 var(--pk-ink); transition: transform .12s, box-shadow .12s; }
@@ -61,8 +60,7 @@
 .pk-editor p { margin-top: 0; }
 .pk-help { color: var(--pk-muted); font-size: .92rem; margin: 6px 0 15px; }
 .pk-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-.pk-option { display: flex; flex-direction: column; text-align: left; align-items: flex-start; justify-content: flex-start; gap: 5px; min-height: 75px; padding: 11px; border: 2px solid #bfc9c0; border-radius: 13px; background: white; color: var(--pk-ink); font-weight: 750; line-height: 1.3; }
-.pk-option .pk-option-icon { font-size: 1.22rem; }
+.pk-option { display: flex; text-align: left; align-items: center; justify-content: flex-start; min-height: 58px; padding: 11px 13px; border: 2px solid #bfc9c0; border-radius: 13px; background: white; color: var(--pk-ink); font-weight: 750; line-height: 1.3; }
 .pk-option:hover { background: #f5f0ff; border-color: var(--pk-purple); }
 .pk-option.is-selected { background: var(--pk-soft-purple); border-color: var(--pk-purple); box-shadow: inset 0 0 0 1px var(--pk-purple); }
 .pk-compare-box { margin-top: 20px; background: #f4f7ef; border: 2px dashed #a3b0a2; border-radius: 16px; padding: 15px; }
@@ -72,16 +70,16 @@
 .pk-comparison.is-selected { border-color: var(--pk-purple); background: var(--pk-soft-purple); }
 .pk-radio-indicator { width: 17px; height: 17px; flex: 0 0 17px; border: 2px solid #949c96; border-radius: 50%; }
 .pk-comparison.is-selected .pk-radio-indicator { border: 5px solid var(--pk-purple); }
-.pk-tip { background: #fff5d8; border-left: 4px solid var(--pk-yellow); color: #44423b; padding: 11px 12px; border-radius: 9px; font-size: .86rem; margin: 15px 0 0 !important; }
-.pk-swap { margin-top: 9px; border: 0; color: var(--pk-purple); background: transparent; padding: 4px; text-decoration: underline; font-size: .85rem; font-weight: 800; }
-.pk-editor-footer { display: flex; justify-content: space-between; margin-top: auto; padding-top: 18px; gap: 8px; }
+.pk-tip { color: var(--pk-muted); padding: 0; border: 0; background: transparent; font-size: .84rem; margin: 13px 0 0 !important; }
+/* A proper button beside the scene makes A/B reversal discoverable. */
+.pk-swap { border: 2px solid var(--pk-purple); color: var(--pk-purple); background: var(--pk-soft-purple); padding: 9px 12px; border-radius: 11px; white-space: nowrap; font-size: .86rem; font-weight: 850; box-shadow: 0 3px 0 #8979d5; transition: transform .15s, box-shadow .15s, background-color .15s; }
+.pk-swap:hover { background: #cfc2ff; transform: translateY(-2px); box-shadow: 0 5px 0 #8979d5; }
+.pk-swap:active { transform: translateY(2px); box-shadow: 0 1px 0 #8979d5; }
 /* Base padding, border, font, shadow and hover movement come from .general-button. */
 .pk-button { padding: 10px 15px; font-weight: 800; border-radius: 11px; }
 .pk-button:disabled { cursor: default; opacity: .45; box-shadow: none; }
 .pk-button-secondary { background: white; color: var(--pk-ink); }
-.pk-button-primary { margin-left: auto; background: var(--pk-purple); color: white; }
 .pk-button-check { background: var(--pk-green); color: var(--pk-ink); min-width: 210px; }
-.pk-button-primary:hover:not(:disabled) { background: #3b25b7; }
 .pk-button-check:hover:not(:disabled) { background: #0acb83; }
 .pk-button-secondary:hover:not(:disabled) { background: var(--pk-soft-purple); }
 .pk-subsection-title { font-size: .83rem; letter-spacing: .04em; text-transform: uppercase; color: var(--pk-muted); font-weight: 800; margin: 20px 0 7px; }
@@ -105,6 +103,7 @@
 
 .pk-experiments { padding: 20px; min-width: 0; background: #fbfffb; }
 .pk-experiments-header, .pk-plan-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.pk-scene-actions { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
 .pk-text-button { padding: 8px; border: 0; background: transparent; color: var(--pk-purple); font-weight: 850; white-space: nowrap; }
 .pk-text-button:hover { text-decoration: underline; }
 .pk-scene-lead { margin: 10px 0 14px; font-size: .9rem; color: var(--pk-muted); }
@@ -113,8 +112,6 @@
 .pk-scene-card.is-changing { border-color: var(--pk-purple); }
 .pk-scene-top { display: flex; justify-content: space-between; gap: 6px; align-items: center; padding: 10px 12px; }
 .pk-plant-name { font-weight: 900; font-size: 1.02rem; }
-.pk-plant-tag { font-size: .67rem; font-weight: 800; padding: 5px 8px; border-radius: 100px; background: var(--pk-soft-green); color: #096444; text-transform: uppercase; letter-spacing: .02em; }
-.pk-scene-card.is-changing .pk-plant-tag { background: var(--pk-soft-purple); color: var(--pk-purple); }
 .pk-scene-picture { width: 100%; display: block; height: auto; background: #f2f4ec; }
 .pk-scene-details { padding: 8px 11px 12px; }
 .pk-scene-difference { margin: 0 0 9px; padding: 8px 9px; background: var(--pk-soft-purple); border: 1px solid #bfb0ff; border-radius: 10px; font-weight: 850; color: #3920b8; font-size: .84rem; }
@@ -122,8 +119,7 @@
 .pk-scene-extra summary { color: var(--pk-purple); font-weight: 800; cursor: pointer; padding: 4px 0; }
 .pk-scene-pill-list { display: flex; flex-wrap: wrap; gap: 5px; padding: 6px 0; }
 .pk-scene-pill { padding: 5px 7px; border: 1px solid #d9e3db; border-radius: 8px; background: #f9fcf9; color: #43554b; font-size: .72rem; font-weight: 650; line-height: 1.35; }
-.pk-visual-note { display: flex; align-items: flex-start; gap: 10px; background: #fff6db; border-radius: 13px; padding: 10px 12px; margin-top: 13px; }
-.pk-visual-note p { margin: 0; font-size: .84rem; color: #605947; }
+.pk-visual-note { margin: 12px 0 0; font-size: .81rem; color: var(--pk-muted); line-height: 1.45; }
 
 .pk-plan { padding: 20px; margin-top: 18px; }
 .pk-question { margin: 13px 0 17px; background: #f0ebff; border-left: 5px solid var(--pk-purple); padding: 11px 14px; border-radius: 10px; font-weight: 750; }
@@ -156,7 +152,6 @@
   .pk-workspace { grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr); }
   .pk-scene-grid { gap: 8px; }
   .pk-experiments { padding: 15px; }
-  .pk-plant-tag { font-size: .61rem; }
 }
 @media (max-width: 900px) {
   .pk-workspace { grid-template-columns: 1fr; }
@@ -165,7 +160,6 @@
 }
 @media (max-width: 560px) {
   .pk-shell { padding: 16px 10px 30px; }
-  .pk-hero-mark { display: none; }
   .pk-subtitle { font-size: .92rem; }
   .pk-steps { gap: 5px; }
   .pk-step { gap: 5px; padding: 9px 6px; border-radius: 11px; justify-content: center; }
@@ -176,15 +170,17 @@
   .pk-scene-card { max-width: 480px; width: 100%; margin: auto; }
   .pk-blueprint-grid { grid-template-columns: 1fr; }
   .pk-hero h1 { font-size: 2rem; }
+  .pk-experiments-header { flex-wrap: wrap; }
+  .pk-scene-actions { justify-content: flex-start; }
+  .pk-swap { padding: 8px 10px; font-size: .8rem; }
   .pk-experiments, .pk-editor, .pk-plan { padding: 13px; }
-  .pk-plant-tag { font-size: .67rem; }
   .pk-check-row .pk-button-check { width: 100%; }
 }
 @media print {
   @page { margin: 12mm; }
   body { background: white; }
   .pk-shell { padding: 0; }
-  .pk-hero-mark, .pk-steps, .pk-editor, .pk-text-button, .pk-print,
+  .pk-steps, .pk-editor, .pk-scene-actions, .pk-print,
   .pk-check-row, .pk-footer { display: none !important; }
   .pk-workspace { display: block; }
   .pk-experiments, .pk-plan { box-shadow: none; border: 1px solid #aaa; margin: 0 0 14px; break-inside: avoid; }
@@ -199,7 +195,6 @@
    CLEANER FIRST VIEW — deeper information is behind <details>.
    ================================================================ */
 .pk-hero { margin-bottom: 17px; }
-.pk-hero-mark { font-size: 3.8rem; padding: 3px 17px; border-radius: 20px; }
 .pk-steps { margin-bottom: 14px; }
 .pk-scene-details { padding: 8px 11px 9px; }
 .pk-scene-difference { margin-bottom: 2px; }

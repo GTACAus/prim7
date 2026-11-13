@@ -24,7 +24,6 @@
             decide what to <strong>measure</strong>, and keep the rest the <strong>same</strong>.
           </p>
         </div>
-        <div class="pk-hero-mark" aria-hidden="true">🌱</div>
       </header>
 
       <nav class="pk-steps" id="pk-steps" aria-label="Experiment planning steps">
@@ -45,10 +44,6 @@
       <div class="pk-workspace">
         <section class="pk-editor" aria-labelledby="pk-editor-heading">
           <div id="pk-controls"></div>
-          <div class="pk-editor-footer">
-            <button class="general-button pk-button pk-button-secondary" id="pk-back" type="button">← Back</button>
-            <button class="general-button pk-button pk-button-primary" id="pk-next" type="button">Next →</button>
-          </div>
         </section>
 
         <section class="pk-experiments" aria-labelledby="pk-experiments-title">
@@ -57,16 +52,16 @@
               <p class="pk-kicker">YOUR EXPERIMENT SETUP</p>
               <h2 id="pk-experiments-title">Two plants. One fair test.</h2>
             </div>
-            <button type="button" class="pk-text-button" id="pk-reset">↺ Reset</button>
+            <div class="pk-scene-actions">
+              <button type="button" class="pk-swap" id="pk-swap" hidden aria-label="Swap the selected settings between Plant A and Plant B">↔ Swap A and B</button>
+              <button type="button" class="pk-text-button" id="pk-reset">↺ Reset</button>
+            </div>
           </div>
           <p class="pk-scene-lead" id="pk-scene-lead" aria-live="polite">
             Both plants start with the same settings. Choose a variable to change.
           </p>
           <div class="pk-scene-grid" id="pk-scenes" aria-live="polite"></div>
-          <div class="pk-visual-note">
-            <span aria-hidden="true">💡</span>
-            <p>This picture shows your <strong>setup</strong>, not the results. Your real plants will tell you what happens.</p>
-          </div>
+          <p class="pk-visual-note">The pictures show the <strong>setup</strong>, not the results. Your real plants will show what happens.</p>
         </section>
       </div>
 
