@@ -50,27 +50,24 @@
     },
     lightExposure: {
       label: "Light exposure", short: "Light",
+      // Only used for the regular classroom setup.
       options: [
         { value: "window", label: "Near a window" },
-        { value: "cupboard", label: "Dark cupboard" },
-        { value: "lamp", label: "Grow lamp" },
+        { value: "cupboard", label: "Inside a cupboard" },
       ],
       comparisons: [
-        { id: "window-cupboard", a: "window", b: "cupboard", label: "Window (light) vs cupboard (dark)" },
-        { id: "lamp-cupboard", a: "lamp", b: "cupboard", label: "Grow lamp on vs dark cupboard" },
+        { id: "window-cupboard", a: "window", b: "cupboard", label: "Window vs cupboard" },
       ],
     },
     lightColour: {
       label: "Light colour", short: "Lamp colour",
+      // Only used in Tiny Farms mode. Both groups use the same grow lamps.
       options: [
-        { value: "white", label: "White" },
         { value: "red", label: "Red" },
         { value: "green", label: "Green" },
       ],
       comparisons: [
         { id: "red-green", a: "red", b: "green", label: "Red vs green" },
-        { id: "red-white", a: "red", b: "white", label: "Red vs white" },
-        { id: "green-white", a: "green", b: "white", label: "Green vs white" },
       ],
     },
   };
@@ -116,7 +113,7 @@
     fertiliser: "no",
     wateringFrequency: "1",
     lightExposure: "window",
-    lightColour: "white",
+    lightColour: "red",
   });
 
   /* ================================================================
@@ -145,6 +142,10 @@
     soils: { half: "", full: "" },
     seedlings: { normal: "" },
     beakers: { "150": "", "300": "" },
+    // Canva: export the two soil bags separately as transparent PNGs.
+    // When testing SOIL TYPE, the matching bag appears at the upper right.
+    // In Step 3, selecting Soil type briefly previews the same bag for both.
+    soilBags: { garden: "", potting: "" },
     fertiliser: { yes: "" },
     clocks: { "1": "", "3": "" },
   };
@@ -167,6 +168,7 @@
     },
     seedling: { x: 154, y: 76, width: 112, height: 118 },
     beaker: { x: 326, y: 179, width: 67, height: 88 },
+    soilBag: { x: 307, y: 20, width: 98, height: 104 },
     fertiliser: { x: 155, y: 169, width: 110, height: 55 },
     clock: { x: 299, y: 26, width: 114, height: 73 },
   };
@@ -183,6 +185,11 @@
 
   function initialState() {
     return {
+      // Growing setup decides which light variable the student can choose.
+      // CLASSROOM: light exposure (window vs cupboard)
+      // TINY FARMS: light colour (red vs green), grow lamps fixed for both
+      mode: "classroom",
+      previewControl: null,
       step: "change",
       changeVariable: null,
       comparison: null,
@@ -207,6 +214,25 @@
     return option ? option.label : "Not selected";
   }
 
+  function availableVariableKeys() {
+    // Prevent impossible choices instead of warning about them afterwards.
+    return Object.keys(VARIABLES).filter((key) =>
+      state.mode === "tinyFarms" ? key !== "lightExposure" : key !== "lightColour"
+    );
+  }
+
+  function renderGrowingMode() {
+    const tiny = state.mode === "tinyFarms";
+    root.querySelectorAll("[data-growing-mode]").forEach((button) => {
+      const selected = button.dataset.growingMode === state.mode;
+      button.classList.toggle("is-selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    byId("pk-growing-note").textContent = tiny
+      ? "Grow lamps for both plants · red and green light available"
+      : "Window or cupboard · no grow lamps needed";
+  }
+
   function currentComparison() {
     if (!state.changeVariable) return null;
     return VARIABLES[state.changeVariable].comparisons.find((item) => item.id === state.comparison)
@@ -224,9 +250,9 @@
       b[state.changeVariable] = comparison.b;
     }
 
-    // Red/green/white tests require the SAME kind of lamp for both plants,
-    // without outside sunlight. That avoids comparing sunlight with lamps.
-    if (state.changeVariable === "lightColour") {
+    // Tiny Farms is a growing SETUP, not another independent variable.
+    // Fix the light source for both groups in that mode, whatever is tested.
+    if (state.mode === "tinyFarms") {
       a.lightExposure = "lamp";
       b.lightExposure = "lamp";
     }
@@ -234,16 +260,7 @@
   }
 
   function relevantControlVariables() {
-    return Object.keys(VARIABLES).filter((variable) => {
-      if (variable === state.changeVariable) return false;
-      // Light exposure is fixed to grow lamps when testing lamp colour.
-      if (state.changeVariable === "lightColour" && variable === "lightExposure") return false;
-      if (variable === "lightColour") {
-        if (state.changeVariable === "lightExposure") return false;
-        if (state.controls.lightExposure !== "lamp") return false;
-      }
-      return true;
-    });
+    return availableVariableKeys().filter((key) => key !== state.changeVariable);
   }
 
   function optionButton(key, variable, selected, action) {
@@ -256,7 +273,7 @@
   }
 
   function renderChange() {
-    const choices = Object.keys(VARIABLES)
+    const choices = availableVariableKeys()
       .map((key) => optionButton(key, "variable", state.changeVariable, "variable"))
       .join("");
     // Most variables have one ready-made A/B comparison. Selecting one should
@@ -338,20 +355,13 @@
       </div>`;
     }).join("");
 
-    const lightNote = state.changeVariable === "lightColour"
-      ? `<div class="pk-control-row"><label>Light source</label>
-          <select disabled aria-label="Same grow lamps for both"><option>Grow lamp for both</option></select>
-          <span class="pk-control-note">Both plants use the same grow-light setup.</span></div>`
-      : state.changeVariable === "lightExposure"
-        ? `<p class="pk-tip">Lamp colour is not a separate controlled variable when you compare light and dark. Keep everything else the same.</p>`
-        : state.controls.lightExposure !== "lamp"
-          ? `<p class="pk-tip">Light colour is not shown because you chose a window or cupboard, not grow lamps.</p>`
-          : "";
+    // The mode-specific light variable is already in the controls list.
+    // The small Growing setup bar explains which lighting equipment is used.
 
     return `<p class="pk-kicker">STEP 3 OF 3 · CONTROLLED VARIABLES</p>
       <h2 id="pk-editor-heading">What will you keep the same?</h2>
       <p class="pk-help">These settings must match in <strong>both</strong> experiments. You can choose what they will be.</p>
-      <div class="pk-control-list">${entries}${lightNote}</div>
+      <div class="pk-control-list">${entries}</div>
       <label class="pk-confirm">
         <input type="checkbox" id="pk-confirm" ${state.controlsConfirmed ? "checked" : ""} />
         <span>I will keep these other settings the same for both plants.</span>
@@ -360,6 +370,7 @@
   }
 
   function renderEditor() {
+    renderGrowingMode();
     editor.innerHTML = state.step === "change" ? renderChange()
       : state.step === "measure" ? renderMeasure() : renderControl();
     document.querySelectorAll("#pk-steps [data-step]").forEach((button) => {
@@ -375,9 +386,28 @@
      visual is an image or a drawing. Relative PNG paths work in SVG.
      No filename entered? Return the SVG fallback.
      --------------------------------------------------------------- */
+  // Cache image availability, so a missing/wrongly named Canva image
+  // never makes a pot disappear. The first render uses our SVG; a verified
+  // image then replaces it automatically, without changing experiment state.
+  const assetLoadStatus = new Map();
+  function visualIsReady(path) {
+    const known = assetLoadStatus.get(path);
+    if (known) return known === "ready";
+    assetLoadStatus.set(path, "loading");
+    const probe = new Image();
+    probe.onload = () => {
+      assetLoadStatus.set(path, "ready");
+      renderScenes();
+    };
+    probe.onerror = () => assetLoadStatus.set(path, "missing");
+    probe.src = path;
+    return false;
+  }
+
   function visualLayer(filename, frame, fallbackSvg, fit = "xMidYMid meet") {
     if (!filename || !String(filename).trim()) return fallbackSvg;
     const path = VISUAL_ASSETS.folder + String(filename).trim();
+    if (!visualIsReady(path)) return fallbackSvg;
     return `<image href="${esc(path)}" x="${frame.x}" y="${frame.y}"
       width="${frame.width}" height="${frame.height}"
       preserveAspectRatio="${fit}" />`;
@@ -388,8 +418,10 @@
     const growLamp = values.lightExposure === "lamp";
     const dark = values.lightExposure === "cupboard";
     const sky = !growLamp && !dark;
-    const wall = dark ? "#454c50" : growLamp ? "#626c6c" : "#eef6e9";
-    const shelf = dark ? "#807765" : "#deb687";
+    // The cupboard sits ON the same bench in a bright classroom. Only its
+    // interior is dim, not the entire illustration.
+    const wall = growLamp ? "#e8eee8" : "#eef6e9";
+    const shelf = "#deb687";
     const rimWidth = values.potSize === "large" ? 143 : 108;
     const xLeft = 210 - rimWidth / 2;
     const xRight = 210 + rimWidth / 2;
@@ -408,11 +440,20 @@
       <path d="M89 25 V134 M34 78 H146" stroke="#fffef9" stroke-width="7"/>
       <text x="89" y="151" text-anchor="middle" font-size="10" font-weight="800" fill="#57695e">WINDOW</text>`
       : dark ? `
-      <rect x="20" y="15" width="380" height="255" rx="4" fill="#2f373a"/>
-      <path d="M20 15 L78 39 V244 L20 269Z" fill="#737b7b" stroke="#aab0aa" stroke-width="3"/>
-      <path d="M400 15 L344 39 V244 L400 269Z" fill="#737b7b" stroke="#aab0aa" stroke-width="3"/>
-      <circle cx="65" cy="141" r="4" fill="#eac689"/><circle cx="355" cy="141" r="4" fill="#eac689"/>
-      <text x="210" y="26" text-anchor="middle" font-size="11" font-weight="800" fill="#dfe2da">DARK CUPBOARD</text>` : "";
+      <!-- The OPEN cupboard stands on the bench. The plant is drawn in
+           front of the interior so it clearly sits INSIDE, not at night. -->
+      <rect x="102" y="21" width="216" height="242" rx="7" fill="#bd895d" stroke="#976844" stroke-width="5"/>
+      <rect x="114" y="33" width="192" height="225" rx="2" fill="#64564d" stroke="#9f7452" stroke-width="3"/>
+      <path d="M114 33 L145 58 V251 L114 258Z" fill="#88705b" opacity=".82"/>
+      <path d="M306 33 L278 58 V251 L306 258Z" fill="#4c4039" opacity=".9"/>
+      <rect x="144" y="56" width="135" height="195" rx="2" fill="#675a4f"/>
+      <path d="M104 27 L42 59 L42 244 L104 262Z" fill="#d2a77c" stroke="#9b714f" stroke-width="4"/>
+      <path d="M316 27 L377 59 L377 244 L316 262Z" fill="#c99b6f" stroke="#956944" stroke-width="4"/>
+      <path d="M43 59 L102 35 V257 L43 244Z" fill="#e6ba8d" opacity=".32"/>
+      <path d="M377 59 L318 35 V257 L377 244Z" fill="#e7bc91" opacity=".22"/>
+      <rect x="56" y="135" width="5" height="28" rx="2.5" fill="#f3dfbd"/>
+      <rect x="359" y="135" width="5" height="28" rx="2.5" fill="#f3dfbd"/>
+      ` : "";
 
     const lampFallback = `
       <path d="M20 0 H400" stroke="#444d4d" stroke-width="3" opacity=".5"/>
@@ -420,7 +461,7 @@
       <path d="M190 59 L229 59 L247 77 H172Z" fill="#1e2425"/>
       <path d="M178 77 H241" stroke="#fff0cd" stroke-width="5" stroke-linecap="round"/>
       <path d="M178 82 L103 246 H317 L241 82Z" fill="url(#${uid}-beam)" opacity=".76"/>
-      <text x="90" y="36" text-anchor="middle" font-size="11" font-weight="800" fill="#e9f2ee">GROW LAMP</text>`;
+`;
 
     // Three asset strategies for the pot:
     // 1. Combined cross-section (recommended) replaces the whole pot.
@@ -445,7 +486,7 @@
       <ellipse cx="210" cy="173" rx="${rimWidth/2+3}" ry="9" fill="#a9563e" stroke="#82412d" stroke-width="2"/>
       <ellipse cx="210" cy="174" rx="${rimWidth/2-4}" ry="5" fill="${values.soilFill === "full" ? soilColour : "#9d5d42"}"/>`;
     const potLayers = potComposite
-      ? visualLayer(potComposite, potFrame, "")
+      ? visualLayer(potComposite, potFrame, `${potFallbackBody}${soilFallback}${potRim}`)
       : `${visualLayer(VISUAL_ASSETS.pots[values.potSize], potFrame, potFallbackBody)}
          ${visualLayer(VISUAL_ASSETS.soils[values.soilFill], soilFrame, soilFallback)}
          ${!VISUAL_ASSETS.pots[values.potSize] ? potRim : ""}`;
@@ -463,7 +504,7 @@
       <rect x="0" y="0" width="43" height="66" rx="4" fill="#f5faff" fill-opacity=".72" stroke="#537a90" stroke-width="2"/>
       <path d="M3 ${65-waterLevel} H40 V62 H3Z" fill="#54bee5" opacity=".86"/>
       <path d="M27 16 h12 M30 34 h9 M27 48 h12" stroke="#527b8a" stroke-width="2"/>
-      <text x="21" y="-6" text-anchor="middle" font-size="11" fill="${dark ? "#e5f4f0" : "#33526b"}" font-weight="900">${values.waterVolume} mL</text>
+      <text x="21" y="-6" text-anchor="middle" font-size="11" fill="#33526b" font-weight="900">${values.waterVolume} mL</text>
     </g>`;
     // Only show watering frequency on the picture when it is being tested.
     // Unlike the old tiny calendar, this label explains the actual setting.
@@ -472,6 +513,21 @@
       <text x="54" y="19" text-anchor="middle" font-size="11" font-weight="800" fill="#56695e">WATER EVERY</text>
       <text x="54" y="43" text-anchor="middle" font-size="17" font-weight="900" fill="#283e33">${values.wateringFrequency === "1" ? "DAY" : "3 DAYS"}</text>
     </g>`;
+    const soilBagFallback = `<g transform="translate(314,28)">
+      <path d="M11 12 Q24 4 36 8 H72 Q82 6 85 15 L83 93 Q47 102 12 93Z"
+        fill="#e6d5b7" stroke="#a1896d" stroke-width="2.4"/>
+      <path d="M11 12 Q46 23 85 15 L83 26 Q43 33 12 23Z" fill="#c4ac84"/>
+      <rect x="18" y="37" width="60" height="38" rx="5" fill="#fffaf0" stroke="#c2aa87"/>
+      ${values.soilType === "garden"
+        ? `<text x="48" y="60" text-anchor="middle" font-size="15" font-weight="900" fill="#4d3829">DIRT</text>`
+        : `<text x="48" y="53" text-anchor="middle" font-size="12" font-weight="900" fill="#4d3829">POTTING</text>
+           <text x="48" y="66" text-anchor="middle" font-size="13" font-weight="900" fill="#4d3829">MIX</text>`}
+    </g>`;
+    // Only show the soil bag when Soil type is the variable being tested,
+    // or while the student actively edits that controlled variable in Step 3.
+    const showSoilBag = state.changeVariable === "soilType" ||
+      (state.step === "control" && state.previewControl === "soilType");
+
     const fertiliserFallback = `
       <circle cx="${210-rimWidth*.19}" cy="${soilTop+6}" r="3.7" fill="#f2e9bb"/>
       <circle cx="${210+rimWidth*.04}" cy="${soilTop+8}" r="3" fill="#f2e9bb"/>
@@ -503,6 +559,7 @@
       ${visualLayer(VISUAL_ASSETS.seedlings.normal, IMAGE_FRAMES.seedling, plantFallback)}
       ${values.fertiliser === "yes" ? visualLayer(VISUAL_ASSETS.fertiliser.yes, IMAGE_FRAMES.fertiliser, fertiliserFallback) : ""}
       ${visualLayer(VISUAL_ASSETS.beakers[values.waterVolume], IMAGE_FRAMES.beaker, beakerFallback)}
+      ${showSoilBag ? visualLayer(VISUAL_ASSETS.soilBags[values.soilType], IMAGE_FRAMES.soilBag, soilBagFallback) : ""}
       ${state.changeVariable === "wateringFrequency" ? visualLayer(VISUAL_ASSETS.clocks[values.wateringFrequency], IMAGE_FRAMES.clock, frequencyFallback) : ""}
     </svg>`;
   }
@@ -574,35 +631,33 @@
       <article class="pk-blueprint-card control"><h3>Keep the same</h3>
         <p>${esc(status)}</p>
         <details class="pk-control-summary">
-          <summary>See ${relevantControlVariables().length + (state.changeVariable === "lightColour" ? 1 : 0)} shared settings</summary>
+          <summary>See ${relevantControlVariables().length} shared settings</summary>
           <ul>${relevantControlVariables().map((key) =>
             `<li>${esc(VARIABLES[key].label)}: ${esc(labelFor(key, state.controls[key]))}</li>`).join("")}
-          ${state.changeVariable === "lightColour" ? "<li>Light exposure: Grow lamp for both plants</li>" : ""}</ul>
+          </ul>
         </details>
       </article>`;
 
     const { a, b } = getSetups();
-    const rows = Object.keys(VARIABLES).map((key) => {
+    const rows = availableVariableKeys().map((key) => {
       const v = VARIABLES[key];
       const changed = key === state.changeVariable;
-      let aText = labelFor(key, a[key]);
-      let bText = labelFor(key, b[key]);
-      if (key === "lightColour" && state.changeVariable !== "lightColour" && a.lightExposure !== "lamp" && b.lightExposure !== "lamp") {
-        aText = bText = "Not used (no grow lamps)";
-      } else if (key === "lightColour" && state.changeVariable === "lightExposure") {
-        aText = a.lightExposure === "lamp" ? labelFor(key, a[key]) : "Not used";
-        bText = b.lightExposure === "lamp" ? labelFor(key, b[key]) : "Not used";
-      }
-      return `<tr class="${changed ? "pk-table-changed" : ""}"><td>${esc(v.label)}${changed ? " ★" : ""}</td>
-        <td>${esc(aText)}</td><td>${esc(bText)}</td></tr>`;
+      return `<tr class="${changed ? "pk-table-changed" : ""}">
+        <td>${esc(v.label)}${changed ? " ★" : ""}</td>
+        <td>${esc(labelFor(key, a[key]))}</td><td>${esc(labelFor(key, b[key]))}</td></tr>`;
     }).join("");
+    const setupRows = `<tr><td>Growing setup</td><td>${state.mode === "tinyFarms" ? "Tiny Farms" : "Classroom"}</td>
+      <td>${state.mode === "tinyFarms" ? "Tiny Farms" : "Classroom"}</td></tr>` +
+      (state.mode === "tinyFarms" ? "<tr><td>Light source (fixed)</td><td>Grow lamp</td><td>Grow lamp</td></tr>" : "");
+
     byId("pk-settings-table").innerHTML = `<div class="pk-table-scroll"><table class="pk-settings-table">
       <thead><tr><th>Setting</th><th>Plant A</th><th>Plant B</th></tr></thead>
-      <tbody>${rows}</tbody></table></div>`;
+      <tbody>${setupRows}${rows}</tbody></table></div>`;
   }
 
   function setStep(step) {
     if (!STEPS.includes(step)) return;
+    state.previewControl = null;
     state.step = step;
     render();
   }
@@ -641,7 +696,9 @@
   editor.addEventListener("click", (event) => {
     const variable = event.target.closest("[data-variable]");
     if (variable) {
+      if (!availableVariableKeys().includes(variable.dataset.variable)) return;
       state.changeVariable = variable.dataset.variable;
+      state.previewControl = null;
       state.comparison = VARIABLES[state.changeVariable].comparisons[0].id;
       state.controlsConfirmed = false;
       hideFeedback(); render(); return;
@@ -665,6 +722,7 @@
     const control = event.target.closest("[data-control]");
     if (control) {
       state.controls[control.dataset.control] = control.value;
+      state.previewControl = control.dataset.control === "soilType" ? "soilType" : null;
       state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
@@ -676,6 +734,35 @@
       state.controlsConfirmed = event.target.checked;
       hideFeedback(); render();
     }
+  });
+
+  // A quiet visual cue for Step 3: when Soil type is the setting being
+  // edited, show the matching bag on BOTH plants. No permanent extra objects.
+  editor.addEventListener("focusin", (event) => {
+    if (state.step !== "control") return;
+    const control = event.target.closest("[data-control]");
+    const preview = control?.dataset.control === "soilType" ? "soilType" : null;
+    if (preview !== state.previewControl) {
+      state.previewControl = preview;
+      renderScenes();
+    }
+  });
+
+  // The mode is an equipment choice, so it is set outside the three steps.
+  // Switching preserves measurement and unrelated controls, but clears a
+  // light variable that is not available in the chosen setup.
+  byId("pk-growing-setup").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-growing-mode]");
+    if (!button || button.dataset.growingMode === state.mode) return;
+    state.mode = button.dataset.growingMode;
+    if (!availableVariableKeys().includes(state.changeVariable)) {
+      state.changeVariable = null;
+      state.comparison = null;
+    }
+    state.controlsConfirmed = false;
+    state.previewControl = null;
+    hideFeedback();
+    render();
   });
 
   byId("pk-steps").addEventListener("click", (event) => {

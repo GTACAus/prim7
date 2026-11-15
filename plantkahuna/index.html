@@ -26,6 +26,19 @@
         </div>
       </header>
 
+      <!-- Growing equipment is chosen first; only relevant light options
+           then appear in Change and Keep the Same. -->
+      <section class="pk-growing-setup" id="pk-growing-setup" aria-label="Growing setup">
+        <div class="pk-growing-copy">
+          <strong>Growing setup</strong>
+          <span id="pk-growing-note">Window or cupboard · no grow lamps needed</span>
+        </div>
+        <div class="pk-growing-switch" role="group" aria-label="Where will you grow the plants?">
+          <button type="button" data-growing-mode="classroom" aria-pressed="true" class="pk-growing-choice is-selected">Classroom</button>
+          <button type="button" data-growing-mode="tinyFarms" aria-pressed="false" class="pk-growing-choice">Tiny Farms</button>
+        </div>
+      </section>
+
       <nav class="pk-steps" id="pk-steps" aria-label="Experiment planning steps">
         <button type="button" class="pk-step is-active" data-step="change" aria-current="step">
           <span class="pk-step-number">1</span>

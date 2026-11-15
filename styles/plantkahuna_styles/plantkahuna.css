@@ -209,3 +209,38 @@
   .pk-scene-extra .pk-scene-pill-list { display: flex; }
   .pk-blueprint-card .pk-control-summary > ul { display: block; }
 }
+
+/* ================================================================
+   V2.5 — equipment-aware growing mode
+   The selector is the one top-level decision; light choices below it
+   adjust automatically to the available classroom equipment.
+   ================================================================ */
+.pk-growing-setup {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap; padding: 12px 15px;
+  margin: -1px 0 17px; border: 1.5px solid #c5d1c8; border-radius: 15px;
+  background: #f6faf6;
+}
+.pk-growing-copy { display: flex; gap: 3px; flex-direction: column; }
+.pk-growing-copy strong { font-size: .89rem; font-weight: 850; }
+.pk-growing-copy span { color: var(--pk-muted); font-size: .79rem; }
+.pk-growing-switch {
+  display: inline-flex; gap: 4px; padding: 4px; border-radius: 12px;
+  background: #e9ece7; border: 1.5px solid #c9d0c8;
+}
+.pk-growing-choice {
+  border: 0; border-radius: 9px; padding: 9px 16px;
+  background: transparent; font-weight: 800; font-size: .88rem;
+  color: #48544d; transition: background .15s, box-shadow .15s;
+}
+.pk-growing-choice.is-selected {
+  color: white; background: var(--pk-purple);
+  box-shadow: 0 2px 0 #3321a7;
+}
+.pk-growing-choice:not(.is-selected):hover { background: white; }
+@media (max-width: 560px) {
+  .pk-growing-setup { align-items: stretch; gap: 9px; }
+  .pk-growing-switch { width: 100%; }
+  .pk-growing-choice { flex: 1; padding: 9px 8px; }
+}
+@media print { .pk-growing-setup { display: none !important; } }
