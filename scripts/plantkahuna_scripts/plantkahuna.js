@@ -135,8 +135,8 @@
     backgrounds: { window: "", cupboard: "", lamp: "" }, //ASSET PATHS PUT INTO EMPTY " " IF AVAILABLE. IF NOT, WILL USE SVG FALLBACK
     lamps: { white: "", red: "", green: "" },
     potAndSoil: {
-      "small-half": "", "small-full": "",
-      "large-half": "halfsoil.png", "large-full": "fullsoil.png",
+      "small-half": "halfsoil.png", "small-full": "fullsoil.png",
+      "large-half": "", "large-full": "",
     },
     pots: { small: "", large: "" },
     soils: { half: "", full: "" },
@@ -146,6 +146,8 @@
     // When testing SOIL TYPE, the matching bag appears at the upper right.
     // In Step 3, selecting Soil type briefly previews the same bag for both.
     soilBags: { garden: "", potting: "" },
+    // Put your Canva PNG filename here, e.g. yes: "fertiliser.png".
+    // Leave blank to use the illustrated bag above the plant.
     fertiliser: { yes: "" },
     clocks: { "1": "", "3": "" },
   };
@@ -169,7 +171,8 @@
     seedling: { x: 154, y: 76, width: 112, height: 118 },
     beaker: { x: 326, y: 179, width: 67, height: 88 },
     soilBag: { x: 307, y: 20, width: 98, height: 104 },
-    fertiliser: { x: 155, y: 169, width: 110, height: 55 },
+    // Fertiliser bag sits in the same upper-right slot as a soil-type bag.
+    fertiliser: { x: 307, y: 20, width: 98, height: 104 },
     clock: { x: 299, y: 26, width: 114, height: 73 },
   };
 
@@ -501,6 +504,12 @@
          ${visualLayer(VISUAL_ASSETS.soils[values.soilFill], soilFrame, soilFallback)}
          ${!VISUAL_ASSETS.pots[values.potSize] ? potRim : ""}`;
 
+    // Keep the seedling connected to small Canva pot-and-soil images.
+    // Adjust these values if the transparent padding in your export changes.
+    const seedlingDrop = potComposite && values.potSize === "small"
+      ? (values.soilFill === "full" ? 34 : 20)
+      : 0;
+
     const plantFallback = `<g opacity="${plantOpacity}" transform="translate(0,42) scale(1,0.78)" stroke-linecap="round" stroke-linejoin="round">
       <path d="M210 ${soilTop} Q217 164 211 139 T209 91" fill="none" stroke="#356e3a" stroke-width="5"/>
       <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5"/>
@@ -535,13 +544,27 @@
     </g>`;
     // Only show the soil bag when Soil type is the variable being tested,
     // or while the student actively edits that controlled variable in Step 3.
-    const showSoilBag = state.changeVariable === "soilType" ||
-      (state.step === "control" && state.previewControl === "soilType");
+    const showSoilBag = state.previewControl === "soilType" ||
+      (!state.previewControl && state.changeVariable === "soilType");
 
-    const fertiliserFallback = `
-      <circle cx="${210-rimWidth*.19}" cy="${soilTop+6}" r="3.7" fill="#f2e9bb"/>
-      <circle cx="${210+rimWidth*.04}" cy="${soilTop+8}" r="3" fill="#f2e9bb"/>
-      <circle cx="${210+rimWidth*.22}" cy="${soilTop+5}" r="3.4" fill="#f2e9bb"/>`;
+    // Draw a fertiliser bag as the fallback, rather than floating dots.
+    // An exported transparent Canva image in VISUAL_ASSETS.fertiliser.yes
+    // replaces the bag. No fertiliser = no bag.
+    const fertiliserFallback = `<g transform="translate(314,28)">
+      <path d="M11 12 Q24 4 36 8 H72 Q82 6 85 15 L83 93 Q47 102 12 93Z"
+        fill="#e3edd9" stroke="#668369" stroke-width="2.4"/>
+      <path d="M11 12 Q46 23 85 15 L83 26 Q43 33 12 23Z" fill="#96bd8d"/>
+      <rect x="17" y="37" width="60" height="38" rx="5"
+        fill="#fffef5" stroke="#8dad86"/>
+      <text x="47" y="54" text-anchor="middle" font-size="12"
+        font-weight="900" fill="#34533a">PLANT</text>
+      <text x="47" y="67" text-anchor="middle" font-size="10"
+        font-weight="900" fill="#34533a">FERTILISER</text>
+    </g>`;
+    // Like the soil-bag indicator: show the fertiliser image only while
+    // comparing fertiliser or editing fertiliser in Keep the Same.
+    const showFertiliser = state.previewControl === "fertiliser" ||
+      (!state.previewControl && state.changeVariable === "fertiliser");
 
     const backdropImage = VISUAL_ASSETS.backgrounds[values.lightExposure];
     const background = visualLayer(backdropImage, IMAGE_FRAMES.background, backdropFallback, "xMidYMid slice");
@@ -566,8 +589,12 @@
       <ellipse cx="210" cy="267" rx="${rimWidth*.52}" ry="10" fill="#503d30" opacity=".18"/>
       ${potLayers}
       <!-- Still a planning illustration, never a prediction of growth. -->
-      ${visualLayer(VISUAL_ASSETS.seedlings.normal, IMAGE_FRAMES.seedling, plantFallback)}
-      ${values.fertiliser === "yes" ? visualLayer(VISUAL_ASSETS.fertiliser.yes, IMAGE_FRAMES.fertiliser, fertiliserFallback) : ""}
+      <g transform="translate(0, ${seedlingDrop})">
+        ${visualLayer(VISUAL_ASSETS.seedlings.normal, IMAGE_FRAMES.seedling, plantFallback)}
+      </g>
+      ${showFertiliser && values.fertiliser === "yes"
+        ? visualLayer(VISUAL_ASSETS.fertiliser.yes, IMAGE_FRAMES.fertiliser, fertiliserFallback)
+        : ""}
       ${visualLayer(VISUAL_ASSETS.beakers[values.waterVolume], IMAGE_FRAMES.beaker, beakerFallback)}
       ${showSoilBag ? visualLayer(VISUAL_ASSETS.soilBags[values.soilType], IMAGE_FRAMES.soilBag, soilBagFallback) : ""}
       ${state.changeVariable === "wateringFrequency" ? visualLayer(VISUAL_ASSETS.clocks[values.wateringFrequency], IMAGE_FRAMES.clock, frequencyFallback) : ""}
@@ -752,7 +779,8 @@
     const control = event.target.closest("[data-control]");
     if (control) {
       state.controls[control.dataset.control] = control.value;
-      state.previewControl = control.dataset.control === "soilType" ? "soilType" : null;
+      state.previewControl = ["soilType", "fertiliser"].includes(control.dataset.control)
+        ? control.dataset.control : null;
       state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
@@ -766,12 +794,13 @@
     }
   });
 
-  // A quiet visual cue for Step 3: when Soil type is the setting being
+  // A quiet visual cue for Step 3: when Soil type or Fertiliser is being
   // edited, show the matching bag on BOTH plants. No permanent extra objects.
   editor.addEventListener("focusin", (event) => {
     if (state.step !== "control") return;
     const control = event.target.closest("[data-control]");
-    const preview = control?.dataset.control === "soilType" ? "soilType" : null;
+    const preview = ["soilType", "fertiliser"].includes(control?.dataset.control)
+      ? control.dataset.control : null;
     if (preview !== state.previewControl) {
       state.previewControl = preview;
       renderScenes();

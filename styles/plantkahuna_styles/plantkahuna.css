@@ -649,3 +649,48 @@
   #plantKahuna .prediction-organiser .row-relationship,
   #plantKahuna .prediction-organiser .row-reason { display: none !important; }
 }
+
+/* ================================================================
+   v2.11 - QUIETER EXPERIMENT WORKSPACE
+
+   Leave the Change / Measure / Keep the Same colours in the step tabs
+   and final blueprint. Unselected variable choices are neutral so the
+   student's CURRENT choice, not every available option, gets emphasis.
+
+   Keep Plant A and B separate: they are two experimental conditions.
+   GTAC orange and purple are used as narrow accents only, while the
+   condition names have the same neutral background.
+
+   The individual "See all settings" links are redundant with Step 3
+   and the full A/B comparison table underneath the blueprint.
+   ================================================================ */
+
+/* One quiet style for all unselected variable buttons. */
+#plantKahuna .pk-option {
+  border-top-width: 3px;
+  border-color: var(--line);
+  background: white;
+}
+#plantKahuna .pk-option:not(.is-selected):hover {
+  background: var(--paper);
+}
+#plantKahuna .pk-option.is-selected {
+  background: var(--pk-stage-soft);
+  border-color: var(--line);
+  outline: 3px solid var(--pk-stage-accent);
+  outline-offset: -3px;
+}
+
+/* Less colour competing with the drawings and the A/B comparison. */
+#plantKahuna .pk-scene-card:first-child { border-top: 5px solid var(--orange); }
+#plantKahuna .pk-scene-card:nth-child(2) { border-top: 5px solid var(--purple); }
+#plantKahuna .pk-scene-difference,
+#plantKahuna .pk-scene-card:nth-child(2) .pk-scene-difference {
+  background: var(--paper);
+}
+#plantKahuna .pk-scene-difference { margin-bottom: 0; }
+#plantKahuna .pk-scene-details { padding-bottom: 12px; }
+
+/* Students review shared settings in Step 3 (or in the A/B table),
+   not through duplicate expandable lists below each picture. */
+#plantKahuna .pk-scene-extra { display: none !important; }
