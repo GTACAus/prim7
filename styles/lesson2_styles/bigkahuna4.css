@@ -1,10 +1,10 @@
-button,
-select {
+.bk3-page button,
+.bk3-page select {
   font: inherit;
   cursor: pointer;
 }
 
-[hidden] {
+.bk3-page [hidden] {
   display: none !important;
 }
 
@@ -41,17 +41,36 @@ select {
   color: #fff;
   background: var(--purple);
   border-color: var(--purple);
-  box-shadow: 0 0px 0 var(--charcoal);
+  box-shadow: none;
   transform: translateY(2px);
+}
+.bk3-progress-step[data-stage="change"] {
+  border-top: 6px solid var(--yellow);
+}
+.bk3-progress-step[data-stage="measure"] {
+  border-top: 6px solid var(--purple);
+}
+.bk3-progress-step[data-stage="control"] {
+  border-top: 6px solid var(--green);
+}
+.bk3-progress-step.active[data-stage="change"] {
+  background: var(--soft-yellow);
+  border-color: var(--charcoal);
+  color: var(--charcoal);
+}
+.bk3-progress-step.active[data-stage="control"] {
+  background: var(--soft-green);
+  border-color: var(--charcoal);
+  color: var(--charcoal);
 }
 
 .bk3-top-controls {
   background: var(--paper);
-  border: 2px solid var(--charcoal);
+  border: 3px solid var(--charcoal);
   border-radius: 18px;
-  padding: 14px;
+  padding: 18px;
   margin-bottom: 14px;
-  box-shadow: 0 6px 0 rgba(48, 51, 47, 0.12);
+  box-shadow: 0 5px 0 var(--charcoal);
 }
 .control-instruction {
   margin: 0 0 10px;
@@ -124,56 +143,77 @@ select {
   transform: translateY(6px);
 }
 
-.revealed-menu {
+/* Clear, always-visible choices instead of hidden dropdown menus. */
+.bk3-choice-panel {
   display: grid;
-  grid-template-columns: minmax(170px, 260px) minmax(240px, 440px);
-  gap: 12px;
-  align-items: end;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 2px dashed var(--line);
-}
-.revealed-copy strong {
-  display: block;
-  margin-bottom: 3px;
-}
-.revealed-copy span {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-.bk3-control {
-  display: grid;
-  gap: 5px;
-}
-.bk3-control label {
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-.bk3-control select {
-  width: 100%;
-  min-height: 42px;
-  padding: 8px 34px 8px 10px;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 15px 17px;
   border: 2px solid var(--charcoal);
-  border-radius: 10px;
-  background: #fff;
-  color: var(--charcoal);
+  border-radius: 16px;
+  background: var(--soft-blue);
 }
 
-.control-editor {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 2px dashed var(--line);
+.bk3-panel-heading {
+  color: var(--purple);
+  font-size: 0.79rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
-.control-editor-empty {
+
+.bk3-panel-prompt {
+  font-weight: 700;
+}
+
+.bk3-comparison {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bk3-comparison-condition {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 3px;
+  padding: 10px 14px;
+  background: white;
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.bk3-comparison-condition small {
   color: var(--muted);
+  font-size: 0.77rem;
+  font-weight: 600;
+}
+
+.bk3-comparison-condition strong {
+  font-size: 1rem;
+}
+
+.bk3-versus {
+  flex: 0 0 auto;
+  color: var(--purple);
+  font-weight: 800;
+}
+
+.bk3-hint,
+.control-editor-empty {
+  margin-top: 12px !important;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .bk3-main-card,
 .bk3-blueprint {
   background: linear-gradient(to bottom, white, var(--soft-blue));
-  border: 2px solid var(--charcoal);
+  border: 3px solid var(--charcoal);
   border-radius: 20px;
-  box-shadow: 0 7px 0 rgba(48, 51, 47, 0.12);
+  box-shadow: 0 5px 0 var(--charcoal);
 }
 .bk3-main-card {
   padding: 16px;
@@ -185,15 +225,15 @@ select {
   gap: 18px;
   margin-bottom: 12px;
 }
-h1,
-h2,
-p {
+.bk3-page h1,
+.bk3-page h2,
+.bk3-page p {
   margin: 0;
 }
-h1 {
+.bk3-page h1 {
   font-size: clamp(1.25rem, 2vw, 1.75rem);
 }
-h2 {
+.bk3-page h2 {
   font-size: 1.15rem;
 }
 .bk3-status {
@@ -210,7 +250,7 @@ h2 {
 
 .bk3-canvas {
   position: relative;
-  min-height: 560px;
+  min-height: 480px;
   overflow: hidden;
   border: 2px solid var(--charcoal);
   border-radius: 18px;
@@ -245,21 +285,21 @@ h2 {
 }
 
 /*
-      The ball at 1.5 m has top: 21%.
+      The ball at 1.5 m has top: 43%.
       Put its marker lower than the bottom of the ball.
     */
 .ruler::before {
   content: "1.5 m";
-  top: 32%;
+  top: 43%;
 }
 
 /*
-      The ball at 1 m has top: 39%.
+      The ball at 1 m has top: 69%.
       Put its marker lower than the bottom of the ball.
     */
 .ruler::after {
   content: "1 m";
-  top: 58%;
+  top: 69%;
 }
 .lane-label {
   position: absolute;
@@ -399,20 +439,6 @@ h2 {
 .surface.soft-surface {
   background: repeating-linear-gradient(0deg, #ded7ff 0 7px, #c7b9fa 7px 10px);
 }
-.measurement-note {
-  position: absolute;
-  right: 3%;
-  top: 42%;
-  width: 180px;
-  padding: 10px;
-  border: 2px dashed var(--purple);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--purple);
-  font-weight: 700;
-  text-align: center;
-  white-space: pre-line;
-}
 
 .bk3-blueprint {
   margin-top: 14px;
@@ -475,9 +501,6 @@ h2 {
   }
   .blueprint-grid {
     grid-template-columns: 1fr;
-  }
-  .measurement-note {
-    display: none;
   }
   .ruler {
     left: 1%;
@@ -555,4 +578,127 @@ h2 {
 }
 .control-card {
   border-top: 4px solid var(--green);
+}
+
+/* Compact layouts: comparison labels remain readable. */
+@media (max-width: 460px) {
+  .bk3-comparison {
+    gap: 7px;
+  }
+  .bk3-comparison-condition {
+    padding: 9px 6px;
+  }
+  .bk3-comparison-condition strong {
+    font-size: 0.87rem;
+  }
+  .bk3-choice-panel {
+    padding: 12px;
+  }
+}
+
+/* The guide is for drop height only, never a measurement-tool icon. */
+.bk3-canvas .ruler-caption {
+  position: absolute;
+  top: -27px;
+  left: -8px;
+  color: var(--charcoal);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  /* Keep a compact drop-height guide on smaller screens. */
+  .bk3-page .ruler {
+    display: block !important;
+    left: 1%;
+    top: 9%;
+    width: 27px;
+    height: 70%;
+    border-width: 2px;
+    transform: none;
+  }
+  .bk3-page .ruler::before,
+  .bk3-page .ruler::after {
+    left: 27px;
+    width: 30px;
+    font-size: 0.67rem;
+    padding-top: 3px;
+    border-top-width: 2px;
+  }
+  .bk3-page .ruler-caption {
+    left: 0;
+    font-size: 0.65rem;
+  }
+  .bk3-page .bk3-canvas {
+    min-height: 410px;
+  }
+  .bk3-page .lane-label {
+    top: 15px;
+    padding: 4px 6px;
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+  .bk3-page .ball.a,
+  .bk3-page .drop-line.a,
+  .bk3-page .lane-label.a {
+    left: 41%;
+  }
+  .bk3-page .ball.b,
+  .bk3-page .drop-line.b,
+  .bk3-page .lane-label.b {
+    left: 78%;
+  }
+  .bk3-page .surface {
+    height: 49px;
+    border-width: 3px;
+    font-size: 0.68rem;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .bk3-page .surface.a {
+    left: 27%;
+  }
+  .bk3-page .surface.b {
+    left: 64%;
+  }
+}
+@media (max-width: 460px) {
+  .bk3-comparison-condition small {
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+}
+
+/* Centre the experiments when the drop-height guide is not needed. */
+.bk3-canvas.bk3-no-ruler .lane-label.a,
+.bk3-canvas.bk3-no-ruler .drop-line.a,
+.bk3-canvas.bk3-no-ruler .ball.a { left: 35%; }
+.bk3-canvas.bk3-no-ruler .lane-label.b,
+.bk3-canvas.bk3-no-ruler .drop-line.b,
+.bk3-canvas.bk3-no-ruler .ball.b { left: 65%; }
+.bk3-canvas.bk3-no-ruler .surface.a { left: 21%; }
+.bk3-canvas.bk3-no-ruler .surface.b { left: 51%; }
+
+@media (max-width: 760px) {
+  .bk3-page .bk3-canvas .ball.a,
+  .bk3-page .bk3-canvas .drop-line.a,
+  .bk3-page .bk3-canvas .lane-label.a { left: 32%; }
+  .bk3-page .bk3-canvas .ball.b,
+  .bk3-page .bk3-canvas .drop-line.b,
+  .bk3-page .bk3-canvas .lane-label.b { left: 70%; }
+  .bk3-page .bk3-canvas .surface.a { left: 18%; }
+  .bk3-page .bk3-canvas .surface.b { left: 56%; }
+}
+
+/* Narrow screens: leave space for the ruler on the left. */
+@media (max-width: 760px) {
+  .bk3-page .bk3-canvas .ball.a,
+  .bk3-page .bk3-canvas .drop-line.a,
+  .bk3-page .bk3-canvas .lane-label.a { left: 43%; }
+  .bk3-page .bk3-canvas .ball.b,
+  .bk3-page .bk3-canvas .drop-line.b,
+  .bk3-page .bk3-canvas .lane-label.b { left: 78%; }
+  .bk3-page .bk3-canvas .surface.a { left: 29%; }
+  .bk3-page .bk3-canvas .surface.b { left: 64%; }
 }

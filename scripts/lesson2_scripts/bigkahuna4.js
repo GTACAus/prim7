@@ -7,11 +7,6 @@ const variableConfig = {
         label: "Small ball vs large ball",
         pair: ["small", "large"],
       },
-      {
-        value: "large-small",
-        label: "Large ball vs small ball",
-        pair: ["large", "small"],
-      },
     ],
     controlOptions: [
       { value: "large", label: "Large ball" },
@@ -47,7 +42,6 @@ const variableConfig = {
     label: "Drop height",
     changeOptions: [
       { value: "1-1.5", label: "1 m vs 1.5 m", pair: ["1", "1.5"] },
-      { value: "1.5-1", label: "1.5 m vs 1 m", pair: ["1.5", "1"] },
     ],
     controlOptions: [
       { value: "1", label: "1 m" },
@@ -62,11 +56,6 @@ const variableConfig = {
         label: "Firm ball vs soft ball",
         pair: ["firm", "soft"],
       },
-      {
-        value: "soft-firm",
-        label: "Soft ball vs firm ball",
-        pair: ["soft", "firm"],
-      },
     ],
     controlOptions: [
       { value: "firm", label: "Firm ball" },
@@ -80,11 +69,6 @@ const variableConfig = {
         value: "hard-soft",
         label: "Hard surface vs soft surface",
         pair: ["hard-surface", "soft-surface"],
-      },
-      {
-        value: "soft-hard",
-        label: "Soft surface vs hard surface",
-        pair: ["soft-surface", "hard-surface"],
       },
     ],
     controlOptions: [
@@ -107,6 +91,16 @@ const measureTools = [
   { value: "video", label: "Record a video" },
   { value: "estimate", label: "Estimate by eye" },
 ];
+
+// Keep measurement methods relevant and make the default visible.
+const toolsByOutcome = {
+  bounceHeight: ["measuringTape", "ruler", "video", "estimate"],
+  bounceCount: ["count", "video"],
+  bounceTime: ["stopwatch", "video"],
+};
+
+const toolChoicesFor = (outcome) =>
+  measureTools.filter((tool) => toolsByOutcome[outcome]?.includes(tool.value));
 
 const state = {
   stage: "change",
@@ -132,18 +126,24 @@ function buttonGroup(items, selectedValue, onClickName, disabledValue = null) {
     .map(
       (item) => `
         <button type="button" class="choice-button ${selectedValue === item.value ? "selected" : ""}"
-          data-action="${onClickName}" data-value="${item.value}" ${disabledValue === item.value ? "disabled" : ""}>
+          data-action="${onClickName}" data-value="${item.value}"
+          aria-pressed="${selectedValue === item.value}" ${disabledValue === item.value ? "disabled" : ""}>
           ${item.label}
         </button>`,
     )
     .join("")}</div>`;
 }
 
-function selectControl(id, label, options, selectedValue) {
-  return `<div class="bk3-control">
-        <label for="${id}">${label}</label>
-        <select id="${id}">${options.map((option) => `<option value="${option.value}" ${option.value === selectedValue ? "selected" : ""}>${option.label}</option>`).join("")}</select>
-      </div>`;
+// One comparison strip instead of extra A/B reversal choices.
+function comparisonStrip(config, option) {
+  const [a, b] = option.pair.map((value) =>
+    getOptionLabel(config.controlOptions, value),
+  );
+  return `<div class="bk3-comparison" aria-label="Experiment comparison">
+    <div class="bk3-comparison-condition"><small>Experiment A</small><strong>${a}</strong></div>
+    <span class="bk3-versus" aria-hidden="true">vs</span>
+    <div class="bk3-comparison-condition"><small>Experiment B</small><strong>${b}</strong></div>
+  </div>`;
 }
 
 function renderControls() {
@@ -160,25 +160,33 @@ function renderControls() {
       const selected =
         state.changeSelections[state.changeVariable] ||
         config.changeOptions[0].value;
-      revealed = `<div class="revealed-menu">
-            <div class="revealed-copy"><strong>${config.label}</strong><span>Choose how Experiment A and Experiment B will differ.</span></div>
-            ${selectControl("changePairSelect", "Comparison", config.changeOptions, selected)}
-          </div>`;
+      const option = config.changeOptions.find((item) => item.value === selected)
+        || config.changeOptions[0];
+      revealed = `<div class="bk3-choice-panel">
+        <p class="bk3-panel-heading">CHANGING · ${config.label}</p>
+        ${config.changeOptions.length > 1
+          ? `<p class="bk3-panel-prompt">Which pair will you compare?</p>
+             ${buttonGroup(config.changeOptions, selected, "choose-change-pair")}`
+          : ""}
+        ${comparisonStrip(config, option)}
+      </div>`;
     }
     root.innerHTML = `<p class="control-instruction">What will you change?</p>
-          ${buttonGroup(variables, state.changeVariable, "choose-change")}${revealed}`;
+      ${buttonGroup(variables, state.changeVariable, "choose-change")}${revealed}`;
   }
 
   if (state.stage === "measure") {
     let revealed = "";
     if (state.measureOutcome) {
-      revealed = `<div class="revealed-menu">
-            <div class="revealed-copy"><strong>${getOptionLabel(measureOutcomes, state.measureOutcome)}</strong><span>Choose how students will measure it.</span></div>
-            ${selectControl("measureToolSelect", "Measurement method", measureTools, state.measureTool || measureTools[0].value)}
-          </div>`;
+      const outcome = getOptionLabel(measureOutcomes, state.measureOutcome);
+      revealed = `<div class="bk3-choice-panel">
+        <p class="bk3-panel-heading">MEASURING · ${outcome}</p>
+        <p class="bk3-panel-prompt">How will you measure it? Choose a method:</p>
+        ${buttonGroup(toolChoicesFor(state.measureOutcome), state.measureTool, "choose-tool")}
+      </div>`;
     }
     root.innerHTML = `<p class="control-instruction">What will you measure?</p>
-          ${buttonGroup(measureOutcomes, state.measureOutcome, "choose-measure")}${revealed}`;
+      ${buttonGroup(measureOutcomes, state.measureOutcome, "choose-measure")}${revealed}`;
   }
 
   if (state.stage === "control") {
@@ -186,21 +194,24 @@ function renderControls() {
       value,
       label: config.label,
     }));
-    let editor = `<div class="control-editor control-editor-empty">Select a controlled variable to choose the value that both experiments will share.</div>`;
+    let editor = `<p class="control-editor-empty">Choose a setting to review what both experiments will share.</p>`;
     if (
       state.selectedControlVariable &&
       state.selectedControlVariable !== state.changeVariable
     ) {
       const config = variableConfig[state.selectedControlVariable];
-      editor = `<div class="revealed-menu control-editor">
-            <div class="revealed-copy"><strong>${config.label}</strong><span>This setting will apply to both Experiment A and Experiment B.</span></div>
-            ${selectControl("controlValueSelect", "Shared value", config.controlOptions, state.controls[state.selectedControlVariable])}
-          </div>`;
+      editor = `<div class="bk3-choice-panel">
+        <p class="bk3-panel-heading">KEEP THE SAME · ${config.label}</p>
+        <p class="bk3-panel-prompt">Both experiments will use:</p>
+        ${buttonGroup(config.controlOptions, state.controls[state.selectedControlVariable], "choose-control-value")}
+      </div>`;
     }
     root.innerHTML = `<p class="control-instruction">What will you keep the same?</p>
-          ${buttonGroup(variables, state.selectedControlVariable, "choose-control", state.changeVariable)}
-          ${state.changeVariable ? `<p style="margin-top:9px;color:var(--muted);font-size:.9rem;">${variableConfig[state.changeVariable].label} is unavailable here because it is the variable being changed.</p>` : ""}
-          ${editor}`;
+      ${buttonGroup(variables, state.selectedControlVariable, "choose-control", state.changeVariable)}
+      ${state.changeVariable
+        ? `<p class="bk3-hint">${variableConfig[state.changeVariable].label} is being changed, so it cannot be a shared setting.</p>`
+        : ""}
+      ${editor}`;
   }
 
   wireControlEvents();
@@ -225,8 +236,10 @@ function wireControlEvents() {
     .querySelectorAll('[data-action="choose-measure"]')
     .forEach((button) => {
       button.addEventListener("click", () => {
-        state.measureOutcome = button.dataset.value;
-        if (!state.measureTool) state.measureTool = measureTools[0].value;
+        if (state.measureOutcome !== button.dataset.value) {
+          state.measureOutcome = button.dataset.value;
+          state.measureTool = toolChoicesFor(state.measureOutcome)[0].value;
+        }
         renderAll();
       });
     });
@@ -240,28 +253,26 @@ function wireControlEvents() {
       });
     });
 
-  document
-    .getElementById("changePairSelect")
-    ?.addEventListener("change", (event) => {
-      state.changeSelections[state.changeVariable] = event.target.value;
-      renderVisuals();
-      updateBlueprint();
+  document.querySelectorAll('[data-action="choose-change-pair"]').forEach((button) => {
+    button.addEventListener("click", () => {
+      state.changeSelections[state.changeVariable] = button.dataset.value;
+      renderAll();
     });
+  });
 
-  document
-    .getElementById("measureToolSelect")
-    ?.addEventListener("change", (event) => {
-      state.measureTool = event.target.value;
-      updateBlueprint();
+  document.querySelectorAll('[data-action="choose-tool"]').forEach((button) => {
+    button.addEventListener("click", () => {
+      state.measureTool = button.dataset.value;
+      renderAll();
     });
+  });
 
-  document
-    .getElementById("controlValueSelect")
-    ?.addEventListener("change", (event) => {
-      state.controls[state.selectedControlVariable] = event.target.value;
-      renderVisuals();
-      updateBlueprint();
+  document.querySelectorAll('[data-action="choose-control-value"]').forEach((button) => {
+    button.addEventListener("click", () => {
+      state.controls[state.selectedControlVariable] = button.dataset.value;
+      renderAll();
     });
+  });
 }
 
 function setBallMaterial(ball, material) {
@@ -269,13 +280,17 @@ function setBallMaterial(ball, material) {
   ball.classList.add(material);
 }
 function setBallSize(ball, size) {
-  ball.style.setProperty("--size", size === "small" ? "82px" : "120px");
+  // Keep large and small balls distinct without collisions on narrow screens.
+  ball.style.setProperty(
+    "--size",
+    size === "small" ? "clamp(44px, 7vw, 82px)" : "clamp(62px, 10vw, 120px)",
+  );
 }
 function setBallFirmness(ball, firmness) {
   ball.classList.toggle("soft", firmness === "soft");
 }
 function setHeight(ball, height) {
-  ball.style.top = height === "1" ? "39%" : "21%";
+  ball.style.top = height === "1" ? "47%" : "29%";
 }
 function setSurface(element, type) {
   element.className = `surface ${element.id === "surfaceA" ? "a" : "b"} ${type}`;
@@ -285,7 +300,39 @@ function setSurface(element, type) {
   );
 }
 
+/*
+ * Keep the two testing surfaces as separate children of the canvas.
+ * This guards against a stray closing tag or a script moving a surface
+ * inside the other surface. Called whenever we redraw the experiment.
+ */
+function ensureBounceSurfacesAreSeparate() {
+  const canvas = document.querySelector(".bk3-page .bk3-canvas");
+  if (!canvas) return;
+
+  for (const id of ["surfaceA", "surfaceB"]) {
+    const surface = document.getElementById(id);
+    if (surface && surface.parentElement !== canvas) {
+      canvas.appendChild(surface);
+    }
+  }
+
+  // Remove orphaned labels; the real surface labels live inside #surfaceA/B.
+  for (const node of Array.from(canvas.childNodes)) {
+    if (node.nodeType === 3 && /^(hard|soft) surface$/i.test(node.textContent.trim())) {
+      node.remove();
+    } else if (node.nodeType === 1 && node.matches("span") &&
+      /^(hard|soft) surface$/i.test(node.textContent.trim())) {
+      node.remove();
+    }
+  }
+
+  // Useful for confirming the new script really loaded in the browser console.
+  canvas.dataset.surfaceFix = "ball-kahuna-20261116-b2";
+  canvas.dataset.bkJsVersion = "ball-kahuna-20261116-b2";
+}
+
 function renderVisuals() {
+  ensureBounceSurfacesAreSeparate();
   const valuesA = { ...state.controls };
   const valuesB = { ...state.controls };
 
@@ -313,6 +360,13 @@ function renderVisuals() {
   setHeight(ballB, valuesB.height);
   setSurface(document.getElementById("surfaceA"), valuesA.surface);
   setSurface(document.getElementById("surfaceB"), valuesB.surface);
+
+  // Keep the ruler visible so children can compare drop heights at any step.
+  const ruler = document.querySelector(".bk3-canvas .ruler");
+  if (ruler) {
+    ruler.hidden = false;
+    ruler.closest(".bk3-canvas").classList.remove("bk3-no-ruler");
+  }
 }
 
 function updateBlueprint() {
@@ -336,10 +390,6 @@ function updateBlueprint() {
     )
     .join("; ");
 
-  const note = document.getElementById("measurementNote");
-  note.textContent = state.measureOutcome
-    ? `${getOptionLabel(measureOutcomes, state.measureOutcome)}\n${getOptionLabel(measureTools, state.measureTool)}`
-    : "Choose what you will measure.";
 }
 
 function setStage(stage) {
