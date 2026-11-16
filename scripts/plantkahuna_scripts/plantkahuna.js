@@ -173,6 +173,15 @@
     clock: { x: 299, y: 26, width: 114, height: 73 },
   };
 
+  // These words work grammatically inside "Does changing ...?" and in
+  // the separate student question builder lower down the page.
+  const QUESTION_CHANGE_WORDS = {
+    potSize: "pot size", soilFill: "soil level", soilType: "soil type",
+    waterVolume: "amount of water", fertiliser: "use of fertiliser",
+    wateringFrequency: "watering frequency",
+    lightExposure: "light exposure", lightColour: "light colour",
+  };
+
   const STEPS = ["change", "measure", "control"];
   const root = document.getElementById("plantKahuna");
   if (!root) return;
@@ -339,12 +348,9 @@
   }
 
   function renderControl() {
-    if (!state.changeVariable) {
-      return `<p class="pk-kicker">STEP 3 OF 3 · CONTROLLED VARIABLES</p>
-        <h2 id="pk-editor-heading">What will you keep the same?</h2>
-        <p class="pk-help">First choose your one change in Step 1. Then you can set the things that stay the same.</p>
-        <button type="button" class="pk-button pk-button-primary" data-goto="change">Go to Change →</button>`;
-    }
+    // Students may plan shared settings BEFORE choosing their independent
+    // variable. Until a change is chosen, show all options for the current
+    // growing mode. Once chosen, that variable automatically drops out.
     const entries = relevantControlVariables().map((key) => {
       const config = VARIABLES[key];
       const options = config.options.map((item) =>
@@ -355,18 +361,22 @@
       </div>`;
     }).join("");
 
-    // The mode-specific light variable is already in the controls list.
-    // The small Growing setup bar explains which lighting equipment is used.
+    const helpText = state.changeVariable
+      ? "Choose the settings to keep the same for both plants."
+      : "Choose settings for both plants. You can decide what to change later.";
+    const tipText = state.changeVariable
+      ? "A fair test changes one thing at a time. For a real experiment, try using several plants in each group."
+      : "When you choose what to change in Step 1, that setting will leave this list.";
 
     return `<p class="pk-kicker">STEP 3 OF 3 · CONTROLLED VARIABLES</p>
       <h2 id="pk-editor-heading">What will you keep the same?</h2>
-      <p class="pk-help">These settings must match in <strong>both</strong> experiments. You can choose what they will be.</p>
+      <p class="pk-help">${helpText}</p>
       <div class="pk-control-list">${entries}</div>
       <label class="pk-confirm">
         <input type="checkbox" id="pk-confirm" ${state.controlsConfirmed ? "checked" : ""} />
-        <span>I will keep these other settings the same for both plants.</span>
+        <span>I will keep these settings the same for both plants.</span>
       </label>
-      <p class="pk-tip">A fair test changes one thing at a time. For a real experiment, try using several plants in each group.</p>`;
+      <p class="pk-tip">${tipText}</p>`;
   }
 
   function renderEditor() {
@@ -595,7 +605,7 @@
     const lead = byId("pk-scene-lead");
     lead.textContent = state.changeVariable
       ? "All other settings are the same for both plants."
-      : "Both plants start with the same settings. Choose a variable to change.";
+      : "Both plants share the same settings. Choose what to change when you are ready.";
   }
 
   function descriptionOfChange() {
@@ -622,7 +632,7 @@
     const status = state.controlsConfirmed ? "Reviewed and confirmed." : "Review these shared settings in Step 3.";
     const measure = state.measurement ? MEASUREMENTS[state.measurement] : null;
     const question = state.changeVariable && measure
-      ? `Does changing ${VARIABLES[state.changeVariable].label.toLowerCase()} affect ${measure.question} in pea plants?`
+      ? `Does changing ${QUESTION_CHANGE_WORDS[state.changeVariable]} affect ${measure.question} in pea plants?`
       : "Choose what you will change and measure to build your question.";
     byId("pk-question").textContent = question;
     blueprint.innerHTML = `
@@ -686,11 +696,31 @@
     feedback.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  function publishPlan() {
+    // The writing activities live in a separate ES module. This event is the
+    // only connection: the generic shared activities do not know about pots.
+    const pair = currentComparison();
+    root.dispatchEvent(new CustomEvent("plantkahuna:planchange", {
+      detail: {
+        mode: state.mode,
+        changeKey: state.changeVariable || "",
+        comparisonId: pair ? pair.id : "",
+        comparisonA: pair ? labelFor(state.changeVariable, pair.a) : "",
+        comparisonB: pair ? labelFor(state.changeVariable, pair.b) : "",
+        measureKey: state.measurement || "",
+        measureAfterDays: state.measureAfterDays,
+      },
+    }));
+  }
+
   function render() {
     renderEditor();
     renderScenes();
     renderBlueprint();
+    publishPlan();
   }
+
+  root.addEventListener("plantkahuna:requestplan", publishPlan);
 
   // Event delegation survives rebuilding the choices on each step.
   editor.addEventListener("click", (event) => {
@@ -773,6 +803,7 @@
   byId("pk-reset").addEventListener("click", () => {
     state = initialState();
     hideFeedback(); render();
+    root.dispatchEvent(new Event("plantkahuna:resetwriting"));
   });
   // Open details for printing so the complete plan is visible on paper.
   // Restore their previous state after the print dialog closes.

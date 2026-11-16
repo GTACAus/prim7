@@ -8,10 +8,14 @@
     <!-- Shared GTAC base: colours, typography, button styles. -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../styles/build_style.css" />
+    <!-- The actual shared Lesson 2 prediction organiser stylesheet. -->
+    <link rel="stylesheet" href="../styles/reasoned_prediction_builder.css" />
     <!-- Plant-specific layout only. Load after the shared site styles. -->
     <link rel="stylesheet" href="../styles/plantkahuna_styles/plantkahuna.css" />
-    <!-- No common_functions.js for now: this page has no glossary, teacher menu or student text fields. -->
+    <!-- The reused activity modules call student-input helpers from common_functions.js. -->
+    <script defer src="../scripts/common_functions.js"></script>
     <script defer src="../scripts/plantkahuna_scripts/plantkahuna.js"></script>
+    <script type="module" src="../scripts/plantkahuna_scripts/plantkahuna_activities.js"></script>
   </head>
   <body>
     <main class="pk-shell" id="plantKahuna">
@@ -85,6 +89,7 @@
           </div>
           <button type="button" class="general-button pk-button pk-button-secondary pk-print" id="pk-print">Print plan</button>
         </div>
+        <p class="pk-question-lead">Example question from your plan</p>
         <p class="pk-question" id="pk-question">Choose what you will change and measure to build your question.</p>
         <div class="pk-blueprint-grid" id="pk-blueprint"></div>
         <details class="pk-settings-details" id="pk-settings-details">
@@ -94,6 +99,163 @@
         <div class="pk-check-row">
           <button class="general-button pk-button pk-button-check" id="pk-check" type="button">Check my fair test plan ✓</button>
           <div class="pk-feedback" id="pk-feedback" role="status" aria-live="polite" hidden></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           FROM PLANT EXPERIMENT TO TESTABLE QUESTION / PREDICTION
+           These are the same shared activity classes used in Lesson 2.
+           plantkahuna_activities.js supplies plant-specific options.
+           ============================================================ -->
+      <section class="pk-writing-section" id="pk-write-question" aria-labelledby="pk-write-question-title">
+        <div class="pk-writing-heading">
+          <div>
+            <p class="pk-kicker">WRITE YOUR QUESTION</p>
+            <h2 id="pk-write-question-title">Write a testable question</h2>
+          </div>
+          <span class="pk-writing-count">01 / 02</span>
+        </div>
+        <p class="pk-writing-intro">Use the experiment you planned to write a question you can test with real plants.</p>
+
+        <div class="pk-writing-context" id="pk-writing-context" hidden>
+          <div><span>Change</span><strong id="pk-writing-changed"></strong></div>
+          <span class="pk-context-divider" aria-hidden="true">→</span>
+          <div><span>Measure</span><strong id="pk-writing-measured"></strong></div>
+          <small id="pk-writing-pair"></small>
+        </div>
+        <p class="pk-writing-wait" id="pk-question-wait">First choose what you will change and measure in the experiment above.</p>
+
+        <div id="plantQuestionActivity" data-activity hidden>
+          <div class="pk-question-step question-builder-step">
+            <h3>Step 1: Choose a question starter</h3>
+            <div class="pk-starter-grid question-structure-grid" aria-label="Question starters">
+              <button type="button" class="pk-starter-card question-structure-card question-structure-what" data-question-structure="what" aria-pressed="false">When I change the ___, what happens to the ___?</button>
+              <button type="button" class="pk-starter-card question-structure-card question-structure-how" data-question-structure="how" aria-pressed="false">How does changing the ___ affect the ___?</button>
+              <button type="button" class="pk-starter-card question-structure-card question-structure-does" data-question-structure="does" aria-pressed="false">Does changing the ___ affect the ___?</button>
+              <button type="button" class="pk-starter-card question-structure-card question-structure-if" data-question-structure="if" aria-pressed="false">If I change the ___, what happens to the ___?</button>
+            </div>
+          </div>
+          <div class="pk-question-step question-builder-step" id="pk-question-step-two" hidden>
+            <h3>Step 2: Choose your variables</h3>
+            <p>Choose the thing you <strong>changed</strong>, then the result you will <strong>measure</strong>.</p>
+            <div class="pk-question-builder investigation-question-builder" data-question-builder aria-live="polite">
+              <p class="question-builder-placeholder">Choose a question starter above.</p>
+            </div>
+          </div>
+          <div class="pk-question-step question-builder-step question-review pk-question-finished" id="pk-question-step-three" hidden>
+            <h3>Step 3: Check your testable question</h3>
+            <p id="pk-written-question" aria-live="polite"></p>
+          </div>
+          <p class="pk-writing-feedback" id="pk-writing-feedback" role="status" aria-live="polite" hidden></p>
+        </div>
+        <div class="pk-writing-actions">
+          <button class="pk-text-button" id="pk-reset-writing" type="button" hidden>Reset question and prediction</button>
+        </div>
+      </section>
+
+      <section class="pk-writing-section" id="pk-reasoned-prediction" aria-labelledby="pk-reasoned-prediction-title">
+        <div class="pk-writing-heading">
+          <div>
+            <p class="pk-kicker">EXPLAIN YOUR THINKING</p>
+            <h2 id="pk-reasoned-prediction-title">Reasoned prediction</h2>
+          </div>
+          <span class="pk-writing-count">02 / 02</span>
+        </div>
+        <p class="pk-writing-intro">Predict what you think will happen. Then explain <strong>why</strong> you think it will happen.</p>
+        <p class="pk-writing-wait" id="pk-prediction-wait">First select what you will change and measure above.</p>
+
+        <div id="pk-prediction-content" hidden>
+          <div id="plantPredictionActivity" data-activity class="reasoned-builder pk-reasoned-builder">
+            <!-- The same row/cell classes and graphic-organiser layout as Lesson 2.
+                 Keep all data-prediction-* hooks: the shared activity module owns the behaviour. -->
+            <div class="prediction-organiser" aria-label="Reasoned prediction graphic organiser">
+              <div class="prediction-organiser-row row-header">
+                <div class="prediction-organiser-cell" aria-hidden="true"></div>
+                <div class="prediction-organiser-cell"><span class="cell-sublabel">Change this</span></div>
+                <div class="prediction-organiser-cell"><span class="cell-sublabel">Measure this</span></div>
+              </div>
+
+              <div class="prediction-organiser-row row-variables">
+                <div class="prediction-organiser-cell cell-label">
+                  <span class="cell-sublabel">Testable question</span>
+                  <span class="cell-helper">Identify the two things in your question.</span>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <span class="cell-sublabel">The thing I am changing</span>
+                  <div data-prediction-change data-placeholder="The thing I am changing"
+                       class="generated-text placeholder">The thing I am changing</div>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <span class="cell-sublabel">The thing I am measuring</span>
+                  <div data-prediction-measure data-placeholder="The thing I am measuring"
+                       class="generated-text placeholder">The thing I am measuring</div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-relationship">
+                <div class="prediction-organiser-cell cell-label">
+                  <span class="cell-sublabel">Relationship</span>
+                  <span class="cell-helper">Choose what you will change and what you expect to happen.</span>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <label class="cell-sublabel" for="pk-relationship-type">Cause</label>
+                  <div class="relationship-area">
+                    <select id="pk-relationship-type" data-prediction-cause-type class="prediction-select">
+                      <option value="">Choose a relationship type</option>
+                      <option value="increase-decrease">Increase / decrease</option>
+                      <option value="with-without">With / without</option>
+                      <option value="condition-comparison">Condition 1 versus condition 2</option>
+                    </select>
+                    <div data-prediction-cause-buttons class="relationship-buttons"></div>
+                    <div data-prediction-condition-inputs class="condition-comparison-inputs">
+                      <input type="text" data-prediction-condition-one class="condition-input"
+                             maxlength="50" placeholder="Plant A condition (e.g. small)" aria-label="Plant A condition" />
+                      <input type="text" data-prediction-condition-two class="condition-input"
+                             maxlength="50" placeholder="Plant B condition (e.g. large)" aria-label="Plant B condition" />
+                    </div>
+                  </div>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <span class="cell-sublabel">Effect or result</span>
+                  <div class="relationship-buttons three-options">
+                    <button type="button" class="relationship-option" data-prediction-effect="increase">Increase</button>
+                    <button type="button" class="relationship-option" data-prediction-effect="decrease">Decrease</button>
+                    <button type="button" class="relationship-option" data-prediction-effect="stay-the-same">Stay the same</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-prediction">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Prediction</span></div>
+                <div class="prediction-organiser-cell">
+                  <div data-prediction-cause-text class="generated-text placeholder">Choose a cause relationship.</div>
+                </div>
+                <div class="prediction-organiser-cell">
+                  <div data-prediction-effect-text class="generated-text placeholder">Choose an effect or result.</div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-reason">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reason</span></div>
+                <div class="prediction-organiser-cell span-2 reason-inline">
+                  <label class="cell-helper" for="pk-prediction-reason">This is because...</label>
+                  <div data-prediction-reason-row class="permanent-input-row">
+                    <input id="pk-prediction-reason" data-prediction-reason-input type="text"
+                           maxlength="250" class="prediction-input" placeholder="Explain why you expect this result" />
+                  </div>
+                  <div data-prediction-reason-answer class="submitted-answer"></div>
+                </div>
+              </div>
+
+              <div class="prediction-organiser-row row-full">
+                <div class="prediction-organiser-cell cell-label"><span class="cell-sublabel">Reasoned prediction</span></div>
+                <div class="prediction-organiser-cell span-2">
+                  <div data-prediction-full-text class="generated-text final-prediction placeholder"
+                       aria-live="polite">Complete the organiser to build your reasoned prediction.</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
