@@ -23,47 +23,15 @@
         <div>
           <p class="pk-eyebrow"><span class="pk-eyebrow-dot"></span> GTAC • Plant Lab</p>
           <h1>Plan a <span>plant experiment.</span></h1>
-          <p class="pk-subtitle">
-            Plants need many things to stay alive and grow well, like light, water and food.
-            In this experiment you will change <strong>one</strong> thing.
-            Then you will see how it changes the plant's <strong>growth</strong> and <strong>health</strong>.
-          </p>
-          <div class="pk-vocab" aria-label="Scientist words">
-            <div class="pk-vocab-card change"><strong>What you change</strong><span>Independent variable</span></div>
-            <div class="pk-vocab-card measure"><strong>What you measure</strong><span>Dependent variable</span></div>
-            <div class="pk-vocab-card control"><strong>What you keep the same</strong><span>Controlled variables</span></div>
-          </div>
-          <p class="pk-subtitle pk-howto">
-            <strong>How do we measure growth?</strong> We measure how tall the plant is and how many leaves it has.
-            <strong>How do we measure health?</strong> We look at the leaves to see how well the plant is doing.
-          </p>
+          <p class="pk-subtitle">Explore how different conditions affect plants.</p>
         </div>
       </header>
-
-      <!-- Pea plant is only an example. Students pick any plant they like. -->
-      <section class="pk-plant-pick" aria-label="Choose your plant">
-        <div class="pk-growing-copy">
-          <strong>Which plant will you grow?</strong>
-          <span>Pea plants are just one example. Choose any plant you like.</span>
-        </div>
-        <div class="pk-plant-choice" id="pk-plant-choice" role="group" aria-label="Plant choices">
-          <button type="button" class="pk-growing-choice" data-plant="pea" aria-pressed="false">Pea plant</button>
-          <button type="button" class="pk-growing-choice" data-plant="bean" aria-pressed="false">Bean plant</button>
-          <button type="button" class="pk-growing-choice" data-plant="sunflower" aria-pressed="false">Sunflower</button>
-          <button type="button" class="pk-growing-choice" data-plant="other" aria-pressed="false">Other</button>
-        </div>
-        <div class="pk-plant-other-row" id="pk-plant-other-row" hidden>
-          <label for="pk-plant-other">Plant name</label>
-          <input type="text" id="pk-plant-other" maxlength="30" placeholder="e.g. basil" />
-        </div>
-      </section>
 
       <!-- Growing equipment is chosen first; only relevant light options
            then appear in Change and Keep the Same. -->
       <section class="pk-growing-setup" id="pk-growing-setup" aria-label="Growing setup">
         <div class="pk-growing-copy">
-          <strong>Where will you grow your plants?</strong>
-          <span id="pk-growing-note">Pots, soil and water. Light comes from a window or a cupboard.</span>
+          <strong>Growing setup</strong>
         </div>
         <div class="pk-growing-switch" role="group" aria-label="Where will you grow the plants?">
           <button type="button" data-growing-mode="classroom" aria-pressed="true" class="pk-growing-choice is-selected">Classroom</button>
@@ -94,38 +62,32 @@
         <section class="pk-experiments" aria-labelledby="pk-experiments-title">
           <div class="pk-experiments-header">
             <div>
-              <p class="pk-kicker">YOUR EXPERIMENT SETUP</p>
-              <h2 id="pk-experiments-title">Two plants. One fair test.</h2>
+    
+              <h2 id="pk-experiments-title">Your plants</h2>
             </div>
             <div class="pk-scene-actions">
               <button type="button" class="pk-text-button" id="pk-reset">↺ Reset</button>
             </div>
           </div>
-          <p class="pk-scene-lead" id="pk-scene-lead" aria-live="polite">
-            Both plants start with the same settings. Choose what to change.
-          </p>
           <div class="pk-scene-grid" id="pk-scenes" aria-live="polite"></div>
-          <p class="pk-visual-note">The pictures show the <strong>setup</strong>, not the results. Your real plants will show what happens.</p>
         </section>
       </div>
 
       <section class="pk-plan" aria-labelledby="pk-plan-title">
         <div class="pk-plan-heading">
           <div>
-            <p class="pk-kicker">YOUR FAIR TEST PLAN</p>
-            <h2 id="pk-plan-title">Your experiment blueprint</h2>
+
+            <h2 id="pk-plan-title">Your plan</h2>
           </div>
           <button type="button" class="general-button pk-button pk-button-secondary pk-print" id="pk-print">Print plan</button>
         </div>
-        <p class="pk-question-lead">Example question from your plan</p>
-        <p class="pk-question" id="pk-question">Choose what you will change and measure to build your question.</p>
         <div class="pk-blueprint-grid" id="pk-blueprint"></div>
         <details class="pk-settings-details" id="pk-settings-details">
           <summary>See all the settings for Plant A and Plant B</summary>
           <div id="pk-settings-table"></div>
         </details>
         <div class="pk-check-row">
-          <button class="general-button pk-button pk-button-check" id="pk-check" type="button">Check my fair test plan ✓</button>
+          <button class="general-button pk-button pk-button-check" id="pk-check" type="button">Check plan</button>
           <div class="pk-feedback" id="pk-feedback" role="status" aria-live="polite" hidden></div>
         </div>
       </section>
@@ -138,24 +100,17 @@
       <section class="pk-writing-section" id="pk-write-question" aria-labelledby="pk-write-question-title">
         <div class="pk-writing-heading">
           <div>
-            <p class="pk-kicker">WRITE YOUR QUESTION</p>
-            <h2 id="pk-write-question-title">Write a testable question</h2>
-          </div>
-          <span class="pk-writing-count">01 / 02</span>
-        </div>
-        <p class="pk-writing-intro">Use your plan to write a question you can test with real plants. You will always measure the plant's <strong>height and health</strong>.</p>
 
-        <div class="pk-writing-context" id="pk-writing-context" hidden>
-          <div><span>Change</span><strong id="pk-writing-changed"></strong></div>
-          <span class="pk-context-divider" aria-hidden="true">→</span>
-          <div><span>Measure (always)</span><strong id="pk-writing-measured"></strong></div>
-          <small id="pk-writing-pair"></small>
+            <h2 id="pk-write-question-title">Testable question</h2>
+          </div>
+
         </div>
-        <p class="pk-writing-wait" id="pk-question-wait">First choose what you will change, and click every measure button in Step 2.</p>
+
+        <p class="pk-writing-wait" id="pk-question-wait">Choose what to change above.</p>
 
         <div id="plantQuestionActivity" data-activity hidden>
           <div class="pk-question-step question-builder-step">
-            <h3>Step 1: Choose a question starter</h3>
+            <h3>Choose a question starter</h3>
             <div class="pk-starter-grid question-structure-grid" aria-label="Question starters">
               <button type="button" class="pk-starter-card question-structure-card question-structure-what" data-question-structure="what" aria-pressed="false">When I change the ___, what happens to the ___?</button>
               <button type="button" class="pk-starter-card question-structure-card question-structure-how" data-question-structure="how" aria-pressed="false">How does changing the ___ affect the ___?</button>
@@ -164,14 +119,13 @@
             </div>
           </div>
           <div class="pk-question-step question-builder-step" id="pk-question-step-two" hidden>
-            <h3>Step 2: Choose your variables</h3>
-            <p>Choose the thing you will <strong>change</strong>. What you <strong>measure</strong> is filled in for you: height and health.</p>
+            <h3>Choose your variables</h3>
             <div class="pk-question-builder investigation-question-builder" data-question-builder aria-live="polite">
               <p class="question-builder-placeholder">Choose a question starter above.</p>
             </div>
           </div>
           <div class="pk-question-step question-builder-step question-review pk-question-finished" id="pk-question-step-three" hidden>
-            <h3>Step 3: Check your testable question</h3>
+            <h3>Your question</h3>
             <p id="pk-written-question" aria-live="polite"></p>
           </div>
           <p class="pk-writing-feedback" id="pk-writing-feedback" role="status" aria-live="polite" hidden></p>
@@ -184,12 +138,11 @@
       <section class="pk-writing-section" id="pk-reasoned-prediction" aria-labelledby="pk-reasoned-prediction-title">
         <div class="pk-writing-heading">
           <div>
-            <p class="pk-kicker">EXPLAIN YOUR THINKING</p>
-            <h2 id="pk-reasoned-prediction-title">Reasoned prediction</h2>
+
+            <h2 id="pk-reasoned-prediction-title">Prediction</h2>
           </div>
-          <span class="pk-writing-count">02 / 02</span>
+
         </div>
-        <p class="pk-writing-intro">Predict what you think will happen. Then explain <strong>why</strong> you think it will happen.</p>
         <p class="pk-writing-wait" id="pk-prediction-wait">First finish your plan and your question above.</p>
 
         <div id="pk-prediction-content" hidden>

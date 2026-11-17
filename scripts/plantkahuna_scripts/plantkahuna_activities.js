@@ -160,7 +160,7 @@ if (root && questionRoot && predictionRoot) {
     } else {
       predictionWait.textContent = planIsReady()
         ? "Complete a question that matches your experiment to start your prediction."
-        : "First finish your plan above.";
+        : "Choose what to change above.";
       // If the student revises their question, an old prediction must not
       // remain attached to an unrelated independent/dependent pair.
       if (lastQuestionValid) prediction.reset();
@@ -230,23 +230,15 @@ if (root && questionRoot && predictionRoot) {
     questionRoot.hidden = !ready;
     byId("pk-reset-writing").hidden = !ready;
 
-    const context = byId("pk-writing-context");
-    context.hidden = !ready;
-    if (ready) {
-      byId("pk-writing-changed").textContent = CHANGE_WORDS[plan.changeKey];
-      byId("pk-writing-measured").textContent = MEASURE_WORDS[plan.measureKey];
-      byId("pk-writing-pair").textContent = `${plan.comparisonA} vs ${plan.comparisonB}`;
-    }
-
     // The wait message is visible before a question exists.
     if (!ready) {
       byId("pk-prediction-content").hidden = true;
       byId("pk-prediction-wait").hidden = false;
-      byId("pk-prediction-wait").textContent = "First finish your plan above.";
+      byId("pk-prediction-wait").textContent = "Choose what to change above.";
     } else if (!questionMatchesPlan(question.getState())) {
       byId("pk-prediction-content").hidden = true;
       byId("pk-prediction-wait").hidden = false;
-      byId("pk-prediction-wait").textContent = "Complete your testable question first.";
+      byId("pk-prediction-wait").textContent = "Write your question first.";
     }
 
   }
