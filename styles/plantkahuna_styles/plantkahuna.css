@@ -694,3 +694,72 @@
 /* Students review shared settings in Step 3 (or in the A/B table),
    not through duplicate expandable lists below each picture. */
 #plantKahuna .pk-scene-extra { display: none !important; }
+
+/* ================================================================
+   v3.0 - EXPLORE-ALL MEASURE STEP, PLANT CHOOSER, SCIENTIST WORDS
+   ================================================================ */
+
+/* Scientist words in the intro */
+.pk-vocab { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 760px; margin-top: 16px; }
+.pk-vocab-card { display: grid; gap: 2px; padding: 11px 14px; background: white; border: 2px solid var(--line); border-top-width: 6px; border-radius: 14px; }
+.pk-vocab-card.change { border-top-color: var(--yellow); }
+.pk-vocab-card.measure { border-top-color: var(--purple); }
+.pk-vocab-card.control { border-top-color: var(--green); }
+.pk-vocab-card strong { font-size: .94rem; }
+.pk-vocab-card span { color: var(--muted); font-size: .8rem; font-weight: 700; }
+.pk-howto { font-size: .95rem; }
+.pk-howto strong { color: var(--text); }
+
+/* Plant chooser: same look as the growing setup strip */
+.pk-plant-pick {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  margin: 0 0 14px; padding: 15px 18px;
+  background: var(--soft-green); border: 2px solid var(--line); border-radius: 17px; box-shadow: 0 4px 0 var(--line);
+}
+.pk-plant-choice { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: white; border: 2px solid var(--line); border-radius: 13px; }
+.pk-plant-pick .pk-growing-choice:not(.is-selected):hover { background: var(--soft-green); }
+.pk-plant-pick .pk-growing-choice.is-selected { background: var(--purple); color: white; }
+.pk-plant-other-row { display: flex; align-items: center; gap: 9px; flex-basis: 100%; }
+.pk-plant-other-row label { font-size: .88rem; font-weight: 700; }
+.pk-plant-other-row input, .pk-measure-instructions input[type="text"] {
+  min-height: 42px; padding: 8px 12px; background: white; color: var(--text);
+  border: 2px solid var(--line); border-radius: 10px; font-size: .92rem;
+}
+.pk-plant-other-row input { width: min(100%, 260px); }
+
+/* Measure step */
+.pk-progress { margin: 0 0 14px; padding: 8px 12px; background: var(--soft-purple); border: 2px solid var(--line); border-radius: 11px; font-size: .88rem; font-weight: 700; }
+.pk-progress.is-done { background: var(--soft-green); }
+.pk-measure-group { margin-bottom: 14px; }
+.pk-measure-group h3 { margin: 0 0 8px; font-size: 1rem; }
+.pk-measure-group h3 small { margin-left: 6px; color: var(--muted); font-size: .8rem; font-weight: 600; }
+.pk-measure-buttons { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 10px; }
+.pk-measure-btn {
+  position: relative; display: grid; justify-items: start; gap: 2px; padding: 10px 12px;
+  text-align: left; color: var(--text); background: white;
+  border: 3px solid var(--line); border-radius: 14px; box-shadow: 0 3px 0 var(--line);
+  font-weight: 700; line-height: 1.3;
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+.pk-measure-btn:hover:not(.is-active) { transform: translateY(-2px); box-shadow: 0 5px 0 var(--line); }
+.pk-measure-btn.is-seen { background: var(--soft-purple); }
+.pk-measure-btn.is-active { background: var(--soft-purple); box-shadow: none; transform: translateY(3px); outline: 3px solid var(--purple); outline-offset: -3px; }
+.pk-measure-icon { font-size: 1.4rem; line-height: 1; }
+.pk-measure-name { font-size: .88rem; }
+.pk-measure-tick { position: absolute; top: 6px; right: 9px; color: var(--purple); font-weight: 900; }
+.pk-measure-instructions.is-empty { text-align: center; color: var(--muted); border-style: dashed; }
+.pk-measure-instructions.is-empty p { margin: 0; }
+.pk-small-label { display: block; margin: 12px 0 5px; font-size: .86rem; font-weight: 700; }
+.pk-measure-instructions input[type="text"] { width: 100%; }
+.pk-reference-img { width: 100%; height: auto; margin-top: 12px; border: 2px solid var(--line); border-radius: 12px; }
+.pk-freq-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.pk-freq-btn { padding: 10px 14px; background: white; color: var(--text); border: 3px solid var(--line); border-radius: 12px; font-size: .9rem; font-weight: 700; }
+.pk-freq-btn:not(.is-selected):hover { background: var(--paper); }
+.pk-freq-btn.is-selected { background: var(--soft-purple); outline: 3px solid var(--purple); outline-offset: -3px; }
+.pk-duration { margin: 14px 0 0; padding: 10px 12px; background: var(--paper); border: 2px dashed var(--line); border-radius: 12px; font-size: .9rem; }
+.pk-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pk-blueprint-card h3 small { display: block; color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .02em; text-transform: none; }
+
+@media (max-width: 700px) {
+  .pk-vocab { grid-template-columns: 1fr; }
+}

@@ -32,21 +32,15 @@ if (root && questionRoot && predictionRoot) {
     wateringFrequency: "watering frequency",
     lightExposure: "light exposure",
     lightColour: "light colour",
+    nutrientLevel: "nutrient level",
+    temperature: "temperature",
   };
+  // Students measure everything, so the second blank of the question is
+  // fixed: plant height (growth) and health. It is filled in for them.
   const MEASURE_WORDS = {
-    height: "plant height",
-    leaves: "number of leaves",
-    leafLength: "leaf length",
-    wilted: "number of wilted leaves",
-    condition: "leaf condition",
+    growthHealth: "plant height and health",
   };
-  // Prediction sentences need "the number of leaves" for natural grammar,
-  // while the question blanks already supply "the" in their templates.
-  const PREDICTION_MEASURE_WORDS = {
-    ...MEASURE_WORDS,
-    leaves: "the number of leaves",
-    wilted: "the number of wilted leaves",
-  };
+  const PREDICTION_MEASURE_WORDS = { ...MEASURE_WORDS };
 
   const allWords = [...new Set([...Object.values(CHANGE_WORDS), ...Object.values(MEASURE_WORDS)])];
   let currentPlan = null;
@@ -74,16 +68,16 @@ if (root && questionRoot && predictionRoot) {
     },
   });
 
-  // For observations such as leaf condition, "increase/decrease" would
-  // produce nonsensical wording. Adapt that one output on THIS instance,
-  // keeping the shared PredictionTableActivity module completely untouched.
+  // "Health" cannot really "increase", so for height and health the
+  // effect reads "improve" / "get worse". Adapt that one output on THIS
+  // instance, keeping the shared PredictionTableActivity module untouched.
   const buildDefaultPhrases = prediction._buildPredictionPhrases.bind(prediction);
   prediction._buildPredictionPhrases = function (change, measure) {
     const phrases = buildDefaultPhrases(change, measure);
-    if (normalise(measure) === "leaf condition") {
+    if (normalise(measure) === MEASURE_WORDS.growthHealth) {
       const ending = {
-        increase: "look healthier",
-        decrease: "look less healthy",
+        increase: "improve",
+        decrease: "get worse",
         "stay-the-same": "stay the same",
       }[prediction.selectedEffect];
       if (ending && phrases.effect) {
@@ -99,9 +93,7 @@ if (root && questionRoot && predictionRoot) {
   };
 
   function updateEffectLabels() {
-    const labels = currentPlan?.measureKey === "condition"
-      ? { increase: "Healthier", decrease: "Less healthy", "stay-the-same": "Stay the same" }
-      : { increase: "Increase", decrease: "Decrease", "stay-the-same": "Stay the same" };
+    const labels = { increase: "Improve", decrease: "Get worse", "stay-the-same": "Stay the same" };
     predictionRoot.querySelectorAll("[data-prediction-effect]").forEach((button) => {
       button.textContent = labels[button.dataset.predictionEffect];
     });
@@ -150,7 +142,7 @@ if (root && questionRoot && predictionRoot) {
     if (state.text) {
       feedback.textContent = questionValid
         ? "Your question matches the variables in your plant experiment."
-        : `Check your question. Your experiment changes ${CHANGE_WORDS[currentPlan.changeKey]} and measures ${MEASURE_WORDS[currentPlan.measureKey]}. Use those two choices above.`;
+        : `Check your question. Your experiment changes ${CHANGE_WORDS[currentPlan.changeKey]}. Choose that above.`;
       feedback.classList.toggle("is-success", questionValid);
     }
 
@@ -168,7 +160,7 @@ if (root && questionRoot && predictionRoot) {
     } else {
       predictionWait.textContent = planIsReady()
         ? "Complete a question that matches your experiment to start your prediction."
-        : "First select what you will change and measure above.";
+        : "First finish your plan above.";
       // If the student revises their question, an old prediction must not
       // remain attached to an unrelated independent/dependent pair.
       if (lastQuestionValid) prediction.reset();
@@ -186,8 +178,10 @@ if (root && questionRoot && predictionRoot) {
     // appropriate. These are native <select> controls, not new widgets.
     const first = questionRoot.querySelector('select[name="firstAnswer"]');
     const second = questionRoot.querySelector('select[name="secondAnswer"]');
+    // The plan says which "change" choices exist in the chosen setup
+    // (classroom or Tiny Farms).
     const changeAllowed = Object.entries(CHANGE_WORDS)
-      .filter(([key]) => currentPlan?.mode === "tinyFarms" ? key !== "lightExposure" : key !== "lightColour")
+      .filter(([key]) => (currentPlan?.changeKeys || []).includes(key))
       .map(([, word]) => word);
 
     [[first, changeAllowed], [second, Object.values(MEASURE_WORDS)]].forEach(([select, allowed]) => {
@@ -196,6 +190,14 @@ if (root && questionRoot && predictionRoot) {
         if (option.value && !allowed.includes(option.value)) option.remove();
       });
     });
+
+    // Height and health is always measured, so fill that blank for the
+    // student and remove its "edit" button.
+    if (second && !second.value) {
+      second.value = MEASURE_WORDS.growthHealth;
+      second.dispatchEvent(new Event("change"));
+      second.closest(".question-blank")?.querySelector(".question-blank-answer button")?.remove();
+    }
   }
 
   // The activity constructs the blanks synchronously on a structure click.
@@ -240,7 +242,7 @@ if (root && questionRoot && predictionRoot) {
     if (!ready) {
       byId("pk-prediction-content").hidden = true;
       byId("pk-prediction-wait").hidden = false;
-      byId("pk-prediction-wait").textContent = "First select what you will change and measure above.";
+      byId("pk-prediction-wait").textContent = "First finish your plan above.";
     } else if (!questionMatchesPlan(question.getState())) {
       byId("pk-prediction-content").hidden = true;
       byId("pk-prediction-wait").hidden = false;

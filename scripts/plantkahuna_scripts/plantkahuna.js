@@ -16,39 +16,74 @@
 (() => {
   "use strict";
 
+  /* ---------------- SETTINGS YOU MAY WANT TO FLIP ----------------
+     SHOW_DURATION_CHOICE: leadership has not decided how long the
+     experiment runs. false = fixed at DEFAULT_DURATION_DAYS (4 weeks).
+     Set to true to bring back the "When will you check?" drop-down
+     using DURATION_OPTIONS.
+     TINY_FARMS_TEMPERATURE: set true to offer temperature in Tiny Farms. */
+  const SHOW_DURATION_CHOICE = false;
+  const DEFAULT_DURATION_DAYS = "28";
+  const DURATION_OPTIONS = [7, 14, 21, 28];
+  const TINY_FARMS_TEMPERATURE = false;
+
+  // How often students measure each week (all choices are fine science:
+  // more measurements = a clearer picture of growth over time).
+  const FREQUENCY_OPTIONS = [
+    { value: "1", label: "1 time a week", note: "Quick, but you only get a few measurements." },
+    { value: "2", label: "2 times a week", note: "A good balance. Try Monday and Thursday." },
+    { value: "3", label: "3 times a week", note: "Lots of data. You can see growth day by day." },
+  ];
+
+  // Plants students can grow. Pea plant is only an example.
+  const PLANTS = [
+    { key: "pea", label: "Pea plant", plural: "pea plants" },
+    { key: "bean", label: "Bean plant", plural: "bean plants" },
+    { key: "sunflower", label: "Sunflower", plural: "sunflowers" },
+    { key: "other", label: "Other", plural: "" },
+  ];
+
+  // `modes` says where each variable can be used.
   // A comparison lists Plant A's setting first, Plant B's setting second.
   const VARIABLES = {
     potSize: {
+      modes: ["classroom"],
       label: "Pot size", short: "Pot",
       options: [{ value: "small", label: "Small pot" }, { value: "large", label: "Large pot" }],
       comparisons: [{ id: "small-large", a: "small", b: "large", label: "Small pot vs large pot" }],
     },
     soilFill: {
+      modes: ["classroom"],
       label: "Soil level", short: "Soil level",
       options: [{ value: "half", label: "Half full" }, { value: "full", label: "Full" }],
       comparisons: [{ id: "half-full", a: "half", b: "full", label: "Half full vs full" }],
     },
     soilType: {
+      modes: ["classroom"],
       label: "Soil type", short: "Soil type",
       options: [{ value: "garden", label: "Garden soil" }, { value: "potting", label: "Potting mix" }],
       comparisons: [{ id: "garden-potting", a: "garden", b: "potting", label: "Garden soil vs potting mix" }],
     },
     waterVolume: {
+      modes: ["classroom"],
       label: "Water amount", short: "Water",
       options: [{ value: "150", label: "150 mL per watering" }, { value: "300", label: "300 mL per watering" }],
       comparisons: [{ id: "150-300", a: "150", b: "300", label: "150 mL vs 300 mL" }],
     },
     fertiliser: {
+      modes: ["classroom"],
       label: "Fertiliser", short: "Fertiliser",
       options: [{ value: "no", label: "No fertiliser" }, { value: "yes", label: "Add fertiliser" }],
       comparisons: [{ id: "no-yes", a: "no", b: "yes", label: "Without vs with fertiliser" }],
     },
     wateringFrequency: {
+      modes: ["classroom"],
       label: "How often watered", short: "Water every",
       options: [{ value: "1", label: "Every day" }, { value: "3", label: "Every 3 days" }],
       comparisons: [{ id: "1-3", a: "1", b: "3", label: "Every day vs every 3 days" }],
     },
     lightExposure: {
+      modes: ["classroom"],
       label: "Light exposure", short: "Light",
       // Only used for the regular classroom setup.
       options: [
@@ -59,51 +94,83 @@
         { id: "window-cupboard", a: "window", b: "cupboard", label: "Window vs cupboard" },
       ],
     },
+    // ---- Tiny Farms only: there is no soil, pot or watering can. ----
     lightColour: {
+      modes: ["tinyFarms"],
       label: "Light colour", short: "Lamp colour",
-      // Only used in Tiny Farms mode. Both groups use the same grow lamps.
       options: [
-        { value: "red", label: "Red" },
-        { value: "green", label: "Green" },
+        { value: "red", label: "Red light" },
+        { value: "green", label: "Green light" },
       ],
       comparisons: [
-        { id: "red-green", a: "red", b: "green", label: "Red vs green" },
+        { id: "red-green", a: "red", b: "green", label: "Red light vs green light" },
+      ],
+    },
+    nutrientLevel: {
+      modes: ["tinyFarms"],
+      label: "Nutrient level", short: "Nutrients",
+      options: [
+        { value: "low", label: "Low nutrients" },
+        { value: "medium", label: "Medium nutrients" },
+        { value: "high", label: "High nutrients" },
+      ],
+      comparisons: [
+        { id: "low-high", a: "low", b: "high", label: "Low nutrients vs high nutrients" },
+      ],
+    },
+    // Questionable for Tiny Farms (it depends on the lamps), so it is
+    // switched off by TINY_FARMS_TEMPERATURE above.
+    temperature: {
+      modes: TINY_FARMS_TEMPERATURE ? ["tinyFarms"] : [],
+      label: "Temperature", short: "Temperature",
+      options: [
+        { value: "cool", label: "Cooler" },
+        { value: "room", label: "Room temperature" },
+        { value: "warm", label: "Warmer" },
+      ],
+      comparisons: [
+        { id: "cool-warm", a: "cool", b: "warm", label: "Cooler vs warmer" },
       ],
     },
   };
 
+  // Students measure ALL of these on both plants. The Measure step just
+  // lets them look at each way of measuring. `group` is Growth or Health.
+  const MEASURE_GROUPS = [
+    { key: "growth", label: "Growth", blurb: "How big is the plant getting?" },
+    { key: "health", label: "Health", blurb: "How well is the plant doing?" },
+  ];
   const MEASUREMENTS = {
     height: {
-      label: "Plant height", unit: "cm",
+      group: "growth", icon: "📏", label: "Plant height", unit: "cm",
       tool: "Ruler",
-      how: "Measure from the soil surface to the top of the plant. Use centimetres (cm).",
-      question: "plant height",
+      how: "Put the ruler at the soil. Measure up to the top of the plant. Write the number in centimetres (cm).",
     },
     leaves: {
-      label: "Number of leaves", unit: "leaves",
-      tool: "Count",
-      how: "Count the opened leaves on each plant. Count the same way each time.",
-      question: "the number of leaves",
+      group: "growth", icon: "🔢", label: "Number of leaves", unit: "leaves",
+      tool: "Counting",
+      how: "Count every leaf that has opened. Count the same way each time.",
     },
     leafLength: {
-      label: "Leaf length", unit: "cm",
+      group: "growth", icon: "📏", label: "Leaf length", unit: "cm",
       tool: "Ruler",
-      how: "Measure the length of the same type of leaf on each plant, from base to tip.",
-      question: "leaf length",
+      how: "Pick the same leaf each time. Measure from where it joins the stem to its tip.",
     },
     wilted: {
-      label: "Wilted leaves", unit: "leaves",
-      tool: "Count",
-      how: "Count the leaves that look droopy or wilted. Check at the same time of day.",
-      question: "the number of wilted leaves",
+      group: "health", icon: "🔢", label: "Wilted leaves", unit: "leaves",
+      tool: "Counting",
+      how: "Count the leaves that look droopy. A wilted leaf is soft and bends down. Check at the same time of day.",
     },
     condition: {
-      label: "Leaf condition", unit: "observations",
-      tool: "Observation chart",
-      how: "Look for green or yellow colour, holes, spots or white patches. Record what you see, not what caused it.",
-      question: "leaf condition",
+      group: "health", icon: "👀", label: "Leaf condition", unit: "what you see",
+      tool: "Looking closely",
+      how: "Look at the leaves. Are they green or yellow? Do they have holes, spots or white patches? Write down what you see, not why it happened.",
+      reference: true, // shows the leaf picture straight away
     },
   };
+
+  // Everything must be looked at before the plan is complete.
+  const REQUIRED_MEASURES = Object.keys(MEASUREMENTS);
 
   const STARTING_CONTROLS = Object.freeze({
     potSize: "small",
@@ -114,6 +181,8 @@
     wateringFrequency: "1",
     lightExposure: "window",
     lightColour: "red",
+    nutrientLevel: "medium",
+    temperature: "room",
   });
 
   /* ================================================================
@@ -150,6 +219,11 @@
     // Leave blank to use the illustrated bag above the plant.
     fertiliser: { yes: "" },
     clocks: { "1": "", "3": "" },
+    // TINY FARMS: no pot, soil or water. Fill these in when ready.
+    // tray = the whole Tiny Farm unit (replaces the drawn tray + plants).
+    // nutrients = the nutrient bottle for low / medium / high.
+    tinyFarm: { tray: "" },
+    nutrients: { low: "", medium: "", high: "" },
   };
 
   /* Each image slot uses one fixed 420 x 306 scene coordinate system.
@@ -170,6 +244,8 @@
     },
     seedling: { x: 154, y: 76, width: 112, height: 118 },
     beaker: { x: 326, y: 179, width: 67, height: 88 },
+    tinyTray: { x: 60, y: 140, width: 300, height: 126 },
+    nutrient: { x: 326, y: 179, width: 67, height: 88 },
     soilBag: { x: 307, y: 20, width: 98, height: 104 },
     // Fertiliser bag sits in the same upper-right slot as a soil-type bag.
     fertiliser: { x: 307, y: 20, width: 98, height: 104 },
@@ -183,6 +259,7 @@
     waterVolume: "amount of water", fertiliser: "use of fertiliser",
     wateringFrequency: "watering frequency",
     lightExposure: "light exposure", lightColour: "light colour",
+    nutrientLevel: "nutrient level", temperature: "temperature",
   };
 
   const STEPS = ["change", "measure", "control"];
@@ -205,10 +282,15 @@
       step: "change",
       changeVariable: null,
       comparison: null,
-      measurement: null,
-      measureAfterDays: "14",
+      plant: "",            // key from PLANTS
+      plantOther: "",       // typed name when plant === "other"
+      viewedMeasures: {},   // which measure buttons have been looked at
+      activeMeasure: null,  // the button whose instructions are showing
+      otherMeasure: "",     // optional extra thing to measure
+      otherHow: "",         // ...and how they will measure it
+      measureFrequency: "2",
+      measureAfterDays: DEFAULT_DURATION_DAYS,
       controls: { ...STARTING_CONTROLS },
-      controlsConfirmed: false,
       checked: false,
     };
   }
@@ -228,10 +310,24 @@
 
   function availableVariableKeys() {
     // Prevent impossible choices instead of warning about them afterwards.
-    return Object.keys(VARIABLES).filter((key) =>
-      state.mode === "tinyFarms" ? key !== "lightExposure" : key !== "lightColour"
-    );
+    return Object.keys(VARIABLES).filter((key) => VARIABLES[key].modes.includes(state.mode));
   }
+
+  function plantPlural() {
+    const plant = PLANTS.find((item) => item.key === state.plant);
+    if (!plant) return "plants";
+    if (plant.key === "other") return state.plantOther.trim() ? `${state.plantOther.trim()} plants` : "plants";
+    return plant.plural;
+  }
+
+  function measuresSeen() {
+    return REQUIRED_MEASURES.filter((key) => state.viewedMeasures[key]).length;
+  }
+  function allMeasuresSeen() { return measuresSeen() === REQUIRED_MEASURES.length; }
+  function frequencyLabel() {
+    return (FREQUENCY_OPTIONS.find((item) => item.value === state.measureFrequency) || FREQUENCY_OPTIONS[1]).label;
+  }
+  function weeks() { return Math.round(Number(state.measureAfterDays) / 7); }
 
   function renderGrowingMode() {
     const tiny = state.mode === "tinyFarms";
@@ -241,8 +337,8 @@
       button.setAttribute("aria-pressed", String(selected));
     });
     byId("pk-growing-note").textContent = tiny
-      ? "Grow lamps for both plants · red and green light available"
-      : "Window or cupboard · no grow lamps needed";
+      ? "No soil or pots. You can change the light colour or the nutrients."
+      : "Pots, soil and water. Light comes from a window or a cupboard.";
   }
 
   function currentComparison() {
@@ -262,8 +358,7 @@
       b[state.changeVariable] = comparison.b;
     }
 
-    // Tiny Farms is a growing SETUP, not another independent variable.
-    // Fix the light source for both groups in that mode, whatever is tested.
+    // Tiny Farms always uses grow lamps (only the colour can change).
     if (state.mode === "tinyFarms") {
       a.lightExposure = "lamp";
       b.lightExposure = "lamp";
@@ -275,18 +370,16 @@
     return availableVariableKeys().filter((key) => key !== state.changeVariable);
   }
 
-  function optionButton(key, variable, selected, action) {
-    const config = action === "measure" ? MEASUREMENTS[key] : VARIABLES[key];
-    const text = config.label;
+  function optionButton(key, selected) {
     return `<button type="button" class="pk-option ${selected === key ? "is-selected" : ""}"
-      data-${action}="${esc(key)}" aria-pressed="${selected === key}">
-      ${esc(text)}
+      data-variable="${esc(key)}" aria-pressed="${selected === key}">
+      ${esc(VARIABLES[key].label)}
     </button>`;
   }
 
   function renderChange() {
     const choices = availableVariableKeys()
-      .map((key) => optionButton(key, "variable", state.changeVariable, "variable"))
+      .map((key) => optionButton(key, state.changeVariable))
       .join("");
     // Most variables have one ready-made A/B comparison. Selecting one should
     // immediately show the setups; there is no need to click a single radio.
@@ -320,34 +413,89 @@
         </div>
       </div>` : "";
 
-    return `<p class="pk-kicker">STEP 1 OF 3 · INDEPENDENT VARIABLE</p>
+    return `<p class="pk-kicker">STEP 1 OF 3 · WHAT YOU CHANGE</p>
       <h2 id="pk-editor-heading">What will you change?</h2>
-      <p class="pk-help">Choose <strong>one thing</strong> to test.</p>
+      <p class="pk-help">This is your <strong>independent variable</strong>. Choose <strong>one thing</strong> to change. Plant A and Plant B will get different amounts of it.</p>
       <div class="pk-options">${choices}</div>${pairSection}${comparisonSummary}`;
   }
 
   function renderMeasure() {
-    const choices = Object.keys(MEASUREMENTS).map((key) => optionButton(key, "measure", state.measurement, "measure")).join("");
-    const selected = state.measurement ? MEASUREMENTS[state.measurement] : null;
-    return `<p class="pk-kicker">STEP 2 OF 3 · DEPENDENT VARIABLE</p>
-      <h2 id="pk-editor-heading">What will you measure?</h2>
-      <p class="pk-help">Choose <strong>one result</strong> to observe or measure. Do it the same way for both plants.</p>
-      <div class="pk-options">${choices}</div>
-      ${selected ? `<div class="pk-measure-instructions">
-        <strong>How to measure: ${esc(selected.tool)}</strong>
-        <p>${esc(selected.how)}</p>
-        <p><strong>Record:</strong> ${esc(selected.unit)}</p>
-        ${state.measurement === "condition" ? `<details class="pk-reference">
-          <summary>See leaf examples (from your Canva reference)</summary>
-          <img src="assets/leaf-reference.png" alt="Six illustrated leaf examples: healthy, yellow or dead, insect damage, downy mildew, leaf spot disease, and powdery mildew" loading="lazy" />
-        </details>` : ""}
-      </div>` : ""}
-      <label class="pk-field" style="margin-top:17px" for="pk-measure-days">When will you check the result?
-        <select id="pk-measure-days" data-days>
-          ${[7, 14, 21, 28].map((days) => `<option value="${days}" ${state.measureAfterDays === String(days) ? "selected" : ""}>After ${days} days</option>`).join("")}
-        </select>
-      </label>
-      <p class="pk-tip">Measure both plants on the same day. You can also record a starting measurement on Day 0.</p>`;
+    const seen = measuresSeen();
+    const total = REQUIRED_MEASURES.length;
+    const measureButton = (key) => {
+      const item = MEASUREMENTS[key];
+      const viewed = Boolean(state.viewedMeasures[key]);
+      return `<button type="button" class="pk-measure-btn ${state.activeMeasure === key ? "is-active" : ""} ${viewed ? "is-seen" : ""}"
+        data-measure="${esc(key)}" aria-pressed="${state.activeMeasure === key}">
+        <span class="pk-measure-icon" aria-hidden="true">${item.icon}</span>
+        <span class="pk-measure-name">${esc(item.label)}</span>
+        <span class="pk-measure-tick" aria-hidden="true">${viewed ? "✓" : ""}</span>
+        ${viewed ? '<span class="pk-visually-hidden">(seen)</span>' : ""}
+      </button>`;
+    };
+    const groups = MEASURE_GROUPS.map((group) => `
+      <div class="pk-measure-group">
+        <h3>${esc(group.label)} <small>${esc(group.blurb)}</small></h3>
+        <div class="pk-measure-buttons">
+          ${Object.keys(MEASUREMENTS).filter((key) => MEASUREMENTS[key].group === group.key).map(measureButton).join("")}
+        </div>
+      </div>`).join("");
+
+    // The instructions appear as soon as a button is pressed. No pop-up.
+    const active = state.activeMeasure === "other" ? "other" : MEASUREMENTS[state.activeMeasure] ? state.activeMeasure : null;
+    let panel = `<div class="pk-measure-instructions is-empty"><p>👆 Click a button to see how to measure it.</p></div>`;
+    if (active === "other") {
+      panel = `<div class="pk-measure-instructions">
+        <strong>✏️ Something else (optional)</strong>
+        <p>Is there anything else you want to measure on both plants?</p>
+        <label class="pk-small-label" for="pk-other-measure">What will you measure?</label>
+        <input type="text" id="pk-other-measure" data-other-measure maxlength="60" value="${esc(state.otherMeasure)}" placeholder="e.g. stem thickness" />
+        <label class="pk-small-label" for="pk-other-how">How will you measure it?</label>
+        <input type="text" id="pk-other-how" data-other-how maxlength="100" value="${esc(state.otherHow)}" placeholder="e.g. use a ruler or a pair of calipers" />
+      </div>`;
+    } else if (active) {
+      const item = MEASUREMENTS[active];
+      panel = `<div class="pk-measure-instructions">
+        <strong>${item.icon} ${esc(item.label)} · ${esc(item.tool)}</strong>
+        <p>${esc(item.how)}</p>
+        <p><strong>Write down:</strong> ${esc(item.unit)}</p>
+        ${item.reference ? `<img class="pk-reference-img" src="assets/leaf-reference.png" alt="Six leaf pictures: healthy, yellow or dead, insect damage, downy mildew, leaf spot disease, and powdery mildew" loading="lazy" />` : ""}
+      </div>`;
+    }
+
+    const frequency = FREQUENCY_OPTIONS.map((item) => `
+      <button type="button" class="pk-freq-btn ${state.measureFrequency === item.value ? "is-selected" : ""}"
+        data-frequency="${esc(item.value)}" aria-pressed="${state.measureFrequency === item.value}">${esc(item.label)}</button>`).join("");
+    const freqNote = (FREQUENCY_OPTIONS.find((item) => item.value === state.measureFrequency) || {}).note || "";
+
+    // Kept so the choice can come back if leadership decides on it.
+    const durationChoice = SHOW_DURATION_CHOICE
+      ? `<label class="pk-field" style="margin-top:17px" for="pk-measure-days">When will you check the result?
+          <select id="pk-measure-days" data-days>
+            ${DURATION_OPTIONS.map((days) => `<option value="${days}" ${state.measureAfterDays === String(days) ? "selected" : ""}>After ${days} days</option>`).join("")}
+          </select>
+        </label>`
+      : `<p class="pk-duration">🗓️ <strong>Your experiment lasts ${weeks()} weeks.</strong> Measure at the end of each week.</p>`;
+
+    return `<p class="pk-kicker">STEP 2 OF 3 · WHAT YOU MEASURE</p>
+      <h2 id="pk-editor-heading">How will you measure growth and health?</h2>
+      <p class="pk-help">These are your <strong>dependent variables</strong>. They change because of what you change. You will measure <strong>all</strong> of them on both plants. Click each button to see how.</p>
+      <p class="pk-progress ${seen === total ? "is-done" : ""}" aria-live="polite">${seen === total ? "✓ You have seen every way to measure." : `You have looked at ${seen} of ${total}.`}</p>
+      ${groups}
+      <div class="pk-measure-group">
+        <h3>Something else <small>Optional</small></h3>
+        <div class="pk-measure-buttons">
+          <button type="button" class="pk-measure-btn ${active === "other" ? "is-active" : ""}" data-measure="other" aria-pressed="${active === "other"}">
+            <span class="pk-measure-icon" aria-hidden="true">✏️</span>
+            <span class="pk-measure-name">Other</span>
+          </button>
+        </div>
+      </div>
+      ${panel}
+      <h3 class="pk-subsection-title">How often will you measure?</h3>
+      <div class="pk-freq-row">${frequency}</div>
+      <p class="pk-tip">${esc(freqNote)} Measure on the same days and at the same time of day.</p>
+      ${durationChoice}`;
   }
 
   function renderControl() {
@@ -365,20 +513,16 @@
     }).join("");
 
     const helpText = state.changeVariable
-      ? "Choose the settings to keep the same for both plants."
-      : "Choose settings for both plants. You can decide what to change later.";
+      ? "These are your <strong>controlled variables</strong>. Choose the settings both plants will get. They must be the same for Plant A and Plant B."
+      : "These are your <strong>controlled variables</strong>. Choose the settings both plants will get. You can pick what to change later.";
     const tipText = state.changeVariable
-      ? "A fair test changes one thing at a time. For a real experiment, try using several plants in each group."
+      ? "A fair test changes one thing at a time. A real experiment should use several plants in each group."
       : "When you choose what to change in Step 1, that setting will leave this list.";
 
-    return `<p class="pk-kicker">STEP 3 OF 3 · CONTROLLED VARIABLES</p>
+    return `<p class="pk-kicker">STEP 3 OF 3 · WHAT YOU KEEP THE SAME</p>
       <h2 id="pk-editor-heading">What will you keep the same?</h2>
       <p class="pk-help">${helpText}</p>
       <div class="pk-control-list">${entries}</div>
-      <label class="pk-confirm">
-        <input type="checkbox" id="pk-confirm" ${state.controlsConfirmed ? "checked" : ""} />
-        <span>I will keep these settings the same for both plants.</span>
-      </label>
       <p class="pk-tip">${tipText}</p>`;
   }
 
@@ -426,7 +570,65 @@
       preserveAspectRatio="${fit}" />`;
   }
 
+  /* Tiny Farms scene: grow lamp above a tray of plants, a nutrient bottle
+     beside it. No pot, soil or watering can. Swap in Canva art through
+     VISUAL_ASSETS.tinyFarm.tray, .lamps and .nutrients. */
+  function drawTinyFarmScene(values, letter) {
+    const uid = `pk-${letter.toLowerCase()}`;
+    const colour = ({ red: "#ff765f", green: "#69dd8a" })[values.lightColour] || "#fff6cf";
+    const level = ({ low: 14, medium: 32, high: 50 })[values.nutrientLevel] || 32;
+    const warm = values.temperature === "warm", cool = values.temperature === "cool";
+
+    const lampFallback = `
+      <path d="M20 0 H400" stroke="#444d4d" stroke-width="3" opacity=".5"/>
+      <path d="M210 0 V45" stroke="#1e2628" stroke-width="3"/>
+      <path d="M170 49 L250 49 L270 68 H150Z" fill="#1e2425"/>
+      <path d="M158 68 H262" stroke="${colour}" stroke-width="6" stroke-linecap="round"/>
+      <path d="M160 72 L90 200 H330 L260 72Z" fill="url(#${uid}-beam)" opacity=".7"/>`;
+    const miniPlant = (cx) => `<g stroke-linecap="round" stroke-linejoin="round">
+      <path d="M${cx} 190 V150" stroke="#356e3a" stroke-width="4" fill="none"/>
+      <path d="M${cx} 165 Q${cx-26} 140 ${cx-30} 158 Q${cx-18} 176 ${cx} 168" fill="#70bd59" stroke="#397c42" stroke-width="2"/>
+      <path d="M${cx} 158 Q${cx+26} 132 ${cx+32} 150 Q${cx+18} 168 ${cx} 161" fill="#8fcb63" stroke="#397c42" stroke-width="2"/>
+      <path d="M${cx} 150 Q${cx-6} 130 ${cx+4} 120 Q${cx+14} 136 ${cx} 150" fill="#9bd77c" stroke="#397c42" stroke-width="2"/>
+    </g>`;
+    const trayFallback = `
+      <rect x="95" y="190" width="230" height="22" rx="5" fill="#dfe7e3" stroke="#6f827a" stroke-width="3"/>
+      <rect x="110" y="212" width="200" height="40" rx="4" fill="#b5d8e8" fill-opacity=".7" stroke="#6f827a" stroke-width="3"/>
+      ${[145, 210, 275].map((cx) => `<rect x="${cx-14}" y="186" width="28" height="12" rx="3" fill="#f5f1e4" stroke="#6f827a" stroke-width="2"/>`).join("")}
+      ${[145, 210, 275].map(miniPlant).join("")}`;
+    const bottleFallback = `<g transform="translate(335,192)">
+      <rect x="0" y="0" width="43" height="66" rx="8" fill="#f5faff" fill-opacity=".72" stroke="#537a90" stroke-width="2"/>
+      <rect x="9" y="-8" width="25" height="9" rx="3" fill="#8aa1ad"/>
+      <path d="M3 ${65-level} H40 V60 Q40 63 37 63 H6 Q3 63 3 60Z" fill="#8bd05d" opacity=".9"/>
+      <text x="21" y="-14" text-anchor="middle" font-size="10" font-weight="900" fill="#33526b">NUTRIENTS</text>
+    </g>`;
+    const thermo = (warm || cool) ? `<g transform="translate(40,60)">
+      <rect x="0" y="0" width="16" height="70" rx="8" fill="#fff" stroke="#8b7b78" stroke-width="2"/>
+      <rect x="4" y="${warm ? 14 : 44}" width="8" height="${warm ? 48 : 18}" fill="${warm ? "#ee6a4d" : "#5aa5e8"}"/>
+      <text x="8" y="-6" text-anchor="middle" font-size="10" font-weight="900" fill="#51443f">${warm ? "WARM" : "COOL"}</text>
+    </g>` : "";
+
+    const lamp = visualLayer(VISUAL_ASSETS.lamps[values.lightColour], IMAGE_FRAMES.lamp, lampFallback);
+    return `<svg class="pk-scene-picture" viewBox="0 0 420 306" role="img"
+      aria-label="${esc(`Plant ${letter} in a Tiny Farm: ` + availableVariableKeys().map((key) => `${VARIABLES[key].label}: ${labelFor(key, values[key])}`).join("; "))}">
+      <defs>
+        <linearGradient id="${uid}-beam" x1=".5" y1="0" x2=".5" y2="1">
+          <stop offset="0%" stop-color="${colour}" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="${colour}" stop-opacity=".05"/>
+        </linearGradient>
+      </defs>
+      <rect width="420" height="306" fill="#e8eee8"/>
+      ${lamp}
+      <rect y="263" width="420" height="43" fill="#deb687"/>
+      <rect y="263" width="420" height="7" fill="#af855f" opacity=".3"/>
+      <g transform="translate(0,14)">${visualLayer(VISUAL_ASSETS.tinyFarm.tray, IMAGE_FRAMES.tinyTray, trayFallback)}</g>
+      ${visualLayer(VISUAL_ASSETS.nutrients[values.nutrientLevel], IMAGE_FRAMES.nutrient, bottleFallback)}
+      ${thermo}
+    </svg>`;
+  }
+
   function drawPlantScene(values, letter) {
+    if (state.mode === "tinyFarms") return drawTinyFarmScene(values, letter);
     const uid = `pk-${letter.toLowerCase()}`;
     const growLamp = values.lightExposure === "lamp";
     const dark = values.lightExposure === "cupboard";
@@ -571,7 +773,7 @@
     const lamp = growLamp ? visualLayer(VISUAL_ASSETS.lamps[values.lightColour], IMAGE_FRAMES.lamp, lampFallback) : "";
 
     return `<svg class="pk-scene-picture" viewBox="0 0 420 306" role="img"
-      aria-label="${esc(`Plant ${letter}: ` + Object.keys(VARIABLES).filter(key => key !== "lightColour" || growLamp).map(key=>`${VARIABLES[key].label}: ${labelFor(key,values[key])}`).join('; '))}">
+      aria-label="${esc(`Plant ${letter}: ` + availableVariableKeys().map(key=>`${VARIABLES[key].label}: ${labelFor(key,values[key])}`).join('; '))}">
       <defs>
         <linearGradient id="${uid}-beam" x1=".5" y1="0" x2=".5" y2="1">
           <stop offset="0%" stop-color="${colour}" stop-opacity=".9"/>
@@ -604,13 +806,7 @@
   function sceneCard(letter, values) {
     const changed = Boolean(state.changeVariable);
     const mainValue = changed ? labelFor(state.changeVariable, values[state.changeVariable]) : "Same settings";
-    const pills = [
-      `Soil: ${labelFor("soilFill", values.soilFill)}`,
-      `Water: ${values.waterVolume} mL`,
-      `Fertiliser: ${values.fertiliser === "yes" ? "yes" : "no"}`,
-      `Water: every ${values.wateringFrequency} ${values.wateringFrequency === "1" ? "day" : "days"}`,
-      `Light: ${values.lightExposure === "lamp" ? `${values.lightColour} lamp` : labelFor("lightExposure", values.lightExposure)}`,
-    ];
+    const pills = availableVariableKeys().map((key) => `${VARIABLES[key].label}: ${labelFor(key, values[key])}`);
     return `<article class="pk-scene-card ${changed ? "is-changing" : ""}">
       <div class="pk-scene-top">
         <strong class="pk-plant-name">Plant ${letter}</strong>
@@ -641,32 +837,42 @@
     return `${VARIABLES[state.changeVariable].label}: Plant A — ${labelFor(state.changeVariable, a[state.changeVariable])}; Plant B — ${labelFor(state.changeVariable, b[state.changeVariable])}.`;
   }
 
+  function otherMeasureText() {
+    return state.otherMeasure.trim()
+      ? `${state.otherMeasure.trim()}${state.otherHow.trim() ? ` (${state.otherHow.trim()})` : ""}`
+      : "";
+  }
+
   function descriptionOfMeasurement() {
-    if (!state.measurement) return "Choose one result to measure.";
-    const measure = MEASUREMENTS[state.measurement];
-    return `${measure.label} (${measure.unit}). Use: ${measure.tool}. Check after ${state.measureAfterDays} days.`;
+    if (!allMeasuresSeen()) return "Look at every way to measure in Step 2.";
+    return `Measure ${plantPlural()} ${frequencyLabel()} for ${weeks()} weeks.`;
   }
 
   function buildPlanText() {
     const comparison = descriptionOfChange();
     const measure = descriptionOfMeasurement();
-    const controls = relevantControlVariables().map((key) => `${VARIABLES[key].label}: ${labelFor(key, state.controls[key])}`).join("; ");
-    return { comparison, measure, controls };
+    return { comparison, measure };
   }
 
   function renderBlueprint() {
     const plan = buildPlanText();
-    const status = state.controlsConfirmed ? "Reviewed and confirmed." : "Review these shared settings in Step 3.";
-    const measure = state.measurement ? MEASUREMENTS[state.measurement] : null;
-    const question = state.changeVariable && measure
-      ? `Does changing ${QUESTION_CHANGE_WORDS[state.changeVariable]} affect ${measure.question} in pea plants?`
-      : "Choose what you will change and measure to build your question.";
+    const question = state.changeVariable && allMeasuresSeen()
+      ? `Does changing the ${QUESTION_CHANGE_WORDS[state.changeVariable]} affect the height and health of ${plantPlural()}?`
+      : "Choose what you will change and look at how to measure to build your question.";
     byId("pk-question").textContent = question;
+    const extra = otherMeasureText();
+    const measureList = allMeasuresSeen() ? `
+        <details class="pk-control-summary" open>
+          <summary>See all ${REQUIRED_MEASURES.length + (extra ? 1 : 0)} things you will measure</summary>
+          <ul>${REQUIRED_MEASURES.map((key) =>
+            `<li>${esc(MEASUREMENTS[key].label)} (${esc(MEASUREMENTS[key].unit)}) · ${esc(MEASUREMENTS[key].tool)}</li>`).join("")}
+            ${extra ? `<li>${esc(extra)}</li>` : ""}
+          </ul>
+        </details>` : "";
     blueprint.innerHTML = `
-      <article class="pk-blueprint-card change"><h3>Change</h3><p>${esc(plan.comparison)}</p></article>
-      <article class="pk-blueprint-card measure"><h3>Measure</h3><p>${esc(plan.measure)}</p></article>
-      <article class="pk-blueprint-card control"><h3>Keep the same</h3>
-        <p>${esc(status)}</p>
+      <article class="pk-blueprint-card change"><h3>Change <small>independent variable</small></h3><p>${esc(plan.comparison)}</p></article>
+      <article class="pk-blueprint-card measure"><h3>Measure <small>dependent variables</small></h3><p>${esc(plan.measure)}</p>${measureList}</article>
+      <article class="pk-blueprint-card control"><h3>Keep the same <small>controlled variables</small></h3>
         <details class="pk-control-summary">
           <summary>See ${relevantControlVariables().length} shared settings</summary>
           <ul>${relevantControlVariables().map((key) =>
@@ -709,8 +915,8 @@
   function checkPlan() {
     const missing = [];
     if (!state.changeVariable) missing.push("choose one thing to change (Step 1)");
-    if (!state.measurement) missing.push("choose what to measure (Step 2)");
-    if (!state.controlsConfirmed) missing.push("confirm the matching settings (Step 3)");
+    if (!allMeasuresSeen()) missing.push("click every measure button (Step 2)");
+    if (!state.plant || (state.plant === "other" && !state.plantOther.trim())) missing.push("pick the plant you will grow");
     state.checked = true;
     feedback.hidden = false;
     if (missing.length) {
@@ -719,7 +925,7 @@
       return;
     }
     feedback.classList.add("is-success");
-    feedback.textContent = "Well done! Your plan changes one variable, measures one result, and keeps the other settings the same. Next, test it with real plants!";
+    feedback.textContent = "Well done! You change one thing, measure growth and health, and keep everything else the same. Next, test it with real plants!";
     feedback.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
@@ -734,13 +940,31 @@
         comparisonId: pair ? pair.id : "",
         comparisonA: pair ? labelFor(state.changeVariable, pair.a) : "",
         comparisonB: pair ? labelFor(state.changeVariable, pair.b) : "",
-        measureKey: state.measurement || "",
+        // Students measure everything, so the measured result is always
+        // "height and health" once they have looked at every method.
+        measureKey: allMeasuresSeen() ? "growthHealth" : "",
         measureAfterDays: state.measureAfterDays,
+        measureFrequency: state.measureFrequency,
+        plantName: plantPlural(),
+        changeKeys: availableVariableKeys(),
       },
     }));
   }
 
+  function renderPlant() {
+    root.querySelectorAll("[data-plant]").forEach((button) => {
+      const selected = button.dataset.plant === state.plant;
+      button.classList.toggle("is-selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    const other = byId("pk-plant-other-row");
+    if (other) other.hidden = state.plant !== "other";
+    const input = byId("pk-plant-other");
+    if (input && input.value !== state.plantOther) input.value = state.plantOther;
+  }
+
   function render() {
+    renderPlant();
     renderEditor();
     renderScenes();
     renderBlueprint();
@@ -757,18 +981,24 @@
       state.changeVariable = variable.dataset.variable;
       state.previewControl = null;
       state.comparison = VARIABLES[state.changeVariable].comparisons[0].id;
-      state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
     const pair = event.target.closest("[data-pair]");
     if (pair) {
       state.comparison = pair.dataset.pair;
-      state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
+    // Pressing a measure button shows its instructions straight away.
     const measure = event.target.closest("[data-measure]");
     if (measure) {
-      state.measurement = measure.dataset.measure;
+      const key = measure.dataset.measure;
+      state.activeMeasure = key;
+      if (MEASUREMENTS[key]) state.viewedMeasures[key] = true;
+      hideFeedback(); render(); return;
+    }
+    const frequency = event.target.closest("[data-frequency]");
+    if (frequency) {
+      state.measureFrequency = frequency.dataset.frequency;
       hideFeedback(); render(); return;
     }
     const jump = event.target.closest("[data-goto]");
@@ -781,17 +1011,34 @@
       state.controls[control.dataset.control] = control.value;
       state.previewControl = ["soilType", "fertiliser"].includes(control.dataset.control)
         ? control.dataset.control : null;
-      state.controlsConfirmed = false;
       hideFeedback(); render(); return;
     }
     if (event.target.matches("[data-days]")) {
       state.measureAfterDays = event.target.value;
-      hideFeedback(); render(); return;
-    }
-    if (event.target.id === "pk-confirm") {
-      state.controlsConfirmed = event.target.checked;
       hideFeedback(); render();
     }
+  });
+
+  // Typing in the "Other" boxes must not rebuild the step (the cursor
+  // would jump), so only the plan beneath is refreshed.
+  editor.addEventListener("input", (event) => {
+    if (event.target.matches("[data-other-measure]")) state.otherMeasure = event.target.value;
+    else if (event.target.matches("[data-other-how]")) state.otherHow = event.target.value;
+    else return;
+    renderBlueprint();
+  });
+
+  // Plant choice sits above the steps; pea plant is only an example.
+  byId("pk-plant-choice").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-plant]");
+    if (!button) return;
+    state.plant = button.dataset.plant;
+    hideFeedback(); render();
+    if (state.plant === "other") byId("pk-plant-other").focus();
+  });
+  byId("pk-plant-other").addEventListener("input", (event) => {
+    state.plantOther = event.target.value;
+    renderBlueprint(); publishPlan();
   });
 
   // A quiet visual cue for Step 3: when Soil type or Fertiliser is being
@@ -818,7 +1065,6 @@
       state.changeVariable = null;
       state.comparison = null;
     }
-    state.controlsConfirmed = false;
     state.previewControl = null;
     hideFeedback();
     render();

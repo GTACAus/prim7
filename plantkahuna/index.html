@@ -22,20 +22,48 @@
       <header class="pk-hero">
         <div>
           <p class="pk-eyebrow"><span class="pk-eyebrow-dot"></span> GTAC • Plant Lab</p>
-          <h1>Build a <span>plant fair test.</span></h1>
+          <h1>Plan a <span>plant experiment.</span></h1>
           <p class="pk-subtitle">
-            Plan two pea plant experiments. Change <strong>one</strong> thing,
-            decide what to <strong>measure</strong>, and keep the rest the <strong>same</strong>.
+            Plants need many things to stay alive and grow well, like light, water and food.
+            In this experiment you will change <strong>one</strong> thing.
+            Then you will see how it changes the plant's <strong>growth</strong> and <strong>health</strong>.
+          </p>
+          <div class="pk-vocab" aria-label="Scientist words">
+            <div class="pk-vocab-card change"><strong>What you change</strong><span>Independent variable</span></div>
+            <div class="pk-vocab-card measure"><strong>What you measure</strong><span>Dependent variable</span></div>
+            <div class="pk-vocab-card control"><strong>What you keep the same</strong><span>Controlled variables</span></div>
+          </div>
+          <p class="pk-subtitle pk-howto">
+            <strong>How do we measure growth?</strong> We measure how tall the plant is and how many leaves it has.
+            <strong>How do we measure health?</strong> We look at the leaves to see how well the plant is doing.
           </p>
         </div>
       </header>
+
+      <!-- Pea plant is only an example. Students pick any plant they like. -->
+      <section class="pk-plant-pick" aria-label="Choose your plant">
+        <div class="pk-growing-copy">
+          <strong>Which plant will you grow?</strong>
+          <span>Pea plants are just one example. Choose any plant you like.</span>
+        </div>
+        <div class="pk-plant-choice" id="pk-plant-choice" role="group" aria-label="Plant choices">
+          <button type="button" class="pk-growing-choice" data-plant="pea" aria-pressed="false">Pea plant</button>
+          <button type="button" class="pk-growing-choice" data-plant="bean" aria-pressed="false">Bean plant</button>
+          <button type="button" class="pk-growing-choice" data-plant="sunflower" aria-pressed="false">Sunflower</button>
+          <button type="button" class="pk-growing-choice" data-plant="other" aria-pressed="false">Other</button>
+        </div>
+        <div class="pk-plant-other-row" id="pk-plant-other-row" hidden>
+          <label for="pk-plant-other">Plant name</label>
+          <input type="text" id="pk-plant-other" maxlength="30" placeholder="e.g. basil" />
+        </div>
+      </section>
 
       <!-- Growing equipment is chosen first; only relevant light options
            then appear in Change and Keep the Same. -->
       <section class="pk-growing-setup" id="pk-growing-setup" aria-label="Growing setup">
         <div class="pk-growing-copy">
-          <strong>Growing setup</strong>
-          <span id="pk-growing-note">Window or cupboard · no grow lamps needed</span>
+          <strong>Where will you grow your plants?</strong>
+          <span id="pk-growing-note">Pots, soil and water. Light comes from a window or a cupboard.</span>
         </div>
         <div class="pk-growing-switch" role="group" aria-label="Where will you grow the plants?">
           <button type="button" data-growing-mode="classroom" aria-pressed="true" class="pk-growing-choice is-selected">Classroom</button>
@@ -46,15 +74,15 @@
       <nav class="pk-steps" id="pk-steps" aria-label="Experiment planning steps">
         <button type="button" class="pk-step is-active" data-step="change" aria-current="step">
           <span class="pk-step-number">1</span>
-          <span><strong>Change</strong><small>One variable</small></span>
+          <span><strong>Change</strong><small>Independent variable</small></span>
         </button>
         <button type="button" class="pk-step" data-step="measure">
           <span class="pk-step-number">2</span>
-          <span><strong>Measure</strong><small>The result</small></span>
+          <span><strong>Measure</strong><small>Dependent variable</small></span>
         </button>
         <button type="button" class="pk-step" data-step="control">
           <span class="pk-step-number">3</span>
-          <span><strong>Keep the same</strong><small>Other variables</small></span>
+          <span><strong>Keep the same</strong><small>Controlled variables</small></span>
         </button>
       </nav>
 
@@ -74,7 +102,7 @@
             </div>
           </div>
           <p class="pk-scene-lead" id="pk-scene-lead" aria-live="polite">
-            Both plants start with the same settings. Choose a variable to change.
+            Both plants start with the same settings. Choose what to change.
           </p>
           <div class="pk-scene-grid" id="pk-scenes" aria-live="polite"></div>
           <p class="pk-visual-note">The pictures show the <strong>setup</strong>, not the results. Your real plants will show what happens.</p>
@@ -115,15 +143,15 @@
           </div>
           <span class="pk-writing-count">01 / 02</span>
         </div>
-        <p class="pk-writing-intro">Use the experiment you planned to write a question you can test with real plants.</p>
+        <p class="pk-writing-intro">Use your plan to write a question you can test with real plants. You will always measure the plant's <strong>height and health</strong>.</p>
 
         <div class="pk-writing-context" id="pk-writing-context" hidden>
           <div><span>Change</span><strong id="pk-writing-changed"></strong></div>
           <span class="pk-context-divider" aria-hidden="true">→</span>
-          <div><span>Measure</span><strong id="pk-writing-measured"></strong></div>
+          <div><span>Measure (always)</span><strong id="pk-writing-measured"></strong></div>
           <small id="pk-writing-pair"></small>
         </div>
-        <p class="pk-writing-wait" id="pk-question-wait">First choose what you will change and measure in the experiment above.</p>
+        <p class="pk-writing-wait" id="pk-question-wait">First choose what you will change, and click every measure button in Step 2.</p>
 
         <div id="plantQuestionActivity" data-activity hidden>
           <div class="pk-question-step question-builder-step">
@@ -137,7 +165,7 @@
           </div>
           <div class="pk-question-step question-builder-step" id="pk-question-step-two" hidden>
             <h3>Step 2: Choose your variables</h3>
-            <p>Choose the thing you <strong>changed</strong>, then the result you will <strong>measure</strong>.</p>
+            <p>Choose the thing you will <strong>change</strong>. What you <strong>measure</strong> is filled in for you: height and health.</p>
             <div class="pk-question-builder investigation-question-builder" data-question-builder aria-live="polite">
               <p class="question-builder-placeholder">Choose a question starter above.</p>
             </div>
@@ -162,7 +190,7 @@
           <span class="pk-writing-count">02 / 02</span>
         </div>
         <p class="pk-writing-intro">Predict what you think will happen. Then explain <strong>why</strong> you think it will happen.</p>
-        <p class="pk-writing-wait" id="pk-prediction-wait">First select what you will change and measure above.</p>
+        <p class="pk-writing-wait" id="pk-prediction-wait">First finish your plan and your question above.</p>
 
         <div id="pk-prediction-content" hidden>
           <div id="plantPredictionActivity" data-activity class="reasoned-builder pk-reasoned-builder">
