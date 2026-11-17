@@ -2699,3 +2699,50 @@
   transform: translateY(3px);
   animation: predictionCheckBuzz 0.2s ease;
 }
+
+
+
+/* ==================================================
+   COMPACT REFERENCE CARDS
+   Independent Variable / Dependent Variable / Units
+   ================================================== */
+
+/* Make all three cards shorter */
+#data-table-template .table-key-card {
+  min-height: 0;
+  padding: 14px 16px;
+  gap: 8px;
+}
+
+/* Place the two Units buttons side by side */
+#data-table-template .table-key-card.key-units {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  justify-items: center;
+  gap: 8px;
+}
+
+/* Keep the heading and description full width */
+#data-table-template .key-units > h3,
+#data-table-template .key-units > p {
+  grid-column: 1 / -1;
+}
+
+/* Make both Units buttons fit neatly */
+#data-table-template .key-units > button {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: 0.85rem;
+  white-space: normal;
+}
+
+/* Stack buttons only on very narrow screens */
+@media (max-width: 480px) {
+  #data-table-template .table-key-card.key-units {
+    grid-template-columns: 1fr;
+  }
+}
