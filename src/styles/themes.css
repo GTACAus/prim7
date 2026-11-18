@@ -1,0 +1,213 @@
+/* ==================================================
+   THEMES
+
+   The site's colours are CSS variables (see :root in
+   build_style.css). A page picks a theme with
+   meta: { theme: "name" } in its route (src/main.js),
+   which sets data-theme="name" on <html>.
+
+   A theme only re-points the variables the shared
+   components use (--text, --line, --paper, --card,
+   --surface, --accent, --marker ...), so the intro,
+   modals and header restyle themselves. The brand
+   palette (--green, --yellow ...) is NOT overridden,
+   because pages still use it for their own cards.
+   ================================================== */
+
+/* ---------- Expedition (lesson 7): dark deep-sea theme ---------- */
+
+:root[data-theme="dark"] {
+  /* theme palette */
+  --exp-navy: #06182e;
+  --exp-navy-2: #0a2747;
+  --exp-navy-dark: rgba(3, 16, 30, 0.95);
+  --exp-panel: #0d3157;
+  --exp-cyan: #39d3ff;
+  --exp-cyan-soft: #d8f7ff;
+  --exp-sea: #0aaed9;
+  --exp-white: #f8fdff;
+  --exp-muted: #aac6d8;
+  --exp-line: #75dde8;
+  --exp-shadow: 0 8px 0 rgba(0, 0, 0, 0.32);
+  --exp-teal: rgba(57, 211, 255, 0.12);
+
+  /* mission window dark theme */
+  --mission-bg: #0a1f38;
+  --mission-bg-alt: #091a2c;
+  --mission-border: #6ee2ff;
+  --mission-text: #f8fdff;
+  --mission-muted: #aac6d8;
+  --mission-shadow: rgba(255, 255, 255, 0.16);
+
+  /* shared theme tokens */
+  --text: var(--exp-white);
+  --muted: var(--exp-muted);
+  --line: var(--exp-cyan);
+  --paper: var(--exp-navy-dark);
+  --card: var(--exp-navy);
+  --surface: rgba(255, 255, 255, 0.05);
+  --shadow-soft: rgba(0, 0, 0, 0.3);
+  --accent: var(--exp-panel);
+  --on-accent: var(--exp-cyan-soft);
+  --accent-text: var(--exp-cyan);
+  --marker: var(--exp-cyan);
+  --on-marker: var(--exp-navy);
+  --marker-2: var(--exp-cyan);
+
+  --shadow-small: 0 4px 0 var(--exp-cyan-soft);
+  --shadow-medium: 0 6px 0 var(--exp-cyan-soft);
+
+  background-color: #05101f;
+  color-scheme: dark;
+}
+
+/* page background */
+:root[data-theme="dark"] body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(
+      circle at 18% 4%,
+      rgba(57, 211, 255, 0.16),
+      transparent 26rem
+    ),
+    radial-gradient(
+      circle at 86% 12%,
+      rgba(78, 50, 232, 0.16),
+      transparent 24rem
+    ),
+    linear-gradient(180deg, #05101f 0%, #071a30 48%, #04101e 100%);
+}
+
+:root[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image: radial-gradient(
+    circle at 20px 20px,
+    rgba(117, 221, 232, 0.45) 1px,
+    transparent 1px
+  );
+  background-size: 42px 42px;
+}
+
+/* scrollbars (page and all scrollable panels) */
+@supports not selector(::-webkit-scrollbar) {
+  :root[data-theme="dark"] * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(117, 221, 232, 0.45) transparent;
+  }
+}
+
+:root[data-theme="dark"] *::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+:root[data-theme="dark"] *::-webkit-scrollbar-corner,
+:root[data-theme="dark"] *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:root[data-theme="dark"] *::-webkit-scrollbar-thumb {
+  background: rgba(117, 221, 232, 0.4);
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+:root[data-theme="dark"] *::-webkit-scrollbar-thumb:hover {
+  background: rgba(117, 221, 232, 0.7);
+  background-clip: padding-box;
+}
+
+/* header buttons */
+:root[data-theme="dark"] :is(.home-button, .glossary-button) {
+  --background: var(--exp-navy);
+  --color: var(--exp-white);
+  --background-hover: var(--exp-cyan-soft);
+  --color-hover: var(--exp-navy);
+  border-color: var(--exp-cyan-soft);
+  border-top: 5px solid var(--exp-white);
+}
+
+/* lesson intro */
+:root[data-theme="dark"] .intro-card {
+  border: 3px solid var(--line);
+  box-shadow: var(--exp-shadow);
+  background: var(--exp-navy);
+}
+
+:root[data-theme="dark"] .intro-card::before {
+  border-top-color: var(--line);
+}
+
+:root[data-theme="dark"] .lesson-label {
+  box-shadow: 0 3px 0 var(--exp-sea);
+}
+
+:root[data-theme="dark"] .worksheet-button {
+  --background-hover: var(--exp-cyan-soft);
+  box-shadow: 0 4px 0 var(--exp-sea);
+}
+
+:root[data-theme="dark"] .learning-objective-text {
+  background: var(--exp-teal);
+}
+
+:root[data-theme="dark"] .formula-step {
+  background: var(--exp-teal);
+  box-shadow: none;
+}
+
+/* Content box */
+:root[data-theme="dark"] .content-box {
+  background: var(--exp-navy);
+}
+
+/* modals */
+:root[data-theme="dark"] .modal-content {
+  box-shadow: var(--exp-shadow);
+}
+
+:root[data-theme="dark"] :is(.close-button, .teacher-close) {
+  --background: var(--exp-panel);
+  --color: var(--exp-cyan-soft);
+  --background-hover: color-mix(in srgb, var(--exp-panel) 80%, white 20%);
+  --color-hover: var(--exp-cyan-soft);
+}
+
+:root[data-theme="dark"] .vocab-card {
+  border-width: 1px;
+}
+
+:root[data-theme="dark"] .vocab-card h3 {
+  color: var(--exp-cyan);
+}
+
+:root[data-theme="dark"] .teacher-section-list button:hover {
+  background: rgba(57, 211, 255, 0.18);
+}
+
+:root[data-theme="dark"] .teacher-secondary-button {
+  background: var(--exp-panel);
+  color: var(--exp-white);
+  --background-hover: rgba(57, 211, 255, 0.25);
+}
+
+:root[data-theme="dark"] .equipment-symbol-row {
+  background: var(--surface);
+  border: 1px solid rgba(117, 221, 232, 0.35);
+}
+
+:root[data-theme="dark"] .equipment-symbol-row svg :is(path, circle) {
+  stroke: var(--exp-cyan-soft);
+}
+
+:root[data-theme="dark"] .pdf-modal-actions .general-button {
+  --background: var(--exp-cyan);
+  --color: var(--exp-navy);
+}

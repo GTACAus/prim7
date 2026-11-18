@@ -1,3 +1,29 @@
 {
-    "livePreview.defaultPreviewPath": "/index.html"
+    "actionButtons": {
+    "commands": [
+      {
+        "name": "🌐 Start & Preview",
+        "useVsCodeApi": true,
+        "command": "multiCommand.startAndPreview"
+      },
+      {"name": "▶ Start Server", "command": "npm run dev" },
+      {
+        "name": "■ Stop Server",
+        "useVsCodeApi": true,
+        "command": "workbench.action.terminal.kill"
+      },
+      { "name": "▶ Build", "command": "npm run build" },
+    ]
+  },
+  "multiCommand.commands": [
+    {
+      "command": "multiCommand.startAndPreview",
+      "interval": 3000,
+      "sequence": [
+        { "command": "workbench.action.terminal.new" },
+        { "command": "workbench.action.terminal.sendSequence", "args": { "text": "npm run dev\r" } },
+        { "command": "simpleBrowser.show", "args": "http://localhost:5173/" }
+      ]
+    }
+  ]
 }
