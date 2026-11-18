@@ -13,7 +13,7 @@ import { openVideo } from "../composables/useModal.js";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
-  "I am learning to ask <strong>testable questions</strong> and make reasoned predictions for a scientific <strong>experiment</strong>";
+  "We are learning to:<br>1. ask <strong>testable questions</strong> and<br>2. make <strong>reasoned predictions</strong> for a scientific experiment.";
 const criteria = [
   "I can classify whether a <strong>question</strong> is testable or untestable",
   "I can write a <strong>testable question</strong>",
@@ -178,7 +178,6 @@ const sections = [
         :objective="objective"
         :criteria="criteria"
       >
-        Asking questions and making predictions like a scientist
 
         <template #observation>
           <h2>See, Think, Wonder</h2>

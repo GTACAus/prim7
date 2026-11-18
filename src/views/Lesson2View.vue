@@ -184,7 +184,6 @@ const sections = [
         :objective="objective"
         :criteria="criteria"
       >
-        Learn how to plan a fair test and represent it in a diagram.
 
         <template #title>Planning a <strong>Fair Test</strong></template>
 
