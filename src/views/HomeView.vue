@@ -36,7 +36,7 @@ const lessons = [
     accent: "var(--purple)",
     subtitle: "Science Inquiry Lab - Skills Check!",
     description:
-      "Apply what you have learned in lessons 1,2 and 3. Plan a fair test and record results in a table.",
+      "Apply what you have learned in lessons 1,2 and 3.",
     experiment: "Ball Bounce Test Continued",
   },
   {
