@@ -1,0 +1,798 @@
+/* ==================================================
+   BASE STYLES
+
+   Design tokens (:root), the reset, the page shell, and the few
+   components styled globally. Component-specific rules live in the
+   component (<style> in its .vue file); page-specific rules in
+   src/styles/<page>.css. Colour themes are in themes.css and
+   printing in print.css.
+
+   SMALLER SCREENS (tablet / mobile)
+   Put a component's small-screen rules in an @media block at the BOTTOM of
+   that component's own <style>. Source order then guarantees they win over
+   the component's base rules on every page. Use these breakpoints:
+
+     @media (max-width: 900px) { ... }   tablet
+     @media (max-width: 800px) { ... }   mobile
+     @media (max-width: 520px) { ... }   small phone
+
+   Examples: Section.vue, LessonIntro.vue, PageHeader.vue.
+   Do not add a separate "overrides" stylesheet.
+   ================================================== */
+
+:root {
+  /* Core GTAC palette */
+  --cream: #f9f6e7;
+  --paper: #fffdf4;
+  --yellow: #ffcd1d;
+  --orange: #ff6d3a;
+  --green: #00c77a;
+  --mint: #67e5c1;
+  --purple: #4e32e8;
+  --lavender: #c0adff;
+  --blue: #75dde8;
+  --charcoal: #30332f;
+
+  /* Functional aliases */
+  --bg: var(--cream);
+  --card: var(--paper);
+  --text: var(--charcoal);
+  --muted: #62655f;
+  --line: var(--charcoal);
+
+  --soft-yellow: #fff0a8;
+  --soft-orange: #ffd3c3;
+  --soft-green: #d7f5e9;
+  --soft-purple: #ded7ff;
+  --soft-blue: #d7f2f4;
+
+  --button: var(--green);
+  --button-hover: var(--purple);
+
+  /* Theme tokens: components use these (not the palette) for anything a theme
+     may change. A theme overrides them in src/styles/themes.css. */
+  --surface: white; /* inset cards on a card */
+  --shadow-soft: rgba(48, 51, 47, 0.16);
+  --accent: var(--purple); /* label backgrounds */
+  --on-accent: white;
+  --accent-text: var(--purple); /* eyebrows, small headings */
+  --marker: var(--yellow); /* numbered circles, highlighted buttons */
+  --on-marker: var(--text);
+  --marker-2: var(--mint);
+
+  --radius-small: 12px;
+  --radius-medium: 20px;
+  --radius-large: 26px;
+
+  --shadow-small: 0 4px 0 var(--line);
+  --shadow-medium: 0 6px 0 var(--line);
+  --shadow: rgb(0 0 0 / 0.05);
+
+  --border-small: 1px solid var(--line);
+  --border-medium: 2px solid var(--line);
+  --border-large: 4px solid var(--line);
+
+  touch-action: pan-x pan-y;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  background: var(--cream);
+  color: var(--text);
+
+  font-family: "DM Sans", Arial, sans-serif;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+  user-drag: none;
+  -webkit-user-drag: none; /* for Safari */
+  -moz-user-drag: none; /* for Firefox */
+  -ms-user-drag: none; /* for Internet Explorer */
+}
+
+/* ---------- Scrollbar ----------*/
+::-webkit-scrollbar {
+  overflow-y: auto;
+  width: 8px;
+  scrollbar-color: var(--line) transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border: 0px solid transparent;
+  background: var(--button-hover);
+  width: 8px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ---------- Checkbox Inputs ------------*/
+input[type="checkbox"]::before {
+  content: "✓";
+
+  color: var(--charcoal);
+  font-size: 14px;
+  font-weight: bold;
+
+  transform: scale(0);
+  opacity: 0;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+
+  width: 20px;
+  height: 20px;
+
+  background: var(--paper);
+  border: 2px solid var(--charcoal);
+  border-radius: 4px;
+
+  display: grid;
+  place-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--soft-green);
+}
+
+/* Animate the symbol in */
+input[type="checkbox"]:checked::before {
+  opacity: 1;
+  transform: scale(1);
+  animation: pop-fade-in 0.5s ease-out;
+}
+
+/* Optional click animation */
+input[type="checkbox"]:active {
+  transform: scale(0.9);
+}
+
+.lesson-heading {
+  max-width: 900px;
+  margin: 0 auto 22px;
+
+  text-align: center;
+}
+
+.lesson-heading h1 {
+  margin: 0 0 14px;
+
+  color: var(--text);
+
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+/* ---------- Static question check rows (lesson 1 but can reuse) ---------- */
+
+.question-check-icon.correct {
+  background: var(--soft-green);
+  color: var(--text);
+}
+
+.question-check-icon.incorrect {
+  background: var(--soft-orange);
+  color: var(--text);
+}
+
+@media (max-width: 800px) {
+  .intro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .save-work-button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .botanist-mission {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-heading h1 {
+    font-size: 2rem;
+  }
+
+  .stw-explanation div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+}
+
+.locked {
+  display: none !important;
+}
+
+/*
+  Shared activity framework (scripts/activities/). An activity whose
+  data-activity-depends-on hasn't been met yet gets this instead of
+  being hidden outright, so a page can still show it as "locked" in
+  place rather than making it disappear.
+*/
+[data-activity-hidden][hidden] {
+  display: none !important;
+}
+
+.video-box,
+.plant-canvas,
+.label-bank,
+.diagram-box,
+.writing-box {
+  border-radius: 20px;
+  color: var(--muted);
+}
+
+.label-bank {
+  min-height: 280px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  padding: 16px;
+}
+
+/* ---------- Post-it brainstorm ---------- */
+
+.postit-answer .brainstorm-answer.visible {
+  display: flex;
+}
+
+/* Class for making something pop and fade into the screen */
+.pop-in {
+  animation: pop-fade-in 0.5s ease;
+}
+
+@keyframes pop-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(2px) scale(1);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.floating-title::before {
+  position: absolute;
+  top: -16px;
+  left: 18px;
+
+  padding: 4px 12px;
+
+  background: var(--blue);
+
+  border: 2px solid var(--line);
+  border-radius: 999px;
+
+  color: var(--text);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.diagram-activity {
+  display: block;
+  padding: 18px;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border: 3px solid var(--line);
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.ol-step-count {
+  list-style: none;
+  counter-reset: step;
+  padding-left: 0;
+}
+
+.ol-step-count li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 80px;
+  margin-bottom: 16px;
+}
+
+.ol-step-count li::before {
+  content: "STEP " counter(step);
+  position: absolute;
+  left: 0;
+  top: -5px;
+  font-weight: 700;
+  color: var(--purple);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.activity-instruction {
+  margin: 0 0 16px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/*
+  The header ignores clicks so students can select the
+  page underneath it, so every control placed in it has
+  to switch clicks back on. The pretask page keeps its
+  save button up here.
+*/
+.save-work-button {
+  pointer-events: auto;
+}
+
+.bounce-symbol {
+  display: inline-block;
+  margin: 0px;
+}
+
+.general-button:hover .bounce-symbol {
+  animation: hoverSymbolBounce 0.5s ease;
+}
+
+@keyframes hoverSymbolBounce {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Hidden teacher navigation ---------- */
+
+#teacherTrigger {
+  user-select: none;
+}
+
+@media (max-width: 960px) {
+  .label-bank {
+    min-height: 160px;
+  }
+}
+
+.drop-zone.drag-over {
+  transform: scale(1.1);
+  opacity: 0.7;
+}
+
+.part {
+  cursor: grab;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  user-select: none;
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.part img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media (max-width: 1024px) {
+  .part {
+    max-width: 15vw;
+    max-height: 15vw;
+  }
+}
+
+.part:active {
+  cursor: grabbing;
+}
+
+.part:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.part.placed {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.tab:not(.active) {
+  background: var(--soft-green);
+  color: #30332f;
+}
+
+/*-- Pretask section intro bubble colours */
+#watch .section-title {
+  background: var(--yellow);
+}
+
+#build .section-title {
+  background: var(--mint);
+}
+
+#brainstorm .section-title {
+  background: var(--orange);
+  color: white;
+}
+
+#diagram .section-title {
+  background: var(--lavender);
+}
+
+#detective .section-title {
+  background: var(--blue);
+}
+
+#final-brainstorm .section-title {
+  background: var(--purple);
+  color: white;
+}
+
+/*-- Lesson 1 intro bubble colours --*/
+
+#observe-experiment .section-title {
+  background: var(--green);
+}
+
+#testable-questions .section-title {
+  background: var(--orange);
+}
+
+#testable-question-intro .section-title {
+  background: var(--blue);
+}
+
+/* ==================================================
+   TESTABLE QUESTION ACTIVITY
+   ================================================== */
+
+.testable-question-activity {
+  margin-bottom: 24px;
+  padding: 22px;
+
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+/* ---------- Wheel and question builder layout ---------- */
+
+.reset-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+/* ---------- Wheel ---------- */
+
+/* ---------- Plant builder ---------- */
+
+.tab-button-container .active,
+.tab-button-container button.active {
+  background: var(--yellow) !important;
+}
+
+/* ---------- Post-it brainstorm ---------- */
+
+.image-box {
+  margin: 20px 0;
+
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  background: white;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+.image-box img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Diagram ---------- */
+
+.thinglink-box {
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
+/* ---------- Download and navigation buttons ---------- */
+
+.general-button {
+  position: relative;
+  padding: 12px 22px;
+
+  background: var(--button);
+  color: white;
+
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+
+  box-shadow: 0 4px 0 var(--charcoal);
+
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  animation: pop-fade-in 0.5s ease-out;
+
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.general-button p {
+  display: inline-block;
+  margin: 0px;
+}
+
+.general-button a {
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px;
+  color: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+.general-button:hover {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.general-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes confetti {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ----- Reasoned prediction check -----*/
+.prediction-check {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: min(700px, 100%);
+  margin: 24px auto 0;
+  padding: 22px;
+
+  background: white;
+
+  border: 3px solid var(--charcoal);
+  border-top: 8px solid var(--purple);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-small);
+
+  text-align: center;
+  box-sizing: border-box;
+
+  animation: pop-fade-in 0.5s ease;
+}
+
+.prediction-check[hidden] {
+  display: none;
+}
+
+.prediction-label {
+  margin: 0 0 6px;
+
+  color: var(--purple);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prediction-check h3 {
+  margin: 0 0 8px;
+}
+
+.prediction-check > p:not(.prediction-label) {
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.prediction-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.prediction-button.buzz {
+  box-shadow: none;
+  background: var(--orange);
+  transform: translateY(3px);
+  animation: predictionCheckBuzz 0.2s ease;
+}
+
+.prediction-button.buzz:hover {
+  background: var(--orange);
+  transform: translateY(3px);
+}
+
+.prediction-button {
+  color: var(--charcoal);
+  background: var(--soft-green);
+  min-width: 150px;
+}
+
+.prediction-button:hover {
+  background: var(--green);
+}
+
+.prediction-button.selected-answer {
+  color: var(--paper);
+  background: var(--button-hover);
+  box-shadow: none;
+  transform: translateY(3px);
+}
+
+.prediction-button.selected-answer:hover {
+  cursor: default;
+}
+
+@keyframes predictionCheckBuzz {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-6px);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+/* ---------- Numbered formula / step cards (shared by lessons 2-7) ---------- */
+
+.formula-card {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.formula-step {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 3px 0 var(--shadow-soft);
+}
+
+.formula-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  font-weight: 700;
+  background: var(--marker-2);
+  color: var(--on-marker);
+}
+
+#formula-step-independent {
+  background: var(--yellow);
+}
+
+#formula-step-dependent {
+  background: var(--soft-purple);
+}
+
+#formula-step-units {
+  background: var(--blue);
+}
+
+.formula-step strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text);
+}
+
+.formula-step span {
+  color: var(--muted);
+  line-height: 1.45;
+}
