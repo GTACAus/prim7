@@ -764,24 +764,34 @@ onBeforeUnmount(() => {
 }
 .page {
   box-sizing: border-box;
-  display: flex;
+  display: grid;
+  grid-template-rows: auto minmax(min-content, 1fr) auto;
+  align-items: center;
+  gap: clamp(8px, 1.2vh, 20px);
   width: 100%;
   min-height: 100vh;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-  padding: clamp(24px, 5vh, 56px) 0;
+  min-height: 100dvh;
+  /* Clip only sideways: allow vertical scrolling at high browser zoom. */
+  overflow-x: clip;
+  padding: clamp(14px, 2.5vh, 32px) 0;
 }
 .lesson-heading {
   z-index: 1;
-  margin: 0;
+  display: flex;
   align-items: center;
-  align-self: center;
+  justify-content: center;
+  justify-self: center;
+  align-self: start;
+  width: min(460px, 92vw);
+  height: clamp(148px, 24vh, 210px);
+  margin: 0;
 }
 #hero {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
   border: 0;
@@ -791,7 +801,11 @@ onBeforeUnmount(() => {
 }
 
 #hero img {
-  width: 40%;
+  display: block;
+  /* Prevent the rotated logo from taking over short/zoomed viewports. */
+  width: clamp(125px, 23vh, 180px);
+  max-width: none;
+  height: auto;
   transform: rotate(90deg);
 }
 
@@ -799,15 +813,16 @@ onBeforeUnmount(() => {
   position: relative;
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr) 56px;
-  grid-template-rows: clamp(300px, 52vh, 500px) auto;
-  width: min(calc(100% - 32px), 1280px);
-  flex: 0 0 auto;
+  grid-template-rows: 1fr;
+  width: min(calc(100% - 32px), 1480px);
+  height: clamp(460px, 58vh, 620px);
+  align-self: center;
   justify-self: center;
   align-items: center;
   justify-items: center;
   column-gap: 12px;
-  min-height: 360px;
-  margin: 2rem auto;
+  min-height: 0;
+  margin: 0 auto;
 }
 .carousel-track {
   position: relative;
@@ -822,6 +837,7 @@ onBeforeUnmount(() => {
 .carousel:has(.carousel-track.is-grid) {
   grid-template-rows: auto;
   width: min(calc(100% - 100px), 1980px);
+  height: auto;
 }
 .carousel:has(.carousel-track.is-grid) .carousel-control {
   display: none;
@@ -838,9 +854,9 @@ onBeforeUnmount(() => {
 .carousel-track.is-grid .lesson-card {
   position: static;
   width: auto;
-  min-height: 0;
-  /* Match the carousel cards' shape (~550 x 400) */
-  aspect-ratio: 11 / 8;
+  min-height: 380px;
+  /* Content determines height in the teacher's all-lessons grid. */
+  aspect-ratio: auto;
   padding: clamp(16px, 2vw, 28px);
   box-shadow: none;
 
@@ -935,28 +951,33 @@ onBeforeUnmount(() => {
 }
 @media (max-width: 700px) {
   .page {
-    padding: 28px 0;
+    padding: 18px 0;
+  }
+  .lesson-heading {
+    height: 124px;
+  }
+  #hero img {
+    width: 112px;
   }
   .carousel {
     grid-template-columns: 40px minmax(0, 1fr) 40px;
-    grid-template-rows: 500px auto;
-    min-height: 340px;
-    margin: 1rem auto;
+    grid-template-rows: 1fr;
+    height: 560px;
   }
   .carousel-track {
-    height: 500px;
+    height: 100%;
   }
-  /* Grid mode: cards size to their content */
   .carousel-track.is-grid {
     height: auto;
-  }
-  .carousel-track.is-grid .lesson-card {
-    aspect-ratio: auto;
-    min-height: 0;
   }
   .carousel-control {
     width: 40px;
     height: 40px;
+  }
+}
+@media (max-width: 520px) {
+  .carousel {
+    height: 620px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

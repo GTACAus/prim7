@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   href: { type: String, required: true },
+  // Legacy illustration path; kept for compatibility, but no longer displayed.
   img: { type: String, required: true },
   stage: { type: Number, required: true },
   accent: { type: String, default: "var(--purple)" },
@@ -18,7 +19,6 @@ defineProps({
     :style="{ '--accent': accent }"
     :data-stage="stage"
   >
-    <img v-if="img" :src="img" alt="" />
     <span v-if="lessonComplete" class="lesson-complete">Complete</span>
     <span class="lesson-number"><slot name="number" /></span>
     <span class="lesson-subtitle"><slot name="subtitle" /></span>
@@ -45,14 +45,16 @@ defineProps({
   left: 50%;
   display: flex;
   box-sizing: border-box;
-  width: clamp(220px, 60vw, 550px);
-  min-height: clamp(260px, 44vh, 430px);
+  /* Grow on large monitors, but stay proportional on narrower screens. */
+  width: clamp(320px, 43vw, 660px);
+  /* Minimum only: the card can grow if a description needs more lines. */
+  min-height: clamp(360px, 48vh, 490px);
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  gap: 0.8rem;
+  gap: clamp(10px, 1.3vh, 18px);
   overflow: hidden;
-  padding: clamp(20px, 4vw, 48px);
+  padding: clamp(18px, 2.2vw, 36px);
   border: 2px solid var(--line);
   border-top: 8px solid var(--accent);
   border-radius: 28px;
@@ -78,18 +80,6 @@ defineProps({
     background 0.45s ease,
     width 0.45s ease;
   will-change: left, transform, width;
-}
-.lesson-card img {
-  position: absolute;
-  inset: -10%;
-  height: 140%;
-  margin: auto;
-  object-fit: contain;
-  opacity: 0.1;
-  pointer-events: none;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
 }
 .lesson-card span {
   position: relative;
@@ -117,14 +107,15 @@ defineProps({
 }
 .lesson-number {
   color: var(--purple);
-  font-size: clamp(1.3rem, 2.4vw, 2rem);
+  font-size: clamp(1.3rem, 2vw, 2rem);
   font-weight: 700;
   line-height: 1.2;
   transition: transform 0.45s ease;
 }
 .lesson-subtitle {
-  max-width: 50ch;
-  font-size: 1.6rem;
+  max-width: 40ch;
+  overflow-wrap: break-word;
+  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
   font-weight: 700;
   line-height: 1.35;
   transition: transform 0.45s ease;
@@ -144,22 +135,20 @@ defineProps({
   transform: scale(1.1) translateY(-5px);
   box-shadow: var(--shadow-medium);
 }
-.lesson-card.is-current img {
-  opacity: 0.1;
-}
 
 /* ---------- overview: description + experiment ---------- */
 .overview {
-  position: absolute;
-  bottom: 40px;
+  /* Stay underneath the title in normal flow, never on top of it. */
+  position: static;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
+  flex-shrink: 0;
+  width: 100%;
   max-width: 700px;
-  margin: 0 clamp(8px, 1.7vw, 20px);
-  padding: clamp(10px, 1.7vw, 20px);
+  margin: auto 0 0;
+  padding: clamp(12px, 1.5vw, 20px);
   background: transparent;
   border: 2px solid var(--charcoal);
   border-radius: clamp(12px, 1.7vw, 20px);
@@ -180,26 +169,34 @@ defineProps({
   margin-bottom: clamp(12px, 2.1vw, 25px);
   text-transform: uppercase;
 }
-/* Reserve two lines so every overview is the same height */
 .overview .description-content {
-  min-height: 2lh;
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  min-height: 0;
+  overflow-wrap: break-word;
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  line-height: 1.4;
 }
 .overview .experiment {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: clamp(5px, 0.85vw, 10px);
+  justify-content: center;
+  gap: clamp(6px, 0.85vw, 10px);
+  width: 100%;
 }
 .overview .experiment-heading {
-  margin-bottom: clamp(5px, 0.85vw, 10px);
-  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+  margin-bottom: 0;
+  font-size: clamp(0.9rem, 1.35vw, 1.1rem);
 }
 .overview .experiment-content {
-  padding: clamp(4px, 0.6vw, 7px);
+  max-width: 100%;
+  padding: clamp(6px, 0.65vw, 9px) clamp(10px, 1.1vw, 16px);
+  overflow-wrap: break-word;
+  line-height: 1.3;
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
   background: var(--green);
   border: 2px solid var(--charcoal);
-  border-radius: 99px;
-  box-shadow: 0 5px 5px rgb(0 0 0 / 40%);
+  border-radius: 16px;
+  box-shadow: 0 5px 5px rgb(0 0 0 / 25%);
   color: var(--paper);
   font-weight: 700;
 }
@@ -250,40 +247,29 @@ defineProps({
 }
 @media (max-width: 700px) {
   .lesson-card {
-    width: min(68vw, 310px);
-    min-height: clamp(250px, 40vh, 360px);
-  }
-  .lesson-subtitle {
-    margin: auto 0 0;
-    font-size: clamp(1rem, 1vw, 1.2rem);
-  }
-  .lesson-card {
+    width: min(78vw, 380px);
     min-height: 440px;
     padding: 18px 14px;
+    gap: 10px;
   }
-  /* Overview flows under the title instead of overlapping it */
+  .lesson-subtitle {
+    font-size: clamp(1rem, 3.4vw, 1.25rem);
+  }
   .overview {
-    position: static;
-    width: 100%;
-    margin: auto 0 0;
     padding: 10px;
   }
   .overview .description-content {
-    min-height: 0;
     font-size: 0.95rem;
   }
   .overview .experiment {
     flex-direction: column;
   }
   .overview .experiment-heading {
-    margin-bottom: 0;
     font-size: 0.9rem;
   }
   .overview .experiment-content {
     padding: 6px 10px;
-    border-radius: 16px;
     font-size: 0.85rem;
-    line-height: 1.25;
   }
   .lesson-card.is-previous {
     left: 20%;
