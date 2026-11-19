@@ -780,3 +780,76 @@
   text-anchor: middle;
   dominant-baseline: middle;
 }
+
+/* ==================================================
+   LESSON 5 MEETING REVISIONS — PART A AND PART B
+   Keep these rules local to Lesson 5 (graphs.css is shared with Lesson 6).
+   ================================================== */
+
+/* Part A: the possum portrait should not stretch to match the text column. */
+#bar-practice .project-species-layout {
+  align-items: start;
+}
+#bar-practice .project-species-portrait {
+  align-self: start;
+}
+
+#bar-practice .project-species-lead > p {
+  margin: 0;
+}
+
+/* The flyer explanation and button share one row, wrapping on narrow screens. */
+#bar-practice .project-flyer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 12px 0 14px;
+}
+#bar-practice .project-flyer-row p {
+  flex: 1 1 190px;
+  margin: 0;
+}
+#bar-practice .project-possum-flyer-button {
+  flex: 0 0 auto;
+  width: auto;
+  white-space: normal;
+}
+
+/* Mission remains in the yellow panel: no nested white card. */
+#bar-practice .project-mission {
+  padding-top: 12px;
+  border-top: 2px dashed rgba(48, 51, 47, 0.32);
+}
+#bar-practice .project-mission p {
+  margin: 0;
+}
+#bar-practice .project-mission p + p {
+  margin-top: 12px;
+}
+
+/* Part B: section title and PDF action appear together, with natural wrapping. */
+#bar-construction .section-title {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}
+#bar-construction .partb-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+#bar-construction .partb-header-guide-button {
+  --background: var(--yellow);
+  --background-hover: var(--soft-yellow);
+  --color: var(--charcoal);
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 1.25;
+  text-transform: none;
+  white-space: normal;
+  max-width: 100%;
+}

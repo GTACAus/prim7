@@ -250,38 +250,37 @@ const partD = ref(null);
               <div class="project-species-copy">
                 <div class="project-species-lead">
                   <p>
-                    Leadbeater's Possums live in forests in Victoria, Australia.
-                    They are listed as <strong>critically endangered</strong>.
-                    We are looking at ways to help them. To do this we need to
-                    learn more about where they live and what they need to
-                    survive.
+                    Leadbeater's possums live in forests in Victoria, Australia.
+                    They are <strong>critically endangered</strong>. We want to
+                    learn more about where they live and what they need to survive.
                   </p>
-                  <p>Open the flyer to learn about these possums.</p>
-                  <Button
-                    class="project-resource-button"
-                    symbol="📄"
-                    @click="
-                      openPDF(
-                        '../downloads/lesson5/leadbeaters-possum-flyer.pdf',
-                        'Meet the Leadbeater\'s Possum',
-                      )
-                    "
-                  >
-                    Open Leadbeater's Flyer
-                  </Button>
-                  <ContentBox>
-                    <strong>Your mission:</strong> You work for Parks Victoria
-                    as a ranger in the Toolangi State Forest. You plan a fair
-                    test.
-                    <strong
-                      >You want to compare two forest areas — Site 1 and Site 2.
-                      You decide to count the numbers of 5 different animals
-                      living at each site.</strong
+                  <div class="project-flyer-row">
+                    <p>Open the flyer to learn more about these possums.</p>
+                    <Button
+                      class="project-resource-button project-possum-flyer-button"
+                      symbol="📄"
+                      @click="
+                        openPDF(
+                          '../downloads/lesson5/leadbeaters-possum-flyer.pdf',
+                          'Meet the Leadbeater\'s Possum',
+                        )
+                      "
                     >
-                    <br />
-                    Interesting fact: The year before a count was done. A family
-                    of Leadbeater's possums was seen at each site.
-                  </ContentBox>
+                      Open possum flyer
+                    </Button>
+                  </div>
+                  <div class="project-mission">
+                    <p>
+                      <strong>Your mission:</strong> You work for Parks Victoria
+                      as a ranger in the Toolangi State Forest. You plan a fair
+                      test comparing two forest areas — <strong>Site 1 and Site 2</strong>.
+                      Count five different animal species living at each site.
+                    </p>
+                    <p>
+                      <strong>Interesting fact:</strong> The year before, a family
+                      of Leadbeater's possums was seen at each site.
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -490,6 +489,18 @@ const partD = ref(null);
         name="bar-construction"
         :class="{ 'partb-build-active': partB?.buildActive }"
       >
+        <template #title>
+          <span class="partb-section-heading">
+            <span>Part B: Draw a bar graph to view Site 1 results</span>
+            <Button
+              class="project-resource-button partb-header-guide-button"
+              symbol="📄"
+              @click="openPDF('../downloads/lesson5/visualising-data.pdf', 'How to make a bar graph')"
+            >
+              How to make a bar graph
+            </Button>
+          </span>
+        </template>
         <SiteOneBarGraph ref="partB" @reset="constructionSection?.reset()" />
       </Section>
 

@@ -136,7 +136,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
 <template>
   <div class="lesson4-workbench partc-workbench">
     <div class="partc-data-card">
-      <span class="challenge-step-label">Survey Results for Site 2</span>
+      <span class="challenge-step-label">Site 2 results · Three nights</span>
       <p>
         You counted the number of animals at <strong>Site 2</strong> over three
         nights. The average results are shown in Table 2. Use the
@@ -229,6 +229,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
           ref="sliders"
           name="partc-sliders"
           class="partc-slider-stage"
+          :class="{ 'partc-slider-stage-complete': barsDone }"
           :rows="SLIDER_ROWS"
           id-prefix="partCBarPractice"
           controls-class="partc-bar-builder-controls"
@@ -337,8 +338,8 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
       </p>
       <p class="partc-next-hook">
         <strong>You have now graphed Site 1 and Site 2.</strong><br />
-        Next, you can place the dar for <strong>site 1</strong> and
-        <strong>site 2</strong> on one bar graph.
+        Next, you can place the bars for <strong>Site 1</strong> and
+        <strong>Site 2</strong> on one bar graph.
         <br />
         This will make it easier to compare data from the two sites.
       </p>
@@ -438,7 +439,9 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   border-radius: 15px;
 }
 
-.partc-slider-stage[hidden] {
+.partc-slider-stage[hidden],
+.partc-slider-stage.partc-slider-stage-complete {
+  /* BarSliders stays mounted so the completed activity and progress persist. */
   display: none !important;
 }
 

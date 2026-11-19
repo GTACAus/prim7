@@ -36,7 +36,6 @@ import {
   formatNumber,
   yOf,
 } from "./barGraph.js";
-import { openPDF } from "../../composables/useModal.js";
 
 const emit = defineEmits(["reset"]);
 
@@ -488,18 +487,6 @@ defineExpose({ buildActive: calculated, reset });
   >
     <div id="partBWorkbench" class="lesson4-workbench partb-workbench">
       <div class="partb-data-card">
-        <Button
-          class="project-resource-button bar-data-resource-button partb-guide-button"
-          symbol="📄"
-          @click="
-            openPDF(
-              '../downloads/lesson5/visualising-data.pdf',
-              'Visualising Fair Test Data',
-            )
-          "
-        >
-          How to make a bar graph
-        </Button>
         <span class="challenge-step-label"
           >Step 1 · Get the average values</span
         >
@@ -606,6 +593,16 @@ defineExpose({ buildActive: calculated, reset });
               </McQuestion>
             </MultipleChoice>
 
+            <div v-if="unitDone" class="partb-builder-instructions">
+              <strong>Now it's time to draw a bar for each animal.</strong>
+              <ol>
+                <li>Click an animal name on the <strong>x-axis</strong>.</li>
+                <li>Find its <strong>average</strong> in Table 1.</li>
+                <li>Click that number on the <strong>y-axis</strong>.</li>
+                <li>Click where the dotted lines meet. The bar draws automatically.</li>
+                <li>Repeat for all five animals.</li>
+              </ol>
+            </div>
             <div v-if="unitDone" class="partb-builder-prompt">
               <strong>{{ prompt.title }}</strong>
               <span>{{ prompt.text }}</span>
@@ -839,15 +836,24 @@ defineExpose({ buildActive: calculated, reset });
 </template>
 
 <style scoped>
-/* the page stylesheet colours .project-resource-button itself, so set the
-   colours directly as well as through <Button>'s variables */
-.partb-guide-button.partb-guide-button {
-  float: right;
-  width: 220px;
-  --color: black;
-  --background: var(--yellow);
-  color: black;
-  background: var(--yellow);
+/* Persistent plotting instructions: the live prompt underneath changes with each click. */
+.partb-builder-instructions {
+  padding: 12px 14px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-radius: 14px;
+  line-height: 1.45;
+}
+.partb-builder-instructions > strong {
+  display: block;
+  margin-bottom: 6px;
+}
+.partb-builder-instructions ol {
+  margin: 0;
+  padding-left: 22px;
+}
+.partb-builder-instructions li + li {
+  margin-top: 5px;
 }
 
 /* outline lines draw themselves along their length */
