@@ -654,6 +654,8 @@ onMounted(() => {
 
   cards.forEach((card, index) => {
     addCardEventListener(card, "click", (event) => {
+      if (carouselTrack.classList.contains("is-grid")) return;
+      
       if (index !== currentIndex || card.classList.contains("unavailable")) {
         event.preventDefault();
         showLesson(index, true);
@@ -673,20 +675,37 @@ onMounted(() => {
   // Unlock all lessons
   // ─────────────────────────────────────────────
 
-  function removeEventListenersAndClasses() {
+// Click the logo 5 times to switch between carousel and grid.
+let heroClicks = 0;
+
+document.getElementById("hero").addEventListener("click", () => {
+  heroClicks++;
+
+  if (heroClicks < 5) return;
+
+  heroClicks = 0;
+  showAll = !showAll;
+
+  carouselTrack.classList.toggle("is-grid", showAll);
+  updateVisibility();
+
+  if (showAll) {
     cards.forEach((card) => {
-      cardEventListeners.get(card).forEach(({ type, listener }) => {
-        card.removeEventListener(type, listener);
-      });
-      cardEventListeners.delete(card);
       card.classList.remove(
         "is-current",
         "is-previous",
         "is-next",
-        "is-hidden",
+        "is-hidden"
       );
+
+      card.tabIndex = 0;
+      card.setAttribute("aria-hidden", "false");
+      card.removeAttribute("aria-current");
     });
+  } else {
+    showLesson(currentIndex);
   }
+});
 
   let heroClicks = 0;
 
