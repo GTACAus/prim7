@@ -5,7 +5,7 @@
   width the sprite width); transform is any extra rotate/flip.
 */
 
-const BASE = "../images/lesson4/number_line_activity/";
+const BASE = "../images/lesson6/number_line_activity/";
 const SNAILS = BASE + "Seasnails Scoring/Animals Images To use/";
 
 export const PERSON_IMAGES = {

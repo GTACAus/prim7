@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/ensure-install.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/ensure-install.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

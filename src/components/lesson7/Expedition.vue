@@ -52,7 +52,7 @@ const props = defineProps({
   glossary: { type: Object, default: null },
 });
 
-const IMG = "../images/lesson5/";
+const IMG = "../images/lesson7/";
 
 /* ---------- saved state ---------- */
 
@@ -2532,7 +2532,7 @@ onBeforeUnmount(() => {
   padding: 18px 24px;
   margin-bottom: 12px;
 
-  background-image: url(../../images/lesson5/expedition-banner.png);
+  background-image: url(../../images/lesson7/expedition-banner.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

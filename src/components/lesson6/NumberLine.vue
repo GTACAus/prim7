@@ -798,7 +798,7 @@ onBeforeUnmount(() => {
   grid-row: 2;
   grid-column: 2;
   width: 100%;
-  background-image: url("/images/lesson4/number_line_activity/Rockplatform.png");
+  background-image: url("/images/lesson6/number_line_activity/Rockplatform.png");
   background-size: cover;
   background-repeat: no-repeat;
 }

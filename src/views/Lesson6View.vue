@@ -183,7 +183,7 @@ const plants = ref(null);
 
         <div class="image-box lesson4-spaced-block">
           <img
-            src="../images/lesson4/tide-animation.gif"
+            src="../images/lesson6/tide-animation.gif"
             alt="Animated diagram showing the rock platform changing between low tide and high tide"
           />
         </div>
@@ -270,7 +270,7 @@ const plants = ref(null);
 
         <div class="image-box lesson4-spaced-block">
           <img
-            src="../images/lesson4/yeastexperiment.png"
+            src="../images/lesson6/yeastexperiment.png"
             alt="Diagram of the yeast, sugar, water and balloon fair-test experiment"
           />
         </div>
@@ -322,7 +322,7 @@ const plants = ref(null);
 
         <div class="image-box lesson4-spaced-block">
           <img
-            src="../images/lesson4/stevia-plants.png"
+            src="../images/lesson6/stevia-plants.png"
             alt="Six Stevia plants split between 100 mL and 300 mL watering conditions"
           />
         </div>

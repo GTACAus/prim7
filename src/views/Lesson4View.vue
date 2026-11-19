@@ -216,7 +216,7 @@ const predictionActivity = ref(null);
             </p>
             <div class="ball-bounce-setup-image">
               <img
-                src="../images/lesson3/Ball Bounce.png"
+                src="../images/lesson4/Ball Bounce.png"
                 alt="Ball bounce experiment setup"
               />
             </div>
@@ -312,7 +312,7 @@ const predictionActivity = ref(null);
                   </p>
                   <img
                     class="repeat-tests-image"
-                    src="../images/lesson3/Repeat Tests.png"
+                    src="../images/lesson4/Repeat Tests.png"
                     alt="Diagram showing three table tennis-ball bounce tests on grass, with one unusual result"
                   />
                 </div>
