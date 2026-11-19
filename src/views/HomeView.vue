@@ -707,18 +707,6 @@ document.getElementById("hero").addEventListener("click", () => {
   }
 });
 
-  let heroClicks = 0;
-
-  document.getElementById("hero").addEventListener("click", () => {
-    if (!showAll && ++heroClicks >= 5) {
-      showAll = true;
-
-      removeEventListenersAndClasses();
-      carouselTrack.classList.add("is-grid");
-      updateVisibility();
-    }
-  });
-
   teardown = () => {
     // stop the animation loop and any pending timers
     activeCards.clear();
