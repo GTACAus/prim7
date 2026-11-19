@@ -811,6 +811,7 @@ onBeforeUnmount(() => {
 
 .carousel {
   position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr) 56px;
   grid-template-rows: 1fr;
