@@ -278,4 +278,52 @@ defineProps({
     left: 80%;
   }
 }
+
+/* Wide monitors: size the cards in viewport units, not a 660px cap.
+   This keeps their apparent size much more consistent at 80% and 100% zoom.
+   The 115vh limit prevents extremely wide but short windows from making
+   awkwardly wide cards. Below 1800px the original laptop/mobile rules apply. */
+@media (min-width: 1800px) {
+  .lesson-card {
+    width: min(37vw, 115vh);
+    min-height: max(460px, min(58vh, 25vw));
+    padding: max(32px, 1.5vw);
+    gap: max(18px, 0.85vw);
+  }
+
+  .lesson-number {
+    font-size: max(2rem, 1.02vw);
+  }
+
+  .lesson-subtitle {
+    font-size: max(1.6rem, 0.87vw);
+  }
+
+  .overview {
+    max-width: min(100%, 33vw);
+    padding: max(18px, 0.8vw);
+  }
+
+  .overview .description-content {
+    font-size: max(1.25rem, 0.63vw);
+  }
+
+  .overview .experiment-heading {
+    font-size: max(1.1rem, 0.58vw);
+  }
+
+  .overview .experiment-content {
+    font-size: max(1rem, 0.56vw);
+  }
+
+  /* Keep neighbouring cards the same proportional distance from the centre. */
+  .lesson-card.is-previous {
+    left: calc(50% - 26vw);
+  }
+
+  .lesson-card.is-next {
+    left: calc(50% + 26vw);
+  }
+}
+
 </style>

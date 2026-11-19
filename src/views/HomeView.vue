@@ -510,7 +510,9 @@ onMounted(() => {
     const swipeDistance =
       window.innerWidth <= 600
         ? trackWidth * 0.3
-        : Math.min(window.innerWidth * 0.4, 460);
+        : window.innerWidth >= 1800
+          ? window.innerWidth * 0.26 // matches wide-screen side-card spacing
+          : Math.min(window.innerWidth * 0.4, 460);
     const currentWidth = cards[currentIndex].getBoundingClientRect().width;
     const sideWidth =
       window.innerWidth <= 600
@@ -986,6 +988,30 @@ onBeforeUnmount(() => {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Wide monitors: use the screen, rather than stopping at fixed pixel sizes.
+   In combination with Card.vue, these proportions remain similar when
+   changing browser zoom on a large monitor. */
+@media (min-width: 1800px) {
+  .lesson-heading {
+    height: 18vh;
+    min-height: 145px;
+  }
+
+  #hero img {
+    width: max(180px, 9vw);
+  }
+
+  .carousel {
+    width: 84vw;
+    height: 65vh;
+  }
+
+  .carousel-control {
+    width: max(48px, 1.6vw);
+    height: max(48px, 1.6vw);
   }
 }
 </style>
