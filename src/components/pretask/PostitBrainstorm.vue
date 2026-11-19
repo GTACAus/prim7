@@ -8,6 +8,9 @@
 import InputResponse from '../activities/InputResponse.vue'
 import ResponseBox from '../activities/ResponseBox.vue'
 
+// Vite serves public assets from the site's base URL (also works under /prim7/).
+const postitBackground = `${import.meta.env.BASE_URL}images/pretask/postitwall.jpg`
+
 defineProps({
   count: { type: Number, default: 8 },
   minTotal: { type: Number, default: 4 },
@@ -16,7 +19,11 @@ defineProps({
 </script>
 
 <template>
-  <InputResponse class="postit-brainstorm" :data-tr-min-total="minTotal">
+  <InputResponse
+    class="postit-brainstorm"
+    :data-tr-min-total="minTotal"
+    :style="{ backgroundImage: `url('${postitBackground}')` }"
+  >
     <ResponseBox
       v-for="n in count"
       :key="n"
@@ -40,7 +47,6 @@ defineProps({
   width: 100%;
   aspect-ratio: 1.5 / 1;
 
-  background-image: url("../../images/pretask/postitwall.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
