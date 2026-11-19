@@ -221,6 +221,7 @@ watch(
   box-shadow: 0 5px 5px rgb(0 0 0 / 25%);
   color: var(--paper);
   font-weight: 700;
+  margin: 0;
 }
 .lesson-card.is-previous,
 .lesson-card.is-next {
