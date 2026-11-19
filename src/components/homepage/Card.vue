@@ -1,5 +1,10 @@
 <script setup>
-defineProps({
+import { ref, watch } from "vue";
+import { useTilt } from "../../composables/useTilt.js";
+
+const props = defineProps({
+  // true for the lesson currently selected in the carousel; only that card tilts
+  active: { type: Boolean, default: false },
   href: { type: String, required: true },
   // Legacy illustration path; kept for compatibility, but no longer displayed.
   img: { type: String, required: true },
@@ -10,10 +15,27 @@ defineProps({
   experiment: { type: String, default: "" },
   lessonComplete: { type: Boolean, default: false },
 });
+
+const card = ref(null);
+
+// Locked lessons (class set by the carousel) never tilt.
+const { reset } = useTilt(
+  card,
+  () => props.active && !card.value.classList.contains("unavailable"),
+);
+
+// Ease back to rest when another lesson is selected.
+watch(
+  () => props.active,
+  (active) => {
+    if (!active) reset();
+  },
+);
 </script>
 
 <template>
   <a
+    ref="card"
     class="lesson-card"
     :href="href"
     :style="{ '--accent': accent }"
@@ -283,7 +305,7 @@ defineProps({
 @media (min-width: 1600px) {
   .lesson-card {
     width: max(660px, 28vw);
-    min-height: max(490px, 55vh);
+    min-height: max(490px, 50vh);
     padding: max(28px, 1.5vw);
     gap: max(18px, 1vw);
   }
@@ -316,5 +338,4 @@ defineProps({
     left: calc(50% + max(460px, 18vw));
   }
 }
-
 </style>
