@@ -510,9 +510,7 @@ onMounted(() => {
     const swipeDistance =
       window.innerWidth <= 600
         ? trackWidth * 0.3
-        : window.innerWidth >= 1800
-          ? window.innerWidth * 0.26 // matches wide-screen side-card spacing
-          : Math.min(window.innerWidth * 0.4, 460);
+        : Math.min(window.innerWidth * 0.4, 460);
     const currentWidth = cards[currentIndex].getBoundingClientRect().width;
     const sideWidth =
       window.innerWidth <= 600
@@ -991,27 +989,25 @@ onBeforeUnmount(() => {
   }
 }
 
-/* Wide monitors: use the screen, rather than stopping at fixed pixel sizes.
-   In combination with Card.vue, these proportions remain similar when
-   changing browser zoom on a large monitor. */
-@media (min-width: 1800px) {
+/* Larger screens: scale the homepage with the viewport */
+@media (min-width: 1600px) {
   .lesson-heading {
-    height: 18vh;
-    min-height: 145px;
+    height: max(210px, 18vh);
   }
 
-#hero img {
-  width: clamp(360px, 18vw, 520px);
-}
+  #hero img {
+    /* Increase only the logo on large screens; keep carousel/card sizing unchanged. */
+    width: clamp(360px, 18vw, 520px);
+  }
 
   .carousel {
-    width: 84vw;
-    height: 65vh;
+    width: min(calc(100% - 32px), max(1480px, 70vw));
+    height: max(620px, 60vh);
   }
 
   .carousel-control {
-    width: max(48px, 1.6vw);
-    height: max(48px, 1.6vw);
+    width: max(48px, 1.7vw);
+    height: max(48px, 1.7vw);
   }
 }
 </style>
