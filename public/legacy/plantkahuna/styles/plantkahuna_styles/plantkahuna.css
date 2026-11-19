@@ -793,3 +793,267 @@
   color: var(--muted);
   font-size: .77rem;
 }
+
+/* ================================================================
+   v2.17 - CLEAR, READABLE MATERIALS & CARE REFERENCES
+   2-column layout gives Canva artwork space without adding extra
+   panels. Every condition stays visible. Enlarging art is optional.
+   ================================================================ */
+#plantKahuna .pk-workspace { align-items: start; }
+#plantKahuna .pk-materials,
+#plantKahuna .pk-scene-note { grid-column: 1 / -1; min-width: 0; }
+#plantKahuna .pk-materials {
+  margin-top: 5px;
+  padding: 16px;
+  background: white;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+}
+#plantKahuna .pk-materials-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 10px;
+  margin-bottom: 14px;
+}
+#plantKahuna .pk-materials-heading strong { font-size: 1rem; }
+#plantKahuna .pk-materials-heading span { color: var(--muted); font-size: .81rem; line-height: 1.45; }
+#plantKahuna .pk-materials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+#plantKahuna .pk-material-item {
+  min-width: 0;
+  padding: 12px;
+  background: var(--paper);
+  border: 1.5px solid #d7d9d0;
+  border-radius: 13px;
+}
+#plantKahuna .pk-material-item.is-different {
+  border: 2px solid var(--line);
+  border-top: 5px solid var(--yellow);
+  padding-top: 9px;
+}
+#plantKahuna .pk-material-label {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--text);
+  font-weight: 800;
+  font-size: .88rem;
+}
+#plantKahuna .pk-material-values { display: grid; gap: 8px; }
+#plantKahuna .pk-material-values.has-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+#plantKahuna .pk-material-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+#plantKahuna .pk-material-art {
+  display: grid;
+  place-items: center;
+  flex: 0 0 104px;
+  width: 104px;
+  height: 104px;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dfe5d9;
+  border-radius: 11px;
+  background: #f1f5ec;
+}
+#plantKahuna .pk-material-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-radius: inherit;
+  cursor: zoom-in;
+}
+#plantKahuna .pk-material-zoom:hover { background: #e7f0e4; }
+#plantKahuna .pk-material-zoom:focus-visible { outline: 3px solid var(--purple); outline-offset: -3px; }
+#plantKahuna .pk-material-thumb {
+  position: absolute;
+  inset: 5px;
+  display: block;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  object-fit: contain;
+}
+#plantKahuna .pk-material-zoom-icon {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border: 1px solid #cbd2c8;
+  border-radius: 6px;
+  background: #fffdf4e8;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+#plantKahuna .pk-material-none,
+#plantKahuna .pk-material-no-image {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.65rem;
+  color: var(--muted);
+}
+#plantKahuna .pk-material-copy { min-width: 0; }
+#plantKahuna .pk-material-which {
+  display: block;
+  color: var(--muted);
+  font-size: .76rem;
+  font-weight: 650;
+  margin-bottom: 3px;
+}
+#plantKahuna .pk-material-copy strong {
+  display: block;
+  color: var(--text);
+  font-size: .94rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+/* Two different conditions: give each image its own clear A/B label. */
+#plantKahuna .pk-material-values.has-two .pk-material-choice {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+#plantKahuna .pk-material-values.has-two .pk-material-art {
+  flex-basis: auto;
+  width: 100%;
+  height: 108px;
+}
+#plantKahuna .pk-material-values.has-two .pk-material-copy strong { font-size: .85rem; }
+#plantKahuna .pk-scene-note {
+  margin: 12px 0 0;
+  font-size: .79rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+/* Optional enlarged image, without moving or changing the plant setup. */
+#plantKahuna .pk-material-dialog {
+  width: min(440px, calc(100vw - 30px));
+  max-height: min(85vh, 650px);
+  padding: 0;
+  color: var(--text);
+  background: white;
+  border: 3px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 8px 0 var(--line);
+}
+#plantKahuna .pk-material-dialog::backdrop { background: rgba(26, 30, 28, .6); }
+#plantKahuna .pk-material-dialog-inner { position: relative; padding: 19px 20px 22px; }
+#plantKahuna .pk-material-dialog-title { margin: 4px 42px 16px 0; font-size: 1.12rem; }
+#plantKahuna .pk-material-dialog-close {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--text);
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 9px;
+}
+#plantKahuna .pk-material-dialog-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(62vh, 490px);
+  object-fit: contain;
+  border-radius: 10px;
+  background: #f1f5ec;
+}
+@media (max-width: 680px) {
+  #plantKahuna .pk-materials-grid { grid-template-columns: 1fr; }
+  #plantKahuna .pk-material-art { flex-basis: 114px; width: 114px; height: 105px; }
+}
+@media (max-width: 420px) {
+  #plantKahuna .pk-materials { padding: 12px; }
+  #plantKahuna .pk-material-item { padding: 10px; }
+  #plantKahuna .pk-material-art { flex-basis: 92px; width: 92px; height: 92px; }
+  #plantKahuna .pk-material-copy strong { font-size: .88rem; }
+}
+@media print {
+  #plantKahuna .pk-material-dialog { display: none !important; }
+  #plantKahuna .pk-material-zoom { cursor: default; }
+}
+
+
+/* ================================================================
+   v2.18 - FULL-WIDTH, SINGLE-ROW MATERIALS TRAY
+
+   The materials are always visible. No condition appears/disappears
+   because someone changes the planning tab. Move the reference tray
+   below both columns instead of making the experiment illustration
+   much taller than the selector on its left.
+   ================================================================ */
+#plantKahuna .pk-materials-dock {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+#plantKahuna .pk-materials-dock > .pk-materials { margin-top: 0; }
+#plantKahuna .pk-materials { padding: 13px 15px 14px; }
+#plantKahuna .pk-materials-heading {
+  margin-bottom: 10px;
+  gap: 3px 11px;
+}
+#plantKahuna .pk-materials-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+#plantKahuna .pk-material-item { padding: 10px; }
+#plantKahuna .pk-material-label { margin-bottom: 7px; font-size: .84rem; }
+#plantKahuna .pk-material-choice { gap: 9px; }
+#plantKahuna .pk-material-art {
+  flex: 0 0 108px;
+  width: 108px;
+  height: 105px;
+}
+#plantKahuna .pk-material-copy strong { font-size: .86rem; }
+#plantKahuna .pk-material-which { font-size: .7rem; }
+#plantKahuna .pk-material-values.has-two { gap: 6px; }
+#plantKahuna .pk-material-values.has-two .pk-material-choice { gap: 4px; }
+#plantKahuna .pk-material-values.has-two .pk-material-art { height: 82px; }
+#plantKahuna .pk-material-values.has-two .pk-material-copy strong { font-size: .8rem; }
+#plantKahuna .pk-materials .pk-scene-note { margin-top: 9px; }
+
+@media (max-width: 990px) {
+  #plantKahuna .pk-material-art { flex-basis: 88px; width: 88px; height: 94px; }
+  #plantKahuna .pk-material-choice { gap: 7px; }
+  #plantKahuna .pk-material-item { padding: 8px; }
+}
+@media (max-width: 760px) {
+  #plantKahuna .pk-materials-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #plantKahuna .pk-material-art { flex-basis: 96px; width: 96px; height: 96px; }
+  #plantKahuna .pk-material-item { padding: 10px; }
+}
+@media (max-width: 430px) {
+  #plantKahuna .pk-materials-grid { gap: 8px; }
+  #plantKahuna .pk-materials { padding: 11px; }
+  #plantKahuna .pk-material-item { padding: 8px; }
+  #plantKahuna .pk-material-choice { flex-direction: column; align-items: flex-start; gap: 5px; }
+  #plantKahuna .pk-material-art { flex-basis: auto; width: 100%; height: 84px; }
+  #plantKahuna .pk-material-values.has-two .pk-material-art { height: 67px; }
+  #plantKahuna .pk-material-copy strong { font-size: .83rem; }
+}

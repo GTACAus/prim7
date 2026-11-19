@@ -325,6 +325,11 @@
    const byId = (id) => document.getElementById(id);
    const editor = byId("pk-controls");
    const scenes = byId("pk-scenes");
+   // The reference tray spans BOTH workspace columns, so the diagram never
+   // grows taller merely to fit four sets of material pictures.
+   const materialsDock = document.createElement("div");
+   materialsDock.className = "pk-materials-dock";
+   root.querySelector(".pk-workspace").appendChild(materialsDock);
    const blueprint = byId("pk-blueprint");
    const feedback = byId("pk-feedback");
  
@@ -787,14 +792,9 @@
        <g transform="translate(0, ${seedlingDrop})">
          ${visualLayer(VISUAL_ASSETS.seedlings.normal, IMAGE_FRAMES.seedling, plantFallback)}
        </g>
-       ${values.fertiliser === "yes"
-         ? visualLayer(VISUAL_ASSETS.fertiliser.yes, IMAGE_FRAMES.fertiliser, fertiliserFallback)
-         : ""}
-       ${visualLayer(VISUAL_ASSETS.beakers[values.waterVolume], IMAGE_FRAMES.beaker, beakerFallback)}
-       ${state.changeVariable === "soilType"
-         ? visualLayer(VISUAL_ASSETS.soilBags[values.soilType], IMAGE_FRAMES.soilBag, soilBagFallback)
-         : ""}
-       ${state.changeVariable === "wateringFrequency" ? visualLayer(VISUAL_ASSETS.clocks[values.wateringFrequency], IMAGE_FRAMES.clock, frequencyFallback) : ""}
+       <!-- Soil bags, cups, fertiliser and watering calendars are deliberately
+            shown together in the permanent Materials & care strip below.
+            Changing tabs must NEVER make a setting look as if it was removed. -->
      </svg>`;
    }
  
@@ -817,9 +817,88 @@
      </article>`;
    }
  
+   /* ==================================================================
+      PERMANENT MATERIALS & CARE LEGEND
+
+      Physical setup (pot, soil, seedling, window/cupboard) stays in the
+      scene. The reference drawings below are NEVER conditionally hidden
+      when students switch tabs. When A/B have different settings, both
+      values AND both corresponding Canva images appear side by side.
+      ================================================================== */
+   const MATERIAL_KEYS = ["soilType", "waterVolume", "fertiliser", "wateringFrequency"];
+
+   function materialFilename(key, value) {
+     if (key === "soilType") return VISUAL_ASSETS.soilBags[value];
+     if (key === "waterVolume") return VISUAL_ASSETS.beakers[value];
+     if (key === "fertiliser") return value === "yes" ? VISUAL_ASSETS.fertiliser.yes : "";
+     if (key === "wateringFrequency") return VISUAL_ASSETS.clocks[value];
+     return "";
+   }
+
+   // The actual choice is always written outside the illustration. The
+   // image is a teaching reference, and selecting it opens a larger view.
+   function materialThumb(key, value) {
+     // No fertiliser means no bottle. This is intentional, not a missing image.
+     if (key === "fertiliser" && value === "no") {
+       return `<span class="pk-material-none" aria-hidden="true">—</span>`;
+     }
+     const filename = materialFilename(key, value);
+     if (!filename) return `<span class="pk-material-no-image" aria-hidden="true">—</span>`;
+     const path = VISUAL_ASSETS.folder + String(filename).trim();
+     if (!visualIsReady(path)) return `<span class="pk-material-no-image" aria-hidden="true">—</span>`;
+     const caption = `${VARIABLES[key].label}: ${labelFor(key, value)}`;
+     return `<button type="button" class="pk-material-zoom"
+       data-material-image="${esc(path)}" data-material-caption="${esc(caption)}"
+       aria-label="Enlarge image: ${esc(caption)}" title="View image larger">
+       <img class="pk-material-thumb" src="${esc(path)}" alt="" loading="lazy" />
+       <span class="pk-material-zoom-icon" aria-hidden="true">⤢</span>
+     </button>`;
+   }
+
+   function materialCondition(key, value, plant) {
+     return `<div class="pk-material-choice">
+       <div class="pk-material-art">${materialThumb(key, value)}</div>
+       <div class="pk-material-copy">
+         <span class="pk-material-which">${plant ? `Plant ${plant}` : "Both plants"}</span>
+         <strong>${esc(labelFor(key, value))}</strong>
+       </div>
+     </div>`;
+   }
+
+   function renderMaterialStrip(setups) {
+     if (state.mode !== "classroom") return `
+       <p class="pk-scene-note">Both Tiny Farms use grow lamps and nutrient solution.
+         The pictures show your setup, not the results.</p>`;
+
+     const tiles = MATERIAL_KEYS.map((key) => {
+       const a = setups.a[key];
+       const b = setups.b[key];
+       const different = a !== b;
+       return `<div class="pk-material-item ${different ? "is-different" : ""}">
+         <span class="pk-material-label">${esc(VARIABLES[key].label)}</span>
+         <div class="pk-material-values ${different ? "has-two" : ""}">
+           ${materialCondition(key, a, different ? "A" : "")}
+           ${different ? materialCondition(key, b, "B") : ""}
+         </div>
+       </div>`;
+     }).join("");
+
+     return `<section class="pk-materials" aria-label="Materials and care settings for the two plants">
+       <div class="pk-materials-heading">
+         <strong>Materials &amp; care</strong>
+         <span>Both plants use these settings unless A and B are shown. Select a picture to see it larger.</span>
+       </div>
+       <div class="pk-materials-grid">${tiles}</div>
+       <p class="pk-scene-note">The pictures show how you set up the experiment, not what will happen to the plants.</p>
+     </section>`;
+   }
+
    function renderScenes() {
      const values = getSetups();
+     // The visual experiment remains in the scene grid, while all materials
+     // remain listed in one fixed, full-width tray below BOTH columns.
      scenes.innerHTML = sceneCard("A", values.a) + sceneCard("B", values.b);
+     materialsDock.innerHTML = renderMaterialStrip(values);
    }
  
    function descriptionOfChange() {
@@ -921,6 +1000,40 @@
  
    root.addEventListener("plantkahuna:requestplan", publishPlan);
  
+   // A simple native dialog lets children inspect detailed Canva artwork
+   // (e.g. words on the soil bags) without enlarging the entire interface.
+   // It changes the picture only; it NEVER changes an experiment setting.
+   let materialDialog;
+   function getMaterialDialog() {
+     if (materialDialog) return materialDialog;
+     materialDialog = document.createElement("dialog");
+     materialDialog.className = "pk-material-dialog";
+     materialDialog.innerHTML = `
+       <div class="pk-material-dialog-inner">
+         <button type="button" class="pk-material-dialog-close" aria-label="Close larger image">×</button>
+         <h3 class="pk-material-dialog-title"></h3>
+         <img class="pk-material-dialog-image" alt="" />
+       </div>`;
+     root.appendChild(materialDialog);
+     materialDialog.querySelector(".pk-material-dialog-close")
+       .addEventListener("click", () => materialDialog.close());
+     materialDialog.addEventListener("click", (event) => {
+       if (event.target === materialDialog) materialDialog.close();
+     });
+     return materialDialog;
+   }
+   materialsDock.addEventListener("click", (event) => {
+     const button = event.target.closest(".pk-material-zoom");
+     if (!button || !materialsDock.contains(button)) return;
+     const dialog = getMaterialDialog();
+     const caption = button.dataset.materialCaption || "Material illustration";
+     const img = dialog.querySelector(".pk-material-dialog-image");
+     img.src = button.dataset.materialImage;
+     img.alt = caption;
+     dialog.querySelector(".pk-material-dialog-title").textContent = caption;
+     if (typeof dialog.showModal === "function") dialog.showModal();
+   });
+
    // Event delegation survives rebuilding the choices on each step.
    editor.addEventListener("click", (event) => {
      const variable = event.target.closest("[data-variable]");
