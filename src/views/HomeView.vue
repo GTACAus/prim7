@@ -35,8 +35,7 @@ const lessons = [
     img: "/images/index/lesson3.png",
     accent: "var(--purple)",
     subtitle: "Science Inquiry Lab - Skills Check!",
-    description:
-      "Apply what you have learned in lessons 1,2 and 3.",
+    description: "Apply what you have learned in lessons 1,2 and 3.",
     experiment: "Ball Bounce Test Continued",
   },
   {
@@ -109,322 +108,6 @@ onMounted(() => {
   let currentIndex = 0;
 
   // ─────────────────────────────────────────────
-  // Tilt configuration
-  // ─────────────────────────────────────────────
-
-  const MAX_ROTATION = 3; // Maximum rotation in degrees
-
-  const BASE_SCALE = 1.05; // Scale when hovering at the centre
-  const EXTRA_SCALE = 0.01; // Additional scale toward corners
-
-  const SMOOTHING = 0.15; // 0.08 - 0.15 feels good
-
-  const MAX_SHADOW_OFFSET = 10; // Maximum shadow offset in px
-  const BASE_SHADOW_BLUR = 10; // Minimum shadow blur in px
-  const EXTRA_SHADOW_BLUR = 10; // Additional blur toward corners
-
-  const SHADOW_OPACITY = 0.4;
-
-  const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  // ─────────────────────────────────────────────
-  // Animation state
-  // ─────────────────────────────────────────────
-
-  const activeCards = new Set();
-
-  let animationRunning = false;
-
-  // ─────────────────────────────────────────────
-  // Initialise card objects
-  // ─────────────────────────────────────────────
-
-  const cardStates = cards.map((element) => ({
-    element,
-
-    // Hover state
-    hovered: false,
-
-    // Current rendered values
-    currentRotateX: 0,
-    currentRotateY: 0,
-    currentScale: 1,
-
-    currentShadowX: 0,
-    currentShadowY: 0,
-    currentShadowOpacity: 0,
-
-    // Target values
-    targetRotateX: 0,
-    targetRotateY: 0,
-    targetScale: 1,
-
-    targetShadowX: 0,
-    targetShadowY: 0,
-    targetShadowOpacity: 0,
-
-    // Normalized mouse position (-1 to 1)
-    dx: 0,
-    dy: 0,
-  }));
-
-  const cardEventListeners = new Map(cards.map((card) => [card, []]));
-
-  function addCardEventListener(card, type, listener) {
-    card.addEventListener(type, listener);
-    cardEventListeners.get(card).push({ type, listener });
-  }
-
-  // ─────────────────────────────────────────────
-  // Animation utilities
-  // ─────────────────────────────────────────────
-
-  function startAnimation() {
-    if (reduceMotion || animationRunning) return;
-
-    animationRunning = true;
-
-    requestAnimationFrame(animate);
-  }
-
-  function isSettled(card) {
-    const threshold = 0.001;
-
-    return (
-      Math.abs(card.targetRotateX - card.currentRotateX) < threshold &&
-      Math.abs(card.targetRotateY - card.currentRotateY) < threshold &&
-      Math.abs(card.targetScale - card.currentScale) < threshold &&
-      Math.abs(card.targetShadowX - card.currentShadowX) < threshold &&
-      Math.abs(card.targetShadowY - card.currentShadowY) < threshold &&
-      Math.abs(card.targetShadowOpacity - card.currentShadowOpacity) < threshold
-    );
-  }
-
-  function updateCardStyles(card) {
-    const distance = Math.min(
-      Math.sqrt(card.dx * card.dx + card.dy * card.dy),
-      1,
-    );
-
-    const blur = BASE_SHADOW_BLUR + distance * EXTRA_SHADOW_BLUR;
-
-    const x = card.currentRotateX;
-    const y = card.currentRotateY;
-
-    const angle = Math.hypot(x, y);
-
-    const axisX = angle > 0.0001 ? x / angle : 1;
-    const axisY = angle > 0.0001 ? y / angle : 0;
-
-    card.element.style.setProperty(
-      "--tilt-angle",
-      `${axisX} ${axisY} 0 ${angle}deg`,
-    );
-
-    card.element.style.setProperty("--tilt-scale", card.currentScale);
-
-    // Shadow
-    card.element.style.setProperty(
-      "--tilt-shadow",
-      `
-              ${card.currentShadowX}px
-              ${card.currentShadowY}px
-              ${blur}px
-              rgba(0, 0, 0, ${card.currentShadowOpacity})
-          `,
-    );
-  }
-
-  // ─────────────────────────────────────────────
-  // Animation loop
-  // ─────────────────────────────────────────────
-
-  function animate() {
-    for (const card of activeCards) {
-      // ─────────────────────────────────────
-      // Rotation and scale
-      // ─────────────────────────────────────
-
-      card.currentRotateX +=
-        (card.targetRotateX - card.currentRotateX) * SMOOTHING;
-
-      card.currentRotateY +=
-        (card.targetRotateY - card.currentRotateY) * SMOOTHING;
-
-      card.currentScale += (card.targetScale - card.currentScale) * SMOOTHING;
-
-      // ─────────────────────────────────────
-      // Shadow interpolation
-      // ─────────────────────────────────────
-
-      card.currentShadowOpacity +=
-        (card.targetShadowOpacity - card.currentShadowOpacity) * SMOOTHING;
-
-      card.currentShadowX +=
-        (card.targetShadowX - card.currentShadowX) * SMOOTHING;
-
-      card.currentShadowY +=
-        (card.targetShadowY - card.currentShadowY) * SMOOTHING;
-
-      // Apply updated styles
-      updateCardStyles(card);
-
-      // ─────────────────────────────────────
-      // Check whether card has settled
-      // ─────────────────────────────────────
-
-      if (!card.hovered && isSettled(card)) {
-        // Snap to exact target values
-        card.currentRotateX = card.targetRotateX;
-        card.currentRotateY = card.targetRotateY;
-        card.currentScale = card.targetScale;
-
-        card.currentShadowX = card.targetShadowX;
-        card.currentShadowY = card.targetShadowY;
-        card.currentShadowOpacity = card.targetShadowOpacity;
-
-        updateCardStyles(card);
-
-        // No longer needs animation
-        activeCards.delete(card);
-      }
-    }
-
-    // Continue only while cards are active
-    if (activeCards.size > 0) {
-      requestAnimationFrame(animate);
-    } else {
-      animationRunning = false;
-    }
-  }
-
-  // ─────────────────────────────────────────────
-  // Reset tilt
-  // ─────────────────────────────────────────────
-
-  function resetTilt() {
-    cardStates.forEach((card) => {
-      card.hovered = false;
-
-      card.targetRotateX = 0;
-      card.targetRotateY = 0;
-      card.targetScale = 1;
-
-      card.targetShadowOpacity = 0;
-
-      // Preserve the last shadow position while it fades out.
-      // This prevents the shadow from jumping on mouseleave.
-
-      if (!reduceMotion) {
-        activeCards.add(card);
-      } else {
-        card.currentRotateX = 0;
-        card.currentRotateY = 0;
-        card.currentScale = 1;
-
-        card.currentShadowOpacity = 0;
-
-        updateCardStyles(card);
-      }
-    });
-
-    startAnimation();
-  }
-
-  // ─────────────────────────────────────────────
-  // Tilt event listeners
-  // ─────────────────────────────────────────────
-
-  cardStates.forEach((card, index) => {
-    const element = card.element;
-
-    addCardEventListener(element, "mouseenter", () => {
-      // Only tilt the currently selected lesson
-      if (index !== currentIndex || element.classList.contains("unavailable")) {
-        return;
-      }
-
-      card.hovered = true;
-
-      activeCards.add(card);
-
-      startAnimation();
-    });
-
-    addCardEventListener(element, "mousemove", (event) => {
-      // Only tilt the currently selected lesson
-      if (index !== currentIndex || element.classList.contains("unavailable")) {
-        return;
-      }
-
-      const rect = element.getBoundingClientRect();
-
-      // Mouse position normalised to -1..1
-
-      card.dx =
-        (event.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-
-      card.dy =
-        (event.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-
-      // Clamp values
-
-      card.dx = Math.max(-1, Math.min(1, card.dx));
-      card.dy = Math.max(-1, Math.min(1, card.dy));
-
-      // ─────────────────────────────────────
-      // Rotation
-      // ─────────────────────────────────────
-
-      card.targetRotateY = card.dx * MAX_ROTATION;
-      card.targetRotateX = -card.dy * MAX_ROTATION;
-
-      // ─────────────────────────────────────
-      // Scale
-      // ─────────────────────────────────────
-
-      const distance = Math.min(
-        Math.sqrt(card.dx * card.dx + card.dy * card.dy),
-        1,
-      );
-
-      card.targetScale = BASE_SCALE + distance * EXTRA_SCALE;
-
-      // ─────────────────────────────────────
-      // Shadow
-      // ─────────────────────────────────────
-
-      card.targetShadowOpacity = SHADOW_OPACITY;
-
-      card.targetShadowX = -card.dx * MAX_SHADOW_OFFSET;
-      card.targetShadowY = card.dy * MAX_SHADOW_OFFSET;
-
-      activeCards.add(card);
-
-      startAnimation();
-    });
-
-    addCardEventListener(element, "mouseleave", () => {
-      card.hovered = false;
-
-      // Return to original position
-      card.targetRotateX = 0;
-      card.targetRotateY = 0;
-      card.targetScale = 1;
-
-      // Fade shadow out
-      card.targetShadowOpacity = 0;
-
-      // Keep animating until the card settles
-      activeCards.add(card);
-
-      startAnimation();
-    });
-  });
-
-  // ─────────────────────────────────────────────
   // Carousel functionality
   // ─────────────────────────────────────────────
 
@@ -446,9 +129,6 @@ onMounted(() => {
   showLesson(home.currentLesson);
 
   function showLesson(index, animate = false) {
-    // Reset any active tilt before changing lessons
-    resetTilt();
-
     currentIndex = Math.max(0, Math.min(index, cards.length - 1));
     home.currentLesson = currentIndex;
 
@@ -653,9 +333,9 @@ onMounted(() => {
   // ─────────────────────────────────────────────
 
   cards.forEach((card, index) => {
-    addCardEventListener(card, "click", (event) => {
+    card.addEventListener("click", (event) => {
       if (carouselTrack.classList.contains("is-grid")) return;
-      
+
       if (index !== currentIndex || card.classList.contains("unavailable")) {
         event.preventDefault();
         showLesson(index, true);
@@ -675,41 +355,40 @@ onMounted(() => {
   // Unlock all lessons
   // ─────────────────────────────────────────────
 
-// Click the logo 5 times to switch between carousel and grid.
-let heroClicks = 0;
+  // Click the logo 5 times to switch between carousel and grid.
+  let heroClicks = 0;
 
-document.getElementById("hero").addEventListener("click", () => {
-  heroClicks++;
+  document.getElementById("hero").addEventListener("click", () => {
+    heroClicks++;
 
-  if (heroClicks < 5) return;
+    if (heroClicks < 5) return;
 
-  heroClicks = 0;
-  showAll = !showAll;
+    heroClicks = 0;
+    showAll = !showAll;
 
-  carouselTrack.classList.toggle("is-grid", showAll);
-  updateVisibility();
+    carouselTrack.classList.toggle("is-grid", showAll);
+    updateVisibility();
 
-  if (showAll) {
-    cards.forEach((card) => {
-      card.classList.remove(
-        "is-current",
-        "is-previous",
-        "is-next",
-        "is-hidden"
-      );
+    if (showAll) {
+      cards.forEach((card) => {
+        card.classList.remove(
+          "is-current",
+          "is-previous",
+          "is-next",
+          "is-hidden",
+        );
 
-      card.tabIndex = 0;
-      card.setAttribute("aria-hidden", "false");
-      card.removeAttribute("aria-current");
-    });
-  } else {
-    showLesson(currentIndex);
-  }
-});
+        card.tabIndex = 0;
+        card.setAttribute("aria-hidden", "false");
+        card.removeAttribute("aria-current");
+      });
+    } else {
+      showLesson(currentIndex);
+    }
+  });
 
   teardown = () => {
-    // stop the animation loop and any pending timers
-    activeCards.clear();
+    // stop any pending timers
     window.clearTimeout(swipeClickTimeout);
   };
 });
@@ -740,6 +419,7 @@ onBeforeUnmount(() => {
           :href="lesson.href"
           :img="lesson.img"
           :stage="number + 1"
+          :active="number === home.currentLesson"
           :accent="lesson.accent"
           :description="lesson.description"
           :experiment="lesson.experiment"
@@ -780,7 +460,7 @@ onBeforeUnmount(() => {
   min-height: 100dvh;
   /* Clip only sideways: allow vertical scrolling at high browser zoom. */
   overflow-x: clip;
-  padding: clamp(14px, 2.5vh, 32px) 0;
+  padding: clamp(30px, 5vh, 50px) 0;
 }
 .lesson-heading {
   z-index: 1;
@@ -790,8 +470,10 @@ onBeforeUnmount(() => {
   justify-self: center;
   align-self: start;
   width: min(460px, 92vw);
-  height: clamp(148px, 24vh, 210px);
+  height: max(210px, 18vh);
+
   margin: 0;
+  margin-top: 10px;
 }
 #hero {
   display: flex;
@@ -810,7 +492,7 @@ onBeforeUnmount(() => {
 #hero img {
   display: block;
   /* Prevent the rotated logo from taking over short/zoomed viewports. */
-  width: clamp(125px, 23vh, 180px);
+  width: clamp(200px, 40vw, 450px);
   max-width: none;
   height: auto;
   transform: rotate(90deg);
@@ -961,12 +643,6 @@ onBeforeUnmount(() => {
   .page {
     padding: 18px 0;
   }
-  .lesson-heading {
-    height: 124px;
-  }
-  #hero img {
-    width: 112px;
-  }
   .carousel {
     grid-template-columns: 40px minmax(0, 1fr) 40px;
     grid-template-rows: 1fr;
@@ -999,15 +675,6 @@ onBeforeUnmount(() => {
 
 /* Larger screens: scale the homepage with the viewport */
 @media (min-width: 1600px) {
-  .lesson-heading {
-    height: max(210px, 18vh);
-  }
-
-  #hero img {
-    /* Increase only the logo on large screens; keep carousel/card sizing unchanged. */
-    width: clamp(360px, 18vw, 520px);
-  }
-
   .carousel {
     width: min(calc(100% - 32px), max(1480px, 70vw));
     height: max(620px, 60vh);
