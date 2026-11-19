@@ -129,7 +129,7 @@ const glossary = {
 <template>
   <Page
     lessonId="pretask"
-    title="Lesson 1 - Structure &amp; Function of a Plant"
+    title="Pre-Task: What do plants need to survive?"
     :sections="sections"
     :glossary="glossary"
   >
