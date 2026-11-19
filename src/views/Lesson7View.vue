@@ -39,7 +39,7 @@ document.title = "Lesson 7 - Drawing Scientific Diagrams";
       <LessonIntro
         label="Lesson 7"
         title="Drawing Scientific Diagrams"
-        worksheet="../worksheets/l5-worksheet.pdf"
+        worksheet="../worksheets/l7-worksheet.pdf"
         :objective="objective"
         :criteria="criteria"
       >

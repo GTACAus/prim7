@@ -129,7 +129,6 @@ const plants = ref(null);
       <LessonIntro
         label="Lesson 6"
         title="Using Line Graphs to Visualise Data"
-        worksheet="../worksheets/l4-2-worksheet.pdf"
         :objective="objective"
         :criteria="criteria"
       >

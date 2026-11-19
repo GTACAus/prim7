@@ -82,7 +82,7 @@ const predictionActivity = ref(null);
       <LessonIntro
         label="Lesson 4"
         title="Science Inquiry Lab - Skills Check!"
-        worksheet="../worksheets/l3b-worksheet.pdf"
+        worksheet="../worksheets/l4-worksheet.pdf"
       >
         Practice what you have learned by doing a ball bounce experiment
 
