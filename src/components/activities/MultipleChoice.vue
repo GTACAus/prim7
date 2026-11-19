@@ -5,12 +5,14 @@
   the page likes - only the three components matter:
 
     <MultipleChoice completion-mode="live" v-slot="{ reset }">
-      <McQuestion answer="basketballs" class="ball-pair-grid">
-        <McChoice value="basketballs" v-slot="{ selected, correct }">
-          <img ... />
-          <span v-if="selected">{{ correct ? "Yes!" : "Try again" }}</span>
-        </McChoice>
-        <McChoice value="tennis">...</McChoice>
+      <McQuestion answer="basketballs">
+        <Grid :cols="2" align="start">
+          <McChoice value="basketballs" v-slot="{ selected, correct }">
+            <img ... />
+            <span v-if="selected">{{ correct ? "Yes!" : "Try again" }}</span>
+          </McChoice>
+          <McChoice value="tennis">...</McChoice>
+        </Grid>
       </McQuestion>
 
       <Button @click="reset">Reset</Button>

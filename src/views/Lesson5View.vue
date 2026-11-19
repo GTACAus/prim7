@@ -14,6 +14,7 @@ import SiteTwoBarGraph from "../components/lesson5/SiteTwoBarGraph.vue";
 import CompareSites from "../components/lesson5/CompareSites.vue";
 import { openPDF } from "../composables/useModal.js";
 import ContentBox from "../components/ContentBox.vue";
+import Grid from "../components/Grid.vue";
 import LessonCard from "../components/LessonCard.vue";
 
 // Learning objective and success criteria shown in the lesson intro
@@ -335,7 +336,7 @@ const partD = ref(null);
               </div>
             </div>
 
-            <div class="project-question-grid">
+            <Grid :cols="2" gap="sm" class="project-question-grid">
               <div class="project-question-card">
                 <h4>Testable question</h4>
                 <p>
@@ -352,7 +353,7 @@ const partD = ref(null);
                   <strong>increase.</strong>
                 </p>
               </div>
-            </div>
+            </Grid>
           </article>
 
           <article class="project-step-card">
@@ -361,7 +362,9 @@ const partD = ref(null);
               <h3>The fair test plan</h3>
             </div>
 
-            <div
+            <Grid
+              :cols="2"
+              gap="lg"
               class="variable-type-grid"
               aria-label="Variables in the Site 1 and Site 2 fair test"
             >
@@ -400,7 +403,7 @@ const partD = ref(null);
                   </li>
                 </ul>
               </ContentBox>
-            </div>
+            </Grid>
 
             <ContentBox>
               <p>

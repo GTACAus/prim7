@@ -10,6 +10,7 @@ import MultipleChoice from "../activities/MultipleChoice.vue";
 import McQuestion from "../activities/McQuestion.vue";
 import McChoice from "../activities/McChoice.vue";
 import Button from "../Button.vue";
+import Grid from "../Grid.vue";
 
 const pairs = [
   {
@@ -55,35 +56,37 @@ const classes = {
 
 <template>
   <MultipleChoice completion-mode="live" :classes="classes" v-slot="{ reset }">
-    <McQuestion name="ball-pair" answer="basketballs" class="ball-pair-grid">
-      <McChoice
-        v-for="pair in pairs"
-        :key="pair.value"
-        :value="pair.value"
-        class="ball-pair-card"
-        v-slot="{ selected, correct }"
-      >
-        <span class="ball-pair-images">
-          <img class="ball-pair-image" :src="pair.image" :alt="pair.alt" />
-        </span>
-        <span
-          class="ball-pair-card-feedback"
-          :class="
-            selected
-              ? correct
-                ? 'feedback-success'
-                : 'feedback-try-again'
-              : null
-          "
-          role="status"
-          aria-live="polite"
+    <McQuestion name="ball-pair" answer="basketballs">
+      <Grid :cols="2" gap="lg" align="start" class="ball-pair-grid">
+        <McChoice
+          v-for="pair in pairs"
+          :key="pair.value"
+          :value="pair.value"
+          class="ball-pair-card"
+          v-slot="{ selected, correct }"
         >
-          <template v-if="selected">
-            <strong class="ball-pair-feedback-title">{{ pair.title }}</strong>
-            <span class="ball-pair-feedback-text" v-html="pair.text"></span>
-          </template>
-        </span>
-      </McChoice>
+          <span class="ball-pair-images">
+            <img class="ball-pair-image" :src="pair.image" :alt="pair.alt" />
+          </span>
+          <span
+            class="ball-pair-card-feedback"
+            :class="
+              selected
+                ? correct
+                  ? 'feedback-success'
+                  : 'feedback-try-again'
+                : null
+            "
+            role="status"
+            aria-live="polite"
+          >
+            <template v-if="selected">
+              <strong class="ball-pair-feedback-title">{{ pair.title }}</strong>
+              <span class="ball-pair-feedback-text" v-html="pair.text"></span>
+            </template>
+          </span>
+        </McChoice>
+      </Grid>
     </McQuestion>
 
     <div class="reset-button-container">
@@ -94,11 +97,7 @@ const classes = {
 
 <style scoped>
 .ball-pair-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
   margin-top: 20px;
-  align-items: start;
 }
 
 .ball-pair-card {
@@ -213,11 +212,5 @@ const classes = {
 
   font-weight: 500;
   line-height: 1.55;
-}
-
-@media (max-width: 760px) {
-  .ball-pair-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

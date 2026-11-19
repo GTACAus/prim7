@@ -693,10 +693,6 @@
    but is scoped to Lesson 4 so Lesson2View's styles do not need to change.
    ================================================== */
 #bar-practice .variable-type-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 18px;
   margin-top: 18px;
 }
 
@@ -746,15 +742,6 @@
 
 #bar-practice .variable-type-card.controlled li + li {
   margin-top: 4px;
-}
-
-@media (max-width: 650px) {
-  #bar-practice .variable-type-grid {
-    grid-template-columns: 1fr;
-  }
-  #bar-practice .variable-type-card.controlled {
-    grid-column: auto;
-  }
 }
 
 .stop-and-check-graph .partd-difference-marker {

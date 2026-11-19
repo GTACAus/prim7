@@ -6,6 +6,7 @@ import Page from "../components/Page.vue";
 import Section from "../components/Section.vue";
 import LessonIntro from "../components/LessonIntro.vue";
 import LessonCard from "../components/LessonCard.vue";
+import Grid from "../components/Grid.vue";
 import ContentBox from "../components/ContentBox.vue";
 import StopAndCheck from "../components/StopAndCheck.vue";
 import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
@@ -101,7 +102,7 @@ const predictionActivity = ref(null);
             </template>
           </LessonCard>
 
-          <div class="intro-grid">
+          <Grid :cols="2" gap="lg">
             <LessonCard class="observation-card">
               <template #eyebrow>
                 <p>Think like a scientist</p>
@@ -187,7 +188,7 @@ const predictionActivity = ref(null);
                 </div>
               </template>
             </LessonCard>
-          </div>
+          </Grid>
         </template>
       </LessonIntro>
     </template>

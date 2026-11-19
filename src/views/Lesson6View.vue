@@ -14,6 +14,7 @@ import {
   PLANTS,
 } from "../components/lesson6/lineGraphs.js";
 import ContentBox from "../components/ContentBox.vue";
+import Grid from "../components/Grid.vue";
 import LessonEndCard from "../components/LessonEndCard.vue";
 
 // Terms shown in the vocabulary modal: { word: description }
@@ -199,7 +200,9 @@ const plants = ref(null);
            LINE GRAPH: TURN A DATA TABLE INTO A GRAPH
            ================================================== -->
       <Section ref="elephantSection" name="line-graph-elephant">
-        <div
+        <Grid
+          :cols="2"
+          gap="sm"
           class="project-question-grid"
           :aria-label="questions.elephant.aria"
         >
@@ -216,7 +219,7 @@ const plants = ref(null);
               {{ questions.elephant.reason }}
             </p>
           </div>
-        </div>
+        </Grid>
 
         <LineGraph :graph="ELEPHANT" @reset="elephantSection?.reset()" />
       </Section>
@@ -225,7 +228,9 @@ const plants = ref(null);
            YOUR TURN - STRIPED CONNIWINKS
            ================================================== -->
       <Section ref="conniwinksSection" name="line-graph-conniwinks">
-        <div
+        <Grid
+          :cols="2"
+          gap="sm"
           class="project-question-grid"
           :aria-label="questions.conniwinks.aria"
         >
@@ -242,7 +247,7 @@ const plants = ref(null);
               {{ questions.conniwinks.reason }}
             </p>
           </div>
-        </div>
+        </Grid>
 
         <LineGraph :graph="CONNIWINKS" @reset="conniwinksSection?.reset()" />
       </Section>
@@ -251,7 +256,7 @@ const plants = ref(null);
            PRACTISE - YEAST
            ================================================== -->
       <Section ref="yeastSection" name="line-graph-yeast">
-        <div class="project-question-grid" :aria-label="questions.yeast.aria">
+        <Grid :cols="2" gap="sm" class="project-question-grid" :aria-label="questions.yeast.aria">
           <div class="project-question-card">
             <h4>Testable question</h4>
             <p>
@@ -265,7 +270,7 @@ const plants = ref(null);
               {{ questions.yeast.reason }}
             </p>
           </div>
-        </div>
+        </Grid>
 
         <div class="image-box spaced-block">
           <img
@@ -303,7 +308,7 @@ const plants = ref(null);
           </p>
         </ContentBox>
 
-        <div class="project-question-grid" :aria-label="questions.plants.aria">
+        <Grid :cols="2" gap="sm" class="project-question-grid" :aria-label="questions.plants.aria">
           <div class="project-question-card">
             <h4>Testable question</h4>
             <p>
@@ -317,7 +322,7 @@ const plants = ref(null);
               {{ questions.plants.reason }}
             </p>
           </div>
-        </div>
+        </Grid>
 
         <div class="image-box spaced-block">
           <img

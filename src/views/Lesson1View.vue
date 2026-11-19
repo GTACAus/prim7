@@ -7,6 +7,7 @@ import PredictionTests from "../components/lesson1/PredictionTests.vue";
 import PredictionTable from "../components/activities/PredictionTable.vue";
 import LessonIntro from "../components/LessonIntro.vue";
 import LessonCard from "../components/LessonCard.vue";
+import Grid from "../components/Grid.vue";
 import ThinkBox from "../components/ThinkBox.vue";
 
 import { openVideo } from "../composables/useModal.js";
@@ -238,7 +239,7 @@ const sections = [
             a testable and an untestable question below.
           </p>
         </div>
-        <div class="intro-grid question-comparison-grid">
+        <Grid :cols="2" gap="lg">
           <LessonCard class="testable-card">
             <template #eyebrow>
               <p>Testable questions</p>
@@ -274,14 +275,14 @@ const sections = [
               </ul>
             </template>
           </LessonCard>
-        </div>
+        </Grid>
         <div class="diagram-box diagram-activity question-example-intro">
           <p class="activity-instruction">
             Look at the four questions below for the cars rolling down ramps
             experiment. Learn to identify what makes a question testable.
           </p>
         </div>
-        <div class="intro-grid question-example-grid">
+        <Grid :cols="2" gap="lg">
           <LessonCard class="testable-card">
             <template #eyebrow>
               <p>Testable question</p>
@@ -387,7 +388,7 @@ const sections = [
               </div>
             </template>
           </LessonCard>
-        </div>
+        </Grid>
       </Section>
       <!-- ---------- Flashcards ---------- -->
       <Section name="flashcards">

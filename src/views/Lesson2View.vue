@@ -100,6 +100,7 @@ function resetQuestionAndPrediction() {
 import LessonIntro from "../components/LessonIntro.vue";
 import Button from "../components/Button.vue";
 import ContentBox from "../components/ContentBox.vue";
+import Grid from "../components/Grid.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -275,7 +276,7 @@ const sections = [
             <strong>variables</strong> the same.
           </p>
         </ContentBox>
-        <div class="variable-type-grid">
+        <Grid :cols="3" gap="lg" class="variable-type-grid">
           <ContentBox class="variable-type-card independent">
             <template #eyebrow>Change</template>
             <h3>Independent variable</h3>
@@ -300,7 +301,7 @@ const sections = [
               <strong>caused</strong> by the thing you change.
             </p>
           </ContentBox>
-        </div>
+        </Grid>
         <div class="fair-test-rule">
           We write a testable question to show what is changed and what is
           measured in a <strong>fair test</strong>.

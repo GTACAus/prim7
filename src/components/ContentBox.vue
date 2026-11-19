@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <component :is="tag" class="content-box">
-    <div class="intro-eyebrow">
+    <div v-if="$slots.eyebrow" class="intro-eyebrow">
       <slot name="eyebrow" />
     </div>
     <slot />

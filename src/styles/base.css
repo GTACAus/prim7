@@ -222,10 +222,6 @@ input[type="checkbox"]:active {
 }
 
 @media (max-width: 800px) {
-  .intro-grid {
-    grid-template-columns: 1fr;
-  }
-
   .save-work-button {
     padding: 10px 14px;
     font-size: 0.9rem;
