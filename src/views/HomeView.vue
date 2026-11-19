@@ -1000,9 +1000,9 @@ onBeforeUnmount(() => {
     min-height: 145px;
   }
 
-  #hero img {
-    width: max(180px, 9vw);
-  }
+#hero img {
+  width: clamp(360px, 18vw, 520px);
+}
 
   .carousel {
     width: 84vw;
