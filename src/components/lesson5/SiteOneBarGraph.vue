@@ -493,7 +493,7 @@ defineExpose({ buildActive: calculated, reset });
           symbol="📄"
           @click="
             openPDF(
-              '../images/lesson4/visualising-data.pdf',
+              '../downloads/lesson5/visualising-data.pdf',
               'Visualising Fair Test Data',
             )
           "

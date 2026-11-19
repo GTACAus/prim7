@@ -102,7 +102,7 @@ const graphChecklist = [
   },
 ];
 
-const IMG = "../images/lesson4/";
+const IMG = "../images/lesson5/";
 const animals = [
   { name: "Leadbeater's Possum", image: "leadbeaters_possum_1.png" },
   { name: "Yellow-bellied Glider", image: "YBGlider_2.png" },
@@ -112,7 +112,7 @@ const animals = [
 ];
 
 // Each part's reset button clears everything in its section; Parts B-D also
-// put state classes on their section (lesson4.css lays them out from those).
+// put state classes on their section (lesson5.css lays them out from those).
 const practiceSection = ref(null);
 const constructionSection = ref(null);
 const followUpSection = ref(null);
@@ -139,7 +139,7 @@ const partD = ref(null);
       <LessonIntro
         label="Lesson 5"
         title="Using Bar Graphs to Visualise Data"
-        worksheet="../worksheets/l4-worksheet.pdf"
+        worksheet="../worksheets/l5-worksheet.pdf"
         :objective="objective"
         :criteria="criteria"
       >
@@ -147,9 +147,9 @@ const partD = ref(null);
           <Button
             class="project-resource-button bar-data-resource-button"
             symbol="📄"
-            @click="openPDF(IMG + 'types-of-graphs.png', 'Types of Data')"
+            @click="openPDF('../downloads/lesson5/visualising-data.pdf', 'Visualising Data')"
           >
-            Types of Data
+            Visualising Data
           </Button>
         </template>
 
@@ -262,7 +262,7 @@ const partD = ref(null);
                     symbol="📄"
                     @click="
                       openPDF(
-                        '../downloads/lesson4/leadbeaters-possum-flyer.pdf',
+                        '../downloads/lesson5/leadbeaters-possum-flyer.pdf',
                         'Meet the Leadbeater\'s Possum',
                       )
                     "

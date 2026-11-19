@@ -18,7 +18,7 @@ import Activity from "../activities/Activity.vue";
 import ContentBox from "../ContentBox.vue";
 import Button from "../Button.vue";
 
-const IMG = "../images/lesson4/";
+const IMG = "../images/lesson5/";
 
 // Hidden animals, positioned over the forest photo.
 const hotspots = [

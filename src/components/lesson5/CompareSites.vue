@@ -30,7 +30,7 @@ import { openPDF } from "../../composables/useModal.js";
 
 const emit = defineEmits(["reset"]);
 
-const IMG = "../images/lesson4/";
+const IMG = "../images/lesson5/";
 
 const SLIDER_ROWS = BOTH_SITES.map((item) => ({
   label: item.label,
@@ -435,7 +435,7 @@ defineExpose({ sectionClass });
           symbol="📄"
           @click="
             openPDF(
-              '../downloads/lesson4/protect-leadbeaters-possum.pdf',
+              '../downloads/lesson5/protect-leadbeaters-possum.pdf',
               'Protecting Leadbeater\'s Possum',
             )
           "
