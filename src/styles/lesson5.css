@@ -808,12 +808,21 @@
 }
 #bar-practice .project-flyer-row p {
   flex: 1 1 190px;
+  min-width: 0;
   margin: 0;
 }
+/* Keep the short label on a single line. If space is tight,
+   the complete button moves to the next line rather than squashing. */
 #bar-practice .project-possum-flyer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
-  width: auto;
-  white-space: normal;
+  width: max-content;
+  max-width: 100%;
+  padding: 9px 14px;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 
 /* Mission remains in the yellow panel: no nested white card. */
@@ -828,28 +837,63 @@
   margin-top: 12px;
 }
 
-/* Part B: section title and PDF action appear together, with natural wrapping. */
-#bar-construction .section-title {
-  display: block;
+/* Part B: title pill on the left, PDF button on the far right.
+   The Section component renders both as DIRECT children of #bar-construction.
+   Grid keeps them in one row without placing the button inside the title. */
+#bar-construction {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 18px;
+  align-items: start;
+}
+
+#bar-construction > .section-title {
+  display: inline-block;
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
   width: fit-content;
   max-width: 100%;
 }
-#bar-construction .partb-section-heading {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 16px;
-}
-#bar-construction .partb-header-guide-button {
+
+#bar-construction > .partb-header-guide-button {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  margin-top: -8px; /* aligns with the section pill's top margin */
   --background: var(--yellow);
   --background-hover: var(--soft-yellow);
   --color: var(--charcoal);
-  padding: 8px 12px;
-  font-size: 0.82rem;
+  padding: 9px 14px;
+  font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: normal;
   line-height: 1.25;
   text-transform: none;
-  white-space: normal;
-  max-width: 100%;
+  white-space: nowrap;
+}
+
+/* The graph activity, Next button and completion note take full width. */
+#bar-construction > :not(.section-title):not(.partb-header-guide-button) {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* On narrower screens, stack the PDF action below the title instead of
+   squeezing the title or letting the two elements overlap. */
+@media (max-width: 800px) {
+  #bar-construction {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #bar-construction > .section-title {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 16px;
+  }
+  #bar-construction > .partb-header-guide-button {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+    margin: -4px 0 20px;
+  }
 }

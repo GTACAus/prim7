@@ -255,10 +255,9 @@ const partD = ref(null);
                     learn more about where they live and what they need to survive.
                   </p>
                   <div class="project-flyer-row">
-                    <p>Open the flyer to learn more about these possums.</p>
+                    <p>Learn more about these possums:</p>
                     <Button
                       class="project-resource-button project-possum-flyer-button"
-                      symbol="📄"
                       @click="
                         openPDF(
                           '../downloads/lesson5/leadbeaters-possum-flyer.pdf',
@@ -266,7 +265,7 @@ const partD = ref(null);
                         )
                       "
                     >
-                      Open possum flyer
+                      Read possum flyer
                     </Button>
                   </div>
                   <div class="project-mission">
@@ -489,18 +488,15 @@ const partD = ref(null);
         name="bar-construction"
         :class="{ 'partb-build-active': partB?.buildActive }"
       >
-        <template #title>
-          <span class="partb-section-heading">
-            <span>Part B: Draw a bar graph to view Site 1 results</span>
-            <Button
-              class="project-resource-button partb-header-guide-button"
-              symbol="📄"
-              @click="openPDF('../downloads/lesson5/visualising-data.pdf', 'How to make a bar graph')"
-            >
-              How to make a bar graph
-            </Button>
-          </span>
-        </template>
+        <!-- The section title comes from the sections array above.
+             Keep this PDF button OUTSIDE the title pill. -->
+        <Button
+          class="project-resource-button partb-header-guide-button"
+          symbol="📄"
+          @click="openPDF('../downloads/lesson5/visualising-data.pdf', 'How to make a bar graph')"
+        >
+          How to make a bar graph
+        </Button>
         <SiteOneBarGraph ref="partB" @reset="constructionSection?.reset()" />
       </Section>
 
