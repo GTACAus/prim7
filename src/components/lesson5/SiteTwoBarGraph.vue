@@ -134,7 +134,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
 </script>
 
 <template>
-  <div class="lesson4-workbench partc-workbench">
+  <div class="workbench partc-workbench">
     <div class="partc-data-card">
       <span class="challenge-step-label">Site 2 results · Three nights</span>
       <p>

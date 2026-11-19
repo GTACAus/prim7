@@ -861,7 +861,7 @@ const choices = [
   #yeastLabelBank,
   .yeast-table-card,
   #yeastLabelFeedback,
-  .lesson3-reset-container,
+  .reset-container,
   #labelsCompleteAfterContainer {
     grid-column: 1;
     grid-row: auto;

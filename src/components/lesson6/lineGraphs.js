@@ -347,7 +347,7 @@ export const YEAST = {
       },
     },
   ],
-  cardClass: "lesson4-spaced-block",
+  cardClass: "spaced-block",
   averageMessage: singleAverages("build"),
   axisIntro:
     "Drag the correct <strong>variable</strong> and <strong>unit</strong> cards onto the dashed spaces on the graph. Use the table headings and testable question to decide where they belong.",

@@ -485,7 +485,7 @@ defineExpose({ buildActive: calculated, reset });
     :state="state"
     @reset="reset"
   >
-    <div id="partBWorkbench" class="lesson4-workbench partb-workbench">
+    <div id="partBWorkbench" class="workbench partb-workbench">
       <div class="partb-data-card">
         <span class="challenge-step-label"
           >Step 1 · Get the average values</span

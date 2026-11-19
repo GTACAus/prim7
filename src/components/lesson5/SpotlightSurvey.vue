@@ -808,7 +808,7 @@ defineExpose({ countsCorrect, reset });
 .animal-counter.counter-incorrect {
   background: var(--soft-orange);
   border-color: var(--orange);
-  animation: lesson4ChoiceBuzz 0.28s ease;
+  animation: choice-buzz 0.28s ease;
 }
 
 @media (max-width: 520px) {

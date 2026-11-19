@@ -130,7 +130,6 @@ const labelsSection = ref(null);
       <LessonIntro
         label="Lesson 3"
         title="Organising Fair Test Data into a Table"
-        intro-class="lesson3-intro"
         worksheet="../worksheets/l3-worksheet.pdf"
         :objective="objective"
         :criteria="criteria"

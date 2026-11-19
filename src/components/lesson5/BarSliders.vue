@@ -160,7 +160,7 @@ defineExpose({ values, checked, activeSet, isComplete, reset });
 
       <button
         type="button"
-        class="general-button lesson4-check-button"
+        class="general-button check-button"
         @click="check"
       >
         {{ checkLabel }}
@@ -276,7 +276,7 @@ defineExpose({ values, checked, activeSet, isComplete, reset });
   }
 }
 
-.lesson4-check-button {
+.check-button {
   display: block;
   margin: 14px auto 0;
 }

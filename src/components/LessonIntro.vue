@@ -22,7 +22,7 @@ defineProps({
   title: { type: String, default: "" },
   // URL of the worksheet PDF; omit for no download button
   worksheet: { type: String, default: "" },
-  // extra class on the header, e.g. lesson3-intro
+  // extra class on the header
   introClass: { type: String, default: "" },
   // learning objective (HTML) and success criteria (array of HTML strings)
   objective: { type: String, default: "" },
