@@ -154,9 +154,9 @@
 .challenge-choice.try-again-choice {
   background: var(--soft-orange);
   border-color: var(--orange);
-  animation: lesson4ChoiceBuzz 0.28s ease;
+  animation: choice-buzz 0.28s ease;
 }
-@keyframes lesson4ChoiceBuzz {
+@keyframes choice-buzz {
   0%,
   100% {
     transform: translateX(0);
@@ -1162,7 +1162,7 @@
   opacity: 1;
 }
 
-.lesson4-spaced-block {
+.spaced-block {
   margin-top: 10px;
 }
 
@@ -1393,5 +1393,5 @@
   background: var(--soft-orange);
   border-color: var(--orange);
   color: var(--charcoal);
-  animation: lesson4ChoiceBuzz 0.28s ease;
+  animation: choice-buzz 0.28s ease;
 }

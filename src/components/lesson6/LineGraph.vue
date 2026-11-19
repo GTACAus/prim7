@@ -489,7 +489,7 @@ defineExpose({ complete, predictionComplete });
     @reset="reset"
   >
     <!-- ---------- step 1: the tables ---------- -->
-    <div :class="multi ? 'plant-tables-grid lesson4-spaced-block' : null">
+    <div :class="multi ? 'plant-tables-grid spaced-block' : null">
       <div
         v-for="(table, ti) in g.tables"
         :key="table.heading"

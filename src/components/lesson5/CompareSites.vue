@@ -208,7 +208,7 @@ defineExpose({ sectionClass });
 </script>
 
 <template>
-  <div class="lesson4-workbench partd-workbench">
+  <div class="workbench partd-workbench">
     <div class="partd-data-card">
       <p>
         The average results for site 1 and site 2 are shown in the table below.

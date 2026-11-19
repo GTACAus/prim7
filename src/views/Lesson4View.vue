@@ -82,7 +82,6 @@ const predictionActivity = ref(null);
       <LessonIntro
         label="Lesson 4"
         title="Science Inquiry Lab - Skills Check!"
-        intro-class="lesson3-intro"
         worksheet="../worksheets/l3b-worksheet.pdf"
       >
         Practice what you have learned by doing a ball bounce experiment
@@ -194,22 +193,22 @@ const predictionActivity = ref(null);
     </template>
 
     <template #sections>
-      <ContentBox id="lesson4Sections">
-        <h2 id="lesson4Heading">
+      <ContentBox class="step-sections">
+        <h2 class="step-heading-title">
           Practice planning a fair test
         </h2>
         <!-- ==================================================
              1. SETUP AND VARIABLES
              ================================================== -->
         <Section name="ball-bounce-variables" :show-complete-note="false">
-          <div class="lesson4-step-card setup-card">
-            <div class="lesson4-step-heading">
+          <div class="step-card setup-card">
+            <div class="step-heading">
               <span>1</span>
               <div>
                 <h3>Look at the diagram showing a ball bounce fair test</h3>
               </div>
             </div>
-            <p class="lesson4-step-instruction">
+            <p class="step-instruction">
               A table tennis ball is dropped from the same height onto two
               different surfaces. The number of bounces is counted until the
               ball stops.
@@ -223,15 +222,15 @@ const predictionActivity = ref(null);
           </div>
           <BallBounceVariables
             name="ball-bounce-variables"
-            class="lesson4-step-card variables-card"
+            class="step-card variables-card"
           >
-            <div class="lesson4-step-heading">
+            <div class="step-heading">
               <span>2</span>
               <div>
                 <h3>Identify the variables in the ball bounce fair test</h3>
               </div>
             </div>
-            <p class="lesson4-step-instruction">
+            <p class="step-instruction">
               Complete the table to identify what is changed, what is measured,
               and what needs to stay the same.
             </p>
@@ -241,14 +240,14 @@ const predictionActivity = ref(null);
              2. TESTABLE QUESTION, PREDICTION, WHY REPEAT
              ================================================== -->
         <Section name="ball-bounce-planning" :show-complete-note="false">
-          <div class="lesson4-step-card planning-card">
-            <div class="lesson4-step-heading">
+          <div class="step-card planning-card">
+            <div class="step-heading">
               <span>3</span>
               <div>
                 <h3>Write a testable question for this ball bounce experiment</h3>
               </div>
             </div>
-            <p class="lesson4-step-instruction">
+            <p class="step-instruction">
               Click on one of the four sentence structures, then enter the
               <strong>independent variable</strong> (what is being changed) and
               <strong>dependent variable</strong> (what is being measured) for
@@ -272,21 +271,21 @@ const predictionActivity = ref(null);
             >
               <template #before>
                 <div
-                  class="lesson4-step-heading lesson4-step-divider prediction-heading"
+                  class="step-heading step-divider prediction-heading"
                 >
                   <span>4</span>
                   <div>
                     <h3>Make a reasoned prediction</h3>
                   </div>
                 </div>
-                <p class="lesson4-step-instruction">
+                <p class="step-instruction">
                   Use this graphic organiser to make a reasoned prediction.
                 </p>
               </template>
             </PredictionTable>
             <div
               v-if="predictionActivity?.isComplete"
-              class="repeat-tests-inline lesson4-step-divider pop-in"
+              class="repeat-tests-inline step-divider pop-in"
             >
               <div class="repeat-tests-card">
                 <div class="repeat-tests-explanation">
@@ -347,14 +346,14 @@ const predictionActivity = ref(null);
              3. OBSERVE, RECORD, INTERPRET
              ================================================== -->
         <Section name="ball-bounce-tests" :show-complete-note="false">
-          <BallBounceTable class="lesson4-step-card tests-card">
-            <div class="lesson4-step-heading observation-heading">
+          <BallBounceTable class="step-card tests-card">
+            <div class="step-heading observation-heading">
               <span>5</span>
               <div>
                 <h3>Record results for the ball bounce fair test</h3>
               </div>
             </div>
-            <p class="lesson4-step-instruction">
+            <p class="step-instruction">
               Watch both videos and record the number of bounces from each test
               in your data table below.
             </p>
@@ -368,7 +367,7 @@ const predictionActivity = ref(null);
 <style>
 /* Lesson 4 layout: numbered step cards inside each section.
    (Global, not scoped: the cards wrap activity components.) */
-#lesson4Sections {
+.step-sections {
   /* padding: 0; */
   position: relative;
 
@@ -379,14 +378,14 @@ const predictionActivity = ref(null);
 
   animation: pop-fade-in 0.5s ease;
 }
-#lesson4Sections > * {
+.step-sections > * {
   border: none;
   box-shadow: none;
   margin: 0;
   padding: 0;
 }
 
-#lesson4Heading {
+.step-heading-title {
   display: inline-block;
   align-items: center;
 
@@ -409,7 +408,7 @@ const predictionActivity = ref(null);
 
 /* ---------- Step cards ---------- */
 
-.lesson4-step-card {
+.step-card {
   margin-bottom: 20px;
   padding: 24px;
 
@@ -419,19 +418,19 @@ const predictionActivity = ref(null);
   box-shadow: var(--shadow-small);
 }
 
-.lesson4-step-card.setup-card {
+.step-card.setup-card {
   border-top: 8px solid var(--blue);
 }
 
-.lesson4-step-card.variables-card {
+.step-card.variables-card {
   border-top: 8px solid var(--yellow);
 }
 
-.lesson4-step-card.planning-card {
+.step-card.planning-card {
   border-top: 8px solid var(--purple);
 }
 
-.lesson4-step-card.tests-card {
+.step-card.tests-card {
   border-top: 8px solid var(--mint);
 }
 
@@ -450,7 +449,7 @@ const predictionActivity = ref(null);
 }
 
 /* separates the stages inside one card */
-.lesson4-step-divider {
+.step-divider {
   margin-top: 28px;
   padding-top: 28px;
   border-top: 2px dashed var(--line);
@@ -458,14 +457,14 @@ const predictionActivity = ref(null);
 
 /* ---------- Step headings ---------- */
 
-.lesson4-step-heading {
+.step-heading {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 8px;
 }
 
-.lesson4-step-heading > span {
+.step-heading > span {
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -482,21 +481,21 @@ const predictionActivity = ref(null);
   font-weight: 700;
 }
 
-.lesson4-step-heading.prediction-heading > span {
+.step-heading.prediction-heading > span {
   background: var(--lavender);
 }
 
-.lesson4-step-heading.observation-heading > span {
+.step-heading.observation-heading > span {
   background: var(--soft-green);
 }
 
-.lesson4-step-heading h3 {
+.step-heading h3 {
   margin: 0;
   color: var(--text);
   font-size: 1.15rem;
 }
 
-.lesson4-step-eyebrow {
+.step-eyebrow {
   margin: 0 0 3px;
 
   color: var(--purple);
@@ -507,7 +506,7 @@ const predictionActivity = ref(null);
   text-transform: uppercase;
 }
 
-.lesson4-step-instruction {
+.step-instruction {
   margin: 0 0 18px 50px;
   color: var(--muted);
   line-height: 1.5;
@@ -607,11 +606,11 @@ const predictionActivity = ref(null);
 }
 
 @media (max-width: 700px) {
-  .lesson4-step-card {
+  .step-card {
     padding: 18px;
   }
 
-  .lesson4-step-instruction {
+  .step-instruction {
     margin-left: 0;
   }
 }

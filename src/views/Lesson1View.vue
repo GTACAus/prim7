@@ -220,7 +220,7 @@ const sections = [
           <div class="image-box">
             <img src="../images/lesson1/l1-default.png" alt="Toy car example" />
           </div>
-          <ThinkBox class="lesson1-stw-box" :groups="stwGroups" />
+          <ThinkBox class="stw-box" :groups="stwGroups" />
         </div>
       </Section>
       <!-- ---------- Explicit Teaching: What is a Testable Question? ---------- -->
@@ -825,7 +825,7 @@ ol li::marker {
 }
 
 #observe-experiment .image-box,
-#observe-experiment .lesson1-stw-box {
+#observe-experiment .stw-box {
   min-width: 0;
   min-height: 480px;
   margin: 20px 0;
@@ -843,7 +843,7 @@ ol li::marker {
   object-fit: contain;
 }
 
-.lesson1-stw-box {
+.stw-box {
   display: flex;
   flex-direction: column;
   background: var(--soft-yellow);
@@ -853,17 +853,17 @@ ol li::marker {
   box-shadow: 0 5px 0 var(--line);
 }
 
-.lesson1-stw-box .stw-column {
+.stw-box .stw-column {
   flex: 1;
   padding: 14px 16px;
   border-bottom: 2px dashed rgba(48, 51, 47, 0.32);
 }
 
-.lesson1-stw-box .stw-column:last-child {
+.stw-box .stw-column:last-child {
   border-bottom: none;
 }
 
-.lesson1-stw-box .stw-column h3 {
+.stw-box .stw-column h3 {
   margin: 0 0 6px;
   color: var(--purple);
   font-size: 1rem;
@@ -871,18 +871,18 @@ ol li::marker {
   text-transform: uppercase;
 }
 
-.lesson1-stw-box .stw-column p {
+.stw-box .stw-column p {
   margin: 0 0 8px;
   color: var(--muted);
   font-size: 0.85rem;
 }
 
-.lesson1-stw-box .stw-input-row {
+.stw-box .stw-input-row {
   display: flex;
   gap: 8px;
 }
 
-.lesson1-stw-box .stw-input-row input {
+.stw-box .stw-input-row input {
   flex: 1;
   width: 100%;
   min-width: 0;
@@ -896,12 +896,12 @@ ol li::marker {
   font: inherit;
 }
 
-.lesson1-stw-box .stw-input-row input:focus {
+.stw-box .stw-input-row input:focus {
   outline: 3px solid rgba(78, 50, 232, 0.18);
   border-color: var(--purple);
 }
 
-.lesson1-stw-box .stw-input-row button {
+.stw-box .stw-input-row button {
   align-self: flex-start;
   padding: 9px 12px;
   color: white;
@@ -914,11 +914,11 @@ ol li::marker {
   cursor: pointer;
 }
 
-.lesson1-stw-box .stw-input-row button:hover {
+.stw-box .stw-input-row button:hover {
   background: var(--purple);
 }
 
-.lesson1-stw-box .stw-list {
+.stw-box .stw-list {
   margin: 6px 0 0;
   padding: 0;
   color: var(--text);
@@ -927,7 +927,7 @@ ol li::marker {
   list-style: none;
 }
 
-.lesson1-stw-box .stw-list li {
+.stw-box .stw-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1076,7 +1076,7 @@ ol li::marker {
   }
 
   #observe-experiment .image-box,
-  #observe-experiment .lesson1-stw-box {
+  #observe-experiment .stw-box {
     min-height: 0;
   }
 
