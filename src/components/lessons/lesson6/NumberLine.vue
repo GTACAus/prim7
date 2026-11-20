@@ -25,9 +25,9 @@ import {
   ref,
   watch,
 } from "vue";
-import Activity from "../activities/Activity.vue";
-import Button from "../ui/Button.vue";
-import ContentBox from "../ui/ContentBox.vue";
+import Activity from "../../activities/Activity.vue";
+import Button from "../../ui/Button.vue";
+import ContentBox from "../../ui/ContentBox.vue";
 import NumberLinePanel from "./NumberLinePanel.vue";
 import {
   DISTANCES,

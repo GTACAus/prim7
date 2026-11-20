@@ -60,6 +60,8 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
   --color-active: var(--color);
   --translate-amount-active: 3px;
   --box-shadow-active: none;
+  --border-color-active: var(--border);
+
   --animation: pop-fade-in 0.5s ease;
 
   padding: var(--padding);
@@ -146,6 +148,10 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
   transform: translateY(var(--translate-amount-active));
   box-shadow: var(--box-shadow-active);
   border-color: var(--border-color-active);
+}
+
+:is(button, a):focus-visible {
+  border: 4px solid var(--purple);
 }
 
 .reset-btn {

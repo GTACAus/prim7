@@ -3,12 +3,11 @@ import vue from "@vitejs/plugin-vue";
 import vueDevTools from "vite-plugin-vue-devtools";
 
 // Where the site is served from. "/" locally; on GitHub Pages the deploy
-// workflow sets BASE_PATH to the repo path, e.g. "/prim7_vue/".
+// workflow sets BASE_PATH to the repo path, e.g. "/prim7/".
 const base = process.env.BASE_PATH || "/";
 
 // Folders in public/ that pages reference as "/images/..." or "../images/...".
-const PUBLIC_FOLDERS =
-  "images|videos|worksheets|documents|downloads";
+const PUBLIC_FOLDERS = "images|videos|worksheets|documents|downloads";
 
 /*
   Paths to files in public/ are written as "/images/x.png" or "../images/x.png"

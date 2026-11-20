@@ -1,8 +1,8 @@
 <script setup>
 // "Plant Science" fill-in-the-blank sentences with a shared word bank (pre-task, diagram section).
-import DragDrop from "../activities/DragDrop.vue";
-import DropSlot from "../activities/DropSlot.vue";
-import DragItem from "../activities/DragItem.vue";
+import DragDrop from "../../activities/DragDrop.vue";
+import DropSlot from "../../activities/DropSlot.vue";
+import DragItem from "../../activities/DragItem.vue";
 </script>
 
 <template>

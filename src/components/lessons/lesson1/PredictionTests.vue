@@ -1,8 +1,8 @@
 <script setup>
 import { computed, nextTick, ref } from "vue";
-import Activity from "../activities/Activity.vue";
-import Button from "../ui/Button.vue";
-import LessonEndCard from "../content/LessonEndCard.vue";
+import Activity from "../../activities/Activity.vue";
+import Button from "../../ui/Button.vue";
+import LessonEndCard from "../../content/LessonEndCard.vue";
 
 const props = defineProps({
   tests: { type: Array, required: true },

@@ -5,8 +5,8 @@
 
     <FinalBrainstorm id="finalBrainstormActivity" prompt="..." :branches="[{ key, title, placeholder }]" />
 */
-import InputResponse from '../activities/InputResponse.vue'
-import ResponseBox from '../activities/ResponseBox.vue'
+import InputResponse from '../../activities/InputResponse.vue'
+import ResponseBox from '../../activities/ResponseBox.vue'
 
 defineProps({
   prompt: { type: String, required: true },

@@ -11,8 +11,8 @@ import ContentBox from "../components/ui/ContentBox.vue";
 import StopAndCheck from "../components/content/StopAndCheck.vue";
 import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
 import PredictionTable from "../components/activities/PredictionTable.vue";
-import BallBounceVariables from "../components/lesson4/BallBounceVariables.vue";
-import BallBounceTable from "../components/lesson4/BallBounceTable.vue";
+import BallBounceVariables from "../components/lessons/lesson4/BallBounceVariables.vue";
+import BallBounceTable from "../components/lessons/lesson4/BallBounceTable.vue";
 
 // Terms shown in the vocabulary modal: { word: description }
 const glossary = {

@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount } from "vue";
 import Card from "../components/homepage/Card.vue";
+import Button from "../components/ui/Button.vue";
 import { useHomeStore } from "../stores/home.js";
 
 const lessons = [
@@ -150,9 +151,6 @@ onMounted(() => {
         card.removeAttribute("aria-current");
       }
     });
-
-    previousButton.disabled = currentIndex === 0;
-    nextButton.disabled = currentIndex === cards.length - 1;
 
     status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
   }
@@ -407,11 +405,11 @@ onBeforeUnmount(() => {
     </header>
 
     <section class="carousel" aria-label="Choose a lesson">
-      <button
+      <Button
+        v-show="home.currentLesson !== 0"
         class="carousel-control carousel-control--previous"
-        type="button"
         aria-label="Show previous lesson"
-      ></button>
+      />
       <div class="carousel-track">
         <Card
           v-for="[number, lesson] of lessons.entries()"
@@ -429,11 +427,11 @@ onBeforeUnmount(() => {
           <template #subtitle>{{ lesson.subtitle }}</template>
         </Card>
       </div>
-      <button
+      <Button
+        v-show="home.currentLesson !== Object.keys(lessons).length - 1"
         class="carousel-control carousel-control--next"
-        type="button"
         aria-label="Show next lesson"
-      ></button>
+      ></Button>
     </section>
     <p class="carousel-status" aria-live="polite"></p>
   </main>
@@ -585,22 +583,12 @@ onBeforeUnmount(() => {
   width: 48px;
   height: 48px;
   place-items: center;
-  justify-self: center;
-  border: 2px solid var(--line);
+  justify-content: center;
   border-radius: 50%;
   background: var(--paper);
-  box-shadow: var(--shadow-small);
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    opacity 0.2s ease;
-}
-.carousel-control:hover:not(:disabled) {
-  background: var(--yellow);
-}
-.carousel-control:disabled {
-  cursor: default;
-  opacity: 0.35;
+
+  --border-color-active: var(--line);
+  --background-hover: var(--yellow);
 }
 .carousel-control::before {
   width: 10px;
@@ -636,8 +624,8 @@ onBeforeUnmount(() => {
 }
 .carousel-control:focus-visible,
 #hero:focus-visible {
-  outline: 4px solid var(--purple);
-  outline-offset: 5px;
+  border: 4px solid var(--purple);
+  outline: none;
 }
 @media (max-width: 700px) {
   .page {

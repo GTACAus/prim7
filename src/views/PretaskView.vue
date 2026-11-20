@@ -4,11 +4,11 @@ import "../styles/pretask.css";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
 import ThinkBox from "../components/activities/ThinkBox.vue";
-import PostitBrainstorm from "../components/pretask/PostitBrainstorm.vue";
-import FinalBrainstorm from "../components/pretask/FinalBrainstorm.vue";
-import PlantDetective from "../components/pretask/PlantDetective.vue";
-import PlantGame from "../components/pretask/PlantGame.vue";
-import WordSentences from "../components/pretask/WordSentences.vue";
+import PostitBrainstorm from "../components/lessons/pretask/PostitBrainstorm.vue";
+import FinalBrainstorm from "../components/lessons/pretask/FinalBrainstorm.vue";
+import PlantDetective from "../components/lessons/pretask/PlantDetective.vue";
+import PlantGame from "../components/lessons/pretask/PlantGame.vue";
+import WordSentences from "../components/lessons/pretask/WordSentences.vue";
 
 // Sections of the page. Order defines the unlock chain (next-id) and which
 // sections start locked; override per section where needed.

@@ -6,11 +6,11 @@ import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
 import StopAndCheck from "../components/content/StopAndCheck.vue";
 import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
-import DiscoverVariables from "../components/lesson2/DiscoverVariables.vue";
-import BallPairChoice from "../components/lesson2/BallPairChoice.vue";
+import DiscoverVariables from "../components/lessons/lesson2/DiscoverVariables.vue";
+import BallPairChoice from "../components/lessons/lesson2/BallPairChoice.vue";
 import PredictionTable from "../components/activities/PredictionTable.vue";
 import VariableSort from "../components/activities/VariableSort.vue";
-import FairTestBuilder from "../components/lesson2/FairTestBuilder.vue";
+import FairTestBuilder from "../components/lessons/lesson2/FairTestBuilder.vue";
 
 // Options passed to the activity components
 const sortVariablesOneActivityOptions = {

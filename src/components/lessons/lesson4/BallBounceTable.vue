@@ -16,12 +16,12 @@
   <Activity :state>; the interpretation saves itself.
 */
 import { computed, nextTick, reactive, ref, watch } from "vue";
-import Activity from "../activities/Activity.vue";
-import PredictionCheck from "../activities/PredictionCheck.vue";
-import StudentEntry from "../ui/StudentEntry.vue";
-import Button from "../ui/Button.vue";
-import LessonEndCard from "../content/LessonEndCard.vue";
-import { openVideo } from "../../composables/useModal.js";
+import Activity from "../../activities/Activity.vue";
+import PredictionCheck from "../../activities/PredictionCheck.vue";
+import StudentEntry from "../../ui/StudentEntry.vue";
+import Button from "../../ui/Button.vue";
+import LessonEndCard from "../../content/LessonEndCard.vue";
+import { openVideo } from "../../../composables/useModal.js";
 
 /* ---------- videos ---------- */
 

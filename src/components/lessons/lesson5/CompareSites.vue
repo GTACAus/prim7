@@ -15,18 +15,18 @@
   the matching table column and bars). Every step saves itself.
 */
 import { computed, nextTick, ref, watch } from "vue";
-import MultipleChoice from "../activities/MultipleChoice.vue";
-import McQuestion from "../activities/McQuestion.vue";
-import McChoice from "../activities/McChoice.vue";
-import PredictionCheck from "../activities/PredictionCheck.vue";
-import StopAndCheck from "../content/StopAndCheck.vue";
-import Button from "../ui/Button.vue";
-import LessonEndCard from "../content/LessonEndCard.vue";
+import MultipleChoice from "../../activities/MultipleChoice.vue";
+import McQuestion from "../../activities/McQuestion.vue";
+import McChoice from "../../activities/McChoice.vue";
+import PredictionCheck from "../../activities/PredictionCheck.vue";
+import StopAndCheck from "../../content/StopAndCheck.vue";
+import Button from "../../ui/Button.vue";
+import LessonEndCard from "../../content/LessonEndCard.vue";
 import BarSliders from "./BarSliders.vue";
 import PairedBarGraph from "./PairedBarGraph.vue";
 import AnalysisQuestions from "./AnalysisQuestions.vue";
 import { BOTH_SITES, formatNumber } from "./barGraph.js";
-import { openPDF } from "../../composables/useModal.js";
+import { openPDF } from "../../../composables/useModal.js";
 
 const emit = defineEmits(["reset"]);
 
