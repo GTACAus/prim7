@@ -10,8 +10,11 @@
        to right to draw the line. "Hide counters" then shows the line alone.
   Optional clues are based on time since the last successful find, in the
   selected species + distance only. One unfound animal glows at a time.
-  After 3 minutes of active searching for a species, students can optionally
-  use the recorded survey counts and proceed to graph building.
+  Across all animals and distances, an invisible struggle meter rises only
+  during active searching. Each genuinely new animal found reduces the meter.
+  After sustained difficulty (and a short spell without another find),
+  students can choose to use recorded counts for ALL species and graph them.
+  No countdown or difficulty meter is displayed to students.
 
     <NumberLine />
 
@@ -54,8 +57,12 @@ const FIRST_CLUE_DELAY_MS = {
 };
 // Once students have used a clue, don't make them wait another full minute.
 const ANOTHER_CLUE_DELAY_MS = 25 * 1000;
-// Protect the line-graph learning goal: optional way to finish the search.
-const RECORDED_DATA_DELAY_MS = 3 * 60 * 1000;
+// Protect the line-graph goal without interrupting students who are
+// making progress. The invisible meter rises during active searching and
+// each NEW find reduces it. Students still get their individual photo clues.
+const STRUGGLE_THRESHOLD_MS = 3 * 60 * 1000; // enough accumulated difficulty
+const SUCCESS_RELIEF_MS = 60 * 1000;         // each new find pushes help back
+const POST_FIND_PAUSE_MS = 45 * 1000;        // no shortcut just after a find
 const CLOSE_MS = 260; // gap between closing one quadrat and opening the next
 const STANDING_MS = 1300; // length of person_standing.gif
 const INVESTIGATE_MS = 1300; // length of person_investigating.gif
@@ -74,7 +81,15 @@ const visited = reactive({}); // species -> distances whose quadrat was opened
 const searchStartedAt = reactive({});
 // Accumulated active search time (not time spent on other photos/browser tabs).
 const searchIdleMs = reactive({}); // "species|distance" -> ms since last find/clue
-const speciesSearchMs = reactive({}); // species -> total active search time
+const speciesSearchMs = reactive({}); // retained for saved-state compatibility
+// Keep the old field in saved state so older student progress still loads,
+// but do not use its elapsed-time value to trigger the new shortcut.
+const overallSearchMs = ref(0); // legacy universal timer (no longer used)
+const struggleMs = ref(0); // weighted difficulty across ALL species/distances
+const timeSinceLastFindMs = ref(0); // active search time without any new find
+const creditedFinds = reactive({}); // one success credit per animal, even if un-found
+const surveyTimerStarted = ref(false); // first distance has been selected
+const surveyCountsRevealed = ref(false); // distinguishes recorded data from student finds
 const cluesShown = reactive({}); // "species|distance" -> clues requested
 const previouslyClued = reactive({}); // "species|distance" -> ids already hinted
 
@@ -89,6 +104,12 @@ const state = {
   searchStartedAt,
   searchIdleMs,
   speciesSearchMs,
+  overallSearchMs,
+  struggleMs,
+  timeSinceLastFindMs,
+  creditedFinds,
+  surveyTimerStarted,
+  surveyCountsRevealed,
   cluesShown,
   previouslyClued,
 };
@@ -125,6 +146,53 @@ const allFound = computed(() => {
   const spots = spotsOf(selectedSpecies.value);
   return spots.length > 0 && spots.every((h) => found[h.id]);
 });
+
+/* ---------- survey progress, across ALL five distances ----------
+   Each species has its own five checkpoints. A checkpoint is complete only
+   when all its animals are found. A genuinely zero-animal distance counts as
+   complete: recording zero is still valid survey data.
+   We don't store duplicate progress: it is derived from the saved 'found'
+   hotspots, so refreshes, clues and recorded-counts mode stay in sync.
+*/
+const surveyProgressBySpecies = computed(() =>
+  Object.fromEntries(SPECIES.map((species) => [
+    species.name,
+    DISTANCES.map((distance) => {
+      const spots = spotsOf(species.name, distance);
+      const total = spots.length;
+      const foundCount = spots.filter((spot) => found[spot.id]).length;
+      return {
+        distance,
+        found: foundCount,
+        total,
+        complete: total === 0 || foundCount === total,
+        percent: total === 0 ? 100 : Math.round(100 * foundCount / total),
+      };
+    }),
+  ])),
+);
+
+const surveySites = computed(() =>
+  surveyProgressBySpecies.value[selectedSpecies.value] || [],
+);
+
+// The first unfinished site after this one (or wrap back to the start).
+const nextSurveyDistance = computed(() => {
+  if (panelDistance.value === null) return null;
+  const unfinished = surveySites.value.filter((site) => !site.complete);
+  return (
+    unfinished.find((site) => site.distance > panelDistance.value) ||
+    unfinished[0] || null
+  )?.distance ?? null;
+});
+
+function speciesSurveyStatus(name) {
+  const sites = surveyProgressBySpecies.value[name] || [];
+  return `${name}: ${sites.filter((site) => site.complete).length} of five distances complete`;
+}
+
+// Counts for every species at every distance have been collected or provided.
+const allSurveyCountsFound = computed(() => HOTSPOTS.every((h) => found[h.id]));
 
 /* ---------- the line graph ---------- */
 
@@ -221,7 +289,9 @@ watch(connected, () => (connectHint.value = ""));
 
 const buildInstruction = computed(() => {
   if (!isGraphMode.value)
-    return `You found every ${selectedSpecies.value}. Now show those five counts as data points.`;
+    return surveyCountsRevealed.value
+      ? "All recorded survey counts are ready. Choose an animal on the left, then show its five data points to build the line graph."
+      : `You found every ${selectedSpecies.value}. Now show those five counts as data points.`;
   if (graphComplete.value)
     return "Great — the counters and the line show the same data. Hide the counters to see the line more clearly.";
   return (
@@ -253,12 +323,20 @@ function selectSpecies(name) {
 // back to the counters until the snail is complete again.
 function toggleFound(id) {
   tickSearch();
+  // If a student starts changing the data again, treat it as a manual search.
+  surveyCountsRevealed.value = false;
   const wasFound = Boolean(found[id]);
   if (wasFound) {
     delete found[id];
   } else {
     found[id] = true;
-    // A successful find means the student is making progress.
+    // A genuine new find reduces overall difficulty. Do not reward repeatedly
+    // toggling the same animal off/on. Keep this history in saved progress.
+    if (!creditedFinds[id]) {
+      creditedFinds[id] = true;
+      struggleMs.value = Math.max(0, struggleMs.value - SUCCESS_RELIEF_MS);
+      timeSinceLastFindMs.value = 0;
+    }
     const spot = HOTSPOTS.find((h) => h.id === id);
     if (spot) searchIdleMs[clueKey(spot.species, spot.distance)] = 0;
     // Only one active glow; remove it once the animal is found.
@@ -313,10 +391,18 @@ function activeSearchKey() {
 
 function tickSearch() {
   const current = Date.now();
-  // Cap a delayed tick (sleep/background throttling) rather than counting it
-  // as minutes of searching. The interval below ticks every 500 ms.
+  // Cap delayed ticks (sleep/background throttling) so hidden-tab time is not
+  // mistaken for work. The interval below ticks every 500 ms.
   const delta = Math.max(0, Math.min(current - lastTickAt, 1100));
+  // The overall meter only rises when a child is actually searching a loaded
+  // photograph. Switching species/quadrants preserves it; leaving the photo
+  // or hiding the tab pauses it. Finding an animal lowers it in toggleFound().
   const key = activeSearchKey();
+  if (surveyTimerStarted.value && key && delta > 0 &&
+      !surveyCountsRevealed.value && !allSurveyCountsFound.value) {
+    struggleMs.value += delta;
+    timeSinceLastFindMs.value += delta;
+  }
   if (key && delta > 0) {
     searchIdleMs[key] = (searchIdleMs[key] || 0) + delta;
     const species = selectedSpecies.value;
@@ -365,26 +451,34 @@ function showClue() {
   searchIdleMs[key] = 0; // the next optional clue needs another period of effort
 }
 
-const canUseRecordedData = computed(() => {
-  const species = selectedSpecies.value;
-  return Boolean(species && panelDistance.value !== null && panelReady.value &&
-    !allFound.value && (speciesSearchMs[species] || 0) >= RECORDED_DATA_DELAY_MS);
-});
+// Optional exit only after sustained slow progress. A steady stream of
+// successful finds keeps struggleMs low even during a long, happy search.
+// Require 45 seconds since the last new find so the prompt cannot interrupt
+// the moment of success. This does not affect the local clue timers.
+const canRevealAllCounts = computed(() =>
+  surveyTimerStarted.value && !surveyCountsRevealed.value &&
+  !allSurveyCountsFound.value && !isGraphMode.value &&
+  missingInPanel.value.length > 0 &&
+  struggleMs.value >= STRUGGLE_THRESHOLD_MS &&
+  timeSinceLastFindMs.value >= POST_FIND_PAUSE_MS,
+);
 
-function useRecordedData() {
+function revealAllSurveyCounts() {
   tickSearch();
-  if (!canUseRecordedData.value) return;
-  // Complete only the chosen animal, using the pre-recorded survey values.
-  // The student still labels/plots/connects their line-graph data themselves.
-  for (const spot of spotsOf(selectedSpecies.value)) found[spot.id] = true;
+  if (!canRevealAllCounts.value) return;
+  // Reveal counts for all three species at all five distances. Do NOT draw
+  // any graph for the student: they still click the data points and connect.
+  if (!selectedSpecies.value) selectedSpecies.value = SPECIES[0].name;
+  for (const spot of HOTSPOTS) found[spot.id] = true;
+  surveyCountsRevealed.value = true;
   highlighted.value = [];
   isGraphMode.value = false;
   isCountersHidden.value = false;
   clearConnections();
   closePanel();
   nextTick(() => {
-    document.querySelector('.number-line-workspace .graph-build-prompt')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.querySelector(".number-line-workspace .graph-build-prompt")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 }
 
@@ -420,9 +514,24 @@ function closePanel() {
   activePoint.value = null;
 }
 
+// A visible "ready to graph" action beside the photo saves children from
+// scrolling down to discover that Step 3 has appeared.
+function jumpToGraph() {
+  if (!allFound.value) return;
+  closePanel();
+  nextTick(() => {
+    document.querySelector(".number-line-workspace .graph-build-prompt")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+}
+
 function moveTo(distance) {
   tickSearch();
-  panelReady.value = false; // stop timer during the walk/transition
+  // Mark the beginning of the search; the struggle meter only accumulates
+  // while a loaded photograph is actively being searched.
+  if (!surveyTimerStarted.value) surveyTimerStarted.value = true;
+  lastTickAt = Date.now();
+  panelReady.value = false; // stop the local clue clock during the walk
   selectedDistance.value = distance;
   activePoint.value = distance;
   movePerson(distance);
@@ -518,6 +627,12 @@ function reset() {
   clear(searchStartedAt);
   clear(searchIdleMs);
   clear(speciesSearchMs);
+  overallSearchMs.value = 0;
+  struggleMs.value = 0;
+  timeSinceLastFindMs.value = 0;
+  clear(creditedFinds);
+  surveyTimerStarted.value = false;
+  surveyCountsRevealed.value = false;
   clear(cluesShown);
   clear(previouslyClued);
   highlighted.value = [];
@@ -600,7 +715,27 @@ onBeforeUnmount(() => {
               >
                 <img class="noselect" :src="snail.image" alt="" />
               </button>
-              <span>{{ snail.name }}</span>
+              <span class="species-select-label">{{ snail.name }}</span>
+              <!-- Five tiny checkpoints: 0, 5, 10, 15 and 20 m.
+                   A filled dot means the species is finished at that site. -->
+              <span
+                v-if="selectedDistance !== null"
+                class="species-mini-checkpoints"
+                role="img"
+                :aria-label="speciesSurveyStatus(snail.name)"
+              >
+                <span
+                  v-for="site in surveyProgressBySpecies[snail.name]"
+                  :key="site.distance"
+                  class="species-mini-checkpoint"
+                  :class="{
+                    'is-complete': site.complete,
+                    'is-partial': !site.complete && site.found > 0,
+                  }"
+                  :title="`${site.distance} m: ${site.complete ? 'complete' : 'not yet complete'}`"
+                  aria-hidden="true"
+                >{{ site.complete ? '✓' : '' }}</span>
+              </span>
             </div>
           </div>
 
@@ -613,10 +748,15 @@ onBeforeUnmount(() => {
             :highlighted="highlighted"
             :clue-available="clueAvailable"
             :clues-used="cluesUsedInPanel"
-            :can-use-recorded-data="canUseRecordedData"
+            :can-reveal-all-counts="canRevealAllCounts"
+            :survey-sites="surveySites"
+            :survey-complete="allFound"
+            :next-survey-distance="nextSurveyDistance"
+            @go-to-distance="moveTo"
+            @go-to-graph="jumpToGraph"
             @find="toggleFound"
             @clue="showClue"
-            @use-recorded-data="useRecordedData"
+            @reveal-all-counts="revealAllSurveyCounts"
             @ready="onPanelReady"
             @close="closePanel"
           />
@@ -1128,10 +1268,43 @@ onBeforeUnmount(() => {
   margin-bottom: 0;
 }
 
-.species-select-button-wrap span {
+.species-select-button-wrap > .species-select-label {
   font-size: 1rem;
   font-weight: 900;
   text-align: center;
+}
+
+/* A small overview for all three molluscs, even when the photo is closed.
+   Full dot = site complete, outlined dot = site still needs work. */
+.species-mini-checkpoints {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 16px;
+  margin-top: -6px;
+}
+.species-mini-checkpoint {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--muted);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--text);
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 900;
+}
+.species-mini-checkpoint.is-partial {
+  border-color: var(--purple);
+  background: var(--soft-blue);
+}
+.species-mini-checkpoint.is-complete {
+  border-color: var(--green);
+  background: var(--soft-green);
 }
 
 .species-select-button {
@@ -1601,7 +1774,7 @@ onBeforeUnmount(() => {
 .number-line-workspace
   #number-line-animal-buttons
   .species-select-button-wrap
-  span {
+  > .species-select-label {
   max-width: 135px;
   font-size: 0.86rem;
   line-height: 1.2;
