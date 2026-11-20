@@ -1057,3 +1057,115 @@
   #plantKahuna .pk-material-values.has-two .pk-material-art { height: 67px; }
   #plantKahuna .pk-material-copy strong { font-size: .83rem; }
 }
+
+/* ================================================================
+   v2.21 — Select multiple measures, without separate Growth/Health cards
+   ================================================================ */
+#plantKahuna .pk-measure-help {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: .9rem;
+}
+#plantKahuna .pk-measure-picker {
+  border: 2px solid var(--line);
+  border-radius: 15px;
+  padding: 12px;
+  background: #fffdf7;
+}
+#plantKahuna .pk-measure-picker .pk-measure-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+#plantKahuna .pk-measure-btn { min-height: 59px; padding-right: 29px; }
+#plantKahuna .pk-measure-btn:hover:not(.is-selected) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 var(--line);
+}
+#plantKahuna .pk-measure-btn.is-selected {
+  background: var(--purple);
+  color: white;
+  border-color: var(--line);
+  box-shadow: 0 2px 0 var(--line);
+  transform: none;
+}
+#plantKahuna .pk-measure-btn.is-selected::after {
+  content: "\2713";
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: white;
+}
+#plantKahuna .pk-measure-guides {
+  margin-top: 14px;
+  padding: 11px 14px;
+  border: 2px solid var(--line);
+  border-radius: 13px;
+  background: var(--paper);
+}
+#plantKahuna .pk-measure-guides > summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--purple);
+}
+#plantKahuna .pk-measure-guide-entry {
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid #d5d5cf;
+}
+#plantKahuna .pk-measure-guide-entry p {
+  margin: 5px 0 0;
+  font-size: .9rem;
+}
+#plantKahuna .pk-measure-guide-entry img {
+  display: block;
+  max-width: 240px;
+  max-height: 260px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+@media (max-width: 420px) {
+  #plantKahuna .pk-measure-picker .pk-measure-buttons { grid-template-columns: 1fr; }
+}
+
+/* v2.22: show one measurement infographic automatically after selection.
+   Retains the purple multi-select buttons without creating another long panel. */
+#plantKahuna .pk-measure-preview {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 13px;
+  padding: 12px;
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 13px;
+}
+#plantKahuna .pk-measure-preview-copy { flex: 1 1 0; min-width: 0; }
+#plantKahuna .pk-measure-preview-copy strong { display: block; font-size: .94rem; }
+#plantKahuna .pk-measure-preview-copy p { margin: 6px 0 0; font-size: .87rem; line-height: 1.45; }
+#plantKahuna .pk-measure-preview-image {
+  display: flex;
+  flex: 0 0 118px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid #b7b9b4;
+  border-radius: 9px;
+  color: var(--purple);
+  cursor: zoom-in;
+}
+#plantKahuna .pk-measure-preview-image img { display: block; width: 100%; max-height: 110px; object-fit: contain; }
+#plantKahuna .pk-measure-preview-image span { font-size: .7rem; font-weight: 700; }
+#plantKahuna .pk-measure-preview-image:hover { border-color: var(--purple); }
+@media (max-width: 430px) {
+  #plantKahuna .pk-measure-preview { flex-wrap: wrap; }
+  #plantKahuna .pk-measure-preview-image { flex: 0 0 100%; }
+  #plantKahuna .pk-measure-preview-image img { max-height: 145px; }
+}
