@@ -134,18 +134,6 @@ defineExpose({ locked, completed, complete, reset, next, scrollTo });
 
 <style>
 /* ---------- Main lesson sections ---------- */
-
-.section {
-  position: relative;
-
-  margin-bottom: 38px;
-  padding: 28px;
-
-  background: var(--paper);
-
-  animation: pop-fade-in 0.5s ease;
-}
-
 .section-title {
   display: inline-block;
   align-items: center;

@@ -19,6 +19,8 @@ const props = defineProps({
   title: { type: String, required: true },
   sections: { type: Array, required: true },
   glossary: { type: Object, default: null },
+  // show every section from the start instead of unlocking them one by one
+  showAll: { type: Boolean, default: false },
 });
 
 // Support both { key, id, title } and { name, label } configurations.
@@ -152,7 +154,9 @@ function indexOfSection(name) {
 
 function isLocked(name) {
   const i = indexOfSection(name);
-  return i < 0 || (!progress.showEverything && i > progress.unlockedIndex);
+  if (i < 0) return true;
+  if (props.showAll || progress.showEverything) return false;
+  return i > progress.unlockedIndex;
 }
 
 function isCompleted(name) {

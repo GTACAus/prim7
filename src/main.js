@@ -31,6 +31,7 @@ const routes = [
   },
   {
     path: "/plant-experiment",
+    meta: { theme: "simple" },
     component: () => import("./views/PlantExperiment.vue"),
   },
   {

@@ -36,7 +36,7 @@ const glossary = {
 };
 
 const sections = [
-  { id: "plan-experiment", title: "Plan a plant experiment" },
+  { id: "plan-experiment", title: "Set up your experiment" },
   { id: "testable-question", title: "Testable question" },
   { id: "reasoned-prediction", title: "Reasoned prediction" },
 ];
@@ -57,20 +57,31 @@ const measureOptions = computed(() =>
 );
 
 /* ---------- Testable question ---------- */
-const question = ref({ structure: "", firstAnswer: "", secondAnswer: "", text: "" });
-const normalise = (text) => String(text || "").trim().toLowerCase();
+const question = ref({
+  structure: "",
+  firstAnswer: "",
+  secondAnswer: "",
+  text: "",
+});
+const normalise = (text) =>
+  String(text || "")
+    .trim()
+    .toLowerCase();
 
 const questionMatchesPlan = computed(
   () =>
     planReady.value &&
     !!question.value.text &&
-    normalise(question.value.firstAnswer) === CHANGE_WORDS[plan.value.changeKey] &&
+    normalise(question.value.firstAnswer) ===
+      CHANGE_WORDS[plan.value.changeKey] &&
     measureOptions.value.includes(normalise(question.value.secondAnswer)),
 );
 
 const waitMessage = computed(() => {
-  if (!plan.value?.changeKey) return "Choose what to change in your plan above.";
-  if (!planReady.value) return "Choose at least one thing to measure in your plan above.";
+  if (!plan.value?.changeKey)
+    return "Choose what to change in your plan above.";
+  if (!planReady.value)
+    return "Choose at least one thing to measure in your plan above.";
   return "Complete a question that matches your experiment to start your prediction.";
 });
 
@@ -149,30 +160,6 @@ watch(questionMatchesPlan, (valid, wasValid) => {
            1. PLAN THE EXPERIMENT
            ================================================== -->
       <Section name="plan-experiment">
-        <ContentBox>
-          <p class="activity-instruction">
-            Choose where you will grow your plants. Then follow the three steps
-            to plan a <strong>fair test</strong> with two plants, Plant A and
-            Plant B.
-          </p>
-          <ol class="ol-step-count">
-            <li>
-              <strong>Change:</strong> choose the one thing that will be
-              different (the <strong>independent variable</strong>).
-            </li>
-            <li>
-              <strong>Measure:</strong> choose what you will measure on both
-              plants (the <strong>dependent variable</strong>).
-            </li>
-            <li>
-              <strong>Keep the same:</strong> check the settings both plants
-              share (the <strong>controlled variables</strong>).
-            </li>
-          </ol>
-          <p class="activity-instruction">
-            When you are done, select <strong>Check plan</strong>.
-          </p>
-        </ContentBox>
         <PlantPlanner
           name="plant-planner"
           @change="plan = $event"
@@ -221,12 +208,6 @@ watch(questionMatchesPlan, (valid, wasValid) => {
           {{ waitMessage }}
         </p>
         <div v-show="questionMatchesPlan">
-          <ContentBox>
-            <p class="activity-instruction">
-              Use your testable question to predict what will happen to Plant A
-              and Plant B. Then give a reason for your prediction.
-            </p>
-          </ContentBox>
           <PredictionTable
             ref="predictionActivity"
             name="reasoned-prediction"
@@ -245,7 +226,7 @@ watch(questionMatchesPlan, (valid, wasValid) => {
   </Page>
 </template>
 
-<style>
+<style scoped>
 .pk-writing-wait {
   padding: 16px 18px;
   background: var(--soft-blue);

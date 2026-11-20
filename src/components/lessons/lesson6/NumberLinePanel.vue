@@ -14,6 +14,7 @@
 */
 import { computed, onMounted, ref } from "vue";
 import { PANELS, SPECIES } from "./numberLine.js";
+import Button from "../../ui/Button.vue";
 
 const props = defineProps({
   distance: { type: Number, required: true },
@@ -25,7 +26,13 @@ const props = defineProps({
   canUseRecordedData: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["find", "close", "clue", "ready", "use-recorded-data"]);
+const emit = defineEmits([
+  "find",
+  "close",
+  "clue",
+  "ready",
+  "use-recorded-data",
+]);
 
 const panel = computed(() => PANELS[props.distance]);
 const colourOf = (name) => SPECIES.find((s) => s.name === name)?.colour;
@@ -43,10 +50,11 @@ const progress = computed(() => {
 // A clue from a different species/distance must not show a false "glowing"
 // message when students switch photographs.
 const hasGlowingAnimal = computed(() =>
-  panel.value.hotspots.some((spot) =>
-    spot.species === props.species &&
-    !props.found[spot.id] &&
-    props.highlighted.includes(spot.id),
+  panel.value.hotspots.some(
+    (spot) =>
+      spot.species === props.species &&
+      !props.found[spot.id] &&
+      props.highlighted.includes(spot.id),
   ),
 );
 
@@ -58,14 +66,18 @@ const failed = ref(false);
 
 function onLoad() {
   const img = background.value;
-  const finish = () => requestAnimationFrame(() => {
-    if (!ready.value) {
-      ready.value = true;
-      emit("ready");
-    }
-  });
+  const finish = () =>
+    requestAnimationFrame(() => {
+      if (!ready.value) {
+        ready.value = true;
+        emit("ready");
+      }
+    });
   if (typeof img?.decode === "function")
-    img.decode().catch(() => {}).then(finish);
+    img
+      .decode()
+      .catch(() => {})
+      .then(finish);
   else finish();
 }
 
@@ -98,14 +110,12 @@ function overlayStyle(spot) {
     role="region"
     aria-label="Selected distance details"
   >
-    <button
+    <Button
       class="panel-close"
-      type="button"
+      :is-delete="true"
       aria-label="Close panel"
       @click="emit('close')"
-    >
-      ×
-    </button>
+    />
 
     <div class="panel-body">
       <div class="survey-panel-heading">
@@ -125,24 +135,33 @@ function overlayStyle(spot) {
             >{{ progress.found }} of {{ progress.total }}</span
           >
         </p>
-        <button
+        <Button
           v-if="clueAvailable"
-          type="button"
           class="survey-clue-button"
           @click="emit('clue')"
         >
           {{ cluesUsed > 0 ? "Another clue?" : "Need a clue?" }}
-        </button>
-        <span v-if="hasGlowingAnimal && progress.found < progress.total" class="survey-clue-note">
+        </Button>
+        <span
+          v-if="hasGlowingAnimal && progress.found < progress.total"
+          class="survey-clue-note"
+        >
           Look for the glowing animal.
         </span>
       </div>
       <div v-if="canUseRecordedData" class="survey-data-option">
         <span>Ready for the line graph?</span>
-        <button type="button" class="survey-data-button" @click="emit('use-recorded-data')">
+        <button
+          type="button"
+          class="survey-data-button"
+          @click="emit('use-recorded-data')"
+        >
           Use recorded survey counts
         </button>
-        <small>This fills any remaining counts for this animal so you can build its graph.</small>
+        <small
+          >This fills any remaining counts for this animal so you can build its
+          graph.</small
+        >
       </div>
 
       <div class="animal-stage-wrap">
@@ -167,7 +186,8 @@ function overlayStyle(spot) {
             class="animal-hotspot"
             :class="{
               found: found[spot.id],
-              highlighted: highlighted.includes(spot.id) && spot.species === species,
+              highlighted:
+                highlighted.includes(spot.id) && spot.species === species,
               'is-inactive': !species || spot.species !== species,
             }"
             :style="hotspotStyle(spot)"
@@ -210,21 +230,15 @@ function overlayStyle(spot) {
 }
 .survey-clue-button {
   padding: 6px 11px;
-  border: 2px solid var(--charcoal);
   border-radius: 10px;
   background: var(--soft-yellow);
   color: var(--text);
-  box-shadow: 0 2px 0 var(--charcoal);
   font: inherit;
   font-size: 0.86rem;
   font-weight: 700;
-  cursor: pointer;
-}
-.survey-clue-button:hover,
-.survey-clue-button:focus-visible {
-  background: var(--yellow);
-  outline: 2px solid var(--purple);
-  outline-offset: 1px;
+
+  --background-hover: var(--yellow);
+  --border-hover: 2px solid var(--purple);
 }
 .survey-clue-note {
   color: var(--muted);
@@ -278,23 +292,6 @@ function overlayStyle(spot) {
   position: absolute;
   top: 10px;
   right: 14px;
-  padding: 2px 6px;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 1.5rem;
-  line-height: 1;
-  border: 1px solid var(--charcoal);
-  border-radius: 50%;
-  background: var(--soft-orange);
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
-}
-.panel-close:hover,
-.panel-close:focus-visible {
-  color: var(--paper);
-  background: var(--orange);
-  outline: none;
 }
 
 /* the count pops each time it changes */

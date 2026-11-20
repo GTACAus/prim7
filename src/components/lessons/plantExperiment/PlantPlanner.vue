@@ -260,7 +260,9 @@ defineExpose({ reset, isComplete });
     <!-- Growing equipment first: it decides which variables are offered -->
     <div class="pk-growing-setup">
       <strong>Growing setup</strong>
-      <div
+      <Grid
+        :cols="2"
+        gap="sm"
         class="pk-switch"
         role="group"
         aria-label="Where will you grow the plants?"
@@ -275,7 +277,7 @@ defineExpose({ reset, isComplete });
         >
           {{ item.label }}
         </Button>
-      </div>
+      </Grid>
     </div>
 
     <nav class="pk-steps" aria-label="Experiment planning steps">
@@ -619,7 +621,7 @@ defineExpose({ reset, isComplete });
   </Activity>
 </template>
 
-<style>
+<style scoped>
 /* Change / Measure / Keep the same each have an accent colour */
 .pk {
   --pk-accent: var(--yellow);
@@ -663,14 +665,22 @@ defineExpose({ reset, isComplete });
   box-shadow: 0 4px 0 var(--line);
 }
 .pk-switch {
-  display: inline-flex;
-  gap: 4px;
   padding: 4px;
   background: white;
   border: 2px solid var(--line);
   border-radius: 13px;
 }
 .pk-switch-choice {
+  /* fill the grid cell and centre the label both ways */
+  --display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  text-align: center;
+  /* no pressed-in shift, so both options stay level inside the switch */
+  --translate-amount-hover: 0;
+  --translate-amount-active: 0;
   padding: 9px 17px;
   border: 2px solid transparent;
   box-shadow: none;
@@ -1252,6 +1262,7 @@ defineExpose({ reset, isComplete });
 }
 .pk-check-button {
   min-width: 210px;
+  --background-active: var(--purple);
 }
 .pk-feedback {
   flex: 1 1 300px;
