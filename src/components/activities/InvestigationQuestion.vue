@@ -38,7 +38,7 @@ import { computed, ref, watch } from "vue";
 import Activity from "./Activity.vue";
 import StudentEntry from "../ui/StudentEntry.vue";
 import Button from "../ui/Button.vue";
-import Grid from "../Layout/Grid.vue";
+import Grid from "../layout/Grid.vue";
 
 const DEFAULT_TEMPLATES = {
   what: {
