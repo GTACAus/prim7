@@ -2,7 +2,7 @@
 // "Build a Plant" / "Label the Plant" drag and drop activity (pre-task, part C).
 // Labelling opens once the plant is built.
 import { computed, ref } from "vue";
-import Button from "../Button.vue";
+import Button from "../ui/Button.vue";
 import DragDrop from "../activities/DragDrop.vue";
 import DropSlot from "../activities/DropSlot.vue";
 import DragItem from "../activities/DragItem.vue";

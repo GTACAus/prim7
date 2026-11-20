@@ -3,19 +3,19 @@
 import "../styles/graphs.css";
 import "../styles/lesson5.css";
 import { ref } from "vue";
-import Page from "../components/Page.vue";
-import Section from "../components/Section.vue";
-import LessonIntro from "../components/LessonIntro.vue";
-import Button from "../components/Button.vue";
-import StopAndCheck from "../components/StopAndCheck.vue";
+import Page from "../components/layout/Page.vue";
+import Section from "../components/layout/Section.vue";
+import LessonIntro from "../components/content/LessonIntro.vue";
+import Button from "../components/ui/Button.vue";
+import StopAndCheck from "../components/content/StopAndCheck.vue";
 import SpotlightSurvey from "../components/lesson5/SpotlightSurvey.vue";
 import SiteOneBarGraph from "../components/lesson5/SiteOneBarGraph.vue";
 import SiteTwoBarGraph from "../components/lesson5/SiteTwoBarGraph.vue";
 import CompareSites from "../components/lesson5/CompareSites.vue";
 import { openPDF } from "../composables/useModal.js";
-import ContentBox from "../components/ContentBox.vue";
-import Grid from "../components/Grid.vue";
-import LessonCard from "../components/LessonCard.vue";
+import ContentBox from "../components/ui/ContentBox.vue";
+import Grid from "../components/layout/Grid.vue";
+import LessonCard from "../components/content/LessonCard.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =

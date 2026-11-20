@@ -2,9 +2,9 @@
 // Load before the components: these styles keep the cascade order of the old stylesheet.
 import "../styles/graphs.css";
 import { ref } from "vue";
-import Page from "../components/Page.vue";
-import Section from "../components/Section.vue";
-import LessonIntro from "../components/LessonIntro.vue";
+import Page from "../components/layout/Page.vue";
+import Section from "../components/layout/Section.vue";
+import LessonIntro from "../components/content/LessonIntro.vue";
 import NumberLine from "../components/lesson6/NumberLine.vue";
 import LineGraph from "../components/lesson6/LineGraph.vue";
 import {
@@ -13,9 +13,9 @@ import {
   YEAST,
   PLANTS,
 } from "../components/lesson6/lineGraphs.js";
-import ContentBox from "../components/ContentBox.vue";
-import Grid from "../components/Grid.vue";
-import LessonEndCard from "../components/LessonEndCard.vue";
+import ContentBox from "../components/ui/ContentBox.vue";
+import Grid from "../components/layout/Grid.vue";
+import LessonEndCard from "../components/content/LessonEndCard.vue";
 
 // Terms shown in the vocabulary modal: { word: description }
 const glossary = {

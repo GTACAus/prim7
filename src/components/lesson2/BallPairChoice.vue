@@ -9,8 +9,8 @@
 import MultipleChoice from "../activities/MultipleChoice.vue";
 import McQuestion from "../activities/McQuestion.vue";
 import McChoice from "../activities/McChoice.vue";
-import Button from "../Button.vue";
-import Grid from "../Grid.vue";
+import Button from "../ui/Button.vue";
+import Grid from "../layout/Grid.vue";
 
 const pairs = [
   {

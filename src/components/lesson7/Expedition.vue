@@ -25,17 +25,17 @@ import {
   watch,
   watchEffect,
 } from "vue";
-import Modal from "../Modal.vue";
+import Modal from "../ui/Modal.vue";
 import DragDrop from "../activities/DragDrop.vue";
 import DragItem from "../activities/DragItem.vue";
 import DropSlot from "../activities/DropSlot.vue";
-import StudentEntry from "../StudentEntry.vue";
+import StudentEntry from "../ui/StudentEntry.vue";
 import MissionStage from "./MissionStage.vue";
 import RustSymbolMatch from "./RustSymbolMatch.vue";
 import RustDiagram from "./RustDiagram.vue";
 import UnknownSpecies from "./UnknownSpecies.vue";
 import FieldGuide from "./FieldGuide.vue";
-import LessonEndCard from "../LessonEndCard.vue";
+import LessonEndCard from "../content/LessonEndCard.vue";
 import { useHomeStore } from "../../stores/home.js";
 import { openGlossary, openModal } from "../../composables/useModal.js";
 import {

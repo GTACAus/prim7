@@ -14,7 +14,7 @@
 */
 import { ref } from "vue";
 import Activity from "../activities/Activity.vue";
-import StudentEntry from "../StudentEntry.vue";
+import StudentEntry from "../ui/StudentEntry.vue";
 
 const props = defineProps({
   image: { type: String, required: true },

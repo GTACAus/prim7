@@ -23,10 +23,10 @@ import ResponseBox from "../activities/ResponseBox.vue";
 import PredictionCheck from "../activities/PredictionCheck.vue";
 import McQuestion from "../activities/McQuestion.vue";
 import McChoice from "../activities/McChoice.vue";
-import StopAndCheck from "../StopAndCheck.vue";
-import Button from "../Button.vue";
+import StopAndCheck from "../content/StopAndCheck.vue";
+import Button from "../ui/Button.vue";
 import { openVideo } from "../../composables/useModal.js";
-import LessonEndCard from "../LessonEndCard.vue";
+import LessonEndCard from "../content/LessonEndCard.vue";
 
 const emit = defineEmits(["reset"]);
 

@@ -11,8 +11,8 @@
 
   The parent decides when it shows (v-if / v-show).
 */
-import Button from "./Button.vue";
-import { downloadLessonPDF } from "../composables/usePrintLesson.js";
+import Button from "../ui/Button.vue";
+import { downloadLessonPDF } from "../../composables/usePrintLesson.js";
 
 defineProps({
   lessonNumber: { type: [Number, String], required: true },

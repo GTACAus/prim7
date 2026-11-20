@@ -2,13 +2,13 @@
 // Load before the components: these styles keep the cascade order of the old stylesheet.
 import "../styles/data-tables.css";
 import { computed, ref } from "vue";
-import Page from "../components/Page.vue";
-import Section from "../components/Section.vue";
-import LessonIntro from "../components/LessonIntro.vue";
-import LessonCard from "../components/LessonCard.vue";
-import Grid from "../components/Grid.vue";
-import ContentBox from "../components/ContentBox.vue";
-import StopAndCheck from "../components/StopAndCheck.vue";
+import Page from "../components/layout/Page.vue";
+import Section from "../components/layout/Section.vue";
+import LessonIntro from "../components/content/LessonIntro.vue";
+import LessonCard from "../components/content/LessonCard.vue";
+import Grid from "../components/layout/Grid.vue";
+import ContentBox from "../components/ui/ContentBox.vue";
+import StopAndCheck from "../components/content/StopAndCheck.vue";
 import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
 import PredictionTable from "../components/activities/PredictionTable.vue";
 import BallBounceVariables from "../components/lesson4/BallBounceVariables.vue";

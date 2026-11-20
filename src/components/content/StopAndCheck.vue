@@ -5,8 +5,8 @@
   once it has been checked (<StopAndCheck ref="check"> ... v-if="check?.pressed").
 */
 import { computed, ref } from "vue";
-import ButtonReveal from "./activities/ButtonReveal.vue";
-import Button from "./Button.vue";
+import ButtonReveal from "../activities/ButtonReveal.vue";
+import Button from "../ui/Button.vue";
 
 const reveal = ref(null);
 const pressed = computed(() => reveal.value?.pressed ?? false);

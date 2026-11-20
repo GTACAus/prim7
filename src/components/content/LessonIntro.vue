@@ -1,7 +1,7 @@
 <script setup>
-import Button from "./Button.vue";
+import Button from "../ui/Button.vue";
 import LessonCard from "./LessonCard.vue";
-import Grid from "./Grid.vue";
+import Grid from "../layout/Grid.vue";
 /*
   Lesson introduction: label, title, summary, worksheet download and an
   optional objectives / "think like a scientist" grid.

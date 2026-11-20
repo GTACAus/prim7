@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from "vue";
-import Button from "../Button.vue";
+import Button from "../ui/Button.vue";
 import Activity from "../activities/Activity.vue";
 
 const FLY_DELAY = 400;

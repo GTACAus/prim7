@@ -1,9 +1,9 @@
 <script setup>
 // Load before the components: these styles keep the cascade order of the old stylesheet.
 import "../styles/pretask.css";
-import Page from "../components/Page.vue";
-import Section from "../components/Section.vue";
-import ThinkBox from "../components/ThinkBox.vue";
+import Page from "../components/layout/Page.vue";
+import Section from "../components/layout/Section.vue";
+import ThinkBox from "../components/activities/ThinkBox.vue";
 import PostitBrainstorm from "../components/pretask/PostitBrainstorm.vue";
 import FinalBrainstorm from "../components/pretask/FinalBrainstorm.vue";
 import PlantDetective from "../components/pretask/PlantDetective.vue";
@@ -96,7 +96,7 @@ const finalBranches = [
   },
 ];
 
-import LessonIntro from "../components/LessonIntro.vue";
+import LessonIntro from "../components/content/LessonIntro.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =

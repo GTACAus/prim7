@@ -33,8 +33,9 @@
 */
 import { computed, ref, watch } from "vue";
 import Activity from "./Activity.vue";
-import StudentEntry from "../StudentEntry.vue";
-import Button from "../Button.vue";
+import StudentEntry from "../ui/StudentEntry.vue";
+import Button from "../ui/Button.vue";
+import Grid from "../Layout/Grid.vue";
 
 const DEFAULT_TEMPLATES = {
   what: {
@@ -177,11 +178,10 @@ defineExpose({ reset, isComplete, text });
         <h3>Step 1: Choose a question starter</h3>
         <p>Choose one way to begin your fair test question.</p>
       </template>
-      <div class="question-structure-grid">
-        <button
+      <Grid cols="2" gap="md" class="question-structure-grid">
+        <Button
           v-for="s in STRUCTURES"
           :key="s.key"
-          type="button"
           class="question-structure-card"
           :class="[
             'question-structure-' + s.key,
@@ -191,8 +191,8 @@ defineExpose({ reset, isComplete, text });
           @click="selectStructure(s.key)"
         >
           {{ s.text }}
-        </button>
-      </div>
+        </Button>
+      </Grid>
     </div>
 
     <div v-if="!steps || template" :class="{ 'question-builder-step': steps }">
@@ -325,26 +325,20 @@ defineExpose({ reset, isComplete, text });
   line-height: 1.55;
 }
 
-.question-structure-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 18px;
-}
-
 .question-structure-card {
-  min-height: 110px;
   margin-bottom: 0;
   padding: 18px;
-  border: 3px solid var(--line);
-  border-radius: 18px;
+  min-height: 110px;
+
   background: var(--paper);
-  box-shadow: 0 4px 0 var(--line);
   color: var(--text);
   font: inherit;
   font-weight: 700;
-  line-height: 1.45;
-  cursor: pointer;
+
+  --background-hover: var(--soft-blue);
+  --color-hover: inherit;
+  --background-active: var(--soft-yellow);
+  --color-active: inherit;
 }
 
 /* ==================================================
@@ -354,60 +348,23 @@ defineExpose({ reset, isComplete, text });
   display: flex;
 }
 
-.question-structure-card {
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    background 0.18s ease;
-}
-
-.question-structure-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--line);
-}
-
 .question-structure-card.question-structure-what {
   border-top: 4px solid var(--yellow);
 }
 
 .question-structure-card.question-structure-how {
   border-top: 4px solid var(--blue);
+  --background-active: var(--soft-blue);
 }
 
 .question-structure-card.question-structure-does {
   border-top: 4px solid var(--green);
+  --background-active: var(--soft-green);
 }
 
 .question-structure-card.question-structure-if {
   border-top: 4px solid var(--purple);
-}
-
-.question-structure-card.question-structure-what.selected {
-  color: var(--text);
-  background: var(--soft-yellow);
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-.question-structure-card.question-structure-how.selected {
-  color: var(--text);
-  background: var(--soft-blue);
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-.question-structure-card.question-structure-does.selected {
-  color: var(--text);
-  background: var(--soft-green);
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-.question-structure-card.question-structure-if.selected {
-  color: var(--text);
-  background: var(--soft-purple);
-  transform: translateY(0);
-  box-shadow: none;
+  --background-active: var(--soft-purple);
 }
 
 .investigation-question-builder {

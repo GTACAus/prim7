@@ -16,9 +16,9 @@
 */
 import { computed, reactive, ref } from "vue";
 import Activity from "../activities/Activity.vue";
-import Button from "../Button.vue";
-import LessonEndCard from "../LessonEndCard.vue";
-import ContentBox from "../ContentBox.vue";
+import Button from "../ui/Button.vue";
+import LessonEndCard from "../content/LessonEndCard.vue";
+import ContentBox from "../ui/ContentBox.vue";
 
 const variableConfig = {
   size: {
