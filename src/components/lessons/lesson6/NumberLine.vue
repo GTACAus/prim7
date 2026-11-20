@@ -8,19 +8,22 @@
     3. Once every animal of that snail is found (at all five distances),
        "Show data points" turns the columns into points; click them from left
        to right to draw the line. "Hide counters" then shows the line alone.
-  If a student has opened all five quadrats and still hasn't found them all
-  two minutes later, "Find all" makes the missing ones pulse.
+  Optional clues are based on time since the last successful find, in the
+  selected species + distance only. One unfound animal glows at a time.
+  After 3 minutes of active searching for a species, students can optionally
+  use the recorded survey counts and proceed to graph building.
 
     <NumberLine />
 
   Complete (Next shows) once any snail's line is fully connected. Found
-  animals, the chosen snail, the graph and the find-all timers are saved
+  animals, the chosen snail, the graph and the clue timing are saved
   through <Activity :state>; where the person stands is not.
 */
 import {
   computed,
   onBeforeUnmount,
   onMounted,
+  nextTick,
   reactive,
   ref,
   watch,
@@ -42,7 +45,17 @@ const UNIT_HEIGHT = 10; // px per counter
 const CYLINDER_DIAMETER = 80;
 // "Hide counters" stretches the chart this much so the line reads more clearly
 const STRETCH_FACTOR = 4;
-const FIND_ALL_DELAY_MS = 2 * 60 * 1000;
+// First clue per active species/photo after time WITHOUT a successful find.
+// Clues are optional; no countdown is shown to students.
+const FIRST_CLUE_DELAY_MS = {
+  "Elephant Snail": 45 * 1000,
+  "Smooth Limpet": 60 * 1000,
+  "Striped Conniwink": 90 * 1000,
+};
+// Once students have used a clue, don't make them wait another full minute.
+const ANOTHER_CLUE_DELAY_MS = 25 * 1000;
+// Protect the line-graph learning goal: optional way to finish the search.
+const RECORDED_DATA_DELAY_MS = 3 * 60 * 1000;
 const CLOSE_MS = 260; // gap between closing one quadrat and opening the next
 const STANDING_MS = 1300; // length of person_standing.gif
 const INVESTIGATE_MS = 1300; // length of person_investigating.gif
@@ -50,13 +63,20 @@ const INVESTIGATE_MS = 1300; // length of person_investigating.gif
 /* ---------- saved state ---------- */
 
 const found = reactive({}); // hotspot id -> true
-const highlighted = ref([]); // hotspot ids pointed out by "Find all"
+const highlighted = ref([]); // hotspot ids pointed out by optional clues
 const selectedSpecies = ref(null);
 const isGraphMode = ref(false);
 const isCountersHidden = ref(false);
 const connections = reactive({}); // species -> distances connected, in order
 const visited = reactive({}); // species -> distances whose quadrat was opened
-const searchStartedAt = reactive({}); // species -> when all five were opened
+// The previous prototype used wall-clock timestamps. Keep the saved field
+// for compatibility with students' older progress, but no longer use it.
+const searchStartedAt = reactive({});
+// Accumulated active search time (not time spent on other photos/browser tabs).
+const searchIdleMs = reactive({}); // "species|distance" -> ms since last find/clue
+const speciesSearchMs = reactive({}); // species -> total active search time
+const cluesShown = reactive({}); // "species|distance" -> clues requested
+const previouslyClued = reactive({}); // "species|distance" -> ids already hinted
 
 const state = {
   found,
@@ -67,6 +87,10 @@ const state = {
   connections,
   visited,
   searchStartedAt,
+  searchIdleMs,
+  speciesSearchMs,
+  cluesShown,
+  previouslyClued,
 };
 
 /* ---------- counts ---------- */
@@ -215,43 +239,31 @@ function showDataPoints() {
 /* ---------- choosing a snail, finding animals ---------- */
 
 function selectSpecies(name) {
+  tickSearch(); // save time for the previously selected animal before switching
   selectedSpecies.value = name;
   isGraphMode.value = false;
   isCountersHidden.value = false;
   clearConnections();
+  // A student can select an animal after the photograph is open.
+  // The active search changes automatically; no timer from elsewhere carries over.
+  lastTickAt = Date.now();
 }
 
 // The counts just changed, so any line built from the old counts is gone:
 // back to the counters until the snail is complete again.
 function toggleFound(id) {
-  if (found[id]) delete found[id];
-  else found[id] = true;
-  isGraphMode.value = false;
-  isCountersHidden.value = false;
-  clearConnections();
-}
-
-/* ---------- "Find all" ---------- */
-
-const now = ref(Date.now());
-let clock = null;
-
-const findAllDue = computed(() => {
-  const name = selectedSpecies.value;
-  if (!name || allFound.value) return false;
-  const seen = visited[name] ?? [];
-  const startedAt = searchStartedAt[name];
-  return (
-    DISTANCES.every((d) => seen.includes(d)) &&
-    Boolean(startedAt) &&
-    now.value - startedAt >= FIND_ALL_DELAY_MS
-  );
-});
-
-function findAll() {
-  const name = selectedSpecies.value;
-  const ids = spotsOf(name).map((h) => h.id);
-  highlighted.value = [...new Set([...highlighted.value, ...ids])];
+  tickSearch();
+  const wasFound = Boolean(found[id]);
+  if (wasFound) {
+    delete found[id];
+  } else {
+    found[id] = true;
+    // A successful find means the student is making progress.
+    const spot = HOTSPOTS.find((h) => h.id === id);
+    if (spot) searchIdleMs[clueKey(spot.species, spot.distance)] = 0;
+    // Only one active glow; remove it once the animal is found.
+    highlighted.value = highlighted.value.filter((hintId) => hintId !== id);
+  }
   isGraphMode.value = false;
   isCountersHidden.value = false;
   clearConnections();
@@ -264,27 +276,128 @@ const activePoint = ref(null); // the point shown as selected
 const panelDistance = ref(null); // the open quadrat
 let panelTimer = null;
 
-const note = computed(() =>
-  activePoint.value === null
-    ? "Select a point to look for the animals at that distance."
-    : `You selected ${activePoint.value} metres.`,
-);
+// The yellow start prompt disappears when a survey photo is open;
+// the panel itself already displays the selected distance.
+const note = computed(() => {
+  if (activePoint.value === null)
+    return "Choose a distance on the yellow line to begin.";
+  if (selectedSpecies.value)
+    return `Choose another distance to keep looking for ${selectedSpecies.value}.`;
+  return "Now choose an animal to search for.";
+});
+
+/* ---------- progressive hints and an optional route to the graph ---------- */
+let clock = null;
+let lastTickAt = Date.now();
+const panelReady = ref(false); // only time a search after its photo has loaded
+
+function clueKey(name, distance) {
+  return `${name}|${distance}`;
+}
+
+const missingInPanel = computed(() => {
+  if (!selectedSpecies.value || panelDistance.value === null) return [];
+  return spotsOf(selectedSpecies.value, panelDistance.value).filter(
+    (spot) => !found[spot.id],
+  );
+});
+
+// Null while browsing another area, when the photograph is loading, when
+// the tab is hidden, or when this search is already finished.
+function activeSearchKey() {
+  if (document.hidden || !panelReady.value || !selectedSpecies.value ||
+      panelDistance.value === null || missingInPanel.value.length === 0 ||
+      isGraphMode.value) return null;
+  return clueKey(selectedSpecies.value, panelDistance.value);
+}
+
+function tickSearch() {
+  const current = Date.now();
+  // Cap a delayed tick (sleep/background throttling) rather than counting it
+  // as minutes of searching. The interval below ticks every 500 ms.
+  const delta = Math.max(0, Math.min(current - lastTickAt, 1100));
+  const key = activeSearchKey();
+  if (key && delta > 0) {
+    searchIdleMs[key] = (searchIdleMs[key] || 0) + delta;
+    const species = selectedSpecies.value;
+    speciesSearchMs[species] = (speciesSearchMs[species] || 0) + delta;
+  }
+  lastTickAt = current;
+}
+
+function onTabVisibilityChange() {
+  // Hidden-tab time never adds to the search clock.
+  lastTickAt = Date.now();
+}
+
+function onPanelReady() {
+  panelReady.value = true;
+  lastTickAt = Date.now();
+}
+
+const cluesUsedInPanel = computed(() => {
+  if (!selectedSpecies.value || panelDistance.value === null) return 0;
+  return cluesShown[clueKey(selectedSpecies.value, panelDistance.value)] || 0;
+});
+
+const clueAvailable = computed(() => {
+  const key = activeSearchKey();
+  if (!key) return false;
+  const delay = cluesUsedInPanel.value > 0
+    ? ANOTHER_CLUE_DELAY_MS
+    : (FIRST_CLUE_DELAY_MS[selectedSpecies.value] || 60 * 1000);
+  return (searchIdleMs[key] || 0) >= delay;
+});
+
+function showClue() {
+  tickSearch();
+  if (!clueAvailable.value) return;
+  const key = activeSearchKey();
+  if (!key) return;
+  const oldIds = previouslyClued[key] || [];
+  // Don't repeatedly reveal the same animal until all remaining have had a clue.
+  const next = missingInPanel.value.find((spot) => !oldIds.includes(spot.id))
+    || missingInPanel.value[0];
+  if (!next) return;
+  cluesShown[key] = (cluesShown[key] || 0) + 1;
+  previouslyClued[key] = [...new Set([...oldIds, next.id])];
+  highlighted.value = [next.id]; // exactly ONE glowing animal, globally
+  searchIdleMs[key] = 0; // the next optional clue needs another period of effort
+}
+
+const canUseRecordedData = computed(() => {
+  const species = selectedSpecies.value;
+  return Boolean(species && panelDistance.value !== null && panelReady.value &&
+    !allFound.value && (speciesSearchMs[species] || 0) >= RECORDED_DATA_DELAY_MS);
+});
+
+function useRecordedData() {
+  tickSearch();
+  if (!canUseRecordedData.value) return;
+  // Complete only the chosen animal, using the pre-recorded survey values.
+  // The student still labels/plots/connects their line-graph data themselves.
+  for (const spot of spotsOf(selectedSpecies.value)) found[spot.id] = true;
+  highlighted.value = [];
+  isGraphMode.value = false;
+  isCountersHidden.value = false;
+  clearConnections();
+  closePanel();
+  nextTick(() => {
+    document.querySelector('.number-line-workspace .graph-build-prompt')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
 
 const pointLeft = (distance) =>
   10 + DISTANCES.indexOf(distance) * (80 / (DISTANCES.length - 1));
 
 function openPanel(distance) {
+  tickSearch();
+  panelReady.value = false;
   panelDistance.value = distance;
   const name = selectedSpecies.value;
-  if (!name) return;
-  if (!visited[name]?.includes(distance))
+  if (name && !visited[name]?.includes(distance))
     visited[name] = [...(visited[name] ?? []), distance];
-  // the two-minute wait only starts once every quadrat has been opened
-  if (
-    DISTANCES.every((d) => visited[name].includes(d)) &&
-    !searchStartedAt[name]
-  )
-    searchStartedAt[name] = Date.now();
 }
 
 function showPanel(distance) {
@@ -293,17 +406,23 @@ function showPanel(distance) {
     openPanel(distance);
     return;
   }
+  tickSearch();
+  panelReady.value = false;
   panelDistance.value = null;
   panelTimer = setTimeout(() => openPanel(distance), CLOSE_MS);
 }
 
 function closePanel() {
+  tickSearch();
   clearTimeout(panelTimer);
+  panelReady.value = false;
   panelDistance.value = null;
   activePoint.value = null;
 }
 
 function moveTo(distance) {
+  tickSearch();
+  panelReady.value = false; // stop timer during the walk/transition
   selectedDistance.value = distance;
   activePoint.value = distance;
   movePerson(distance);
@@ -387,7 +506,9 @@ function clear(object) {
 }
 
 function reset() {
+  tickSearch();
   clearTimeout(panelTimer);
+  panelReady.value = false;
   panelDistance.value = null;
   activePoint.value = null;
   selectedDistance.value = null;
@@ -395,7 +516,12 @@ function reset() {
   clear(connections);
   clear(visited);
   clear(searchStartedAt);
+  clear(searchIdleMs);
+  clear(speciesSearchMs);
+  clear(cluesShown);
+  clear(previouslyClued);
   highlighted.value = [];
+  lastTickAt = Date.now();
   selectedSpecies.value = null;
   isGraphMode.value = false;
   isCountersHidden.value = false;
@@ -417,13 +543,17 @@ onMounted(() => {
     image.src = src;
     preloaded.push(image);
   }
-  clock = setInterval(() => (now.value = Date.now()), 1000);
+  lastTickAt = Date.now();
+  clock = setInterval(tickSearch, 500);
+  document.addEventListener('visibilitychange', onTabVisibilityChange);
 });
 
 onBeforeUnmount(() => {
+  tickSearch();
   clearTimeout(panelTimer);
   clearTimeout(personTimer);
   clearInterval(clock);
+  document.removeEventListener('visibilitychange', onTabVisibilityChange);
   cancelAnimationFrame(tweenFrame);
 });
 </script>
@@ -435,18 +565,17 @@ onBeforeUnmount(() => {
       aria-label="Interactive 0 to 20 metre number line"
     >
       <span class="challenge-step-label">Step 1 · Collect the data</span>
-      <p>
-        The low water mark is at <strong>0 metres</strong>. Starting there,
-        count the number of marine snails inside each square every
-        <strong>5 m</strong> along the path
-      </p>
       <p class="activity-instruction">
-        Select a point on the path, then choose which animal you want to look
-        for. The animal stays selected as you move along the rock platform. How
-        do the numbers of each animal change as you move further from the low
-        tide mark?
+        Start at <strong>0 m</strong> and explore the rock platform every
+        <strong>5 m</strong>. Choose a distance and an animal, then click the
+        animals you find in the photo. Watch how their numbers change.
       </p>
-      <p class="activity-note" role="status" aria-live="polite">{{ note }}</p>
+      <p
+        v-if="panelDistance === null"
+        class="activity-note"
+        role="status"
+        aria-live="polite"
+      >{{ note }}</p>
 
       <div class="line-frame">
         <div class="line-panel-box">
@@ -482,7 +611,13 @@ onBeforeUnmount(() => {
             :species="selectedSpecies"
             :found="found"
             :highlighted="highlighted"
+            :clue-available="clueAvailable"
+            :clues-used="cluesUsedInPanel"
+            :can-use-recorded-data="canUseRecordedData"
             @find="toggleFound"
+            @clue="showClue"
+            @use-recorded-data="useRecordedData"
+            @ready="onPanelReady"
             @close="closePanel"
           />
 
@@ -656,27 +791,6 @@ onBeforeUnmount(() => {
                     @click="isCountersHidden = !isCountersHidden"
                   >
                     {{ isCountersHidden ? "Show counters" : "Hide counters" }}
-                  </Button>
-                </div>
-              </div>
-
-              <div
-                v-if="findAllDue"
-                class="find-all-prompt"
-                role="status"
-                aria-live="polite"
-              >
-                <span class="challenge-step-label">Still searching?</span>
-                <p class="find-all-instruction">
-                  If you're having trouble finding all the animals, click below
-                  to reveal the rest.
-                </p>
-                <div class="graph-toggle-row">
-                  <Button
-                    class="find-all-button graph-toggle-button"
-                    @click="findAll"
-                  >
-                    Find all
                   </Button>
                 </div>
               </div>
