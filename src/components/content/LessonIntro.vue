@@ -37,7 +37,7 @@ defineProps({
       <span class="lesson-label">{{ label }}</span>
 
       <!-- clicking the title five times opens the hidden teacher menu -->
-      <h1 id="teacherTrigger" :title="title">
+      <h1 id="teacherTrigger" class="lesson-title" :title="title">
         <slot name="title">{{ title }}</slot>
       </h1>
 

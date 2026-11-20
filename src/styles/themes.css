@@ -213,7 +213,68 @@
 }
 
 /* ---------- Plant Experiment Theme (simple styling) ---------- */
-/* :root[data-theme="simple"] .section {
+/* Lesson heading: left-aligned hero like the original Plant Lab page —
+   a small uppercase eyebrow with a green dot, a tighter title with the
+   key words in purple, and a muted subtitle. */
+/* left-aligned, so clear the fixed Home button above it */
+:root[data-theme="simple"] .lesson-intro {
+  padding-top: 100px;
+}
+:root[data-theme="simple"] .lesson-heading {
+  max-width: none;
+  margin: 0 0 18px;
+  text-align: left;
+}
+:root[data-theme="simple"] .lesson-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 7px;
+  padding: 0;
+  background: none;
+  color: var(--purple);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+:root[data-theme="simple"] .lesson-label::before {
+  content: "";
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+}
+:root[data-theme="simple"] .lesson-heading h1 {
+  margin: 0;
+  font-size: clamp(2.1rem, 3.2vw, 3rem);
+  letter-spacing: -0.045em;
+  line-height: 1.14;
+}
+:root[data-theme="simple"] .lesson-heading h1 strong {
+  color: var(--accent-text);
+  font-weight: inherit;
+}
+:root[data-theme="simple"] .lesson-summary {
+  max-width: 760px;
+  margin: 10px 0 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+@media (max-width: 800px) {
+  :root[data-theme="simple"] .lesson-intro {
+    padding-top: 100px;
+  }
+}
+@media (max-width: 560px) {
+  :root[data-theme="simple"] .lesson-summary {
+    font-size: 0.94rem;
+  }
+}
+:root[data-theme="simple"] .section {
   border: none;
   box-shadow: none;
   background: none;
@@ -233,4 +294,4 @@
 :root[data-theme="simple"] .next-button,
 :root[data-theme="simple"] .completed-note {
   display: none !important;
-} */
+}

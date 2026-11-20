@@ -679,7 +679,6 @@ defineExpose({ reset, isComplete });
   margin: 0;
   text-align: center;
   /* no pressed-in shift, so both options stay level inside the switch */
-  --translate-amount-hover: 0;
   --translate-amount-active: 0;
   padding: 9px 17px;
   border: 2px solid transparent;
