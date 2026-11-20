@@ -174,7 +174,7 @@
        how: "Pick the same leaf each time. Measure from where it joins the stem to its tip.",
      },
      wilted: {
-       group: "health", icon: "🔢", label: "Wilted leaves", unit: "leaves",
+       group: "health", icon: "🔢", label: "Wilting plant", unit: "leaves",
        tool: "Counting",
        how: "Count the leaves that look droopy. A wilted leaf is soft and bends down. Check at the same time of day.",
      },
@@ -712,20 +712,27 @@
           ${visualLayer(VISUAL_ASSETS.soils[values.soilFill], soilFrame, soilFallback)}
           ${!VISUAL_ASSETS.pots[values.potSize] ? potRim : ""}`;
  
-     // Keep the seedling connected to small Canva pot-and-soil images.
-     // Adjust these values if the transparent padding in your export changes.
+     // Preserve the seedling height while placing its stem in the soil.
+     // The Canva pot PNGs have transparent padding around their soil surface.
+     // Extending the GREEN STEM (not adding a floating soil patch) avoids gaps.
      const seedlingDrop = potComposite && values.potSize === "small"
        ? (values.soilFill === "full" ? 34 : 20)
        : 0;
+     // Distances are in the original plant path coordinates, before its 0.78
+     // vertical scale. Tweak these four values only if a PNG is re-exported.
+     const stemExtension = values.potSize === "large"
+       ? (values.soilFill === "full" ? 18 : 26)
+       : (values.soilFill === "full" ? 6 : 11);
  
      const plantFallback = `<g opacity="${plantOpacity}" transform="translate(0,42) scale(1,0.78)" stroke-linecap="round" stroke-linejoin="round">
-       <path d="M210 ${soilTop} Q217 164 211 139 T209 91" fill="none" stroke="#356e3a" stroke-width="5"/>
+       <path d="M210 ${soilTop + stemExtension} Q217 164 211 139 T209 91" fill="none" stroke="#356e3a" stroke-width="5"/>
        <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5"/>
        <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5"/>
        <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5"/>
        <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5"/>
        <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2"/>
      </g>`;
+
  
      const beakerFallback = `<g transform="translate(325,200)">
        <!-- A marked, 250 mL measuring cup (half cup = 125 mL). -->
@@ -788,7 +795,8 @@
        <rect y="263" width="420" height="7" fill="#af855f" opacity=".3"/>
        <ellipse cx="210" cy="267" rx="${rimWidth*.52}" ry="10" fill="#503d30" opacity=".18"/>
        ${potLayers}
-       <!-- Still a planning illustration, never a prediction of growth. -->
+       <!-- Extend the existing green stem itself into the soil; no added
+            brown patch is needed, and leaves stay above the pot rim. -->
        <g transform="translate(0, ${seedlingDrop})">
          ${visualLayer(VISUAL_ASSETS.seedlings.normal, IMAGE_FRAMES.seedling, plantFallback)}
        </g>
@@ -1120,7 +1128,8 @@
      });
      detailsBeforePrint = [];
    });
-   byId("pk-print").addEventListener("click", () => window.print());
+   const printButton = byId("pk-print");
+   if (printButton) printButton.addEventListener("click", () => window.print());
  
    render();
  })();
