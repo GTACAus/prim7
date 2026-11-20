@@ -12,6 +12,9 @@
 
   Props
   - variableOptions: words offered in each blank's dropdown (page-specific).
+  - firstOptions / secondOptions: different words for the first ("change")
+    and second ("measure") blank; each falls back to variableOptions. A blank
+    with only one option is filled in automatically when a starter is chosen.
   - inputType: "text" makes each blank a single-answer <StudentEntry> instead
     (saved on Enter or blur, checked by the classroom language filter, shown
     in place of the box with a × to change it).
@@ -73,6 +76,8 @@ const STRUCTURES = [
 const props = defineProps({
   tag: { type: String, default: "div" },
   variableOptions: { type: Array, default: () => [] },
+  firstOptions: { type: Array, default: null },
+  secondOptions: { type: Array, default: null },
   inputType: { type: String, default: "select" },
   textInputClass: { type: String, default: "question-blank-input" },
   templates: { type: Object, default: null },
@@ -115,11 +120,23 @@ const blanks = computed(() =>
     : [],
 );
 
+function optionsFor(name) {
+  const own = name === "first" ? props.firstOptions : props.secondOptions;
+  return own || props.variableOptions;
+}
+
 function selectStructure(key) {
   if (!templates.value[key]) return;
   structure.value = key;
   answers.value = { first: "", second: "" };
   drafts.value = { first: "", second: "" };
+  // only one possible answer: fill it in
+  if (props.inputType !== "text") {
+    for (const name of ["first", "second"]) {
+      const options = optionsFor(name);
+      if (options.length === 1) answers.value[name] = options[0];
+    }
+  }
 }
 
 // dropdown mode only; text mode saves through <StudentEntry>
@@ -242,7 +259,7 @@ defineExpose({ reset, isComplete, text });
                     >
                       <option value="" disabled>{{ blank.placeholder }}</option>
                       <option
-                        v-for="option in variableOptions"
+                        v-for="option in optionsFor(blank.name)"
                         :key="option"
                         :value="option"
                       >

@@ -30,6 +30,10 @@ const routes = [
     component: () => import("./views/PretaskView.vue"),
   },
   {
+    path: "/plant-experiment",
+    component: () => import("./views/PlantExperiment.vue"),
+  },
+  {
     path: "/lesson1",
     component: () => import("./views/Lesson1View.vue"),
   },

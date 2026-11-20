@@ -99,7 +99,6 @@ defineExpose({ pressed });
   grid-column: 1 / -1;
 
   --background-active: var(--mint);
-  --color-active: var(--text);
 }
 
 .stop-and-check-button[hidden] {

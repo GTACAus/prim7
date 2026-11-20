@@ -126,7 +126,6 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
 
 :is(button, a):hover {
   background: var(--background-hover);
-  color: var(--color-hover);
   transform: translateY(var(--translate-amount-hover));
   box-shadow: var(--box-shadow-hover);
 }
@@ -144,10 +143,30 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
 :is(button, a).selected,
 :is(button, a).active {
   background: var(--background-active);
-  color: var(--color-active);
   transform: translateY(var(--translate-amount-active));
   box-shadow: var(--box-shadow-active);
   border-color: var(--border-color-active);
+}
+
+/* Text colour for hover/active sits in zero-specificity :where() rules, like
+   the default colour, so a plain `color: ...` set on a button keeps applying in
+   every state. --color-hover/--color-active only matter when you set them, and
+   default to the button's own --color. */
+:where(button:hover, a:hover) {
+  color: var(--color-hover);
+}
+
+:where(
+    button:active,
+    a:active,
+    button[aria-checked="true"],
+    a[aria-checked="true"],
+    button.selected,
+    a.selected,
+    button.active,
+    a.active
+  ) {
+  color: var(--color-active);
 }
 
 :is(button, a):focus-visible {

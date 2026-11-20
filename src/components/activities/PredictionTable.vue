@@ -13,6 +13,15 @@ const props = defineProps({
   // column headings above the change / measure cells
   changeLabel: { type: String, default: "Change this" },
   measureLabel: { type: String, default: "Measure this" },
+  // words for the three effects, e.g. { increase: "improve",
+  // decrease: "get worse" } for something described rather than counted
+  effectWords: { type: Object, default: null },
+  // wording of the change inside the prediction, when it reads better than
+  // the question's (e.g. "fertiliser" for "use of fertiliser")
+  changePhrase: { type: String, default: "" },
+  // [condition 1, condition 2] filled in when "Condition 1 versus
+  // condition 2" is chosen (the student can still change them)
+  conditions: { type: Array, default: null },
 });
 const emit = defineEmits(["update:context"]);
 const defaults = {
@@ -35,6 +44,7 @@ const effectPhrases = {
   "stay-the-same": "stay the same",
 };
 const causeOptions = computed(() => props.options.causeOptions || defaults);
+const effects = computed(() => ({ ...effectPhrases, ...props.effectWords }));
 const changeSelection = ref("");
 const measureSelection = ref("");
 const externalContext = ref({ structure: "", change: "", measure: "" });
@@ -95,6 +105,10 @@ function changeCauseType() {
   selectedCause.value = "";
   clearEntry("conditionOne");
   clearEntry("conditionTwo");
+  if (causeType.value === "condition-comparison" && props.conditions) {
+    entries.conditionOne.saved = props.conditions[0] || "";
+    entries.conditionTwo.saved = props.conditions[1] || "";
+  }
 }
 function submitEntry(name) {
   const entry = entries[name];
@@ -115,7 +129,7 @@ function causeAction() {
   if (!change.value || !selectedCause.value) return null;
   const one = entries.conditionOne.saved || "condition 1";
   const two = entries.conditionTwo.saved || "condition 2";
-  const phrase = change.value;
+  const phrase = props.changePhrase || change.value;
   switch (selectedCause.value) {
     case "increase":
       return { verb: "increase " + phrase, gerund: "increasing " + phrase };
@@ -147,7 +161,7 @@ function causeAction() {
 }
 const phrases = computed(() => {
   const action = causeAction();
-  const effect = effectPhrases[selectedEffect.value];
+  const effect = effects.value[selectedEffect.value];
   if (!structure.value || !measure.value || !action || !effect)
     return { cause: "", effect: "" };
   switch (structure.value.toLowerCase()) {
@@ -356,28 +370,14 @@ defineExpose({ reset, setContext, isComplete });
             <span class="cell-sublabel">Effect or result</span>
             <div class="relationship-buttons three-options">
               <button
+                v-for="(word, value) in effects"
+                :key="value"
                 type="button"
                 class="relationship-option"
-                :class="{ selected: selectedEffect === 'increase' }"
-                @click="selectedEffect = 'increase'"
+                :class="{ selected: selectedEffect === value }"
+                @click="selectedEffect = value"
               >
-                Increase
-              </button>
-              <button
-                type="button"
-                class="relationship-option"
-                :class="{ selected: selectedEffect === 'decrease' }"
-                @click="selectedEffect = 'decrease'"
-              >
-                Decrease
-              </button>
-              <button
-                type="button"
-                class="relationship-option"
-                :class="{ selected: selectedEffect === 'stay-the-same' }"
-                @click="selectedEffect = 'stay-the-same'"
-              >
-                Stay the same
+                {{ optionLabel(word) }}
               </button>
             </div>
           </div>

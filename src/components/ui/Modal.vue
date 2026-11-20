@@ -432,7 +432,6 @@ defineExpose({ open: show, close });
   font-weight: 600;
   --box-shadow-hover: none;
 
-  --color-hover: var(--text);
 }
 .teacher-section-list button:hover {
   background: var(--soft-yellow);
@@ -454,7 +453,6 @@ defineExpose({ open: show, close });
   font-weight: 600;
 
   --background-hover: var(--soft-green);
-  --color-hover: var(--text);
 }
 
 .teacher-note {
