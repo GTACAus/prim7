@@ -36,10 +36,14 @@ if (root && questionRoot && predictionRoot) {
     nutrientLevel: "nutrient level",
     temperature: "temperature",
   };
-  // Students measure everything, so the second blank of the question is
-  // fixed: plant height (growth) and health. It is filled in for them.
+  // The student may measure several outcomes. Their testable question
+  // focuses on ONE selected outcome (chosen in the second blank).
   const MEASURE_WORDS = {
-    growthHealth: "plant height and health",
+    height: "plant height",
+    leaves: "number of leaves",
+    leafLength: "leaf length",
+    wilted: "number of wilting leaves",
+    condition: "leaf condition",
   };
   const PREDICTION_MEASURE_WORDS = { ...MEASURE_WORDS };
 
@@ -69,13 +73,12 @@ if (root && questionRoot && predictionRoot) {
     },
   });
 
-  // "Health" cannot really "increase", so for height and health the
-  // effect reads "improve" / "get worse". Adapt that one output on THIS
-  // instance, keeping the shared PredictionTableActivity module untouched.
+  // Leaf condition is descriptive, so its predicted outcome can
+  // "improve" or "get worse". Numeric outcomes can increase/decrease.
   const buildDefaultPhrases = prediction._buildPredictionPhrases.bind(prediction);
   prediction._buildPredictionPhrases = function (change, measure) {
     const phrases = buildDefaultPhrases(change, measure);
-    if (normalise(measure) === MEASURE_WORDS.growthHealth) {
+    if (normalise(measure) === MEASURE_WORDS.condition) {
       const ending = {
         increase: "improve",
         decrease: "get worse",
@@ -93,8 +96,11 @@ if (root && questionRoot && predictionRoot) {
     return phrases;
   };
 
-  function updateEffectLabels() {
-    const labels = { increase: "Improve", decrease: "Get worse", "stay-the-same": "Stay the same" };
+  function updateEffectLabels(measure = "") {
+    const descriptive = normalise(measure) === MEASURE_WORDS.condition;
+    const labels = descriptive
+      ? { increase: "Improve", decrease: "Get worse", "stay-the-same": "Stay the same" }
+      : { increase: "Increase", decrease: "Decrease", "stay-the-same": "Stay the same" };
     predictionRoot.querySelectorAll("[data-prediction-effect]").forEach((button) => {
       button.textContent = labels[button.dataset.predictionEffect];
     });
@@ -125,7 +131,8 @@ if (root && questionRoot && predictionRoot) {
     return Boolean(
       planIsReady() && state && state.text &&
       normalise(state.firstAnswer) === CHANGE_WORDS[currentPlan.changeKey] &&
-      normalise(state.secondAnswer) === MEASURE_WORDS[currentPlan.measureKey]
+      (currentPlan.measureKeys || []).some((key) =>
+        normalise(state.secondAnswer) === MEASURE_WORDS[key])
     );
   }
 
@@ -143,10 +150,11 @@ if (root && questionRoot && predictionRoot) {
     if (state.text) {
       feedback.textContent = questionValid
         ? "Your question matches the variables in your plant experiment."
-        : `Check your question. Your experiment changes ${CHANGE_WORDS[currentPlan.changeKey]}. Choose that above.`;
+        : "Check your question. Choose the change and measurement from your experiment plan.";
       feedback.classList.toggle("is-success", questionValid);
     }
 
+    updateEffectLabels(state.secondAnswer);
     const predictionArea = byId("pk-prediction-content");
     const predictionWait = byId("pk-prediction-wait");
     predictionArea.hidden = !questionValid;
@@ -155,7 +163,7 @@ if (root && questionRoot && predictionRoot) {
       prediction.setContext({
         structure: state.structure,
         change: state.firstAnswer,
-        measure: PREDICTION_MEASURE_WORDS[currentPlan.measureKey],
+        measure: state.secondAnswer,
       });
       predictionWait.textContent = "";
     } else {
@@ -185,19 +193,19 @@ if (root && questionRoot && predictionRoot) {
       .filter(([key]) => (currentPlan?.changeKeys || []).includes(key))
       .map(([, word]) => word);
 
-    [[first, changeAllowed], [second, Object.values(MEASURE_WORDS)]].forEach(([select, allowed]) => {
+    const measureAllowed = (currentPlan?.measureKeys || []).map((key) => MEASURE_WORDS[key]).filter(Boolean);
+    [[first, changeAllowed], [second, measureAllowed]].forEach(([select, allowed]) => {
       if (!select) return;
       Array.from(select.options).forEach((option) => {
         if (option.value && !allowed.includes(option.value)) option.remove();
       });
     });
 
-    // Height and health is always measured, so fill that blank for the
-    // student and remove its "edit" button.
-    if (second && !second.value) {
-      second.value = MEASURE_WORDS.growthHealth;
+    // With a single selected outcome, filling the second blank is simple.
+    // With several outcomes, students choose the one their question tests.
+    if (second && !second.value && measureAllowed.length === 1) {
+      second.value = measureAllowed[0];
       second.dispatchEvent(new Event("change"));
-      second.closest(".question-blank")?.querySelector(".question-blank-answer button")?.remove();
     }
   }
 
@@ -218,16 +226,20 @@ if (root && questionRoot && predictionRoot) {
   }
 
   function updatePlan(plan) {
-    const nextSignature = [plan.mode, plan.changeKey, plan.comparisonId, plan.measureKey].join("|");
+    const nextSignature = [plan.mode, plan.changeKey, plan.comparisonId,
+      ...(plan.measureKeys || [])].join("|");
     const didChange = planSignature !== null && nextSignature !== planSignature;
     planSignature = nextSignature;
     currentPlan = plan;
 
     if (didChange) clearWriting();
-    updateEffectLabels();
+    updateEffectLabels(question.getState().secondAnswer);
 
     const ready = planIsReady();
     byId("pk-question-wait").hidden = ready;
+    byId("pk-question-wait").textContent = !plan.changeKey
+      ? "Choose what to change above."
+      : "Choose at least one thing to measure above.";
     questionRoot.hidden = !ready;
     byId("pk-reset-writing").hidden = !ready;
 
@@ -235,7 +247,9 @@ if (root && questionRoot && predictionRoot) {
     if (!ready) {
       byId("pk-prediction-content").hidden = true;
       byId("pk-prediction-wait").hidden = false;
-      byId("pk-prediction-wait").textContent = "Choose what to change above.";
+      byId("pk-prediction-wait").textContent = !plan.changeKey
+        ? "Choose what to change above."
+        : "Choose what to measure above.";
     } else if (!questionMatchesPlan(question.getState())) {
       byId("pk-prediction-content").hidden = true;
       byId("pk-prediction-wait").hidden = false;

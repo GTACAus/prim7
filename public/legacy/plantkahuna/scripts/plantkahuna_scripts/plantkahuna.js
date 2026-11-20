@@ -1,9 +1,9 @@
  /* =====================================================================
     PLANT BIG KAHUNA — fair-test experiment builder (standalone prototype)
- 
+
     Inspired by the structure of Lesson 2's ball-bounce Big Kahuna:
     CHANGE one thing -> MEASURE a result -> CONTROL everything else.
- 
+
     IMPORTANT:
     - Wrapped in an IIFE: no globals, no dependencies on existing lessons.
     - No student data is collected, persisted, or sent anywhere.
@@ -12,10 +12,10 @@
       Leave slots blank to keep the temporary SVG drawing.
     - Everything is a PLANNING illustration. It does NOT simulate growth.
     ===================================================================== */
- 
+
  (() => {
    "use strict";
- 
+
    /* ---------------- SETTINGS YOU MAY WANT TO FLIP ----------------
       SHOW_DURATION_CHOICE: leadership has not decided how long the
       experiment runs. false = fixed at DEFAULT_DURATION_DAYS (4 weeks).
@@ -26,10 +26,10 @@
    const DEFAULT_DURATION_DAYS = "28";
    const DURATION_OPTIONS = [7, 14, 21, 28];
    const TINY_FARMS_TEMPERATURE = false;
- 
+
    // How often students measure each week (all choices are fine science:
    // more measurements = a clearer picture of growth over time).
- 
+
    // `modes` says where each variable can be used.
    // A comparison lists Plant A's setting first, Plant B's setting second.
    const VARIABLES = {
@@ -150,13 +150,10 @@
        ],
      },
    };
- 
-   // Students measure ALL of these on both plants. The Measure step just
-   // lets them look at each way of measuring. `group` is Growth or Health.
-   const MEASURE_GROUPS = [
-     { key: "growth", label: "Growth", blurb: "How big is the plant getting?" },
-     { key: "health", label: "Health", blurb: "How well is the plant doing?" },
-   ];
+
+   // Students choose one or more outcomes to measure on BOTH plants.
+   // Keep all choices in one compact button group (rather than splitting
+   // Growth and Health into separate visual sections).
    const MEASUREMENTS = {
      height: {
        group: "growth", icon: "📏", label: "Plant height", unit: "cm",
@@ -185,10 +182,7 @@
        reference: true, // shows the leaf picture straight away
      },
    };
- 
-   // Everything must be looked at before the plan is complete.
-   const REQUIRED_MEASURES = Object.keys(MEASUREMENTS);
- 
+
    const STARTING_CONTROLS = Object.freeze({
      potSize: "small",
      potMaterial: "terracotta",
@@ -202,18 +196,18 @@
      nutrientLevel: "medium",
      temperature: "room",
    });
- 
+
    /* ================================================================
       CANVA IMAGE ASSETS — EDIT HERE, NOT INSIDE drawPlantScene()
- 
+
       1. Export each component from Canva as a transparent PNG/WebP.
       2. Save it inside plantkahuna/assets/visuals/.
       3. Put the exact filename in the appropriate slot below.
- 
+
       Blank string = use the existing SVG illustration instead.
       You can change just ONE item (such as the half-cup water image) and leave
       everything else drawn. Values below match the experiment settings.
- 
+
       Tip: If Canva has a combined pot + soil cross-section, use
       potAndSoil. Those files replace BOTH the drawn pot and soil.
       ================================================================ */
@@ -274,7 +268,7 @@
       tinyFarm: { tray: "" },
       nutrients: { low: "", medium: "", high: "" },
     };
- 
+
    /* Each image slot uses one fixed 420 x 306 scene coordinate system.
       Change these ONLY if a Canva export has a different transparent margin.
       Images scale with the scene, so all cards remain responsive. */
@@ -307,7 +301,7 @@
      // Above the plant, between the window (left) and fertiliser (right).
      clock: { x: 173, y: 3, width: 135, height: 77 },
    };
- 
+
    // These words work grammatically inside "Does changing ...?" and in
    // the separate student question builder lower down the page.
    const QUESTION_CHANGE_WORDS = {
@@ -317,11 +311,11 @@
      lightExposure: "light exposure", lightColour: "light colour",
      nutrientLevel: "nutrient level", temperature: "temperature",
    };
- 
+
    const STEPS = ["change", "measure", "control"];
    const root = document.getElementById("plantKahuna");
    if (!root) return;
- 
+
    const byId = (id) => document.getElementById(id);
    const editor = byId("pk-controls");
    const scenes = byId("pk-scenes");
@@ -332,7 +326,7 @@
    root.querySelector(".pk-workspace").appendChild(materialsDock);
    const blueprint = byId("pk-blueprint");
    const feedback = byId("pk-feedback");
- 
+
    function initialState() {
      return {
        // Growing setup decides which light variable the student can choose.
@@ -342,26 +336,27 @@
        step: "change",
        changeVariable: null,
        comparison: null,
-       activeMeasure: null,  // the button whose instructions are showing
+       selectedMeasures: [], // student-selected outcomes (0, 1, or many)
+       measureFocus: null, // show one matching measurement guide automatically
        measureAfterDays: DEFAULT_DURATION_DAYS,
        controls: { ...STARTING_CONTROLS },
        checked: false,
      };
    }
- 
+
    let state = initialState();
- 
+
    function esc(value) {
      return String(value).replace(/[&<>"']/g, (char) => ({
        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
      })[char]);
    }
- 
+
    function labelFor(variable, value) {
      const option = VARIABLES[variable].options.find((item) => item.value === value);
      return option ? option.label : "Not selected";
    }
- 
+
    function availableVariableKeys() {
      // Includes both changeable and controlled-only variables.
      return Object.keys(VARIABLES).filter((key) => VARIABLES[key].modes.includes(state.mode));
@@ -370,7 +365,7 @@
      return availableVariableKeys().filter((key) => VARIABLES[key].changeable !== false);
    }
    function weeks() { return Math.round(Number(state.measureAfterDays) / 7); }
- 
+
    function renderGrowingMode() {
      const tiny = state.mode === "tinyFarms";
      root.querySelectorAll("[data-growing-mode]").forEach((button) => {
@@ -379,13 +374,13 @@
        button.setAttribute("aria-pressed", String(selected));
      });
    }
- 
+
    function currentComparison() {
      if (!state.changeVariable) return null;
      return VARIABLES[state.changeVariable].comparisons.find((item) => item.id === state.comparison)
        || VARIABLES[state.changeVariable].comparisons[0];
    }
- 
+
    /* Create two setups from one shared set of controls. This makes it
       impossible for a second unplanned variable to change by accident. */
    function getSetups() {
@@ -396,7 +391,7 @@
        a[state.changeVariable] = comparison.a;
        b[state.changeVariable] = comparison.b;
      }
- 
+
      // Tiny Farms always uses grow lamps (only the colour can change).
      if (state.mode === "tinyFarms") {
        a.lightExposure = "lamp";
@@ -404,18 +399,18 @@
      }
      return { a, b };
    }
- 
+
    function relevantControlVariables() {
      return availableVariableKeys().filter((key) => key !== state.changeVariable);
    }
- 
+
    function optionButton(key, selected) {
      return `<button type="button" class="pk-option ${selected === key ? "is-selected" : ""}"
        data-variable="${esc(key)}" aria-pressed="${selected === key}">
        ${esc(VARIABLES[key].label)}
      </button>`;
    }
- 
+
    function renderChange() {
      const choices = changeableVariableKeys()
        .map((key) => optionButton(key, state.changeVariable))
@@ -467,46 +462,56 @@
              : `<strong class="pk-change-summary-value">${esc(labelFor(state.changeVariable, comparison.b))}</strong>`}
          </div>
        </div>` : "";
- 
+
      return `<p class="pk-kicker">STEP 1 OF 3</p>
        <h2 id="pk-editor-heading">What will you change?</h2>
 
        <div class="pk-options">${choices}</div>${pairSection}${comparisonSummary}`;
    }
- 
+
    function renderMeasure() {
      const measureButton = (key) => {
        const item = MEASUREMENTS[key];
-       return `<button type="button" class="pk-measure-btn ${state.activeMeasure === key ? "is-active" : ""}"
-         data-measure="${esc(key)}" aria-pressed="${state.activeMeasure === key}">
+       const selected = state.selectedMeasures.includes(key);
+       return `<button type="button" class="pk-measure-btn ${selected ? "is-selected" : ""}"
+         data-measure="${esc(key)}" aria-pressed="${selected}">
          <span class="pk-measure-name">${esc(item.label)}</span>
        </button>`;
      };
-     const groups = MEASURE_GROUPS.map((group) => `
-       <div class="pk-measure-group">
-         <h3>${esc(group.label)}</h3>
-         <div class="pk-measure-buttons">
-           ${Object.keys(MEASUREMENTS).filter((key) => MEASUREMENTS[key].group === group.key).map(measureButton).join("")}
-         </div>
-       </div>`).join("");
 
-     const item = MEASUREMENTS[state.activeMeasure];
-     const referenceFilename = VISUAL_ASSETS.measureReferences[state.activeMeasure] || "";
-     const referencePath = referenceFilename ? VISUAL_ASSETS.folder + referenceFilename : "";
-     const referenceImage = referencePath && visualIsReady(referencePath)
-       ? `<img class="pk-reference-img" src="${esc(referencePath)}"
-            alt="Illustrated guide: ${esc(item.label)}" loading="lazy" />`
-       : "";
-     const panel = item ? `<div class="pk-measure-instructions">
-       <strong>${esc(item.label)}</strong>
-       <p>${esc(item.how)}</p>
-       ${referenceImage}
-     </div>` : "";
+     // Only preview ONE guide: the most recently chosen outcome. A second
+     // click still deselects it, and another selected outcome becomes visible.
+     // This keeps the illustrations available without a stack of large panels.
+     const focused = state.selectedMeasures.includes(state.measureFocus)
+       ? state.measureFocus : state.selectedMeasures[state.selectedMeasures.length - 1];
+     let preview = "";
+     if (focused) {
+       const item = MEASUREMENTS[focused];
+       const file = VISUAL_ASSETS.measureReferences[focused] || "";
+       const path = file ? VISUAL_ASSETS.folder + file : "";
+       const ready = path && visualIsReady(path);
+       preview = `<section class="pk-measure-preview" aria-label="Measuring guide" aria-live="polite">
+         <div class="pk-measure-preview-copy">
+           <strong>How to measure: ${esc(item.label)}</strong>
+           <p>${esc(item.how)}</p>
+         </div>
+         ${ready ? `<button type="button" class="pk-measure-preview-image"
+            data-measure-preview-zoom="${esc(path)}"
+            data-measure-preview-label="${esc(item.label)}"
+            aria-label="Enlarge ${esc(item.label)} measuring illustration">
+            <img src="${esc(path)}" alt="Measuring illustration for ${esc(item.label)}" />
+            <span>View larger</span>
+          </button>` : ""}
+       </section>`;
+     }
 
      return `<p class="pk-kicker">STEP 2 OF 3</p>
-       <h2 id="pk-editor-heading">Measure</h2>
-       ${groups}
-       ${panel}`;
+       <h2 id="pk-editor-heading">What will you measure?</h2>
+       <p class="pk-measure-help">Choose one or more. Select again to remove.</p>
+       <div class="pk-measure-picker" role="group" aria-label="Measurements for both plants">
+         <div class="pk-measure-buttons">${Object.keys(MEASUREMENTS).map(measureButton).join("")}</div>
+       </div>
+       ${preview}`;
    }
 
    function renderControl() {
@@ -522,7 +527,7 @@
          <select id="pk-control-${key}" data-control="${esc(key)}">${options}</select>
        </div>`;
      }).join("");
- 
+
      return `<p class="pk-kicker">STEP 3 OF 3</p>
        <h2 id="pk-editor-heading">Keep the same</h2>
        <div class="pk-control-list">${entries}</div>`;
@@ -539,7 +544,7 @@
        else button.removeAttribute("aria-current");
      });
    }
- 
+
    /* ---------------------------------------------------------------
       Asset helper. The rest of the experiment does not know whether a
       visual is an image or a drawing. Relative PNG paths work in SVG.
@@ -557,14 +562,14 @@
      probe.onload = () => {
        assetLoadStatus.set(path, "ready");
        renderScenes();
-       // Some Canva images belong to the Measure instructions, not the SVG.
+       // Some Canva images belong to the optional Measure guides.
        if (state.step === "measure") renderEditor();
      };
      probe.onerror = () => assetLoadStatus.set(path, "missing");
      probe.src = path;
      return false;
    }
- 
+
    function visualLayer(filename, frame, fallbackSvg, fit = "xMidYMid meet") {
      if (!filename || !String(filename).trim()) return fallbackSvg;
      const path = VISUAL_ASSETS.folder + String(filename).trim();
@@ -573,7 +578,7 @@
        width="${frame.width}" height="${frame.height}"
        preserveAspectRatio="${fit}" />`;
    }
- 
+
    /* Tiny Farms scene: grow lamp above a tray of plants, a nutrient bottle
       beside it. No pot, soil or watering can. Swap in Canva art through
       VISUAL_ASSETS.tinyFarm.tray, .lamps and .nutrients. */
@@ -582,7 +587,7 @@
      const colour = ({ red: "#ff765f", green: "#69dd8a" })[values.lightColour] || "#fff6cf";
      const level = ({ low: 14, medium: 32, high: 50 })[values.nutrientLevel] || 32;
      const warm = values.temperature === "warm", cool = values.temperature === "cool";
- 
+
      const lampFallback = `
        <path d="M20 0 H400" stroke="#444d4d" stroke-width="3" opacity=".5"/>
        <path d="M210 0 V45" stroke="#1e2628" stroke-width="3"/>
@@ -611,7 +616,7 @@
        <rect x="4" y="${warm ? 14 : 44}" width="8" height="${warm ? 48 : 18}" fill="${warm ? "#ee6a4d" : "#5aa5e8"}"/>
        <text x="8" y="-6" text-anchor="middle" font-size="10" font-weight="900" fill="#51443f">${warm ? "WARM" : "COOL"}</text>
      </g>` : "";
- 
+
      const lamp = visualLayer(VISUAL_ASSETS.lamps[values.lightColour], IMAGE_FRAMES.lamp, lampFallback);
      return `<svg class="pk-scene-picture" viewBox="0 0 420 306" role="img"
        aria-label="${esc(`Plant ${letter} in a Tiny Farm: ` + availableVariableKeys().map((key) => `${VARIABLES[key].label}: ${labelFor(key, values[key])}`).join("; "))}">
@@ -630,7 +635,7 @@
        ${thermo}
      </svg>`;
    }
- 
+
    function drawPlantScene(values, letter) {
      if (state.mode === "tinyFarms") return drawTinyFarmScene(values, letter);
      const uid = `pk-${letter.toLowerCase()}`;
@@ -650,7 +655,7 @@
      const waterLevel = values.waterVolume === "250" ? 45 : 24;
      const colour = ({red:"#ff765f",green:"#69dd8a",white:"#fff6cf"})[values.lightColour] || "#fff6cf";
      const plantOpacity = dark ? ".88" : "1";
- 
+
      const backdropFallback = sky ? `
        <rect x="28" y="20" width="123" height="118" rx="5" fill="#fffef9" stroke="#687a70" stroke-width="5"/>
        <rect x="35" y="27" width="109" height="104" fill="#b7e6f7"/>
@@ -673,7 +678,7 @@
        <rect x="56" y="135" width="5" height="28" rx="2.5" fill="#f3dfbd"/>
        <rect x="359" y="135" width="5" height="28" rx="2.5" fill="#f3dfbd"/>
        ` : "";
- 
+
      const lampFallback = `
        <path d="M20 0 H400" stroke="#444d4d" stroke-width="3" opacity=".5"/>
        <path d="M210 0 V55" stroke="#1e2628" stroke-width="3"/>
@@ -681,7 +686,7 @@
        <path d="M178 77 H241" stroke="#fff0cd" stroke-width="5" stroke-linecap="round"/>
        <path d="M178 82 L103 246 H317 L241 82Z" fill="url(#${uid}-beam)" opacity=".76"/>
  `;
- 
+
      // Three asset strategies for the pot:
      // 1. Combined cross-section (recommended) replaces the whole pot.
      // 2. Separate pot + soil, allowing one layer to use a Canva image.
@@ -711,7 +716,7 @@
        : `${visualLayer(VISUAL_ASSETS.pots[values.potSize], potFrame, potFallbackBody)}
           ${visualLayer(VISUAL_ASSETS.soils[values.soilFill], soilFrame, soilFallback)}
           ${!VISUAL_ASSETS.pots[values.potSize] ? potRim : ""}`;
- 
+
      // Preserve the seedling height while placing its stem in the soil.
      // The Canva pot PNGs have transparent padding around their soil surface.
      // Extending the GREEN STEM (not adding a floating soil patch) avoids gaps.
@@ -723,7 +728,7 @@
      const stemExtension = values.potSize === "large"
        ? (values.soilFill === "full" ? 18 : 26)
        : (values.soilFill === "full" ? 6 : 11);
- 
+
      const plantFallback = `<g opacity="${plantOpacity}" transform="translate(0,42) scale(1,0.78)" stroke-linecap="round" stroke-linejoin="round">
        <path d="M210 ${soilTop + stemExtension} Q217 164 211 139 T209 91" fill="none" stroke="#356e3a" stroke-width="5"/>
        <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5"/>
@@ -733,7 +738,7 @@
        <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2"/>
      </g>`;
 
- 
+
      const beakerFallback = `<g transform="translate(325,200)">
        <!-- A marked, 250 mL measuring cup (half cup = 125 mL). -->
        <path d="M0 0 H55 L51 62 H5Z" fill="#f5faff" fill-opacity=".78" stroke="#537a90" stroke-width="2.5"/>
@@ -776,7 +781,7 @@
      const backdropFrame = IMAGE_FRAMES.backgrounds[values.lightExposure] || IMAGE_FRAMES.background;
      const background = visualLayer(backdropImage, backdropFrame, backdropFallback, "xMidYMid meet");
      const lamp = growLamp ? visualLayer(VISUAL_ASSETS.lamps[values.lightColour], IMAGE_FRAMES.lamp, lampFallback) : "";
- 
+
      return `<svg class="pk-scene-picture" viewBox="0 0 420 306" role="img"
        aria-label="${esc(`Plant ${letter}: ` + availableVariableKeys().map(key=>`${VARIABLES[key].label}: ${labelFor(key,values[key])}`).join('; '))}">
        <defs>
@@ -805,7 +810,7 @@
             Changing tabs must NEVER make a setting look as if it was removed. -->
      </svg>`;
    }
- 
+
    function sceneCard(letter, values) {
      const changed = Boolean(state.changeVariable);
      const mainValue = changed ? labelFor(state.changeVariable, values[state.changeVariable]) : "Same settings";
@@ -824,7 +829,7 @@
        </div>
      </article>`;
    }
- 
+
    /* ==================================================================
       PERMANENT MATERIALS & CARE LEGEND
 
@@ -908,29 +913,31 @@
      scenes.innerHTML = sceneCard("A", values.a) + sceneCard("B", values.b);
      materialsDock.innerHTML = renderMaterialStrip(values);
    }
- 
+
    function descriptionOfChange() {
      if (!state.changeVariable) return "Choose one thing to change.";
      const { a, b } = getSetups();
      return `${VARIABLES[state.changeVariable].label}: Plant A — ${labelFor(state.changeVariable, a[state.changeVariable])}; Plant B — ${labelFor(state.changeVariable, b[state.changeVariable])}.`;
    }
- 
-   function descriptionOfMeasurement() {
 
-     return "Plant height and health";
+   function descriptionOfMeasurement() {
+     const chosen = Object.keys(MEASUREMENTS)
+       .filter((key) => state.selectedMeasures.includes(key))
+       .map((key) => MEASUREMENTS[key].label);
+     return chosen.length ? chosen.join(", ") : "Choose what you will measure.";
    }
- 
+
    function buildPlanText() {
      const comparison = descriptionOfChange();
      const measure = descriptionOfMeasurement();
      return { comparison, measure };
    }
- 
+
    function renderBlueprint() {
      const plan = buildPlanText();
      blueprint.innerHTML = `
        <article class="pk-blueprint-card change"><h3>Change</h3><p>${esc(plan.comparison)}</p></article>
-       <article class="pk-blueprint-card measure"><h3>Measure</h3><p>Plant height and health</p></article>
+       <article class="pk-blueprint-card measure"><h3>Measure</h3><p>${esc(plan.measure)}</p></article>
        <article class="pk-blueprint-card control"><h3>Keep the same</h3><p>${relevantControlVariables().length} shared settings</p></article>`;
 
      const { a, b } = getSetups();
@@ -944,28 +951,29 @@
      const setupRows = `<tr><td>Growing setup</td><td>${state.mode === "tinyFarms" ? "Tiny Farms" : "Classroom"}</td>
        <td>${state.mode === "tinyFarms" ? "Tiny Farms" : "Classroom"}</td></tr>` +
        (state.mode === "tinyFarms" ? "<tr><td>Light source (fixed)</td><td>Grow lamp</td><td>Grow lamp</td></tr>" : "");
- 
+
      byId("pk-settings-table").innerHTML = `<div class="pk-table-scroll"><table class="pk-settings-table">
        <thead><tr><th>Setting</th><th>Plant A</th><th>Plant B</th></tr></thead>
        <tbody>${setupRows}${rows}</tbody></table></div>`;
    }
- 
+
    function setStep(step) {
      if (!STEPS.includes(step)) return;
      state.step = step;
      render();
    }
- 
+
    function hideFeedback() {
      state.checked = false;
      feedback.hidden = true;
      feedback.classList.remove("is-success");
      feedback.textContent = "";
    }
- 
+
    function checkPlan() {
      const missing = [];
      if (!state.changeVariable) missing.push("choose one thing to change (Step 1)");
+     if (!state.selectedMeasures.length) missing.push("choose at least one thing to measure (Step 2)");
      state.checked = true;
      feedback.hidden = false;
      if (missing.length) {
@@ -977,7 +985,7 @@
      feedback.textContent = "Your fair test plan is ready.";
      feedback.scrollIntoView({ behavior: "smooth", block: "center" });
    }
- 
+
    function publishPlan() {
      // The writing activities live in a separate ES module. This event is the
      // only connection: the generic shared activities do not know about pots.
@@ -989,8 +997,10 @@
          comparisonId: pair ? pair.id : "",
          comparisonA: pair ? labelFor(state.changeVariable, pair.a) : "",
          comparisonB: pair ? labelFor(state.changeVariable, pair.b) : "",
-         // Measured outcome is fixed; exploring the Measure tab is optional.
-         measureKey: "growthHealth",
+         // Question builder uses ONE of the selected outcomes; the plan
+         // itself records ALL measurements chosen by the student.
+         measureKey: state.selectedMeasures[0] || "",
+         measureKeys: [...state.selectedMeasures],
          measureAfterDays: state.measureAfterDays,
          measureFrequency: "2",
          plantName: "plants",
@@ -998,16 +1008,16 @@
        },
      }));
    }
- 
+
    function render() {
      renderEditor();
      renderScenes();
      renderBlueprint();
      publishPlan();
    }
- 
+
    root.addEventListener("plantkahuna:requestplan", publishPlan);
- 
+
    // A simple native dialog lets children inspect detailed Canva artwork
    // (e.g. words on the soil bags) without enlarging the entire interface.
    // It changes the picture only; it NEVER changes an experiment setting.
@@ -1044,6 +1054,18 @@
 
    // Event delegation survives rebuilding the choices on each step.
    editor.addEventListener("click", (event) => {
+     // The infographic can be enlarged without changing a measurement choice.
+     const zoom = event.target.closest("[data-measure-preview-zoom]");
+     if (zoom) {
+       const dialog = getMaterialDialog();
+       const label = zoom.dataset.measurePreviewLabel || "Measurement guide";
+       const image = dialog.querySelector(".pk-material-dialog-image");
+       image.src = zoom.dataset.measurePreviewZoom;
+       image.alt = label;
+       dialog.querySelector(".pk-material-dialog-title").textContent = label;
+       if (typeof dialog.showModal === "function") dialog.showModal();
+       return;
+     }
      const variable = event.target.closest("[data-variable]");
      if (variable) {
        if (!changeableVariableKeys().includes(variable.dataset.variable)) return;
@@ -1056,17 +1078,27 @@
        state.comparison = pair.dataset.pair;
        hideFeedback(); render(); return;
      }
-     // Pressing a measure button shows its instructions straight away.
+     // Toggle multiple measures. Purple means selected; a second click
+     // removes that outcome. Selections survive switching between steps.
      const measure = event.target.closest("[data-measure]");
      if (measure) {
        const key = measure.dataset.measure;
-       state.activeMeasure = key;
+       if (!MEASUREMENTS[key]) return;
+       const alreadySelected = state.selectedMeasures.includes(key);
+       state.selectedMeasures = alreadySelected
+         ? state.selectedMeasures.filter((chosen) => chosen !== key)
+         : [...state.selectedMeasures, key];
+       // Keep the automatic preview on an outcome that is still selected.
+       if (!alreadySelected) state.measureFocus = key;
+       else if (state.measureFocus === key) {
+         state.measureFocus = state.selectedMeasures[state.selectedMeasures.length - 1] || null;
+       }
        hideFeedback(); render(); return;
      }
      const jump = event.target.closest("[data-goto]");
      if (jump) setStep(jump.dataset.goto);
    });
- 
+
    editor.addEventListener("change", (event) => {
      const frequency = event.target.closest("[data-frequency-select]");
      if (frequency && state.changeVariable === "wateringFrequency") {
@@ -1088,7 +1120,7 @@
        hideFeedback(); render();
      }
    });
- 
+
    // The mode is an equipment choice, so it is set outside the three steps.
    // Switching preserves measurement and unrelated controls, but clears a
    // light variable that is not available in the chosen setup.
@@ -1103,7 +1135,7 @@
      hideFeedback();
      render();
    });
- 
+
    byId("pk-steps").addEventListener("click", (event) => {
      const button = event.target.closest("[data-step]");
      if (button) setStep(button.dataset.step);
@@ -1130,7 +1162,7 @@
    });
    const printButton = byId("pk-print");
    if (printButton) printButton.addEventListener("click", () => window.print());
- 
+
    render();
  })();
- 
+
