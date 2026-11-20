@@ -12,6 +12,7 @@ import SpotlightSurvey from "../components/lessons/lesson5/SpotlightSurvey.vue";
 import SiteOneBarGraph from "../components/lessons/lesson5/SiteOneBarGraph.vue";
 import SiteTwoBarGraph from "../components/lessons/lesson5/SiteTwoBarGraph.vue";
 import CompareSites from "../components/lessons/lesson5/CompareSites.vue";
+import Media from "../components/ui/Media.vue";
 import { openPDF } from "../composables/useModal.js";
 import ContentBox from "../components/ui/ContentBox.vue";
 import Grid from "../components/layout/Grid.vue";
@@ -211,22 +212,20 @@ const partD = ref(null);
             </label>
           </div>
           <div class="bar-example-image-card">
-            <div class="image-box">
-              <img
-                :src="IMG + 'blank_bar_graph.png'"
-                alt="Blank bar graph template showing the parts of a bar graph"
-              />
-            </div>
+            <Media
+              :src="IMG + 'blank_bar_graph.png'"
+              alt="Blank bar graph template showing the parts of a bar graph"
+            />
           </div>
         </div>
 
         <div class="bar-example-image-card">
-          <div v-for="n in 2" :key="n" class="image-box">
-            <img
-              :src="`${IMG}bar_graph_example_${n}.png`"
-              alt="Example of a completed bar graph"
-            />
-          </div>
+          <Media
+            v-for="n in 2"
+            :key="n"
+            :src="`${IMG}bar_graph_example_${n}.png`"
+            alt="Example of a completed bar graph"
+          />
         </div>
       </Section>
 

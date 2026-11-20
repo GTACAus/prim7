@@ -11,6 +11,7 @@ import {
 
 import { modal, openModal, closeModal } from "../../composables/useModal.js";
 import Button from "./Button.vue";
+import Media from "./Media.vue";
 
 const props = defineProps({
   label: { type: String, default: "" },
@@ -260,15 +261,13 @@ defineExpose({ open: show, close });
       </div>
 
       <!-- Video -->
-      <video
+      <Media
         v-else-if="modal.type === 'video'"
         class="video-modal-player"
+        :framed="false"
         :src="modal.options.src"
-        controls
-        preload="metadata"
-      >
-        Your browser does not support video playback.
-      </video>
+        :alt="modalTitle"
+      />
 
       <!-- PDF -->
       <template v-else-if="modal.type === 'pdf'">
@@ -490,8 +489,11 @@ defineExpose({ open: show, close });
   width: 100%;
 }
 .video-modal-player {
-  max-height: 70vh;
+  overflow: hidden;
   background: #101110;
+}
+.video-modal-player video {
+  max-height: 70vh;
 }
 .pdf-modal-image,
 .image-zoom-modal-image {

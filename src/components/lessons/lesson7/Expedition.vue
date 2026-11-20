@@ -30,6 +30,7 @@ import DragDrop from "../../activities/DragDrop.vue";
 import DragItem from "../../activities/DragItem.vue";
 import DropSlot from "../../activities/DropSlot.vue";
 import StudentEntry from "../../ui/StudentEntry.vue";
+import Media from "../../ui/Media.vue";
 import MissionStage from "./MissionStage.vue";
 import RustSymbolMatch from "./RustSymbolMatch.vue";
 import RustDiagram from "./RustDiagram.vue";
@@ -97,8 +98,7 @@ watch(
 // Tell the home page when every mission is finished (or no longer is, after a reset).
 const home = useHomeStore();
 watch(
-  () =>
-    missionConfig.every((_, i) => state.completedMissions[i] === true),
+  () => missionConfig.every((_, i) => state.completedMissions[i] === true),
   (done) => home.setLessonComplete("lesson7", done),
   { immediate: true },
 );
@@ -109,12 +109,14 @@ const stage = computed(
 );
 const isActive = (id) =>
   state.started && !overviewOpen.value && stage.value?.id === id;
-const missionIndexOf = (s) => missionConfig.findIndex((m) => m.stages.includes(s));
+const missionIndexOf = (s) =>
+  missionConfig.findIndex((m) => m.stages.includes(s));
 const isLastStageOf = (s) => {
   const m = missionConfig[missionIndexOf(s)];
   return m.stages[m.stages.length - 1] === s;
 };
-const stageById = (id) => missionConfig.flatMap((m) => m.stages).find((s) => s.id === id);
+const stageById = (id) =>
+  missionConfig.flatMap((m) => m.stages).find((s) => s.id === id);
 
 /* ---------- feedback ---------- */
 
@@ -144,19 +146,67 @@ async function scrollToFeedback(stageId) {
 
 const CHOICES = {
   "m2-choose-scientific-drawing": [
-    { value: "option-1", image: IMG + "mission2/choose_drawing/rust-drawing-option-1.png", alt: "Scientific drawing option 1", title: "Option A" },
-    { value: "option-2", image: IMG + "mission2/choose_drawing/rust-drawing-option-3.png", alt: "Scientific drawing option 2", title: "Option B" },
-    { value: "option-3", image: IMG + "mission2/choose_drawing/rust-drawing-option-2.png", alt: "Scientific drawing option 3", title: "Option C" },
+    {
+      value: "option-1",
+      image: IMG + "mission2/choose_drawing/rust-drawing-option-1.png",
+      alt: "Scientific drawing option 1",
+      title: "Option A",
+    },
+    {
+      value: "option-2",
+      image: IMG + "mission2/choose_drawing/rust-drawing-option-3.png",
+      alt: "Scientific drawing option 2",
+      title: "Option B",
+    },
+    {
+      value: "option-3",
+      image: IMG + "mission2/choose_drawing/rust-drawing-option-2.png",
+      alt: "Scientific drawing option 3",
+      title: "Option C",
+    },
   ],
   "m4-identify": [
-    { value: "perch", image: IMG + "mission4/yellowfin-tuna.png", alt: "Reference fish A", title: "Reference A" },
-    { value: "pike-perch", image: IMG + "mission4/yellowperch.png", alt: "Reference fish B", title: "Reference B" },
-    { value: "rudd", image: IMG + "mission4/bluestripe-snapper.png", alt: "Reference fish C", title: "Reference C" },
+    {
+      value: "perch",
+      image: IMG + "mission4/yellowfin-tuna.png",
+      alt: "Reference fish A",
+      title: "Reference A",
+    },
+    {
+      value: "pike-perch",
+      image: IMG + "mission4/yellowperch.png",
+      alt: "Reference fish B",
+      title: "Reference B",
+    },
+    {
+      value: "rudd",
+      image: IMG + "mission4/bluestripe-snapper.png",
+      alt: "Reference fish C",
+      title: "Reference C",
+    },
   ],
   "m4-clownfish": [
-    { value: "colour", image: IMG + "mission4/clownfish3.png", alt: "Clownfish drawing option A with colour", title: "Drawing A", text: "A colourful representation." },
-    { value: "over-detailed", image: IMG + "mission4/clownfish2.png", alt: "Clownfish drawing option B with heavy texture and shading", title: "Drawing B", text: "Lots of texture and decorative detail." },
-    { value: "scientific", image: IMG + "mission4/clownfish1.png", alt: "Clownfish drawing option C using clear simple lines and main observable features", title: "Drawing C", text: "Clear lines and the main visible features only." },
+    {
+      value: "colour",
+      image: IMG + "mission4/clownfish3.png",
+      alt: "Clownfish drawing option A with colour",
+      title: "Drawing A",
+      text: "A colourful representation.",
+    },
+    {
+      value: "over-detailed",
+      image: IMG + "mission4/clownfish2.png",
+      alt: "Clownfish drawing option B with heavy texture and shading",
+      title: "Drawing B",
+      text: "Lots of texture and decorative detail.",
+    },
+    {
+      value: "scientific",
+      image: IMG + "mission4/clownfish1.png",
+      alt: "Clownfish drawing option C using clear simple lines and main observable features",
+      title: "Drawing C",
+      text: "Clear lines and the main visible features only.",
+    },
   ],
 };
 
@@ -187,7 +237,8 @@ watchEffect(() => {
   m5.optionIds = [...others, m5.speciesId].sort(() => Math.random() - 0.5);
 });
 
-const answerOf = (s) => (s.id === "m5-identify" ? state.mission5.speciesId : s.answer);
+const answerOf = (s) =>
+  s.id === "m5-identify" ? state.mission5.speciesId : s.answer;
 
 function choose(stageId, value) {
   const s = stageById(stageId);
@@ -204,7 +255,8 @@ function choose(stageId, value) {
 function choiceClass(stageId, value) {
   const s = stageById(stageId);
   if (state.selections[s.selectionKey] !== value) return null;
-  const mark = marks[stageId] ?? (state.completedStages[stageId] ? "correct" : null);
+  const mark =
+    marks[stageId] ?? (state.completedStages[stageId] ? "correct" : null);
   return ["selected", mark];
 }
 
@@ -320,7 +372,9 @@ function validate(s) {
     case "read":
       return true;
     case "multiple-choice":
-      return Boolean(answerOf(s)) && state.selections[s.selectionKey] === answerOf(s);
+      return (
+        Boolean(answerOf(s)) && state.selections[s.selectionKey] === answerOf(s)
+      );
     case "button-reveal":
       return state.selections.shallowWatersPressed;
     case "text-response":
@@ -330,7 +384,9 @@ function validate(s) {
     case "item-match":
       return symbolIndex.value >= rustRounds;
     case "finale":
-      return state.mission5.phase === "drawing" && state.mission5.drawingFinished;
+      return (
+        state.mission5.phase === "drawing" && state.mission5.drawingFinished
+      );
     default:
       return false;
   }
@@ -371,7 +427,11 @@ function check() {
   }
 
   if (!validate(s)) {
-    feedback[s.id] = { variant: "try-again", title: "Not quite yet", text: tryAgainMessage(s) };
+    feedback[s.id] = {
+      variant: "try-again",
+      title: "Not quite yet",
+      text: tryAgainMessage(s),
+    };
     if (s.type === "multiple-choice") marks[s.id] = "incorrect";
     scrollToFeedback(s.id);
     return;
@@ -409,7 +469,10 @@ function check() {
 
 function unlockStage(index) {
   const mi = state.currentMissionIndex;
-  state.unlockedStageIndices[mi] = Math.max(state.unlockedStageIndices[mi], index);
+  state.unlockedStageIndices[mi] = Math.max(
+    state.unlockedStageIndices[mi],
+    index,
+  );
 }
 
 function next() {
@@ -489,7 +552,10 @@ function reset() {
 
 // reaching the field guide (after identifying the animal) completes the expedition
 watchEffect(() => {
-  if (stage.value?.id === "m5-field-guide" && state.completedStages["m5-identify"]) {
+  if (
+    stage.value?.id === "m5-field-guide" &&
+    state.completedStages["m5-identify"]
+  ) {
     state.completedStages["m5-field-guide"] = true;
     state.completedMissions[3] = true;
   }
@@ -510,7 +576,9 @@ function hasInput(s) {
     case "item-match":
       return symbolIndex.value >= rustRounds;
     case "finale":
-      return state.mission5.phase === "drawing" && state.mission5.drawingFinished;
+      return (
+        state.mission5.phase === "drawing" && state.mission5.drawingFinished
+      );
     default:
       return true;
   }
@@ -525,7 +593,9 @@ function hasResettableInput(s) {
     case "item-match":
       return symbolIndex.value > 0;
     case "finale":
-      return state.mission5.phase !== "sonar" || Boolean(state.completedStages[s.id]);
+      return (
+        state.mission5.phase !== "sonar" || Boolean(state.completedStages[s.id])
+      );
     default:
       return hasInput(s);
   }
@@ -598,7 +668,10 @@ const controls = computed(() => {
       check: { hidden: true },
       reset: { label: "Close info", disabled: !openFish.value },
       next: { hidden: true },
-      status: ["Field guide.", " Select an animal to learn about its adaptations."],
+      status: [
+        "Field guide.",
+        " Select an animal to learn about its adaptations.",
+      ],
     };
 
   const completed = Boolean(state.completedStages[s.id]);
@@ -608,12 +681,27 @@ const controls = computed(() => {
   if (s.type === "finale" && !completed) {
     const m5 = state.mission5;
     const status = {
-      sonar: ["Unknown Species · Sonar scan.", " Select one detected contact to investigate."],
-      tracking: ["Tracking contact.", " Stand by while the observation feed locks on."],
+      sonar: [
+        "Unknown Species · Sonar scan.",
+        " Select one detected contact to investigate.",
+      ],
+      tracking: [
+        "Tracking contact.",
+        " Stand by while the observation feed locks on.",
+      ],
       observe: m5.observeEnded
-        ? ["Contact lost.", " The organism swam away. Find another animal on the sonar."]
-        : ["Visual contact acquired.", " Observe the organism, then attempt to capture an image."],
-      capture: ["Capturing image.", " Writing the observation frame to the expedition record..."],
+        ? [
+            "Contact lost.",
+            " The organism swam away. Find another animal on the sonar.",
+          ]
+        : [
+            "Visual contact acquired.",
+            " Observe the organism, then attempt to capture an image.",
+          ],
+      capture: [
+        "Capturing image.",
+        " Writing the observation frame to the expedition record...",
+      ],
       drawing: [
         "Camera failure — make a scientific drawing.",
         " Use the Science Check rules, then tick the box when you are finished.",
@@ -621,7 +709,10 @@ const controls = computed(() => {
     }[m5.phase];
     return {
       check: { label: "Complete", disabled: !hasInput(s) },
-      reset: { label: "Reset", disabled: m5.phase === "sonar" && !m5.speciesId },
+      reset: {
+        label: "Reset",
+        disabled: m5.phase === "sonar" && !m5.speciesId,
+      },
       next: { disabled: true },
       status,
     };
@@ -630,9 +721,15 @@ const controls = computed(() => {
   const reopensExample = s.id === "m4-frogfish-labels" && completed;
   let status;
   if (!completed)
-    status = [`${mission.value.title} · ${s.label}.`, " Complete this stage, then press CHECK."];
+    status = [
+      `${mission.value.title} · ${s.label}.`,
+      " Complete this stage, then press CHECK.",
+    ];
   else if (!isLast)
-    status = ["Stage logged.", ` Press NEXT to continue through ${mission.value.title}.`];
+    status = [
+      "Stage logged.",
+      ` Press NEXT to continue through ${mission.value.title}.`,
+    ];
   else if (finalMission)
     status = [
       "Expedition complete.",
@@ -670,7 +767,8 @@ function setMission(index) {
 }
 
 function setStage(index) {
-  if (index > (state.unlockedStageIndices[state.currentMissionIndex] || 0)) return;
+  if (index > (state.unlockedStageIndices[state.currentMissionIndex] || 0))
+    return;
   overviewOpen.value = false;
   state.currentStageIndex = index;
 }
@@ -689,7 +787,8 @@ media.addEventListener("change", onMedia);
 const depth = computed(
   () =>
     Math.round(
-      (state.completedMissions.filter(Boolean).length / missionConfig.length) * 100,
+      (state.completedMissions.filter(Boolean).length / missionConfig.length) *
+        100,
     ) + "%",
 );
 
@@ -737,7 +836,9 @@ function teacherJump(id) {
 
 function teacherShowAll() {
   unlockMissionsUpTo(missionConfig.length - 1);
-  missionConfig.forEach((m, i) => (state.unlockedStageIndices[i] = m.stages.length - 1));
+  missionConfig.forEach(
+    (m, i) => (state.unlockedStageIndices[i] = m.stages.length - 1),
+  );
   state.teacherMode = true;
   state.started = true;
   overviewOpen.value = true;
@@ -769,7 +870,8 @@ provide("lessonPage", {
 let teacherClicks = 0;
 let teacherTimer = null;
 function onDocumentClick(event) {
-  if (!event.composedPath().some((node) => node?.id === "teacherTrigger")) return;
+  if (!event.composedPath().some((node) => node?.id === "teacherTrigger"))
+    return;
   teacherClicks++;
   clearTimeout(teacherTimer);
   if (teacherClicks >= 5) {
@@ -809,7 +911,9 @@ function onFullscreenChange() {
 const MAX_WIDTH_FRACTION = 0.97;
 const MAX_HEIGHT_FRACTION = 0.98;
 const TOP_GAP = 16; // #expedition-main's sticky top
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 let natural = { left: 0, width: 0, height: 0 };
 let ticking = false;
 
@@ -839,19 +943,22 @@ function updateZoom() {
   const targetLeft = (vw - targetWidth) / 2;
   const naturalRight = natural.left + natural.width;
   const left = natural.left + (targetLeft - natural.left) * progress;
-  const right = naturalRight + (targetLeft + targetWidth - naturalRight) * progress;
+  const right =
+    naturalRight + (targetLeft + targetWidth - naturalRight) * progress;
   el.style.width = right - left + "px";
   el.style.marginLeft = left - natural.left + "px";
 
   const available = vh - TOP_GAP;
   el.style.height =
     Math.min(
-      natural.height + (available * MAX_HEIGHT_FRACTION - natural.height) * progress,
+      natural.height +
+        (available * MAX_HEIGHT_FRACTION - natural.height) * progress,
       available,
     ) + "px";
 
   const header = document.querySelector(".page-header");
-  if (header) header.style.transform = `translateY(${(-200 * progress).toFixed(2)}%)`;
+  if (header)
+    header.style.transform = `translateY(${(-200 * progress).toFixed(2)}%)`;
 }
 
 function onScroll() {
@@ -862,13 +969,18 @@ function onScroll() {
 
 /* ---------- the submarine model in the banner ---------- */
 
-const MODEL_VIEWER = "https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js";
+const MODEL_VIEWER =
+  "https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js";
 const submarine = ref(null);
 const submarineBox = ref(null);
 let glowFrame = null;
 
 function loadModelViewer() {
-  if (customElements.get("model-viewer") || document.querySelector(`script[src="${MODEL_VIEWER}"]`)) return;
+  if (
+    customElements.get("model-viewer") ||
+    document.querySelector(`script[src="${MODEL_VIEWER}"]`)
+  )
+    return;
   const script = document.createElement("script");
   script.type = "module";
   script.src = MODEL_VIEWER;
@@ -879,8 +991,14 @@ function loadModelViewer() {
 function updateGlow() {
   const time = submarine.value?.currentTime || 0;
   const angle = (time / 9) * Math.PI * 2;
-  submarineBox.value?.style.setProperty("--glow-x", 50 + Math.sin(angle) * 130 + "%");
-  submarineBox.value?.style.setProperty("--glow-y", 50 + Math.cos(angle) * 65 + "%");
+  submarineBox.value?.style.setProperty(
+    "--glow-x",
+    50 + Math.sin(angle) * 130 + "%",
+  );
+  submarineBox.value?.style.setProperty(
+    "--glow-y",
+    50 + Math.cos(angle) * 65 + "%",
+  );
   glowFrame = requestAnimationFrame(updateGlow);
 }
 
@@ -936,7 +1054,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="zoomStage" class="expedition-zoom-stage" :class="{ 'no-zoom': reduceMotion }">
+  <div
+    ref="zoomStage"
+    class="expedition-zoom-stage"
+    :class="{ 'no-zoom': reduceMotion }"
+  >
     <!-- inside the zoom stage so they still show in full screen -->
     <Modal
       ref="modal"
@@ -982,7 +1104,11 @@ onBeforeUnmount(() => {
           alt="Example frogfish scientific diagram with labels"
         />
         <div class="frogfish-example-actions">
-          <button type="button" class="expedition-button" @click="frogfishOpen = false">
+          <button
+            type="button"
+            class="expedition-button"
+            @click="frogfishOpen = false"
+          >
             <span>Continue</span>
           </button>
         </div>
@@ -1012,10 +1138,18 @@ onBeforeUnmount(() => {
           <h2>Deep Sea Explorers</h2>
         </div>
         <div class="banner-actions">
-          <button type="button" class="expedition-button" @click="toggleFullscreen">
+          <button
+            type="button"
+            class="expedition-button"
+            @click="toggleFullscreen"
+          >
             <span>{{ fullscreen ? "Close Full Screen" : "Full Screen" }}</span>
           </button>
-          <button type="button" class="expedition-button field-guide-button" @click="openGlossary">
+          <button
+            type="button"
+            class="expedition-button field-guide-button"
+            @click="openGlossary"
+          >
             <span>Field guide</span>
           </button>
           <button
@@ -1055,7 +1189,9 @@ onBeforeUnmount(() => {
                 <span>{{ m.nav.subtitle }}</span>
               </button>
               <div
-                v-if="state.started && !narrow && i === state.currentMissionIndex"
+                v-if="
+                  state.started && !narrow && i === state.currentMissionIndex
+                "
                 class="substage-nav"
                 aria-label="Current mission stages"
               >
@@ -1092,7 +1228,9 @@ onBeforeUnmount(() => {
                 active: si === state.currentStageIndex,
                 complete: state.completedStages[s.id],
               }"
-              :disabled="si > state.unlockedStageIndices[state.currentMissionIndex]"
+              :disabled="
+                si > state.unlockedStageIndices[state.currentMissionIndex]
+              "
               @click="setStage(si)"
             >
               {{ s.label }}
@@ -1120,10 +1258,14 @@ onBeforeUnmount(() => {
                 <h3>Click start to dive into the deep</h3>
                 <p>
                   Move through each mission one stage at a time. CHECK confirms
-                  the current stage, RESET clears the current response, and
-                  NEXT advances only after the stage is complete.
+                  the current stage, RESET clears the current response, and NEXT
+                  advances only after the stage is complete.
                 </p>
-                <button type="button" class="expedition-button start-button" @click="start">
+                <button
+                  type="button"
+                  class="expedition-button start-button"
+                  @click="start"
+                >
                   <span>Start expedition</span>
                 </button>
               </div>
@@ -1137,7 +1279,8 @@ onBeforeUnmount(() => {
             >
               <div class="stage-overview-header">
                 <p class="mission-label">
-                  Mission {{ String(state.currentMissionIndex + 1).padStart(2, "0") }}
+                  Mission
+                  {{ String(state.currentMissionIndex + 1).padStart(2, "0") }}
                 </p>
                 <h3>{{ mission.title }}</h3>
                 <p>Choose a stage to open it.</p>
@@ -1163,7 +1306,9 @@ onBeforeUnmount(() => {
                       v-if="overviewThumbs[s.id]"
                       v-bind="overviewThumbs[s.id].attrs"
                     />
-                    <template v-else>{{ String(si + 1).padStart(2, "0") }}</template>
+                    <template v-else>{{
+                      String(si + 1).padStart(2, "0")
+                    }}</template>
                   </div>
                   <span class="stage-progress-chip">
                     Stage {{ si + 1 }} of {{ mission.stages.length }}
@@ -1182,7 +1327,9 @@ onBeforeUnmount(() => {
               class="section expedition-mission"
               :class="{
                 active:
-                  state.started && !overviewOpen && i === state.currentMissionIndex,
+                  state.started &&
+                  !overviewOpen &&
+                  i === state.currentMissionIndex,
                 locked: i > state.unlockedMissionIndex,
                 completed: state.completedMissions[i],
               }"
@@ -1206,10 +1353,13 @@ onBeforeUnmount(() => {
                     explore the ocean floor.
                   </p>
                   <div class="story-grid">
-                    <figure class="media-card">
-                      <img :src="IMG + 'mission1/deep-sea.png'" alt="Deep-sea camera used to observe the ocean floor" />
-                      <figcaption>The deep-sea</figcaption>
-                    </figure>
+                    <Media
+                      class="media-card"
+                      :framed="false"
+                      :src="IMG + 'mission1/deep-sea.png'"
+                      alt="Deep-sea camera used to observe the ocean floor"
+                      caption="The deep-sea"
+                    />
                     <div class="story-copy">
                       <p>
                         The deep sea has tough conditions: it is extremely dark,
@@ -1227,13 +1377,17 @@ onBeforeUnmount(() => {
                         <strong>200 metres deep</strong>.
                       </p>
                     </div>
-                    <figure class="media-card">
-                      <img :src="IMG + 'mission1/hercules-rov.jpg'" alt="Remotely operated vehicle Hercules exploring underwater" />
-                      <figcaption>Remotely operated vehicle “Hercules”</figcaption>
-                    </figure>
+                    <Media
+                      class="media-card"
+                      :framed="false"
+                      :src="IMG + 'mission1/hercules-rov.jpg'"
+                      alt="Remotely operated vehicle Hercules exploring underwater"
+                      caption="Remotely operated vehicle “Hercules”"
+                    />
                   </div>
                   <p class="activity-prompt">
-                    When you have reviewed the briefing, press <strong>CHECK</strong>.
+                    When you have reviewed the briefing, press
+                    <strong>CHECK</strong>.
                   </p>
                 </MissionStage>
 
@@ -1255,22 +1409,30 @@ onBeforeUnmount(() => {
                     <figure class="media-card">
                       <div
                         class="glitch-frame"
-                        :style="{ '--glitch-src': `url('${absolute(IMG + 'mission1/camera-footage.webp')}')` }"
+                        :style="{
+                          '--glitch-src': `url('${absolute(IMG + 'mission1/camera-footage.webp')}')`,
+                        }"
                       >
-                        <img :src="IMG + 'mission1/camera-footage.webp'" alt="Corrupted camera footage from the remotely operated vehicle Hercules" />
+                        <img
+                          :src="IMG + 'mission1/camera-footage.webp'"
+                          alt="Corrupted camera footage from the remotely operated vehicle Hercules"
+                        />
                       </div>
                       <figcaption>Corrupted camera feed</figcaption>
                     </figure>
-                    <figure class="media-card">
-                      <img :src="IMG + 'mission1/camera-footage.webp'" alt="Clear camera footage from the remotely operated vehicle Hercules" />
-                      <figcaption>Clear camera feed</figcaption>
-                    </figure>
+                    <Media
+                      class="media-card"
+                      :framed="false"
+                      :src="IMG + 'mission1/camera-footage.webp'"
+                      alt="Clear camera footage from the remotely operated vehicle Hercules"
+                      caption="Clear camera feed"
+                    />
                   </div>
                   <div class="story-copy" style="margin-top: 16px">
                     <h4>What happens if the image is lost?</h4>
                     <p>
-                      If a camera fails, scientists still need a way to
-                      preserve what they observed. Careful observations and
+                      If a camera fails, scientists still need a way to preserve
+                      what they observed. Careful observations and
                       <strong>scientific drawings</strong> can provide a visual
                       record when photographs or video are unavailable.
                     </p>
@@ -1310,11 +1472,23 @@ onBeforeUnmount(() => {
                   </div>
                   <div class="mission-image-container">
                     <div class="rust-camera-stack">
-                      <img class="rust-camera-base" :src="IMG + 'mission2/rusted-hercules.png'" alt="Rusted hercules vessel" />
+                      <img
+                        class="rust-camera-base"
+                        :src="IMG + 'mission2/rusted-hercules.png'"
+                        alt="Rusted hercules vessel"
+                      />
                       <img
                         class="rust-camera-gif"
-                        :src="rusted ? IMG + 'rusted-camera.png' : IMG + 'animations/camera_shutter.gif'"
-                        :alt="rusted ? 'Rusted and damaged submersible camera' : 'Working submersible camera animation'"
+                        :src="
+                          rusted
+                            ? IMG + 'rusted-camera.png'
+                            : IMG + 'animations/camera_shutter.gif'
+                        "
+                        :alt="
+                          rusted
+                            ? 'Rusted and damaged submersible camera'
+                            : 'Working submersible camera animation'
+                        "
                         role="button"
                         tabindex="0"
                         :aria-pressed="rusted"
@@ -1344,10 +1518,13 @@ onBeforeUnmount(() => {
                     You will be investigating what happens to metal when it
                     reacts with different liquids.
                   </p>
-                  <figure class="media-card">
-                    <img :src="IMG + 'mission2/rust-experiment.png'" alt="Three jars containing iron wool in water, saltwater and oil" />
-                    <figcaption>Iron wool in water, saltwater and oil</figcaption>
-                  </figure>
+                  <Media
+                    class="media-card"
+                    :framed="false"
+                    :src="IMG + 'mission2/rust-experiment.png'"
+                    alt="Three jars containing iron wool in water, saltwater and oil"
+                    caption="Iron wool in water, saltwater and oil"
+                  />
                   <div class="story-copy" style="margin-top: 16px">
                     <p>
                       This experiment uses <strong>iron wool</strong> to
@@ -1359,7 +1536,8 @@ onBeforeUnmount(() => {
                     </p>
                   </div>
                   <p class="activity-prompt">
-                    Review the experiment set-up, then press <strong>CHECK</strong>.
+                    Review the experiment set-up, then press
+                    <strong>CHECK</strong>.
                   </p>
                 </MissionStage>
 
@@ -1414,19 +1592,65 @@ onBeforeUnmount(() => {
                         :pieces="symbolIndex"
                         aria-label="Completed rust experiment diagram"
                       />
-                      <svg class="diagram-label-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                        <line data-dl-line="jar-lid" x1="90" y1="35" x2="74" y2="35"></line>
-                        <line data-dl-line="jar" x1="90" y1="50" x2="74" y2="50"></line>
-                        <line data-dl-line="steel-wool" x1="90" y1="65" x2="70" y2="58"></line>
+                      <svg
+                        class="diagram-label-lines"
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                      >
+                        <line
+                          data-dl-line="jar-lid"
+                          x1="90"
+                          y1="35"
+                          x2="74"
+                          y2="35"
+                        ></line>
+                        <line
+                          data-dl-line="jar"
+                          x1="90"
+                          y1="50"
+                          x2="74"
+                          y2="50"
+                        ></line>
+                        <line
+                          data-dl-line="steel-wool"
+                          x1="90"
+                          y1="65"
+                          x2="70"
+                          y2="58"
+                        ></line>
                       </svg>
-                      <DropSlot name="label-jar-lid" answer="jar-lid" style="--dd-x: 90%; --dd-y: 35%" aria-label="Drop the label for the jar lid here" />
-                      <DropSlot name="label-jar" answer="jar" style="--dd-x: 90%; --dd-y: 50%" aria-label="Drop the label for the jar here" />
-                      <DropSlot name="label-steel-wool" answer="steel-wool" style="--dd-x: 90%; --dd-y: 65%" aria-label="Drop the label for the steel wool here" />
+                      <DropSlot
+                        name="label-jar-lid"
+                        answer="jar-lid"
+                        style="--dd-x: 90%; --dd-y: 35%"
+                        aria-label="Drop the label for the jar lid here"
+                      />
+                      <DropSlot
+                        name="label-jar"
+                        answer="jar"
+                        style="--dd-x: 90%; --dd-y: 50%"
+                        aria-label="Drop the label for the jar here"
+                      />
+                      <DropSlot
+                        name="label-steel-wool"
+                        answer="steel-wool"
+                        style="--dd-x: 90%; --dd-y: 65%"
+                        aria-label="Drop the label for the steel wool here"
+                      />
                     </div>
-                    <div class="dd-tray diagram-label-tray" data-dd-tray aria-label="Diagram labels">
+                    <div
+                      class="dd-tray diagram-label-tray"
+                      data-dd-tray
+                      aria-label="Diagram labels"
+                    >
                       <DragItem class="m4-label-token" name="jar">Jar</DragItem>
-                      <DragItem class="m4-label-token" name="jar-lid">Jar Lid</DragItem>
-                      <DragItem class="m4-label-token" name="steel-wool">Steel Wool</DragItem>
+                      <DragItem class="m4-label-token" name="jar-lid"
+                        >Jar Lid</DragItem
+                      >
+                      <DragItem class="m4-label-token" name="steel-wool"
+                        >Steel Wool</DragItem
+                      >
                     </div>
                   </DragDrop>
                   <p class="activity-prompt">
@@ -1447,13 +1671,13 @@ onBeforeUnmount(() => {
                     <strong>Your task:</strong>
                     Draw a scientific diagram of this experiment.
                   </p>
-                  <figure class="media-card">
-                    <img :src="IMG + 'mission2/rust-experiment.png'" alt="Rust experiment showing iron wool in water, saltwater and oil" />
-                    <figcaption>
-                      Use this experiment set-up as the reference for your
-                      scientific drawing.
-                    </figcaption>
-                  </figure>
+                  <Media
+                    class="media-card"
+                    :framed="false"
+                    :src="IMG + 'mission2/rust-experiment.png'"
+                    alt="Rust experiment showing iron wool in water, saltwater and oil"
+                    caption="Use this experiment set-up as the reference for your scientific drawing."
+                  />
                   <div class="story-copy" style="margin-top: 16px">
                     <h4>Use your Science Check</h4>
                     <p>
@@ -1495,14 +1719,22 @@ onBeforeUnmount(() => {
                     <strong>Your task:</strong>
                     Select the correct scientific drawing of this experiment.
                   </p>
-                  <div class="choice-grid" role="group" aria-label="Scientific drawing options">
+                  <div
+                    class="choice-grid"
+                    role="group"
+                    aria-label="Scientific drawing options"
+                  >
                     <button
                       v-for="c in CHOICES['m2-choose-scientific-drawing']"
                       :key="c.value"
                       type="button"
                       class="choice-card media-choice"
-                      :class="choiceClass('m2-choose-scientific-drawing', c.value)"
-                      :aria-pressed="state.selections.rustScientificDrawing === c.value"
+                      :class="
+                        choiceClass('m2-choose-scientific-drawing', c.value)
+                      "
+                      :aria-pressed="
+                        state.selections.rustScientificDrawing === c.value
+                      "
                       @click="choose('m2-choose-scientific-drawing', c.value)"
                     >
                       <img class="choice-image" :src="c.image" :alt="c.alt" />
@@ -1527,10 +1759,13 @@ onBeforeUnmount(() => {
                     Here are the results from the rust experiment after
                     <strong>24 hours</strong>.
                   </p>
-                  <figure class="media-card">
-                    <img :src="IMG + 'mission2/rust-experiment-after.png'" alt="Rust experiment after 24 hours showing iron wool in water, saltwater and oil" />
-                    <figcaption>Rust experiment after 24 hours</figcaption>
-                  </figure>
+                  <Media
+                    class="media-card"
+                    :framed="false"
+                    :src="IMG + 'mission2/rust-experiment-after.png'"
+                    alt="Rust experiment after 24 hours showing iron wool in water, saltwater and oil"
+                    caption="Rust experiment after 24 hours"
+                  />
                   <div class="story-copy" style="margin-top: 16px">
                     <h4>What can you conclude?</h4>
                     <p>
@@ -1590,7 +1825,11 @@ onBeforeUnmount(() => {
                     v-else
                     role="group"
                     aria-label="Go to shallow waters"
-                    style="display: flex; justify-content: center; margin-top: 20px"
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      margin-top: 20px;
+                    "
                   >
                     <button
                       type="button"
@@ -1640,33 +1879,32 @@ onBeforeUnmount(() => {
                       Watch the footage, then select the reference fish that
                       best matches the animal shown by the camera.
                     </p>
-                    <div class="fish-question-image">
-                      <video
-                        :src="'../videos/lesson5/visdeurbel-fish-1.mp4'"
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        controls
-                        preload="metadata"
-                        aria-label="Underwater camera footage showing a fish to identify"
-                        style="width: 100%; display: block"
-                      >
-                        Your browser does not support the video element.
-                      </video>
-                    </div>
+                    <Media
+                      :src="'../videos/lesson5/visdeurbel-fish-1.mp4'"
+                      alt="Underwater camera footage showing a fish to identify"
+                      :controls="false"
+                      style="width: 100%; display: block"
+                    />
                     <div v-if="fishPreview" class="m4-fish-preview pop-in">
-                      <p><strong>{{ fishPreview.title }}</strong></p>
+                      <p>
+                        <strong>{{ fishPreview.title }}</strong>
+                      </p>
                       <img :src="fishPreview.image" :alt="fishPreview.alt" />
                     </div>
-                    <div class="choice-grid" role="group" aria-label="Choose the fish that matches the underwater footage">
+                    <div
+                      class="choice-grid"
+                      role="group"
+                      aria-label="Choose the fish that matches the underwater footage"
+                    >
                       <button
                         v-for="c in CHOICES['m4-identify']"
                         :key="c.value"
                         type="button"
                         class="choice-card media-choice"
                         :class="choiceClass('m4-identify', c.value)"
-                        :aria-pressed="state.selections.shallowFish1 === c.value"
+                        :aria-pressed="
+                          state.selections.shallowFish1 === c.value
+                        "
                         @click="choose('m4-identify', c.value)"
                       >
                         <img class="choice-image" :src="c.image" :alt="c.alt" />
@@ -1693,7 +1931,13 @@ onBeforeUnmount(() => {
                       type="button"
                       class="mission-image-trigger"
                       aria-label="Zoom in on a photo of the clownfish"
-                      @click="openModal('image', { src: IMG + 'mission4/clownfish.png', title: 'Clownfish', alt: 'Photo of a clownfish' })"
+                      @click="
+                        openModal('image', {
+                          src: IMG + 'mission4/clownfish.png',
+                          title: 'Clownfish',
+                          alt: 'Photo of a clownfish',
+                        })
+                      "
                     >
                       <img :src="IMG + 'mission4/clownfish.png'" alt="" />
                     </button>
@@ -1702,9 +1946,9 @@ onBeforeUnmount(() => {
                   <h3>Which clownfish is drawn like a scientist?</h3>
                   <p class="mission-subtitle">
                     A scientific drawing should show the important observable
-                    structures clearly. It is not an artwork: colour,
-                    decorative shading and unnecessary detail can make the
-                    record harder to interpret.
+                    structures clearly. It is not an artwork: colour, decorative
+                    shading and unnecessary detail can make the record harder to
+                    interpret.
                   </p>
                   <div class="drawing-choice-grid">
                     <button
@@ -1713,7 +1957,9 @@ onBeforeUnmount(() => {
                       type="button"
                       class="choice-card m4-clownfish-choice"
                       :class="choiceClass('m4-clownfish', c.value)"
-                      :aria-pressed="state.selections.clownfishDiagram === c.value"
+                      :aria-pressed="
+                        state.selections.clownfishDiagram === c.value
+                      "
                       @click="choose('m4-clownfish', c.value)"
                     >
                       <img class="choice-image" :src="c.image" :alt="c.alt" />
@@ -1740,9 +1986,18 @@ onBeforeUnmount(() => {
                       type="button"
                       class="mission-image-trigger"
                       aria-label="Zoom in on a photo of the red-lipped batfish"
-                      @click="openModal('image', { src: IMG + 'mission4/red-lipped-batfish.jpg', title: 'Red-lipped batfish', alt: 'Photo of a red-lipped batfish' })"
+                      @click="
+                        openModal('image', {
+                          src: IMG + 'mission4/red-lipped-batfish.jpg',
+                          title: 'Red-lipped batfish',
+                          alt: 'Photo of a red-lipped batfish',
+                        })
+                      "
                     >
-                      <img :src="IMG + 'mission4/red-lipped-batfish.jpg'" alt="" />
+                      <img
+                        :src="IMG + 'mission4/red-lipped-batfish.jpg'"
+                        alt=""
+                      />
                     </button>
                     <p>Click the image to zoom in</p>
                   </div>
@@ -1767,19 +2022,56 @@ onBeforeUnmount(() => {
                           alt="Front-view scientific drawing of a red-lipped batfish with five leader lines for guided labelling"
                         />
                         <!-- drop zones beside the ends of the five leader lines in the 4:3 image -->
-                        <DropSlot name="batfish-eye" answer="eye" style="--dd-x: 16.2%; --dd-y: 21.4%; --dd-w: 24.7%" aria-label="Drop the label for the eye here" />
-                        <DropSlot name="batfish-dorsal" answer="dorsal-fin" style="--dd-x: 79.7%; --dd-y: 13.1%; --dd-w: 25%" aria-label="Drop the label for the dorsal fin here" />
-                        <DropSlot name="batfish-snout" answer="snout" style="--dd-x: 88%; --dd-y: 35.7%; --dd-w: 23%" aria-label="Drop the label for the snout here" />
-                        <DropSlot name="batfish-pectoral" answer="pectoral-fin" style="--dd-x: 16%; --dd-y: 86.6%; --dd-w: 24.5%" aria-label="Drop the label for the pectoral fin here" />
-                        <DropSlot name="batfish-mouth" answer="mouth" style="--dd-x: 82.5%; --dd-y: 83.1%; --dd-w: 22.5%" aria-label="Drop the label for the mouth and red lips here" />
+                        <DropSlot
+                          name="batfish-eye"
+                          answer="eye"
+                          style="--dd-x: 16.2%; --dd-y: 21.4%; --dd-w: 24.7%"
+                          aria-label="Drop the label for the eye here"
+                        />
+                        <DropSlot
+                          name="batfish-dorsal"
+                          answer="dorsal-fin"
+                          style="--dd-x: 79.7%; --dd-y: 13.1%; --dd-w: 25%"
+                          aria-label="Drop the label for the dorsal fin here"
+                        />
+                        <DropSlot
+                          name="batfish-snout"
+                          answer="snout"
+                          style="--dd-x: 88%; --dd-y: 35.7%; --dd-w: 23%"
+                          aria-label="Drop the label for the snout here"
+                        />
+                        <DropSlot
+                          name="batfish-pectoral"
+                          answer="pectoral-fin"
+                          style="--dd-x: 16%; --dd-y: 86.6%; --dd-w: 24.5%"
+                          aria-label="Drop the label for the pectoral fin here"
+                        />
+                        <DropSlot
+                          name="batfish-mouth"
+                          answer="mouth"
+                          style="--dd-x: 82.5%; --dd-y: 83.1%; --dd-w: 22.5%"
+                          aria-label="Drop the label for the mouth and red lips here"
+                        />
                       </div>
                     </div>
-                    <div class="dd-tray m4-label-tray" data-dd-tray aria-label="Batfish labels">
+                    <div
+                      class="dd-tray m4-label-tray"
+                      data-dd-tray
+                      aria-label="Batfish labels"
+                    >
                       <DragItem class="m4-label-token" name="eye">Eye</DragItem>
-                      <DragItem class="m4-label-token" name="mouth">Mouth (red lips)</DragItem>
-                      <DragItem class="m4-label-token" name="snout">Snout</DragItem>
-                      <DragItem class="m4-label-token" name="dorsal-fin">Dorsal fin</DragItem>
-                      <DragItem class="m4-label-token" name="pectoral-fin">Pectoral fin</DragItem>
+                      <DragItem class="m4-label-token" name="mouth"
+                        >Mouth (red lips)</DragItem
+                      >
+                      <DragItem class="m4-label-token" name="snout"
+                        >Snout</DragItem
+                      >
+                      <DragItem class="m4-label-token" name="dorsal-fin"
+                        >Dorsal fin</DragItem
+                      >
+                      <DragItem class="m4-label-token" name="pectoral-fin"
+                        >Pectoral fin</DragItem
+                      >
                     </div>
                   </DragDrop>
                   <p class="activity-prompt">
@@ -1801,7 +2093,13 @@ onBeforeUnmount(() => {
                       type="button"
                       class="mission-image-trigger"
                       aria-label="Zoom in on a photo of the frogfish"
-                      @click="openModal('image', { src: IMG + 'mission4/Frogfish.webp', title: 'Frogfish', alt: 'Photo of a frogfish' })"
+                      @click="
+                        openModal('image', {
+                          src: IMG + 'mission4/Frogfish.webp',
+                          title: 'Frogfish',
+                          alt: 'Photo of a frogfish',
+                        })
+                      "
                     >
                       <img :src="IMG + 'mission4/Frogfish.webp'" alt="" />
                     </button>
@@ -1833,7 +2131,9 @@ onBeforeUnmount(() => {
                         }"
                       >
                         <StudentEntry
-                          v-model:answers="state.selections.frogfishLabels[entry.key]"
+                          v-model:answers="
+                            state.selections.frogfishLabels[entry.key]
+                          "
                           :multiple-inputs="false"
                           :maxlength="30"
                           placeholder="Type label"
@@ -1890,7 +2190,15 @@ onBeforeUnmount(() => {
                   </p>
                   <div class="fish-question-image">
                     <img
-                      :src="state.mission5.speciesId ? staticSrc(mission5SpeciesPool.find((s) => s.id === state.mission5.speciesId)) : null"
+                      :src="
+                        state.mission5.speciesId
+                          ? staticSrc(
+                              mission5SpeciesPool.find(
+                                (s) => s.id === state.mission5.speciesId,
+                              ),
+                            )
+                          : null
+                      "
                       alt="Static image of the organism recorded by the camera"
                     />
                   </div>
@@ -1913,10 +2221,15 @@ onBeforeUnmount(() => {
                     class="m5-complete-card pop-in"
                   >
                     <template
-                      v-for="species in mission5SpeciesPool.filter((s) => s.id === state.mission5.speciesId)"
+                      v-for="species in mission5SpeciesPool.filter(
+                        (s) => s.id === state.mission5.speciesId,
+                      )"
                       :key="species.id"
                     >
-                      <img :src="staticSrc(species)" alt="Deep-sea organism from the completed expedition" />
+                      <img
+                        :src="staticSrc(species)"
+                        alt="Deep-sea organism from the completed expedition"
+                      />
                       <div>
                         <p class="mission-label">Expedition complete</p>
                         <h4>Scientific record secured</h4>
@@ -1924,7 +2237,9 @@ onBeforeUnmount(() => {
                           The camera failed, but your scientific drawing
                           preserved an observation of the organism.
                         </p>
-                        <span class="m5-species-reveal">Field guide match: {{ species.name }}</span>
+                        <span class="m5-species-reveal"
+                          >Field guide match: {{ species.name }}</span
+                        >
                         <p>{{ species.note }}</p>
                       </div>
                     </template>
@@ -1961,7 +2276,8 @@ onBeforeUnmount(() => {
 
           <footer class="stage-controls" aria-label="Mission controls">
             <div class="control-status">
-              <strong>{{ controls.status[0] }}</strong>{{ controls.status[1] }}
+              <strong>{{ controls.status[0] }}</strong
+              >{{ controls.status[1] }}
             </div>
             <button
               v-show="!controls.check.hidden"
@@ -2011,7 +2327,11 @@ onBeforeUnmount(() => {
               <p>Unlocks after you complete the scientific symbols activity.</p>
             </div>
             <div class="checkpoint-list">
-              <label v-for="rule in SCIENCE_CHECK_RULES" :key="rule" class="checkpoint">
+              <label
+                v-for="rule in SCIENCE_CHECK_RULES"
+                :key="rule"
+                class="checkpoint"
+              >
                 <input type="checkbox" /> {{ rule }}
               </label>
             </div>
@@ -2100,8 +2420,16 @@ onBeforeUnmount(() => {
 
 .dd-target {
   background:
-    repeating-linear-gradient(0deg, rgba(48, 51, 47, 0.06) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(90deg, rgba(48, 51, 47, 0.06) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(
+      0deg,
+      rgba(48, 51, 47, 0.06) 0 1px,
+      transparent 1px 28px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(48, 51, 47, 0.06) 0 1px,
+      transparent 1px 28px
+    ),
     white;
 }
 
@@ -2130,7 +2458,10 @@ onBeforeUnmount(() => {
   border: 3px dashed rgba(48, 51, 47, 0.45);
   border-radius: 50%;
   background: rgba(57, 211, 255, 0.08);
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .dd-target [data-dd-slot] {
@@ -2170,11 +2501,22 @@ onBeforeUnmount(() => {
 }
 
 @keyframes dd-reject-shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-4px); }
-  80% { transform: translateX(3px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
 }
 
 .dd-target [data-dd-slot].dd-rejected {
@@ -2182,11 +2524,22 @@ onBeforeUnmount(() => {
 }
 
 @keyframes dd-reject-shake-positioned {
-  0%, 100% { transform: translate(-50%, -50%); }
-  20% { transform: translate(calc(-50% - 6px), -50%); }
-  40% { transform: translate(calc(-50% + 5px), -50%); }
-  60% { transform: translate(calc(-50% - 4px), -50%); }
-  80% { transform: translate(calc(-50% + 3px), -50%); }
+  0%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+  20% {
+    transform: translate(calc(-50% - 6px), -50%);
+  }
+  40% {
+    transform: translate(calc(-50% + 5px), -50%);
+  }
+  60% {
+    transform: translate(calc(-50% - 4px), -50%);
+  }
+  80% {
+    transform: translate(calc(-50% + 3px), -50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2225,7 +2578,9 @@ onBeforeUnmount(() => {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
 }
 
 [data-dd-item]:hover:not(.dd-placed) {
@@ -2364,7 +2719,11 @@ onBeforeUnmount(() => {
   color: var(--dd-ink);
   font-size: 0.85rem;
   font-weight: 700;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 /* max-width/max-height (not width/height) so these shrink with the button
@@ -2443,7 +2802,9 @@ onBeforeUnmount(() => {
   display: block;
   width: 100%;
   height: 220px;
-  color: var(--dd-ink); /* available to pieces that use fill/stroke="currentColor" */
+  color: var(
+    --dd-ink
+  ); /* available to pieces that use fill/stroke="currentColor" */
 }
 
 .item-match-diagram-placeholder {
@@ -4147,6 +4508,7 @@ onBeforeUnmount(() => {
 }
 
 .media-card {
+  margin: 0;
   overflow: hidden;
   border: 3px solid var(--mission-border);
   border-radius: 18px;
@@ -4552,7 +4914,6 @@ onBeforeUnmount(() => {
       .checkpoint-list {
         grid-template-columns: repeat(2, minmax(0, 1fr)); 
       }*/
-
 }
 
 @media (max-width: 520px) {
