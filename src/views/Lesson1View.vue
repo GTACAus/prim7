@@ -1,9 +1,9 @@
 <script setup>
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
-import Flashcards from "../components/lesson1/Flashcards.vue";
-import QuestionWheel from "../components/lesson1/QuestionWheel.vue";
-import PredictionTests from "../components/lesson1/PredictionTests.vue";
+import Flashcards from "../components/lessons/lesson1/Flashcards.vue";
+import QuestionWheel from "../components/lessons/lesson1/QuestionWheel.vue";
+import PredictionTests from "../components/lessons/lesson1/PredictionTests.vue";
 import PredictionTable from "../components/activities/PredictionTable.vue";
 import LessonIntro from "../components/content/LessonIntro.vue";
 import LessonCard from "../components/content/LessonCard.vue";

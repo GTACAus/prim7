@@ -9,8 +9,8 @@
   Saved through <Activity :state>.
 */
 import { computed, ref } from "vue";
-import Activity from "../activities/Activity.vue";
-import Button from "../ui/Button.vue";
+import Activity from "../../activities/Activity.vue";
+import Button from "../../ui/Button.vue";
 
 const independentOptions = [
   { value: "surface", text: "Type of surface" },

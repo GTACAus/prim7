@@ -1,6 +1,6 @@
 <script setup>
 import LessonIntro from "../components/content/LessonIntro.vue";
-import Expedition from "../components/lesson7/Expedition.vue";
+import Expedition from "../components/lessons/lesson7/Expedition.vue";
 
 // Terms shown in the vocabulary modal ("Field guide"): { word: description }
 const glossary = {

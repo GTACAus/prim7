@@ -14,9 +14,9 @@
   found animals, the check and the stack view are saved through <Activity :state>.
 */
 import { computed, nextTick, onMounted, ref } from "vue";
-import Activity from "../activities/Activity.vue";
-import ContentBox from "../ui/ContentBox.vue";
-import Button from "../ui/Button.vue";
+import Activity from "../../activities/Activity.vue";
+import ContentBox from "../../ui/ContentBox.vue";
+import Button from "../../ui/Button.vue";
 
 const IMG = "../images/lesson5/";
 

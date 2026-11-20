@@ -9,8 +9,8 @@ import LessonIntro from "../components/content/LessonIntro.vue";
 import Button from "../components/ui/Button.vue";
 import StopAndCheck from "../components/content/StopAndCheck.vue";
 import VariableSort from "../components/activities/VariableSort.vue";
-import YeastCards from "../components/lesson3/YeastCards.vue";
-import YeastResultsTable from "../components/lesson3/YeastResultsTable.vue";
+import YeastCards from "../components/lessons/lesson3/YeastCards.vue";
+import YeastResultsTable from "../components/lessons/lesson3/YeastResultsTable.vue";
 import { openPDF, openVideo } from "../composables/useModal.js";
 
 // Learning objective and success criteria shown in the lesson intro

@@ -5,14 +5,14 @@ import { ref } from "vue";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
 import LessonIntro from "../components/content/LessonIntro.vue";
-import NumberLine from "../components/lesson6/NumberLine.vue";
-import LineGraph from "../components/lesson6/LineGraph.vue";
+import NumberLine from "../components/lessons/lesson6/NumberLine.vue";
+import LineGraph from "../components/lessons/lesson6/LineGraph.vue";
 import {
   ELEPHANT,
   CONNIWINKS,
   YEAST,
   PLANTS,
-} from "../components/lesson6/lineGraphs.js";
+} from "../components/lessons/lesson6/lineGraphs.js";
 import ContentBox from "../components/ui/ContentBox.vue";
 import Grid from "../components/layout/Grid.vue";
 import LessonEndCard from "../components/content/LessonEndCard.vue";

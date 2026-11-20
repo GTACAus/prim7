@@ -25,7 +25,7 @@
   buttons and the sliders), #complete (shown once complete).
 */
 import { computed, ref } from "vue";
-import Activity from "../activities/Activity.vue";
+import Activity from "../../activities/Activity.vue";
 
 const props = defineProps({
   rows: { type: Array, required: true },
