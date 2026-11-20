@@ -9,6 +9,7 @@ import FinalBrainstorm from "../components/lessons/pretask/FinalBrainstorm.vue";
 import PlantDetective from "../components/lessons/pretask/PlantDetective.vue";
 import PlantGame from "../components/lessons/pretask/PlantGame.vue";
 import WordSentences from "../components/lessons/pretask/WordSentences.vue";
+import Media from "../components/ui/Media.vue";
 
 // Sections of the page. Order defines the unlock chain (next-id) and which
 // sections start locked; override per section where needed.
@@ -261,12 +262,10 @@ const glossary = {
           </p>
         </div>
 
-        <div class="image-box">
-          <img
-            src="../images/pretask/plantneeds-unmarked.png"
-            alt="Plants need water, sunlight and nutrients"
-          />
-        </div>
+        <Media
+          src="../images/pretask/plantneeds-unmarked.png"
+          alt="Plants need water, sunlight and nutrients"
+        />
 
         <PostitBrainstorm id="brainstormActivity" />
       </Section>
@@ -285,12 +284,10 @@ const glossary = {
 
         <div class="learning-row">
           <div class="diagram-box diagram-activity">
-            <div class="image-box">
-              <img
-                src="../images/pretask/plantneeds-marked.png"
-                alt="Diagram showing the parts of a flowering plant"
-              />
-            </div>
+            <Media
+              src="../images/pretask/plantneeds-marked.png"
+              alt="Diagram showing the parts of a flowering plant"
+            />
 
             <WordSentences />
           </div>

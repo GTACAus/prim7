@@ -7,6 +7,7 @@ import Section from "../components/layout/Section.vue";
 import LessonIntro from "../components/content/LessonIntro.vue";
 import NumberLine from "../components/lessons/lesson6/NumberLine.vue";
 import LineGraph from "../components/lessons/lesson6/LineGraph.vue";
+import Media from "../components/ui/Media.vue";
 import {
   ELEPHANT,
   CONNIWINKS,
@@ -176,12 +177,11 @@ const plants = ref(null);
           </p>
         </ContentBox>
 
-        <div class="image-box spaced-block">
-          <img
-            src="../images/lesson6/tide-animation.gif"
-            alt="Animated diagram showing the rock platform changing between low tide and high tide"
-          />
-        </div>
+        <Media
+          class="spaced-block"
+          src="../images/lesson6/tide-animation.gif"
+          alt="Animated diagram showing the rock platform changing between low tide and high tide"
+        />
       </Section>
 
       <!-- ==================================================
@@ -267,12 +267,11 @@ const plants = ref(null);
           </div>
         </Grid>
 
-        <div class="image-box spaced-block">
-          <img
-            src="../images/lesson6/yeastexperiment.png"
-            alt="Diagram of the yeast, sugar, water and balloon fair-test experiment"
-          />
-        </div>
+        <Media
+          class="spaced-block"
+          src="../images/lesson6/yeastexperiment.png"
+          alt="Diagram of the yeast, sugar, water and balloon fair-test experiment"
+        />
 
         <ContentBox>
           <p>
@@ -319,12 +318,11 @@ const plants = ref(null);
           </div>
         </Grid>
 
-        <div class="image-box spaced-block">
-          <img
-            src="../images/lesson6/stevia-plants.png"
-            alt="Six Stevia plants split between 100 mL and 300 mL watering conditions"
-          />
-        </div>
+        <Media
+          class="spaced-block"
+          src="../images/lesson6/stevia-plants.png"
+          alt="Six Stevia plants split between 100 mL and 300 mL watering conditions"
+        />
 
         <ContentBox>
           <p>

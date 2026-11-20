@@ -90,7 +90,7 @@
   box-shadow: none;
 }
 
-.bar-example-image-card .image-box {
+.bar-example-image-card .media {
   display: flex;
   width: 100%;
   margin: 0;
@@ -98,14 +98,14 @@
   justify-content: center;
 }
 
-.bar-example-image-card .image-box img {
+.bar-example-image-card .media img {
   display: block;
   width: 100%;
   height: auto;
 }
 
 /* Large template graph on the left */
-.bar-example-image-card:first-child .image-box img {
+.bar-example-image-card:first-child .media img {
   max-width: 560px;
 }
 
@@ -116,13 +116,13 @@
 }
 
 /* Keep the example graphs smaller */
-.bar-example-image-card:last-child .image-box img {
+.bar-example-image-card:last-child .media img {
   max-width: 390px;
 }
 
 @media (max-width: 800px) {
-  .bar-example-image-card:first-child .image-box img,
-  .bar-example-image-card:last-child .image-box img {
+  .bar-example-image-card:first-child .media img,
+  .bar-example-image-card:last-child .media img {
     max-width: 100%;
   }
 }
@@ -210,7 +210,7 @@
 }
 
 @media (min-width: 801px) {
-  .graph-checklist-container .bar-example-image-card .image-box img {
+  .graph-checklist-container .bar-example-image-card .media img {
     max-width: none;
   }
 }

@@ -9,6 +9,7 @@ import LessonIntro from "../components/content/LessonIntro.vue";
 import LessonCard from "../components/content/LessonCard.vue";
 import Grid from "../components/layout/Grid.vue";
 import ThinkBox from "../components/activities/ThinkBox.vue";
+import Media from "../components/ui/Media.vue";
 
 import { openVideo } from "../composables/useModal.js";
 
@@ -218,9 +219,7 @@ const sections = [
           </p>
         </div>
         <div class="observe-experiment-grid">
-          <div class="image-box">
-            <img src="../images/lesson1/l1-default.png" alt="Toy car example" />
-          </div>
+          <Media src="../images/lesson1/l1-default.png" alt="Toy car example" />
           <ThinkBox class="stw-box" :groups="stwGroups" />
         </div>
       </Section>
@@ -825,20 +824,20 @@ ol li::marker {
   gap: 20px;
 }
 
-#observe-experiment .image-box,
+#observe-experiment .media,
 #observe-experiment .stw-box {
   min-width: 0;
   min-height: 480px;
   margin: 20px 0;
 }
 
-#observe-experiment .image-box {
+#observe-experiment .media {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-#observe-experiment .image-box img {
+#observe-experiment .media img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -1076,12 +1075,12 @@ ol li::marker {
     grid-row: 1;
   }
 
-  #observe-experiment .image-box,
+  #observe-experiment .media,
   #observe-experiment .stw-box {
     min-height: 0;
   }
 
-  #observe-experiment .image-box {
+  #observe-experiment .media {
     min-height: 320px;
   }
 }

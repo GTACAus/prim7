@@ -102,7 +102,7 @@
   .diagram-activity,
   .stw-column,
   .final-branch,
-  .image-box {
+  .media--framed {
     break-inside: avoid;
     page-break-inside: avoid;
   }
@@ -186,7 +186,7 @@
   .botanist-mission,
   .diagram-box,
   .think-box,
-  .image-box,
+  .media--framed,
   .postit-brainstorm,
   .final-branch,
   .final-brainstorm-box {
