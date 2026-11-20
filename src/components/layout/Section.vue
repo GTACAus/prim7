@@ -9,8 +9,8 @@ import {
   ref,
   watch,
 } from "vue";
-import Button from "./Button.vue";
-import ContentBox from "../components/ContentBox.vue";
+import Button from "../ui/Button.vue";
+import ContentBox from "../ui/ContentBox.vue";
 
 const props = defineProps({
   name: { type: String, default: "" },

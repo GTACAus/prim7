@@ -30,7 +30,7 @@
 */
 import { computed, nextTick, ref } from "vue";
 import Activity from "./Activity.vue";
-import Button from "../Button.vue";
+import Button from "../ui/Button.vue";
 
 const DEFAULT_PROMPTS = {
   independent: "Choose the variable that is changed.",

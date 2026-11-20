@@ -7,8 +7,8 @@
 
   Built on <InputResponse>; every group needs at least one answer.
 */
-import InputResponse from "./activities/InputResponse.vue";
-import ResponseBox from "./activities/ResponseBox.vue";
+import InputResponse from "./InputResponse.vue";
+import ResponseBox from "./ResponseBox.vue";
 
 defineProps({
   groups: { type: Array, required: true },

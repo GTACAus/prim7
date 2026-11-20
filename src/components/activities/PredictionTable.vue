@@ -1,7 +1,7 @@
 <script setup>
 import { computed, reactive, ref, watch } from "vue";
-import Activity from "../activities/Activity.vue";
-import Button from "../Button.vue";
+import Activity from "./Activity.vue";
+import Button from "../ui/Button.vue";
 
 const props = defineProps({
   tag: { type: String, default: "div" },

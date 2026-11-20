@@ -13,7 +13,7 @@
   are in use). Every step is an activity that saves itself.
 */
 import { computed, nextTick, ref, watch } from "vue";
-import Button from "../Button.vue";
+import Button from "../ui/Button.vue";
 import DragDrop from "../activities/DragDrop.vue";
 import DragItem from "../activities/DragItem.vue";
 import DropSlot from "../activities/DropSlot.vue";

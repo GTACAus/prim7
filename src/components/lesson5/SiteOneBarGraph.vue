@@ -25,7 +25,7 @@ import MultipleChoice from "../activities/MultipleChoice.vue";
 import McQuestion from "../activities/McQuestion.vue";
 import McChoice from "../activities/McChoice.vue";
 import SelectItems from "../activities/SelectItems.vue";
-import Button from "../Button.vue";
+import Button from "../ui/Button.vue";
 import BarGraphFrame from "./BarGraphFrame.vue";
 import AnalysisQuestions from "./AnalysisQuestions.vue";
 import {

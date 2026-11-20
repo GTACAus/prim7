@@ -18,9 +18,9 @@
 import { computed, nextTick, reactive, ref, watch } from "vue";
 import Activity from "../activities/Activity.vue";
 import PredictionCheck from "../activities/PredictionCheck.vue";
-import StudentEntry from "../StudentEntry.vue";
-import Button from "../Button.vue";
-import LessonEndCard from "../LessonEndCard.vue";
+import StudentEntry from "../ui/StudentEntry.vue";
+import Button from "../ui/Button.vue";
+import LessonEndCard from "../content/LessonEndCard.vue";
 import { openVideo } from "../../composables/useModal.js";
 
 /* ---------- videos ---------- */

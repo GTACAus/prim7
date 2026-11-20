@@ -18,7 +18,7 @@
   add-label, list-tag, list-class, list-id, input-id, ...).
 */
 import { computed, inject, onBeforeUnmount, reactive, ref, useAttrs, useTemplateRef } from 'vue'
-import StudentEntry from '../StudentEntry.vue'
+import StudentEntry from '../ui/StudentEntry.vue'
 
 const props = defineProps({
   tag: { type: String, default: 'div' },

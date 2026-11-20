@@ -10,7 +10,7 @@
 */
 import { computed, ref } from "vue";
 import Activity from "../activities/Activity.vue";
-import Button from "../Button.vue";
+import Button from "../ui/Button.vue";
 
 const independentOptions = [
   { value: "surface", text: "Type of surface" },

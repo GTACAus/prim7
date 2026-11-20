@@ -1,6 +1,7 @@
 <script setup>
-import Button from "./Button.vue";
+import Button from "../ui/Button.vue";
 import LessonCard from "./LessonCard.vue";
+import Grid from "../layout/Grid.vue";
 /*
   Lesson introduction: label, title, summary, worksheet download and an
   optional objectives / "think like a scientist" grid.
@@ -67,7 +68,7 @@ defineProps({
 
     <slot name="mission" />
 
-    <div v-if="objective || $slots.observation" class="intro-grid">
+    <Grid v-if="objective || $slots.observation" :cols="2" gap="lg">
       <LessonCard v-if="objective" class="objectives-card">
         <template #eyebrow>
           <p>Learning objective</p>
@@ -90,7 +91,7 @@ defineProps({
           <slot name="observation" />
         </template>
       </LessonCard>
-    </div>
+    </Grid>
   </header>
 </template>
 
@@ -143,12 +144,6 @@ defineProps({
 
   font-size: 1.06rem;
   line-height: 1.7;
-}
-
-.intro-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
 }
 
 .objectives-card {
@@ -317,10 +312,6 @@ defineProps({
 @media (max-width: 800px) {
   .lesson-intro {
     padding-top: 92px;
-  }
-
-  .intro-grid {
-    grid-template-columns: 1fr;
   }
 
   .worksheet-button {

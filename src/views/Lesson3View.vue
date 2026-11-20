@@ -3,11 +3,11 @@
 import "../styles/data-tables.css";
 import "../styles/lesson3.css";
 import { ref } from "vue";
-import Page from "../components/Page.vue";
-import Section from "../components/Section.vue";
-import LessonIntro from "../components/LessonIntro.vue";
-import Button from "../components/Button.vue";
-import StopAndCheck from "../components/StopAndCheck.vue";
+import Page from "../components/layout/Page.vue";
+import Section from "../components/layout/Section.vue";
+import LessonIntro from "../components/content/LessonIntro.vue";
+import Button from "../components/ui/Button.vue";
+import StopAndCheck from "../components/content/StopAndCheck.vue";
 import VariableSort from "../components/activities/VariableSort.vue";
 import YeastCards from "../components/lesson3/YeastCards.vue";
 import YeastResultsTable from "../components/lesson3/YeastResultsTable.vue";

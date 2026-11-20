@@ -2,9 +2,9 @@
 // Loads before the components so its rules keep the cascade order of the old stylesheet.
 import "../styles/lesson2.css";
 import { computed, ref } from "vue";
-import Page from "../components/Page.vue";
-import Section from "../components/Section.vue";
-import StopAndCheck from "../components/StopAndCheck.vue";
+import Page from "../components/layout/Page.vue";
+import Section from "../components/layout/Section.vue";
+import StopAndCheck from "../components/content/StopAndCheck.vue";
 import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
 import DiscoverVariables from "../components/lesson2/DiscoverVariables.vue";
 import BallPairChoice from "../components/lesson2/BallPairChoice.vue";
@@ -97,9 +97,10 @@ function resetQuestionAndPrediction() {
   questionActivity.value?.reset();
   predictionActivity.value?.reset();
 }
-import LessonIntro from "../components/LessonIntro.vue";
-import Button from "../components/Button.vue";
-import ContentBox from "../components/ContentBox.vue";
+import LessonIntro from "../components/content/LessonIntro.vue";
+import Button from "../components/ui/Button.vue";
+import ContentBox from "../components/ui/ContentBox.vue";
+import Grid from "../components/layout/Grid.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -275,7 +276,7 @@ const sections = [
             <strong>variables</strong> the same.
           </p>
         </ContentBox>
-        <div class="variable-type-grid">
+        <Grid :cols="3" gap="lg" class="variable-type-grid">
           <ContentBox class="variable-type-card independent">
             <template #eyebrow>Change</template>
             <h3>Independent variable</h3>
@@ -300,7 +301,7 @@ const sections = [
               <strong>caused</strong> by the thing you change.
             </p>
           </ContentBox>
-        </div>
+        </Grid>
         <div class="fair-test-rule">
           We write a testable question to show what is changed and what is
           measured in a <strong>fair test</strong>.

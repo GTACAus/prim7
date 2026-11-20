@@ -1,7 +1,7 @@
 <script setup>
-import Button from "./Button.vue";
-import { openGlossary } from "../composables/useModal.js";
-import { downloadLessonPDF } from "../composables/usePrintLesson.js";
+import Button from "../ui/Button.vue";
+import { openGlossary } from "../../composables/useModal.js";
+import { downloadLessonPDF } from "../../composables/usePrintLesson.js";
 
 defineProps({
   // show "Save my work" instead of "Home" (pretask)

@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from "vue-router";
-import PageHeader from "./components/PageHeader.vue";
+import PageHeader from "./components/layout/PageHeader.vue";
 
 const route = useRoute();
 </script>
