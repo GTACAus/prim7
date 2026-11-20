@@ -622,10 +622,9 @@ onBeforeUnmount(() => {
   text-align: center;
   text-transform: uppercase;
 }
-.carousel-control:focus-visible,
 #hero:focus-visible {
-  border: 4px solid var(--purple);
-  outline: none;
+  outline: 4px solid var(--purple);
+  outline-offset: 5px;
 }
 @media (max-width: 700px) {
   .page {
