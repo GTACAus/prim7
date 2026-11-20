@@ -8,7 +8,7 @@
                      :highlighted="highlighted" @find="toggle" @close="close" />
 
   - found: { [hotspotId]: true } for every found animal.
-  - highlighted: hotspot ids pointed out by "Find all" (pulse until found).
+  - highlighted: hotspot ids suggested by a clue (pulse until found).
   The animals stay hidden until the photo has loaded, so their positions
   can't flash up first.
 */
@@ -20,9 +20,12 @@ const props = defineProps({
   species: { type: String, default: null },
   found: { type: Object, default: () => ({}) },
   highlighted: { type: Array, default: () => [] },
+  clueAvailable: { type: Boolean, default: false },
+  cluesUsed: { type: Number, default: 0 },
+  canUseRecordedData: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["find", "close"]);
+const emit = defineEmits(["find", "close", "clue", "ready", "use-recorded-data"]);
 
 const panel = computed(() => PANELS[props.distance]);
 const colourOf = (name) => SPECIES.find((s) => s.name === name)?.colour;
@@ -37,6 +40,16 @@ const progress = computed(() => {
   };
 });
 
+// A clue from a different species/distance must not show a false "glowing"
+// message when students switch photographs.
+const hasGlowingAnimal = computed(() =>
+  panel.value.hotspots.some((spot) =>
+    spot.species === props.species &&
+    !props.found[spot.id] &&
+    props.highlighted.includes(spot.id),
+  ),
+);
+
 /* ---------- reveal the animals once the photo has loaded ---------- */
 
 const background = ref(null);
@@ -45,7 +58,12 @@ const failed = ref(false);
 
 function onLoad() {
   const img = background.value;
-  const finish = () => requestAnimationFrame(() => (ready.value = true));
+  const finish = () => requestAnimationFrame(() => {
+    if (!ready.value) {
+      ready.value = true;
+      emit("ready");
+    }
+  });
   if (typeof img?.decode === "function")
     img.decode().catch(() => {}).then(finish);
   else finish();
@@ -90,16 +108,42 @@ function overlayStyle(spot) {
     </button>
 
     <div class="panel-body">
-      <h3>{{ distance }} metres</h3>
-      <p>{{ panel.intro }}</p>
-      <p v-if="progress" class="species-progress">
-        <span class="species-progress-title">{{ species }}: found </span>
-        <span
-          :key="progress.found + '/' + progress.total"
-          class="species-progress-count"
-          >{{ progress.found }} of {{ progress.total }}</span
+      <div class="survey-panel-heading">
+        <h3>{{ distance }} m</h3>
+        <p v-if="!species">Choose an animal on the left to start searching.</p>
+        <p v-else-if="progress.total === 0">
+          None of this animal here — zero is still data!
+        </p>
+        <p v-else>Find and click each {{ species.toLowerCase() }} you spot.</p>
+      </div>
+      <div v-if="species && progress.total > 0" class="survey-progress-row">
+        <p class="species-progress">
+          <span class="species-progress-title">{{ species }}: found </span>
+          <span
+            :key="progress.found + '/' + progress.total"
+            class="species-progress-count"
+            >{{ progress.found }} of {{ progress.total }}</span
+          >
+        </p>
+        <button
+          v-if="clueAvailable"
+          type="button"
+          class="survey-clue-button"
+          @click="emit('clue')"
         >
-      </p>
+          {{ cluesUsed > 0 ? "Another clue?" : "Need a clue?" }}
+        </button>
+        <span v-if="hasGlowingAnimal && progress.found < progress.total" class="survey-clue-note">
+          Look for the glowing animal.
+        </span>
+      </div>
+      <div v-if="canUseRecordedData" class="survey-data-option">
+        <span>Ready for the line graph?</span>
+        <button type="button" class="survey-data-button" @click="emit('use-recorded-data')">
+          Use recorded survey counts
+        </button>
+        <small>This fills any remaining counts for this animal so you can build its graph.</small>
+      </div>
 
       <div class="animal-stage-wrap">
         <div
@@ -123,7 +167,7 @@ function overlayStyle(spot) {
             class="animal-hotspot"
             :class="{
               found: found[spot.id],
-              highlighted: highlighted.includes(spot.id),
+              highlighted: highlighted.includes(spot.id) && spot.species === species,
               'is-inactive': !species || spot.species !== species,
             }"
             :style="hotspotStyle(spot)"
@@ -144,6 +188,81 @@ function overlayStyle(spot) {
 </template>
 
 <style scoped>
+/* Keep guidance compact so the survey photo has more of the available space. */
+.survey-panel-heading h3 {
+  margin: 0 0 3px;
+  font-size: 1.12rem;
+}
+.survey-panel-heading p {
+  margin: 0;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.survey-progress-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 12px;
+  margin-top: 8px;
+}
+.survey-progress-row .species-progress {
+  margin: 0;
+}
+.survey-clue-button {
+  padding: 6px 11px;
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+  background: var(--soft-yellow);
+  color: var(--text);
+  box-shadow: 0 2px 0 var(--charcoal);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.survey-clue-button:hover,
+.survey-clue-button:focus-visible {
+  background: var(--yellow);
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+}
+.survey-clue-note {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* Gentle exit for students who need to get to the line-graph learning. */
+.survey-data-option {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.survey-data-button {
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+  background: var(--soft-green);
+  padding: 6px 10px;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--charcoal);
+}
+.survey-data-button:hover,
+.survey-data-button:focus-visible {
+  background: var(--mint);
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+}
+.survey-data-option small {
+  flex-basis: 100%;
+  font-size: 0.75rem;
+}
+
 /* The panel sits beside the species picker, above the rock platform. */
 .stage-panel {
   position: relative;

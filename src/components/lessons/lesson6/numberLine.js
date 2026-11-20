@@ -20,10 +20,12 @@ export const ROCK_PLATFORM = BASE + "Rockplatform.png";
 export const DISTANCES = [0, 5, 10, 15, 20];
 
 // colour tints the found animals and their counters
+// Put the easiest animal first so students can learn the counting interaction.
+// This only changes the button order; hotspot data and graph counts stay the same.
 export const SPECIES = [
-  { name: "Striped Conniwink", image: SNAILS + "conniwink1.png", colour: "#ffd747" },
-  { name: "Smooth Limpet", image: SNAILS + "limpet1.png", colour: "#7c4dff" },
   { name: "Elephant Snail", image: SNAILS + "Elephantsnail1.png", colour: "#5cc8ff" },
+  { name: "Smooth Limpet", image: SNAILS + "limpet1.png", colour: "#7c4dff" },
+  { name: "Striped Conniwink", image: SNAILS + "conniwink1.png", colour: "#ffd747" },
 ];
 
 const h = (species, left, top, width, image, transform = "") => ({

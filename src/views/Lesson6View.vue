@@ -134,11 +134,6 @@ const plants = ref(null);
         :objective="objective"
         :criteria="criteria"
       >
-        Line graphs help scientists show how
-        <strong
-          >one variable changes continuously as another variable changes</strong
-        >, making <strong>trends</strong> and <strong>patterns</strong> easier
-        to see.
 
         <template #observation>
           <h2>When do scientists use a line graph?</h2>
