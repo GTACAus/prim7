@@ -94,11 +94,11 @@ defineExpose({ pressed });
   margin: 0 auto;
   margin-top: 20px;
   background: var(--mint);
-  color: var(--text);
+  --color: var(--text);
   font-weight: 600;
   grid-column: 1 / -1;
 
-  --background-active: var(--mint);
+  --color-hover: var(--paper);
 }
 
 .stop-and-check-button[hidden] {
