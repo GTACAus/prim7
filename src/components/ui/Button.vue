@@ -9,6 +9,7 @@ const props = defineProps({
   to: String,
   isDelete: Boolean,
   isReset: Boolean,
+  symbolClass: { type: String, default: "" },
 });
 
 const attrs = useAttrs();
@@ -32,7 +33,11 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
     :type="isLink ? undefined : 'button'"
     :class="{ 'delete-answer': isDelete, 'reset-btn': isReset }"
   >
-    <p v-if="symbol && !isDelete && !isReset" class="bounce-symbol">
+    <p
+      v-if="symbol && !isDelete && !isReset"
+      class="bounce-symbol"
+      :class="symbolClass"
+    >
       {{ symbol }}
     </p>
     <slot v-if="!isDelete && !isReset">{{ content }}</slot>
@@ -157,15 +162,15 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
 }
 
 :where(
-    button:active,
-    a:active,
-    button[aria-checked="true"],
-    a[aria-checked="true"],
-    button.selected,
-    a.selected,
-    button.active,
-    a.active
-  ) {
+  button:active,
+  a:active,
+  button[aria-checked="true"],
+  a[aria-checked="true"],
+  button.selected,
+  a.selected,
+  button.active,
+  a.active
+) {
   color: var(--color-active);
 }
 
@@ -182,7 +187,6 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
 }
 
 .bounce-symbol {
-  display: inline-block;
   margin: 0px;
 }
 

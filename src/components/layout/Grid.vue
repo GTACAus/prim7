@@ -1,11 +1,18 @@
 <script setup>
 /*
-  Grid – lays its children out in equal columns.
+  Grid – lays its children out in columns.
 
   Fixed columns (collapse automatically on smaller screens):
     <Grid :cols="3" gap="lg"> ... </Grid>
       3+ columns -> 2 columns below 900px -> 1 column below 650px
       2 columns  -> 1 column below 650px
+
+  Custom widths (any CSS column sizes, one per column; 1 column below 650px):
+    <Grid cols="1fr 200px"> ... </Grid>          text + fixed-width sidebar
+    <Grid cols="2fr 1fr"> ... </Grid>            two-thirds / one-third
+    <Grid cols="1fr minmax(140px, 20%)"> ... </Grid>
+      A bare "fr" size like 2fr is treated as minmax(0, 2fr), so long words
+      or wide images can't push a column wider than its share.
 
   Auto-fill (as many columns as fit, each at least `min` wide):
     <Grid min="190px" gap="md"> ... </Grid>
@@ -23,7 +30,8 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  cols: { type: Number, default: 2 },
+  // A number (or "3") for equal columns, or a list of CSS column sizes.
+  cols: { type: [Number, String], default: 2 },
   min: { type: String, default: "" },
   gap: {
     type: String,
@@ -38,11 +46,31 @@ const props = defineProps({
   tag: { type: String, default: "div" },
 });
 
-const style = computed(() =>
-  props.min
-    ? { "--grid-min": props.min }
-    : { "--grid-cols": props.cols, "--grid-cols-md": Math.min(props.cols, 2) },
+// "3" and 3 both mean three equal columns; anything else is a custom list.
+const count = computed(() =>
+  /^\s*\d+\s*$/.test(String(props.cols)) ? Number(props.cols) : null,
 );
+
+// Wrap bare fr sizes ("2fr", not the one inside "minmax(0, 1fr)") so content
+// can't stretch a column past its share.
+const template = computed(() =>
+  String(props.cols)
+    .trim()
+    .replace(/(^|\s)(\d*\.?\d+fr)(?=\s|$)/g, "$1minmax(0, $2)"),
+);
+
+const mode = computed(() =>
+  props.min ? "auto" : count.value !== null ? "fixed" : "custom",
+);
+
+const style = computed(() => {
+  if (mode.value === "auto") return { "--grid-min": props.min };
+  if (mode.value === "custom") return { "--grid-template": template.value };
+  return {
+    "--grid-cols": count.value,
+    "--grid-cols-md": Math.min(count.value, 2),
+  };
+});
 </script>
 
 <template>
@@ -52,7 +80,7 @@ const style = computed(() =>
     :class="[
       `grid--gap-${gap}`,
       `grid--align-${align}`,
-      min ? 'grid--auto' : 'grid--fixed',
+      `grid--${mode}`,
     ]"
     :style="style"
   >
@@ -97,6 +125,10 @@ const style = computed(() =>
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
 }
 
+.grid--custom {
+  grid-template-columns: var(--grid-template);
+}
+
 .grid--auto {
   grid-template-columns: repeat(
     auto-fill,
@@ -111,7 +143,8 @@ const style = computed(() =>
 }
 
 @media (max-width: 650px) {
-  .grid--fixed {
+  .grid--fixed,
+  .grid--custom {
     grid-template-columns: minmax(0, 1fr);
   }
 }

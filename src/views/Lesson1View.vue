@@ -10,8 +10,10 @@ import LessonCard from "../components/content/LessonCard.vue";
 import Grid from "../components/layout/Grid.vue";
 import ThinkBox from "../components/activities/ThinkBox.vue";
 import Media from "../components/ui/Media.vue";
+import ContentBox from "../components/ui/ContentBox.vue";
 
 import { openVideo } from "../composables/useModal.js";
+import Button from "../components/ui/Button.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -180,7 +182,6 @@ const sections = [
         :objective="objective"
         :criteria="criteria"
       >
-
         <template #observation>
           <h2>See, Think, Wonder</h2>
           <p>
@@ -446,23 +447,23 @@ const sections = [
         <QuestionWheel next-button-id="testableQuestionsNextButton" />
       </Section>
       <Section name="reasoned-prediction">
-        <div class="diagram-box diagram-activity">
-          <p class="activity-instruction">
+        <ContentBox>
+          <p>
             You have a <strong>testable question</strong>. Next you make a
             <strong>reasoned prediction</strong>. State what you think the
             result will be. Then provide a reason for your choice.
           </p>
-          <p class="activity-instruction">
+          <p>
             In a <strong>reasoned prediction</strong> you make an educated
             guess. This is based on your knowledge about the relationship
             between two things. The thing you <strong>change</strong> and the
             thing you will <strong>measure</strong>.
           </p>
-          <p class="activity-instruction">
+          <p>
             You can use a graphic organiser to help you write a
             <strong>reasoned prediction</strong>.
           </p>
-        </div>
+        </ContentBox>
         <!-- <div class="diagram-box diagram-activity"> -->
         <div class="prediction-organiser">
           <div class="prediction-organiser-row row-header">
@@ -567,8 +568,8 @@ const sections = [
       </Section>
       <!-- ---------- Reasoned Prediction Builder ---------- -->
       <Section name="reasoned-builder">
-        <div class="diagram-box diagram-activity">
-          <div class="prediction-video-layout">
+        <ContentBox>
+          <Grid cols="1fr minmax(140px, 20%)" align="center" gap="lg">
             <div class="prediction-video-instructions">
               <p class="activity-instruction">
                 Follow these steps to create a
@@ -585,10 +586,11 @@ const sections = [
                 </li>
               </ol>
             </div>
-            <button
-              type="button"
+            <Button
               class="prediction-video-button"
               aria-label="Watch the reasoned prediction video"
+              symbol="▶"
+              symbol-class="prediction-video-play"
               @click="
                 openVideo(
                   '../videos/lesson1/reasoned-prediction-v2.mp4',
@@ -596,13 +598,12 @@ const sections = [
                 )
               "
             >
-              <span class="prediction-video-play" aria-hidden="true">▶</span>
-              <span class="prediction-video-label"
-                ><strong>Watch the video</strong></span
-              >
-            </button>
-          </div>
-        </div>
+              <span class="prediction-video-label">
+                <strong>Watch the video</strong>
+              </span>
+            </Button>
+          </Grid>
+        </ContentBox>
         <PredictionTable
           :change-options="changeOptions"
           :measure-options="measureOptions"
@@ -611,8 +612,8 @@ const sections = [
       </Section>
       <!-- ---------- Testing Reasoned Predictions ---------- -->
       <Section name="testing-predictions">
-        <div class="diagram-box diagram-activity">
-          <p class="activity-instruction">
+        <ContentBox>
+          <p>
             To test a <strong>reasoned prediction</strong>, you do an
             <strong>experiment</strong>. Look at the results of these four
             experiments done by students.<br />
@@ -626,7 +627,7 @@ const sections = [
             Unsupported results still teach you something. That is what science
             is about!
           </p>
-        </div>
+        </ContentBox>
         <PredictionTests :tests="predictionTests" />
       </Section>
     </template>
@@ -989,13 +990,6 @@ ol li::marker {
         REASONED-PREDICTION VIDEO
         ================================================== */
 
-.prediction-video-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(140px, 20%);
-  align-items: center;
-  gap: 20px;
-}
-
 .prediction-video-instructions .activity-instruction {
   margin-top: 0;
 }
@@ -1086,10 +1080,6 @@ ol li::marker {
 }
 
 @media (max-width: 700px) {
-  .prediction-video-layout {
-    grid-template-columns: 1fr;
-  }
-
   .prediction-video-button {
     width: min(100%, 150px);
   }
