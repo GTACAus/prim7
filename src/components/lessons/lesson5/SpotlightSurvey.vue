@@ -370,14 +370,14 @@ defineExpose({ countsCorrect, reset });
       <div class="stack-buttons-row">
         <Button
           class="stack-toggle-button"
-          :class="{ 'stack-active': stackMode === 'bar' }"
+          :class="{ active: stackMode === 'bar' }"
           @click="stackMode = 'bar'"
         >
           Show Counters Stacked Up
         </Button>
         <Button
           class="stack-toggle-button"
-          :class="{ 'stack-active': stackMode === 'circle' }"
+          :class="{ active: stackMode === 'circle' }"
           @click="stackMode = 'circle'"
         >
           Show Counters Laid Flat in Lines
@@ -451,7 +451,7 @@ defineExpose({ countsCorrect, reset });
 .stage {
   position: relative;
   aspect-ratio: 1920 / 1080;
-  cursor: none; 
+  cursor: none;
 
   --moon-x: 70%;
   --moon-y: 11%;
@@ -485,7 +485,10 @@ defineExpose({ countsCorrect, reset });
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: opacity 1.1s ease, mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
+  transition:
+    opacity 1.1s ease,
+    mask-image 0.03s linear,
+    -webkit-mask-image 0.03s linear;
 }
 
 /* Day image: visible by default, no torch mask needed */
@@ -497,13 +500,9 @@ defineExpose({ countsCorrect, reset });
 #photo {
   opacity: 0;
 
-  -webkit-mask-image:
-    var(--torch-mask),
-    var(--moon-mask);
+  -webkit-mask-image: var(--torch-mask), var(--moon-mask);
 
-  mask-image:
-    var(--torch-mask),
-    var(--moon-mask);
+  mask-image: var(--torch-mask), var(--moon-mask);
 
   -webkit-mask-composite: source-over;
   mask-composite: add;
@@ -525,7 +524,10 @@ defineExpose({ countsCorrect, reset });
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 1.1s ease, mask-image 0.03s linear, -webkit-mask-image 0.03s linear;
+  transition:
+    opacity 1.1s ease,
+    mask-image 0.03s linear,
+    -webkit-mask-image 0.03s linear;
   -webkit-mask-image: var(--torch-mask);
   mask-image: var(--torch-mask);
 }
@@ -634,7 +636,9 @@ defineExpose({ countsCorrect, reset });
   mask-image: none;
   -webkit-mask-image: none;
   filter: none;
-  transition: transform 0.15s ease, filter 0.3s ease;
+  transition:
+    transform 0.15s ease,
+    filter 0.3s ease;
 }
 .animal-hotspot .animal-overlay {
   position: absolute;
@@ -653,12 +657,8 @@ defineExpose({ countsCorrect, reset });
 
 .animal-hotspot:hover:not(.found) img {
   transform: scale(1.08);
-  filter:
-    drop-shadow(1px 0 0 white)
-    drop-shadow(-1px 0 0 white)
-    drop-shadow(0 1px 0 white)
-    drop-shadow(0 -1px 0 white);
-
+  filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white)
+    drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
 }
 .animal-hotspot:focus-visible {
   outline: 3px solid #ffd166;
@@ -704,10 +704,12 @@ defineExpose({ countsCorrect, reset });
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle var(--r) at var(--x) var(--y),
-              rgba(255, 220, 150, 0.45) 0%,
-              rgba(255, 180, 90, 0.2) 45%,
-              rgba(0,0,0,0) 75%);
+  background: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    rgba(255, 220, 150, 0.45) 0%,
+    rgba(255, 180, 90, 0.2) 45%,
+    rgba(0, 0, 0, 0) 75%
+  );
   mix-blend-mode: screen;
 
   /* Hidden during the day */
@@ -744,7 +746,9 @@ defineExpose({ countsCorrect, reset });
   border: 2px solid var(--charcoal);
   border-radius: 16px;
   box-shadow: 0 3px 0 rgba(48, 51, 47, 0.2);
-  transition: background 0.25s ease, border-color 0.25s ease;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .animal-counter-label {
@@ -842,12 +846,11 @@ defineExpose({ countsCorrect, reset });
 .stack-toggle-button {
   flex: 1 1 180px;
   background: var(--soft-purple);
-  color: var(--text);
-}
+  --color: var(--text);
 
-.stack-toggle-button.stack-active {
-  background: var(--green);
-  color: white;
+  --color-hover: var(--paper);
+  --background-active: var(--green);
+  /* --color-active: var(--paper); */
 }
 
 .animal-stack-visual {
@@ -926,10 +929,8 @@ defineExpose({ countsCorrect, reset });
   opacity: 0;
   animation: barStackSegmentRise 0.3s ease-out forwards;
 
-  transition:
-    height 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
+  transition: height 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
 }
-
 
 /* The complete 3D cylinder */
 .cylinder {
@@ -943,14 +944,10 @@ defineExpose({ countsCorrect, reset });
 
   transform-style: preserve-3d;
 
-  transform:
-    translate(-50%, -50%)
-    rotateX(0deg);
+  transform: translate(-50%, -50%) rotateX(0deg);
 
-  transition:
-    transform 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
+  transition: transform 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
 }
-
 
 /* Each small strip forms part of the curved cylinder wall */
 .cylinder-strip {
@@ -991,27 +988,22 @@ defineExpose({ countsCorrect, reset });
     Cylinder runs along the Y axis, so the cap
     needs to lie in the X/Z plane.
   */
-  transform:
-    translateY(-11px)
-    rotateX(90deg);
+  transform: translateY(-11px) rotateX(90deg);
 
   transform-style: preserve-3d;
 
-  background:
-    radial-gradient(
-      circle at 35% 30%,
-      rgba(255,255,255,0.45),
-      rgba(255,255,255,0.08) 45%,
-      rgba(0,0,0,0.12)
-    );
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(0, 0, 0, 0.12)
+  );
 
   backface-visibility: visible;
 }
 
 .bar-stack-row.circle-mode .cylinder {
-  transform:
-    translate(-50%, -50%)
-    rotateX(-90deg);
+  transform: translate(-50%, -50%) rotateX(-90deg);
 }
 
 .bar-stack-row.circle-mode .stack-unit {
@@ -1044,7 +1036,9 @@ defineExpose({ countsCorrect, reset });
   text-align: center;
   font-size: 0.82rem;
   font-weight: 700;
-  transition: width 0.4s ease, text-align 0s 0.2s;
+  transition:
+    width 0.4s ease,
+    text-align 0s 0.2s;
 }
 
 .bar-stack-row.circle-mode .bar-stack-label {
