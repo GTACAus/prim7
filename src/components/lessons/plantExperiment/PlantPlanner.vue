@@ -291,7 +291,13 @@ defineExpose({ reset, isComplete });
             Step {{ STEPS.findIndex((s) => s.key === step) + 1 }} of 3
           </p>
           <h3 id="pk-editor-heading">
-            {{ step === "change" ? "What will you change?" : step === "measure" ? "What will you measure?" : "Keep the same" }}
+            {{
+              step === "change"
+                ? "What will you change?"
+                : step === "measure"
+                  ? "What will you measure?"
+                  : "Keep the same"
+            }}
           </h3>
           <p v-if="step === 'measure'" class="pk-help">
             Choose one or more. Select again to remove.
@@ -300,7 +306,11 @@ defineExpose({ reset, isComplete });
 
         <!-- CHANGE: use the available width rather than a tall 2-column menu. -->
         <template v-if="step === 'change'">
-          <div class="pk-options" role="group" aria-label="Choose one variable to change">
+          <div
+            class="pk-options"
+            role="group"
+            aria-label="Choose one variable to change"
+          >
             <Button
               v-for="key in availableKeys"
               :key="key"
@@ -312,12 +322,21 @@ defineExpose({ reset, isComplete });
               {{ VARIABLES[key].label }}
             </Button>
           </div>
-          <div v-if="comparison" class="pk-change-summary" aria-label="Current comparison">
-            <span class="pk-change-summary-title">Comparing {{ VARIABLES[changeVariable].label }}</span>
+          <div
+            v-if="comparison"
+            class="pk-change-summary"
+            aria-label="Current comparison"
+          >
+            <span class="pk-change-summary-title"
+              >Comparing {{ VARIABLES[changeVariable].label }}</span
+            >
             <div class="pk-change-summary-pair">
               <template v-for="(letter, i) in ['A', 'B']" :key="letter">
                 <span v-if="i" class="pk-change-summary-vs">vs</span>
-                <label v-if="VARIABLES[changeVariable].pickEachPlant" class="pk-change-summary-value pk-frequency-field">
+                <label
+                  v-if="VARIABLES[changeVariable].pickEachPlant"
+                  class="pk-change-summary-value pk-frequency-field"
+                >
                   <span>Plant {{ letter }}</span>
                   <select
                     :value="letter === 'A' ? comparison.a : comparison.b"
@@ -328,13 +347,18 @@ defineExpose({ reset, isComplete });
                       v-for="option in VARIABLES[changeVariable].options"
                       :key="option.value"
                       :value="option.value"
-                      :disabled="option.value === (letter === 'A' ? comparison.b : comparison.a)"
-                    >{{ option.value }}x/week</option>
+                      :disabled="
+                        option.value ===
+                        (letter === 'A' ? comparison.b : comparison.a)
+                      "
+                    >
+                      {{ option.value }}x/week
+                    </option>
                   </select>
                 </label>
                 <strong v-else class="pk-change-summary-value">
                   <small>Plant {{ letter }}</small>
-                  {{ letter === 'A' ? plan.comparisonA : plan.comparisonB }}
+                  {{ letter === "A" ? plan.comparisonA : plan.comparisonB }}
                 </strong>
               </template>
             </div>
@@ -343,7 +367,11 @@ defineExpose({ reset, isComplete });
 
         <!-- MEASURE: multi-select and one contextual guide, as before. -->
         <template v-else-if="step === 'measure'">
-          <div class="pk-measure-buttons" role="group" aria-label="Measurements for both plants">
+          <div
+            class="pk-measure-buttons"
+            role="group"
+            aria-label="Measurements for both plants"
+          >
             <Button
               v-for="(item, key) in MEASUREMENTS"
               :key="key"
@@ -351,11 +379,20 @@ defineExpose({ reset, isComplete });
               :class="{ selected: selectedMeasures.includes(key) }"
               :aria-pressed="selectedMeasures.includes(key)"
               @click="toggleMeasure(key)"
-            >{{ item.label }}</Button>
+              >{{ item.label }}</Button
+            >
           </div>
-          <section v-if="focusedMeasure" class="pk-measure-preview" aria-label="Measuring guide" aria-live="polite">
+          <section
+            v-if="focusedMeasure"
+            class="pk-measure-preview"
+            aria-label="Measuring guide"
+            aria-live="polite"
+          >
             <div class="pk-measure-preview-copy">
-              <strong>How to measure: {{ MEASUREMENTS[focusedMeasure].label }}</strong>
+              <strong
+                >How to measure:
+                {{ MEASUREMENTS[focusedMeasure].label }}</strong
+              >
               <p>{{ MEASUREMENTS[focusedMeasure].how }}</p>
             </div>
             <button
@@ -365,7 +402,12 @@ defineExpose({ reset, isComplete });
               :aria-label="`Enlarge ${MEASUREMENTS[focusedMeasure].label} measuring illustration`"
               @click="showMeasureGuide"
             >
-              <img class="pk-measure-thumb" :src="focusedImage" :alt="`Measuring illustration for ${MEASUREMENTS[focusedMeasure].label}`" loading="lazy" />
+              <img
+                class="pk-measure-thumb"
+                :src="focusedImage"
+                :alt="`Measuring illustration for ${MEASUREMENTS[focusedMeasure].label}`"
+                loading="lazy"
+              />
               <span>View larger</span>
             </button>
           </section>
@@ -373,12 +415,25 @@ defineExpose({ reset, isComplete });
 
         <!-- KEEP THE SAME: compact grid of shared controls, not a tall sidebar. -->
         <template v-else>
-          <p class="pk-control-note">These settings apply to both plants. The variable you chose to change is left out of this list.</p>
+          <p class="pk-control-note">
+            These settings apply to both plants. The variable you chose to
+            change is left out of this list.
+          </p>
           <div class="pk-control-list">
             <div v-for="key in controlKeys" :key="key" class="pk-control-row">
-              <label :for="`pk-control-${key}`">{{ VARIABLES[key].label }}</label>
-              <select :id="`pk-control-${key}`" :value="controls[key]" @change="setControl(key, $event.target.value)">
-                <option v-for="option in VARIABLES[key].options" :key="option.value" :value="option.value">
+              <label :for="`pk-control-${key}`">{{
+                VARIABLES[key].label
+              }}</label>
+              <select
+                :id="`pk-control-${key}`"
+                :value="controls[key]"
+                @change="setControl(key, $event.target.value)"
+              >
+                <option
+                  v-for="option in VARIABLES[key].options"
+                  :key="option.value"
+                  :value="option.value"
+                >
                   {{ option.label }}
                 </option>
               </select>
@@ -393,9 +448,13 @@ defineExpose({ reset, isComplete });
         <div class="pk-card-heading">
           <div>
             <h3>Your plants</h3>
-            <p class="pk-scene-intro">The illustrations show the setup, not the results.</p>
+            <p class="pk-scene-intro">
+              The illustrations show the setup, not the results.
+            </p>
           </div>
-          <button type="button" class="pk-text-button" @click="resetPlan">↺ Reset</button>
+          <button type="button" class="pk-text-button" @click="resetPlan">
+            ↺ Reset
+          </button>
         </div>
         <div class="pk-scene-grid" aria-live="polite">
           <article
@@ -408,7 +467,8 @@ defineExpose({ reset, isComplete });
               <strong class="pk-plant-name">Plant {{ letter }}</strong>
               <span class="pk-scene-difference">
                 <template v-if="changeVariable">
-                  {{ VARIABLES[changeVariable].label }}: {{ labelFor(changeVariable, values[changeVariable]) }}
+                  {{ VARIABLES[changeVariable].label }}:
+                  {{ labelFor(changeVariable, values[changeVariable]) }}
                 </template>
                 <template v-else>Same settings</template>
               </span>
@@ -417,8 +477,16 @@ defineExpose({ reset, isComplete });
                  Four independent, unboxed references sit on the right,
                  with the plant directly beneath the window/cupboard on the left.
                  Every setting remains visible on all three steps. -->
-            <div class="pk-scene-stage" :class="{ 'pk-scene-stage--classroom': mode === 'classroom' }">
-              <PlantScene :letter="letter" :mode="mode" :values="values" :wall-layout="mode === 'classroom'" />
+            <div
+              class="pk-scene-stage"
+              :class="{ 'pk-scene-stage--classroom': mode === 'classroom' }"
+            >
+              <PlantScene
+                :letter="letter"
+                :mode="mode"
+                :values="values"
+                :wall-layout="mode === 'classroom'"
+              />
               <aside
                 v-if="mode === 'classroom'"
                 class="pk-wall-references"
@@ -435,21 +503,39 @@ defineExpose({ reset, isComplete });
                     type="button"
                     class="pk-wall-reference-image"
                     :aria-label="`Enlarge ${VARIABLES[key].label} for Plant ${letter}: ${labelFor(key, values[key])}`"
-                    @click="openImage(materialImage(key, values[key]), `${VARIABLES[key].label}: ${labelFor(key, values[key])}`)"
+                    @click="
+                      openImage(
+                        materialImage(key, values[key]),
+                        `${VARIABLES[key].label}: ${labelFor(key, values[key])}`,
+                      )
+                    "
                   >
-                    <img :src="materialImage(key, values[key])" alt="" loading="lazy" />
+                    <img
+                      :src="materialImage(key, values[key])"
+                      alt=""
+                      loading="lazy"
+                    />
                   </button>
-                  <span v-else class="pk-wall-reference-empty" aria-hidden="true">—</span>
+                  <span
+                    v-else
+                    class="pk-wall-reference-empty"
+                    aria-hidden="true"
+                    >—</span
+                  >
                   <!-- One clear value, rather than a tiny heading plus a value.
                        The full variable name is retained in the accessible label. -->
-                  <div class="pk-wall-reference-copy" :aria-label="`${VARIABLES[key].label}: ${labelFor(key, values[key])}`">
+                  <div
+                    class="pk-wall-reference-copy"
+                    :aria-label="`${VARIABLES[key].label}: ${labelFor(key, values[key])}`"
+                  >
                     <strong>{{ labelFor(key, values[key]) }}</strong>
                   </div>
                 </div>
               </aside>
             </div>
             <p v-if="mode !== 'classroom'" class="pk-scene-tiny-note">
-              {{ labelFor('lightColour', values.lightColour) }} · {{ labelFor('nutrientLevel', values.nutrientLevel) }}
+              {{ labelFor("lightColour", values.lightColour) }} ·
+              {{ labelFor("nutrientLevel", values.nutrientLevel) }}
             </p>
           </article>
         </div>
@@ -461,7 +547,10 @@ defineExpose({ reset, isComplete });
     <section class="pk-card pk-plan" aria-label="Your plan">
       <div class="pk-plan-heading">
         <h3>Your plan</h3>
-        <p>The highlighted row shows what you are changing. Every other setting stays the same for both plants.</p>
+        <p>
+          The highlighted row shows what you are changing. Every other setting
+          stays the same for both plants.
+        </p>
       </div>
       <div class="pk-table-scroll">
         <table class="pk-settings-table">
@@ -483,14 +572,24 @@ defineExpose({ reset, isComplete });
               <td>Grow lamp</td>
               <td>Grow lamp</td>
             </tr>
-            <tr v-for="key in availableKeys" :key="key" :class="{ 'pk-table-changed': key === changeVariable }">
-              <th scope="row">{{ VARIABLES[key].label }}{{ key === changeVariable ? ' (changing)' : '' }}</th>
+            <tr
+              v-for="key in availableKeys"
+              :key="key"
+              :class="{ 'pk-table-changed': key === changeVariable }"
+            >
+              <th scope="row">
+                {{ VARIABLES[key].label
+                }}{{ key === changeVariable ? " (changing)" : "" }}
+              </th>
               <td>{{ labelFor(key, setups.A[key]) }}</td>
               <td>{{ labelFor(key, setups.B[key]) }}</td>
             </tr>
             <tr class="pk-table-measures">
               <th scope="row">What to measure</th>
-              <td colspan="2">{{ measureSummary }} <span v-if="selectedMeasures.length">(for both plants)</span></td>
+              <td colspan="2">
+                {{ measureSummary }}
+                <span v-if="selectedMeasures.length">(for both plants)</span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -505,22 +604,39 @@ defineExpose({ reset, isComplete });
           role="status"
           aria-live="polite"
         >
-          {{ missing.length ? `Almost there! Please ${missing.join('; ')}.` : 'Your fair test plan is ready.' }}
+          {{
+            missing.length
+              ? `Almost there! Please ${missing.join("; ")}.`
+              : "Your fair test plan is ready."
+          }}
         </div>
       </div>
     </section>
 
     <!-- A local, large version of the measuring guide. Native dialog
          supports Escape and keeps the shared site modal unchanged. -->
-    <dialog ref="measureDialog" class="pk-measure-dialog" aria-label="Enlarged measuring guide">
+    <dialog
+      ref="measureDialog"
+      class="pk-measure-dialog"
+      aria-label="Enlarged measuring guide"
+    >
       <div class="pk-measure-dialog-top">
         <h3 v-if="focusedMeasure">{{ MEASUREMENTS[focusedMeasure].label }}</h3>
-        <button type="button" class="pk-dialog-close" @click="closeMeasureGuide">Close ×</button>
+        <button
+          type="button"
+          class="pk-dialog-close"
+          @click="closeMeasureGuide"
+        >
+          Close ×
+        </button>
       </div>
-      <img v-if="focusedImage" :src="focusedImage" :alt="`How to measure ${MEASUREMENTS[focusedMeasure]?.label || 'plant growth'}`" />
+      <img
+        v-if="focusedImage"
+        :src="focusedImage"
+        :alt="`How to measure ${MEASUREMENTS[focusedMeasure]?.label || 'plant growth'}`"
+      />
       <p v-if="focusedMeasure">{{ MEASUREMENTS[focusedMeasure].how }}</p>
     </dialog>
-
   </Activity>
 </template>
 
@@ -595,6 +711,9 @@ defineExpose({ reset, isComplete });
   --background-hover: var(--soft-blue);
   --background-active: var(--purple);
   --color-active: white;
+
+  --translate-amount-hover: -5px;
+  --border-color-hover: var(--line);
 }
 
 /* ---------- Step tabs ---------- */
@@ -617,7 +736,7 @@ defineExpose({ reset, isComplete });
   border-top-width: 7px;
   border-radius: 17px;
 
-  --background-hover: var(--bk-soft);
+  --background-hover: var(--soft-yellow);
 }
 .pk-step--change {
   border-top-color: var(--yellow);
@@ -1286,7 +1405,6 @@ defineExpose({ reset, isComplete });
   }
 }
 
-
 /* ================================================================
    LAYOUT TRIAL: horizontal planner, larger scenes, permanent A/B table
    The existing GTAC palette, buttons and experiment logic are unchanged.
@@ -1306,14 +1424,24 @@ defineExpose({ reset, isComplete });
   align-items: baseline;
   margin-bottom: 13px;
 }
-.pk-editor-head .pk-kicker { margin: 0; }
-.pk-editor-head h3 { margin: 0; }
-.pk-editor-head .pk-help { margin: 0; }
+.pk-editor-head .pk-kicker {
+  margin: 0;
+}
+.pk-editor-head h3 {
+  margin: 0;
+}
+.pk-editor-head .pk-help {
+  margin: 0;
+}
 .pk-options {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 9px;
 }
-.pk-option { min-height: 47px; padding: 9px 13px; font-size: .88rem; }
+.pk-option {
+  min-height: 47px;
+  padding: 9px 13px;
+  font-size: 0.88rem;
+}
 .pk-change-summary {
   margin-top: 12px;
   display: flex;
@@ -1322,16 +1450,20 @@ defineExpose({ reset, isComplete });
   flex-wrap: wrap;
   padding: 11px 14px;
 }
-.pk-change-summary-title { margin: 0; }
+.pk-change-summary-title {
+  margin: 0;
+}
 .pk-change-summary-pair {
   flex: 1 1 380px;
   max-width: 730px;
 }
-.pk-change-summary-value { padding: 7px 10px; }
+.pk-change-summary-value {
+  padding: 7px 10px;
+}
 .pk-change-summary-value small {
   display: block;
   color: var(--muted);
-  font-size: .7rem;
+  font-size: 0.7rem;
   font-weight: 700;
   margin-bottom: 2px;
 }
@@ -1341,12 +1473,30 @@ defineExpose({ reset, isComplete });
   background: transparent;
   border: 0;
 }
-.pk-measure-btn { min-height: 48px; padding: 9px 27px 9px 11px; }
-.pk-measure-preview { max-width: none; padding: 10px 14px; }
-.pk-measure-preview-image { flex-basis: 185px; padding: 5px; }
-.pk-measure-preview-image .media > img { max-height: 148px; }
-.pk-control-note { margin: 0 0 10px; font-size: .86rem; color: var(--muted); }
-.pk-control-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.pk-measure-btn {
+  min-height: 48px;
+  padding: 9px 27px 9px 11px;
+}
+.pk-measure-preview {
+  max-width: none;
+  padding: 10px 14px;
+}
+.pk-measure-preview-image {
+  flex-basis: 185px;
+  padding: 5px;
+}
+.pk-measure-preview-image .media > img {
+  max-height: 148px;
+}
+.pk-control-note {
+  margin: 0 0 10px;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+.pk-control-list {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
 .pk-control-row {
   display: flex;
   flex-direction: column;
@@ -1354,10 +1504,20 @@ defineExpose({ reset, isComplete });
   padding: 9px 11px;
   gap: 5px;
 }
-.pk-control-row select { width: 100%; }
-.pk-card-heading { align-items: center; }
-.pk-scene-intro { margin: 3px 0 0; color: var(--muted); font-size: .84rem; }
-.pk-scene-grid { gap: 17px; }
+.pk-control-row select {
+  width: 100%;
+}
+.pk-card-heading {
+  align-items: center;
+}
+.pk-scene-intro {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.pk-scene-grid {
+  gap: 17px;
+}
 .pk-scene-card-heading {
   display: flex;
   flex-wrap: wrap;
@@ -1366,14 +1526,17 @@ defineExpose({ reset, isComplete });
   gap: 5px 12px;
   padding: 10px 14px;
 }
-.pk-plant-name { padding: 0; font-size: 1.06rem; }
+.pk-plant-name {
+  padding: 0;
+  font-size: 1.06rem;
+}
 .pk-scene-difference {
   display: inline-flex;
   margin: 0;
   padding: 5px 9px;
   border-width: 1.5px;
   border-radius: 9px;
-  font-size: .78rem;
+  font-size: 0.78rem;
   max-width: 100%;
 }
 .pk-scene-materials {
@@ -1399,7 +1562,8 @@ defineExpose({ reset, isComplete });
   background: var(--soft-yellow);
   border-color: var(--yellow);
 }
-.pk-scene-material-art, .pk-scene-material-empty {
+.pk-scene-material-art,
+.pk-scene-material-empty {
   flex: 0 0 48px;
   width: 48px;
   height: 54px;
@@ -1410,15 +1574,48 @@ defineExpose({ reset, isComplete });
   place-items: center;
   padding: 2px;
 }
-.pk-scene-material-art { cursor: zoom-in; overflow: hidden; min-width: 0; min-height: 0; }
-.pk-scene-material-art:hover { outline: 2px solid var(--purple); }
-.pk-scene-material-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.pk-scene-material-empty { color: var(--muted); font-size: 1.35rem; }
-.pk-scene-material-copy { min-width: 0; line-height: 1.28; }
-.pk-scene-material-copy span { display: block; color: var(--muted); font-size: .68rem; }
-.pk-scene-material-copy strong { display: block; font-size: .76rem; overflow-wrap: anywhere; }
-.pk-scene-tiny-note { margin: 0; padding: 10px 14px; color: var(--muted); font-size: .84rem; }
-.pk-plan { margin-top: 18px; }
+.pk-scene-material-art {
+  cursor: zoom-in;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+.pk-scene-material-art:hover {
+  outline: 2px solid var(--purple);
+}
+.pk-scene-material-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pk-scene-material-empty {
+  color: var(--muted);
+  font-size: 1.35rem;
+}
+.pk-scene-material-copy {
+  min-width: 0;
+  line-height: 1.28;
+}
+.pk-scene-material-copy span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+.pk-scene-material-copy strong {
+  display: block;
+  font-size: 0.76rem;
+  overflow-wrap: anywhere;
+}
+.pk-scene-tiny-note {
+  margin: 0;
+  padding: 10px 14px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.pk-plan {
+  margin-top: 18px;
+}
 .pk-plan-heading {
   display: flex;
   align-items: baseline;
@@ -1427,16 +1624,41 @@ defineExpose({ reset, isComplete });
   gap: 5px 14px;
   margin-bottom: 12px;
 }
-.pk-plan-heading h3 { margin: 0; }
-.pk-plan-heading p { margin: 0; font-size: .85rem; color: var(--muted); }
-.pk-table-scroll { border: 2px solid var(--line); border-radius: 13px; overflow-x: auto; }
-.pk-settings-table { min-width: 470px; }
-.pk-settings-table :is(th, td) { padding: 8px 13px; }
-.pk-settings-table tbody th { text-align: left; font-weight: 650; }
-.pk-table-measures { background: var(--soft-purple); }
-.pk-table-measures th { color: #fff; }
-.pk-check-row { margin-top: 14px; }
-.pk-check-button { min-width: 175px; }
+.pk-plan-heading h3 {
+  margin: 0;
+}
+.pk-plan-heading p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.pk-table-scroll {
+  border: 2px solid var(--line);
+  border-radius: 13px;
+  overflow-x: auto;
+}
+.pk-settings-table {
+  min-width: 470px;
+}
+.pk-settings-table :is(th, td) {
+  padding: 8px 13px;
+}
+.pk-settings-table tbody th {
+  text-align: left;
+  font-weight: 650;
+}
+.pk-table-measures {
+  background: var(--soft-purple);
+}
+.pk-table-measures th {
+  color: #fff;
+}
+.pk-check-row {
+  margin-top: 14px;
+}
+.pk-check-button {
+  min-width: 175px;
+}
 
 /* Enlarged measuring illustrations only. Material thumbnails still use
    the project's shared modal as before. */
@@ -1454,7 +1676,9 @@ defineExpose({ reset, isComplete });
   color: var(--text);
   box-shadow: 0 18px 65px #0005;
 }
-.pk-measure-dialog::backdrop { background: #171d1cb8; }
+.pk-measure-dialog::backdrop {
+  background: #171d1cb8;
+}
 .pk-measure-dialog-top {
   display: flex;
   align-items: center;
@@ -1462,7 +1686,9 @@ defineExpose({ reset, isComplete });
   gap: 12px;
   margin-bottom: 10px;
 }
-.pk-measure-dialog-top h3 { margin: 0; }
+.pk-measure-dialog-top h3 {
+  margin: 0;
+}
 .pk-dialog-close {
   flex: 0 0 auto;
   padding: 9px 14px;
@@ -1480,34 +1706,91 @@ defineExpose({ reset, isComplete });
   margin: 0 auto;
   object-fit: contain;
 }
-.pk-measure-dialog > p { margin: 12px 0 0; font-size: .95rem; }
+.pk-measure-dialog > p {
+  margin: 12px 0 0;
+  font-size: 0.95rem;
+}
 @media (max-width: 980px) {
-  .pk-options, .pk-control-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .pk-measure-buttons { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pk-options,
+  .pk-control-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .pk-measure-buttons {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 @media (max-width: 780px) {
-  .pk-options, .pk-control-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pk-measure-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pk-scene-grid { grid-template-columns: 1fr; }
-  .pk-scene-material { flex-direction: row; align-items: center; }
-  .pk-scene-material-art, .pk-scene-material-empty { width: 48px; flex-basis: 48px; height: 54px; }
+  .pk-options,
+  .pk-control-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pk-measure-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pk-scene-grid {
+    grid-template-columns: 1fr;
+  }
+  .pk-scene-material {
+    flex-direction: row;
+    align-items: center;
+  }
+  .pk-scene-material-art,
+  .pk-scene-material-empty {
+    width: 48px;
+    flex-basis: 48px;
+    height: 54px;
+  }
 }
 @media (max-width: 560px) {
-  .pk-settings-table { min-width: 0; width: 100%; font-size: .76rem; table-layout: fixed; }
-  .pk-settings-table :is(th, td) { padding: 7px 6px; overflow-wrap: anywhere; }
-  .pk-settings-table :is(th, td):first-child { width: 38%; }
+  .pk-settings-table {
+    min-width: 0;
+    width: 100%;
+    font-size: 0.76rem;
+    table-layout: fixed;
+  }
+  .pk-settings-table :is(th, td) {
+    padding: 7px 6px;
+    overflow-wrap: anywhere;
+  }
+  .pk-settings-table :is(th, td):first-child {
+    width: 38%;
+  }
 }
 @media (max-width: 490px) {
-  .pk-editor { padding: 14px; }
-  .pk-option { min-height: 50px; padding: 8px 10px; }
-  .pk-measure-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pk-measure-preview-image { flex: 0 0 100%; }
-  .pk-scene-materials { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pk-scene-material { padding: 4px; }
-  .pk-scene-material-art, .pk-scene-material-empty { width: 42px; flex-basis: 42px; height: 44px; }
-  .pk-scene-card-heading { align-items: start; }
-  .pk-scene-difference { font-size: .75rem; }
-  .pk-plan-heading p { font-size: .8rem; }
+  .pk-editor {
+    padding: 14px;
+  }
+  .pk-option {
+    min-height: 50px;
+    padding: 8px 10px;
+  }
+  .pk-measure-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pk-measure-preview-image {
+    flex: 0 0 100%;
+  }
+  .pk-scene-materials {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pk-scene-material {
+    padding: 4px;
+  }
+  .pk-scene-material-art,
+  .pk-scene-material-empty {
+    width: 42px;
+    flex-basis: 42px;
+    height: 44px;
+  }
+  .pk-scene-card-heading {
+    align-items: start;
+  }
+  .pk-scene-difference {
+    font-size: 0.75rem;
+  }
+  .pk-plan-heading p {
+    font-size: 0.8rem;
+  }
 }
 
 /* === Trial UX correction: prevent tall measurement graphics from growing the editor === */
@@ -1544,74 +1827,186 @@ defineExpose({ reset, isComplete });
   margin-top: 2px;
 }
 @media (max-width: 490px) {
-  .pk-measure-preview { flex-direction: row; flex-wrap: nowrap; }
-  .pk-measure-preview-image { flex: 0 0 96px; width: 96px; }
-  .pk-measure-thumb { height: 85px; max-height: 85px; }
+  .pk-measure-preview {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .pk-measure-preview-image {
+    flex: 0 0 96px;
+    width: 96px;
+  }
+  .pk-measure-thumb {
+    height: 85px;
+    max-height: 85px;
+  }
 }
 
 /* === OPTION A: controls alongside plants (recommended for classroom screens) === */
 @media (min-width: 1051px) {
   .pk-workspace {
-    grid-template-columns: minmax(312px, .82fr) minmax(0, 1.90fr);
+    grid-template-columns: minmax(312px, 0.82fr) minmax(0, 1.9fr);
     align-items: start;
     gap: 15px;
   }
-  .pk-editor { padding: 17px 18px; }
-  .pk-editor-head { display: block; margin-bottom: 13px; }
-  .pk-editor-head .pk-kicker { margin: 0 0 4px; }
-  .pk-editor-head h3 { font-size: clamp(1.2rem, 1.8vw, 1.45rem); line-height: 1.25; }
-  .pk-editor-head .pk-help { display: block; margin: 6px 0 0; font-size: .81rem; }
-  .pk-options { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
-  .pk-option { min-height: 53px; padding: 9px 11px; font-size: .82rem; }
-  .pk-change-summary { display: block; padding: 11px 12px; margin-top: 13px; }
-  .pk-change-summary-title { margin: 0 0 7px; }
-  .pk-change-summary-pair { max-width: none; gap: 6px; }
-  .pk-change-summary-value { padding: 7px 5px; font-size: .79rem; }
-  .pk-measure-buttons {
-    grid-template-columns: repeat(2,minmax(0,1fr));
+  .pk-editor {
+    padding: 17px 18px;
+  }
+  .pk-editor-head {
+    display: block;
+    margin-bottom: 13px;
+  }
+  .pk-editor-head .pk-kicker {
+    margin: 0 0 4px;
+  }
+  .pk-editor-head h3 {
+    font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+    line-height: 1.25;
+  }
+  .pk-editor-head .pk-help {
+    display: block;
+    margin: 6px 0 0;
+    font-size: 0.81rem;
+  }
+  .pk-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 9px;
   }
-  .pk-measure-btn { min-height: 49px; padding: 8px 26px 8px 10px; font-size: .82rem; }
-  .pk-measure-preview { gap: 9px; padding: 10px; }
-  .pk-measure-preview-copy strong { font-size: .84rem; }
-  .pk-measure-preview-copy p { font-size: .78rem; line-height: 1.4; }
-  .pk-measure-preview-image { flex: 0 0 96px; width: 96px; }
-  .pk-measure-thumb { height: 90px; max-height: 90px; }
-  .pk-control-list { grid-template-columns: 1fr; gap: 8px; }
-  .pk-control-note { font-size: .8rem; line-height: 1.4; }
+  .pk-option {
+    min-height: 53px;
+    padding: 9px 11px;
+    font-size: 0.82rem;
+  }
+  .pk-change-summary {
+    display: block;
+    padding: 11px 12px;
+    margin-top: 13px;
+  }
+  .pk-change-summary-title {
+    margin: 0 0 7px;
+  }
+  .pk-change-summary-pair {
+    max-width: none;
+    gap: 6px;
+  }
+  .pk-change-summary-value {
+    padding: 7px 5px;
+    font-size: 0.79rem;
+  }
+  .pk-measure-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .pk-measure-btn {
+    min-height: 49px;
+    padding: 8px 26px 8px 10px;
+    font-size: 0.82rem;
+  }
+  .pk-measure-preview {
+    gap: 9px;
+    padding: 10px;
+  }
+  .pk-measure-preview-copy strong {
+    font-size: 0.84rem;
+  }
+  .pk-measure-preview-copy p {
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .pk-measure-preview-image {
+    flex: 0 0 96px;
+    width: 96px;
+  }
+  .pk-measure-thumb {
+    height: 90px;
+    max-height: 90px;
+  }
+  .pk-control-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .pk-control-note {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
   .pk-control-row {
     display: grid;
-    grid-template-columns: minmax(85px,1fr) minmax(140px,1.18fr);
+    grid-template-columns: minmax(85px, 1fr) minmax(140px, 1.18fr);
     gap: 10px;
     align-items: center;
     padding: 8px 10px;
   }
-  .pk-control-row label { font-size: .82rem; }
-  .pk-control-row select { min-height: 38px; font-size: .82rem; }
-  .pk-experiments { padding: 17px; }
-  .pk-scene-grid { gap: 10px; }
-  .pk-scene-materials { padding: 7px 8px 8px; gap: 4px; }
-  .pk-scene-material { gap: 4px; padding: 3px; }
-  .pk-scene-material-art, .pk-scene-material-empty { flex: 0 0 41px; width: 41px; height: 48px; }
-  .pk-scene-material-copy span { font-size: .63rem; }
-  .pk-scene-material-copy strong { font-size: .70rem; }
+  .pk-control-row label {
+    font-size: 0.82rem;
+  }
+  .pk-control-row select {
+    min-height: 38px;
+    font-size: 0.82rem;
+  }
+  .pk-experiments {
+    padding: 17px;
+  }
+  .pk-scene-grid {
+    gap: 10px;
+  }
+  .pk-scene-materials {
+    padding: 7px 8px 8px;
+    gap: 4px;
+  }
+  .pk-scene-material {
+    gap: 4px;
+    padding: 3px;
+  }
+  .pk-scene-material-art,
+  .pk-scene-material-empty {
+    flex: 0 0 41px;
+    width: 41px;
+    height: 48px;
+  }
+  .pk-scene-material-copy span {
+    font-size: 0.63rem;
+  }
+  .pk-scene-material-copy strong {
+    font-size: 0.7rem;
+  }
 }
 /* On tablets / phones, restore full-width choices followed by plant cards. */
 @media (max-width: 1050px) {
-  .pk-workspace { grid-template-columns: 1fr; }
-  .pk-editor { padding: 15px; }
-  .pk-editor-head { display:flex; flex-wrap:wrap; }
-  .pk-options { grid-template-columns: repeat(4,minmax(0,1fr)); }
-  .pk-measure-buttons { grid-template-columns: repeat(3,minmax(0,1fr)); }
-  .pk-control-list { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .pk-workspace {
+    grid-template-columns: 1fr;
+  }
+  .pk-editor {
+    padding: 15px;
+  }
+  .pk-editor-head {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .pk-options {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .pk-measure-buttons {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .pk-control-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 @media (max-width: 760px) {
-  .pk-options, .pk-control-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .pk-measure-buttons { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .pk-options,
+  .pk-control-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pk-measure-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 490px) {
-  .pk-scene-grid { grid-template-columns: 1fr; }
-  .pk-scene-materials { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .pk-scene-grid {
+    grid-template-columns: 1fr;
+  }
+  .pk-scene-materials {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* =========================================================
@@ -1627,7 +2022,11 @@ defineExpose({ reset, isComplete });
   min-width: 0;
   background: #eef6e9;
 }
-.pk-scene-stage > .pk-scene-picture { display: block; width: 100%; height: auto; }
+.pk-scene-stage > .pk-scene-picture {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .pk-wall-references {
   position: absolute;
   top: 8%;
@@ -1670,8 +2069,12 @@ defineExpose({ reset, isComplete });
   box-shadow: none;
   color: #66786d;
 }
-button.pk-wall-reference-image { cursor: zoom-in; }
-button.pk-wall-reference-image:hover { filter: drop-shadow(0 1px 2px #4c479b77); }
+button.pk-wall-reference-image {
+  cursor: zoom-in;
+}
+button.pk-wall-reference-image:hover {
+  filter: drop-shadow(0 1px 2px #4c479b77);
+}
 button.pk-wall-reference-image:focus-visible {
   outline: 3px solid var(--purple);
   outline-offset: 2px;
@@ -1682,7 +2085,9 @@ button.pk-wall-reference-image:focus-visible {
   height: 100%;
   object-fit: contain;
 }
-.pk-wall-reference-empty { font-size: 1.15rem; }
+.pk-wall-reference-empty {
+  font-size: 1.15rem;
+}
 .pk-wall-reference-copy {
   flex: 1 1 auto;
   min-width: 0;
@@ -1690,7 +2095,7 @@ button.pk-wall-reference-image:focus-visible {
 .pk-wall-reference-copy strong {
   display: block;
   color: #283c30;
-  font-size: clamp(.69rem, .88vw, .82rem);
+  font-size: clamp(0.69rem, 0.88vw, 0.82rem);
   font-weight: 750;
   line-height: 1.22;
   overflow-wrap: normal;
@@ -1708,26 +2113,42 @@ button.pk-wall-reference-image:focus-visible {
   color: #fff !important;
 }
 @media (max-width: 1050px) {
-  .pk-wall-reference-image, .pk-wall-reference-empty {
+  .pk-wall-reference-image,
+  .pk-wall-reference-empty {
     flex-basis: clamp(38px, 5.2vw, 48px);
     width: clamp(38px, 5.2vw, 48px);
     height: clamp(38px, 5.2vw, 48px);
   }
-  .pk-wall-reference-copy strong { font-size: .81rem; }
+  .pk-wall-reference-copy strong {
+    font-size: 0.81rem;
+  }
 }
 @media (max-width: 650px) {
-  .pk-wall-references { top: 7%; bottom: 17%; left: 52%; right: 2%; }
-  .pk-wall-reference { gap: 6px; }
-  .pk-wall-reference-image, .pk-wall-reference-empty {
+  .pk-wall-references {
+    top: 7%;
+    bottom: 17%;
+    left: 52%;
+    right: 2%;
+  }
+  .pk-wall-reference {
+    gap: 6px;
+  }
+  .pk-wall-reference-image,
+  .pk-wall-reference-empty {
     flex-basis: clamp(31px, 10vw, 43px);
     width: clamp(31px, 10vw, 43px);
     height: clamp(33px, 10vw, 43px);
   }
-  .pk-wall-reference-copy strong { font-size: clamp(.70rem, 3vw, .8rem); }
+  .pk-wall-reference-copy strong {
+    font-size: clamp(0.7rem, 3vw, 0.8rem);
+  }
 }
 @media (max-width: 380px) {
-  .pk-wall-reference { gap: 5px; }
-  .pk-wall-reference-copy strong { font-size: .70rem; }
+  .pk-wall-reference {
+    gap: 5px;
+  }
+  .pk-wall-reference-copy strong {
+    font-size: 0.7rem;
+  }
 }
-
 </style>

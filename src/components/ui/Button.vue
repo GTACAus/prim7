@@ -60,6 +60,7 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
   --color-hover: var(--color);
   --translate-amount-hover: -2px;
   --box-shadow-hover: var(--shadow-medium);
+  --border-color-hover: var(--border);
 
   --background-active: var(--mint);
   --color-active: var(--color);

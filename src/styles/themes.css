@@ -283,11 +283,13 @@
 
 :root[data-theme="simple"] .section-title {
   background: none;
+  padding: 5px;
+  padding-left: 15px;
   border: none;
+  border-left: 3px solid var(--accent);
   box-shadow: none;
-  margin: 0;
-  margin-left: -10px;
-  font-size: clamp(1.2rem, 1.6vw, 1.55rem);
+  margin: 0 0 10px 0;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
   letter-spacing: -0.025em;
 }
 

@@ -27,7 +27,7 @@ defineExpose({ pressed });
     <div v-if="pressed" class="stop-and-check-answer">
       <slot name="answer" />
     </div>
-    <Button v-else class="stop-and-check-button" symbol="✅" @click="press">
+    <Button v-else class="stop-and-check-button" symbol="✓" @click="press">
       Check Your Answer
     </Button>
   </ButtonReveal>
@@ -135,6 +135,6 @@ defineExpose({ pressed });
 
 .stop-and-check img {
   align-self: center;
-  width: clamp(150px, 20vw, 200px);
+  width: clamp(150px, 20vw, 250px);
 }
 </style>
