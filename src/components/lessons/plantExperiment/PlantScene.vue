@@ -19,6 +19,8 @@ import {
 const props = defineProps({
   letter: { type: String, required: true },
   mode: { type: String, default: "classroom" },
+  // Opt-in for the wall-layout trial; other PlantScene uses stay unchanged.
+  wallLayout: { type: Boolean, default: false },
   values: { type: Object, required: true },
 });
 
@@ -36,8 +38,20 @@ const ariaLabel = computed(
 /* ---------- Classroom ---------- */
 const dark = computed(() => props.values.lightExposure === "cupboard");
 const backdrop = computed(() => VISUAL_ASSETS.backgrounds[props.values.lightExposure]);
-const backdropFrame = computed(
-  () => IMAGE_FRAMES.backgrounds[props.values.lightExposure],
+const backdropFrame = computed(() => {
+  if (props.wallLayout && !tiny.value) {
+    // Position the window/cupboard above the plant in the left half.
+    // The right half stays open for the unboxed material references.
+    return props.values.lightExposure === "cupboard"
+      ? { x: 0, y: 55, width: 213, height: 208 }
+      : { x: 18, y: 24, width: 177, height: 151 };
+  }
+  return IMAGE_FRAMES.backgrounds[props.values.lightExposure];
+});
+// Move AND scale the pot and seedling together. Their relative rooting
+// positions remain intact across all 16 combined Canva pot/soil images.
+const potGroupTransform = computed(() =>
+  props.wallLayout && !tiny.value ? "translate(-53, 60) scale(0.76)" : ""
 );
 const large = computed(() => props.values.potSize === "large");
 const full = computed(() => props.values.soilFill === "full");
@@ -167,29 +181,31 @@ const TRAY_PLANTS = [145, 210, 275];
 
       <rect y="263" width="420" height="43" fill="#deb687" />
       <rect y="263" width="420" height="7" fill="#af855f" opacity=".3" />
-      <ellipse cx="210" cy="267" :rx="rimWidth * 0.52" ry="10" fill="#503d30" opacity=".18" />
+      <g :transform="potGroupTransform">
+        <ellipse cx="210" cy="267" :rx="rimWidth * 0.52" ry="10" fill="#503d30" opacity=".18" />
 
-      <image v-if="pot" :href="pot" v-bind="potFrame" preserveAspectRatio="xMidYMid meet" />
+        <image v-if="pot" :href="pot" v-bind="potFrame" preserveAspectRatio="xMidYMid meet" />
 
-      <g :transform="`translate(0, ${seedlingDrop})`">
-        <image
-          v-if="VISUAL_ASSETS.seedling"
-          :href="VISUAL_ASSETS.seedling"
-          v-bind="IMAGE_FRAMES.seedling"
-        />
-        <g
-          v-else
-          :opacity="dark ? 0.88 : 1"
-          transform="translate(0,42) scale(1,0.78)"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path :d="`M210 ${soilTop + stemExtension} Q217 164 211 139 T209 91`" fill="none" stroke="#356e3a" stroke-width="5" />
-          <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5" />
-          <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5" />
-          <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5" />
-          <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5" />
-          <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2" />
+        <g :transform="`translate(0, ${seedlingDrop})`">
+          <image
+            v-if="VISUAL_ASSETS.seedling"
+            :href="VISUAL_ASSETS.seedling"
+            v-bind="IMAGE_FRAMES.seedling"
+          />
+          <g
+            v-else
+            :opacity="dark ? 0.88 : 1"
+            transform="translate(0,42) scale(1,0.78)"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path :d="`M210 ${soilTop + stemExtension} Q217 164 211 139 T209 91`" fill="none" stroke="#356e3a" stroke-width="5" />
+            <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5" />
+            <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5" />
+            <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5" />
+            <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5" />
+            <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2" />
+          </g>
         </g>
       </g>
     </template>

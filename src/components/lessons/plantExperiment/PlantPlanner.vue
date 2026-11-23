@@ -419,35 +419,41 @@ defineExpose({ reset, isComplete });
                 <template v-else>Same settings</template>
               </span>
             </div>
-            <PlantScene :letter="letter" :mode="mode" :values="values" />
-
-            <!-- Teaching-reference images are presented IN each plant card,
-                 but outside the growing scene so a bag or calendar is not
-                 mistaken for something physically placed in the pot. -->
-            <div v-if="mode === 'classroom'" class="pk-scene-materials" :aria-label="`Plant ${letter} materials and care`">
-              <div
-                v-for="key in MATERIAL_KEYS"
-                :key="key"
-                class="pk-scene-material"
-                :class="{ 'is-different': key === changeVariable }"
+            <!-- The classroom wall has no material panel or ribbon.
+                 Four independent, unboxed references sit on the right,
+                 with the plant directly beneath the window/cupboard on the left.
+                 Every setting remains visible on all three steps. -->
+            <div class="pk-scene-stage" :class="{ 'pk-scene-stage--classroom': mode === 'classroom' }">
+              <PlantScene :letter="letter" :mode="mode" :values="values" :wall-layout="mode === 'classroom'" />
+              <aside
+                v-if="mode === 'classroom'"
+                class="pk-wall-references"
+                :aria-label="`Plant ${letter}: material settings`"
               >
-                <button
-                  v-if="materialImage(key, values[key])"
-                  class="pk-scene-material-art"
-                  type="button"
-                  :aria-label="`Enlarge Plant ${letter} ${VARIABLES[key].label}: ${labelFor(key, values[key])}`"
-                  @click="openImage(materialImage(key, values[key]), `${VARIABLES[key].label}: ${labelFor(key, values[key])}`)"
+                <div
+                  v-for="key in MATERIAL_KEYS"
+                  :key="key"
+                  class="pk-wall-reference"
+                  :class="{ 'is-different': key === changeVariable }"
                 >
-                  <img :src="materialImage(key, values[key])" alt="" loading="lazy" />
-                </button>
-                <span v-else class="pk-scene-material-empty" aria-hidden="true">—</span>
-                <div class="pk-scene-material-copy">
-                  <span>{{ MATERIAL_SHORT_LABELS[key] }}</span>
-                  <strong>{{ labelFor(key, values[key]) }}</strong>
+                  <button
+                    v-if="materialImage(key, values[key])"
+                    type="button"
+                    class="pk-wall-reference-image"
+                    :aria-label="`Enlarge ${VARIABLES[key].label} for Plant ${letter}: ${labelFor(key, values[key])}`"
+                    @click="openImage(materialImage(key, values[key]), `${VARIABLES[key].label}: ${labelFor(key, values[key])}`)"
+                  >
+                    <img :src="materialImage(key, values[key])" alt="" loading="lazy" />
+                  </button>
+                  <span v-else class="pk-wall-reference-empty" aria-hidden="true">—</span>
+                  <div class="pk-wall-reference-copy">
+                    <span>{{ MATERIAL_SHORT_LABELS[key] }}</span>
+                    <strong>{{ labelFor(key, values[key]) }}</strong>
+                  </div>
                 </div>
-              </div>
+              </aside>
             </div>
-            <p v-else class="pk-scene-tiny-note">
+            <p v-if="mode !== 'classroom'" class="pk-scene-tiny-note">
               {{ labelFor('lightColour', values.lightColour) }} · {{ labelFor('nutrientLevel', values.nutrientLevel) }}
             </p>
           </article>
@@ -1433,7 +1439,7 @@ defineExpose({ reset, isComplete });
 .pk-settings-table :is(th, td) { padding: 8px 13px; }
 .pk-settings-table tbody th { text-align: left; font-weight: 650; }
 .pk-table-measures { background: var(--soft-purple); }
-.pk-table-measures th { color: var(--text); }
+.pk-table-measures th { color: #fff; }
 .pk-check-row { margin-top: 14px; }
 .pk-check-button { min-width: 175px; }
 
@@ -1611,5 +1617,128 @@ defineExpose({ reset, isComplete });
 @media (max-width: 490px) {
   .pk-scene-grid { grid-template-columns: 1fr; }
   .pk-scene-materials { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+/* =========================================================
+   UNBOXED WALL REFERENCES — classroom scene only
+   Four independent Canva objects float on the right wall; no
+   panel, ribbon, background cards or extra instructional text.
+   The scene and the permanent A/B table remain the source of truth.
+   ========================================================= */
+.pk-scene-stage {
+  position: relative;
+  min-width: 0;
+  background: #eef6e9;
+}
+.pk-scene-stage > .pk-scene-picture { display: block; width: 100%; height: auto; }
+.pk-wall-references {
+  position: absolute;
+  top: 5%;
+  bottom: 16%; /* keep the benchtop clear */
+  left: 51%;
+  right: 2%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  column-gap: 3%;
+  row-gap: 2%;
+  pointer-events: none;
+}
+.pk-wall-reference {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+  background: none;
+  border: 0;
+  text-align: center;
+  pointer-events: auto;
+}
+.pk-wall-reference-image,
+.pk-wall-reference-empty {
+  display: grid;
+  place-items: center;
+  flex: 0 1 auto;
+  box-sizing: border-box;
+  width: clamp(42px, 5vw, 65px);
+  height: clamp(42px, 5vw, 65px);
+  max-width: 92%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  color: #6b766d;
+}
+button.pk-wall-reference-image { cursor: zoom-in; }
+button.pk-wall-reference-image:hover { filter: drop-shadow(0 1px 2px #4c479b77); }
+button.pk-wall-reference-image:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 2px;
+}
+.pk-wall-reference-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pk-wall-reference-empty { font-size: 1.55rem; }
+.pk-wall-reference-copy {
+  min-width: 0;
+  max-width: 100%;
+  line-height: 1.08;
+}
+.pk-wall-reference-copy span {
+  display: block;
+  color: #516657;
+  font-size: clamp(.53rem, .74vw, .64rem);
+  font-weight: 600;
+}
+.pk-wall-reference-copy strong {
+  display: block;
+  color: #27372d;
+  font-size: clamp(.60rem, .88vw, .73rem);
+  font-weight: 800;
+  line-height: 1.14;
+  overflow-wrap: anywhere;
+}
+/* Underline the setting being changed without introducing coloured boxes. */
+.pk-wall-reference.is-different .pk-wall-reference-copy strong {
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 2px;
+}
+/* Keep the Measure row heading white, including on legacy theme overrides. */
+.pk .pk-settings-table tbody tr.pk-table-measures > th {
+  background: var(--purple);
+  color: #fff !important;
+}
+/* Whole scene cards become wider on tablet: allow larger floating art. */
+@media (max-width: 1050px) {
+  .pk-wall-reference-image, .pk-wall-reference-empty {
+    width: clamp(50px, 7vw, 75px);
+    height: clamp(50px, 7vw, 75px);
+  }
+  .pk-wall-reference-copy span { font-size: .68rem; }
+  .pk-wall-reference-copy strong { font-size: .78rem; }
+}
+@media (max-width: 650px) {
+  .pk-wall-references { top: 4%; bottom: 15.5%; left: 51%; right: 1.5%; column-gap: 2%; }
+  .pk-wall-reference-image, .pk-wall-reference-empty {
+    width: clamp(40px, 13vw, 65px);
+    height: clamp(40px, 13vw, 65px);
+  }
+  .pk-wall-reference-copy span { font-size: clamp(.51rem, 2.4vw, .66rem); }
+  .pk-wall-reference-copy strong { font-size: clamp(.57rem, 2.7vw, .75rem); }
+}
+@media (max-width: 380px) {
+  .pk-wall-reference-copy span { font-size: .53rem; }
+  .pk-wall-reference-copy strong { font-size: .61rem; }
 }
 </style>
