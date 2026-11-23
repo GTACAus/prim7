@@ -7,6 +7,7 @@
     <YeastCards />
 */
 import { ref } from "vue";
+import Button from "../../ui/Button.vue";
 
 const cards = [
   {
@@ -35,7 +36,8 @@ const cards = [
 const modalText = ref(null);
 
 function openCard(card) {
-  if (window.matchMedia("(max-width: 1000px)").matches) modalText.value = card.text;
+  if (window.matchMedia("(max-width: 1000px)").matches)
+    modalText.value = card.text;
 }
 
 function close() {
@@ -86,48 +88,48 @@ function close() {
 
 <style scoped>
 .yeast-image-activity {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 0 auto;
 }
 
 .yeast-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    aspect-ratio: 4 / 3;
-    cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
 
-    container-type: inline-size;
+  container-type: inline-size;
 }
 
 .yeast-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Number label */
 .yeast-number {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 3;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
 
-    background: rgba(0, 0, 0, 0.3);
-    color: var(--paper);
-    font-size: 20px;
-    font-weight: bold;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--paper);
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .yeast-card:hover .yeast-number {
@@ -136,128 +138,126 @@ function close() {
 
 /* Hover information */
 .yeast-overlay {
-    position: absolute;
-    inset: 0;
+  position: absolute;
+  inset: 0;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-    padding: clamp(8px, 5cqw, 24px);
+  padding: clamp(8px, 5cqw, 24px);
 
-    background: rgba(0, 0, 0, 0.75);
-    color: var(--paper);
+  background: rgba(0, 0, 0, 0.75);
+  color: var(--paper);
 
-    opacity: 0;
-    transition: opacity 0.25s ease;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .yeast-mobile-modal {
-    display: none;
+  display: none;
 }
 
 /* Mobile */
 @media (max-width: 1000px) {
+  /* Stop the normal hover overlay appearing */
+  .yeast-card:hover .yeast-overlay {
+    opacity: 0;
+  }
 
-    /* Stop the normal hover overlay appearing */
-    .yeast-card:hover .yeast-overlay {
-        opacity: 0;
-    }
+  .yeast-mobile-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
 
-    .yeast-mobile-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 
-      /*
+    /*
         The backdrop fades quickly so the box is already visible while it
         grows. Visibility must last as long as the growth animation,
         otherwise the box is hidden part way through.
       */
-      transition:
-        opacity 0.12s ease,
-        visibility 0.32s ease;
-      }
-      
-    .yeast-mobile-modal-box {
-      position: relative;
-      width: 500px;
-      height: 50%;
+    transition:
+      opacity 0.12s ease,
+      visibility 0.32s ease;
+  }
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      
-      margin: auto;
-      padding: 40px;
+  .yeast-mobile-modal-box {
+    position: relative;
+    width: 500px;
+    height: 50%;
 
-      color: var(--paper);
-      background: rgba(0, 0, 0, 0.9);
-      border-radius: 16px;
-        
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    .yeast-mobile-modal.is-open {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
+    margin: auto;
+    padding: 40px;
 
-    .yeast-modal-content {
-        width: 100%;
-        max-width: 500px;
-        text-align: center;
-    }
+    color: var(--paper);
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 16px;
+  }
 
-    .yeast-modal-content h3 {
-        font-size: clamp(24px, 7vw, 38px);
-        margin: 0 0 20px;
-    }
+  .yeast-mobile-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 
-    .yeast-modal-content p {
-        font-size: clamp(16px, 4.5vw, 22px);
-        line-height: 1.5;
-        margin: 0;
-    }
+  .yeast-modal-content {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+  }
 
-    .yeast-modal-close {
-        position: absolute;
-        top: 0;
-        right: 0;
+  .yeast-modal-content h3 {
+    font-size: clamp(24px, 7vw, 38px);
+    margin: 0 0 20px;
+  }
 
-        border: 0;
-        background: transparent;
-        color: white;
+  .yeast-modal-content p {
+    font-size: clamp(16px, 4.5vw, 22px);
+    line-height: 1.5;
+    margin: 0;
+  }
 
-        font-size: 48px;
-        line-height: 1;
+  .yeast-modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
 
-        cursor: pointer;
-    }
+    border: 0;
+    background: transparent;
+    color: white;
+
+    font-size: 48px;
+    line-height: 1;
+
+    cursor: pointer;
+  }
 }
 
 .yeast-card:hover .yeast-overlay {
-    opacity: 1;
+  opacity: 1;
 }
 
 .yeast-overlay p {
-    margin: 0;
-    line-height: 1.5;
-    font-size: clamp(11px, 4cqw, 16px);
+  margin: 0;
+  line-height: 1.5;
+  font-size: clamp(11px, 4cqw, 16px);
 }
 
 /* Mobile */
 @media (max-width: 600px) {
-    .yeast-image-activity {
-        grid-template-columns: 1fr;
-    }
+  .yeast-image-activity {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

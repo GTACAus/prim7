@@ -31,6 +31,8 @@
 import { computed, nextTick, ref } from "vue";
 import Activity from "./Activity.vue";
 import Button from "../ui/Button.vue";
+import ContentBox from "../ui/ContentBox.vue";
+import FloatingTitleBox from "../ui/FloatingTitleBox.vue";
 
 const DEFAULT_PROMPTS = {
   independent: "Choose the variable that is changed.",
@@ -236,12 +238,13 @@ defineExpose({ reset, isComplete });
     @reset="reset"
     @restore="settle"
   >
-    <div
+    <FloatingTitleBox
       v-if="$slots.autofillTestableQuestion"
-      class="variable-question floating-title"
+      title="Testable Question"
+      border-color="var(--blue)"
     >
       <slot name="autofillTestableQuestion" />
-    </div>
+    </FloatingTitleBox>
 
     <div class="variable-selection-toolbar" aria-label="Choose a variable type">
       <button
@@ -316,8 +319,6 @@ defineExpose({ reset, isComplete });
 /* ---------- Testable question ---------- */
 
 .variable-question {
-  position: relative;
-
   margin: 10px 0 18px;
   padding: 28px 20px 16px;
 
@@ -334,8 +335,6 @@ defineExpose({ reset, isComplete });
 }
 
 .variable-question::before {
-  content: "TESTABLE QUESTION";
-
   background: var(--blue);
 }
 
