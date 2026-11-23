@@ -215,12 +215,6 @@ function showMeasureGuide() {
 function closeMeasureGuide() {
   measureDialog.value?.close();
 }
-const MATERIAL_SHORT_LABELS = {
-  soilType: "Soil",
-  waterVolume: "Water",
-  fertiliser: "Fertiliser",
-  wateringFrequency: "Watering",
-};
 
 /* ---------- Material references, integrated within each plant card ---------- */
 function materialImage(key, value) {
@@ -446,8 +440,9 @@ defineExpose({ reset, isComplete });
                     <img :src="materialImage(key, values[key])" alt="" loading="lazy" />
                   </button>
                   <span v-else class="pk-wall-reference-empty" aria-hidden="true">—</span>
-                  <div class="pk-wall-reference-copy">
-                    <span>{{ MATERIAL_SHORT_LABELS[key] }}</span>
+                  <!-- One clear value, rather than a tiny heading plus a value.
+                       The full variable name is retained in the accessible label. -->
+                  <div class="pk-wall-reference-copy" :aria-label="`${VARIABLES[key].label}: ${labelFor(key, values[key])}`">
                     <strong>{{ labelFor(key, values[key]) }}</strong>
                   </div>
                 </div>
@@ -1620,10 +1615,12 @@ defineExpose({ reset, isComplete });
 }
 
 /* =========================================================
-   UNBOXED WALL REFERENCES — classroom scene only
-   Four independent Canva objects float on the right wall; no
-   panel, ribbon, background cards or extra instructional text.
-   The scene and the permanent A/B table remain the source of truth.
+   COMPACT WALL KEY — v3 experiment layout trial
+
+   A single calm column of four material references on the right.
+   This is NOT a second panel: the image and one legible value are
+   placed directly over the wall. Every setting stays visible when
+   students change steps. The A/B table remains the source of truth.
    ========================================================= */
 .pk-scene-stage {
   position: relative;
@@ -1633,47 +1630,45 @@ defineExpose({ reset, isComplete });
 .pk-scene-stage > .pk-scene-picture { display: block; width: 100%; height: auto; }
 .pk-wall-references {
   position: absolute;
-  top: 5%;
-  bottom: 16%; /* keep the benchtop clear */
-  left: 51%;
-  right: 2%;
+  top: 8%;
+  bottom: 16%; /* leave the bench clear */
+  left: 52.5%;
+  right: 2.5%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  column-gap: 3%;
-  row-gap: 2%;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  row-gap: 1.5%;
   pointer-events: none;
 }
 .pk-wall-reference {
-  min-width: 0;
-  min-height: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
+  justify-content: flex-start;
+  gap: 8px;
+  min-height: 0;
+  min-width: 0;
   padding: 0;
-  background: none;
   border: 0;
-  text-align: center;
+  background: none;
+  text-align: left;
   pointer-events: auto;
 }
 .pk-wall-reference-image,
 .pk-wall-reference-empty {
   display: grid;
   place-items: center;
-  flex: 0 1 auto;
-  box-sizing: border-box;
-  width: clamp(42px, 5vw, 65px);
-  height: clamp(42px, 5vw, 65px);
-  max-width: 92%;
+  flex: 0 0 clamp(33px, 3.1vw, 43px);
+  width: clamp(33px, 3.1vw, 43px);
+  height: clamp(34px, 3.2vw, 45px);
+  min-width: 0;
   min-height: 0;
   padding: 0;
-  border: 0;
+  border: none;
   border-radius: 2px;
   background: transparent;
   box-shadow: none;
-  color: #6b766d;
+  color: #66786d;
 }
 button.pk-wall-reference-image { cursor: zoom-in; }
 button.pk-wall-reference-image:hover { filter: drop-shadow(0 1px 2px #4c479b77); }
@@ -1687,58 +1682,52 @@ button.pk-wall-reference-image:focus-visible {
   height: 100%;
   object-fit: contain;
 }
-.pk-wall-reference-empty { font-size: 1.55rem; }
+.pk-wall-reference-empty { font-size: 1.15rem; }
 .pk-wall-reference-copy {
+  flex: 1 1 auto;
   min-width: 0;
-  max-width: 100%;
-  line-height: 1.08;
-}
-.pk-wall-reference-copy span {
-  display: block;
-  color: #516657;
-  font-size: clamp(.53rem, .74vw, .64rem);
-  font-weight: 600;
 }
 .pk-wall-reference-copy strong {
   display: block;
-  color: #27372d;
-  font-size: clamp(.60rem, .88vw, .73rem);
-  font-weight: 800;
-  line-height: 1.14;
-  overflow-wrap: anywhere;
+  color: #283c30;
+  font-size: clamp(.69rem, .88vw, .82rem);
+  font-weight: 750;
+  line-height: 1.22;
+  overflow-wrap: normal;
 }
-/* Underline the setting being changed without introducing coloured boxes. */
+/* The selected change remains identifiable without new cards or badges. */
 .pk-wall-reference.is-different .pk-wall-reference-copy strong {
   text-decoration: underline;
   text-decoration-color: var(--yellow);
   text-decoration-thickness: 3px;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
 }
 /* Keep the Measure row heading white, including on legacy theme overrides. */
 .pk .pk-settings-table tbody tr.pk-table-measures > th {
   background: var(--purple);
   color: #fff !important;
 }
-/* Whole scene cards become wider on tablet: allow larger floating art. */
 @media (max-width: 1050px) {
   .pk-wall-reference-image, .pk-wall-reference-empty {
-    width: clamp(50px, 7vw, 75px);
-    height: clamp(50px, 7vw, 75px);
+    flex-basis: clamp(38px, 5.2vw, 48px);
+    width: clamp(38px, 5.2vw, 48px);
+    height: clamp(38px, 5.2vw, 48px);
   }
-  .pk-wall-reference-copy span { font-size: .68rem; }
-  .pk-wall-reference-copy strong { font-size: .78rem; }
+  .pk-wall-reference-copy strong { font-size: .81rem; }
 }
 @media (max-width: 650px) {
-  .pk-wall-references { top: 4%; bottom: 15.5%; left: 51%; right: 1.5%; column-gap: 2%; }
+  .pk-wall-references { top: 7%; bottom: 17%; left: 52%; right: 2%; }
+  .pk-wall-reference { gap: 6px; }
   .pk-wall-reference-image, .pk-wall-reference-empty {
-    width: clamp(40px, 13vw, 65px);
-    height: clamp(40px, 13vw, 65px);
+    flex-basis: clamp(31px, 10vw, 43px);
+    width: clamp(31px, 10vw, 43px);
+    height: clamp(33px, 10vw, 43px);
   }
-  .pk-wall-reference-copy span { font-size: clamp(.51rem, 2.4vw, .66rem); }
-  .pk-wall-reference-copy strong { font-size: clamp(.57rem, 2.7vw, .75rem); }
+  .pk-wall-reference-copy strong { font-size: clamp(.70rem, 3vw, .8rem); }
 }
 @media (max-width: 380px) {
-  .pk-wall-reference-copy span { font-size: .53rem; }
-  .pk-wall-reference-copy strong { font-size: .61rem; }
+  .pk-wall-reference { gap: 5px; }
+  .pk-wall-reference-copy strong { font-size: .70rem; }
 }
+
 </style>
