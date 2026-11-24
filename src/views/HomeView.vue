@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onBeforeUnmount } from "vue";
+import { onMounted, onBeforeUnmount, ref } from "vue";
 import Card from "../components/homepage/Card.vue";
 import Button from "../components/ui/Button.vue";
 import { useHomeStore } from "../stores/home.js";
@@ -84,6 +84,8 @@ function isLessonComplete(lessonNumber) {
 }
 
 let teardown = null;
+const status = ref("");
+const total = ref("");
 
 // All DOM access happens after the template has rendered.
 onMounted(() => {
@@ -104,7 +106,6 @@ onMounted(() => {
   const carouselTrack = document.querySelector(".carousel-track");
   const previousButton = document.querySelector(".carousel-control--previous");
   const nextButton = document.querySelector(".carousel-control--next");
-  const status = document.querySelector(".carousel-status");
 
   let currentIndex = 0;
 
@@ -152,7 +153,8 @@ onMounted(() => {
       }
     });
 
-    status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
+    status.value = `${String(currentIndex + 1).padStart(2, "0")}`;
+    total.value = `${String(cards.length).padStart(2, "0")}`;
   }
 
   // ─────────────────────────────────────────────
@@ -442,7 +444,10 @@ onBeforeUnmount(() => {
         aria-label="Show next lesson"
       ></Button>
     </section>
-    <p class="carousel-status" aria-live="polite"></p>
+    <p :key="status" class="carousel-status" aria-live="polite">
+      <span>{{ status }}</span> /
+      <span>{{ total }}</span>
+    </p>
   </main>
 </template>
 
@@ -517,7 +522,7 @@ onBeforeUnmount(() => {
     filter: blur(2px) brightness(1);
   }
   50% {
-    filter: blur(10px) brightness(1.8) saturate(2);
+    filter: blur(8px) brightness(3) saturate(2);
   }
 }
 
@@ -709,6 +714,9 @@ onBeforeUnmount(() => {
   text-align: center;
   text-transform: uppercase;
   border: 2px solid var(--line);
+}
+.carousel-status span:first-child {
+  animation: pop-fade-in 0.5s ease;
 }
 #hero:focus-visible {
   outline: 4px solid var(--purple);
