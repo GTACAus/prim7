@@ -400,7 +400,16 @@ onBeforeUnmount(() => {
   <main class="page">
     <header class="lesson-heading">
       <div id="hero">
-        <img src="../images/index/title.png" alt="Science Inquiry Lab" />
+        <div class="image-container">
+          <img src="../images/index/title.png" alt="Science Inquiry Lab" />
+          <div class="hero-lens">
+            <img
+              src="../images/index/title-responsive.png"
+              alt="Responsive part of the title"
+            />
+            <span class="glow"></span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -474,6 +483,10 @@ onBeforeUnmount(() => {
   margin-top: 10px;
 }
 #hero {
+  --gradient: linear-gradient(to top, var(--purple), var(--orange));
+  --mask: url("/images/index/title-responsive.png") center / 100% 100% no-repeat;
+
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -487,13 +500,84 @@ onBeforeUnmount(() => {
   user-select: none;
 }
 
-#hero img {
-  display: block;
+.glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    filter: blur(2px) brightness(1);
+  }
+  50% {
+    filter: blur(10px) brightness(1.8) saturate(2);
+  }
+}
+
+.glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient);
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+}
+
+.page:has(.lesson-card:hover) .glow {
+  opacity: 1; /* glow strength */
+}
+
+/* Rainbow overlay masked to the magnifier's shape; fades in on hover. */
+.hero-lens::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* "to top" runs left-to-right once the container is rotated 90deg. */
+  background: var(--gradient);
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none; /* doesn't interfere with the click counter */
+}
+
+.page:has(.lesson-card:hover) .hero-lens::after {
+  opacity: 1;
+}
+
+/* One box, one rotation: both images are laid out inside it in the
+   same 1414x2000 frame the original single logo used. */
+.image-container {
+  position: relative;
+  flex: none;
   /* Prevent the rotated logo from taking over short/zoomed viewports. */
   width: clamp(200px, 40vw, 450px);
-  max-width: none;
-  height: auto;
+  aspect-ratio: 1414 / 2000;
   transform: rotate(90deg);
+}
+
+#hero img {
+  display: block;
+  max-width: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* Magnifier: a square image placed over the "INQUIRY" part of the text. */
+.hero-lens {
+  position: absolute;
+  left: 21%;
+  top: 2%;
+  width: 80%;
+  aspect-ratio: 1 / 1;
 }
 
 .carousel {
@@ -614,13 +698,17 @@ onBeforeUnmount(() => {
   transform: rotate(45deg);
 }
 .carousel-status {
-  margin: 0;
-  color: var(--muted);
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 99px;
+  color: var(--paper);
+  background: var(--purple);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-align: center;
   text-transform: uppercase;
+  border: 2px solid var(--line);
 }
 #hero:focus-visible {
   outline: 4px solid var(--purple);
