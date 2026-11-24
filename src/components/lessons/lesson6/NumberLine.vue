@@ -799,8 +799,8 @@ onBeforeUnmount(() => {
                 >Step 2 · Count by distance</span
               >
               <p>
-                Counts for the selected animal appear under the matching
-                distance.
+                Counters for the number of animals found are shown under the
+                matching distance.
               </p>
             </div>
 

@@ -46,7 +46,7 @@ const graphSteps = [
   {
     title: "Look for a continuous variable",
     points: [
-      "We use a line graph when the variable on the x-axis is continuous. The values can include whole numbers, decimals, or fractions.",
+      "We use a line graph when the variable on the x-axis is continuous. Its values may be whole numbers, decimal numbers, or fractions.",
     ],
   },
   {
@@ -56,7 +56,7 @@ const graphSteps = [
   {
     title: "Connect the data points",
     points: [
-      "The connected line helps you see trends or patterns as the x-axis variable changes.",
+      "Joining the points to make a line helps show trends or patterns as the x-axis variable changes.",
     ],
   },
 ];
@@ -67,7 +67,7 @@ const sections = [
   { id: "number-line-activity", title: "Explore How a Line Graph Works" },
   { id: "line-graph-elephant", title: "Turn a Data Table into a Line Graph" },
   { id: "line-graph-conniwinks", title: "Build a Line Graph" },
-  { id: "line-graph-yeast", title: "Practise Applying the Principles" },
+  { id: "line-graph-yeast", title: "Practise what you have learnt" },
   { id: "line-graph-plants", title: "Plotting Time on the x-axis" },
 ];
 
@@ -93,14 +93,14 @@ const questions = {
   },
   yeast: {
     aria: "Yeast investigation question and prediction",
-    question: "How does temperature affect yeast activity?",
+    question: "How does temperature affect yeast growth?",
     prediction:
-      "As the temperature increases, the activity of the yeast increases.",
+      "As the temperature increases, the growth of yeast increases.",
     reason: "Living things like warmth, so warmth helps yeast to grow.",
   },
   plants: {
     aria: "Stevia plant investigation question and prediction",
-    question: "What is the effect of water on Stevia plant height?",
+    question: "What is the effect of the amount of water on Stevia plant height?",
     prediction:
       "Increasing the amount of water increases the height of the plant.",
     reason: "This is because the plant needs water to expand and grow.",
@@ -138,8 +138,8 @@ const plants = ref(null);
         <template #observation>
           <h2>When do scientists use a line graph?</h2>
           <p>
-            In a line graph, a line connects the points. The line shows how one
-            variable <strong>continuously affects another variable</strong>.
+            In a line graph, a line connects the points. The line shows how
+            <strong>two variables are related over a range of values</strong>.
           </p>
 
           <div class="formula-card">
@@ -295,10 +295,10 @@ const plants = ref(null);
       >
         <ContentBox>
           <p>
-            In many fair test experiments, the dependent variable is measured as
+            In many fair tests, the dependent variable is measured as
             it changes over time. Time is shown on the
             <strong>x-axis</strong> of <strong>graphs</strong> for such
-            experiments, even though time is not the independent variable.
+            fair tests, even though time is not the independent variable.
           </p>
         </ContentBox>
 
@@ -326,11 +326,10 @@ const plants = ref(null);
 
         <ContentBox>
           <p>
-            <strong>Special case:</strong> the amount of water is the
-            independent variable, but plant height was measured repeatedly over
-            <strong>60 days</strong>. To compare both watering conditions
-            throughout the experiment, put <strong>time on the x-axis</strong>
-            and show the two water amounts as
+            The amount of water is the independent variable, but plant height is
+            being measured many times over <strong>60 days</strong>. To compare
+            both watering conditions throughout the fair test, put
+            <strong>time on the x-axis</strong> and show the two conditions as
             <strong>two lines on the same graph</strong>.
           </p>
         </ContentBox>
@@ -345,7 +344,7 @@ const plants = ref(null);
           v-if="plants?.predictionComplete"
           :lesson-number="6"
           :practiced="[
-            'Plotting and connecting points on a line graph',
+            'Plotting and joining points on a line graph',
             'Describing trends as a variable changes over time',
           ]"
         />

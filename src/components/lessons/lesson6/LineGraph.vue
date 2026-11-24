@@ -190,9 +190,9 @@ function context(extra) {
 const labels = computed(() => {
   if (phase.value === "waiting")
     return [
-      "Step 2 · Label the axes and units",
+      "Step 2 · Label the graph axes and units",
       g.initialHint ??
-        "Label the variables and units before plotting the averages.",
+        "Label the axes of the graph before plotting the points.",
       g.initialBadge,
     ];
   const [step, hint, badge] =
@@ -218,7 +218,7 @@ const connectPrompt = computed(() => {
     ? { title: custom[0], text: custom[1] }
     : {
         title: "Connect the plotted points.",
-        text: "Click any point to start. Then click a neighbouring point and keep joining adjacent points until all five are connected.",
+        text: "Click any point to start. Then click neighbouring points until all five are connected.",
       };
 });
 
