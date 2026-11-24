@@ -1,12 +1,12 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from "vue";
+import { computed, onMounted, onBeforeUnmount, ref } from "vue";
 import Card from "../components/homepage/Card.vue";
 import Button from "../components/ui/Button.vue";
 import { useHomeStore } from "../stores/home.js";
 
 const lessons = [
   {
-    href: "lesson1/",
+    to: "/lesson1",
     img: "/images/index/lesson1.png",
     accent: "var(--purple)",
     subtitle: "Asking Scientific Questions & Making Predictions",
@@ -15,7 +15,7 @@ const lessons = [
     experiment: "Toy Cars Rolling Down Ramps",
   },
   {
-    href: "lesson2/",
+    to: "/lesson2",
     img: "/images/index/lesson2.png",
     accent: "var(--orange)",
     subtitle: "Planning a Fair Test",
@@ -23,7 +23,7 @@ const lessons = [
     experiment: "Ball Bounce Test",
   },
   {
-    href: "lesson3/",
+    to: "/lesson3",
     img: "/images/index/lesson3.png",
     accent: "var(--green)",
     subtitle: "Organising Fair Test Data into a Table",
@@ -32,7 +32,7 @@ const lessons = [
     experiment: "Is Yeast Alive?",
   },
   {
-    href: "lesson4/",
+    to: "/lesson4",
     img: "/images/index/lesson3.png",
     accent: "var(--purple)",
     subtitle: "Science Inquiry Lab - Skills Check!",
@@ -40,7 +40,7 @@ const lessons = [
     experiment: "Ball Bounce Test Continued",
   },
   {
-    href: "lesson5/",
+    to: "/lesson5",
     img: "/images/index/lesson4.png",
     accent: "var(--blue)",
     subtitle: "Using Bar Graphs to Visualise Data",
@@ -49,7 +49,7 @@ const lessons = [
     experiment: "Leadbeaters Possum Conservation",
   },
   {
-    href: "lesson6/",
+    to: "/lesson6",
     img: "/images/index/lesson4.png",
     accent: "var(--blue)",
     subtitle: "Using Line Graphs to Visualise Data",
@@ -58,7 +58,7 @@ const lessons = [
     experiment: "What lives in the intertidal zone?",
   },
   {
-    href: "lesson7/",
+    to: "/lesson7",
     img: "/images/index/lesson4.png",
     accent: "var(--green)",
     subtitle: "Drawing Scientific Diagrams",
@@ -67,7 +67,7 @@ const lessons = [
     experiment: "Deep Sea Exploration + Rust experiment",
   },
   {
-    href: "lesson8/",
+    to: "/lesson8",
     img: "/images/index/lesson4.png",
     accent: "var(--green)",
     subtitle: "Communicating Science",
@@ -79,329 +79,201 @@ const lessons = [
 
 const home = useHomeStore();
 
+// Lessons up to availableLesson are unlocked.
+// Click the title 5 times to unlock everything (and show the grid).
+const availableLesson = 7;
+
 function isLessonComplete(lessonNumber) {
   return home.completeLessons.includes(`lesson${lessonNumber}`);
 }
 
-let teardown = null;
-const status = ref("");
-const total = ref("");
+// ─────────────────────────────────────────────
+// Carousel state
+// ─────────────────────────────────────────────
+const lastIndex = lessons.length - 1;
+const currentIndex = computed(() =>
+  Math.max(0, Math.min(home.currentLesson, lastIndex)),
+);
+const status = computed(() => String(currentIndex.value + 1).padStart(2, "0"));
+const total = String(lessons.length).padStart(2, "0");
 
-// All DOM access happens after the template has rendered.
-onMounted(() => {
-  document.title = "Science Inquiry Lab Overview";
+const showAll = ref(false);
+const track = ref(null);
 
-  // ─────────────────────────────────────────────
-  // Carousel configuration
-  // ─────────────────────────────────────────────
+function isLocked(number) {
+  return !showAll.value && number > availableLesson;
+}
 
-  // Lessons up to availableLesson are unlocked.
-  // Click the heading 5 times to unlock everything.
+// The current lesson lives in the home store, which saves itself.
+function showLesson(index) {
+  home.currentLesson = Math.max(0, Math.min(index, lastIndex));
+}
 
-  const availableLesson = 7;
-  let showAll = false;
+// Clicking a side or locked card selects it instead of opening it.
+function onCardSelect(index, event) {
+  if (showAll.value) return;
+  if (index !== currentIndex.value || isLocked(index + 1)) {
+    event.preventDefault();
+    showLesson(index);
+  }
+}
 
-  const cards = [...document.querySelectorAll(".lesson-card")];
+// Click the title 5 times to switch between carousel and grid.
+let heroClicks = 0;
+function onHeroClick() {
+  heroClicks++;
+  if (heroClicks < 5) return;
+  heroClicks = 0;
+  showAll.value = !showAll.value;
+}
 
-  const carouselTrack = document.querySelector(".carousel-track");
-  const previousButton = document.querySelector(".carousel-control--previous");
-  const nextButton = document.querySelector(".carousel-control--next");
+// ─────────────────────────────────────────────
+// Swipe (touch) handling
+// ─────────────────────────────────────────────
+const SWIPE_THRESHOLD = 100;
 
-  let currentIndex = 0;
+let swipeStart = null;
+let swipeClickCard = null;
+let swipeClickTimeout = 0;
 
-  // ─────────────────────────────────────────────
-  // Carousel functionality
-  // ─────────────────────────────────────────────
+// null when not swiping; otherwise how far the carousel is dragged
+// (shift, in cards) and how far apart neighbouring cards sit (distance, px).
+const swipe = ref(null);
+const isSwiping = computed(() => swipe.value !== null);
 
-  function updateVisibility() {
-    document.querySelectorAll("[data-stage]").forEach((item) => {
-      item.classList.toggle(
-        "unavailable",
-        !showAll && Number(item.dataset.stage) > availableLesson,
-      );
+function updateSwipePreview(deltaX) {
+  const trackWidth = track.value.clientWidth;
+  const swipeDirection = deltaX < 0 ? 1 : -1;
+  let progress = Math.min(Math.abs(deltaX) / (trackWidth * 0.55), 1);
 
-      item.setAttribute(
-        "aria-disabled",
-        String(item.classList.contains("unavailable")),
-      );
-    });
+  if (
+    (currentIndex.value === 0 && swipeDirection < 0) ||
+    (currentIndex.value === lastIndex && swipeDirection > 0)
+  ) {
+    progress *= 0.18;
   }
 
-  // The current lesson lives in the home store, which saves itself.
-  showLesson(home.currentLesson);
-
-  function showLesson(index, animate = false) {
-    currentIndex = Math.max(0, Math.min(index, cards.length - 1));
-    home.currentLesson = currentIndex;
-
-    cards.forEach((card, cardIndex) => {
-      const offset = cardIndex - currentIndex;
-
-      card.classList.toggle("is-current", offset === 0);
-      card.classList.toggle("is-previous", offset === -1);
-      card.classList.toggle("is-next", offset === 1);
-      card.classList.toggle("is-hidden", Math.abs(offset) > 1);
-
-      card.tabIndex = Math.abs(offset) <= 1 ? 0 : -1;
-
-      card.setAttribute("aria-hidden", String(Math.abs(offset) > 1));
-
-      if (offset === 0) {
-        card.setAttribute("aria-current", "true");
-      } else {
-        card.removeAttribute("aria-current");
-      }
-    });
-
-    status.value = `${String(currentIndex + 1).padStart(2, "0")}`;
-    total.value = `${String(cards.length).padStart(2, "0")}`;
-  }
-
-  // ─────────────────────────────────────────────
-  // Carousel controls
-  // ─────────────────────────────────────────────
-
-  previousButton.addEventListener("click", () => {
-    showLesson(currentIndex - 1, true);
-  });
-
-  nextButton.addEventListener("click", () => {
-    showLesson(currentIndex + 1, true);
-  });
-
-  let swipeStart = null;
-  let swipeClickCard = null;
-  let swipeClickTimeout = 0;
-
-  const SWIPE_THRESHOLD = 100;
-
-  function updateSwipePreview(deltaX) {
-    const trackWidth = carouselTrack.clientWidth;
-    const swipeDirection = deltaX < 0 ? 1 : -1;
-    let progress = Math.min(Math.abs(deltaX) / (trackWidth * 0.55), 1);
-
-    if (
-      (currentIndex === 0 && swipeDirection < 0) ||
-      (currentIndex === cards.length - 1 && swipeDirection > 0)
-    ) {
-      progress *= 0.18;
-    }
-
-    const swipeDistance =
+  swipe.value = {
+    shift: swipeDirection * progress,
+    distance:
       window.innerWidth <= 600
         ? trackWidth * 0.3
-        : Math.min(window.innerWidth * 0.4, 460);
-    const currentWidth = cards[currentIndex].getBoundingClientRect().width;
-    const sideWidth =
-      window.innerWidth <= 600
-        ? Math.min(window.innerWidth * 0.54, 250)
-        : currentWidth;
-
-    carouselTrack.classList.add("is-swiping");
-
-    cards.forEach((card, cardIndex) => {
-      const offset = cardIndex - currentIndex - swipeDirection * progress;
-      const distance = Math.abs(offset);
-      const visibleOffset = Math.min(distance, 1);
-      const sideOpacity =
-        distance <= 1
-          ? 1 - visibleOffset * 0.38
-          : Math.max(0, 0.62 * (1 - (distance - 1) / 0.6));
-
-      card.style.setProperty(
-        "--swipe-x",
-        `${Math.max(-1, Math.min(1, offset)) * swipeDistance}px`,
-      );
-
-      card.style.setProperty("--swipe-opacity", String(sideOpacity));
-      card.style.setProperty("--swipe-scale", String(1 - visibleOffset * 0.18));
-      card.style.setProperty(
-        "--swipe-rotate",
-        `${Math.max(-1, Math.min(1, offset)) * 30}deg`,
-      );
-      card.style.setProperty(
-        "--swipe-z",
-        String(Math.max(0, 2 - Math.round(distance))),
-      );
-    });
-  }
-
-  function clearSwipePreview() {
-    carouselTrack.classList.remove("is-swiping");
-    cards.forEach((card) => {
-      card.style.removeProperty("--swipe-x");
-      card.style.removeProperty("--swipe-opacity");
-      card.style.removeProperty("--swipe-scale");
-      card.style.removeProperty("--swipe-rotate");
-      card.style.removeProperty("--swipe-z");
-    });
-  }
-
-  carouselTrack.addEventListener("pointerdown", (event) => {
-    if (event.pointerType !== "touch" || !event.isPrimary) {
-      return;
-    }
-
-    const target = event.target;
-    swipeStart = {
-      pointerId: event.pointerId,
-      x: event.clientX,
-      y: event.clientY,
-      card: target instanceof Element ? target.closest(".lesson-card") : null,
-    };
-  });
-
-  carouselTrack.addEventListener("pointermove", (event) => {
-    if (!swipeStart || event.pointerId !== swipeStart.pointerId) {
-      return;
-    }
-
-    const deltaX = event.clientX - swipeStart.x;
-    const deltaY = event.clientY - swipeStart.y;
-
-    if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
-      updateSwipePreview(deltaX);
-    } else if (Math.abs(deltaY) > 8) {
-      clearSwipePreview();
-    }
-  });
-
-  carouselTrack.addEventListener("pointerup", (event) => {
-    if (!swipeStart || event.pointerId !== swipeStart.pointerId) {
-      return;
-    }
-
-    const deltaX = event.clientX - swipeStart.x;
-    const deltaY = event.clientY - swipeStart.y;
-    const swipedCard = swipeStart.card;
-    swipeStart = null;
-
-    const isSwipe =
-      Math.abs(deltaX) >= SWIPE_THRESHOLD &&
-      Math.abs(deltaX) > Math.abs(deltaY);
-
-    if (isSwipe) {
-      const nextIndex = currentIndex + (deltaX < 0 ? 1 : -1);
-      if (nextIndex !== currentIndex) {
-        showLesson(nextIndex, true);
-      }
-    }
-
-    clearSwipePreview();
-
-    if (!isSwipe) {
-      return;
-    }
-
-    if (swipedCard) {
-      swipeClickCard = swipedCard;
-      window.clearTimeout(swipeClickTimeout);
-      swipeClickTimeout = window.setTimeout(() => {
-        swipeClickCard = null;
-      }, 750);
-    }
-  });
-
-  carouselTrack.addEventListener("pointercancel", (event) => {
-    if (swipeStart?.pointerId === event.pointerId) {
-      swipeStart = null;
-      clearSwipePreview();
-    }
-  });
-
-  carouselTrack.addEventListener(
-    "click",
-    (event) => {
-      const target = event.target;
-      if (
-        swipeClickCard &&
-        event.detail > 0 &&
-        target instanceof Element &&
-        target.closest(".lesson-card") === swipeClickCard
-      ) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        swipeClickCard = null;
-        window.clearTimeout(swipeClickTimeout);
-      }
-    },
-    true,
-  );
-
-  // ─────────────────────────────────────────────
-  // Card click behaviour
-  // ─────────────────────────────────────────────
-
-  cards.forEach((card, index) => {
-    card.addEventListener("click", (event) => {
-      if (carouselTrack.classList.contains("is-grid")) return;
-
-      if (index !== currentIndex || card.classList.contains("unavailable")) {
-        event.preventDefault();
-        showLesson(index, true);
-      }
-    });
-  });
-
-  // ─────────────────────────────────────────────
-  // Initialise carousel
-  // ─────────────────────────────────────────────
-
-  updateVisibility();
-
-  showLesson(currentIndex);
-
-  // ─────────────────────────────────────────────
-  // Unlock all lessons
-  // ─────────────────────────────────────────────
-
-  // Click the logo 5 times to switch between carousel and grid.
-  let heroClicks = 0;
-
-  document.getElementById("hero").addEventListener("click", () => {
-    heroClicks++;
-
-    if (heroClicks < 5) return;
-
-    heroClicks = 0;
-    showAll = !showAll;
-
-    carouselTrack.classList.toggle("is-grid", showAll);
-    updateVisibility();
-
-    if (showAll) {
-      cards.forEach((card) => {
-        card.classList.remove(
-          "is-current",
-          "is-previous",
-          "is-next",
-          "is-hidden",
-        );
-
-        card.tabIndex = 0;
-        card.setAttribute("aria-hidden", "false");
-        card.removeAttribute("aria-current");
-      });
-    } else {
-      showLesson(currentIndex);
-    }
-  });
-
-  teardown = () => {
-    // stop any pending timers
-    window.clearTimeout(swipeClickTimeout);
+        : Math.min(window.innerWidth * 0.4, 460),
   };
+}
+
+function clearSwipePreview() {
+  swipe.value = null;
+}
+
+// CSS variables for a card while it is being dragged (read by .is-swiping in CSS).
+function swipeStyle(index) {
+  if (!swipe.value) return undefined;
+
+  const offset = index - currentIndex.value - swipe.value.shift;
+  const distance = Math.abs(offset);
+  const visibleOffset = Math.min(distance, 1);
+  const clamped = Math.max(-1, Math.min(1, offset));
+  const opacity =
+    distance <= 1
+      ? 1 - visibleOffset * 0.38
+      : Math.max(0, 0.62 * (1 - (distance - 1) / 0.6));
+
+  return {
+    "--swipe-x": `${clamped * swipe.value.distance}px`,
+    "--swipe-opacity": String(opacity),
+    "--swipe-scale": String(1 - visibleOffset * 0.18),
+    "--swipe-rotate": `${clamped * 30}deg`,
+    "--swipe-z": String(Math.max(0, 2 - Math.round(distance))),
+  };
+}
+
+function onCarouselTrackPointerDown(event) {
+  if (event.pointerType !== "touch" || !event.isPrimary) return;
+
+  const target = event.target;
+  swipeStart = {
+    pointerId: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    card: target instanceof Element ? target.closest(".lesson-card") : null,
+  };
+}
+
+function onCarouselTrackPointerMove(event) {
+  if (!swipeStart || event.pointerId !== swipeStart.pointerId) return;
+
+  const deltaX = event.clientX - swipeStart.x;
+  const deltaY = event.clientY - swipeStart.y;
+
+  if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
+    updateSwipePreview(deltaX);
+  } else if (Math.abs(deltaY) > 8) {
+    clearSwipePreview();
+  }
+}
+
+function onCarouselTrackPointerUp(event) {
+  if (!swipeStart || event.pointerId !== swipeStart.pointerId) return;
+
+  const deltaX = event.clientX - swipeStart.x;
+  const deltaY = event.clientY - swipeStart.y;
+  const swipedCard = swipeStart.card;
+  swipeStart = null;
+
+  const isSwipe =
+    Math.abs(deltaX) >= SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY);
+
+  if (isSwipe) showLesson(currentIndex.value + (deltaX < 0 ? 1 : -1));
+
+  clearSwipePreview();
+
+  // A swipe that ends on a card must not also count as a click on it.
+  if (isSwipe && swipedCard) {
+    swipeClickCard = swipedCard;
+    window.clearTimeout(swipeClickTimeout);
+    swipeClickTimeout = window.setTimeout(() => {
+      swipeClickCard = null;
+    }, 750);
+  }
+}
+
+function onCarouselTrackPointerCancel(event) {
+  if (swipeStart?.pointerId === event.pointerId) {
+    swipeStart = null;
+    clearSwipePreview();
+  }
+}
+
+// Registered with .capture so it runs before the card's own click handling.
+function onCarouselTrackClick(event) {
+  const target = event.target;
+  if (
+    swipeClickCard &&
+    event.detail > 0 &&
+    target instanceof Element &&
+    target.closest(".lesson-card") === swipeClickCard
+  ) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    swipeClickCard = null;
+    window.clearTimeout(swipeClickTimeout);
+  }
+}
+
+onMounted(() => {
+  document.title = "Science Inquiry Lab Overview";
 });
 
 onBeforeUnmount(() => {
-  if (teardown) teardown();
+  window.clearTimeout(swipeClickTimeout);
 });
 </script>
 
 <template>
   <main class="page">
     <header class="lesson-heading">
-      <div id="hero">
+      <div id="hero" @click="onHeroClick">
         <div class="image-container">
           <img src="../images/index/title.png" alt="Science Inquiry Lab" />
           <div class="hero-lens">
@@ -417,31 +289,46 @@ onBeforeUnmount(() => {
 
     <section class="carousel" aria-label="Choose a lesson">
       <Button
-        v-show="home.currentLesson !== 0"
+        v-show="currentIndex !== 0"
         class="carousel-control carousel-control--previous"
         aria-label="Show previous lesson"
+        @click="showLesson(currentIndex - 1)"
       />
-      <div class="carousel-track">
+      <div
+        ref="track"
+        class="carousel-track"
+        :class="{ 'is-swiping': isSwiping, 'is-grid': showAll }"
+        @click.capture="onCarouselTrackClick"
+        @pointermove="onCarouselTrackPointerMove"
+        @pointerup="onCarouselTrackPointerUp"
+        @pointerdown="onCarouselTrackPointerDown"
+        @pointercancel="onCarouselTrackPointerCancel"
+      >
         <Card
           v-for="[number, lesson] of lessons.entries()"
           :key="number + 1"
-          :href="lesson.href"
+          :to="lesson.to"
           :img="lesson.img"
           :stage="number + 1"
-          :active="number === home.currentLesson"
+          :offset="number - currentIndex"
+          :locked="isLocked(number + 1)"
+          :grid="showAll"
+          :style="swipeStyle(number)"
           :accent="lesson.accent"
           :description="lesson.description"
           :experiment="lesson.experiment"
           :lesson-complete="isLessonComplete(number + 1)"
+          @select="onCardSelect(number, $event)"
         >
           <template #number>Lesson {{ number + 1 }}</template>
           <template #subtitle>{{ lesson.subtitle }}</template>
         </Card>
       </div>
       <Button
-        v-show="home.currentLesson !== Object.keys(lessons).length - 1"
+        v-show="currentIndex !== lastIndex"
         class="carousel-control carousel-control--next"
         aria-label="Show next lesson"
+        @click="showLesson(currentIndex + 1)"
       ></Button>
     </section>
     <p :key="status" class="carousel-status" aria-live="polite">

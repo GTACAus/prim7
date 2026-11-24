@@ -96,6 +96,10 @@ defineProps({
 </template>
 
 <style>
+#teacherTrigger {
+  user-select: none;
+}
+
 .intro-actions {
   display: inline-flex;
   flex-direction: column;
@@ -113,6 +117,7 @@ defineProps({
   position: relative;
 
   padding-top: 40px;
+  animation: pop-fade-in 0.5s ease;
 }
 
 .lesson-label {

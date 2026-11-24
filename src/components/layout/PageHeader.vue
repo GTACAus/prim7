@@ -100,22 +100,6 @@ defineProps({
   box-shadow: 0 1px 0 var(--line);
 }
 
-/* link back to Part B, sits beside Home in the header. */
-#back-to-part1-button {
-  grid-row: 2;
-
-  --background: var(--card);
-  --color: var(--text);
-
-  border-top: 5px solid var(--green);
-
-  pointer-events: auto;
-}
-
-#back-to-part1-button:hover {
-  --background: var(--soft-green);
-}
-
 .home-button,
 .glossary-button {
   --background: var(--card);
@@ -131,8 +115,7 @@ defineProps({
 
   .home-button,
   .glossary-button,
-  .save-work-button,
-  .back-to-part1-button {
+  .save-work-button {
     margin: 0;
     padding: 10px 14px;
     font-size: 0.7rem;

@@ -353,52 +353,6 @@ input[type="checkbox"]:active {
   padding: 5px;
 }
 
-.activity-instruction {
-  margin: 0 0 16px;
-  color: var(--text);
-  line-height: 1.5;
-}
-
-/*
-  The header ignores clicks so students can select the
-  page underneath it, so every control placed in it has
-  to switch clicks back on. The pretask page keeps its
-  save button up here.
-*/
-.save-work-button {
-  pointer-events: auto;
-}
-
-.bounce-symbol {
-  display: inline-block;
-  margin: 0px;
-}
-
-.general-button:hover .bounce-symbol {
-  animation: hoverSymbolBounce 0.5s ease;
-}
-
-@keyframes hoverSymbolBounce {
-  0% {
-    transform: translateY(0);
-  }
-  30% {
-    transform: translateY(-6px);
-  }
-  60% {
-    transform: translateY(2px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-/* ---------- Hidden teacher navigation ---------- */
-
-#teacherTrigger {
-  user-select: none;
-}
-
 @media (max-width: 960px) {
   .label-bank {
     min-height: 160px;

@@ -188,6 +188,7 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
 }
 
 .bounce-symbol {
+  display: inline-block;
   margin: 0px;
 }
 

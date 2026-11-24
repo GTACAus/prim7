@@ -990,10 +990,6 @@ ol li::marker {
         REASONED-PREDICTION VIDEO
         ================================================== */
 
-.prediction-video-instructions .activity-instruction {
-  margin-top: 0;
-}
-
 .prediction-video-instructions ol {
   display: grid;
   gap: 10px;
