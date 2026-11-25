@@ -5,6 +5,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
+import { pageEntered, trackPageLoading } from "./composables/usePageLoading.js";
 import "./styles/themes.css";
 // Page stylesheets shared by two lessons. Loaded here (not by the lessons) so
 // they always come before the lessons' own CSS, whichever page loads first; their
@@ -20,8 +21,7 @@ import "./composables/useClassroomLanguageFilter.js";
 // A route's name is put on <html data-page="..."> so a page's stylesheet can be
 // scoped to it: [data-page="lesson5"] { ... } (see src/styles/pages/).
 // meta drives the page header in App.vue: header:false hides it, save shows
-// "Save my work" instead of Home, backHref / backLabel add a button back to the
-// previous lesson.
+// "Save my work" instead of Home
 const routes = [
   {
     path: "/",
@@ -63,10 +63,6 @@ const routes = [
   {
     path: "/lesson4",
     name: "lesson4",
-    meta: {
-      backHref: "/lesson3",
-      backLabel: "Lesson 3",
-    },
     component: () => import("./views/Lesson4View.vue"),
   },
   {
@@ -78,10 +74,6 @@ const routes = [
   {
     path: "/lesson6",
     name: "lesson6",
-    meta: {
-      backHref: "/lesson5",
-      backLabel: "Lesson 5",
-    },
     component: () => import("./views/Lesson6View.vue"),
   },
   {
@@ -100,15 +92,17 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-  // A new page starts at the top (instantly, not with the page's smooth
-  // scrolling); Back/Forward return to where you were. Links within a page
-  // (e.g. "Return to Top", href="#") are left to the browser. A lesson then
-  // restores its own saved position (Page.vue).
-  scrollBehavior(to, from, savedPosition) {
+  // A new page starts at the top, once the old page has faded out and the new
+  // one starts to enter (App.vue's transition). Links within a page (e.g.
+  // "Return to Top", href="#") are left to the browser. A lesson then restores
+  // its own saved position (Page.vue).
+  async scrollBehavior(to, from) {
     if (to.path === from.path) return false;
-    return savedPosition ?? { top: 0, behavior: "instant" };
+    await pageEntered();
+    return { top: 0 };
   },
 });
+
 const stylesheetLoads = new Map();
 
 function loadStylesheet(href) {
@@ -141,13 +135,7 @@ router.beforeEach(async (to) => {
   await Promise.all((to.meta.stylesheets ?? []).map(loadStylesheet));
 });
 
-// Switched once the next page is ready (its code has loaded), so the page
-// being left isn't restyled while it waits.
-router.afterEach((to) => {
-  document.documentElement.dataset.page = to.name;
-  // colour theme for the page (see src/styles/themes.css)
-  if (to.meta.theme) document.documentElement.dataset.theme = to.meta.theme;
-  else delete document.documentElement.dataset.theme;
-});
+// the loading spinner and the page's data-page / data-theme (usePageLoading.js)
+trackPageLoading(router);
 
 createApp(App).use(createPinia()).use(router).mount("#app");

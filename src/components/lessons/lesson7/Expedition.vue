@@ -917,14 +917,33 @@ const reduceMotion = window.matchMedia(
 let natural = { left: 0, width: 0, height: 0 };
 let ticking = false;
 
+/* An element's box in the window, from its layout (offsetLeft etc.) rather than
+   getBoundingClientRect(), which includes CSS transforms on its ancestors. The
+   page's enter transition (App.vue) scales the whole page while this mounts, so
+   a getBoundingClientRect() measurement then would be shrunk and shifted. */
+function layoutBox(el) {
+  let left = 0;
+  let top = 0;
+  for (let node = el; node; node = node.offsetParent) {
+    left += node.offsetLeft + (node.offsetParent?.clientLeft ?? 0);
+    top += node.offsetTop + (node.offsetParent?.clientTop ?? 0);
+  }
+  return {
+    left: left - window.scrollX,
+    top: top - window.scrollY,
+    width: el.offsetWidth,
+    height: el.offsetHeight,
+  };
+}
+
 function measure() {
   const el = main.value;
   if (!el) return;
   el.style.width = "";
   el.style.marginLeft = "";
   el.style.height = "";
-  const rect = el.getBoundingClientRect();
-  natural = { left: rect.left, width: rect.width, height: rect.height };
+  const box = layoutBox(el);
+  natural = { left: box.left, width: box.width, height: box.height };
   updateZoom();
 }
 
@@ -936,7 +955,7 @@ function updateZoom() {
   const vh = window.innerHeight;
   const progress = Math.min(
     1,
-    Math.max(0, (vh - zoomStage.value.getBoundingClientRect().top) / vh),
+    Math.max(0, (vh - layoutBox(zoomStage.value).top) / vh),
   );
 
   const targetWidth = vw * MAX_WIDTH_FRACTION;

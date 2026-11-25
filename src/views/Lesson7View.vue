@@ -1,6 +1,14 @@
 <script setup>
 import LessonIntro from "../components/content/LessonIntro.vue";
-import Expedition from "../components/lessons/lesson7/Expedition.vue";
+// import Expedition from "../components/lessons/lesson7/Expedition.vue";
+import { defineAsyncComponent } from "vue";
+import LoadSpinner from "../components/ui/LoadSpinner.vue";
+
+const Expedition = defineAsyncComponent({
+  loader: () => import("../components/lessons/lesson7/Expedition.vue"),
+  loadingComponent: LoadSpinner,
+  delay: 150,
+});
 
 // Terms shown in the vocabulary modal ("Field guide"): { word: description }
 const glossary = {

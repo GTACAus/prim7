@@ -6,9 +6,6 @@ import { downloadLessonPDF } from "../../composables/usePrintLesson.js";
 defineProps({
   // show "Save my work" instead of "Home" (pretask)
   save: { type: Boolean, default: false },
-  // optional link back to the first part of a lesson
-  backHref: { type: String, default: "" },
-  backLabel: { type: String, default: "Back" },
 });
 </script>
 
