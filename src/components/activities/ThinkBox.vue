@@ -37,8 +37,7 @@ defineProps({
   </InputResponse>
 </template>
 
-<style>
-/* Moved from pretask_styles/pretask.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .think-box {
   min-height: 500px;
@@ -60,7 +59,7 @@ defineProps({
   border-bottom: none;
 }
 
-.stw-column h3 {
+.stw-column :deep(h3) {
   margin: 0 0 8px;
   color: var(--purple);
   font-size: 1rem;
@@ -68,13 +67,13 @@ defineProps({
   text-transform: uppercase;
 }
 
-.stw-column p {
+.stw-column :deep(p) {
   margin: 0 0 10px;
   font-size: 0.85rem;
   color: var(--muted);
 }
 
-.stw-list {
+:deep(.stw-list) {
   color: var(--text);
   font-size: 0.95rem;
   line-height: 1.5;

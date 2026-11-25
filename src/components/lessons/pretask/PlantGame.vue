@@ -177,8 +177,7 @@ function switchGame(game) {
   </div>
 </template>
 
-<style>
-/* Moved from pretask_styles/pretask.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .plant-canvas {
   min-height: 280px;
@@ -196,7 +195,7 @@ function switchGame(game) {
   padding-bottom: 10px;
 }
 
-.reset {
+:deep(.reset) {
   background: var(--orange);
 }
 

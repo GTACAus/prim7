@@ -92,12 +92,46 @@ function restoreScroll() {
   window.scrollTo({ top: progress.scrollY });
 }
 
+function jumpToSaved() {
+  window.scrollTo({ top: progress.scrollY, behavior: "instant" });
+}
+
+// After moving here from another page (no page load), images above the saved
+// position may still be loading, so the page can be too short to reach it yet:
+// try again as each one arrives, for a few seconds or until the user scrolls.
+let stopRestoring = () => {};
+function restoreAfterNavigation() {
+  jumpToSaved();
+  const reached = () => Math.abs(window.scrollY - progress.scrollY) <= 1;
+  if (reached()) return;
+  const retry = () => {
+    jumpToSaved();
+    if (reached()) stopRestoring();
+  };
+  const timer = setTimeout(() => stopRestoring(), 3000);
+  const userEvents = ["wheel", "touchstart", "keydown", "pointerdown"];
+  stopRestoring = () => {
+    clearTimeout(timer);
+    document.removeEventListener("load", retry, true);
+    userEvents.forEach((e) => window.removeEventListener(e, stopRestoring));
+    stopRestoring = () => {};
+  };
+  document.addEventListener("load", retry, true); // image load events don't bubble
+  userEvents.forEach((e) =>
+    window.addEventListener(e, stopRestoring, { once: true, passive: true }),
+  );
+}
+
 async function scrollProgressOnMounted() {
   history.scrollRestoration = "manual"; // stop the browser's own restore from fighting ours
   await nextTick();
-  // Wait for images to load, otherwise the page is too short to scroll that far yet.
-  if (document.readyState === "complete") restoreScroll();
-  else window.addEventListener("load", restoreScroll, { once: true });
+  if (document.readyState === "complete") {
+    // arrived from another page: wait a frame so the router's scroll to the top comes first
+    requestAnimationFrame(restoreAfterNavigation);
+  } else {
+    // fresh page load: wait for images, otherwise the page is too short to scroll that far yet
+    window.addEventListener("load", restoreScroll, { once: true });
+  }
   window.addEventListener("scroll", rememberScroll, { passive: true });
 }
 
@@ -278,6 +312,8 @@ onUnmounted(() => {
   clearTimeout(scrollTimer);
   document.removeEventListener("click", handleTeacherClick, true);
   window.removeEventListener("scroll", rememberScroll);
+  window.removeEventListener("load", restoreScroll);
+  stopRestoring();
 });
 defineExpose({
   teacherJump,

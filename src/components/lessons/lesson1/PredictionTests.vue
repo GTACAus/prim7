@@ -153,11 +153,7 @@ defineExpose({ reset, isComplete });
   </Activity>
 </template>
 
-<style>
-#testing-predictions .section-title {
-  background: var(--lavender);
-}
-
+<style scoped>
 .prediction-test-list {
   display: grid;
   gap: 28px;
@@ -194,7 +190,7 @@ defineExpose({ reset, isComplete });
   border-bottom: 3px solid var(--line);
 }
 
-.prediction-test-heading h3 {
+.prediction-test-heading :deep(h3) {
   margin: 0;
 
   color: var(--text);
@@ -260,7 +256,7 @@ defineExpose({ reset, isComplete });
   text-transform: uppercase;
 }
 
-.prediction-statement p {
+.prediction-statement :deep(p) {
   margin: 0;
 
   color: var(--text);
@@ -288,7 +284,7 @@ defineExpose({ reset, isComplete });
   border-radius: 18px;
 }
 
-.prediction-result-image img {
+.prediction-result-image :deep(img) {
   display: block;
 
   width: 100%;
@@ -301,20 +297,6 @@ defineExpose({ reset, isComplete });
 
   border: 2px solid var(--line);
   border-radius: 14px;
-}
-
-.prediction-safety-note {
-  margin: 16px 20px 0;
-  padding: 11px 14px;
-
-  background: var(--soft-orange);
-  border: 2px solid var(--line);
-  border-radius: 13px;
-
-  color: var(--text);
-
-  font-size: 0.92rem;
-  font-weight: 600;
 }
 
 .prediction-choice-area {

@@ -36,8 +36,7 @@ defineProps({
   </InputResponse>
 </template>
 
-<style>
-/* Moved from pretask_styles/pretask.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .final-brainstorm-box {
   background: var(--yellow);
@@ -72,7 +71,7 @@ defineProps({
   box-shadow: 0 4px 0 var(--line);
 }
 
-.final-branch h3 {
+.final-branch :deep(h3) {
   margin: 0 0 12px;
   text-align: left;
   color: var(--purple);

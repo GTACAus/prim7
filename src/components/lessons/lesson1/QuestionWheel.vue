@@ -410,7 +410,17 @@ defineExpose({ reset });
   </Activity>
 </template>
 
-<style>
+<style scoped>
+.testable-question-activity {
+  margin-bottom: 24px;
+  padding: 22px;
+
+  border: 3px solid var(--line);
+  border-radius: 20px;
+
+  box-shadow: 0 5px 0 var(--line);
+}
+
 .testable-question-activity {
   background: var(--soft-yellow);
 }
@@ -430,7 +440,7 @@ defineExpose({ reset });
   text-transform: uppercase;
 }
 
-.activity-heading h3 {
+.activity-heading :deep(h3) {
   margin: 0 0 8px;
 
   color: var(--text);
@@ -438,7 +448,7 @@ defineExpose({ reset });
   font-size: 1.4rem;
 }
 
-.activity-heading p:last-child {
+.activity-heading :deep(p:last-child) {
   margin: 0;
 
   color: var(--muted);
@@ -475,7 +485,7 @@ defineExpose({ reset });
   gap: 1.5rem;
 }
 
-.question-builder-panel h4 {
+.question-builder-panel :deep(h4) {
   margin: 0 0 14px;
 
   color: var(--purple);
@@ -673,7 +683,7 @@ defineExpose({ reset });
   line-height: 1.8;
 }
 
-.question-template-input {
+:deep(.question-template-input) {
   margin: 0;
   --padding: 8px 10px;
 
@@ -685,7 +695,7 @@ defineExpose({ reset });
   --entry-font-size: 0.98rem;
 }
 
-.question-template-input:focus {
+:deep(.question-template-input:focus) {
   outline: 3px solid rgba(78, 50, 232, 0.18);
   border-color: var(--purple);
 }
@@ -736,36 +746,6 @@ defineExpose({ reset });
   font-weight: 700;
 }
 
-.submitted-question-part {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-
-  vertical-align: middle;
-}
-
-.submitted-question-part-text {
-  line-height: 1.3;
-}
-
-.submitted-part-delete {
-  width: 22px;
-  height: 22px;
-  padding: 0;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 0.85rem;
-  line-height: 1;
-
-  --background: var(--orange);
-  --box-shadow: none;
-
-  --box-shadow-hover: var(--shadow-small);
-}
-
 .wheel-question-checklist {
   margin-top: 18px;
   padding-top: 16px;
@@ -773,7 +753,7 @@ defineExpose({ reset });
   border-top: 2px dashed rgba(48, 51, 47, 0.35);
 }
 
-.wheel-question-checklist h5 {
+.wheel-question-checklist :deep(h5) {
   margin: 0 0 12px;
 
   color: var(--purple);
@@ -816,7 +796,7 @@ defineExpose({ reset });
     grid-template-columns: 1fr;
   }
 
-  .question-template-input {
+  :deep(.question-template-input) {
     margin: 4px 0;
   }
 
@@ -824,7 +804,7 @@ defineExpose({ reset });
     align-items: stretch;
   }
 
-  .question-template-sentence > span:not(.sentence-starter) {
+  .question-template-sentence > :deep(span:not(.sentence-starter)) {
     align-self: center;
   }
 }
@@ -864,7 +844,7 @@ defineExpose({ reset });
   margin-bottom: 0;
 }
 
-.check-item input {
+.check-item :deep(input) {
   width: 23px;
   height: 23px;
   margin-top: 1px;
@@ -872,14 +852,14 @@ defineExpose({ reset });
   accent-color: var(--green);
 }
 
-.check-item strong {
+.check-item :deep(strong) {
   display: block;
   margin-bottom: 4px;
 
   color: var(--text);
 }
 
-.check-item small {
+.check-item :deep(small) {
   color: var(--muted);
 
   font-size: 0.9rem;

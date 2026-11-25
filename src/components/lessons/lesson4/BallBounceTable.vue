@@ -601,8 +601,7 @@ defineExpose({ reset });
 }
 </style>
 
-<style>
-/* Moved from styles/lesson3_styles/lesson3.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .custom-table-note {
   margin: 0 0 7px !important;
@@ -637,23 +636,15 @@ defineExpose({ reset });
 
 /* ---------- Student heading / label text fields ---------- */
 
-.table-text-input {
+/* (font, width, margin and background come from the shared data-table input
+   styles in styles/pages/data-tables.css) */
+:deep(.table-text-input) {
   min-height: 46px;
   padding: 9px 11px;
-
-  font-weight: 600;
 }
 
-.table-text-input::placeholder {
+:deep(.table-text-input::placeholder) {
   color: var(--muted);
   opacity: 0.75;
-}
-
-/* Dependent-variable heading */
-.table-heading-input {
-  max-width: 430px;
-  margin-inline: auto;
-
-  background: var(--paper);
 }
 </style>

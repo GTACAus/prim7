@@ -1,0 +1,398 @@
+/* ==================================================
+   PRE-TASK page (PretaskView and its components)
+   Imported first in PretaskView.vue so it loads before the component styles,
+   like the old stylesheet did (a component rule of equal specificity overrides it).
+   ================================================== */
+
+/* ==================================================
+   PRETASK LESSON
+
+   Used only by the pre-task page.
+   ================================================== */
+
+[data-page="pretask"] {
+  .botanist-mission {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    gap: 24px;
+
+    margin: 0 0 36px;
+    padding: 26px 30px;
+
+    background: var(--yellow);
+    border: 3px solid var(--charcoal);
+    border-radius: 26px;
+
+    box-shadow: var(--shadow-medium);
+  }
+
+  .mission-icon {
+    width: 140px;
+    height: 118px;
+
+    overflow: hidden;
+
+    background: var(--paper);
+    border: 3px solid var(--charcoal);
+    border-radius: 20px;
+
+    box-shadow: 0 4px 0 rgba(48, 51, 47, 0.28);
+  }
+
+  .mission-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .botanist-mission h2 {
+    margin: 0 0 9px;
+
+    color: var(--purple);
+
+    font-size: 1.55rem;
+    font-weight: 700;
+  }
+
+  .botanist-mission p {
+    margin: 0;
+
+    color: var(--text);
+
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .video-row,
+  .plant-game,
+  .learning-row {
+    display: grid;
+    gap: 18px;
+  }
+
+  .video-row {
+    grid-template-columns: 1.4fr 1fr;
+    align-items: start;
+  }
+
+  .learning-row {
+    grid-template-columns: 1fr 0.8fr;
+    align-items: start;
+  }
+
+  .video-box {
+    height: 500px;
+    background: #101110;
+    border: 3px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 0 var(--line);
+  }
+
+  .video-box iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .stw-input-row,
+  .final-input-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .stw-input-row input,
+  .final-input-row input {
+    flex: 1;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: white;
+    color: var(--text);
+    box-shadow: inset 0 -2px 0 rgba(48, 51, 47, 0.09);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+
+  .stw-input-row input:focus,
+  .final-input-row input:focus {
+    outline: 3px solid rgba(78, 50, 232, 0.18);
+    border-color: var(--purple);
+  }
+
+  .stw-input-row button,
+  .final-input-row button {
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: var(--green);
+    color: white;
+    box-shadow: 0 3px 0 var(--line);
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .stw-input-row button:hover,
+  .final-input-row button:hover {
+    background: var(--purple);
+    transform: translateY(-1px);
+  }
+
+  .stw-list,
+  .final-answer-list {
+    margin: 12px 0 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .stw-list li,
+  .final-answer-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 8px 10px 8px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 0 rgba(48, 51, 47, 0.2);
+  }
+
+  .brainstorm-answer {
+    display: none;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  /*
+    The border comes from the shared ".diagram-activity, .thinglink-box"
+    rule in build_style.css.
+  */
+  .thinglink-box {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .thinglink-responsive-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 150%; /* 1080:1620 aspect ratio = 150% */
+    overflow: hidden;
+  }
+
+  .thinglink-responsive-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .detective-embed-box {
+    background: var(--soft-blue);
+    border: 3px solid var(--line);
+    border-radius: 22px;
+    padding: 12px;
+    height: 720px;
+    box-shadow: 0 6px 0 var(--line);
+  }
+
+  /*
+    Slots for the two plant-building DragDropActivity instances
+    (see scripts/activities/drag-drop-activity.js). Position/size
+    stay bespoke, pinned to spots on the sunflower photo; fill state
+    is the shared .dd-filled/.dd-hover classes the activity toggles.
+  */
+  .slot,
+  .label-slot {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--mint);
+    border-radius: 8px;
+    background: white;
+  }
+
+  /* The drag ghost lives on <body>, outside the activity roots, so its variables
+     cannot be set on them; target the ghost itself. */
+  .part.dd-ghost {
+    --dd-ghost-scale: 0.9;
+  }
+
+  /* .slot / .label-slot set their own border and background, which outrank the
+     zero-specificity states in DragDrop.vue; restate those states here
+     so the --dd-* variables above still apply. */
+  .slot.dd-hover,
+  .label-slot.dd-hover,
+  .dd-has-selection .slot:not(.dd-filled):hover,
+  .dd-has-selection .label-slot:not(.dd-filled):hover {
+    border-color: var(--dd-accent);
+    background: var(--dd-slot-hover-bg);
+  }
+
+  .slot.dd-rejected,
+  .label-slot.dd-rejected {
+    border-color: var(--dd-reject);
+  }
+
+  .slot-stem {
+    top: 105px;
+    right: 135px;
+    width: 20px;
+    height: 150px;
+  }
+
+  /*
+    The plant-building/labelling items are plant-shaped images and short
+    text chips, not the round icons DragDrop.vue
+    may assume - so size and shape them here instead.
+  */
+  /* The drag ghost is a clone on <body>, outside the activity roots, so the
+     id-scoped item rules below need a ghost selector to reach it. */
+  #plantPartsActivity [data-dd-item],
+  #plantLabelsActivity [data-dd-item],
+  .part.dd-ghost {
+    --item-border-radius: 12px;
+
+    width: auto;
+    height: fit-content;
+    border-radius: var(--item-border-radius);
+    padding: 10px;
+    background: white;
+    border: 1px solid var(--charcoal);
+  }
+
+  #plantLabelsActivity [data-dd-item],
+  .part.dd-ghost:not(:has(img)) {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+
+  #plantPartsActivity [data-dd-item] img,
+  .part.dd-ghost img {
+    width: auto;
+    height: auto;
+    max-width: 90px;
+    max-height: 90px;
+    border-radius: var(--item-border-radius);
+    object-fit: contain;
+  }
+
+  #plantPartsActivity [data-dd-item].dd-placed,
+  #plantLabelsActivity [data-dd-item].dd-placed {
+    width: 100%;
+    height: 100%;
+    background: none;
+    transform: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  #plantPartsActivity [data-dd-slot].dd-filled,
+  #plantLabelsActivity [data-dd-slot].dd-filled {
+    background: none;
+    transform: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  #plantPartsActivity [data-dd-item].dd-placed img {
+    display: none;
+  }
+
+  /* ----- Moved here from build_style.css: these selectors are pretask-only ----- */
+
+  @media (max-width: 960px) {
+    .video-row,
+    .plant-game,
+    .learning-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Smaller screens ---------- */
+  @media (max-width: 800px) {
+    .botanist-mission {
+      grid-template-columns: 1fr;
+    }
+
+    .mission-icon {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  /* Section intro bubble colours */
+  #watch .section-title {
+    background: var(--yellow);
+  }
+
+  #build .section-title {
+    background: var(--mint);
+  }
+
+  #brainstorm .section-title {
+    background: var(--orange);
+    color: white;
+  }
+
+  #diagram .section-title {
+    background: var(--lavender);
+  }
+
+  #detective .section-title {
+    background: var(--blue);
+  }
+
+  #final-brainstorm .section-title {
+    background: var(--purple);
+    color: white;
+  }
+
+  .video-box,
+  .plant-canvas,
+  .writing-box {
+    border-radius: 20px;
+    color: var(--muted);
+  }
+
+  .thinglink-box {
+    border: 3px solid var(--line);
+    border-radius: 20px;
+
+    box-shadow: 0 5px 0 var(--line);
+  }
+
+  .tab-button-container .active,
+  .tab-button-container button.active {
+    background: var(--yellow) !important;
+  }
+
+  .postit-answer .brainstorm-answer.visible {
+    display: flex;
+  }
+
+  @media (max-width: 520px) {
+    .botanist-mission {
+      grid-template-columns: 1fr;
+    }
+  }
+}

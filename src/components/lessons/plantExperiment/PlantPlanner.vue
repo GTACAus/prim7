@@ -1110,20 +1110,11 @@ defineExpose({ reset, isComplete });
   display: grid;
   gap: 8px;
 }
-.pk-material-values.has-two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-}
 .pk-material-choice {
   display: flex;
   align-items: center;
   gap: 9px;
   min-width: 0;
-}
-.pk-material-values.has-two .pk-material-choice {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 4px;
 }
 .pk-material-art {
   display: grid;
@@ -1135,11 +1126,6 @@ defineExpose({ reset, isComplete });
   border: 1px solid #dfe5d9;
   border-radius: 11px;
   background: #f1f5ec;
-}
-.pk-material-values.has-two .pk-material-art {
-  flex-basis: auto;
-  width: 100%;
-  height: 82px;
 }
 .pk-material-zoom {
   position: relative;
@@ -1195,9 +1181,6 @@ defineExpose({ reset, isComplete });
   font-size: 0.86rem;
   line-height: 1.35;
   overflow-wrap: anywhere;
-}
-.pk-material-values.has-two .pk-material-copy strong {
-  font-size: 0.8rem;
 }
 
 /* ---------- Your plan ---------- */

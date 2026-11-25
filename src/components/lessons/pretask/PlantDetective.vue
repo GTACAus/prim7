@@ -293,16 +293,6 @@ onBeforeUnmount(() => {
   line-height: 1.1;
 }
 
-.detective-subtitle {
-  max-width: 650px;
-  margin: 0 auto 8px;
-
-  color: var(--muted);
-
-  font-size: 0.9rem;
-  line-height: 1.45;
-}
-
 .detective-score {
   display: grid;
   margin: 4px 30%;

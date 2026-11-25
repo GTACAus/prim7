@@ -303,7 +303,7 @@ defineExpose({ open: show, close });
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Shared overlays and modal panels */
 .modal {
   position: fixed;
@@ -342,7 +342,7 @@ defineExpose({ open: show, close });
   margin-bottom: 20px;
 }
 
-.modal-header h2 {
+.modal-header :deep(h2) {
   margin: 0;
   color: var(--text);
   font-size: 1.55rem;
@@ -388,7 +388,7 @@ defineExpose({ open: show, close });
 }
 
 .vocab-card,
-.teacher-section-list button {
+.teacher-section-list :deep(button) {
   padding: 16px;
   background: var(--surface);
   border: 2px solid var(--line);
@@ -396,13 +396,13 @@ defineExpose({ open: show, close });
   box-shadow: 0 3px 0 var(--shadow-soft);
 }
 
-.vocab-card h3 {
+.vocab-card :deep(h3) {
   margin: 0 0 6px;
   color: #3f463f;
   font-size: 1.05rem;
 }
 
-.vocab-card p {
+.vocab-card :deep(p) {
   margin: 0;
   color: var(--muted);
   line-height: 1.5;
@@ -433,7 +433,7 @@ defineExpose({ open: show, close });
   --box-shadow-hover: none;
 
 }
-.teacher-section-list button:hover {
+.teacher-section-list :deep(button:hover) {
   background: var(--soft-yellow);
   transform: translateX(3px);
 }
@@ -490,7 +490,7 @@ defineExpose({ open: show, close });
   overflow: hidden;
   background: #101110;
 }
-.video-modal-player video {
+.video-modal-player :deep(video) {
   max-height: 70vh;
 }
 .pdf-modal-image,

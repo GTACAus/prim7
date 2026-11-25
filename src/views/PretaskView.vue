@@ -1,6 +1,6 @@
 <script setup>
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/pretask.css";
+import "../styles/pages/pretask.css";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
 import ThinkBox from "../components/activities/ThinkBox.vue";

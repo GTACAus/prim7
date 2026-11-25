@@ -299,7 +299,7 @@ defineExpose({ reset, isComplete, text });
   </Activity>
 </template>
 
-<style>
+<style scoped>
 /* ---------- steps layout (lesson 2) ---------- */
 .question-builder-step {
   margin-bottom: 16px;
@@ -310,13 +310,13 @@ defineExpose({ reset, isComplete, text });
   animation: pop-fade-in 0.4s ease;
 }
 
-.question-builder-step h3 {
+.question-builder-step :deep(h3) {
   margin: 0 0 6px;
   color: var(--purple);
   font-size: 1.15rem;
 }
 
-.question-builder-step > p {
+.question-builder-step > :deep(p) {
   margin: 0;
   color: var(--muted);
   line-height: 1.5;
@@ -334,7 +334,7 @@ defineExpose({ reset, isComplete, text });
   background: var(--soft-green);
 }
 
-.question-review > p {
+.question-review > :deep(p) {
   margin-top: 10px;
   color: var(--text);
   font-size: 1.08rem;
@@ -456,11 +456,11 @@ defineExpose({ reset, isComplete, text });
   border-color: var(--purple);
 }
 
-.question-blank-input-row select {
+.question-blank-input-row :deep(select) {
   box-sizing: border-box;
 }
 
-.question-blank-input-row label {
+.question-blank-input-row :deep(label) {
   position: absolute;
   top: 8px;
   left: 10px;

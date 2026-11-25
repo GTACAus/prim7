@@ -425,8 +425,7 @@ defineExpose({ countsCorrect, reset });
   </Activity>
 </template>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .challenge-spotlight-game {
   margin: 0 0 20px;
@@ -478,7 +477,7 @@ defineExpose({ countsCorrect, reset });
   );
 }
 
-.stage img {
+.stage :deep(img) {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -623,7 +622,7 @@ defineExpose({ countsCorrect, reset });
     opacity: 1;
   }
 }
-.animal-hotspot img {
+.animal-hotspot :deep(img) {
   /* opt back out of the full-bleed ".stage img" positioning (that rule
      targets the background photo) so this small image sizes itself
      from the button instead of stretching to fill the whole stage */
@@ -655,7 +654,7 @@ defineExpose({ countsCorrect, reset });
   transition: opacity 0.3s ease;
 }
 
-.animal-hotspot:hover:not(.found) img {
+.animal-hotspot:hover:not(.found) :deep(img) {
   transform: scale(1.08);
   filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white)
     drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
@@ -719,12 +718,6 @@ defineExpose({ countsCorrect, reset });
 
 .stage.is-night .glow {
   opacity: 1;
-}
-
-.hint {
-  margin-top: 14px;
-  font-size: 0.85rem;
-  color: #667788;
 }
 
 /* ---------- Animal counters ---------- */
@@ -1011,9 +1004,6 @@ defineExpose({ countsCorrect, reset });
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .line-point.visible {
-    animation: none;
-  }
   .stack-unit {
     transition: none;
   }
@@ -1045,7 +1035,7 @@ defineExpose({ countsCorrect, reset });
   width: 100%;
 }
 
-.bar-stack-label span {
+.bar-stack-label :deep(span) {
   display: block;
   margin-top: 2px;
   color: var(--muted);

@@ -59,10 +59,9 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Lesson 7 (Expedition Log). Colours come from the "dark" theme in
-   src/styles/themes.css (--exp-* variables). Not scoped: rules reach into
-   slotted / child content. */
+   src/styles/themes.css (--exp-* variables). */
 
 /* POKEDEX ELEMENTS */
 
@@ -81,7 +80,7 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   margin-bottom: 18px;
 }
 
-.creature-zone h4 {
+.creature-zone :deep(h4) {
   color: #d8f7ff;
   margin: 0 0 14px;
 }
@@ -93,7 +92,7 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   gap: 12px;
 }
 
-#creatureGrid .creature-zone-grid button {
+#creatureGrid .creature-zone-grid :deep(button) {
   background: #0d3157;
   border: 2px solid #39d3ff;
   border-radius: 14px;
@@ -102,13 +101,13 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   cursor: pointer;
 }
 
-#creatureGrid .creature-zone-grid button:hover {
+#creatureGrid .creature-zone-grid :deep(button:hover) {
   border-color: #ffcd1d;
   background: #16476a;
 }
 
 /* Circular creature images */
-#creatureGrid .creature-zone-grid button img {
+#creatureGrid .creature-zone-grid :deep(button img) {
   display: block;
   width: 88px;
   height: 88px;
@@ -135,7 +134,7 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   display: none !important;
 }
 
-#creaturePanel > img {
+#creaturePanel > :deep(img) {
   display: block;
   width: 220px;
   height: 230px;
@@ -159,7 +158,7 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   color: #39d3ff;
 }
 
-#creaturePanel h4 {
+#creaturePanel :deep(h4) {
   margin: 0 0 12px;
   color: #ffffff;
   font-size: 1.25rem;
@@ -174,16 +173,16 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   line-height: 1.5;
 }
 
-#creaturePanel .creature-facts li {
+#creaturePanel .creature-facts :deep(li) {
   margin-bottom: 9px;
   padding-left: 3px;
 }
 
-#creaturePanel .creature-facts li:last-child {
+#creaturePanel .creature-facts :deep(li:last-child) {
   margin-bottom: 0;
 }
 
-#creaturePanel .creature-facts li::marker {
+#creaturePanel .creature-facts :deep(li::marker) {
   color: #39d3ff;
 }
 
@@ -191,7 +190,7 @@ const inGroup = (group) => group.species.some((f) => f.id === props.selected);
   #creaturePanel {
     grid-template-columns: 1fr;
   }
-  #creaturePanel > img {
+  #creaturePanel > :deep(img) {
     width: min(100%, 240px);
     height: 210px;
     margin: 0 auto;

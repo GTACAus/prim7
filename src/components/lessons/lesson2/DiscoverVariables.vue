@@ -96,9 +96,9 @@ defineExpose({ reset });
   </Activity>
 </template>
 
-<style>
-/* Plain (not scoped): these also style the inputs and answers that
-   <StudentEntry> renders inside each box. */
+<style scoped>
+/* The :deep() rules also style the inputs and answers that <StudentEntry>
+   renders inside each box. */
 .hook-image-box {
   min-height: 500px;
   padding: 18px;
@@ -110,17 +110,6 @@ defineExpose({ reset });
   border-radius: 20px;
   color: var(--muted);
   text-align: center;
-}
-
-.hook-image-placeholder {
-  max-width: 360px;
-  line-height: 1.6;
-}
-
-.hook-image-placeholder .placeholder-icon {
-  display: block;
-  margin-bottom: 12px;
-  font-size: 4rem;
 }
 
 .variable-grid {
@@ -143,7 +132,7 @@ defineExpose({ reset });
   box-shadow: 0 4px 0 rgba(48, 51, 47, 0.18);
 }
 
-.variable-entry-card label {
+.variable-entry-card :deep(label) {
   font-weight: 700;
   color: var(--text);
 }
@@ -155,28 +144,28 @@ defineExpose({ reset });
       ================================================== */
 
 /* the answer can sit in the list (cards) or in place of the box (image) */
-.variable-entry-input-row,
-.variable-entry-input-row input,
-.variable-entry-answer,
-:is(.variable-overlay-entry, .variable-entry-card) .ir-answer {
+:deep(.variable-entry-input-row),
+:deep(.variable-entry-input-row input),
+:deep(.variable-entry-answer),
+:is(.variable-overlay-entry, .variable-entry-card) :deep(.ir-answer) {
   box-sizing: border-box;
   width: 100%;
   max-width: none;
 }
 
-:is(.variable-overlay-entry, .variable-entry-card) .ir-answer {
+:is(.variable-overlay-entry, .variable-entry-card) :deep(.ir-answer) {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-:is(.variable-overlay-entry, .variable-entry-card) .ir-answer > span {
+:is(.variable-overlay-entry, .variable-entry-card) :deep(.ir-answer>span) {
   flex: 1;
   min-width: 0;
   overflow-wrap: anywhere;
 }
 
-.variable-entry-card .ir-answer {
+.variable-entry-card :deep(.ir-answer) {
   --background: white;
 }
 /* ==================================================
@@ -215,15 +204,15 @@ defineExpose({ reset });
   height: 6.8%;
 }
 
-.variable-overlay-entry > * {
+.variable-overlay-entry > :deep(*) {
   position: absolute;
 }
 
 /* on the image, the box and the answer fill the whole overlay spot */
-.variable-overlay-entry .variable-entry-input-row,
-.variable-overlay-entry input,
-.variable-overlay-entry .variable-entry-answer,
-.variable-overlay-entry .ir-answer {
+.variable-overlay-entry :deep(.variable-entry-input-row),
+.variable-overlay-entry :deep(input),
+.variable-overlay-entry :deep(.variable-entry-answer),
+.variable-overlay-entry :deep(.ir-answer) {
   height: 100%;
 }
 

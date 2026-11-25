@@ -637,447 +637,474 @@ const sections = [
 </template>
 
 <style>
+
 /* Lesson 1-specific styles only */
 
-ol li::marker {
-  color: var(--purple);
-  font-weight: 700;
-}
-
-/* ==================================================
-        REASONED PREDICTION ORGANISER
-        ================================================== */
-.prediction-organiser {
-  border: 3px solid var(--line);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 5px 0 var(--line);
-}
-
-/* Each row is a horizontal stripe */
-.prediction-organiser-row {
-  display: grid;
-  grid-template-columns: clamp(80px, 18vw, 180px) minmax(0, 1fr) minmax(0, 1fr);
-  border-bottom: 2px solid var(--line);
-}
-
-.prediction-organiser-row:last-child {
-  border-bottom: none;
-}
-
-.prediction-organiser-cell {
-  padding: 14px 18px;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  border-right: 2px solid var(--line);
-}
-
-.prediction-organiser-cell:last-child {
-  border-right: none;
-}
-
-/* Row-type colour bands */
-.row-header {
-  background: var(--purple);
-}
-
-.row-header .prediction-organiser-cell {
-  color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.row-question {
-  background: var(--soft-blue);
-}
-
-.row-relationship {
-  background: var(--soft-yellow);
-}
-
-.row-prediction {
-  background: var(--soft-green);
-}
-
-.row-reason {
-  background: var(--soft-purple);
-}
-
-.row-full {
-  background: var(--card);
-}
-
-/* Span-2 cell (no right border on the spanning cell) */
-.prediction-organiser-cell.span-2 {
-  grid-column: span 2;
-  border-right: none;
-}
-
-/* Label column — always slightly darker */
-.cell-label {
-  background: rgba(0, 0, 0, 0.04);
-  font-weight: 700;
-  overflow-wrap: break-word;
-}
-
-/* sub-labels inside cells */
-.cell-sublabel {
-  display: block;
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--purple);
-  margin-bottom: 4px;
-}
-
-.row-header .cell-sublabel {
-  color: var(--cream);
-}
-
-/* italic helper lines */
-.cell-helper {
-  display: block;
-  font-size: 0.88rem;
-  color: var(--muted);
-  font-style: italic;
-  line-height: 1.5;
-}
-
-/* ==================================================
-   LESSON 1 ACTIVITIES
-   
-   Question wheel, testable-question cards and the
-   testing-reasoned-predictions examples.
-   Used only by lesson1/lesson1.html.
-   ================================================== */
-
-.testable-card {
-  background: color-mix(in srgb, var(--soft-green) 50%, white 50%);
-  border-top: 10px solid var(--green);
-}
-
-.untestable-card {
-  background: color-mix(in srgb, var(--soft-orange) 20%, white 80%);
-  border-top: 10px solid var(--orange);
-}
-
-.question-check-list {
-  display: grid;
-  gap: 14px;
-  margin-top: 18px;
-}
-
-.question-check-row {
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  align-items: start;
-  gap: 12px;
-
-  padding: 14px 16px;
-
-  background: var(--soft-yellow);
-  border: 2px solid var(--line);
-  border-radius: 14px;
-
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
-}
-
-.question-check-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 28px;
-  height: 28px;
-
-  border: 2px solid var(--line);
-  border-radius: 8px;
-
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.question-check-row strong {
-  display: block;
-  margin-bottom: 5px;
-
-  color: var(--text);
-}
-
-.question-check-row p {
-  margin: 0;
-
-  color: var(--text);
-  line-height: 1.5;
-}
-
-/* Moved from prim7 lesson1.css: STW grid, flashcard guide, prediction video */
-/* ==================================================
-        OBSERVATION AND TESTABLE-QUESTION ACTIVITIES
-        ================================================== */
-
-.observe-experiment-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(290px, 0.85fr);
-  align-items: stretch;
-  gap: 20px;
-}
-
-#observe-experiment .media,
-#observe-experiment .stw-box {
-  min-width: 0;
-  min-height: 480px;
-  margin: 20px 0;
-}
-
-#observe-experiment .media {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#observe-experiment .media img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.stw-box {
-  display: flex;
-  flex-direction: column;
-  background: var(--soft-yellow);
-  border: 3px solid var(--line);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.stw-box .stw-column {
-  flex: 1;
-  padding: 14px 16px;
-  border-bottom: 2px dashed rgba(48, 51, 47, 0.32);
-}
-
-.stw-box .stw-column:last-child {
-  border-bottom: none;
-}
-
-.stw-box .stw-column h3 {
-  margin: 0 0 6px;
-  color: var(--purple);
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.stw-box .stw-column p {
-  margin: 0 0 8px;
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.stw-box .stw-input-row {
-  display: flex;
-  gap: 8px;
-}
-
-.stw-box .stw-input-row input {
-  flex: 1;
-  width: 100%;
-  min-width: 0;
-  margin-bottom: 8px;
-  padding: 9px 10px;
-  background: white;
-  color: var(--text);
-  border: 2px solid var(--line);
-  border-radius: 12px;
-  box-shadow: inset 0 -2px 0 rgba(48, 51, 47, 0.09);
-  font: inherit;
-}
-
-.stw-box .stw-input-row input:focus {
-  outline: 3px solid rgba(78, 50, 232, 0.18);
-  border-color: var(--purple);
-}
-
-.stw-box .stw-input-row button {
-  align-self: flex-start;
-  padding: 9px 12px;
-  color: white;
-  background: var(--green);
-  border: 2px solid var(--line);
-  border-radius: 12px;
-  box-shadow: 0 3px 0 var(--line);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.stw-box .stw-input-row button:hover {
-  background: var(--purple);
-}
-
-.stw-box .stw-list {
-  margin: 6px 0 0;
-  padding: 0;
-  color: var(--text);
-  font-size: 0.9rem;
-  line-height: 1.4;
-  list-style: none;
-}
-
-.stw-box .stw-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 6px;
-  padding: 7px 9px;
-  background: white;
-  border: 2px solid var(--line);
-  border-radius: 10px;
-}
-
-.flashcards-learning-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(250px, 0.9fr);
-  align-items: start;
-  gap: 20px;
-}
-
-.flashcards-learning-grid .flashcard-box {
-  min-width: 0;
-}
-
-.flashcards-learning-grid .flashcard-content {
-  padding: 24px 8px;
-}
-
-.testable-question-guide {
-  min-width: 0;
-  padding: 20px;
-}
-
-.testable-question-guide h3 {
-  margin: 0;
-  color: var(--text);
-  font-size: 1.2rem;
-  line-height: 1.35;
-}
-
-.testable-question-guide .question-check-list {
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.testable-question-guide .question-check-row {
-  grid-template-columns: 34px minmax(0, 1fr);
-  gap: 10px;
-  padding: 12px;
-}
-
-.testable-question-guide .question-guide-icon {
-  background: var(--mint);
-}
-
-.testable-question-guide .question-check-row p {
-  font-size: 0.9rem;
-}
-
-/* ==================================================
-        REASONED-PREDICTION VIDEO
-        ================================================== */
-
-.prediction-video-instructions ol {
-  display: grid;
-  gap: 10px;
-  margin: 16px 0 0;
-  padding-left: 1.4rem;
-}
-
-.prediction-video-instructions li {
-  padding-left: 4px;
-  line-height: 1.5;
-}
-
-.prediction-video-button {
-  display: flex;
-  width: min(100%, 150px);
-  aspect-ratio: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  justify-self: center;
-  padding: 14px;
-  color: white;
-  background: var(--green);
-  border: 3px solid var(--line);
-  border-radius: 18px;
-  box-shadow: 0 4px 0 var(--line);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    transform 160ms ease,
-    box-shadow 160ms ease,
-    background-color 160ms ease;
-}
-
-.prediction-video-button:hover {
-  background: var(--button-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 5px 0 var(--line);
-}
-
-.prediction-video-button:focus-visible {
-  outline: 3px solid var(--purple);
-  outline-offset: 4px;
-}
-
-.prediction-video-play {
-  display: grid;
-  width: 54px;
-  height: 54px;
-  place-items: center;
-  padding-left: 4px;
-  color: var(--purple);
-  background: var(--paper);
-  border: 2px solid var(--line);
-  border-radius: 50%;
-  font-size: 1.8rem;
-  line-height: 1;
-}
-
-.prediction-video-label {
-  font-size: 0.95rem;
-}
-
-@media (max-width: 960px) {
-  .observe-experiment-grid,
-  .flashcards-learning-grid {
-    grid-template-columns: 1fr;
+[data-page="lesson1"] {
+  ol li::marker {
+    color: var(--purple);
+    font-weight: 700;
   }
 
-  .flashcards-learning-grid .testable-card {
-    grid-row: 1;
+  /* ==================================================
+          REASONED PREDICTION ORGANISER
+          ================================================== */
+  .prediction-organiser {
+    border: 3px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 0 var(--line);
+  }
+
+  /* Each row is a horizontal stripe */
+  .prediction-organiser-row {
+    display: grid;
+    grid-template-columns: clamp(80px, 18vw, 180px) minmax(0, 1fr) minmax(0, 1fr);
+    border-bottom: 2px solid var(--line);
+  }
+
+  .prediction-organiser-row:last-child {
+    border-bottom: none;
+  }
+
+  .prediction-organiser-cell {
+    min-width: 0;
+    padding: 14px 18px;
+    overflow-wrap: anywhere;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    border-right: 2px solid var(--line);
+  }
+
+  .prediction-organiser-cell:last-child {
+    border-right: none;
+  }
+
+  /* Row-type colour bands */
+  .row-header {
+    background: var(--purple);
+  }
+
+  .row-header .prediction-organiser-cell {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .row-relationship {
+    background: var(--soft-yellow);
+  }
+
+  .row-prediction {
+    background: var(--soft-green);
+  }
+
+  .row-reason {
+    background: var(--soft-purple);
+  }
+
+  .row-full {
+    background: var(--card);
+  }
+
+  /* Span-2 cell (no right border on the spanning cell) */
+  .prediction-organiser-cell.span-2 {
+    grid-column: span 2;
+    border-right: none;
+  }
+
+  /* Label column — always slightly darker */
+  .cell-label {
+    background: rgba(0, 0, 0, 0.04);
+    font-weight: 700;
+    overflow-wrap: break-word;
+  }
+
+  /* sub-labels inside cells */
+  .cell-sublabel {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--purple);
+    margin-bottom: 4px;
+  }
+
+  .row-header .cell-sublabel {
+    color: var(--cream);
+  }
+
+  /* italic helper lines */
+  .cell-helper {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ==================================================
+     LESSON 1 ACTIVITIES
+
+     Question wheel, testable-question cards and the
+     testing-reasoned-predictions examples.
+     Used only by lesson1/lesson1.html.
+     ================================================== */
+
+  .testable-card {
+    background: color-mix(in srgb, var(--soft-green) 50%, white 50%);
+    border-top: 10px solid var(--green);
+  }
+
+  .untestable-card {
+    background: color-mix(in srgb, var(--soft-orange) 20%, white 80%);
+    border-top: 10px solid var(--orange);
+  }
+
+  .question-check-list {
+    display: grid;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .question-check-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    align-items: start;
+    gap: 12px;
+
+    padding: 14px 16px;
+
+    background: var(--soft-yellow);
+    border: 2px solid var(--line);
+    border-radius: 14px;
+
+    box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+  }
+
+  .question-check-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    border: 2px solid var(--line);
+    border-radius: 8px;
+
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .question-check-row strong {
+    display: block;
+    margin-bottom: 5px;
+
+    color: var(--text);
+  }
+
+  .question-check-row p {
+    margin: 0;
+
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* Moved from prim7 lesson1.css: STW grid, flashcard guide, prediction video */
+  /* ==================================================
+          OBSERVATION AND TESTABLE-QUESTION ACTIVITIES
+          ================================================== */
+
+  .observe-experiment-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(290px, 0.85fr);
+    align-items: stretch;
+    gap: 20px;
   }
 
   #observe-experiment .media,
   #observe-experiment .stw-box {
-    min-height: 0;
+    min-width: 0;
+    min-height: 480px;
+    margin: 20px 0;
   }
 
   #observe-experiment .media {
-    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-}
 
-@media (max-width: 700px) {
+  #observe-experiment .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .stw-box {
+    display: flex;
+    flex-direction: column;
+    background: var(--soft-yellow);
+    border: 3px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 0 var(--line);
+  }
+
+  .stw-box .stw-column {
+    flex: 1;
+    padding: 14px 16px;
+    border-bottom: 2px dashed rgba(48, 51, 47, 0.32);
+  }
+
+  .stw-box .stw-column:last-child {
+    border-bottom: none;
+  }
+
+  .stw-box .stw-column h3 {
+    margin: 0 0 6px;
+    color: var(--purple);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .stw-box .stw-column p {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .stw-box .stw-input-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .stw-box .stw-input-row input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 8px;
+    padding: 9px 10px;
+    background: white;
+    color: var(--text);
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    box-shadow: inset 0 -2px 0 rgba(48, 51, 47, 0.09);
+    font: inherit;
+  }
+
+  .stw-box .stw-input-row input:focus {
+    outline: 3px solid rgba(78, 50, 232, 0.18);
+    border-color: var(--purple);
+  }
+
+  .stw-box .stw-input-row button {
+    align-self: flex-start;
+    padding: 9px 12px;
+    color: white;
+    background: var(--green);
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 3px 0 var(--line);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .stw-box .stw-input-row button:hover {
+    background: var(--purple);
+  }
+
+  .stw-box .stw-list {
+    margin: 6px 0 0;
+    padding: 0;
+    color: var(--text);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    list-style: none;
+  }
+
+  .stw-box .stw-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+    padding: 7px 9px;
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+  }
+
+  .flashcards-learning-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(250px, 0.9fr);
+    align-items: start;
+    gap: 20px;
+  }
+
+  .flashcards-learning-grid .flashcard-box {
+    min-width: 0;
+  }
+
+  .flashcards-learning-grid .flashcard-content {
+    padding: 24px 8px;
+  }
+
+  .testable-question-guide {
+    min-width: 0;
+    padding: 20px;
+  }
+
+  .testable-question-guide h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.2rem;
+    line-height: 1.35;
+  }
+
+  .testable-question-guide .question-check-list {
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .testable-question-guide .question-check-row {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .testable-question-guide .question-guide-icon {
+    background: var(--mint);
+  }
+
+  .testable-question-guide .question-check-row p {
+    font-size: 0.9rem;
+  }
+
+  /* ==================================================
+          REASONED-PREDICTION VIDEO
+          ================================================== */
+
+  .prediction-video-instructions ol {
+    display: grid;
+    gap: 10px;
+    margin: 16px 0 0;
+    padding-left: 1.4rem;
+  }
+
+  .prediction-video-instructions li {
+    padding-left: 4px;
+    line-height: 1.5;
+  }
+
   .prediction-video-button {
+    display: flex;
     width: min(100%, 150px);
+    aspect-ratio: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    justify-self: center;
+    padding: 14px;
+    color: white;
+    background: var(--green);
+    border: 3px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 4px 0 var(--line);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .prediction-video-button:hover {
+    background: var(--button-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 0 var(--line);
+  }
+
+  .prediction-video-button:focus-visible {
+    outline: 3px solid var(--purple);
+    outline-offset: 4px;
+  }
+
+  .prediction-video-play {
+    width: 54px;
+    height: 54px;
+    place-items: center;
+    padding-left: 4px;
+    color: var(--purple);
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 50%;
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  .prediction-video-label {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 960px) {
+    .observe-experiment-grid,
+    .flashcards-learning-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flashcards-learning-grid .testable-card {
+      grid-row: 1;
+    }
+
+    #observe-experiment .media,
+    #observe-experiment .stw-box {
+      min-height: 0;
+    }
+
+    #observe-experiment .media {
+      min-height: 320px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .prediction-video-button {
+      width: min(100%, 150px);
+    }
+  }
+
+  .question-check-icon.correct {
+    background: var(--soft-green);
+    color: var(--text);
+  }
+
+  .question-check-icon.incorrect {
+    background: var(--soft-orange);
+    color: var(--text);
+  }
+
+  /* Section intro bubble colours */
+  #observe-experiment .section-title {
+    background: var(--green);
+  }
+
+  #testable-questions .section-title {
+    background: var(--orange);
+  }
+
+  #testable-question-intro .section-title {
+    background: var(--blue);
+  }
+
+  #testing-predictions .section-title {
+    background: var(--lavender);
   }
 }
 </style>

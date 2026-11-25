@@ -34,7 +34,7 @@ defineProps({
   </div>
 </template>
 
-<style>
+<style scoped>
 .page-header {
   position: fixed;
   top: 0;

@@ -57,10 +57,9 @@ defineProps({
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Lesson 7 (Expedition Log). Colours come from the "dark" theme in
-   src/styles/themes.css (--exp-* variables). Not scoped: rules reach into
-   slotted / child content. */
+   src/styles/themes.css (--exp-* variables). */
 
 .mission-window {
   --border-colour: var(--mission-border);
@@ -86,7 +85,7 @@ defineProps({
   border-bottom: 3px solid var(--mission-border);
 }
 
-.mission-window-bar strong {
+.mission-window-bar :deep(strong) {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -97,7 +96,7 @@ defineProps({
   gap: 5px;
 }
 
-.window-dots span {
+.window-dots :deep(span) {
   width: 12px;
   height: 12px;
   border: 2px solid var(--mission-border);
@@ -105,10 +104,10 @@ defineProps({
   background: var(--green);
 }
 
-.window-dots span:nth-child(2) {
+.window-dots :deep(span:nth-child(2)) {
   background: var(--yellow);
 }
-.window-dots span:nth-child(3) {
+.window-dots :deep(span:nth-child(3)) {
   background: var(--orange);
 }
 
@@ -116,7 +115,7 @@ defineProps({
   padding: 24px;
 }
 
-.mission-window h3 {
+.mission-window :deep(h3) {
   margin: 0 0 7px;
   color: var(--mission-text);
   font-size: clamp(1.55rem, 3vw, 2.3rem);

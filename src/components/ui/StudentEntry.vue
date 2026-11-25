@@ -244,13 +244,16 @@ defineExpose({ reset, focus: () => inputEl.value?.focus() });
   </div>
 </template>
 
-<style>
+<style scoped>
 .student-entry {
   display: contents;
 }
+</style>
 
+<style>
 /*
-  Defaults only: :where() keeps these at zero specificity, so any page class
+  Not scoped on purpose. Defaults only: :where() keeps these at zero
+  specificity, so any page class
   (input-class="...") overrides them. Pages can also just set the variables:
     --entry-font-size   text size (scales with the viewport by default)
     --entry-max-width   widest the box / saved answer can get

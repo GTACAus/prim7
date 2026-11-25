@@ -1,6 +1,5 @@
 <script setup>
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/graphs.css";
 import { ref } from "vue";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
@@ -354,159 +353,160 @@ const plants = ref(null);
 </template>
 
 <style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
 
-/* Slightly larger numbers on the x- and y-axes */
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .tick-label {
-  font-size: 14px;
-  font-weight: 700;
-}
+[data-page="lesson6"] {
+  /* Slightly larger numbers on the x- and y-axes */
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .tick-label {
+    font-size: 14px;
+    font-weight: 700;
+  }
 
-/* Keep all line-graph data tables compact and easy to scan. */
-:is(
-    #line-graph-elephant,
-    #line-graph-conniwinks,
-    #line-graph-yeast,
-    #line-graph-plants
-  )
-  .linegraph-data-table {
-  width: min(820px, 100%);
-  margin: 0 auto;
-  table-layout: fixed;
-}
+  /* Keep all line-graph data tables compact and easy to scan. */
+  :is(
+      #line-graph-elephant,
+      #line-graph-conniwinks,
+      #line-graph-yeast,
+      #line-graph-plants
+    )
+    .linegraph-data-table {
+    width: min(820px, 100%);
+    margin: 0 auto;
+    table-layout: fixed;
+  }
 
-/* First column gets a little more room, but stays centred.
-   The remaining four columns share the rest evenly. */
-:is(
-    #line-graph-elephant,
-    #line-graph-conniwinks,
-    #line-graph-yeast,
-    #line-graph-plants
-  )
-  .linegraph-data-table
-  th:first-child,
-:is(
-    #line-graph-elephant,
-    #line-graph-conniwinks,
-    #line-graph-yeast,
-    #line-graph-plants
-  )
-  .linegraph-data-table
-  td:first-child {
-  width: 28%;
-  text-align: center;
-  vertical-align: middle;
-}
+  /* First column gets a little more room, but stays centred.
+     The remaining four columns share the rest evenly. */
+  :is(
+      #line-graph-elephant,
+      #line-graph-conniwinks,
+      #line-graph-yeast,
+      #line-graph-plants
+    )
+    .linegraph-data-table
+    th:first-child,
+  :is(
+      #line-graph-elephant,
+      #line-graph-conniwinks,
+      #line-graph-yeast,
+      #line-graph-plants
+    )
+    .linegraph-data-table
+    td:first-child {
+    width: 28%;
+    text-align: center;
+    vertical-align: middle;
+  }
 
-/* Keep the investigation cards visually separate from the data card below. */
-#line-graph-elephant .project-question-grid {
-  margin-bottom: 20px;
-}
+  /* Keep the investigation cards visually separate from the data card below. */
+  #line-graph-elephant .project-question-grid {
+    margin-bottom: 20px;
+  }
 
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .linegraph-path {
-  fill: none;
-  stroke: var(--purple);
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  pointer-events: none;
-}
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .linegraph-path {
+    fill: none;
+    stroke: var(--purple);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
 
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .linegraph-point {
-  fill: var(--orange);
-  stroke: var(--charcoal);
-  stroke-width: 3;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: graphPointPop 0.35s ease-out;
-}
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .linegraph-point {
+    fill: var(--orange);
+    stroke: var(--charcoal);
+    stroke-width: 3;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: graphPointPop 0.35s ease-out;
+  }
 
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .linegraph-point.connectable {
-  cursor: pointer;
-}
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .linegraph-point.connectable {
+    cursor: pointer;
+  }
 
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .linegraph-point.connectable:hover,
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .linegraph-point.connectable:focus {
-  fill: var(--yellow);
-  stroke: var(--purple);
-  outline: none;
-}
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .linegraph-point.connectable:hover,
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .linegraph-point.connectable:focus {
+    fill: var(--yellow);
+    stroke: var(--purple);
+    outline: none;
+  }
 
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .linegraph-point.connected {
-  fill: var(--soft-green);
-  stroke: var(--green);
-  stroke-width: 4;
-}
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .linegraph-point.connected {
+    fill: var(--soft-green);
+    stroke: var(--green);
+    stroke-width: 4;
+  }
 
-:is(
-    #lineGraphElephantSvg,
-    #lineGraphConniwinksSvg,
-    #lineGraphYeastSvg,
-    #lineGraphPlantsSvg
-  )
-  .linegraph-point.connect-error {
-  fill: var(--soft-orange);
-  stroke: var(--orange);
-  stroke-width: 4;
-}
+  :is(
+      #lineGraphElephantSvg,
+      #lineGraphConniwinksSvg,
+      #lineGraphYeastSvg,
+      #lineGraphPlantsSvg
+    )
+    .linegraph-point.connect-error {
+    fill: var(--soft-orange);
+    stroke: var(--orange);
+    stroke-width: 4;
+  }
 
-:is(#line-graph-conniwinks, #line-graph-yeast, #line-graph-plants)
-  .project-question-grid {
-  margin-bottom: 20px;
-}
+  :is(#line-graph-conniwinks, #line-graph-yeast, #line-graph-plants)
+    .project-question-grid {
+    margin-bottom: 20px;
+  }
 
-:is(#lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) {
-  cursor: crosshair;
-  touch-action: none;
-}
+  :is(#lineGraphConniwinksSvg, #lineGraphYeastSvg, #lineGraphPlantsSvg) {
+    cursor: crosshair;
+    touch-action: none;
+  }
 
-#lineGraphPlantsSvg .plant-line-100 {
-  stroke: var(--purple);
-}
+  #lineGraphPlantsSvg .plant-line-100 {
+    stroke: var(--purple);
+  }
 
-#lineGraphPlantsSvg .plant-line-300 {
-  stroke: var(--green);
+  #lineGraphPlantsSvg .plant-line-300 {
+    stroke: var(--green);
+  }
 }
 </style>

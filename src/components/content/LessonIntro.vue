@@ -95,7 +95,7 @@ defineProps({
   </header>
 </template>
 
-<style>
+<style scoped>
 #teacherTrigger {
   user-select: none;
 }
@@ -107,7 +107,7 @@ defineProps({
   align-items: center;
 }
 
-.intro-actions .general-button {
+.intro-actions :deep(.general-button) {
   width: 220px;
 }
 
@@ -151,15 +151,15 @@ defineProps({
   line-height: 1.7;
 }
 
-.objectives-card {
+:deep(.objectives-card) {
   border-top: 10px solid var(--orange);
 }
 
-.observation-card {
+:deep(.observation-card) {
   border-top: 10px solid var(--purple);
 }
 
-.objective-list {
+:deep(.objective-list) {
   margin: 16px 0 0;
   padding: 0;
 
@@ -168,7 +168,7 @@ defineProps({
   counter-reset: objective;
 }
 
-.objective-list > li {
+:deep(.objective-list > li) {
   position: relative;
   display: block;
   min-height: 42px;
@@ -187,17 +187,17 @@ defineProps({
   counter-increment: objective;
 }
 
-.objective-list > li ul {
+:deep(.objective-list > li ul) {
   list-style: none;
   padding-left: 10px;
 }
 
-.objective-list > li li {
+:deep(.objective-list > li li) {
   position: relative;
   padding-left: 1.4rem;
 }
 
-.objective-list > li li::before {
+:deep(.objective-list > li li::before) {
   content: "";
   position: absolute;
   left: 0;
@@ -209,19 +209,19 @@ defineProps({
   background: var(--yellow);
 }
 
-.objective-list > li li:nth-child(2n)::before {
+:deep(.objective-list > li li:nth-child(2n)::before) {
   background: var(--soft-purple);
 }
 
-.objective-list > li li:nth-child(3n)::before {
+:deep(.objective-list > li li:nth-child(3n)::before) {
   background: var(--mint);
 }
 
-.objective-list > li:last-child {
+:deep(.objective-list > li:last-child) {
   margin-bottom: 0;
 }
 
-.objective-list > li::before {
+:deep(.objective-list > li::before) {
   content: counter(objective);
 
   position: absolute;
@@ -242,7 +242,7 @@ defineProps({
   font-weight: 700;
 }
 
-.learning-objective-text {
+:deep(.learning-objective-text) {
   margin: 12px 0 18px;
   padding: 14px 16px;
 
@@ -257,7 +257,7 @@ defineProps({
   line-height: 1.55;
 }
 
-.success-heading {
+:deep(.success-heading) {
   margin: 0 0 10px !important;
 
   color: var(--text) !important;
@@ -266,14 +266,14 @@ defineProps({
   font-weight: 700;
 }
 
-.stw-explanation {
+:deep(.stw-explanation) {
   display: grid;
   gap: 9px;
 
   margin-top: 16px;
 }
 
-.stw-explanation div {
+:deep(.stw-explanation div) {
   display: grid;
   grid-template-columns: 76px 1fr;
   align-items: center;
@@ -286,19 +286,19 @@ defineProps({
   border-radius: 14px;
 }
 
-.stw-explanation strong {
+:deep(.stw-explanation strong) {
   color: var(--text);
 }
 
-.stw-explanation span {
+:deep(.stw-explanation span) {
   color: var(--muted);
 }
 
-.stw-explanation div:nth-child(2) {
+:deep(.stw-explanation div:nth-child(2)) {
   background: var(--soft-green);
 }
 
-.stw-explanation div:nth-child(3) {
+:deep(.stw-explanation div:nth-child(3)) {
   background: var(--soft-purple);
 }
 

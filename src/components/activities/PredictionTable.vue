@@ -456,7 +456,7 @@ defineExpose({ reset, setContext, isComplete });
   </Activity>
 </template>
 
-<style>
+<style scoped>
 /* ==================================================
    REASONED PREDICTION BUILDER
    
@@ -581,10 +581,6 @@ defineExpose({ reset, setContext, isComplete });
   border-color: var(--purple);
 }
 
-.permanent-input-row {
-  display: block;
-}
-
 .submitted-answer {
   display: none;
   align-items: center;
@@ -605,7 +601,7 @@ defineExpose({ reset, setContext, isComplete });
   display: flex;
 }
 
-.submitted-answer .delete-answer {
+.submitted-answer :deep(.delete-answer) {
   flex: 0 0 auto;
 }
 
@@ -692,11 +688,6 @@ defineExpose({ reset, setContext, isComplete });
   font-style: normal;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.reason-inline .permanent-input-row {
-  flex: 1;
-  min-width: 0;
 }
 
 .reason-inline .prediction-input {
@@ -807,7 +798,7 @@ defineExpose({ reset, setContext, isComplete });
     margin-top: 14px;
   }
 
-  .reset-btn {
+  :deep(.reset-btn) {
     padding: 9px 16px;
     font-size: 0.8rem;
   }
@@ -871,32 +862,4 @@ defineExpose({ reset, setContext, isComplete });
   }
 }
 
-.reasoned-prediction-embed-box {
-  width: 100%;
-  height: 1150px;
-  padding: 12px;
-
-  overflow: hidden;
-
-  background: var(--soft-blue);
-  border: 1px dashed var(--line);
-  border-radius: 20px;
-}
-
-.reasoned-prediction-iframe {
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  background: white;
-  border: none;
-  border-radius: 16px;
-}
-
-@media (max-width: 820px) {
-  .reasoned-prediction-embed-box {
-    height: 2050px;
-  }
-}
 </style>

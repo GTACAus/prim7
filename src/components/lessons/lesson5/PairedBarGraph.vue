@@ -78,8 +78,7 @@ const difference = computed(() => {
   </BarGraphFrame>
 </template>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 #partDGraphSvg .partd-difference-marker.visible {
   opacity: 1;
