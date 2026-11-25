@@ -951,8 +951,7 @@ defineExpose({ complete, predictionComplete });
   </Activity>
 </template>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 /* Keep the badge on the right without pushing the title off-centre */
 .graph-stage-heading .graph-badge {
@@ -986,7 +985,7 @@ defineExpose({ complete, predictionComplete });
   transform: translate(-50%, -50%) rotate(-90deg);
 }
 
-.partc-data-table tr.partc-current-row td {
+.partc-data-table :deep(tr.partc-current-row td) {
   background: var(--soft-yellow);
   font-weight: 800;
 }
@@ -1009,8 +1008,8 @@ defineExpose({ complete, predictionComplete });
   table-layout: fixed;
 }
 
-.plant-condition-card .partb-data-table th,
-.plant-condition-card .partb-data-table td {
+.plant-condition-card .partb-data-table :deep(th),
+.plant-condition-card .partb-data-table :deep(td) {
   padding: 7px 5px;
   font-size: 0.78rem;
   line-height: 1.22;

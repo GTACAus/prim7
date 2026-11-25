@@ -88,7 +88,7 @@ const style = computed(() => {
   </component>
 </template>
 
-<style>
+<style scoped>
 .grid {
   display: grid;
 }

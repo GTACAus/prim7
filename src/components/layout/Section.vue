@@ -132,7 +132,7 @@ defineExpose({ locked, completed, complete, reset, next, scrollTo });
   </ContentBox>
 </template>
 
-<style>
+<style scoped>
 /* ---------- Main lesson sections ---------- */
 .section-title {
   display: inline-block;

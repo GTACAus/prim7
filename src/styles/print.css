@@ -147,7 +147,6 @@
   /* Hide interactive iframe content */
 
   .video-box,
-  .plant-functions,
   .thinglink-box,
   .detective-embed-box {
     display: none !important;

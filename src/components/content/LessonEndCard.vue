@@ -115,4 +115,37 @@ defineProps({
   --background: var(--card);
   --color: var(--text);
 }
+
+/* Same look as the header's buttons (PageHeader.vue). Kept light (no
+   .lesson-completion-actions) so the colour theme's header-button rules still win. */
+:deep(.home-button) {
+  --background-hover: var(--soft-yellow);
+  --background-active: var(--yellow);
+
+  border-top: 5px solid var(--marker);
+}
+
+:deep(.save-work-button) {
+  background: var(--purple) !important;
+  color: var(--paper) !important;
+}
+
+:deep(.save-work-button:hover) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--line);
+}
+
+:deep(.save-work-button:active) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+@media (max-width: 800px) {
+  :deep(.save-work-button),
+  :deep(.home-button) {
+    padding: 10px 14px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+}
 </style>

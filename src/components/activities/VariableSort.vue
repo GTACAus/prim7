@@ -301,10 +301,8 @@ defineExpose({ reset, isComplete });
 </template>
 
 <style scoped>
-/* Variable activity (shared by lessons 2 and 3). Moved from styles/variable-activity.css.
-   Not scoped: it also styles elements in the lesson views. Kept before the scoped block
-   below so the cascade order is unchanged. The *-mode-button classes are built in the
-   template as `${m.id}-mode-button`. */
+/* Variable activity (shared by lessons 2 and 3). The *-mode-button classes are
+   built in the template as `${m.id}-mode-button`. */
 
 .variable-activity {
   padding: 28px;

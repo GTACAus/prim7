@@ -212,7 +212,7 @@ const TRAY_PLANTS = [145, 210, 275];
   </svg>
 </template>
 
-<style>
+<style scoped>
 .pk-scene-picture {
   display: block;
   width: 100%;

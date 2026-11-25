@@ -109,8 +109,7 @@ defineExpose({ isComplete, solved, reset });
   </MultipleChoice>
 </template>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .challenge-question {
   margin: 0 0 12px;

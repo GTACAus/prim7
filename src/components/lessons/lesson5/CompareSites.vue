@@ -461,18 +461,14 @@ defineExpose({ sectionClass });
 </template>
 
 <style scoped>
-.partd-blank-heading {
+/* "table th.x" outranks the shared graph page styles' .practice-table th rules */
+.partd-data-table th.partd-blank-heading {
   opacity: 0;
   border: none;
 }
-
-.partd-unit-heading {
-  background: var(--soft-blue);
-}
 </style>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .partd-data-card {
   margin-bottom: 18px;
@@ -491,20 +487,20 @@ defineExpose({ sectionClass });
   table-layout: fixed;
 }
 
-.partd-data-table th:first-child,
-.partd-data-table td:first-child {
+.partd-data-table :deep(th:first-child),
+.partd-data-table :deep(td:first-child) {
   width: 48%;
   text-align: left;
   font-weight: 700;
 }
 
-.partd-data-table th:nth-child(2),
-.partd-data-table td:nth-child(2) {
+.partd-data-table :deep(th:nth-child(2)),
+.partd-data-table :deep(td:nth-child(2)) {
   background: rgba(192, 173, 255, 0.18);
 }
 
-.partd-data-table th:nth-child(3),
-.partd-data-table td:nth-child(3) {
+.partd-data-table :deep(th:nth-child(3)),
+.partd-data-table :deep(td:nth-child(3)) {
   background: rgba(215, 245, 233, 0.62);
 }
 
@@ -542,8 +538,8 @@ defineExpose({ sectionClass });
 }
 
 .partd-analysis-panel[hidden],
-.partd-analysis-question[hidden],
-.partd-complete-card[hidden] {
+:deep(.partd-analysis-question[hidden]),
+:deep(.partd-complete-card[hidden]) {
   display: none !important;
 }
 
@@ -602,22 +598,22 @@ defineExpose({ sectionClass });
   comparison, so these just hard-code that end state rather than
   reproducing every interactive mode.
 */
-.stop-and-check-graph .partd-site1-bar,
-.stop-and-check-graph .partd-site2-bar {
+.stop-and-check-graph :deep(.partd-site1-bar),
+.stop-and-check-graph :deep(.partd-site2-bar) {
   stroke: var(--charcoal);
   stroke-width: 3.5;
   opacity: 1;
 }
 
-.stop-and-check-graph .partd-site1-bar {
+.stop-and-check-graph :deep(.partd-site1-bar) {
   fill: var(--lavender);
 }
 
-.stop-and-check-graph .partd-site2-bar {
+.stop-and-check-graph :deep(.partd-site2-bar) {
   fill: var(--mint);
 }
 
-.stop-and-check-graph .partd-value-label {
+.stop-and-check-graph :deep(.partd-value-label) {
   font-size: 12px;
   font-weight: 800;
   text-anchor: middle;
@@ -667,7 +663,7 @@ defineExpose({ sectionClass });
   background: rgba(255, 255, 255, 0.72);
 }
 
-.circle-image-placeholder img {
+.circle-image-placeholder :deep(img) {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -715,7 +711,7 @@ defineExpose({ sectionClass });
   text-align: center;
 }
 
-.more-less-site-card h4 {
+.more-less-site-card :deep(h4) {
   margin: 0 0 8px;
   font-size: 1rem;
 }
@@ -730,7 +726,7 @@ defineExpose({ sectionClass });
   border-radius: 12px;
 }
 
-.more-less-site-photo img {
+.more-less-site-photo :deep(img) {
   display: block;
   width: 100%;
   height: 100%;
@@ -738,7 +734,7 @@ defineExpose({ sectionClass });
 }
 
 @media (max-width: 500px) {
-  .more-less-site-photo img {
+  .more-less-site-photo :deep(img) {
     height: 100px;
   }
 }

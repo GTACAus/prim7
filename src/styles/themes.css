@@ -198,15 +198,6 @@
   --background-hover: rgba(57, 211, 255, 0.25);
 }
 
-:root[data-theme="dark"] .equipment-symbol-row {
-  background: var(--surface);
-  border: 1px solid rgba(117, 221, 232, 0.35);
-}
-
-:root[data-theme="dark"] .equipment-symbol-row svg :is(path, circle) {
-  stroke: var(--exp-cyan-soft);
-}
-
 :root[data-theme="dark"] .pdf-modal-actions .general-button {
   --background: var(--exp-cyan);
   --color: var(--exp-navy);

@@ -341,10 +341,9 @@ defineExpose({ clearTimers });
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Lesson 7 (Expedition Log). Colours come from the "dark" theme in
-   src/styles/themes.css (--exp-* variables). Not scoped: rules reach into
-   slotted / child content. */
+   src/styles/themes.css (--exp-* variables). */
 
 /* ---------- Mission 5: unknown-species finale ---------- */
 
@@ -541,12 +540,12 @@ defineExpose({ clearTimers });
   color: var(--charcoal);
 }
 
-.sonar-instructions h4 {
+.sonar-instructions :deep(h4) {
   margin: 0 0 8px;
   font-size: 1.15rem;
 }
 
-.sonar-instructions p {
+.sonar-instructions :deep(p) {
   margin: 0 0 12px;
   color: var(--muted);
   line-height: 1.55;
@@ -616,12 +615,12 @@ defineExpose({ clearTimers });
   animation: mission5-spin 0.85s linear infinite;
 }
 
-.tracking-card h4,
-.tracking-card p {
+.tracking-card :deep(h4),
+.tracking-card :deep(p) {
   margin: 0;
 }
 
-.tracking-card p {
+.tracking-card :deep(p) {
   color: var(--exp-muted);
 }
 
@@ -662,7 +661,7 @@ defineExpose({ clearTimers });
   );
 }
 
-.creature-feed img {
+.creature-feed :deep(img) {
   --swim-away-duration: 1s;
 
   position: relative;
@@ -717,12 +716,12 @@ defineExpose({ clearTimers });
   visibility: hidden;
 }
 
-.camera-side-card h4 {
+.camera-side-card :deep(h4) {
   margin: 0 0 8px;
   font-size: 1.2rem;
 }
 
-.camera-side-card p {
+.camera-side-card :deep(p) {
   margin: 0 0 14px;
   color: var(--mission-muted);
   line-height: 1.55;
@@ -754,12 +753,12 @@ defineExpose({ clearTimers });
   color: var(--charcoal);
 }
 
-.drawing-instructions-card h4 {
+.drawing-instructions-card :deep(h4) {
   margin: 0 0 8px;
   font-size: 1.22rem;
 }
 
-.drawing-instructions-card p {
+.drawing-instructions-card :deep(p) {
   margin: 0 0 12px;
   color: var(--charcoal);
   line-height: 1.55;
@@ -780,7 +779,7 @@ defineExpose({ clearTimers });
   cursor: pointer;
 }
 @media (max-width: 1280px) {
-  .creature-feed img {
+  .creature-feed :deep(img) {
     height: 330px;
   }
 }

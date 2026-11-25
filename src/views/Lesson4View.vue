@@ -1,6 +1,5 @@
 <script setup>
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/data-tables.css";
 import { computed, ref } from "vue";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
@@ -366,253 +365,219 @@ const predictionActivity = ref(null);
 </template>
 
 <style>
-/* Lesson 4 layout: numbered step cards inside each section.
-   (Global, not scoped: the cards wrap activity components.) */
-.step-sections {
-  /* padding: 0; */
-  position: relative;
+[data-page="lesson4"] {
+  /* Lesson 4 layout: numbered step cards inside each section.
+     (Page-scoped, not component-scoped: the cards wrap activity components.) */
+  .step-sections {
+    /* padding: 0; */
+    position: relative;
 
-  margin-bottom: 38px;
-  padding: 28px;
+    margin-bottom: 38px;
+    padding: 28px;
 
-  background: var(--paper);
+    background: var(--paper);
 
-  animation: pop-fade-in 0.5s ease;
-}
-.step-sections > * {
-  border: none;
-  box-shadow: none;
-  margin: 0;
-  padding: 0;
-}
-
-.step-heading-title {
-  display: inline-block;
-  align-items: center;
-
-  margin: -8px 0 22px;
-  padding: 9px 18px;
-
-  background: var(--yellow);
-  color: var(--charcoal);
-
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-
-  box-shadow: 0 3px 0 var(--charcoal);
-
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.035em;
-  text-transform: uppercase;
-}
-
-/* ---------- Step cards ---------- */
-
-.step-card {
-  margin-bottom: 20px;
-  padding: 24px;
-
-  background: var(--paper);
-  border: 2px solid var(--charcoal);
-  border-radius: 20px;
-  box-shadow: var(--shadow-small);
-}
-
-.step-card.setup-card {
-  border-top: 8px solid var(--blue);
-}
-
-.step-card.variables-card {
-  border-top: 8px solid var(--yellow);
-}
-
-.step-card.planning-card {
-  border-top: 8px solid var(--purple);
-}
-
-.step-card.tests-card {
-  border-top: 8px solid var(--mint);
-}
-
-/* tells students the question blanks are for them to fill in */
-.question-fill-instruction {
-  margin: 0 0 14px;
-  padding: 10px 14px;
-
-  background: var(--soft-yellow);
-  border: 2px solid var(--charcoal);
-  border-radius: 12px;
-
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.5;
-}
-
-/* separates the stages inside one card */
-.step-divider {
-  margin-top: 28px;
-  padding-top: 28px;
-  border-top: 2px dashed var(--line);
-}
-
-/* ---------- Step headings ---------- */
-
-.step-heading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.step-heading > span {
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-
-  min-width: 38px;
-  height: 38px;
-  padding: 0 8px;
-  box-sizing: border-box;
-
-  background: var(--blue);
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-
-  font-weight: 700;
-}
-
-.step-heading.prediction-heading > span {
-  background: var(--lavender);
-}
-
-.step-heading.observation-heading > span {
-  background: var(--soft-green);
-}
-
-.step-heading h3 {
-  margin: 0;
-  color: var(--text);
-  font-size: 1.15rem;
-}
-
-.step-eyebrow {
-  margin: 0 0 3px;
-
-  color: var(--purple);
-
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.step-instruction {
-  margin: 0 0 18px 50px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-/* ---------- Setup image ---------- */
-
-.ball-bounce-setup-image {
-  margin-top: 18px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: var(--soft-blue);
-  border: 2px dashed var(--charcoal);
-  border-radius: 16px;
-}
-
-.ball-bounce-setup-image img {
-  display: block;
-  width: 100%;
-  max-width: 700px;
-  height: auto;
-  border-radius: 12px;
-}
-
-/* ---------- Why repeat each test ---------- */
-
-.repeat-tests-card {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 18px;
-}
-
-.repeat-tests-explanation,
-.repeat-tests-example {
-  padding: 22px;
-
-  background: white;
-  border: 2px solid var(--charcoal);
-  border-radius: 18px;
-  box-shadow: var(--shadow-small);
-}
-
-.repeat-tests-explanation {
-  border-top: 8px solid var(--blue);
-}
-
-.repeat-tests-example {
-  border-top: 8px solid var(--yellow);
-}
-
-.repeat-tests-explanation p,
-.repeat-tests-example p {
-  margin: 0 0 12px;
-  line-height: 1.55;
-}
-
-.repeat-tests-explanation ul {
-  margin: 12px 0 0;
-  padding-left: 24px;
-}
-
-.repeat-tests-explanation li {
-  margin-bottom: 9px;
-  line-height: 1.45;
-}
-
-.repeat-tests-example h3 {
-  margin: 4px 0 12px;
-}
-
-.repeat-tests-label {
-  margin: 0;
-
-  color: var(--purple);
-
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.repeat-tests-image {
-  display: block;
-  width: 100%;
-  margin: 18px auto 0;
-  border: 2px solid var(--charcoal);
-  border-radius: 14px;
-}
-
-@media (max-width: 900px) {
-  .repeat-tests-card {
-    grid-template-columns: 1fr;
+    animation: pop-fade-in 0.5s ease;
   }
-}
+  .step-sections > * {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
 
-@media (max-width: 700px) {
+  .step-heading-title {
+    display: inline-block;
+    align-items: center;
+
+    margin: -8px 0 22px;
+    padding: 9px 18px;
+
+    background: var(--yellow);
+    color: var(--charcoal);
+
+    border: 2px solid var(--charcoal);
+    border-radius: 12px;
+
+    box-shadow: 0 3px 0 var(--charcoal);
+
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Step cards ---------- */
+
   .step-card {
-    padding: 18px;
+    margin-bottom: 20px;
+    padding: 24px;
+
+    background: var(--paper);
+    border: 2px solid var(--charcoal);
+    border-radius: 20px;
+    box-shadow: var(--shadow-small);
+  }
+
+  .step-card.setup-card {
+    border-top: 8px solid var(--blue);
+  }
+
+  .step-card.variables-card {
+    border-top: 8px solid var(--yellow);
+  }
+
+  .step-card.planning-card {
+    border-top: 8px solid var(--purple);
+  }
+
+  .step-card.tests-card {
+    border-top: 8px solid var(--mint);
+  }
+
+  /* separates the stages inside one card */
+  .step-divider {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 2px dashed var(--line);
+  }
+
+  /* ---------- Step headings ---------- */
+
+  .step-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .step-heading > span {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+
+    min-width: 38px;
+    height: 38px;
+    padding: 0 8px;
+    box-sizing: border-box;
+
+    background: var(--blue);
+    border: 2px solid var(--charcoal);
+    border-radius: 999px;
+
+    font-weight: 700;
+  }
+
+  .step-heading.prediction-heading > span {
+    background: var(--lavender);
+  }
+
+  .step-heading.observation-heading > span {
+    background: var(--soft-green);
+  }
+
+  .step-heading h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.15rem;
   }
 
   .step-instruction {
-    margin-left: 0;
+    margin: 0 0 18px 50px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ---------- Setup image ---------- */
+
+  .ball-bounce-setup-image {
+    margin-top: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--soft-blue);
+    border: 2px dashed var(--charcoal);
+    border-radius: 16px;
+  }
+
+  .ball-bounce-setup-image img {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  /* ---------- Why repeat each test ---------- */
+
+  .repeat-tests-card {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 18px;
+  }
+
+  .repeat-tests-explanation,
+  .repeat-tests-example {
+    padding: 22px;
+
+    background: white;
+    border: 2px solid var(--charcoal);
+    border-radius: 18px;
+    box-shadow: var(--shadow-small);
+  }
+
+  .repeat-tests-explanation {
+    border-top: 8px solid var(--blue);
+  }
+
+  .repeat-tests-example {
+    border-top: 8px solid var(--yellow);
+  }
+
+  .repeat-tests-explanation p,
+  .repeat-tests-example p {
+    margin: 0 0 12px;
+    line-height: 1.55;
+  }
+
+  .repeat-tests-explanation ul {
+    margin: 12px 0 0;
+    padding-left: 24px;
+  }
+
+  .repeat-tests-explanation li {
+    margin-bottom: 9px;
+    line-height: 1.45;
+  }
+
+  .repeat-tests-example h3 {
+    margin: 4px 0 12px;
+  }
+
+  .repeat-tests-image {
+    display: block;
+    width: 100%;
+    margin: 18px auto 0;
+    border: 2px solid var(--charcoal);
+    border-radius: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .repeat-tests-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .step-card {
+      padding: 18px;
+    }
+
+    .step-instruction {
+      margin-left: 0;
+    }
   }
 }
 </style>
