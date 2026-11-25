@@ -13,6 +13,11 @@
         "command": "workbench.action.terminal.kill"
       },
       { "name": "▶ Build", "command": "npm run build" },
+      {
+        "name": "▶ Run Storybook",
+        "useVsCodeApi": true,
+        "command": "multiCommand.startStorybook"
+      },
     ]
   },
   "multiCommand.commands": [
@@ -23,6 +28,15 @@
         { "command": "workbench.action.terminal.new" },
         { "command": "workbench.action.terminal.sendSequence", "args": { "text": "npm run dev\r" } },
         { "command": "simpleBrowser.show", "args": "http://localhost:5173/" }
+      ]
+    },
+    {
+      "command": "multiCommand.startStorybook",
+      "interval": 3000,
+      "sequence": [
+        { "command": "workbench.action.terminal.new" },
+        { "command": "workbench.action.terminal.sendSequence", "args": { "text": "npm run storybook\r" } },
+        { "command": "simpleBrowser.show", "args": "http://localhost:6006/" }
       ]
     }
   ]
