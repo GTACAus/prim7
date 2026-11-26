@@ -28,7 +28,6 @@ defineProps({
 <style scoped>
 .load-spinner {
   --ring-width: calc(var(--spinner-size) * 0.12);
-
   display: inline-flex;
   flex-direction: column;
   align-items: center;
