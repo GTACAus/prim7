@@ -1824,7 +1824,7 @@ onBeforeUnmount(() => {
                       :src="'../videos/lesson5/bubbles.mp4'"
                       muted
                       playsinline
-                      preload="auto"
+                      preload="metadata"
                       :class="{ 'is-visible': bubblesVisible }"
                       aria-label="Bubbles rising through the water"
                       @canplay="playBubbles"
@@ -1835,7 +1835,7 @@ onBeforeUnmount(() => {
                       muted
                       playsinline
                       loop
-                      preload="auto"
+                      preload="metadata"
                       :class="{ 'is-visible': waterVisible }"
                       aria-label="Camera footage of the shallow ocean waters"
                     ></video>
@@ -2374,7 +2374,6 @@ onBeforeUnmount(() => {
 </style>
 
 <style>
-
 /* Drag-and-drop styles for this lesson. Scoped to the lesson 7 page, not this
    component: the drag ghost lives on <body>. Kept before the block below so
    the cascade order is unchanged. */
@@ -2863,7 +2862,6 @@ onBeforeUnmount(() => {
 </style>
 
 <style>
-
 /* Lesson 7 (Expedition Log). Colours come from the "dark" theme in
    src/styles/themes.css (--exp-* variables).
    Scoped to the lesson 7 page ([data-page]) rather than to this component:
@@ -2900,7 +2898,7 @@ onBeforeUnmount(() => {
     padding: 18px 24px;
     margin-bottom: 12px;
 
-    background-image: url(../../images/lesson7/expedition-banner.png);
+    background-image: url(../images/lesson7/expedition-banner.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -3374,7 +3372,12 @@ onBeforeUnmount(() => {
     width: 0%;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, var(--green), var(--blue), var(--purple));
+    background: linear-gradient(
+      90deg,
+      var(--green),
+      var(--blue),
+      var(--purple)
+    );
     transition: width 0.35s ease;
   }
 
