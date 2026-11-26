@@ -171,8 +171,7 @@ defineExpose({ values, checked, activeSet, isComplete, reset });
   </Activity>
 </template>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 /* ---------- Bar graph practice ---------- */
 .bar-builder-controls {
@@ -192,13 +191,13 @@ defineExpose({ values, checked, activeSet, isComplete, reset });
   border: 2px solid var(--charcoal);
   border-radius: 13px;
 }
-.bar-builder-row label {
+.bar-builder-row :deep(label) {
   grid-column: 1 / -1;
   grid-row: 1;
   font-weight: 700;
   font-size: 15px;
 }
-.bar-builder-row output {
+.bar-builder-row :deep(output) {
   grid-row: 2;
   grid-column: 2;
   width: 42px;
@@ -210,7 +209,7 @@ defineExpose({ values, checked, activeSet, isComplete, reset });
   border-radius: 10px;
   font-weight: 700;
 }
-.bar-builder-row input[type="range"] {
+.bar-builder-row :deep(input[type="range"]) {
   grid-row: 2;
   grid-column: 1;
   width: 100%;

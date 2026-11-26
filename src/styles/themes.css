@@ -198,15 +198,6 @@
   --background-hover: rgba(57, 211, 255, 0.25);
 }
 
-:root[data-theme="dark"] .equipment-symbol-row {
-  background: var(--surface);
-  border: 1px solid rgba(117, 221, 232, 0.35);
-}
-
-:root[data-theme="dark"] .equipment-symbol-row svg :is(path, circle) {
-  stroke: var(--exp-cyan-soft);
-}
-
 :root[data-theme="dark"] .pdf-modal-actions .general-button {
   --background: var(--exp-cyan);
   --color: var(--exp-navy);
@@ -283,11 +274,13 @@
 
 :root[data-theme="simple"] .section-title {
   background: none;
+  padding: 5px;
+  padding-left: 15px;
   border: none;
+  border-left: 3px solid var(--accent);
   box-shadow: none;
-  margin: 0;
-  margin-left: -10px;
-  font-size: clamp(1.2rem, 1.6vw, 1.55rem);
+  margin: 0 0 10px 0;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
   letter-spacing: -0.025em;
 }
 

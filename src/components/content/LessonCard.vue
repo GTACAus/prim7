@@ -5,7 +5,7 @@ import ContentBox from "../ui/ContentBox.vue";
 <template>
   <ContentBox class="intro-card">
     <div class="intro-eyebrow">
-      <slot name="eyebrow"></slot>
+      <slot name="eyebrow" />
     </div>
     <slot name="content" />
   </ContentBox>

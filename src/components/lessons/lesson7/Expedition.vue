@@ -917,14 +917,33 @@ const reduceMotion = window.matchMedia(
 let natural = { left: 0, width: 0, height: 0 };
 let ticking = false;
 
+/* An element's box in the window, from its layout (offsetLeft etc.) rather than
+   getBoundingClientRect(), which includes CSS transforms on its ancestors. The
+   page's enter transition (App.vue) scales the whole page while this mounts, so
+   a getBoundingClientRect() measurement then would be shrunk and shifted. */
+function layoutBox(el) {
+  let left = 0;
+  let top = 0;
+  for (let node = el; node; node = node.offsetParent) {
+    left += node.offsetLeft + (node.offsetParent?.clientLeft ?? 0);
+    top += node.offsetTop + (node.offsetParent?.clientTop ?? 0);
+  }
+  return {
+    left: left - window.scrollX,
+    top: top - window.scrollY,
+    width: el.offsetWidth,
+    height: el.offsetHeight,
+  };
+}
+
 function measure() {
   const el = main.value;
   if (!el) return;
   el.style.width = "";
   el.style.marginLeft = "";
   el.style.height = "";
-  const rect = el.getBoundingClientRect();
-  natural = { left: rect.left, width: rect.width, height: rect.height };
+  const box = layoutBox(el);
+  natural = { left: box.left, width: box.width, height: box.height };
   updateZoom();
 }
 
@@ -936,7 +955,7 @@ function updateZoom() {
   const vh = window.innerHeight;
   const progress = Math.min(
     1,
-    Math.max(0, (vh - zoomStage.value.getBoundingClientRect().top) / vh),
+    Math.max(0, (vh - layoutBox(zoomStage.value).top) / vh),
   );
 
   const targetWidth = vw * MAX_WIDTH_FRACTION;
@@ -1805,7 +1824,7 @@ onBeforeUnmount(() => {
                       :src="'../videos/lesson5/bubbles.mp4'"
                       muted
                       playsinline
-                      preload="auto"
+                      preload="metadata"
                       :class="{ 'is-visible': bubblesVisible }"
                       aria-label="Bubbles rising through the water"
                       @canplay="playBubbles"
@@ -1816,7 +1835,7 @@ onBeforeUnmount(() => {
                       muted
                       playsinline
                       loop
-                      preload="auto"
+                      preload="metadata"
                       :class="{ 'is-visible': waterVisible }"
                       aria-label="Camera footage of the shallow ocean waters"
                     ></video>
@@ -2355,8 +2374,8 @@ onBeforeUnmount(() => {
 </style>
 
 <style>
-/* Drag-and-drop styles for this lesson (moved from styles/lesson5_styles/drag_and_drop.css;
-   the other lessons use DragDrop.vue). Kept before the block below so
+/* Drag-and-drop styles for this lesson. Scoped to the lesson 7 page, not this
+   component: the drag ghost lives on <body>. Kept before the block below so
    the cascade order is unchanged. */
 /* ==================================================
    GENERIC DRAG AND DROP ACTIVITY STYLES
@@ -2377,150 +2396,449 @@ onBeforeUnmount(() => {
    Override --dd-item-size on the root to resize every icon and slot.
    ================================================== */
 
-.dd-activity {
-  --dd-item-size: 68px;
-  --dd-ink: var(--charcoal, #30332f);
-  --dd-accent: var(--exp-cyan, #39d3ff);
-  margin-top: 18px;
-}
-
-/* ---------- two-box board ---------- */
-
-.dd-board {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.dd-reference,
-.dd-target {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border: 3px solid var(--dd-ink);
-  border-radius: 18px;
-  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.2);
-  overflow: hidden;
-}
-
-.dd-reference {
-  display: grid;
-  place-items: center;
-  background: #071a30;
-  color: var(--exp-muted, #aac6d8);
-  font-weight: 700;
-  text-align: center;
-}
-
-.dd-reference img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.dd-target {
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(48, 51, 47, 0.06) 0 1px,
-      transparent 1px 28px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(48, 51, 47, 0.06) 0 1px,
-      transparent 1px 28px
-    ),
-    white;
-}
-
-.dd-caption {
-  position: absolute;
-  top: 8px;
-  left: 12px;
-  z-index: 1;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--dd-ink);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* ---------- slots ---------- */
-
-[data-dd-slot] {
-  display: grid;
-  place-items: center;
-  box-sizing: border-box;
-  width: var(--dd-item-size);
-  height: var(--dd-item-size);
-  border: 3px dashed rgba(48, 51, 47, 0.45);
-  border-radius: 50%;
-  background: rgba(57, 211, 255, 0.08);
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.15s ease;
-}
-
-.dd-target [data-dd-slot] {
-  position: absolute;
-  left: var(--dd-x, 50%);
-  top: var(--dd-y, 50%);
-  transform: translate(-50%, -50%);
-}
-
-[data-dd-slot].dd-filled {
-  border-style: solid;
-  border-color: transparent;
-  background: transparent;
-}
-
-[data-dd-slot].dd-hover,
-.dd-has-selection [data-dd-slot]:not(.dd-filled):hover {
-  border-style: solid;
-  border-color: var(--dd-accent);
-  background: rgba(57, 211, 255, 0.28);
-}
-
-.dd-target [data-dd-slot].dd-hover {
-  transform: translate(-50%, -50%) scale(1.1);
-}
-
-[data-dd-slot]:focus-visible,
-[data-dd-item]:focus-visible {
-  outline: 3px solid var(--dd-accent);
-  outline-offset: 3px;
-}
-
-/* strictSlots: brief shake on a slot that just refused a wrong item. */
-[data-dd-slot].dd-rejected {
-  border-color: #d64545;
-  animation: dd-reject-shake 0.4s ease;
-}
-
-@keyframes dd-reject-shake {
-  0%,
-  100% {
-    transform: translateX(0);
+[data-page="lesson7"] {
+  .dd-activity {
+    --dd-item-size: 68px;
+    --dd-ink: var(--charcoal, #30332f);
+    --dd-accent: var(--exp-cyan, #39d3ff);
+    margin-top: 18px;
   }
-  20% {
-    transform: translateX(-6px);
-  }
-  40% {
-    transform: translateX(5px);
-  }
-  60% {
-    transform: translateX(-4px);
-  }
-  80% {
-    transform: translateX(3px);
-  }
-}
 
-.dd-target [data-dd-slot].dd-rejected {
-  animation-name: dd-reject-shake-positioned;
+  /* ---------- two-box board ---------- */
+
+  .dd-board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .dd-reference,
+  .dd-target {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border: 3px solid var(--dd-ink);
+    border-radius: 18px;
+    box-shadow: 0 4px 0 rgba(48, 51, 47, 0.2);
+    overflow: hidden;
+  }
+
+  .dd-reference {
+    display: grid;
+    place-items: center;
+    background: #071a30;
+    color: var(--exp-muted, #aac6d8);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .dd-reference img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .dd-target {
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(48, 51, 47, 0.06) 0 1px,
+        transparent 1px 28px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(48, 51, 47, 0.06) 0 1px,
+        transparent 1px 28px
+      ),
+      white;
+  }
+
+  .dd-caption {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    z-index: 1;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dd-ink);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* ---------- slots ---------- */
+
+  [data-dd-slot] {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    width: var(--dd-item-size);
+    height: var(--dd-item-size);
+    border: 3px dashed rgba(48, 51, 47, 0.45);
+    border-radius: 50%;
+    background: rgba(57, 211, 255, 0.08);
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .dd-target [data-dd-slot] {
+    position: absolute;
+    left: var(--dd-x, 50%);
+    top: var(--dd-y, 50%);
+    transform: translate(-50%, -50%);
+  }
+
+  [data-dd-slot].dd-filled {
+    border-style: solid;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  [data-dd-slot].dd-hover,
+  .dd-has-selection [data-dd-slot]:not(.dd-filled):hover {
+    border-style: solid;
+    border-color: var(--dd-accent);
+    background: rgba(57, 211, 255, 0.28);
+  }
+
+  .dd-target [data-dd-slot].dd-hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  [data-dd-slot]:focus-visible,
+  [data-dd-item]:focus-visible {
+    outline: 3px solid var(--dd-accent);
+    outline-offset: 3px;
+  }
+
+  /* strictSlots: brief shake on a slot that just refused a wrong item. */
+  [data-dd-slot].dd-rejected {
+    border-color: #d64545;
+    animation: dd-reject-shake 0.4s ease;
+  }
+
+  .dd-target [data-dd-slot].dd-rejected {
+    animation-name: dd-reject-shake-positioned;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-dd-slot].dd-rejected {
+      animation: none;
+    }
+  }
+
+  /* ---------- items ---------- */
+
+  .dd-tray {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    min-height: calc(var(--dd-item-size) + 28px);
+    margin-top: 18px;
+    padding: 14px;
+    border: 3px solid var(--dd-ink);
+    border-radius: 18px;
+    background: var(--soft-blue, #dff3ff);
+    box-shadow: 0 4px 0 rgba(48, 51, 47, 0.2);
+  }
+
+  [data-dd-item] {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    width: var(--dd-item-size);
+    height: var(--dd-item-size);
+    border: 3px solid var(--dd-ink);
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 3px 0 rgba(48, 51, 47, 0.3);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease;
+  }
+
+  [data-dd-item]:hover:not(.dd-placed) {
+    transform: translateY(-2px);
+  }
+
+  [data-dd-item] svg,
+  [data-dd-item] img {
+    width: 78%;
+    height: 78%;
+    pointer-events: none;
+  }
+
+  [data-dd-item].dd-placed {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  [data-dd-item].dd-selected {
+    border-color: var(--dd-accent);
+    box-shadow: 0 0 0 4px rgba(57, 211, 255, 0.45);
+  }
+
+  [data-dd-item].dd-dragging {
+    opacity: 0.3;
+  }
+
+  .dd-is-dragging [data-dd-item] {
+    cursor: grabbing;
+  }
+
+  .dd-ghost {
+    position: fixed;
+    z-index: 10000;
+    margin: 0;
+    pointer-events: none;
+    cursor: grabbing;
+    transform: scale(1.12) rotate(-4deg);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 800px) {
+    .dd-board {
+      grid-template-columns: 1fr;
+    }
+
+    .dd-activity {
+      --dd-item-size: 58px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-dd-slot],
+    [data-dd-item] {
+      transition: none;
+    }
+  }
+
+  /* ==================================================
+     ITEM MATCH (multiple-choice) ACTIVITY
+     One reference image at a time, buttons below it instead of a side tray.
+     ================================================== */
+
+  .item-match-activity {
+    --dd-item-size: 150px;
+    --dd-ink: var(--charcoal, #30332f);
+    --dd-accent: var(--exp-cyan, #39d3ff);
+    margin-top: 18px;
+  }
+
+  .item-match-reference {
+    position: relative;
+    box-sizing: border-box; /* so padding counts toward aspect-ratio/max-width instead of inflating past them */
+    max-width: 350px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    aspect-ratio: 4 / 3;
+    padding: 16px;
+    text-align: center;
+    background: white;
+  }
+
+  /* Wraps the prompt image. Without min-width/min-height: 0 a flex item won't
+     shrink below its content's intrinsic size, so a large source image could
+     force this div wider/taller than .item-match-reference - which, combined
+     with .dd-reference's overflow: hidden on the same element, is what was
+     clipping the image instead of letting object-fit below do its job. */
+  .item-match-reference [data-im-prompt-content] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    flex: 1 1 auto;
+  }
+
+  .item-match-reference img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .item-match-options {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .item-match-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    min-height: 100px;
+    justify-content: center;
+    overflow: hidden; /* belt-and-suspenders: nothing can visually poke past the rounded border */
+    border: 3px solid var(--dd-ink);
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 3px 0 rgba(48, 51, 47, 0.3);
+    cursor: pointer;
+    font: inherit;
+    /* So plain-text option content (no wrapping <span>, e.g. "Jug") is
+       visible instead of inheriting the page's default text colour. */
+    color: var(--dd-ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  /* max-width/max-height (not width/height) so these shrink with the button
+     instead of forcing it wider - a flex item's cross-axis size (width, here,
+     since .item-match-option is a column flex container) isn't shrunk to fit
+     by default, so a fixed width/height just overflows a narrower button.
+     --dd-item-size is now only the upper bound, not the fixed size. */
+  .item-match-option svg,
+  .item-match-option img {
+    max-width: 100%;
+    max-height: min(100%, var(--dd-item-size));
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .item-match-option span {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--dd-ink);
+  }
+
+  .item-match-option:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  .item-match-option:focus-visible {
+    outline: 3px solid var(--dd-accent);
+    outline-offset: 3px;
+  }
+
+  .item-match-option.correct {
+    border-color: #2fae66;
+    background: rgba(47, 174, 102, 0.15);
+  }
+
+  .item-match-option.incorrect {
+    border-color: #d64545;
+    background: rgba(214, 69, 69, 0.12);
+  }
+
+  .item-match-option:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+
+  @media (max-width: 640px) {
+    .item-match-options {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ==================================================
+     ITEM MATCH - SETS MODE
+     Main diagram frame (collects solved rounds) + a row with the current
+     round's prompt on the left and that round's own options on the right.
+     ================================================== */
+
+  /* Wraps the <svg data-im-diagram> and overlays the empty-state placeholder
+     on top of it, so the placeholder can be plain, centred HTML text while the
+     diagram underneath stays pure SVG coordinate space. */
+  .item-match-diagram-frame {
+    --dd-ink: var(--charcoal, #30332f);
+    position: relative;
+    min-height: 220px;
+    margin-bottom: 18px;
+    border: 3px solid var(--dd-ink);
+    border-radius: 18px;
+    background: white;
+    overflow: hidden;
+  }
+
+  /* The diagram's own coordinate system comes entirely from its viewBox
+     attribute in the markup - this just makes it fill the frame. */
+  .item-match-diagram {
+    display: block;
+    width: 100%;
+    height: 220px;
+    color: var(
+      --dd-ink
+    ); /* available to pieces that use fill/stroke="currentColor" */
+  }
+
+  .item-match-diagram-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--dd-ink);
+    opacity: 0.6;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  /* A solved piece is a <g transform="translate(x,y)"> inside the diagram's
+     own coordinate space - size any <svg>/<image> you put inside it with
+     explicit width/height attributes (in that same coordinate space), not
+     CSS, so nested-SVG sizing stays predictable across browsers. */
+  .im-diagram-piece text {
+    font-size: 13px;
+    font-weight: 700;
+    fill: var(--dd-ink, #30332f);
+  }
+
+  .item-match-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 18px;
+    align-items: center;
+  }
+
+  .item-match-row .item-match-reference {
+    margin: 0;
+  }
+
+  .item-match-row .item-match-options {
+    margin-top: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    .item-match-row {
+      grid-template-columns: 1fr;
+    }
+
+    .item-match-row .item-match-options {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
 }
 
 @keyframes dd-reject-shake-positioned {
@@ -2541,328 +2859,14 @@ onBeforeUnmount(() => {
     transform: translate(calc(-50% + 3px), -50%);
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  [data-dd-slot].dd-rejected {
-    animation: none;
-  }
-}
-
-/* ---------- items ---------- */
-
-.dd-tray {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px;
-  min-height: calc(var(--dd-item-size) + 28px);
-  margin-top: 18px;
-  padding: 14px;
-  border: 3px solid var(--dd-ink);
-  border-radius: 18px;
-  background: var(--soft-blue, #dff3ff);
-  box-shadow: 0 4px 0 rgba(48, 51, 47, 0.2);
-}
-
-[data-dd-item] {
-  display: grid;
-  place-items: center;
-  box-sizing: border-box;
-  width: var(--dd-item-size);
-  height: var(--dd-item-size);
-  border: 3px solid var(--dd-ink);
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.3);
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease;
-}
-
-[data-dd-item]:hover:not(.dd-placed) {
-  transform: translateY(-2px);
-}
-
-[data-dd-item] svg,
-[data-dd-item] img {
-  width: 78%;
-  height: 78%;
-  pointer-events: none;
-}
-
-[data-dd-item].dd-placed {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  box-shadow: none;
-  border: none;
-}
-
-[data-dd-item].dd-selected {
-  border-color: var(--dd-accent);
-  box-shadow: 0 0 0 4px rgba(57, 211, 255, 0.45);
-}
-
-[data-dd-item].dd-dragging {
-  opacity: 0.3;
-}
-
-.dd-is-dragging [data-dd-item] {
-  cursor: grabbing;
-}
-
-.dd-ghost {
-  position: fixed;
-  z-index: 10000;
-  margin: 0;
-  pointer-events: none;
-  cursor: grabbing;
-  transform: scale(1.12) rotate(-4deg);
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
-}
-
-@media (max-width: 800px) {
-  .dd-board {
-    grid-template-columns: 1fr;
-  }
-
-  .dd-activity {
-    --dd-item-size: 58px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-dd-slot],
-  [data-dd-item] {
-    transition: none;
-  }
-}
-
-/* ==================================================
-   ITEM MATCH (multiple-choice) ACTIVITY
-   One reference image at a time, buttons below it instead of a side tray.
-   ================================================== */
-
-.item-match-activity {
-  --dd-item-size: 150px;
-  --dd-ink: var(--charcoal, #30332f);
-  --dd-accent: var(--exp-cyan, #39d3ff);
-  margin-top: 18px;
-}
-
-.item-match-reference {
-  position: relative;
-  box-sizing: border-box; /* so padding counts toward aspect-ratio/max-width instead of inflating past them */
-  max-width: 350px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  aspect-ratio: 4 / 3;
-  padding: 16px;
-  text-align: center;
-  background: white;
-}
-
-/* Wraps the prompt image. Without min-width/min-height: 0 a flex item won't
-   shrink below its content's intrinsic size, so a large source image could
-   force this div wider/taller than .item-match-reference - which, combined
-   with .dd-reference's overflow: hidden on the same element, is what was
-   clipping the image instead of letting object-fit below do its job. */
-.item-match-reference [data-im-prompt-content] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-width: 0;
-  min-height: 0;
-  flex: 1 1 auto;
-}
-
-.item-match-reference img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.item-match-options {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 20px;
-}
-
-.item-match-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  box-sizing: border-box;
-  min-height: 100px;
-  justify-content: center;
-  overflow: hidden; /* belt-and-suspenders: nothing can visually poke past the rounded border */
-  border: 3px solid var(--dd-ink);
-  border-radius: 18px;
-  background: white;
-  box-shadow: 0 3px 0 rgba(48, 51, 47, 0.3);
-  cursor: pointer;
-  font: inherit;
-  /* So plain-text option content (no wrapping <span>, e.g. "Jug") is
-     visible instead of inheriting the page's default text colour. */
-  color: var(--dd-ink);
-  font-size: 0.85rem;
-  font-weight: 700;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background 0.15s ease,
-    border-color 0.15s ease;
-}
-
-/* max-width/max-height (not width/height) so these shrink with the button
-   instead of forcing it wider - a flex item's cross-axis size (width, here,
-   since .item-match-option is a column flex container) isn't shrunk to fit
-   by default, so a fixed width/height just overflows a narrower button.
-   --dd-item-size is now only the upper bound, not the fixed size. */
-.item-match-option svg,
-.item-match-option img {
-  max-width: 100%;
-  max-height: min(100%, var(--dd-item-size));
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.item-match-option span {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--dd-ink);
-}
-
-.item-match-option:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-
-.item-match-option:focus-visible {
-  outline: 3px solid var(--dd-accent);
-  outline-offset: 3px;
-}
-
-.item-match-option.correct {
-  border-color: #2fae66;
-  background: rgba(47, 174, 102, 0.15);
-}
-
-.item-match-option.incorrect {
-  border-color: #d64545;
-  background: rgba(214, 69, 69, 0.12);
-}
-
-.item-match-option:disabled {
-  cursor: default;
-  opacity: 0.55;
-}
-
-@media (max-width: 640px) {
-  .item-match-options {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* ==================================================
-   ITEM MATCH - SETS MODE
-   Main diagram frame (collects solved rounds) + a row with the current
-   round's prompt on the left and that round's own options on the right.
-   ================================================== */
-
-/* Wraps the <svg data-im-diagram> and overlays the empty-state placeholder
-   on top of it, so the placeholder can be plain, centred HTML text while the
-   diagram underneath stays pure SVG coordinate space. */
-.item-match-diagram-frame {
-  --dd-ink: var(--charcoal, #30332f);
-  position: relative;
-  min-height: 220px;
-  margin-bottom: 18px;
-  border: 3px solid var(--dd-ink);
-  border-radius: 18px;
-  background: white;
-  overflow: hidden;
-}
-
-/* The diagram's own coordinate system comes entirely from its viewBox
-   attribute in the markup - this just makes it fill the frame. */
-.item-match-diagram {
-  display: block;
-  width: 100%;
-  height: 220px;
-  color: var(
-    --dd-ink
-  ); /* available to pieces that use fill/stroke="currentColor" */
-}
-
-.item-match-diagram-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--dd-ink);
-  opacity: 0.6;
-  text-align: center;
-  pointer-events: none;
-}
-
-/* A solved piece is a <g transform="translate(x,y)"> inside the diagram's
-   own coordinate space - size any <svg>/<image> you put inside it with
-   explicit width/height attributes (in that same coordinate space), not
-   CSS, so nested-SVG sizing stays predictable across browsers. */
-.im-diagram-piece text {
-  font-size: 13px;
-  font-weight: 700;
-  fill: var(--dd-ink, #30332f);
-}
-
-.item-match-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: 18px;
-  align-items: center;
-}
-
-.item-match-row .item-match-reference {
-  margin: 0;
-}
-
-.item-match-row .item-match-options {
-  margin-top: 0;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-@media (max-width: 640px) {
-  .item-match-row {
-    grid-template-columns: 1fr;
-  }
-
-  .item-match-row .item-match-options {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
 </style>
 
 <style>
 /* Lesson 7 (Expedition Log). Colours come from the "dark" theme in
-   src/styles/themes.css (--exp-* variables). Not scoped: rules reach into
-   slotted / child content. */
+   src/styles/themes.css (--exp-* variables).
+   Scoped to the lesson 7 page ([data-page]) rather than to this component:
+   these rules also style the page around the game (Lesson7View, the header),
+   the child components and the drag ghost, which lives on <body>. */
 
 /* ==================================================
    EXPEDITION LOG (lesson 7)
@@ -2874,612 +2878,2066 @@ onBeforeUnmount(() => {
    theme variables; only the game itself is styled here.
    ================================================== */
 
-.expedition-page.page {
-  padding: 18px 0 0;
-
-  font-family: "IBM Plex Mono", monospace;
-}
-
-/* ---------- Top banner ---------- */
-
-.expedition-banner {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 120px 1fr auto;
-  align-items: center;
-  gap: 18px;
-  min-height: fit-content;
-  padding: 18px 24px;
-  margin-bottom: 12px;
-
-  background-image: url(../../images/lesson7/expedition-banner.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 3px solid var(--exp-cyan);
-  border-radius: 24px;
-  box-shadow: var(--exp-shadow);
-  color: white;
-}
-
-.expedition-banner::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 5px;
-  background: linear-gradient(
-    90deg,
-    var(--green),
-    var(--blue),
-    var(--purple),
-    var(--orange)
-  );
-}
-
-.submarine-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-
-  border-radius: 16px;
-}
-
-.submarine-container model-viewer {
-  position: relative;
-  align-self: flex-start;
-  z-index: 2;
-
-  width: 100%;
-  height: 100%;
-  background: transparent;
-}
-
-.submarine-glow {
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-
-  width: 150px;
-  height: 150px;
-
-  left: var(--glow-x, 50%);
-  top: var(--glow-y, 50%);
-
-  transform: translate(-50%, -50%);
-
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.65) 0%,
-    rgba(255, 255, 255, 0.35) 25%,
-    rgba(255, 255, 255, 0.12) 50%,
-    transparent 75%
-  );
-
-  filter: blur(15px);
-}
-
-.banner-copy {
-  text-align: center;
-}
-
-.banner-kicker {
-  margin: 0 0 4px;
-  color: var(--exp-cyan);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.expedition-banner h1 {
-  margin: 0;
-  color: white;
-  font-family: "Oxanium", sans-serif;
-  font-size: clamp(2.3rem, 5vw, 4.8rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  text-shadow: 0 5px 0 rgba(0, 0, 0, 0.32);
-}
-
-.expedition-banner h2 {
-  margin: 8px 0 0;
-  color: var(--exp-cyan);
-  font-size: clamp(1rem, 2vw, 1.55rem);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.field-guide-button {
-  --background-colour: var(--yellow);
-  color: var(--exp-navy-dark) !important;
-}
-
-/* ---------- teacher stage overview ---------- */
-
-.stage-overview-button {
-  --background-colour: var(--purple);
-}
-
-.stage-overview {
-  min-height: 600px;
-  padding: 26px;
-  color: var(--exp-white);
-  animation: pop-fade-in 0.35s ease;
-}
-
-.stage-overview-header {
-  width: min(920px, 100%);
-  margin: 0 auto 18px;
-}
-
-.stage-overview-header h3 {
-  margin: 4px 0 6px;
-  font-family: "Oxanium", sans-serif;
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
-}
-
-.stage-overview-header p:last-child {
-  margin: 0;
-  color: var(--exp-muted);
-}
-
-.stage-overview-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 16px;
-  width: min(920px, 100%);
-  margin: 0 auto;
-}
-
-.stage-overview-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 12px;
-  background: var(--mission-bg);
-  border: 3px solid rgba(117, 221, 232, 0.35);
-  border-radius: 18px;
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
-  color: var(--exp-white);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.stage-overview-card:hover,
-.stage-overview-card:focus-visible {
-  transform: translateY(-3px);
-  border-color: var(--exp-cyan);
-}
-
-.stage-overview-card.current {
-  border-color: var(--yellow);
-}
-
-.stage-overview-card.complete .stage-progress-chip {
-  background: var(--mint);
-}
-
-.stage-overview-card .stage-progress-complete-label {
-  --background-colour: var(--mint);
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  display: none;
-  margin: 0;
-  padding: 5px 10px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.45) 0%,
-      rgba(255, 255, 255, 0) 45%,
-      rgba(0, 0, 0, 0.12) 100%
-    ),
-    var(--background-colour, var(--exp-cyan));
-  border: none;
-  border-radius: 99px;
-  box-shadow:
-    0 4px 0 color-mix(in srgb, var(--background-colour) 55%, black 45%),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -4px 6px rgba(0, 0, 0, 0.18);
-  color: var(--exp-navy);
-  font-size: small;
-  font-weight: 700;
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-
-.stage-overview-card.complete .stage-progress-complete-label {
-  display: inline;
-}
-
-.stage-overview-card strong {
-  font-family: "Oxanium", sans-serif;
-  font-size: 1rem;
-  line-height: 1.25;
-}
-
-.stage-overview-media {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: rgba(57, 211, 255, 0.08);
-  border-radius: 12px;
-}
-
-.stage-overview-media :is(img, video) {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.stage-overview-media.is-empty {
-  display: grid;
-  place-items: center;
-  color: var(--exp-cyan);
-  font-family: "Share Tech Mono", monospace;
-  font-size: 2.4rem;
-}
-
-.expedition-banner h1,
-.expedition-banner h2,
-.console-heading,
-.mission-label,
-.mission-window h3,
-.start-card h3 {
-  font-family: "Oxanium", sans-serif;
-  font-weight: 700;
-}
-
-.mission-window-bar,
-.banner-kicker,
-.substage-nav-title,
-.m5-status-strip,
-.live-badge,
-.image-captured-badge {
-  font-family: "Share Tech Mono", monospace;
-}
-
-/* ---------- Scroll-driven zoom for #expedition-main ---------- */
-
-.expedition-zoom-stage {
-  position: relative;
-  /* Natural (unzoomed) width: same as the page content width on the other
-     lessons. The console grows from this to nearly the full window as you
-     scroll (see updateZoom in Expedition.vue). */
-  width: min(1180px, 94%);
-  margin: 0 auto;
-  height: 100vh;
-}
-
-.expedition-zoom-stage:fullscreen {
-  width: 100%;
-  margin: 0;
-}
-
-.expedition-zoom-stage.no-zoom {
-  height: auto;
-}
-
-#expedition-main {
-  position: sticky;
-  top: 16px;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  max-height: calc(100vh - 16px);
-  will-change: width, height, margin-left;
-}
-
-.expedition-zoom-stage.no-zoom #expedition-main {
-  position: static;
-  width: auto !important;
-  height: auto !important;
-  margin-left: 0 !important;
-  max-height: none;
-}
-
-/* The fixed page header slides up out of the way in step with the
-       same scroll progress that drives the zoom above. */
-.page-header {
-  will-change: transform;
-}
-
-/* ---------- Main game shell ---------- */
-
-.game-shell {
-  display: grid;
-  grid-template-columns:
-    minmax(245px, 0.3fr)
-    minmax(0, 1fr)
-    minmax(235px, 0.3fr);
-  grid-template-rows: minmax(0, 1fr);
-  gap: 12px;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.console-panel {
-  position: relative;
-  min-width: 0;
-  background: var(--exp-navy-dark);
-  border: 3px solid var(--exp-cyan);
-  border-radius: 22px;
-  box-shadow: var(--exp-shadow);
-  color: white;
-  overflow: hidden;
-}
-
-.console-heading {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 52px;
-  margin: 0;
-  padding: 12px 15px;
-  border-bottom: 2px solid rgba(117, 221, 232, 0.35);
-  background: rgba(255, 255, 255, 0.025);
-  color: white;
-  font-size: 0.86rem;
-  font-weight: 800;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.console-heading .light {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow:
-    18px 0 0 var(--yellow),
-    36px 0 0 var(--orange);
-  margin-right: 34px;
-}
-
-/* ---------- Left mission log ---------- */
-
-.mission-nav {
-  display: flex;
-  flex-direction: column;
-}
-
-.mission-list {
-  display: grid;
-  gap: 6px;
-  padding: 10px;
-  max-height: 80%;
-  overflow-y: scroll;
-}
-
-.mission-button {
-  position: relative;
-  width: 100%;
-  padding: 11px 12px 11px 50px;
-  border: 2px solid transparent;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--exp-muted);
-  font-family: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: 0.18s ease;
-}
-
-.mission-button::before {
-  content: attr(data-number);
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  translate: 0 -50%;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 2px solid currentColor;
-  font-weight: 800;
-  font-size: 0.75rem;
-}
-
-.mission-button:hover:not(:disabled) {
-  background: rgba(117, 221, 232, 0.12);
-  border-color: rgba(117, 221, 232, 0.5);
-  color: white;
-  transform: translateX(2px);
-}
-
-.mission-button.active {
-  background: var(--soft-yellow);
-  color: var(--charcoal);
-  border-color: var(--yellow);
-  box-shadow: inset 6px 0 0 var(--yellow);
-}
-
-.mission-button.complete {
-  color: white;
-  background: rgba(0, 199, 122, 0.16);
-  border-color: rgba(0, 199, 122, 0.65);
-}
-
-.mission-button.complete::after {
-  content: "✓";
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  color: var(--mint);
-  font-weight: 900;
-}
-
-.mission-button:disabled {
-  opacity: 0.42;
-  cursor: not-allowed;
-}
-
-.mission-button strong,
-.mission-button span {
-  display: block;
-}
-
-.mission-button strong {
-  margin-bottom: 2px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.mission-button span {
-  font-size: 0.7rem;
-  line-height: 1.25;
-}
-
-.mission-nav-footer {
-  margin-top: auto;
-  padding: 14px;
-  color: var(--exp-muted);
-  font-size: 0.78rem;
-  line-height: 1.45;
-  border-top: 2px solid rgba(117, 221, 232, 0.18);
-}
-
-.depth-meter {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 8px;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.depth-track {
-  height: 8px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.depth-fill {
-  width: 0%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--green), var(--blue), var(--purple));
-  transition: width 0.35s ease;
-}
-
-/* ---------- Main stage ---------- */
-
-.stage-panel {
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  overflow: hidden;
-}
-
-.stage-screen {
-  position: relative;
-  min-height: 0;
-  overflow: auto;
-  background:
-    linear-gradient(rgba(5, 18, 35, 0.72), rgba(5, 18, 35, 0.88)),
-    radial-gradient(
-      circle at 60% 10%,
-      rgba(57, 211, 255, 0.12),
-      transparent 28rem
+[data-page="lesson7"] {
+  .expedition-page.page {
+    padding: 18px 0 0;
+
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  /* ---------- Top banner ---------- */
+
+  .expedition-banner {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: center;
+    gap: 18px;
+    min-height: fit-content;
+    padding: 18px 24px;
+    margin-bottom: 12px;
+
+    background-image: url(../images/lesson7/expedition-banner.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid var(--exp-cyan);
+    border-radius: 24px;
+    box-shadow: var(--exp-shadow);
+    color: white;
+  }
+
+  .expedition-banner::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px;
+    background: linear-gradient(
+      90deg,
+      var(--green),
+      var(--blue),
+      var(--purple),
+      var(--orange)
     );
-}
+  }
 
-.start-screen {
-  min-height: 600px;
-  display: grid;
-  place-items: center;
-  padding: 38px;
-  text-align: center;
-}
+  .submarine-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-/* The prototype uses the HTML hidden attribute to swap the start
-       screen out for the active mission. Keep this after .start-screen
-       so the author stylesheet cannot accidentally force it visible. */
-.start-screen[hidden] {
-  display: none !important;
-}
+    width: 100%;
+    height: 100%;
 
-.start-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    border-radius: 16px;
+  }
 
-  width: min(760px, 92%);
-  padding: 42px 28px;
-  border: 3px solid var(--exp-cyan);
-  border-radius: 28px;
-  background: linear-gradient(
-    145deg,
-    rgba(10, 174, 217, 0.96),
-    rgba(78, 50, 232, 0.88)
-  );
-  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.34);
-}
+  .submarine-container model-viewer {
+    position: relative;
+    align-self: flex-start;
+    z-index: 2;
 
-.start-card .start-eyebrow {
-  margin: 0 0 12px;
-  color: var(--soft-yellow);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
 
-.start-card h3 {
-  margin: 0 auto 14px;
-  max-width: 680px;
-  color: white;
-  font-family: "Arial Black", Impact, sans-serif;
-  font-size: clamp(2rem, 5vw, 4.4rem);
-  line-height: 1.06;
-  text-transform: uppercase;
-  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
-}
+  .submarine-glow {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
 
-.start-card p {
-  max-width: 620px;
-  margin: 0 auto 24px;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
-}
+    width: 150px;
+    height: 150px;
 
-.start-button {
-  --background-colour: var(--yellow);
-  color: var(--charcoal) !important;
-  font-size: 1.05rem;
-}
+    left: var(--glow-x, 50%);
+    top: var(--glow-y, 50%);
 
-.expedition-mission.section {
-  display: none;
-  min-height: 600px;
-  margin: 0;
-  padding: 26px;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
-  color: white;
-}
+    transform: translate(-50%, -50%);
 
-.expedition-mission.active {
-  display: block;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.65) 0%,
+      rgba(255, 255, 255, 0.35) 25%,
+      rgba(255, 255, 255, 0.12) 50%,
+      transparent 75%
+    );
+
+    filter: blur(15px);
+  }
+
+  .banner-copy {
+    text-align: center;
+  }
+
+  .expedition-banner h1 {
+    margin: 0;
+    color: white;
+    font-family: "Oxanium", sans-serif;
+    font-size: clamp(2.3rem, 5vw, 4.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    text-shadow: 0 5px 0 rgba(0, 0, 0, 0.32);
+  }
+
+  .expedition-banner h2 {
+    margin: 8px 0 0;
+    color: var(--exp-cyan);
+    font-size: clamp(1rem, 2vw, 1.55rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .field-guide-button {
+    --background-colour: var(--yellow);
+    color: var(--exp-navy-dark) !important;
+  }
+
+  /* ---------- teacher stage overview ---------- */
+
+  .stage-overview-button {
+    --background-colour: var(--purple);
+  }
+
+  .stage-overview {
+    min-height: 600px;
+    padding: 26px;
+    color: var(--exp-white);
+    animation: pop-fade-in 0.35s ease;
+  }
+
+  .stage-overview-header {
+    width: min(920px, 100%);
+    margin: 0 auto 18px;
+  }
+
+  .stage-overview-header h3 {
+    margin: 4px 0 6px;
+    font-family: "Oxanium", sans-serif;
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+  }
+
+  .stage-overview-header p:last-child {
+    margin: 0;
+    color: var(--exp-muted);
+  }
+
+  .stage-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+    width: min(920px, 100%);
+    margin: 0 auto;
+  }
+
+  .stage-overview-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    background: var(--mission-bg);
+    border: 3px solid rgba(117, 221, 232, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
+    color: var(--exp-white);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .stage-overview-card:hover,
+  .stage-overview-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--exp-cyan);
+  }
+
+  .stage-overview-card.current {
+    border-color: var(--yellow);
+  }
+
+  .stage-overview-card.complete .stage-progress-chip {
+    background: var(--mint);
+  }
+
+  .stage-overview-card .stage-progress-complete-label {
+    --background-colour: var(--mint);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: none;
+    margin: 0;
+    padding: 5px 10px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(0, 0, 0, 0.12) 100%
+      ),
+      var(--background-colour, var(--exp-cyan));
+    border: none;
+    border-radius: 99px;
+    box-shadow:
+      0 4px 0 color-mix(in srgb, var(--background-colour) 55%, black 45%),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -4px 6px rgba(0, 0, 0, 0.18);
+    color: var(--exp-navy);
+    font-size: small;
+    font-weight: 700;
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+
+  .stage-overview-card.complete .stage-progress-complete-label {
+    display: inline;
+  }
+
+  .stage-overview-card strong {
+    font-family: "Oxanium", sans-serif;
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .stage-overview-media {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: rgba(57, 211, 255, 0.08);
+    border-radius: 12px;
+  }
+
+  .stage-overview-media :is(img, video) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .stage-overview-media.is-empty {
+    display: grid;
+    place-items: center;
+    color: var(--exp-cyan);
+    font-family: "Share Tech Mono", monospace;
+    font-size: 2.4rem;
+  }
+
+  .expedition-banner h1,
+  .expedition-banner h2,
+  .console-heading,
+  .mission-label,
+  .mission-window h3,
+  .start-card h3 {
+    font-family: "Oxanium", sans-serif;
+    font-weight: 700;
+  }
+
+  .mission-window-bar,
+  .substage-nav-title,
+  .m5-status-strip,
+  .live-badge,
+  .image-captured-badge {
+    font-family: "Share Tech Mono", monospace;
+  }
+
+  /* ---------- Scroll-driven zoom for #expedition-main ---------- */
+
+  .expedition-zoom-stage {
+    position: relative;
+    /* Natural (unzoomed) width: same as the page content width on the other
+       lessons. The console grows from this to nearly the full window as you
+       scroll (see updateZoom in Expedition.vue). */
+    width: min(1180px, 94%);
+    margin: 0 auto;
+    height: 100vh;
+  }
+
+  .expedition-zoom-stage:fullscreen {
+    width: 100%;
+    margin: 0;
+  }
+
+  .expedition-zoom-stage.no-zoom {
+    height: auto;
+  }
+
+  #expedition-main {
+    position: sticky;
+    top: 16px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: calc(100vh - 16px);
+    will-change: width, height, margin-left;
+  }
+
+  .expedition-zoom-stage.no-zoom #expedition-main {
+    position: static;
+    width: auto !important;
+    height: auto !important;
+    margin-left: 0 !important;
+    max-height: none;
+  }
+
+  /* The fixed page header slides up out of the way in step with the
+         same scroll progress that drives the zoom above. */
+  .page-header {
+    will-change: transform;
+  }
+
+  /* ---------- Main game shell ---------- */
+
+  .game-shell {
+    display: grid;
+    grid-template-columns:
+      minmax(245px, 0.3fr)
+      minmax(0, 1fr)
+      minmax(235px, 0.3fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 12px;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .console-panel {
+    position: relative;
+    min-width: 0;
+    background: var(--exp-navy-dark);
+    border: 3px solid var(--exp-cyan);
+    border-radius: 22px;
+    box-shadow: var(--exp-shadow);
+    color: white;
+    overflow: hidden;
+  }
+
+  .console-heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 52px;
+    margin: 0;
+    padding: 12px 15px;
+    border-bottom: 2px solid rgba(117, 221, 232, 0.35);
+    background: rgba(255, 255, 255, 0.025);
+    color: white;
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .console-heading .light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow:
+      18px 0 0 var(--yellow),
+      36px 0 0 var(--orange);
+    margin-right: 34px;
+  }
+
+  /* ---------- Left mission log ---------- */
+
+  .mission-nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mission-list {
+    display: grid;
+    gap: 6px;
+    padding: 10px;
+    max-height: 80%;
+    overflow-y: scroll;
+  }
+
+  .mission-button {
+    position: relative;
+    width: 100%;
+    padding: 11px 12px 11px 50px;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--exp-muted);
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.18s ease;
+  }
+
+  .mission-button::before {
+    content: attr(data-number);
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    translate: 0 -50%;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid currentColor;
+    font-weight: 800;
+    font-size: 0.75rem;
+  }
+
+  .mission-button:hover:not(:disabled) {
+    background: rgba(117, 221, 232, 0.12);
+    border-color: rgba(117, 221, 232, 0.5);
+    color: white;
+    transform: translateX(2px);
+  }
+
+  .mission-button.active {
+    background: var(--soft-yellow);
+    color: var(--charcoal);
+    border-color: var(--yellow);
+    box-shadow: inset 6px 0 0 var(--yellow);
+  }
+
+  .mission-button.complete {
+    color: white;
+    background: rgba(0, 199, 122, 0.16);
+    border-color: rgba(0, 199, 122, 0.65);
+  }
+
+  .mission-button.complete::after {
+    content: "✓";
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    color: var(--mint);
+    font-weight: 900;
+  }
+
+  .mission-button:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+  }
+
+  .mission-button strong,
+  .mission-button span {
+    display: block;
+  }
+
+  .mission-button strong {
+    margin-bottom: 2px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .mission-button span {
+    font-size: 0.7rem;
+    line-height: 1.25;
+  }
+
+  .mission-nav-footer {
+    margin-top: auto;
+    padding: 14px;
+    color: var(--exp-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+    border-top: 2px solid rgba(117, 221, 232, 0.18);
+  }
+
+  .depth-meter {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .depth-track {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .depth-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      var(--green),
+      var(--blue),
+      var(--purple)
+    );
+    transition: width 0.35s ease;
+  }
+
+  /* ---------- Main stage ---------- */
+
+  .stage-panel {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    overflow: hidden;
+  }
+
+  .stage-screen {
+    position: relative;
+    min-height: 0;
+    overflow: auto;
+    background:
+      linear-gradient(rgba(5, 18, 35, 0.72), rgba(5, 18, 35, 0.88)),
+      radial-gradient(
+        circle at 60% 10%,
+        rgba(57, 211, 255, 0.12),
+        transparent 28rem
+      );
+  }
+
+  .start-screen {
+    min-height: 600px;
+    display: grid;
+    place-items: center;
+    padding: 38px;
+    text-align: center;
+  }
+
+  /* The prototype uses the HTML hidden attribute to swap the start
+         screen out for the active mission. Keep this after .start-screen
+         so the author stylesheet cannot accidentally force it visible. */
+  .start-screen[hidden] {
+    display: none !important;
+  }
+
+  .start-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: min(760px, 92%);
+    padding: 42px 28px;
+    border: 3px solid var(--exp-cyan);
+    border-radius: 28px;
+    background: linear-gradient(
+      145deg,
+      rgba(10, 174, 217, 0.96),
+      rgba(78, 50, 232, 0.88)
+    );
+    box-shadow: 0 10px 0 rgba(0, 0, 0, 0.34);
+  }
+
+  .start-card .start-eyebrow {
+    margin: 0 0 12px;
+    color: var(--soft-yellow);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .start-card h3 {
+    margin: 0 auto 14px;
+    max-width: 680px;
+    color: white;
+    font-family: "Arial Black", Impact, sans-serif;
+    font-size: clamp(2rem, 5vw, 4.4rem);
+    line-height: 1.06;
+    text-transform: uppercase;
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .start-card p {
+    max-width: 620px;
+    margin: 0 auto 24px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+  }
+
+  .start-button {
+    --background-colour: var(--yellow);
+    color: var(--charcoal) !important;
+    font-size: 1.05rem;
+  }
+
+  .expedition-mission.section {
+    display: none;
+    min-height: 600px;
+    margin: 0;
+    padding: 26px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: white;
+  }
+
+  .expedition-mission.active {
+    display: block;
+  }
+
+  .mission-image-container {
+    display: grid;
+    place-items: center;
+    margin-top: 15px;
+  }
+
+  .mission-image-container img {
+    width: 50%;
+    border-radius: 14px;
+  }
+
+  /* Stacks the camera gif over the static rusted-hercules image, both
+         confined to this box so the gif can't overlap the surrounding text.
+         The stack sizes itself to the base image (the only element still in
+         normal flow - the gif is pulled out with position:absolute), capped
+         by max-width/max-height so a tall source image can never grow past
+         the container's 300px height and push into the prompt below it. */
+  .mission-image-container .rust-camera-stack {
+    position: relative;
+    display: inline-grid;
+    max-width: 50%;
+    max-height: 100%;
+  }
+
+  .mission-image-container .rust-camera-stack img {
+    display: block;
+    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    max-height: 100%;
+    width: 400px;
+    border-radius: 14px;
+    object-fit: contain;
+  }
+
+  .rust-camera-gif {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+  }
+
+  .rust-camera-base {
+    background: var(--exp-navy);
+  }
+
+  .mission-label {
+    display: inline-block;
+    margin: 0 0 9px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--purple);
+    color: white !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mission-image-zoom-container {
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 10px 15px;
+    max-width: 150px;
+  }
+
+  .mission-image-zoom-container p {
+    margin: 5px 0 0;
+    text-align: center;
+  }
+
+  .mission-image-trigger {
+    width: 80%;
+    height: 120px;
+    padding: 0;
+    overflow: hidden;
+    border: 2px solid var(--mission-border);
+    border-radius: 10px;
+    background: var(--mission-bg-alt);
+    cursor: zoom-in;
+  }
+
+  .mission-image-trigger img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mission-subtitle {
+    margin: 0 0 20px;
+    color: var(--mission-muted);
+    line-height: 1.55;
+  }
+
+  .choice-card {
+    position: relative;
+    padding: 18px;
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: var(--mission-bg-alt);
+    box-shadow: 0 4px 0 var(--mission-shadow);
+  }
+
+  .choice-card h4 {
+    margin: 0 0 7px;
+    font-size: 1rem;
+    color: var(--mission-text);
+  }
+
+  .choice-card p {
+    margin: 0;
+    color: var(--mission-muted);
+    line-height: 1.5;
+    font-size: 0.92rem;
+  }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .choice-card {
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.18s ease;
+  }
+
+  .choice-card h4 {
+    text-align: center;
+  }
+
+  .choice-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 0 var(--mission-shadow);
+  }
+
+  .choice-card.selected,
+  .choice-card.correct,
+  .choice-card.incorrect {
+    color: var(--charcoal);
+  }
+
+  .choice-card.selected h4,
+  .choice-card.correct h4,
+  .choice-card.incorrect h4,
+  .choice-card.selected p,
+  .choice-card.correct p,
+  .choice-card.incorrect p {
+    color: var(--charcoal);
+  }
+
+  .choice-card.selected {
+    background: var(--soft-yellow);
+    border-color: var(--purple);
+    box-shadow: 0 5px 0 var(--purple);
+  }
+
+  .choice-card.correct {
+    background: var(--soft-green);
+    border-color: var(--green);
+  }
+
+  .choice-card.incorrect {
+    background: var(--soft-orange);
+    border-color: var(--orange);
+  }
+
+  .activity-prompt {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border: 2px solid var(--charcoal);
+    border-left: 9px solid var(--yellow);
+    border-radius: 14px;
+    background: var(--soft-yellow);
+    color: var(--charcoal);
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  /* Only show feedback after JS has assigned a result state */
+  .variable-feedback.feedback-success,
+  .variable-feedback.feedback-try-again {
+    display: grid;
+  }
+
+  .feedback-success {
+    background: var(--soft-green);
+    border-left: 9px solid var(--green);
+  }
+
+  .feedback-try-again {
+    background: var(--soft-orange);
+    border-left: 9px solid var(--orange);
+  }
+
+  /* ---------- Bottom controls ---------- */
+
+  .stage-controls {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 10px;
+    align-items: center;
+    min-height: 82px;
+    padding: 12px 14px;
+    border-top: 3px solid var(--exp-cyan);
+    background: #03101f;
+  }
+
+  .control-status {
+    min-width: 0;
+    color: var(--exp-muted);
+    font-size: 0.83rem;
+    line-height: 1.4;
+  }
+
+  .control-status strong {
+    color: white;
+  }
+
+  .expedition-button {
+    position: relative;
+    width: fit-content;
+    min-width: 120px;
+    padding: 8px 22px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.35) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(0, 0, 0, 0.15) 100%
+      ),
+      color-mix(
+        in srgb,
+        var(--background-colour, var(--exp-cyan)) 70%,
+        transparent
+      ) !important;
+    color: white;
+
+    border: none;
+    border-radius: 99px;
+
+    box-shadow:
+      0 4px 0
+        color-mix(
+          in srgb,
+          var(--background-colour, var(--exp-cyan)) 55%,
+          black 45%
+        ),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -4px 6px rgba(0, 0, 0, 0.18);
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+
+    transition:
+      color 0.15s ease,
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease,
+      filter 0.15s ease;
+  }
+
+  .expedition-button:not(:disabled):hover {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(0, 0, 0, 0.12) 100%
+      ),
+      var(--background-colour, var(--exp-cyan)) !important;
+    animation: glow-pulse 1.8s ease-in-out infinite;
+    cursor: pointer;
+  }
+
+  .control-button {
+    height: 45px;
+  }
+
+  #checkButton {
+    --background-colour: var(--green);
+  }
+
+  #checkButton::before {
+    content: "✓";
+  }
+
+  #resetButton {
+    --background-colour: var(--orange);
+  }
+
+  #resetButton::before {
+    content: "↻";
+  }
+
+  #nextButton {
+    --background-colour: var(--blue);
+    /* color: var(--charcoal) !important; */
+  }
+
+  #nextButton::before {
+    content: ">>";
+    /* color: white; */
+  }
+
+  .stage-controls .expedition-button:disabled {
+    opacity: 0.35;
+    filter: grayscale(1);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 0 var(--charcoal);
+  }
+
+  .expedition-button::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    display: grid;
+    place-items: center;
+    line-height: 1;
+    font-size: 2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    opacity: 0.35;
+
+    z-index: 1;
+    transition:
+      color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .control-button:not(:disabled):hover::before {
+    color: black;
+    border: none;
+    transform: translateX(80%);
+  }
+
+  .control-button span {
+    position: absolute;
+    inset: 0;
+    top: 25%;
+    transition: transform 0.15s ease;
+  }
+
+  .control-button:not(:disabled):hover span {
+    transform: translate(-10%);
+  }
+
+  /* ---------- Right science check ---------- */
+
+  .science-panel {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .science-body {
+    padding: 14px;
+    overflow-y: auto;
+  }
+
+  .science-lock {
+    min-height: 360px;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 10px;
+    text-align: center;
+    color: white;
+  }
+
+  .lock-icon {
+    width: 82px;
+    height: 82px;
+    display: grid;
+    place-items: center;
+    border: 3px solid white;
+    border-radius: 20px;
+    font-size: 2.6rem;
+  }
+
+  .science-lock p {
+    margin: 0;
+    color: var(--exp-muted);
+    line-height: 1.5;
+  }
+
+  .checkpoint-list {
+    display: none;
+    gap: 11px;
+  }
+
+  .science-panel.unlocked .science-lock {
+    display: none;
+  }
+
+  .science-panel.unlocked .checkpoint-list {
+    display: grid;
+  }
+
+  .checkpoint {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 9px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .checkpoint input[type="checkbox"] {
+    margin: 0;
+  }
+
+  .science-footer {
+    padding: 13px;
+    border-top: 2px solid rgba(117, 221, 232, 0.18);
+    color: var(--exp-muted);
+    font-size: 0.74rem;
+    line-height: 1.45;
+  }
+
+  .science-footer strong {
+    color: var(--soft-yellow);
+  }
+
+  .sonar-contact.selected::before {
+    inset: 3px;
+    background: var(--green);
+    box-shadow:
+      0 0 10px var(--green),
+      0 0 28px rgba(0, 199, 122, 0.9);
+  }
+
+  /* Glitch frame inside the creature feed: match the image's object-fit: contain + 14px padding */
+  .creature-feed .glitch-frame {
+    z-index: 1;
+    width: 100%;
+    height: 390px;
+  }
+
+  .creature-feed .glitch-frame::before,
+  .creature-feed .glitch-frame::after {
+    inset: 14px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 2;
+  }
+
+  .m5-complete-card[hidden],
+  .camera-side-card[hidden] {
+    display: none;
+  }
+
+  .m5-complete-card {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
+    gap: 20px;
+    align-items: center;
+    padding: 22px;
+    margin-top: 15px;
+    border: 3px solid var(--charcoal);
+    border-radius: 20px;
+    background: linear-gradient(145deg, var(--soft-green), var(--soft-blue));
+    color: var(--charcoal);
+    box-shadow: 0 5px 0 var(--charcoal);
+  }
+
+  .m5-complete-card img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border: 3px solid var(--charcoal);
+    border-radius: 16px;
+    background: #031827;
+  }
+
+  .m5-complete-card h4 {
+    margin: 0 0 8px;
+    font-size: 1.55rem;
+  }
+
+  .m5-complete-card p {
+    margin: 0 0 10px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .m5-species-reveal {
+    display: inline-block;
+    margin: 4px 0 10px;
+    padding: 7px 11px;
+    border: 2px solid var(--charcoal);
+    border-radius: 999px;
+    background: var(--yellow);
+    color: var(--charcoal);
+    font-weight: 900;
+  }
+
+  .science-panel.final-drawing-active .checkpoint {
+    background: rgba(215, 245, 233, 0.12);
+  }
+
+  .science-panel .checkpoint input:disabled:checked {
+    opacity: 1;
+    cursor: default;
+  }
+
+  .science-panel .checkpoint input:disabled {
+    opacity: 0.48;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 1280px) {
+    .creature-console,
+    .drawing-mission-grid,
+    .m5-complete-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sonar-sweep,
+    .sonar-contact::before,
+    .sonar-contact::after,
+    .tracking-spinner,
+    .creature-feed img {
+      animation: none !important;
+    }
+  }
+
+  /* ---------- Mission substages / updated storyboard ---------- */
+
+  .substage-nav {
+    margin: 0 10px 10px;
+    padding: 10px;
+    border: 2px solid rgba(117, 221, 232, 0.18);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .substage-nav[hidden] {
+    display: none !important;
+  }
+
+  .mission-list .substage-nav {
+    grid-column: 1 / -1;
+  }
+
+  .substage-nav-title {
+    margin: 0 0 7px;
+    color: var(--exp-cyan);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .substage-button {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 0 5px;
+    padding: 8px 9px 8px 28px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--exp-muted);
+    font: inherit;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .substage-button:last-child {
+    margin-bottom: 0;
+  }
+
+  .substage-button::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    translate: 0 -50%;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+  }
+
+  .substage-button:hover:not(:disabled) {
+    background: rgba(117, 221, 232, 0.1);
+    color: white;
+  }
+
+  .substage-button.active {
+    background: rgba(255, 205, 29, 0.16);
+    color: var(--soft-yellow);
+  }
+
+  .substage-button.complete {
+    color: var(--mint);
+  }
+
+  .substage-button.complete::before {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .substage-button:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .mission-stage.active {
+    display: block;
+    animation: pop-fade-in 0.35s ease;
+  }
+
+  .stage-progress-chip {
+    display: inline-block;
+    padding: 7px 10px;
+    border: 2px solid var(--charcoal);
+    border-radius: 999px;
+    background: var(--soft-blue);
+    color: var(--charcoal);
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .story-grid,
+  .media-compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .story-copy {
+    padding: 18px;
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: var(--mission-bg-alt);
+    box-shadow: 0 4px 0 var(--mission-shadow);
+  }
+
+  .story-copy h4 {
+    margin: 0 0 8px;
+    color: var(--mission-text);
+  }
+
+  .story-copy p {
+    margin: 0;
+    color: var(--mission-muted);
+    line-height: 1.55;
+  }
+
+  .choice-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 330px;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+
+  .media-card {
+    margin: 0;
+    overflow: hidden;
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: var(--mission-bg-alt);
+    box-shadow: 0 4px 0 var(--mission-shadow);
+  }
+
+  .media-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: #071a30;
+  }
+
+  /* Glitch overlay: the full image stays visible; two tinted, sliced copies flicker on top */
+  .glitch-frame {
+    position: relative;
+    overflow: hidden;
+    filter: blur(1px);
+  }
+
+  .glitch-frame::before,
+  .glitch-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--glitch-src);
+    background-size: cover;
+    background-position: center;
+    /* mix-blend-mode: color-dodge; */
+    mix-blend-mode: overlay;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .glitch-frame::before {
+    filter: saturate(3) hue-rotate(300deg) brightness(1.2) blur(0);
+    animation: glitch-a 5s steps(1, end) infinite;
+  }
+
+  .glitch-frame::after {
+    filter: saturate(3) hue-rotate(150deg) brightness(1.2) blur(0);
+    animation: glitch-b 5s steps(1, end) infinite;
+  }
+
+  /* @keyframes glitch-a {
+        0% { opacity: 0.9; clip-path: inset(10% 0 72% 0); transform: translateX(-12px); }
+        20% { opacity: 0.9; clip-path: inset(48% 0 38% 0); transform: translateX(14px); }
+        40% { opacity: 0.8; clip-path: inset(70% 0 12% 0); transform: translateX(-8px); }
+        60% { opacity: 0.7; clip-path: inset(0 0 0 0); transform: translateX(-4px); }
+        80% { opacity: 0.9; clip-path: inset(25% 0 60% 0); transform: translateX(10px); }
+        100% { opacity: 0.8; clip-path: inset(85% 0 4% 0); transform: translateX(-16px); }
+      }
+
+      @keyframes glitch-b {
+        0% { opacity: 0; }
+        15% { opacity: 0.9; clip-path: inset(30% 0 52% 0); transform: translateX(12px); }
+        30% { opacity: 0.9; clip-path: inset(62% 0 22% 0); transform: translateX(-14px); }
+        45% { opacity: 0.7; clip-path: inset(0 0 0 0); transform: translateX(4px); }
+        60% { opacity: 0.9; clip-path: inset(5% 0 82% 0); transform: translateX(-10px); }
+        75% { opacity: 0.8; clip-path: inset(40% 0 45% 0); transform: translateX(16px); }
+        100% { opacity: 0.8; clip-path: inset(78% 0 10% 0); transform: translateX(8px); }
+      } */
+
+  @media (prefers-reduced-motion: reduce) {
+    .glitch-frame::before,
+    .glitch-frame::after {
+      animation: none;
+    }
+  }
+
+  .media-card figcaption {
+    padding: 10px 12px;
+    color: var(--mission-text);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .fish-question-image {
+    width: min(720px, 100%);
+    aspect-ratio: 16 / 9;
+    margin: 18px auto;
+    overflow: hidden;
+
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: #071a30;
+    box-shadow: 0 5px 0 var(--mission-shadow);
+  }
+
+  .fish-question-image img,
+  .fish-question-image video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+  }
+
+  .shallow-waters-media {
+    /* width: min(720px, 100%); */
+    aspect-ratio: 16 / 9;
+    margin: 18px auto 0;
+    overflow: hidden;
+    position: relative;
+
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: #071a30;
+    box-shadow: 0 5px 0 var(--mission-shadow);
+  }
+
+  .shallow-waters-media[hidden] {
+    display: none;
+  }
+
+  .shallow-waters-media img,
+  .shallow-waters-media video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .shallow-waters-media img.is-visible,
+  .shallow-waters-media video.is-visible {
+    opacity: 1;
+  }
+
+  .choice-card.media-choice {
+    padding: 12px;
+    text-align: center;
+  }
+
+  .choice-card.media-choice .choice-image {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    margin-bottom: 10px;
+    background: #050f18;
+  }
+
+  [data-stage-id="m4-identify"] .choice-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  [data-stage-id="m4-identify"] .choice-card.media-choice .choice-image {
+    height: 150px;
+    object-fit: contain;
+    background: white;
+  }
+
+  .m4-fish-preview {
+    width: min(760px, 100%);
+    margin: 18px auto;
+    padding: 12px;
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: var(--mission-bg-alt);
+    text-align: center;
+  }
+
+  .m4-fish-preview img {
+    display: block;
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+  }
+
+  .m4-fish-preview[hidden] {
+    display: none;
+  }
+
+  .choice-card.media-choice h4 {
+    margin-bottom: 4px;
+  }
+
+  .drawing-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .drawing-choice-grid .choice-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    border: 2px solid var(--mission-border);
+    border-radius: 12px;
+    background: white;
+  }
+
+  @media (max-width: 800px) {
+    .story-grid,
+    .media-compare,
+    .drawing-choice-grid {
+      grid-template-columns: 1fr;
+    }
+    .choice-card.media-choice .choice-image {
+      height: 190px;
+    }
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 1100px) {
+    .game-shell {
+      grid-template-columns: 250px minmax(0, 1fr);
+    }
+    .science-panel {
+      display: grid;
+      grid-row: 2;
+      grid-column: 1 / -1;
+      grid-template-columns: 2fr 1fr;
+      height: 250px;
+    }
+    .science-panel .console-heading {
+      grid-column: 1 / -1;
+    }
+    .checkpoint-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-column: 1;
+    }
+    .mission-list {
+      height: auto;
+    }
+    .mission-button {
+      height: auto;
+    }
+    .science-lock {
+      min-height: 160px;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .game-shell {
+      grid-template-rows: 2fr 1fr;
+      grid-template-columns: 1fr 1fr;
+    }
+    .stage-panel {
+      grid-column: 1 / -1;
+    }
+    .mission-nav {
+      height: 100%;
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .mission-list {
+      grid-template-columns: 1fr;
+    }
+    .mission-nav-footer {
+      display: none;
+    }
+    .science-panel {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    /*
+
+        .mission-nav-footer {
+          display: none;
+        }
+
+        .stage-screen,
+        .start-screen,
+        .expedition-mission.section {
+          min-height: auto;
+        }
+
+        .content-grid,
+        .choice-grid,
+        .specimen-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .stage-controls {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .control-status {
+          grid-column: 1 / -1;
+        }
+
+        .stage-controls .expedition-button {
+          width: 100%;
+          padding-inline: 10px;
+        }
+
+        .checkpoint-list {
+          grid-template-columns: repeat(2, minmax(0, 1fr)); 
+        }*/
+  }
+
+  @media (max-width: 520px) {
+    /* .mission-list,
+        .checkpoint-list {
+          grid-template-columns: 1fr;
+        } */
+
+    .expedition-banner h1 {
+      font-size: 2rem;
+    }
+    .mission-window-body,
+    .expedition-mission.section {
+      padding: 16px;
+    }
+  }
+
+  /* ---------- Mission 4: shallow-water camera trials ---------- */
+
+  .m4-preamble {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border: 3px solid var(--charcoal);
+    border-left: 10px solid var(--blue);
+    border-radius: 14px;
+    background: var(--soft-blue);
+    color: var(--charcoal);
+    line-height: 1.55;
+  }
+
+  .m4-feature-cues {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 18px;
+  }
+
+  .m4-feature-cues span {
+    padding: 7px 10px;
+    border: 2px solid var(--mission-border);
+    border-radius: 999px;
+    background: var(--mission-bg-alt);
+    color: var(--mission-text);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .shallow-fish-question {
+    margin-top: 18px;
+    padding: 18px;
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: var(--mission-bg-alt);
+    box-shadow: 0 4px 0 var(--mission-shadow);
+  }
+
+  .shallow-fish-question > h4 {
+    margin: 0 0 4px;
+    color: var(--mission-text);
+  }
+
+  .shallow-fish-question > p {
+    margin: 0;
+    color: var(--mission-muted);
+  }
+
+  .m4-clownfish-choice svg {
+    display: block;
+    width: 100%;
+    height: 210px;
+    margin-bottom: 12px;
+    border: 2px solid rgba(48, 51, 47, 0.22);
+    border-radius: 12px;
+    background: #fbfbf8;
+  }
+
+  .m4-batfish-dd .dd-board {
+    grid-template-columns: 1fr;
+  }
+
+  .m4-batfish-target {
+    position: relative;
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f8fbfc;
+  }
+
+  .m4-batfish-diagram {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0;
+  }
+
+  /*
+        The batfish diagram supplies the orange leader lines. These HTML drop zones
+        sit beside the line ends so the generic DragDropActivity can handle the
+        guided labelling interaction without printed boxes in the image.
+      */
+  .m4-batfish-target [data-dd-slot] {
+    position: absolute !important;
+    left: var(--dd-x) !important;
+    top: var(--dd-y) !important;
+    z-index: 3;
+    width: var(--dd-w, 24%) !important;
+    height: var(--dd-h, 8.5%) !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+    translate: 0 0 !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px !important;
+    border: 2px dashed rgba(10, 174, 217, 0.42) !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: none !important;
+  }
+
+  .m4-batfish-target [data-dd-slot]:hover,
+  .m4-batfish-target [data-dd-slot]:focus-visible,
+  .m4-batfish-target [data-dd-slot].dd-hover {
+    border-color: var(--blue) !important;
+    background: rgba(216, 247, 255, 0.98) !important;
+    outline: none;
+  }
+
+  .m4-batfish-target [data-dd-slot].dd-filled {
+    border-color: var(--green) !important;
+    background: rgba(215, 245, 233, 0.98) !important;
+  }
+
+  /*
+        Mission 2 stage 4: labels the diagram built up by the previous
+        item-match stage. The diagram itself is static (a snapshot copied in
+        by syncDiagramLabelBoard() in lesson5.js), with its own small SVG of
+        dashed leader lines on top running from each slot to the diagram part
+        it labels - same drop-zone-beside-a-line idea as the batfish stage,
+        just with drawn lines instead of lines baked into a reference image.
+      */
+  .diagram-label-board {
+    position: relative;
+    width: 100%;
+    max-height: 420px;
+    margin: 0 auto;
+    aspect-ratio: 480 / 440;
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 0 var(--mission-shadow);
+  }
+
+  .diagram-label-diagram {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--charcoal);
+  }
+
+  .diagram-label-lines {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .diagram-label-lines line {
+    stroke: var(--charcoal);
+    stroke-width: 0.5;
+    opacity: 0.5;
+  }
+
+  .diagram-label-board [data-dd-slot] {
+    --dd-w: 15%;
+    --dd-h: 10%;
+
+    position: absolute !important;
+    left: var(--dd-x) !important;
+    top: var(--dd-y) !important;
+    z-index: 2;
+    width: var(--dd-w) !important;
+    height: var(--dd-h) !important;
+    min-width: 0 !important;
+    min-height: 40px !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px !important;
+    border: 2px solid var(--charcoal) !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: none !important;
+  }
+
+  .diagram-label-board [data-dd-slot]:hover,
+  .diagram-label-board [data-dd-slot]:focus-visible,
+  .diagram-label-board [data-dd-slot].dd-hover {
+    border-color: var(--blue) !important;
+    background: rgba(216, 247, 255, 0.98) !important;
+    outline: none;
+  }
+
+  .diagram-label-board [data-dd-slot].dd-filled {
+    border-color: var(--green) !important;
+    background: rgba(215, 245, 233, 0.98) !important;
+  }
+
+  .diagram-label-tray {
+    margin-top: 16px;
+  }
+
+  .m4-batfish-target [data-dd-slot] .m4-label-token,
+  .diagram-label-board [data-dd-slot] .m4-label-token {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    padding: 3px 6px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.97);
+
+    display: grid;
+    place-items: center;
+
+    line-height: 1.05;
+    font-size: 0.8rem;
+    white-space: normal;
+  }
+
+  .m4-label-tray {
+    margin-top: 14px;
+  }
+
+  .m4-label-token {
+    min-width: 120px;
+    padding: 8px 12px;
+    border: 2px solid var(--mission-border);
+    border-radius: 999px;
+    color: var(--charcoal);
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .frogfish-labelling-grid {
+    margin-top: 16px;
+  }
+
+  .frogfish-image-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 3px solid var(--mission-border);
+    border-radius: 18px;
+    background: #fbfbf8;
+    box-shadow: 0 4px 0 var(--mission-shadow);
+  }
+
+  .frogfish-image-stage > img {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: white;
+  }
+
+  /*
+        Independent labelling: the image supplies the leader lines,
+        while these HTML text fields sit at the line ends. Students
+        must supply the terminology themselves rather than choosing
+        from a word bank.
+      */
+  .frogfish-label-entry {
+    position: absolute;
+    left: var(--frog-left);
+    top: var(--frog-top);
+    z-index: 3;
+    width: var(--frog-width, 20%);
+    min-width: 118px;
+
+    /* --frog-top now represents the centre of the label */
+    transform: translateY(-50%);
+  }
+
+  .frogfish-label-entry input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
+    padding: 9px 11px;
+    border: 2px dashed rgba(10, 174, 217, 0.72);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--charcoal);
+    box-shadow: 0 2px 0 rgba(48, 51, 47, 0.12);
+    font: inherit;
+    font-size: clamp(0.66rem, 1.15vw, 0.88rem);
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .frogfish-label-entry input::placeholder {
+    color: rgba(48, 51, 47, 0.52);
+    font-weight: 700;
+  }
+
+  .frogfish-label-entry input:hover,
+  .frogfish-label-entry input:focus {
+    border-color: var(--blue);
+    border-style: solid;
+    outline: 4px solid rgba(10, 174, 217, 0.14);
+  }
+
+  /* A saved label (InputResponseActivity .ir-answer) replaces the input. Students use the X button to clear it. */
+  .frogfish-label-entry .ir-answer {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 46px;
+    padding: 9px 36px 9px 11px;
+    border: 2px solid var(--blue);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.98);
+    color: var(--charcoal);
+    box-shadow: 0 2px 0 rgba(48, 51, 47, 0.12);
+    font-size: clamp(0.66rem, 1.15vw, 0.88rem);
+    font-weight: 800;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .frogfish-label-entry .delete-answer {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    width: 27px;
+    height: 27px;
+    translate: 0 -50%;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 2px solid rgba(48, 51, 47, 0.35);
+    border-radius: 50%;
+    background: white;
+    color: var(--charcoal);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 1px 0 rgba(48, 51, 47, 0.15);
+  }
+
+  .frogfish-label-entry .delete-answer:hover,
+  .frogfish-label-entry .delete-answer:focus-visible {
+    border-color: var(--orange);
+    background: var(--soft-orange);
+    outline: none;
+  }
+
+  /* Frogfish example modal shown after CHECK. */
+  #frogfishExampleModal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    place-items: center;
+    padding: 24px;
+    background: rgba(3, 16, 30, 0.78);
+  }
+
+  #frogfishExampleModal .frogfish-example-content {
+    width: min(900px, 94vw);
+    max-height: 90vh;
+    overflow: auto;
+    padding: 20px;
+    border: 3px solid var(--exp-cyan);
+    border-radius: 20px;
+    background: var(--exp-navy);
+    color: var(--exp-white);
+    box-shadow: var(--exp-shadow);
+  }
+
+  .frogfish-example-header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .frogfish-example-header h2 {
+    margin: 0;
+    color: white;
+    font-family: "Oxanium", sans-serif;
+  }
+
+  .frogfish-example-header p {
+    margin: 5px 0 0;
+    color: var(--exp-muted);
+    line-height: 1.5;
+  }
+
+  .frogfish-example-close {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--exp-cyan);
+    border-radius: 50%;
+    background: var(--exp-panel);
+    color: white;
+    font-size: 1.35rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .frogfish-example-image {
+    display: block;
+    width: 100%;
+    max-height: 62vh;
+    object-fit: contain;
+    border: 3px solid var(--charcoal);
+    border-radius: 16px;
+    background: white;
+  }
+
+  .frogfish-example-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 800px) {
+    .frogfish-label-entry {
+      min-width: 92px;
+    }
+    .frogfish-label-entry input,
+    .frogfish-label-entry .ir-answer {
+      min-height: 38px;
+      padding: 6px 7px;
+      font-size: clamp(0.52rem, 1.8vw, 0.72rem);
+      border-radius: 10px;
+    }
+  }
+
+  /* END OF POKEDEX ELEMENTS */
 }
 
 @keyframes border-pulse {
@@ -3498,329 +4956,6 @@ onBeforeUnmount(() => {
       inset 0 -4px 6px rgba(0, 0, 0, 0.18),
       0 0 8px 3px color-mix(in srgb, var(--mission-border) 75%, transparent);
   }
-}
-
-.mission-image-container {
-  display: grid;
-  place-items: center;
-  margin-top: 15px;
-}
-
-.mission-image-container img {
-  width: 50%;
-  border-radius: 14px;
-}
-
-/* Stacks the camera gif over the static rusted-hercules image, both
-       confined to this box so the gif can't overlap the surrounding text.
-       The stack sizes itself to the base image (the only element still in
-       normal flow - the gif is pulled out with position:absolute), capped
-       by max-width/max-height so a tall source image can never grow past
-       the container's 300px height and push into the prompt below it. */
-.mission-image-container .rust-camera-stack {
-  position: relative;
-  display: inline-grid;
-  max-width: 50%;
-  max-height: 100%;
-}
-
-.mission-image-container .rust-camera-stack img {
-  display: block;
-  aspect-ratio: 1 / 1;
-  max-width: 100%;
-  max-height: 100%;
-  width: 400px;
-  border-radius: 14px;
-  object-fit: contain;
-}
-
-.rust-camera-gif {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.6;
-}
-
-.rust-camera-base {
-  background: var(--exp-navy);
-}
-
-.mission-label {
-  display: inline-block;
-  margin: 0 0 9px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--purple);
-  color: white !important;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.mission-image-zoom-container {
-  float: right;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 0 10px 15px;
-  max-width: 150px;
-}
-
-.mission-image-zoom-container p {
-  margin: 5px 0 0;
-  text-align: center;
-}
-
-.mission-image-trigger {
-  width: 80%;
-  height: 120px;
-  padding: 0;
-  overflow: hidden;
-  border: 2px solid var(--mission-border);
-  border-radius: 10px;
-  background: var(--mission-bg-alt);
-  cursor: zoom-in;
-}
-
-.mission-image-trigger img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.mission-subtitle {
-  margin: 0 0 20px;
-  color: var(--mission-muted);
-  line-height: 1.55;
-}
-
-.content-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.content-card,
-.choice-card,
-.specimen-card {
-  position: relative;
-  padding: 18px;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: var(--mission-bg-alt);
-  box-shadow: 0 4px 0 var(--mission-shadow);
-}
-
-.content-card h4,
-.choice-card h4,
-.specimen-card h4 {
-  margin: 0 0 7px;
-  font-size: 1rem;
-  color: var(--mission-text);
-}
-
-.content-card p,
-.choice-card p,
-.specimen-card p {
-  margin: 0;
-  color: var(--mission-muted);
-  line-height: 1.5;
-  font-size: 0.92rem;
-}
-
-.content-card.accent-blue {
-  border-top: 8px solid var(--blue);
-}
-.content-card.accent-yellow {
-  border-top: 8px solid var(--yellow);
-}
-.content-card.accent-purple {
-  border-top: 8px solid var(--purple);
-}
-
-.choice-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 18px;
-}
-
-.choice-card {
-  width: 100%;
-  text-align: left;
-  font-family: inherit;
-  cursor: pointer;
-  transition: 0.18s ease;
-}
-
-.choice-card h4 {
-  text-align: center;
-}
-
-.choice-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 0 var(--mission-shadow);
-}
-
-.choice-card.selected,
-.choice-card.correct,
-.choice-card.incorrect {
-  color: var(--charcoal);
-}
-
-.choice-card.selected h4,
-.choice-card.correct h4,
-.choice-card.incorrect h4,
-.choice-card.selected p,
-.choice-card.correct p,
-.choice-card.incorrect p {
-  color: var(--charcoal);
-}
-
-.choice-card.selected {
-  background: var(--soft-yellow);
-  border-color: var(--purple);
-  box-shadow: 0 5px 0 var(--purple);
-}
-
-.choice-card.correct {
-  background: var(--soft-green);
-  border-color: var(--green);
-}
-
-.choice-card.incorrect {
-  background: var(--soft-orange);
-  border-color: var(--orange);
-}
-
-.mini-visual {
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-}
-
-.scientific-sketch {
-  width: 100%;
-  height: 110px;
-}
-
-.scientific-sketch * {
-  vector-effect: non-scaling-stroke;
-}
-
-.activity-prompt {
-  margin-top: 18px;
-  padding: 14px 16px;
-  border: 2px solid var(--charcoal);
-  border-left: 9px solid var(--yellow);
-  border-radius: 14px;
-  background: var(--soft-yellow);
-  color: var(--charcoal);
-  line-height: 1.5;
-  font-weight: 600;
-}
-
-/* Only show feedback after JS has assigned a result state */
-.variable-feedback.feedback-success,
-.variable-feedback.feedback-try-again {
-  display: grid;
-}
-
-.feedback-success {
-  background: var(--soft-green);
-  border-left: 9px solid var(--green);
-}
-
-.feedback-try-again {
-  background: var(--soft-orange);
-  border-left: 9px solid var(--orange);
-}
-
-/* ---------- Bottom controls ---------- */
-
-.stage-controls {
-  display: grid;
-  grid-template-columns: 1fr auto auto auto;
-  gap: 10px;
-  align-items: center;
-  min-height: 82px;
-  padding: 12px 14px;
-  border-top: 3px solid var(--exp-cyan);
-  background: #03101f;
-}
-
-.control-status {
-  min-width: 0;
-  color: var(--exp-muted);
-  font-size: 0.83rem;
-  line-height: 1.4;
-}
-
-.control-status strong {
-  color: white;
-}
-
-.expedition-button {
-  position: relative;
-  width: fit-content;
-  min-width: 120px;
-  padding: 8px 22px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.35) 0%,
-      rgba(255, 255, 255, 0) 45%,
-      rgba(0, 0, 0, 0.15) 100%
-    ),
-    color-mix(
-      in srgb,
-      var(--background-colour, var(--exp-cyan)) 70%,
-      transparent
-    ) !important;
-  color: white;
-
-  border: none;
-  border-radius: 99px;
-
-  box-shadow:
-    0 4px 0
-      color-mix(
-        in srgb,
-        var(--background-colour, var(--exp-cyan)) 55%,
-        black 45%
-      ),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -4px 6px rgba(0, 0, 0, 0.18);
-
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-
-  transition:
-    color 0.15s ease,
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease,
-    filter 0.15s ease;
-}
-
-.expedition-button:not(:disabled):hover {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.45) 0%,
-      rgba(255, 255, 255, 0) 45%,
-      rgba(0, 0, 0, 0.12) 100%
-    ),
-    var(--background-colour, var(--exp-cyan)) !important;
-  animation: glow-pulse 1.8s ease-in-out infinite;
-  cursor: pointer;
 }
 
 @keyframes glow-pulse {
@@ -3861,228 +4996,10 @@ onBeforeUnmount(() => {
   }
 }
 
-.control-button {
-  height: 45px;
-}
-
-#checkButton {
-  --background-colour: var(--green);
-}
-
-#checkButton::before {
-  content: "✓";
-}
-
-#resetButton {
-  --background-colour: var(--orange);
-}
-
-#resetButton::before {
-  content: "↻";
-}
-
-#nextButton {
-  --background-colour: var(--blue);
-  /* color: var(--charcoal) !important; */
-}
-
-#nextButton::before {
-  content: ">>";
-  /* color: white; */
-}
-
-.stage-controls .expedition-button:disabled {
-  opacity: 0.35;
-  filter: grayscale(1);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 4px 0 var(--charcoal);
-}
-
-.expedition-button::before {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  display: grid;
-  place-items: center;
-  line-height: 1;
-  font-size: 2rem;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  opacity: 0.35;
-
-  z-index: 1;
-  transition:
-    color 0.15s ease,
-    transform 0.15s ease;
-}
-
-.control-button:not(:disabled):hover::before {
-  color: black;
-  border: none;
-  transform: translateX(80%);
-}
-
-.control-button span {
-  position: absolute;
-  inset: 0;
-  top: 25%;
-  transition: transform 0.15s ease;
-}
-
-.control-button:not(:disabled):hover span {
-  transform: translate(-10%);
-}
-
-/* ---------- Right science check ---------- */
-
-.science-panel {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-}
-
-.science-body {
-  padding: 14px;
-  overflow-y: auto;
-}
-
-.science-lock {
-  min-height: 360px;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 10px;
-  text-align: center;
-  color: white;
-}
-
-.lock-icon {
-  width: 82px;
-  height: 82px;
-  display: grid;
-  place-items: center;
-  border: 3px solid white;
-  border-radius: 20px;
-  font-size: 2.6rem;
-}
-
-.science-lock p {
-  margin: 0;
-  color: var(--exp-muted);
-  line-height: 1.5;
-}
-
-.checkpoint-list {
-  display: none;
-  gap: 11px;
-}
-
-.science-panel.unlocked .science-lock {
-  display: none;
-}
-
-.science-panel.unlocked .checkpoint-list {
-  display: grid;
-}
-
-.checkpoint {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 9px;
-  align-items: center;
-  padding: 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  color: white;
-  font-size: 0.8rem;
-  line-height: 1.3;
-}
-
-.checkpoint input[type="checkbox"] {
-  margin: 0;
-}
-
-.science-footer {
-  padding: 13px;
-  border-top: 2px solid rgba(117, 221, 232, 0.18);
-  color: var(--exp-muted);
-  font-size: 0.74rem;
-  line-height: 1.45;
-}
-
-.science-footer strong {
-  color: var(--soft-yellow);
-}
-
-/* ---------- Mission 5 specimen ---------- */
-
-.specimen-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 16px;
-  margin-top: 18px;
-}
-
-.specimen-viewport {
-  min-height: 260px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background:
-    radial-gradient(
-      circle at 50% 35%,
-      rgba(57, 211, 255, 0.22),
-      transparent 8rem
-    ),
-    linear-gradient(180deg, #052744, #020b14);
-}
-
-.specimen-viewport svg {
-  width: min(330px, 86%);
-  height: auto;
-  filter: drop-shadow(0 0 18px rgba(57, 211, 255, 0.28));
-}
-
-.observation-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.observation-chip {
-  padding: 8px 10px;
-  border: 2px solid var(--mission-border);
-  border-radius: 999px;
-  background: var(--mission-bg-alt);
-  color: var(--mission-text);
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.observation-chip.selected {
-  background: var(--soft-green);
-  border-color: var(--green);
-}
-
 @keyframes sonar-sweep {
   to {
     transform: rotate(360deg);
   }
-}
-
-.sonar-contact.selected::before {
-  inset: 3px;
-  background: var(--green);
-  box-shadow:
-    0 0 10px var(--green),
-    0 0 28px rgba(0, 199, 122, 0.9);
 }
 
 @keyframes sonar-contact-pulse {
@@ -4163,21 +5080,6 @@ onBeforeUnmount(() => {
   }
 }
 
-/* Glitch frame inside the creature feed: match the image's object-fit: contain + 14px padding */
-.creature-feed .glitch-frame {
-  z-index: 1;
-  width: 100%;
-  height: 390px;
-}
-
-.creature-feed .glitch-frame::before,
-.creature-feed .glitch-frame::after {
-  inset: 14px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 2;
-}
-
 @keyframes creature-feed-in {
   from {
     opacity: 0;
@@ -4191,11 +5093,6 @@ onBeforeUnmount(() => {
   }
 }
 
-.m5-complete-card[hidden],
-.camera-side-card[hidden] {
-  display: none;
-}
-
 @keyframes creature-swim-away {
   from {
     transform: translateX(0);
@@ -4207,372 +5104,11 @@ onBeforeUnmount(() => {
   }
 }
 
-.camera-failure-message {
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 16px;
-  padding: 16px 18px;
-  border: 3px solid var(--charcoal);
-  border-left: 10px solid var(--orange);
-  border-radius: 16px;
-  background: var(--soft-orange);
-  color: var(--charcoal);
-}
-
-.camera-failure-message::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  translate: -105% 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.58),
-    transparent
-  );
-  animation: failure-scan 1.2s ease-out 1;
-  pointer-events: none;
-}
-
 @keyframes failure-scan {
   to {
     translate: 105% 0;
   }
 }
-
-.camera-failure-message strong {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--charcoal);
-  font-size: 1.05rem;
-}
-
-.m5-complete-card {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
-  gap: 20px;
-  align-items: center;
-  padding: 22px;
-  margin-top: 15px;
-  border: 3px solid var(--charcoal);
-  border-radius: 20px;
-  background: linear-gradient(145deg, var(--soft-green), var(--soft-blue));
-  color: var(--charcoal);
-  box-shadow: 0 5px 0 var(--charcoal);
-}
-
-.m5-complete-card img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: contain;
-  border: 3px solid var(--charcoal);
-  border-radius: 16px;
-  background: #031827;
-}
-
-.m5-complete-card h4 {
-  margin: 0 0 8px;
-  font-size: 1.55rem;
-}
-
-.m5-complete-card p {
-  margin: 0 0 10px;
-  color: var(--muted);
-  line-height: 1.55;
-}
-
-.m5-species-reveal {
-  display: inline-block;
-  margin: 4px 0 10px;
-  padding: 7px 11px;
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-  background: var(--yellow);
-  color: var(--charcoal);
-  font-weight: 900;
-}
-
-.science-panel:not(.unlocked) .science-mode-note {
-  display: none;
-}
-
-.science-panel.final-drawing-active .checkpoint {
-  background: rgba(215, 245, 233, 0.12);
-}
-
-.science-panel .checkpoint input:disabled:checked {
-  opacity: 1;
-  cursor: default;
-}
-
-.science-panel .checkpoint input:disabled {
-  opacity: 0.48;
-  cursor: not-allowed;
-}
-
-.science-mode-note {
-  margin: 0 0 12px;
-  padding: 10px 11px;
-  border: 2px solid rgba(117, 221, 232, 0.28);
-  border-radius: 12px;
-  background: rgba(117, 221, 232, 0.07);
-  color: var(--exp-muted);
-  font-size: 0.77rem;
-  line-height: 1.45;
-}
-
-.science-mode-note strong {
-  color: white;
-}
-
-@media (max-width: 1280px) {
-  .creature-console,
-  .drawing-mission-grid,
-  .m5-complete-card {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sonar-sweep,
-  .sonar-contact::before,
-  .sonar-contact::after,
-  .tracking-spinner,
-  .creature-feed img,
-  .camera-failure-message::after {
-    animation: none !important;
-  }
-}
-
-/* ---------- Mission substages / updated storyboard ---------- */
-
-.substage-nav {
-  margin: 0 10px 10px;
-  padding: 10px;
-  border: 2px solid rgba(117, 221, 232, 0.18);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.025);
-}
-
-.substage-nav[hidden] {
-  display: none !important;
-}
-
-.mission-list .substage-nav {
-  grid-column: 1 / -1;
-}
-
-.substage-nav-title {
-  margin: 0 0 7px;
-  color: var(--exp-cyan);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.substage-button {
-  position: relative;
-  display: block;
-  width: 100%;
-  margin: 0 0 5px;
-  padding: 8px 9px 8px 28px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  color: var(--exp-muted);
-  font: inherit;
-  font-size: 0.75rem;
-  line-height: 1.25;
-  text-align: left;
-  cursor: pointer;
-}
-
-.substage-button:last-child {
-  margin-bottom: 0;
-}
-
-.substage-button::before {
-  content: "";
-  position: absolute;
-  left: 9px;
-  top: 50%;
-  width: 8px;
-  height: 8px;
-  translate: 0 -50%;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-}
-
-.substage-button:hover:not(:disabled) {
-  background: rgba(117, 221, 232, 0.1);
-  color: white;
-}
-
-.substage-button.active {
-  background: rgba(255, 205, 29, 0.16);
-  color: var(--soft-yellow);
-}
-
-.substage-button.complete {
-  color: var(--mint);
-}
-
-.substage-button.complete::before {
-  background: var(--green);
-  border-color: var(--green);
-}
-
-.substage-button:disabled {
-  opacity: 0.38;
-  cursor: not-allowed;
-}
-
-.mission-stage.active {
-  display: block;
-  animation: pop-fade-in 0.35s ease;
-}
-
-.stage-progress-chip,
-.prototype-note {
-  display: inline-block;
-  padding: 7px 10px;
-  border: 2px solid var(--charcoal);
-  border-radius: 999px;
-  background: var(--soft-blue);
-  color: var(--charcoal);
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.prototype-note {
-  margin-top: 14px;
-  border-radius: 12px;
-  background: var(--soft-purple);
-  line-height: 1.45;
-}
-
-.story-grid,
-.media-compare,
-.symbol-compare {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 18px;
-}
-
-.story-copy,
-.story-media,
-.reference-card {
-  padding: 18px;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: var(--mission-bg-alt);
-  box-shadow: 0 4px 0 var(--mission-shadow);
-}
-
-.story-copy h4,
-.reference-card h4 {
-  margin: 0 0 8px;
-  color: var(--mission-text);
-}
-
-.story-copy p,
-.reference-card p {
-  margin: 0;
-  color: var(--mission-muted);
-  line-height: 1.55;
-}
-
-.story-media {
-  display: grid;
-  place-items: center;
-  min-height: 220px;
-  overflow: hidden;
-  background: #041625;
-}
-
-.story-media.light {
-  background: white;
-}
-
-.story-media img,
-.reference-card img,
-.choice-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 330px;
-  object-fit: contain;
-  border-radius: 12px;
-}
-
-.media-card {
-  margin: 0;
-  overflow: hidden;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: var(--mission-bg-alt);
-  box-shadow: 0 4px 0 var(--mission-shadow);
-}
-
-.media-card img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  background: #071a30;
-}
-
-/* Glitch overlay: the full image stays visible; two tinted, sliced copies flicker on top */
-.glitch-frame {
-  position: relative;
-  overflow: hidden;
-  filter: blur(1px);
-}
-
-.glitch-frame::before,
-.glitch-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: var(--glitch-src);
-  background-size: cover;
-  background-position: center;
-  /* mix-blend-mode: color-dodge; */
-  mix-blend-mode: overlay;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.glitch-frame::before {
-  filter: saturate(3) hue-rotate(300deg) brightness(1.2) blur(0);
-  animation: glitch-a 5s steps(1, end) infinite;
-}
-
-.glitch-frame::after {
-  filter: saturate(3) hue-rotate(150deg) brightness(1.2) blur(0);
-  animation: glitch-b 5s steps(1, end) infinite;
-}
-
-/* @keyframes glitch-a {
-      0% { opacity: 0.9; clip-path: inset(10% 0 72% 0); transform: translateX(-12px); }
-      20% { opacity: 0.9; clip-path: inset(48% 0 38% 0); transform: translateX(14px); }
-      40% { opacity: 0.8; clip-path: inset(70% 0 12% 0); transform: translateX(-8px); }
-      60% { opacity: 0.7; clip-path: inset(0 0 0 0); transform: translateX(-4px); }
-      80% { opacity: 0.9; clip-path: inset(25% 0 60% 0); transform: translateX(10px); }
-      100% { opacity: 0.8; clip-path: inset(85% 0 4% 0); transform: translateX(-16px); }
-    }
-
-    @keyframes glitch-b {
-      0% { opacity: 0; }
-      15% { opacity: 0.9; clip-path: inset(30% 0 52% 0); transform: translateX(12px); }
-      30% { opacity: 0.9; clip-path: inset(62% 0 22% 0); transform: translateX(-14px); }
-      45% { opacity: 0.7; clip-path: inset(0 0 0 0); transform: translateX(4px); }
-      60% { opacity: 0.9; clip-path: inset(5% 0 82% 0); transform: translateX(-10px); }
-      75% { opacity: 0.8; clip-path: inset(40% 0 45% 0); transform: translateX(16px); }
-      100% { opacity: 0.8; clip-path: inset(78% 0 10% 0); transform: translateX(8px); }
-    } */
 
 @keyframes glitch-a {
   0%,
@@ -4620,819 +5156,4 @@ onBeforeUnmount(() => {
     transform: translateX(-4px);
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .glitch-frame::before,
-  .glitch-frame::after {
-    animation: none;
-  }
-}
-
-.media-card figcaption {
-  padding: 10px 12px;
-  color: var(--mission-text);
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.fish-question-image {
-  width: min(720px, 100%);
-  aspect-ratio: 16 / 9;
-  margin: 18px auto;
-  overflow: hidden;
-
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: #071a30;
-  box-shadow: 0 5px 0 var(--mission-shadow);
-}
-
-.fish-question-image img,
-.fish-question-image video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  margin: 0;
-}
-
-.shallow-waters-media {
-  /* width: min(720px, 100%); */
-  aspect-ratio: 16 / 9;
-  margin: 18px auto 0;
-  overflow: hidden;
-  position: relative;
-
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: #071a30;
-  box-shadow: 0 5px 0 var(--mission-shadow);
-}
-
-.shallow-waters-media[hidden] {
-  display: none;
-}
-
-.shallow-waters-media img,
-.shallow-waters-media video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  margin: 0;
-
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.shallow-waters-media img.is-visible,
-.shallow-waters-media video.is-visible {
-  opacity: 1;
-}
-
-.choice-card.media-choice {
-  padding: 12px;
-  text-align: center;
-}
-
-.choice-card.media-choice .choice-image {
-  width: 100%;
-  object-fit: cover;
-  object-position: center;
-  margin-bottom: 10px;
-  background: #050f18;
-}
-
-[data-stage-id="m4-identify"] .choice-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-[data-stage-id="m4-identify"] .choice-card.media-choice .choice-image {
-  height: 150px;
-  object-fit: contain;
-  background: white;
-}
-
-.m4-fish-preview {
-  width: min(760px, 100%);
-  margin: 18px auto;
-  padding: 12px;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: var(--mission-bg-alt);
-  text-align: center;
-}
-
-.m4-fish-preview img {
-  display: block;
-  width: 100%;
-  max-height: 500px;
-  object-fit: contain;
-}
-
-.m4-fish-preview[hidden] {
-  display: none;
-}
-
-.choice-card.media-choice h4 {
-  margin-bottom: 4px;
-}
-
-.symbol-visual {
-  min-height: 210px;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  background: white;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  box-shadow: 0 4px 0 var(--mission-shadow);
-}
-
-.symbol-visual svg {
-  width: min(220px, 86%);
-  height: 200px;
-}
-
-.resource-button-row {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.resource-button-row .expedition-button {
-  --background-colour: var(--soft-blue);
-  color: var(--charcoal) !important;
-}
-
-.drawing-choice-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 18px;
-}
-
-.drawing-choice-grid .choice-card img {
-  width: 100%;
-  height: 260px;
-  object-fit: contain;
-  margin-bottom: 12px;
-  border: 2px solid var(--mission-border);
-  border-radius: 12px;
-  background: white;
-}
-
-.equipment-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.equipment-symbol-row {
-  display: grid;
-  grid-template-columns: 1fr 110px;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border: 2px solid var(--mission-border);
-  border-radius: 14px;
-  background: white;
-}
-
-.equipment-symbol-row strong {
-  font-size: 0.9rem;
-  color: var(--charcoal);
-}
-
-.equipment-symbol-row svg {
-  width: 90px;
-  height: 70px;
-}
-
-@media (max-width: 800px) {
-  .story-grid,
-  .media-compare,
-  .symbol-compare,
-  .drawing-choice-grid,
-  .equipment-grid {
-    grid-template-columns: 1fr;
-  }
-  .choice-card.media-choice .choice-image {
-    height: 190px;
-  }
-}
-
-/* ---------- Responsive ---------- */
-
-@media (max-width: 1100px) {
-  .game-shell {
-    grid-template-columns: 250px minmax(0, 1fr);
-  }
-  .science-panel {
-    display: grid;
-    grid-row: 2;
-    grid-column: 1 / -1;
-    grid-template-columns: 2fr 1fr;
-    height: 250px;
-  }
-  .science-panel .console-heading {
-    grid-column: 1 / -1;
-  }
-  .checkpoint-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-column: 1;
-  }
-  .mission-list {
-    height: auto;
-  }
-  .mission-button {
-    height: auto;
-  }
-  .science-lock {
-    min-height: 160px;
-  }
-}
-
-@media (max-width: 800px) {
-  .game-shell {
-    grid-template-rows: 2fr 1fr;
-    grid-template-columns: 1fr 1fr;
-  }
-  .stage-panel {
-    grid-column: 1 / -1;
-  }
-  .mission-nav {
-    height: 100%;
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .mission-list {
-    grid-template-columns: 1fr;
-  }
-  .mission-nav-footer {
-    display: none;
-  }
-  .science-panel {
-    grid-column: 2;
-    grid-row: 2;
-  }
-  /*
-
-      .mission-nav-footer {
-        display: none;
-      }
-
-      .stage-screen,
-      .start-screen,
-      .expedition-mission.section {
-        min-height: auto;
-      }
-
-      .content-grid,
-      .choice-grid,
-      .specimen-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .stage-controls {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .control-status {
-        grid-column: 1 / -1;
-      }
-
-      .stage-controls .expedition-button {
-        width: 100%;
-        padding-inline: 10px;
-      }
-
-      .checkpoint-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr)); 
-      }*/
-}
-
-@media (max-width: 520px) {
-  /* .mission-list,
-      .checkpoint-list {
-        grid-template-columns: 1fr;
-      } */
-
-  .expedition-banner h1 {
-    font-size: 2rem;
-  }
-  .mission-window-body,
-  .expedition-mission.section {
-    padding: 16px;
-  }
-}
-
-/* ---------- Mission 4: shallow-water camera trials ---------- */
-
-.m4-preamble {
-  margin: 0 0 16px;
-  padding: 14px 16px;
-  border: 3px solid var(--charcoal);
-  border-left: 10px solid var(--blue);
-  border-radius: 14px;
-  background: var(--soft-blue);
-  color: var(--charcoal);
-  line-height: 1.55;
-}
-
-.m4-feature-cues {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0 0 18px;
-}
-
-.m4-feature-cues span {
-  padding: 7px 10px;
-  border: 2px solid var(--mission-border);
-  border-radius: 999px;
-  background: var(--mission-bg-alt);
-  color: var(--mission-text);
-  font-size: 0.78rem;
-  font-weight: 800;
-}
-
-.shallow-fish-question {
-  margin-top: 18px;
-  padding: 18px;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: var(--mission-bg-alt);
-  box-shadow: 0 4px 0 var(--mission-shadow);
-}
-
-.shallow-fish-question > h4 {
-  margin: 0 0 4px;
-  color: var(--mission-text);
-}
-
-.shallow-fish-question > p {
-  margin: 0;
-  color: var(--mission-muted);
-}
-
-.m4-clownfish-choice svg {
-  display: block;
-  width: 100%;
-  height: 210px;
-  margin-bottom: 12px;
-  border: 2px solid rgba(48, 51, 47, 0.22);
-  border-radius: 12px;
-  background: #fbfbf8;
-}
-
-.m4-batfish-dd .dd-board {
-  grid-template-columns: 1fr;
-}
-
-.m4-batfish-target {
-  position: relative;
-  width: 100%;
-  min-height: 0;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: #f8fbfc;
-}
-
-.m4-batfish-diagram {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 0;
-}
-
-/*
-      The batfish diagram supplies the orange leader lines. These HTML drop zones
-      sit beside the line ends so the generic DragDropActivity can handle the
-      guided labelling interaction without printed boxes in the image.
-    */
-.m4-batfish-target [data-dd-slot] {
-  position: absolute !important;
-  left: var(--dd-x) !important;
-  top: var(--dd-y) !important;
-  z-index: 3;
-  width: var(--dd-w, 24%) !important;
-  height: var(--dd-h, 8.5%) !important;
-  min-width: 0 !important;
-  min-height: 44px !important;
-  translate: 0 0 !important;
-  transform: translate(-50%, -50%) !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px !important;
-  border: 2px dashed rgba(10, 174, 217, 0.42) !important;
-  border-radius: 14px !important;
-  background: rgba(255, 255, 255, 0.98) !important;
-  box-shadow: none !important;
-}
-
-.m4-batfish-target [data-dd-slot]:hover,
-.m4-batfish-target [data-dd-slot]:focus-visible,
-.m4-batfish-target [data-dd-slot].dd-hover {
-  border-color: var(--blue) !important;
-  background: rgba(216, 247, 255, 0.98) !important;
-  outline: none;
-}
-
-.m4-batfish-target [data-dd-slot].dd-filled {
-  border-color: var(--green) !important;
-  background: rgba(215, 245, 233, 0.98) !important;
-}
-
-/*
-      Mission 2 stage 4: labels the diagram built up by the previous
-      item-match stage. The diagram itself is static (a snapshot copied in
-      by syncDiagramLabelBoard() in lesson5.js), with its own small SVG of
-      dashed leader lines on top running from each slot to the diagram part
-      it labels - same drop-zone-beside-a-line idea as the batfish stage,
-      just with drawn lines instead of lines baked into a reference image.
-    */
-.diagram-label-board {
-  position: relative;
-  width: 100%;
-  max-height: 420px;
-  margin: 0 auto;
-  aspect-ratio: 480 / 440;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 4px 0 var(--mission-shadow);
-}
-
-.diagram-label-diagram {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  color: var(--charcoal);
-}
-
-.diagram-label-lines {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.diagram-label-lines line {
-  stroke: var(--charcoal);
-  stroke-width: 0.5;
-  opacity: 0.5;
-}
-
-.diagram-label-board [data-dd-slot] {
-  --dd-w: 15%;
-  --dd-h: 10%;
-
-  position: absolute !important;
-  left: var(--dd-x) !important;
-  top: var(--dd-y) !important;
-  z-index: 2;
-  width: var(--dd-w) !important;
-  height: var(--dd-h) !important;
-  min-width: 0 !important;
-  min-height: 40px !important;
-  transform: translate(-50%, -50%) !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px !important;
-  border: 2px solid var(--charcoal) !important;
-  border-radius: 14px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: none !important;
-}
-
-.diagram-label-board [data-dd-slot]:hover,
-.diagram-label-board [data-dd-slot]:focus-visible,
-.diagram-label-board [data-dd-slot].dd-hover {
-  border-color: var(--blue) !important;
-  background: rgba(216, 247, 255, 0.98) !important;
-  outline: none;
-}
-
-.diagram-label-board [data-dd-slot].dd-filled {
-  border-color: var(--green) !important;
-  background: rgba(215, 245, 233, 0.98) !important;
-}
-
-.diagram-label-tray {
-  margin-top: 16px;
-}
-
-.m4-batfish-target [data-dd-slot] .m4-label-token,
-.diagram-label-board [data-dd-slot] .m4-label-token {
-  width: 100%;
-  min-width: 0;
-  height: 100%;
-
-  box-sizing: border-box;
-
-  padding: 3px 6px;
-  border: 0;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.97);
-
-  display: grid;
-  place-items: center;
-
-  line-height: 1.05;
-  font-size: 0.8rem;
-  white-space: normal;
-}
-
-.m4-asset-placeholder {
-  min-height: 330px;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 8px;
-  padding: 24px;
-  border: 3px dashed var(--mission-border);
-  border-radius: 16px;
-  color: var(--mission-muted);
-  text-align: center;
-  background: var(--mission-bg-alt);
-}
-
-.m4-asset-placeholder strong {
-  color: var(--mission-text);
-}
-
-.m4-label-tray {
-  margin-top: 14px;
-}
-
-.m4-label-token {
-  min-width: 120px;
-  padding: 8px 12px;
-  border: 2px solid var(--mission-border);
-  border-radius: 999px;
-  color: var(--charcoal);
-  font-weight: 800;
-  text-align: center;
-  line-height: 1.1;
-}
-
-.frogfish-labelling-grid {
-  margin-top: 16px;
-}
-
-.frogfish-image-stage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border: 3px solid var(--mission-border);
-  border-radius: 18px;
-  background: #fbfbf8;
-  box-shadow: 0 4px 0 var(--mission-shadow);
-}
-
-.frogfish-image-stage > img {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: white;
-}
-
-.frogfish-placeholder {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  min-height: 0;
-  border: 0;
-  border-radius: 0;
-}
-
-/*
-      Independent labelling: the image supplies the leader lines,
-      while these HTML text fields sit at the line ends. Students
-      must supply the terminology themselves rather than choosing
-      from a word bank.
-    */
-.frogfish-label-entry {
-  position: absolute;
-  left: var(--frog-left);
-  top: var(--frog-top);
-  z-index: 3;
-  width: var(--frog-width, 20%);
-  min-width: 118px;
-
-  /* --frog-top now represents the centre of the label */
-  transform: translateY(-50%);
-}
-
-.frogfish-label-entry input {
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 46px;
-  padding: 9px 11px;
-  border: 2px dashed rgba(10, 174, 217, 0.72);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--charcoal);
-  box-shadow: 0 2px 0 rgba(48, 51, 47, 0.12);
-  font: inherit;
-  font-size: clamp(0.66rem, 1.15vw, 0.88rem);
-  font-weight: 800;
-  text-align: center;
-}
-
-.frogfish-label-entry input::placeholder {
-  color: rgba(48, 51, 47, 0.52);
-  font-weight: 700;
-}
-
-.frogfish-label-entry input:hover,
-.frogfish-label-entry input:focus {
-  border-color: var(--blue);
-  border-style: solid;
-  outline: 4px solid rgba(10, 174, 217, 0.14);
-}
-
-/* A saved label (InputResponseActivity .ir-answer) replaces the input. Students use the X button to clear it. */
-.frogfish-label-entry .ir-answer {
-  position: relative;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 46px;
-  padding: 9px 36px 9px 11px;
-  border: 2px solid var(--blue);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.98);
-  color: var(--charcoal);
-  box-shadow: 0 2px 0 rgba(48, 51, 47, 0.12);
-  font-size: clamp(0.66rem, 1.15vw, 0.88rem);
-  font-weight: 800;
-  text-align: center;
-  overflow-wrap: anywhere;
-}
-
-.frogfish-label-entry .delete-answer {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  width: 27px;
-  height: 27px;
-  translate: 0 -50%;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 2px solid rgba(48, 51, 47, 0.35);
-  border-radius: 50%;
-  background: white;
-  color: var(--charcoal);
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 900;
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: 0 1px 0 rgba(48, 51, 47, 0.15);
-}
-
-.frogfish-label-entry .delete-answer:hover,
-.frogfish-label-entry .delete-answer:focus-visible {
-  border-color: var(--orange);
-  background: var(--soft-orange);
-  outline: none;
-}
-
-/* Frogfish example modal shown after CHECK. */
-#frogfishExampleModal {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: none;
-  place-items: center;
-  padding: 24px;
-  background: rgba(3, 16, 30, 0.78);
-}
-
-#frogfishExampleModal .frogfish-example-content {
-  width: min(900px, 94vw);
-  max-height: 90vh;
-  overflow: auto;
-  padding: 20px;
-  border: 3px solid var(--exp-cyan);
-  border-radius: 20px;
-  background: var(--exp-navy);
-  color: var(--exp-white);
-  box-shadow: var(--exp-shadow);
-}
-
-.frogfish-example-header {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
-}
-
-.frogfish-example-header h2 {
-  margin: 0;
-  color: white;
-  font-family: "Oxanium", sans-serif;
-}
-
-.frogfish-example-header p {
-  margin: 5px 0 0;
-  color: var(--exp-muted);
-  line-height: 1.5;
-}
-
-.frogfish-example-close {
-  flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
-  border: 2px solid var(--exp-cyan);
-  border-radius: 50%;
-  background: var(--exp-panel);
-  color: white;
-  font-size: 1.35rem;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.frogfish-example-image {
-  display: block;
-  width: 100%;
-  max-height: 62vh;
-  object-fit: contain;
-  border: 3px solid var(--charcoal);
-  border-radius: 16px;
-  background: white;
-}
-
-.frogfish-example-placeholder {
-  min-height: 320px;
-  display: grid;
-  place-items: center;
-  padding: 30px;
-  border: 3px dashed rgba(117, 221, 232, 0.4);
-  border-radius: 16px;
-  color: var(--exp-muted);
-  text-align: center;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.frogfish-example-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
-@media (max-width: 800px) {
-  .frogfish-label-entry {
-    min-width: 92px;
-  }
-  .frogfish-label-entry input,
-  .frogfish-label-entry .ir-answer {
-    min-height: 38px;
-    padding: 6px 7px;
-    font-size: clamp(0.52rem, 1.8vw, 0.72rem);
-    border-radius: 10px;
-  }
-}
-
-.item-match-placeholder {
-  display: flex;
-  background: var(--soft-green);
-  border: 2px solid var(--green);
-  border-left: 8px solid var(--green);
-  border-radius: 14px;
-  color: var(--charcoal);
-
-  padding: 10px 0;
-  margin-top: 15px;
-  justify-content: center;
-}
-
-/* END OF POKEDEX ELEMENTS */
 </style>

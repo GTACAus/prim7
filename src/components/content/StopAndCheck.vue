@@ -7,6 +7,7 @@
 import { computed, ref } from "vue";
 import ButtonReveal from "../activities/ButtonReveal.vue";
 import Button from "../ui/Button.vue";
+import FloatingTitleBox from "../ui/FloatingTitleBox.vue";
 
 const reveal = ref(null);
 const pressed = computed(() => reveal.value?.pressed ?? false);
@@ -16,77 +17,53 @@ defineExpose({ pressed });
 
 <template>
   <ButtonReveal ref="reveal" class="stop-and-check" v-slot="{ pressed, press }">
-    <div class="stop-and-check-content">
-      <slot name="content" />
-      <p>Click the button below to check your answer.</p>
-    </div>
-    <img
-      src="../component_assets/stopandthinkicon.png"
-      alt="Stop and think icon"
-    />
-    <div v-if="pressed" class="stop-and-check-answer">
-      <slot name="answer" />
-    </div>
-    <Button v-else class="stop-and-check-button" symbol="✅" @click="press">
-      Check Your Answer
-    </Button>
+    <FloatingTitleBox
+      title="STOP AND THINK"
+      border-color="var(--blue)"
+      class="stop-and-check-box"
+    >
+      <div class="stop-and-check-content">
+        <slot name="content" />
+        <p>Click the button below to check your answer.</p>
+      </div>
+      <img
+        src="../component_assets/stopandthinkicon.png"
+        alt="Stop and think icon"
+      />
+      <FloatingTitleBox
+        v-if="pressed"
+        title="Answer"
+        border-color="var(--green)"
+        title-color="var(--paper)"
+        class="stop-and-check-answer"
+      >
+        <slot name="answer" />
+      </FloatingTitleBox>
+      <Button v-else class="stop-and-check-button" symbol="✓" @click="press">
+        Check Your Answer
+      </Button>
+    </FloatingTitleBox>
   </ButtonReveal>
 </template>
 
 <style scoped>
-.stop-and-check::before {
-  content: "STOP AND THINK";
-
-  position: absolute;
-  top: -16px;
-  left: 18px;
-
-  padding: 4px 12px;
-
-  background: var(--blue);
-  border: 2px solid var(--line);
-  border-radius: 999px;
-
-  color: var(--text);
-
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+/* The box itself is the grid: question on the left, icon on the right, and
+   the answer / button on a full-width row underneath. */
+.stop-and-check-box {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(150px, 1fr);
+  align-items: center;
+  column-gap: 16px;
+  margin: 0;
+  font-weight: 500;
 }
 
 .stop-and-check-answer {
-  position: relative;
   grid-column: 1 / -1;
-  margin-top: 15px;
+  margin: 20px 0 0;
+  padding: 15px 15px 10px;
   background-color: var(--soft-green);
-  border-radius: 16px;
-  padding: 10px 15px;
-  padding-top: 15px;
-  margin-top: 20px;
-  border: 2px solid var(--charcoal);
-  border-top: 4px solid var(--green);
-  animation: pop-fade-in 0.5s ease-out;
-}
-
-.stop-and-check-answer::before {
-  content: "ANSWER";
-  text-transform: uppercase;
-
-  position: absolute;
-  top: -16px;
-  left: 18px;
-
-  padding: 4px 12px;
-
-  background: var(--green);
-  border: 2px solid var(--line);
-  border-radius: 999px;
-
-  color: var(--paper);
-
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-weight: 500;
 }
 
 .stop-and-check-button {
@@ -106,35 +83,16 @@ defineExpose({ pressed });
 }
 
 .stop-and-check {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin: 30px 0 24px;
-  padding: 16px 18px;
-  border: 3px solid var(--charcoal);
-  border-top: 6px solid var(--blue);
-  background: var(--paper);
-  box-shadow: 0 4px 0 var(--charcoal);
-  border-radius: 16px;
-  font-weight: 500;
-  color: var(--text);
-  animation: pop-fade-in 0.5s ease-out;
 }
 
 .stop-and-check[hidden] {
   display: none;
 }
 
-.stop-and-check {
-  display: grid;
-  grid-template-columns: 4fr 1fr;
-  grid-template-rows: 1fr;
-}
-
 .stop-and-check img {
-  align-self: center;
-  width: clamp(150px, 20vw, 200px);
+  justify-self: center;
+  width: clamp(150px, 20vw, 250px);
+  max-width: 100%;
 }
 </style>

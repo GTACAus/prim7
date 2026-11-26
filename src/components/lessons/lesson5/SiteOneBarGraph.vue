@@ -876,8 +876,7 @@ defineExpose({ buildActive: calculated, reset });
 }
 </style>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .partb-table-actions {
   display: flex;
@@ -888,7 +887,7 @@ defineExpose({ buildActive: calculated, reset });
   margin-top: 16px;
 }
 
-.partb-table-actions .challenge-feedback {
+.partb-table-actions :deep(.challenge-feedback) {
   flex: 1 1 320px;
   margin: 0;
 }
@@ -901,7 +900,7 @@ defineExpose({ buildActive: calculated, reset });
   border-radius: 14px;
 }
 
-.partb-unit-check p {
+.partb-unit-check :deep(p) {
   margin: 0 0 10px;
   line-height: 1.45;
 }
@@ -974,26 +973,26 @@ defineExpose({ buildActive: calculated, reset });
   box-shadow: var(--shadow-small);
 }
 
-.partb-graph-check h3,
-.partb-analysis-panel h3 {
+.partb-graph-check :deep(h3),
+.partb-analysis-panel :deep(h3) {
   margin: 4px 0 8px;
 }
 
-.partb-graph-check > p,
-.partb-analysis-panel > p {
+.partb-graph-check > :deep(p),
+.partb-analysis-panel > :deep(p) {
   margin: 0;
   color: var(--muted);
   line-height: 1.5;
 }
 
-.partb-check-grid {
+:deep(.partb-check-grid) {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin: 16px 0;
 }
 
-.partb-check-item {
+:deep(.partb-check-item) {
   display: grid;
   grid-template-columns: 20px 1fr;
   gap: 10px;
@@ -1006,16 +1005,16 @@ defineExpose({ buildActive: calculated, reset });
   cursor: pointer;
 }
 
-.partb-check-item input[type="checkbox"] {
+:deep(.partb-check-item input[type="checkbox"]) {
   margin: 2px 0 0;
 }
 
-.partb-analysis-question[hidden],
+:deep(.partb-analysis-question[hidden]),
 .partb-baseline-summary[hidden] {
   display: none !important;
 }
 
-.partb-analysis-animal-grid {
+:deep(.partb-analysis-animal-grid) {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -1027,7 +1026,7 @@ defineExpose({ buildActive: calculated, reset });
   border-radius: 18px;
 }
 
-.partb-baseline-summary h3 {
+.partb-baseline-summary :deep(h3) {
   margin: 4px 0 8px;
 }
 
@@ -1046,7 +1045,7 @@ defineExpose({ buildActive: calculated, reset });
   text-align: center;
 }
 
-.partb-baseline-fact strong {
+.partb-baseline-fact :deep(strong) {
   display: block;
   margin-bottom: 4px;
   color: var(--purple);

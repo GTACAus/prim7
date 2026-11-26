@@ -1,0 +1,511 @@
+/* ==================================================
+   DATA TABLES (lessons 3 and 4) - shared styles
+   Data tables, intro cards and result tables used by
+   both the lesson 3 yeast investigation and the lesson 4 ball bounce.
+   Imported in main.js (see the note there).
+   ================================================== */
+
+:root:is([data-page="lesson3"], [data-page="lesson4"]) {
+  .data-table-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+
+    background: linear-gradient(
+      to bottom,
+      var(--paper) 0%,
+      var(--paper) 50%,
+      var(--blue) 300%
+    );
+
+    border: 3px solid var(--charcoal);
+    border-radius: 24px;
+    box-shadow: var(--shadow-small);
+  }
+
+  .experiment-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    padding: 4px;
+    scrollbar-width: thin;
+  }
+
+  /* ---------- Table ---------- */
+
+  .experiment-table {
+    width: 100%;
+    min-width: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    color: var(--text);
+  }
+
+  .experiment-table th,
+  .experiment-table td {
+    height: 82px;
+    padding: 12px 14px;
+
+    border: 1px solid var(--charcoal);
+    border-radius: 0;
+
+    box-shadow: none;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.35;
+  }
+
+  .experiment-table .dependent-heading,
+  .experiment-table .independent-heading {
+    border-width: 2px;
+  }
+
+  .experiment-table th {
+    font-weight: 700;
+  }
+
+  .experiment-table td {
+    background: var(--paper);
+    font-weight: 600;
+  }
+
+  /* ---------- Semantic table colours ---------- */
+
+  /* DEPENDENT VARIABLE = PURPLE */
+  .dependent-heading {
+    height: 64px !important;
+    background: var(--purple);
+    color: white;
+
+    font-size: 1.04rem;
+    letter-spacing: 0.015em;
+    text-transform: uppercase;
+  }
+
+  /* TEST / REPEAT TRIAL = NEUTRAL LAVENDER */
+  .test-heading {
+    background: var(--lavender);
+    color: var(--text);
+    text-transform: uppercase;
+  }
+
+  .average-heading {
+    background: var(--soft-blue);
+    color: var(--text);
+    font-weight: 600;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  /* INDEPENDENT VARIABLE = YELLOW */
+  .independent-heading {
+    background: var(--yellow);
+    color: var(--text);
+
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* VALUES OF THE INDEPENDENT VARIABLE = SOFT YELLOW */
+  .independent-value {
+    width: 170px;
+    background: var(--soft-yellow);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 800px) {
+    .data-table-card {
+      padding: 16px 10px;
+    }
+  }
+
+  /* ---------- Print ---------- */
+
+  @media print {
+    .data-table-card {
+      padding: 5mm !important;
+      background: white !important;
+      box-shadow: none !important;
+    }
+    .experiment-table-scroll {
+      overflow: visible !important;
+    }
+    .experiment-table {
+      min-width: 0 !important;
+    }
+    .experiment-table th,
+    .experiment-table td {
+      height: 20mm !important;
+      padding: 3mm !important;
+    }
+  }
+
+  /* ==================================================
+     LESSON 3 - EDITABLE TABLE CONTROLS
+     ================================================== */
+
+  /* Keep table controls inside their own cells */
+  .experiment-table td,
+  .experiment-table th {
+    overflow: hidden;
+  }
+
+  /* ---------- Number entry cells ---------- */
+  .table-number-input,
+  .table-text-input {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin: 0;
+
+    background: white;
+    color: var(--text);
+
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    outline: 4px solid transparent;
+
+    font: inherit;
+    text-align: center;
+
+    box-sizing: border-box;
+
+    transition:
+      outline-color 0.3s ease,
+      border-color 0.2s ease;
+  }
+
+  .table-number-input {
+    height: 52px;
+    padding: 10px 12px;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    appearance: textfield;
+  }
+
+  /* Hide number spinners */
+  /* Chrome, Edge, Safari */
+  .table-number-input::-webkit-inner-spin-button,
+  .table-number-input::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+
+  /* Firefox */
+  .table-number-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .table-number-input:focus,
+  .table-text-input:focus {
+    outline-color: rgba(78, 50, 232, 0.18);
+    border-color: var(--purple);
+  }
+
+  /* ---------- Average buttons ---------- */
+  .average-cell {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .average-button[hidden] {
+    display: none;
+  }
+
+  .average-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: clamp(80px, 7vw, 104px);
+    min-height: 44px;
+    padding: 10px 16px;
+
+    background: var(--yellow);
+    color: var(--text);
+
+    border-radius: 999px;
+
+    font: inherit;
+    font-weight: 700;
+    font-size: clamp(10px, 3vw, 15px);
+
+    appearance: none;
+  }
+
+  .average-button:hover {
+    background: var(--soft-blue);
+  }
+
+  .average-result {
+    background: var(--soft-green) !important;
+    font-size: 1.1rem;
+    font-weight: 700 !important;
+  }
+
+  #labelsCompleteAfterContainer .stop-and-check {
+    margin: 10px 0 10px;
+  }
+
+  #yeast-labels .dd-ghost {
+    width: max-content;
+    max-width: 90vw;
+  }
+
+  /* A label sitting in a table cell reads as the cell's text, not a chip */
+  #yeast-labels .label-drop-zone.dd-filled {
+    animation: pop-fade-in 0.5s ease;
+  }
+
+  #yeast-labels .label-drop-zone [data-dd-item].dd-placed {
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    border: none;
+    box-shadow: none;
+    font: inherit;
+    text-transform: inherit;
+    cursor: grab;
+    transform: none;
+  }
+
+  /* Make the drop target look active */
+
+  #yeast-labels .label-drop-zone.dd-hover {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 4px rgba(78, 50, 232, 0.15);
+  }
+
+  #yeast-labels .independent-heading .label-drop-zone.dd-hover,
+  #yeast-labels .independent-value .label-drop-zone.dd-hover {
+    background: var(--soft-purple) !important;
+  }
+
+  #yeast-labels .dependent-heading .label-drop-zone.dd-hover,
+  #yeast-labels .test-heading .label-drop-zone.dd-hover {
+    background: var(--soft-yellow);
+  }
+
+  /* ---------- Incorrect drop ---------- */
+
+  #yeast-labels .label-drop-zone.dd-rejected {
+    background: var(--soft-orange);
+    border-color: var(--orange);
+  }
+
+  #yeast-labels .dependent-heading .label-drop-zone.dd-hover {
+    background: var(--soft-yellow);
+    color: var(--text);
+
+    border-color: var(--yellow);
+  }
+
+  #yeast-labels .dependent-heading .label-drop-zone.dd-filled {
+    background: transparent;
+    color: white;
+
+    border-color: transparent;
+
+    text-transform: uppercase;
+  }
+
+  /* ---------- Independent-variable drop area ---------- */
+  #yeast-labels .independent-heading .label-drop-zone.dd-hover {
+    background: var(--soft-yellow);
+    color: var(--text);
+
+    border-color: var(--yellow);
+  }
+
+  #yeast-labels .independent-heading .label-drop-zone.dd-filled {
+    background: transparent;
+    border-color: transparent;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Test-heading drop areas ---------- */
+
+  #yeast-labels .test-heading {
+    padding: 10px;
+  }
+
+  #yeast-labels .test-heading .label-drop-zone.dd-filled {
+    background: transparent;
+    border-color: transparent;
+
+    text-transform: uppercase;
+  }
+
+  /* ---------- Temperature row labels ---------- */
+
+  #yeast-labels .independent-value {
+    padding: 10px;
+  }
+
+  #yeast-labels .independent-value .label-drop-zone.dd-filled {
+    background: transparent;
+    border-color: transparent;
+
+    text-transform: uppercase;
+  }
+
+  /* ---------- Table cell answers (InputResponseActivity) ---------- */
+
+  .table-result-list .ir-answer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 54px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+
+    background: white;
+    color: var(--text);
+
+    border: 2px solid var(--line);
+    border-radius: 12px;
+
+    font-weight: 700;
+  }
+
+  .table-result-list .ir-answer span {
+    flex: 1;
+    text-align: center;
+  }
+
+  .table-result-list .delete-answer {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--soft-orange);
+    color: var(--text);
+
+    border: 2px solid var(--line);
+    border-radius: 50%;
+
+    font: inherit;
+    font-weight: 700;
+    line-height: 1;
+
+    cursor: pointer;
+  }
+
+  /* ---------- Yeast number answer feedback (data-answer) ---------- */
+
+  #yeast-labels .table-result-list .ir-answer.ir-correct {
+    background: var(--soft-green);
+    border-color: var(--green);
+  }
+
+  #yeast-labels .table-result-list .ir-answer.ir-incorrect {
+    background: var(--soft-orange);
+    border-color: var(--orange);
+  }
+
+  /* Section Headings */
+  #data-table-template .section-title {
+    background-color: var(--blue);
+  }
+
+  #yeast-labels .section-title {
+    background-color: var(--mint);
+  }
+
+  /* ==================================================
+     LESSON 3 - ACTIVITY FEEDBACK CARDS
+     ================================================== */
+
+  .table-activity-feedback {
+    width: min(620px, 100%);
+    margin: 18px auto 0;
+    padding: 14px 18px;
+
+    background: var(--paper);
+
+    border: 2px solid var(--line);
+    border-radius: 16px;
+
+    box-shadow: 0 3px 0 rgba(48, 51, 47, 0.18);
+
+    color: var(--text);
+    text-align: left;
+    line-height: 1.45;
+
+    box-sizing: border-box;
+    animation: pop-fade-in 0.5s ease;
+  }
+
+  /* Keep hidden feedback completely out of the layout */
+  .table-activity-feedback[hidden] {
+    display: none;
+  }
+
+  /* Main feedback heading */
+  .table-activity-feedback strong {
+    display: block;
+    margin-bottom: 3px;
+
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* Supporting text */
+  .table-activity-feedback span {
+    display: block;
+
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* ---------- Try again / warning ---------- */
+
+  .table-activity-feedback.feedback-try-again {
+    background: var(--soft-orange);
+    border-color: var(--orange);
+  }
+
+  /* ==================================================
+     INDIVIDUAL AVERAGE RESET
+     ================================================== */
+
+  .average-result-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    gap: 10px;
+  }
+
+  .average-result-value {
+    flex: 1;
+
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  /* ==================================================
+     YEAST IMAGE-INVESTIGATION
+     ================================================== */
+  #yeast-image-investigation .section-title {
+    background: var(--blue);
+  }
+}

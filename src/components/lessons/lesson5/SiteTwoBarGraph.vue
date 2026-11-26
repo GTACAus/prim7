@@ -351,8 +351,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   </div>
 </template>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .partc-data-card {
   padding: 18px;
@@ -393,22 +392,22 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   display: none !important;
 }
 
-#partCGraphSvg .partc-final-axis-label {
+:deep(#partCGraphSvg .partc-final-axis-label) {
   opacity: 0;
   transition: opacity 0.25s ease;
 }
 
-#partCGraphSvg .partc-final-axis-label.visible {
+:deep(#partCGraphSvg .partc-final-axis-label.visible) {
   opacity: 1;
 }
 
-#partCGraphSvg .partc-scaffold-layer {
+:deep(#partCGraphSvg .partc-scaffold-layer) {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
 
-#partCGraphSvg .partc-scaffold-layer.visible {
+:deep(#partCGraphSvg .partc-scaffold-layer.visible) {
   opacity: 1;
 }
 
@@ -420,7 +419,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   border-radius: 14px;
 }
 
-.partc-unit-check p {
+.partc-unit-check :deep(p) {
   margin: 0 0 10px;
   line-height: 1.45;
 }
@@ -445,7 +444,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   display: none !important;
 }
 
-.partc-slider-stage h4 {
+.partc-slider-stage :deep(h4) {
   margin: 3px 0 5px;
   font-size: 1.08rem;
 }
@@ -478,7 +477,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   opacity: 1;
 }
 
-#partCGraphSvg .partc-category-label.complete {
+:deep(#partCGraphSvg .partc-category-label.complete) {
   fill: var(--green);
   font-weight: 800;
 }
@@ -495,7 +494,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   padding: 18px;
 }
 
-.partc-analysis-question[hidden],
+:deep(.partc-analysis-question[hidden]),
 .partc-complete-card[hidden] {
   display: none !important;
 }
@@ -509,7 +508,7 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
   gap: 16px;
 }
 
-.partc-complete-card h3 {
+.partc-complete-card :deep(h3) {
   margin: 0;
 }
 
@@ -550,8 +549,8 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
 
 @media (prefers-reduced-motion: reduce) {
   #partCGraphSvg .partc-practice-bar,
-  #partCGraphSvg .partc-final-axis-label,
-  #partCGraphSvg .partc-scaffold-layer {
+  :deep(#partCGraphSvg .partc-final-axis-label),
+  :deep(#partCGraphSvg .partc-scaffold-layer) {
     transition: none !important;
     animation: none !important;
   }
@@ -598,15 +597,15 @@ defineExpose({ barsActive: computed(() => unitDone.value && !barsDone.value) });
     min-width: 0;
     table-layout: fixed;
   }
-  .partc-workbench .partc-data-table th,
-  .partc-workbench .partc-data-table td {
+  .partc-workbench .partc-data-table :deep(th),
+  .partc-workbench .partc-data-table :deep(td) {
     padding: 7px 6px;
     font-size: 0.76rem;
     line-height: 1.22;
     overflow-wrap: anywhere;
   }
-  .partc-workbench .partc-data-table th:first-child,
-  .partc-workbench .partc-data-table td:first-child {
+  .partc-workbench .partc-data-table :deep(th:first-child),
+  .partc-workbench .partc-data-table :deep(td:first-child) {
     width: 36%;
   }
 }

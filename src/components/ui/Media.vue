@@ -60,21 +60,24 @@ const hasCaption = computed(() => !!(props.caption || props.credit || slots.capt
 </template>
 
 <style>
-/* :where() keeps these margins at zero specificity, so any class the page
-   puts on a Media (e.g. .spaced-block) wins. */
+/* Not scoped on purpose: :where() keeps these margins at zero specificity, so
+   any class the page puts on a Media (e.g. .spaced-block) wins. Scoping would
+   add specificity. */
 :where(.media) {
   margin: 0;
 }
 
+:where(.media--framed) {
+  margin: 20px 0;
+}
+</style>
+
+<style scoped>
 .media > img,
 .media > video {
   display: block;
   width: 100%;
   height: auto;
-}
-
-:where(.media--framed) {
-  margin: 20px 0;
 }
 
 .media--framed {

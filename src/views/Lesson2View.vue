@@ -1,6 +1,6 @@
 <script setup>
 // Loads before the components so its rules keep the cascade order of the old stylesheet.
-import "../styles/lesson2.css";
+import "../styles/pages/lesson2.css";
 import { computed, ref } from "vue";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
@@ -185,7 +185,6 @@ const sections = [
         :objective="objective"
         :criteria="criteria"
       >
-
         <template #title>Planning a <strong>Fair Test</strong></template>
 
         <template #observation>
@@ -269,7 +268,7 @@ const sections = [
           ================================================== -->
       <Section name="variable-types">
         <ContentBox>
-          <p class="activity-instruction">
+          <p>
             In a <strong>fair test</strong>, you change one
             <strong>variable</strong> and measure the effect this causes on
             another <strong>variable</strong>. You keep all other
@@ -306,7 +305,7 @@ const sections = [
           We write a testable question to show what is changed and what is
           measured in a <strong>fair test</strong>.
         </div>
-        <StopAndCheck class="stop-and-check">
+        <StopAndCheck>
           <template #content>
             In a <strong>fair test</strong>, why is it important to only change
             one <strong>variable</strong>? Why should you keep all other

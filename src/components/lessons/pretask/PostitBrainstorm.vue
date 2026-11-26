@@ -39,8 +39,7 @@ defineProps({
   </InputResponse>
 </template>
 
-<style>
-/* Moved from pretask_styles/pretask.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 .postit-brainstorm {
   position: relative;
@@ -70,7 +69,7 @@ defineProps({
   padding: 8px;
 }
 
-.postit-answer input {
+.postit-answer :deep(input) {
   width: 100%;
   height: 100%;
 
@@ -92,12 +91,12 @@ defineProps({
   outline: none;
 }
 
-.postit-answer input:focus {
+.postit-answer :deep(input:focus) {
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 0 0 3px rgba(0, 188, 116, 0.2);
 }
 
-.postit-answer .brainstorm-answer {
+.postit-answer :deep(.brainstorm-answer) {
   width: 100%;
   height: 100%;
 

@@ -136,8 +136,7 @@ import DragItem from "../../activities/DragItem.vue";
   </DragDrop>
 </template>
 
-<style>
-/* Moved from styles/pretask_styles/word_drag_and_drop.css. Not scoped: the drag ghost lives on <body>. */
+<style scoped>
 
 #wordSentencesActivity {
   --dd-accent: #22c55e;
@@ -196,7 +195,7 @@ import DragItem from "../../activities/DragItem.vue";
 
 /* ---------- blanks (data-dd-slot) ---------- */
 
-#wordSentencesActivity [data-dd-slot] {
+#wordSentencesActivity :deep([data-dd-slot]) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -209,28 +208,28 @@ import DragItem from "../../activities/DragItem.vue";
   background: rgba(255, 255, 255, 0.6);
 }
 
-#wordSentencesActivity [data-dd-slot].dd-filled {
+#wordSentencesActivity :deep([data-dd-slot].dd-filled) {
   border: 2px solid var(--green);
   background: transparent;
 }
 
 /* The blank rule above outranks the base hover state, so restate it here
    to let --dd-accent and --dd-slot-hover-bg apply. */
-#wordSentencesActivity [data-dd-slot].dd-hover,
-#wordSentencesActivity.dd-has-selection [data-dd-slot]:not(.dd-filled):hover {
+#wordSentencesActivity :deep([data-dd-slot].dd-hover),
+#wordSentencesActivity.dd-has-selection :deep([data-dd-slot]:not(.dd-filled):hover) {
   border-color: var(--dd-accent);
   background: var(--dd-slot-hover-bg);
 }
 
 /* strictSlots: brief red flash when a dropped word doesn't belong here. */
-#wordSentencesActivity [data-dd-slot].dd-rejected {
+#wordSentencesActivity :deep([data-dd-slot].dd-rejected) {
   border-color: var(--dd-reject);
   background: #fee2e2;
 }
 
 /* ---------- word bank (data-dd-tray / data-dd-item) ---------- */
 
-#wordSentencesActivity [data-dd-tray] {
+#wordSentencesActivity :deep([data-dd-tray]) {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
@@ -241,9 +240,15 @@ import DragItem from "../../activities/DragItem.vue";
   justify-content: center;
 }
 
-#wordSentencesActivity [data-dd-item],
-.word-chip.dd-ghost, [data-dd-item].dd-ghost,
-#wordSentecesActivity [data-dd-item].dd-placed {
+#wordSentencesActivity :deep([data-dd-item]),
+
+
+
+:global([data-page="pretask"] .word-chip.dd-ghost),
+
+
+
+:global([data-page="pretask"] [data-dd-item].dd-ghost) {
   --background: white;
   --border: 2px solid #065f46;
   --border-radius: 8px;
@@ -260,17 +265,17 @@ import DragItem from "../../activities/DragItem.vue";
   transition: transform 0.15s, opacity 0.15s, background 0.15s;
 }
 
-#wordSentencesActivity [data-dd-item]:not(.dd-placed):active {
+#wordSentencesActivity :deep([data-dd-item]:not(.dd-placed):active) {
   transform: scale(0.95);
 }
 
-#wordSentencesActivity [data-dd-item]:not(.dd-placed):hover {
+#wordSentencesActivity :deep([data-dd-item]:not(.dd-placed):hover) {
   background: var(--soft-green);
   transform: scale(1.05);
 }
 
 /* A word sitting in a blank reads like filled-in text, not a loose chip. */
-#wordSentencesActivity [data-dd-item].dd-placed {
+#wordSentencesActivity :deep([data-dd-item].dd-placed) {
   background: transparent;
   color: #065f46;
   border: none;
@@ -278,9 +283,9 @@ import DragItem from "../../activities/DragItem.vue";
   box-shadow: none;
 }
 
-/* The ghost lives on <body>, outside #wordSentencesActivity, so it can't be
-   scoped by that id; it keeps the item's .word-chip class instead. */
-.word-chip.dd-ghost {
+/* The drag ghost is a copy of the item on <body>, outside this component, so
+   it can't be scoped to it: it is matched on the pre-task page instead. */
+:global([data-page="pretask"] .word-chip.dd-ghost) {
   background: var(--soft-green);
 }
 

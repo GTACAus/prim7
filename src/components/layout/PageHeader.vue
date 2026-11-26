@@ -6,9 +6,6 @@ import { downloadLessonPDF } from "../../composables/usePrintLesson.js";
 defineProps({
   // show "Save my work" instead of "Home" (pretask)
   save: { type: Boolean, default: false },
-  // optional link back to the first part of a lesson
-  backHref: { type: String, default: "" },
-  backLabel: { type: String, default: "Back" },
 });
 </script>
 
@@ -34,7 +31,7 @@ defineProps({
   </div>
 </template>
 
-<style>
+<style scoped>
 .page-header {
   position: fixed;
   top: 0;
@@ -100,22 +97,6 @@ defineProps({
   box-shadow: 0 1px 0 var(--line);
 }
 
-/* link back to Part B, sits beside Home in the header. */
-#back-to-part1-button {
-  grid-row: 2;
-
-  --background: var(--card);
-  --color: var(--text);
-
-  border-top: 5px solid var(--green);
-
-  pointer-events: auto;
-}
-
-#back-to-part1-button:hover {
-  --background: var(--soft-green);
-}
-
 .home-button,
 .glossary-button {
   --background: var(--card);
@@ -131,8 +112,7 @@ defineProps({
 
   .home-button,
   .glossary-button,
-  .save-work-button,
-  .back-to-part1-button {
+  .save-work-button {
     margin: 0;
     padding: 10px 14px;
     font-size: 0.7rem;

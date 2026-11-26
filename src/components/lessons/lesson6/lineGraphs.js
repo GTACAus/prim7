@@ -33,7 +33,7 @@ export const DEFAULT_MESSAGES = {
     (c.multi ? c.series.shortLabel + " · " : "") +
     `Point ${c.i + 1} of ${c.n}: plot (${c.pt.x}, ${formatNumber(c.pt.y)}).`,
   plotText: () =>
-    "Move the dotted guides until they cross at the highlighted row's x-value and average, then click the graph.",
+    "Move the dotted lines until they cross at the highlighted row's x-value and average, then click the graph.",
   hint: (c) => {
     const x = c.pt.x;
     const y = formatNumber(c.pt.y);
@@ -50,7 +50,7 @@ export const DEFAULT_MESSAGES = {
   ],
   connectBegin: (c) => [
     `All ${c.word} data points are plotted.`,
-    " Click any point to start the line, then connect neighbouring points until the whole pattern is joined.",
+    " Click any point to start the line, then connect neighbouring points until all the points are joined.",
   ],
   connectBad: () => [
     "Connect neighbouring points.",
@@ -58,7 +58,7 @@ export const DEFAULT_MESSAGES = {
   ],
   connectOk: (c) => [
     "Point connected.",
-    ` Keep joining a neighbouring point until all ${c.word} are part of one continuous line.`,
+    ` Keep joining neighbouring points until all ${c.word} points make a continuous line.`,
   ],
   /* guided style only */
   xWrong: (c) => [
@@ -71,15 +71,15 @@ export const DEFAULT_MESSAGES = {
   ],
   xRight: () => [
     "Correct x-value.",
-    " Follow the vertical dotted guide upward, then choose the average count on the y-axis.",
+    " Follow the vertical dotted line upward, then choose the average count on the y-axis.",
   ],
   yRight: () => [
     "Correct y-value.",
-    " Use the vertical and horizontal dotted guides together. Mark the point where they cross.",
+    " Use the vertical and horizontal dotted lines.  Mark the point where they cross.",
   ],
   intersectionMiss: () => [
     "Find the crossing point.",
-    " Click where the vertical and horizontal dotted guides intersect.",
+    " Click where the vertical and horizontal dotted lines intersect.",
   ],
   pointDone: (c) => [
     `Point ${c.i + 1} of ${c.n} plotted.`,
@@ -99,7 +99,7 @@ const evenlySpaced = (centres) => (index) => centres[index];
 
 const singleAverages = (use) => () => [
   "Averages calculated.",
-  ` The average values are now shown in the final column. Use them to ${use} the line graph.`,
+  ` The average numbers are now shown in the last column. Use these to build the line graph.`,
 ];
 
 function crosshairHint(xUnit, yUnit, closeX, closeY) {
@@ -125,14 +125,14 @@ const crosshairLabels = (plotHint, completeHint) => (phase) =>
   })[phase];
 
 const NEIGHBOUR_TEXT =
-  " Use the testable question and table headings to decide which variable or unit belongs on that axis.";
+  " Use the testable question and the table heading to work out which variable and unit go on that axis.";
 
 const SNAIL_UNIT_INTRO =
-  "Drag the correct <strong>variable</strong> and <strong>unit</strong> cards onto the dashed spaces on the graph. These survey counts are reported as <strong>number per m²</strong>.";
+  "Choose the correct <strong>variable</strong> and <strong>unit</strong> cards and drag them onto the spaces on the graph. These survey counts are reported as <strong>number per m²</strong>.";
 
 const LINE_COMPLETE = {
   title: "Line graph complete.",
-  text: " You calculated the averages, labelled the axes, plotted all five coordinates, and connected the points into a line.",
+  text: " You calculated the averages, labelled the axes, plotted all five points, and connected the points into a line.",
 };
 
 const LABEL_FIRST = {
@@ -213,7 +213,7 @@ export const ELEPHANT = {
       if (c.stage === "x") return `First choose ${c.pt.x} on the x-axis.`;
       if (c.stage === "y")
         return `Now choose ${formatNumber(c.pt.y)} on the y-axis.`;
-      return "Now click where the two dotted guides intersect.";
+      return "Now click where the two dotted lines intersect.";
     },
     xWrong: (c) => [
       "Check the highlighted table row.",
@@ -231,7 +231,7 @@ export const ELEPHANT = {
     answer: "supported",
     incorrectTitle: "Look at the trend again.",
     incorrectText:
-      " As distance from the low tide mark increases, what happens to the average number of elephant snails? Does that match the direction of the prediction?",
+      " As distance from the low tide mark increases, what happens to the average number of elephant snails? Does it match the prediction?",
   },
 };
 
@@ -302,7 +302,7 @@ export const CONNIWINKS = {
     hint: crosshairHint("", "", "x-position", "y-value"),
     aria: (c) => `${c.pt.x} metres, ${formatNumber(c.pt.y)} striped conniwinks`,
     labels: crosshairLabels(
-      "Move the dotted guides around the graph, then click the coordinate for the highlighted row.",
+      "Move the dotted lines around the graph, then click the coordinate for the highlighted row.",
       "The connected points show how the average number of striped conniwinks changes with distance.",
     ),
   },
@@ -329,7 +329,7 @@ export const YEAST = {
     {
       heading: "Table 3 · Circumference of the balloon",
       description:
-        "Five glass containers were set up with the same amount of yeast and sugar in the same volume of water. An identical balloon was fitted to each container. The containers were held at different temperatures, and the circumference of each balloon was measured after 1 hour. The fair test was repeated three times. Calculate the average balloon circumference at each temperature before you build the graph.",
+        "Five glass containers were set up with the same amount of yeast and sugar in the same volume of water. The same size balloon was attached to each container. The containers were kept at different temperatures.  The circumference of each balloon was measured after 1 hour. The fair test was repeated three times. Calculate the average balloon circumference at each temperature before you build the graph.",
       aria: "Balloon circumference at five temperatures across three trials",
       xHeader: "Temperature (°C)",
       groupHeader: "Circumference of the balloon (cm)",
@@ -342,15 +342,15 @@ export const YEAST = {
         [50, 11, 5, 8],
       ],
       start: {
-        title: "Start with the repeated measurements.",
-        text: " The graph will use the average balloon circumference at each temperature.",
+        title: "Start with the measurements.",
+        text: " The graph will show the average balloon circumference at each temperature.",
       },
     },
   ],
   cardClass: "spaced-block",
   averageMessage: singleAverages("build"),
   axisIntro:
-    "Drag the correct <strong>variable</strong> and <strong>unit</strong> cards onto the dashed spaces on the graph. Use the table headings and testable question to decide where they belong.",
+    "Choose the correct <strong>variable</strong> and <strong>unit</strong> cards and drag them onto the spaces on the graph. Use the table headings and testable question to decide where they belong.",
   cards: [
     { name: "temperature", text: "Temperature" },
     { name: "circumference", text: "Balloon circumference" },
@@ -375,20 +375,20 @@ export const YEAST = {
   axisWrong: NEIGHBOUR_TEXT,
   axisRight: " Keep going until both axes have a variable and unit.",
   axisDone:
-    " Temperature is on the x-axis and balloon circumference is on the y-axis. Now plot the averages.",
+    " Temperature is on the x-axis and balloon circumference is on the y-axis. Now plot the points.",
   messages: {
     plotText: () =>
-      "Move the dotted guides until they cross at the highlighted row's temperature and average circumference, then click the graph.",
+      "Move the dotted lines until they cross at the highlighted row's x and y-values, then click the graph.",
     hint: crosshairHint(" °C", " cm", "x-position", "y-value"),
     aria: (c) =>
       `${c.pt.x} degrees Celsius, ${formatNumber(c.pt.y)} centimetres average balloon circumference`,
     labels: crosshairLabels(
-      "Move the dotted guides around the graph, then click the coordinate for the highlighted row.",
+      "Move the dotted lines around the graph, then click the coordinate for the highlighted row.",
       "The connected points show how average balloon circumference changes with temperature.",
     ),
   },
   prediction: {
-    text: "As the temperature increases, the activity of the yeast increases. Living things like warmth, so warmth helps yeast to grow.",
+    text: "As the temperature increases, the growth of yeast increases. Living things like warmth, so warmth helps yeast to grow.",
     answer: "partly-supported",
     incorrectTitle: "Look at the whole trend again.",
     incorrectText:
@@ -475,13 +475,13 @@ export const PLANTS = {
   ],
   averageMessage: (table, all) =>
     all
-      ? ["Averages calculated.", " Both watering conditions are ready to graph."]
+      ? ["Averages calculated.", " You are ready to graph both watering conditions."]
       : [
-          table.label + " averages calculated.",
+          `The averages are calculated for the ${table.series.shortLabel} condition.`,
           ` Now calculate the ${table.other} condition so both lines can use the same graph.`,
         ],
   axisIntro:
-    "Drag the correct <strong>variable</strong> and <strong>unit</strong> cards onto the dashed spaces on the graph. In this special case, think carefully about why <strong>time</strong> belongs on the x-axis.",
+    "Choose the correct <strong>variable</strong> and <strong>unit</strong> cards and drag them onto the spaces on the graph. In this special case, think carefully about why <strong>time</strong> goes on the x-axis.",
   cards: [
     { name: "time", text: "Time" },
     { name: "height", text: "Plant height" },
@@ -501,24 +501,27 @@ export const PLANTS = {
   initialBadge: "Set up",
   startFeedback: {
     title: "Label the graph first.",
-    text: " Time belongs on one axis and plant height belongs on the other. The water amounts will be represented by two different lines.",
+    text: " Time belongs on one axis and plant height belongs on the other. The amounts of water will be represented by two different lines.",
   },
   completeMessage: {
-    title: "Two-line graph complete.",
+    title: "The two-line graph is complete.",
     text: " You plotted and connected the 100 mL and 300 mL results on the same graph.",
   },
   axisWrong:
     " Use the table headings to decide which variable or unit belongs on that axis.",
   axisSpecial: {
     water:
-      " This is the special case: the two water amounts become separate lines. Time goes on the x-axis so both conditions can be compared across the experiment.",
+      " This is a special case.  The two watering conditions become separate lines. Time goes on the x-axis so both conditions can be compared across the experiment.",
   },
   axisRight: " Keep going until both axes have a variable and unit.",
   axisDone:
     " Time is on the x-axis and plant height is on the y-axis. The two water amounts will be shown as separate lines.",
   messages: {
     plotText: (c) =>
-      `Move the dotted guides to ${c.pt.x} days and ${formatNumber(c.pt.y)} cm, then click the graph.`,
+      (c.series.key === "water100" && c.i === 0
+        ? "Now plot the points in Table 4. "
+        : "") +
+      `Move the dotted lines to ${c.pt.x} days and ${formatNumber(c.pt.y)} cm, then click the graph.`,
     hint: crosshairHint(" days", " cm", "time", "plant height"),
     aria: (c) =>
       `${c.series.label}, day ${c.pt.x}, ${formatNumber(c.pt.y)} centimetres average plant height`,
@@ -528,11 +531,11 @@ export const PLANTS = {
     ],
     connectBegin: (c) => [
       `${c.series.shortLabel} points are plotted.`,
-      " Click any point in this condition to start the line, then connect neighbouring points.",
+      " Click any point for this condition to start the line, then connect all the neighbouring points.",
     ],
     connectBad: () => [
       "Connect neighbouring points.",
-      " Stay on the same watering condition and choose a point beside one end of the line you have already made.",
+      " Stay on the same watering condition and join the neighbouring point with a line.",
     ],
     connectOk: (c) => [
       "Point connected.",

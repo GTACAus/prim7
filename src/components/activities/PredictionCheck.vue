@@ -185,6 +185,14 @@ defineExpose({ isComplete, reset: () => mc.value?.reset() });
   animation: pop-fade-in 0.5s ease;
 }
 
+.prediction-check[hidden] {
+  display: none;
+}
+
+.prediction-check > :deep(p:not(.prediction-label)) {
+  margin: 0 0 18px;
+}
+
 .prediction-label {
   margin: 0 0 6px;
 

@@ -799,8 +799,8 @@ onBeforeUnmount(() => {
                 >Step 2 · Count by distance</span
               >
               <p>
-                Counts for the selected animal appear under the matching
-                distance.
+                Counters for the number of animals found are shown under the
+                matching distance.
               </p>
             </div>
 
@@ -956,24 +956,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.instruction-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 18px;
-  align-items: center;
-  margin-bottom: 28px;
-  background: var(--soft-blue);
-}
-
-.instruction-card h2 {
-  margin: 0 0 6px;
-  font-size: 1.25rem;
-}
-
-.instruction-card p {
-  margin: 0;
-  line-height: 1.55;
-}
 
 /* ---- Frame: [left arrow] [line stage] [right arrow] ---- */
 
@@ -983,54 +965,6 @@ onBeforeUnmount(() => {
   justify-items: center;
   gap: clamp(8px, 2vw, 20px);
   width: 100%;
-}
-
-.line-arrow {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  padding: 0;
-  background: var(--green);
-  border: 2px solid var(--charcoal);
-  border-radius: 50%;
-  box-shadow: 0 3px 0 var(--charcoal);
-  cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background-color 0.15s ease,
-    opacity 0.15s ease;
-}
-
-.line-arrow svg {
-  width: 22px;
-  height: 22px;
-  stroke: var(--text);
-  stroke-width: 3;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.line-arrow:hover:not(:disabled),
-.line-arrow:focus-visible:not(:disabled) {
-  background: var(--soft-yellow);
-  outline: none;
-}
-
-.line-arrow:active:not(:disabled) {
-  box-shadow: 0 1px 0 var(--charcoal);
-  transform: translateY(2px);
-}
-
-.line-arrow:disabled {
-  cursor: not-allowed;
-  opacity: 0.38;
-  box-shadow: 0 3px 0 var(--charcoal);
-  transform: none;
 }
 
 /*
@@ -1194,22 +1128,9 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 900px) {
-  .instruction-card {
-    grid-template-columns: 1fr;
-  }
 
   .line-frame {
     gap: 8px;
-  }
-
-  .line-arrow {
-    width: 42px;
-    height: 42px;
-  }
-
-  .line-arrow svg {
-    width: 18px;
-    height: 18px;
   }
 
   .person-marker {
@@ -1219,8 +1140,7 @@ onBeforeUnmount(() => {
 
 @media (prefers-reduced-motion: reduce) {
   .person-marker,
-  .line-point,
-  .line-arrow {
+  .line-point {
     transition-duration: 0.01ms !important;
   }
 }
@@ -1962,36 +1882,6 @@ onBeforeUnmount(() => {
 }
 
 .number-line-workspace .graph-build-prompt .graph-toggle-row {
-  margin-top: 12px;
-}
-
-/* Only offered once a student has checked every quadrat and spent long
-   enough searching without finding every animal of the selected type. */
-.number-line-workspace .find-all-prompt {
-  width: min(680px, 100%);
-  margin: 20px auto 4px;
-  padding: 14px 16px;
-  background: var(--soft-yellow);
-  border: 2px solid var(--charcoal);
-  border-radius: 16px;
-  text-align: center;
-}
-
-.number-line-workspace .find-all-prompt[hidden] {
-  display: none !important;
-}
-
-.number-line-workspace .find-all-prompt .challenge-step-label {
-  margin-bottom: 8px;
-}
-
-.number-line-workspace .find-all-instruction {
-  margin: 0;
-  color: var(--text);
-  line-height: 1.45;
-}
-
-.number-line-workspace .find-all-prompt .graph-toggle-row {
   margin-top: 12px;
 }
 

@@ -39,7 +39,7 @@ const h = (species, left, top, width, image, transform = "") => ({
 
 export const PANELS = {
   0: {
-    intro: "This is the starting point. Click each animal hiding in the photo:",
+    intro: "This is the starting point. Click each animal hiding in the square:",
     background: BASE + "Seasnails Scoring/Q1.png",
     hotspots: [
       h("Striped Conniwink", "61.55%", "34.2%", "5.2%", "conniwink4.png"),
@@ -58,7 +58,7 @@ export const PANELS = {
     ],
   },
   5: {
-    intro: "The person is 5 metres from the start. Click each animal hiding in the photo:",
+    intro: "The person is 5 metres from the start. Click each animal hiding in the square:",
     background: BASE + "Seasnails Scoring/Q2.png",
     hotspots: [
       h("Striped Conniwink", "44.76%", "36.96%", "5.24%", "conniwink3.png"),
@@ -80,7 +80,7 @@ export const PANELS = {
     ],
   },
   10: {
-    intro: "The person is halfway to 20 metres. Click each animal hiding in the photo:",
+    intro: "The person is halfway to 20 metres. Click each animal hiding in the square:",
     background: BASE + "Seasnails Scoring/Q3.png",
     hotspots: [
       h("Striped Conniwink", "46.84%", "71.42%", "5.24%", "conniwink3.png"),
@@ -108,7 +108,7 @@ export const PANELS = {
     ],
   },
   15: {
-    intro: "5 metres remain before reaching 20 metres. Click each animal hiding in the photo:",
+    intro: "5 metres remain before reaching 20 metres. Click each animal hiding in the square:",
     background: BASE + "Seasnails Scoring/Q4.png",
     hotspots: [
       h("Striped Conniwink", "19.06%", "28.87%", "5.21%", "conniwink2.png", "scaleX(-1)"),
@@ -146,7 +146,7 @@ export const PANELS = {
     ],
   },
   20: {
-    intro: "This is the furthest labelled point. Click each animal hiding in the photo:",
+    intro: "This is the furthest labelled point. Click each animal hiding in the square:",
     background: BASE + "Seasnails Scoring/Q5.png",
     hotspots: [
       h("Striped Conniwink", "72.71%", "40.24%", "5.19%", "conniwink2.png", "scaleX(-1)"),

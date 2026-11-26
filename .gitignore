@@ -9,6 +9,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.storybook
 .DS_Store
 dist
 dist-ssr
@@ -36,3 +37,6 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+*storybook.log
+storybook-static

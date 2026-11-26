@@ -190,9 +190,9 @@ function context(extra) {
 const labels = computed(() => {
   if (phase.value === "waiting")
     return [
-      "Step 2 · Label the axes and units",
+      "Step 2 · Label the graph axes and units",
       g.initialHint ??
-        "Label the variables and units before plotting the averages.",
+        "Label the axes of the graph before plotting the points.",
       g.initialBadge,
     ];
   const [step, hint, badge] =
@@ -218,7 +218,7 @@ const connectPrompt = computed(() => {
     ? { title: custom[0], text: custom[1] }
     : {
         title: "Connect the plotted points.",
-        text: "Click any point to start. Then click a neighbouring point and keep joining adjacent points until all five are connected.",
+        text: "Click any point to start. Then click neighbouring points until all five are connected.",
       };
 });
 
@@ -951,8 +951,7 @@ defineExpose({ complete, predictionComplete });
   </Activity>
 </template>
 
-<style>
-/* Moved from styles/lesson4_styles/lesson4.css. Not scoped: some rules style child components' content. */
+<style scoped>
 
 /* Keep the badge on the right without pushing the title off-centre */
 .graph-stage-heading .graph-badge {
@@ -986,7 +985,7 @@ defineExpose({ complete, predictionComplete });
   transform: translate(-50%, -50%) rotate(-90deg);
 }
 
-.partc-data-table tr.partc-current-row td {
+.partc-data-table :deep(tr.partc-current-row td) {
   background: var(--soft-yellow);
   font-weight: 800;
 }
@@ -1009,8 +1008,8 @@ defineExpose({ complete, predictionComplete });
   table-layout: fixed;
 }
 
-.plant-condition-card .partb-data-table th,
-.plant-condition-card .partb-data-table td {
+.plant-condition-card .partb-data-table :deep(th),
+.plant-condition-card .partb-data-table :deep(td) {
   padding: 7px 5px;
   font-size: 0.78rem;
   line-height: 1.22;

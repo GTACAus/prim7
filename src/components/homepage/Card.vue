@@ -1,11 +1,16 @@
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useTilt } from "../../composables/useTilt.js";
 
 const props = defineProps({
-  // true for the lesson currently selected in the carousel; only that card tilts
-  active: { type: Boolean, default: false },
-  href: { type: String, required: true },
+  // position relative to the selected lesson: 0 = current, -1 = previous, 1 = next
+  offset: { type: Number, default: 0 },
+  // locked lessons look greyed out and are selected rather than opened
+  locked: { type: Boolean, default: false },
+  // grid mode: every card is shown normally instead of as a carousel
+  grid: { type: Boolean, default: false },
+  // route to open, e.g. "/lesson1"
+  to: { type: String, required: true },
   // Legacy illustration path; kept for compatibility, but no longer displayed.
   img: { type: String, required: true },
   stage: { type: Number, required: true },
@@ -16,48 +21,69 @@ const props = defineProps({
   lessonComplete: { type: Boolean, default: false },
 });
 
+// Fired on click so the carousel can choose to select the card instead of opening it
+// (it calls preventDefault on the event).
+const emit = defineEmits(["select"]);
+
 const card = ref(null);
 
-// Locked lessons (class set by the carousel) never tilt.
-const { reset } = useTilt(
-  card,
-  () => props.active && !card.value.classList.contains("unavailable"),
-);
+// Only the selected card tilts, and never when locked.
+const active = computed(() => props.offset === 0 && !props.grid);
+const { reset } = useTilt(card, () => active.value && !props.locked);
 
 // Ease back to rest when another lesson is selected.
-watch(
-  () => props.active,
-  (active) => {
-    if (!active) reset();
-  },
-);
+watch(active, (isActive) => {
+  if (!isActive) reset();
+});
+
+// Cards more than one step from the selected one are hidden in the carousel.
+const isHidden = computed(() => !props.grid && Math.abs(props.offset) > 1);
+
+function onClick(event, navigate) {
+  emit("select", event);
+  if (!event.defaultPrevented) navigate(event);
+}
 </script>
 
 <template>
-  <a
-    ref="card"
-    class="lesson-card"
-    :href="href"
-    :style="{ '--accent': accent }"
-    :data-stage="stage"
-  >
-    <span v-if="lessonComplete" class="lesson-complete">Complete</span>
-    <span class="lesson-number"><slot name="number" /></span>
-    <span class="lesson-subtitle"><slot name="subtitle" /></span>
-    <div
-      v-if="description || experiment"
-      class="overview"
-      :aria-label="`Overview of lesson ${stage}`"
+  <RouterLink :to="to" custom v-slot="{ href, navigate }">
+    <a
+      ref="card"
+      class="lesson-card"
+      :class="{
+        'is-current': !grid && offset === 0,
+        'is-previous': !grid && offset === -1,
+        'is-next': !grid && offset === 1,
+        'is-hidden': isHidden,
+        unavailable: locked,
+      }"
+      :href="href"
+      :tabindex="isHidden ? -1 : 0"
+      :aria-hidden="isHidden"
+      :aria-current="!grid && offset === 0 ? 'true' : undefined"
+      :aria-disabled="locked"
+      :style="{ '--accent': accent }"
+      :data-stage="stage"
+      @click="onClick($event, navigate)"
     >
-      <div class="description">
-        <p class="description-content">{{ description }}</p>
+      <span v-if="lessonComplete" class="lesson-complete">Complete</span>
+      <span class="lesson-number"><slot name="number" /></span>
+      <span class="lesson-subtitle"><slot name="subtitle" /></span>
+      <div
+        v-if="description || experiment"
+        class="overview"
+        :aria-label="`Overview of lesson ${stage}`"
+      >
+        <div class="description">
+          <p class="description-content">{{ description }}</p>
+        </div>
+        <div class="experiment">
+          <h2 class="experiment-heading">Experiment:</h2>
+          <p class="experiment-content">{{ experiment }}</p>
+        </div>
       </div>
-      <div class="experiment">
-        <h2 class="experiment-heading">Experiment:</h2>
-        <p class="experiment-content">{{ experiment }}</p>
-      </div>
-    </div>
-  </a>
+    </a>
+  </RouterLink>
 </template>
 
 <style scoped>

@@ -567,8 +567,24 @@ const choices = [
 }
 </style>
 
-<style>
-/* Moved from styles/lesson3_styles/lesson3.css. Not scoped: some rules style child components' content. */
+<style scoped>
+.label-bank {
+  border-radius: 20px;
+  color: var(--muted);
+}
+
+.label-bank {
+  min-height: 280px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  padding: 16px;
+}
+
+@media (max-width: 960px) {
+  .label-bank {
+    min-height: 160px;
+  }
+}
 
 #yeast-labels .average-heading {
   font-size: clamp(0.7rem, 1vw, 0.9rem);
@@ -605,7 +621,7 @@ const choices = [
   margin-bottom: 8px;
 }
 
-.yeast-results-step-heading > span {
+.yeast-results-step-heading > :deep(span) {
   display: grid;
   place-items: center;
 
@@ -632,7 +648,7 @@ const choices = [
   text-transform: uppercase;
 }
 
-.yeast-results-step h3 {
+.yeast-results-step :deep(h3) {
   margin: 0;
 }
 
@@ -717,7 +733,7 @@ const choices = [
   border-radius: 18px;
 }
 
-#repeat-tests-average-intro h3 {
+#repeat-tests-average-intro :deep(h3) {
   margin: 0;
 }
 
@@ -766,7 +782,11 @@ const choices = [
   border-radius: 20px;
 }
 
-.drag-label {
+/* The labels are <DragItem>s, which render through a Teleport (and their drag
+   ghost lives on <body>), so they can't carry this component's scope. Matched
+   on the lesson 3 page instead; :where() keeps the specificity of a single
+   class, so .general-button:hover still wins. */
+:global(:where([data-page="lesson3"]) .drag-label) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -789,7 +809,7 @@ const choices = [
   text-align: center;
 }
 
-#yeast-labels .drag-label:hover {
+#yeastActivity :deep(.drag-label:hover) {
   background: var(--soft-blue);
 }
 
@@ -847,7 +867,7 @@ const choices = [
   text-align: center;
 }
 
-#yeast-labels .table-activity-feedback strong {
+#yeast-labels .table-activity-feedback :deep(strong) {
   margin-bottom: 4px;
   font-size: 1.05rem;
 }
@@ -861,7 +881,6 @@ const choices = [
   #yeastLabelBank,
   .yeast-table-card,
   #yeastLabelFeedback,
-  .reset-container,
   #labelsCompleteAfterContainer {
     grid-column: 1;
     grid-row: auto;
@@ -873,7 +892,7 @@ const choices = [
     flex-direction: row;
     flex-wrap: wrap;
   }
-  #yeast-labels .drag-label {
+  #yeastActivity :deep(.drag-label) {
     padding: 9px 13px;
   }
 }
@@ -907,7 +926,7 @@ const choices = [
   text-transform: uppercase;
 }
 
-.average-worked-example > p:not(.average-example-label) {
+.average-worked-example > :deep(p:not(.average-example-label)) {
   margin: 0 0 12px;
 }
 
@@ -920,12 +939,12 @@ const choices = [
   border-radius: 12px;
 }
 
-.average-example-steps p {
+.average-example-steps :deep(p) {
   margin: 0 0 10px;
   line-height: 1.5;
 }
 
-.average-example-steps p:last-child {
+.average-example-steps :deep(p:last-child) {
   margin-bottom: 0;
 }
 
@@ -981,7 +1000,7 @@ const choices = [
   font-size: 1.15rem;
 }
 
-.average-equation-result strong {
+.average-equation-result :deep(strong) {
   padding: 6px 12px;
 
   background: var(--soft-green);

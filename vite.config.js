@@ -1,9 +1,17 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueDevTools from "vite-plugin-vue-devtools";
 
 // Where the site is served from. "/" locally; on GitHub Pages the deploy
 // workflow sets BASE_PATH to the repo path, e.g. "/prim7/".
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { playwright } from '@vitest/browser-playwright';
+const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+
+// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 const base = process.env.BASE_PATH || "/";
 
 // Folders in public/ that pages reference as "/images/..." or "../images/...".
@@ -16,48 +24,62 @@ const PUBLIC_FOLDERS = "images|videos|worksheets|documents|downloads";
 */
 function publicPathsWithBase() {
   // (not after `import` / `from`: those are module imports like "../styles/x.css", not public files)
-  const publicPath = new RegExp(
-    `(?<!\\b(?:import|from)\\s+)(["'\`(])(?:\\.\\.)?/(${PUBLIC_FOLDERS})/`,
-    "g",
-  );
+  const publicPath = new RegExp(`(?<!\\b(?:import|from)\\s+)(["'\`(])(?:\\.\\.)?/(${PUBLIC_FOLDERS})/`, "g");
   // Page links that do a full page load, e.g. location.href='/lesson3-2',
   // href: "/lesson3" (teacher back links) and <iframe src="/plant-detective">.
   // (Links made with <Button :to> already go through the router's base.)
-  const pageLink = new RegExp(
-    `(\\blocation\\.href\\s*=\\s*['"]|\\bhref:\\s*['"]|\\bsrc=")/(?!(?:${PUBLIC_FOLDERS})/)(?=[a-z])`,
-    "g",
-  );
+  const pageLink = new RegExp(`(\\blocation\\.href\\s*=\\s*['"]|\\bhref:\\s*['"]|\\bsrc=")/(?!(?:${PUBLIC_FOLDERS})/)(?=[a-z])`, "g");
   return {
     name: "public-paths-with-base",
     enforce: "pre",
     transform(code, id) {
       if (base === "/" || id.includes("node_modules")) return;
       if (!/\.(vue|js)$/.test(id.split("?")[0])) return;
-      code = code
-        .replace(pageLink, `$1${base}`)
-        .replace(publicPath, `$1${base}$2/`);
-      return { code, map: null };
-    },
+      code = code.replace(pageLink, `$1${base}`).replace(publicPath, `$1${base}$2/`);
+      return {
+        code,
+        map: null
+      };
+    }
   };
 }
-
 export default defineConfig({
   base,
-  plugins: [
-    publicPathsWithBase(),
-    vueDevTools(),
-    vue({
-      template: {
-        transformAssetUrls: { tags: {} },
-        compilerOptions: {
-          whitespace: "preserve",
-          // the 3D submarine in the Lesson 7 banner (loaded from a CDN)
-          isCustomElement: (tag) => tag === "model-viewer",
-        },
+  plugins: [publicPathsWithBase(), vueDevTools(), vue({
+    template: {
+      transformAssetUrls: {
+        tags: {}
       },
-    }),
-  ],
+      compilerOptions: {
+        whitespace: "preserve",
+        // the 3D submarine in the Lesson 7 banner (loaded from a CDN)
+        isCustomElement: tag => tag === "model-viewer"
+      }
+    }
+  })],
   devtools: {
-    apply: "serve",
+    apply: "serve"
   },
+  test: {
+    projects: [{
+      extends: true,
+      plugins: [
+      // The plugin will run tests for the stories defined in your Storybook config
+      // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
+      storybookTest({
+        configDir: path.join(dirname, '.storybook')
+      })],
+      test: {
+        name: 'storybook',
+        browser: {
+          enabled: true,
+          headless: true,
+          provider: playwright({}),
+          instances: [{
+            browser: 'chromium'
+          }]
+        }
+      }
+    }]
+  }
 });

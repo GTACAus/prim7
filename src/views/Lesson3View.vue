@@ -1,7 +1,6 @@
 <script setup>
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/data-tables.css";
-import "../styles/lesson3.css";
+import "../styles/pages/lesson3.css";
 import { ref } from "vue";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
@@ -12,6 +11,8 @@ import VariableSort from "../components/activities/VariableSort.vue";
 import YeastCards from "../components/lessons/lesson3/YeastCards.vue";
 import YeastResultsTable from "../components/lessons/lesson3/YeastResultsTable.vue";
 import { openPDF, openVideo } from "../composables/useModal.js";
+import ContentBox from "../components/ui/ContentBox.vue";
+import FloatingTitleBox from "../components/ui/FloatingTitleBox.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -196,10 +197,10 @@ const labelsSection = ref(null);
            1. IS YEAST ALIVE?
            ================================================== -->
       <Section name="yeast-image-investigation">
-        <div class="diagram-box diagram-activity">
+        <ContentBox>
           Hover over each image to learn if yeast is alive, and how it is used
           to produce bread.
-        </div>
+        </ContentBox>
         <YeastCards />
       </Section>
 
@@ -207,25 +208,29 @@ const labelsSection = ref(null);
            2. YEAST FAIR TEST - IDENTIFY VARIABLES
            ================================================== -->
       <Section name="yeast-variables">
-        <div class="diagram-activity diagram-box">
-          <p class="activity-instruction">
+        <ContentBox>
+          <p>
             A student set up a fair test as seen in the image below. They wrote
             a testable question.
           </p>
-          <div class="variable-question floating-title">
+          <FloatingTitleBox
+            tag="p"
+            title="Testable Question"
+            border-color="var(--blue)"
+          >
             How does changing temperature affect the amount of gas made by
             yeast?
-          </div>
-          <p class="activity-instruction">
-            Then the student came up with a reasoned prediction:
-          </p>
-          <div
-            class="diagram-activity diagram-box reasoned-prediction-box floating-title"
+          </FloatingTitleBox>
+          <p>Then the student came up with a reasoned prediction:</p>
+          <FloatingTitleBox
+            tag="p"
+            title="Reasoned Prediction"
+            border-color="var(--green)"
           >
             As temperature increases, the amount of gas made by yeast increases.
             This is because living things need to be warm to survive.
-          </div>
-        </div>
+          </FloatingTitleBox>
+        </ContentBox>
 
         <div class="yeast-balloon-image-box">
           <img

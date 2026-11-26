@@ -1,38 +1,40 @@
 <script setup>
 import { computed, useAttrs } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink } from "vue-router";
 
 const props = defineProps({
   symbol: String,
   content: String,
-  // route to go to, e.g. to="/lesson2". Renders a real link to that route.
+  // route to go to, e.g. to="/lesson2". Renders a <RouterLink> (no page reload).
   to: String,
   isDelete: Boolean,
   isReset: Boolean,
+  symbolClass: { type: String, default: "" },
 });
 
 const attrs = useAttrs();
-const router = useRouter();
 
-// A real <a href> (not client-side routing) is deliberate: pages inject their own
-// stylesheets and scripts, so moving between them needs a full page load.
-const href = computed(() => {
-  if (props.to) return router ? router.resolve(props.to).href : props.to;
-  return attrs.href ?? null;
+// A route (to) is a <RouterLink>, a plain href (e.g. "#", a file) an <a>,
+// and anything else a button.
+const tag = computed(() => {
+  if (props.to) return RouterLink;
+  if (attrs.href != null) return "a";
+  return "button";
 });
-
-// An element that goes somewhere is a link; anything else is a button.
-const isLink = computed(() => href.value !== null && href.value !== undefined);
 </script>
 
 <template>
   <component
-    :is="isLink ? 'a' : 'button'"
-    :href="isLink ? href : undefined"
-    :type="isLink ? undefined : 'button'"
+    :is="tag"
+    :to="to || undefined"
+    :type="tag === 'button' ? 'button' : undefined"
     :class="{ 'delete-answer': isDelete, 'reset-btn': isReset }"
   >
-    <p v-if="symbol && !isDelete && !isReset" class="bounce-symbol">
+    <p
+      v-if="symbol && !isDelete && !isReset"
+      class="bounce-symbol"
+      :class="symbolClass"
+    >
       {{ symbol }}
     </p>
     <slot v-if="!isDelete && !isReset">{{ content }}</slot>
@@ -55,6 +57,7 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
   --color-hover: var(--color);
   --translate-amount-hover: -2px;
   --box-shadow-hover: var(--shadow-medium);
+  --border-color-hover: var(--border);
 
   --background-active: var(--mint);
   --color-active: var(--color);
@@ -157,15 +160,15 @@ const isLink = computed(() => href.value !== null && href.value !== undefined);
 }
 
 :where(
-    button:active,
-    a:active,
-    button[aria-checked="true"],
-    a[aria-checked="true"],
-    button.selected,
-    a.selected,
-    button.active,
-    a.active
-  ) {
+  button:active,
+  a:active,
+  button[aria-checked="true"],
+  a[aria-checked="true"],
+  button.selected,
+  a.selected,
+  button.active,
+  a.active
+) {
   color: var(--color-active);
 }
 

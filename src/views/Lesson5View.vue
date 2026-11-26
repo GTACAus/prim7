@@ -1,7 +1,6 @@
 <script setup>
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/graphs.css";
-import "../styles/lesson5.css";
+import "../styles/pages/lesson5.css";
 import { ref } from "vue";
 import Page from "../components/layout/Page.vue";
 import Section from "../components/layout/Section.vue";
