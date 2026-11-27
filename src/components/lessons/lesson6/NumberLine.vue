@@ -176,15 +176,16 @@ const surveySites = computed(() =>
   surveyProgressBySpecies.value[selectedSpecies.value] || [],
 );
 
-// The first unfinished site after this one (or wrap back to the start).
-const nextSurveyDistance = computed(() => {
-  if (panelDistance.value === null) return null;
-  const unfinished = surveySites.value.filter((site) => !site.complete);
-  return (
-    unfinished.find((site) => site.distance > panelDistance.value) ||
-    unfinished[0] || null
-  )?.distance ?? null;
-});
+const completedSurveySites = computed(() =>
+  surveySites.value.filter((site) => site.complete).length,
+);
+
+function surveyPointLabel(distance, site) {
+  const prefix = `Open content for ${distance} metres`;
+  if (!site) return prefix;
+  if (site.total === 0) return `${prefix}: zero animals, complete`;
+  return `${prefix}: ${site.found} of ${site.total} found (${site.percent}%${site.complete ? ", complete" : ""})`;
+}
 
 function speciesSurveyStatus(name) {
   const sites = surveyProgressBySpecies.value[name] || [];
@@ -463,6 +464,13 @@ const canRevealAllCounts = computed(() =>
   timeSinceLastFindMs.value >= POST_FIND_PAUSE_MS,
 );
 
+// Keep the existing explicit confirmation, now beside the graph rather
+// than in the photo. Changing location/species dismisses a pending choice.
+const confirmRecordedCounts = ref(false);
+watch([canRevealAllCounts, panelDistance, selectedSpecies], () => {
+  confirmRecordedCounts.value = false;
+});
+
 function revealAllSurveyCounts() {
   tickSearch();
   if (!canRevealAllCounts.value) return;
@@ -512,17 +520,6 @@ function closePanel() {
   panelReady.value = false;
   panelDistance.value = null;
   activePoint.value = null;
-}
-
-// A visible "ready to graph" action beside the photo saves children from
-// scrolling down to discover that Step 3 has appeared.
-function jumpToGraph() {
-  if (!allFound.value) return;
-  closePanel();
-  nextTick(() => {
-    document.querySelector(".number-line-workspace .graph-build-prompt")
-      ?.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
 }
 
 function moveTo(distance) {
@@ -748,15 +745,8 @@ onBeforeUnmount(() => {
             :highlighted="highlighted"
             :clue-available="clueAvailable"
             :clues-used="cluesUsedInPanel"
-            :can-reveal-all-counts="canRevealAllCounts"
-            :survey-sites="surveySites"
-            :survey-complete="allFound"
-            :next-survey-distance="nextSurveyDistance"
-            @go-to-distance="moveTo"
-            @go-to-graph="jumpToGraph"
             @find="toggleFound"
             @clue="showClue"
-            @reveal-all-counts="revealAllSurveyCounts"
             @ready="onPanelReady"
             @close="closePanel"
           />
@@ -775,16 +765,24 @@ onBeforeUnmount(() => {
 
             <div class="line-track number-line">
               <button
-                v-for="distance in DISTANCES"
+                v-for="(distance, i) in DISTANCES"
                 :key="distance"
                 type="button"
                 class="line-point"
-                :class="{ 'is-selected': activePoint === distance }"
-                :style="{ left: pointLeft(distance) + '%' }"
-                :aria-label="`Open content for ${distance} metres`"
+                :class="{
+                  'is-selected': activePoint === distance,
+                  'has-survey-progress': Boolean(surveySites[i]),
+                  'is-survey-complete': surveySites[i]?.complete,
+                }"
+                :style="{
+                  left: pointLeft(distance) + '%',
+                  '--survey-fill': `${surveySites[i]?.percent ?? 0}%`,
+                }"
+                :aria-label="surveyPointLabel(distance, surveySites[i])"
                 :aria-expanded="activePoint === distance"
                 @click="moveTo(distance)"
               >
+                <span v-if="surveySites[i]?.complete" class="line-point-completion" aria-hidden="true">{{ surveySites[i].total === 0 ? '0' : '✓' }}</span>
                 <span class="line-point-label">{{ distance }} m</span>
               </button>
             </div>
@@ -799,8 +797,9 @@ onBeforeUnmount(() => {
                 >Step 2 · Count by distance</span
               >
               <p>
-                Counters for the number of animals found are shown under the
-                matching distance.
+                Counts appear under the matching distance.<template v-if="selectedSpecies">
+                  {{ completedSurveySites }} of {{ DISTANCES.length }} locations complete.
+                </template>
               </p>
             </div>
 
@@ -911,6 +910,32 @@ onBeforeUnmount(() => {
                 </div>
               </div>
 
+              <div v-if="canRevealAllCounts" class="survey-data-option" role="group" aria-label="Optional recorded survey data">
+                <template v-if="!confirmRecordedCounts">
+                  <div class="survey-data-copy">
+                    <strong>Ready to make your line graph?</strong>
+                    <small>Keep searching, or use the recorded counts to move on to graphing.</small>
+                  </div>
+                  <button type="button" class="survey-data-button" @click="confirmRecordedCounts = true">
+                    Show all animal counts
+                  </button>
+                </template>
+                <template v-else>
+                  <div class="survey-data-copy">
+                    <strong>Use the recorded survey counts?</strong>
+                    <small>This fills in the remaining counts for all three molluscs at all five distances. You will still make the line graph yourself.</small>
+                  </div>
+                  <div class="survey-data-actions">
+                    <button type="button" class="survey-data-cancel" @click="confirmRecordedCounts = false">
+                      Keep searching
+                    </button>
+                    <button type="button" class="survey-data-button" @click="revealAllSurveyCounts">
+                      Yes, use recorded counts
+                    </button>
+                  </div>
+                </template>
+              </div>
+
               <div v-if="allFound" class="graph-build-prompt">
                 <span class="challenge-step-label"
                   >Step 3 · Make the line graph</span
@@ -956,6 +981,24 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+.instruction-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 28px;
+  background: var(--soft-blue);
+}
+
+.instruction-card h2 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+}
+
+.instruction-card p {
+  margin: 0;
+  line-height: 1.55;
+}
 
 /* ---- Frame: [left arrow] [line stage] [right arrow] ---- */
 
@@ -965,6 +1008,54 @@ onBeforeUnmount(() => {
   justify-items: center;
   gap: clamp(8px, 2vw, 20px);
   width: 100%;
+}
+
+.line-arrow {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  background: var(--green);
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  box-shadow: 0 3px 0 var(--charcoal);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.line-arrow svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--text);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line-arrow:hover:not(:disabled),
+.line-arrow:focus-visible:not(:disabled) {
+  background: var(--soft-yellow);
+  outline: none;
+}
+
+.line-arrow:active:not(:disabled) {
+  box-shadow: 0 1px 0 var(--charcoal);
+  transform: translateY(2px);
+}
+
+.line-arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+  box-shadow: 0 3px 0 var(--charcoal);
+  transform: none;
 }
 
 /*
@@ -1061,6 +1152,33 @@ onBeforeUnmount(() => {
     0px 2px 0 var(--charcoal);
 }
 
+/* The original distance buttons are the only survey navigation. Their
+   interiors show the selected animal's exact per-quadrat completion. */
+.line-point.has-survey-progress {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+  background: conic-gradient(
+    var(--green) 0 var(--survey-fill),
+    var(--paper) var(--survey-fill) 100%
+  );
+}
+.line-point.has-survey-progress.is-survey-complete {
+  background: var(--green);
+}
+.line-point-completion {
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: none;
+  pointer-events: none;
+}
+
 .line-point-label {
   position: absolute;
   top: 27px;
@@ -1128,9 +1246,22 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 900px) {
+  .instruction-card {
+    grid-template-columns: 1fr;
+  }
 
   .line-frame {
     gap: 8px;
+  }
+
+  .line-arrow {
+    width: 42px;
+    height: 42px;
+  }
+
+  .line-arrow svg {
+    width: 18px;
+    height: 18px;
   }
 
   .person-marker {
@@ -1140,7 +1271,8 @@ onBeforeUnmount(() => {
 
 @media (prefers-reduced-motion: reduce) {
   .person-marker,
-  .line-point {
+  .line-point,
+  .line-arrow {
     transition-duration: 0.01ms !important;
   }
 }
@@ -1882,6 +2014,110 @@ onBeforeUnmount(() => {
 }
 
 .number-line-workspace .graph-build-prompt .graph-toggle-row {
+  margin-top: 12px;
+}
+
+/* Optional recorded counts beside the graph, not inside the photograph. */
+.survey-data-option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 12px;
+  width: min(680px, 100%);
+  box-sizing: border-box;
+  margin: 20px auto 4px;
+  padding: 10px 12px;
+  border: 2px solid var(--charcoal);
+  border-radius: 12px;
+  background: var(--soft-green);
+  color: var(--text);
+}
+.survey-data-copy {
+  display: flex;
+  flex: 1 1 220px;
+  flex-direction: column;
+  gap: 2px;
+}
+.survey-data-copy strong {
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+.survey-data-copy small {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+.survey-data-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.survey-data-cancel {
+  padding: 8px 11px;
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
+  box-shadow: 0 2px 0 var(--charcoal);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.survey-data-cancel:hover,
+.survey-data-cancel:focus-visible {
+  background: var(--soft-yellow);
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+}
+.survey-data-button {
+  flex: 0 1 auto;
+  padding: 8px 11px;
+  border: 2px solid var(--charcoal);
+  border-radius: 10px;
+  background: var(--green);
+  color: white;
+  box-shadow: 0 2px 0 var(--charcoal);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.survey-data-button:hover,
+.survey-data-button:focus-visible {
+  background: var(--purple);
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+}
+
+/* Only offered once a student has checked every quadrat and spent long
+   enough searching without finding every animal of the selected type. */
+.number-line-workspace .find-all-prompt {
+  width: min(680px, 100%);
+  margin: 20px auto 4px;
+  padding: 14px 16px;
+  background: var(--soft-yellow);
+  border: 2px solid var(--charcoal);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.number-line-workspace .find-all-prompt[hidden] {
+  display: none !important;
+}
+
+.number-line-workspace .find-all-prompt .challenge-step-label {
+  margin-bottom: 8px;
+}
+
+.number-line-workspace .find-all-instruction {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.number-line-workspace .find-all-prompt .graph-toggle-row {
   margin-top: 12px;
 }
 

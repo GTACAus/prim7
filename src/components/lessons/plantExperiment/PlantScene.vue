@@ -58,8 +58,9 @@ const potGroupTransform = computed(() =>
 // Extend the illustrated wall by 26 SVG units (about 8.5% taller). Only
 // applies to the classroom wall layout; the Tiny Farms scene is unchanged.
 const classroomWallTall = computed(() => props.wallLayout && !tiny.value);
-const sceneHeight = computed(() => classroomWallTall.value ? 332 : 306);
-const benchY = computed(() => classroomWallTall.value ? 289 : 263);
+const sceneHeight = computed(() => classroomWallTall.value ? 330 : 306);
+const sceneWidth = computed(() => classroomWallTall.value ? 520 : 420);
+const benchY = computed(() => classroomWallTall.value ? 286 : 263);
 const large = computed(() => props.values.potSize === "large");
 const full = computed(() => props.values.soilFill === "full");
 const rimWidth = computed(() => (large.value ? 143 : 108));
@@ -79,6 +80,28 @@ const stemExtension = computed(() =>
   large.value ? (full.value ? 18 : 26) : full.value ? 6 : 11,
 );
 
+/* ---------- Classroom: whiteboard scene ---------- */
+// This trial uses 3 vs 5 tablespoons. Old 125/250 internal IDs are retained
+// for compatibility with saved progress, NOT as millilitre measurements.
+const WATER_SPOON_COUNTS = { 125: 3, 250: 5, 3: 3, 5: 5 };
+const waterSpoonCount = computed(() => WATER_SPOON_COUNTS[props.values.waterVolume] || 3);
+const spoonPositions = computed(() => Array.from({ length: waterSpoonCount.value }, (_, i) =>
+  247 + (i - (waterSpoonCount.value - 1) / 2) * 23
+));
+const spoonCombinedImage = computed(() =>
+  waterSpoonCount.value === 5
+    ? VISUAL_ASSETS.waterSpoons?.five
+    : VISUAL_ASSETS.waterSpoons?.three
+);
+const waterLabel = computed(() => labelFor('waterVolume', props.values.waterVolume));
+const soilBagImage = computed(() => VISUAL_ASSETS.materials.soilType?.[props.values.soilType] || '');
+const calendarImage = computed(() => VISUAL_ASSETS.materials.wateringFrequency?.[props.values.wateringFrequency] || '');
+const fertiliserImage = computed(() => VISUAL_ASSETS.materials.fertiliser?.[props.values.fertiliser] || '');
+const hasFertiliser = computed(() => props.values.fertiliser === 'yes');
+const closedCupboard = computed(() => VISUAL_ASSETS.sceneFurniture?.closedCupboard || '');
+const openCupboard = computed(() => VISUAL_ASSETS.sceneFurniture?.openCupboard || '');
+const windowImage = computed(() => VISUAL_ASSETS.backgrounds.window || '');
+
 /* ---------- Tiny Farms ---------- */
 const lightColour = computed(
   () => ({ red: "#ff765f", green: "#69dd8a" })[props.values.lightColour] || "#fff6cf",
@@ -97,7 +120,7 @@ const TRAY_PLANTS = [145, 210, 275];
 <template>
   <svg
     class="pk-scene-picture"
-    :viewBox="`0 0 420 ${sceneHeight}`"
+    :viewBox="`0 0 ${sceneWidth} ${sceneHeight}`"
     role="img"
     :aria-label="ariaLabel"
   >
@@ -176,50 +199,161 @@ const TRAY_PLANTS = [145, 210, 275];
       </g>
     </template>
 
-    <!-- ============ CLASSROOM: pot on a bench by a window / in a cupboard ============ -->
+    <!-- ============ CLASSROOM: fixed physical scene ============ -->
     <template v-else>
-      <rect width="420" :height="sceneHeight" fill="#eef6e9" />
-      <image
-        v-if="backdrop"
-        :href="backdrop"
-        v-bind="backdropFrame"
-        preserveAspectRatio="xMidYMid meet"
-      />
+      <!-- Only the planner opts into this whiteboard-inspired layout. -->
+      <template v-if="wallLayout">
+        <rect width="520" height="330" fill="#eef6e9" />
 
-      <rect :y="benchY" width="420" height="43" fill="#deb687" />
-      <rect :y="benchY" width="420" height="7" fill="#af855f" opacity=".3" />
-      <g :transform="potGroupTransform">
-        <ellipse cx="210" cy="267" :rx="rimWidth * 0.52" ry="10" fill="#503d30" opacity=".18" />
+        <!-- Window remains in the classroom regardless of light condition. -->
+        <image v-if="windowImage" :href="windowImage" x="12" y="13" width="126" height="132" preserveAspectRatio="xMidYMid meet" />
+        <g v-else>
+          <rect x="17" y="20" width="112" height="109" rx="3" fill="#9bcbdc" stroke="#ab8d6a" stroke-width="7" />
+          <circle cx="49" cy="50" r="18" fill="#ffd56b" />
+          <path d="M19 117 L48 90 L73 111 L97 87 L128 118Z" fill="#82aa87" />
+          <path d="M73 20 V129 M17 73 H129" stroke="#e9f1e8" stroke-width="5" />
+        </g>
 
-        <image v-if="pot" :href="pot" v-bind="potFrame" preserveAspectRatio="xMidYMid meet" />
+        <!-- Cupboard always stays under the window.
+             The open cupboard plus a left-pointing arrow tells students to
+             put the plant inside when light exposure is "cupboard". -->
+        <template v-if="!dark">
+          <image v-if="closedCupboard" :href="closedCupboard" x="10" y="150" width="140" height="136" preserveAspectRatio="xMidYMid meet" />
+          <g v-else>
+            <rect x="21" y="163" width="116" height="123" rx="4" fill="#ba815c" stroke="#906044" stroke-width="3" />
+            <rect x="27" y="170" width="104" height="109" rx="2" fill="#d4a078" stroke="#a16f51" stroke-width="2" />
+            <path d="M79 171 V278" stroke="#8c5d42" stroke-width="2" />
+            <rect x="67" y="218" width="4" height="12" rx="2" fill="#67584b" />
+            <rect x="87" y="218" width="4" height="12" rx="2" fill="#67584b" />
+            <rect x="13" y="156" width="132" height="11" rx="3" fill="#bd8e69" stroke="#9e7052" stroke-width="2" />
+          </g>
+        </template>
+        <template v-else>
+          <image v-if="openCupboard" :href="openCupboard" x="8" y="150" width="148" height="136" preserveAspectRatio="xMidYMid meet" />
+          <g v-else>
+            <rect x="22" y="163" width="120" height="120" fill="#a96d49" stroke="#915638" stroke-width="4" />
+            <path d="M31 174 H133 V275 H31Z" fill="#7f624d" />
+            <path d="M31 174 L45 191 V274 H31Z" fill="#916d52" />
+            <path d="M133 174 L119 191 V274 H133Z" fill="#6a503f" />
+            <path d="M22 165 L5 181 V282 L22 279Z" fill="#c8966d" stroke="#9c6949" stroke-width="3" />
+            <path d="M142 165 L159 181 V282 L142 279Z" fill="#c8966d" stroke="#9c6949" stroke-width="3" />
+            <path d="M31 170 H133" stroke="#d2a37d" stroke-width="8" />
+          </g>
+        </template>
 
-        <g :transform="`translate(0, ${seedlingDrop})`">
-          <image
-            v-if="VISUAL_ASSETS.seedling"
-            :href="VISUAL_ASSETS.seedling"
-            v-bind="IMAGE_FRAMES.seedling"
-          />
-          <g
-            v-else
-            :opacity="dark ? 0.88 : 1"
-            transform="translate(0,42) scale(1,0.78)"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path :d="`M210 ${soilTop + stemExtension} Q217 164 211 139 T209 91`" fill="none" stroke="#356e3a" stroke-width="5" />
-            <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5" />
-            <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5" />
-            <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5" />
-            <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5" />
-            <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2" />
+        <!-- All objects rest on a common bench. -->
+        <rect y="286" width="520" height="44" fill="#deb687" />
+        <rect y="286" width="520" height="7" fill="#af855f" opacity=".26" />
+        <ellipse cx="247" cy="287" :rx="rimWidth * .52" ry="8" fill="#503d30" opacity=".17" />
+
+        <!-- Move pot and seedling together; preserve roots in the Canva soil. -->
+        <!-- Canva pot PNGs have some transparent space below their artwork.
+             Lower the pot and seedling together so the visible base meets the bench. -->
+        <g transform="translate(37, 28)">
+          <image v-if="pot" :href="pot" v-bind="potFrame" preserveAspectRatio="xMidYMid meet" />
+          <g v-else>
+            <path d="M160 175 H260 L250 255 H170Z" :fill="values.potMaterial === 'plastic' ? '#bfc7b7' : '#c9774e'" stroke="#885c43" stroke-width="3" />
+            <path :d="`M168 ${values.soilFill === 'full' ? 186 : 214} H252 L246 247 H173Z`" :fill="values.soilType === 'garden' ? '#705137' : '#865b38'" />
+            <ellipse cx="210" cy="176" rx="53" ry="8" :fill="values.potMaterial === 'plastic' ? '#c6cbbd' : '#ce8054'" stroke="#885c43" stroke-width="2" />
+          </g>
+          <g :transform="`translate(0, ${seedlingDrop})`">
+            <image v-if="VISUAL_ASSETS.seedling" :href="VISUAL_ASSETS.seedling" v-bind="IMAGE_FRAMES.seedling" />
+            <g v-else transform="translate(0,42) scale(1,0.78)" stroke-linecap="round" stroke-linejoin="round">
+              <path :d="`M210 ${soilTop + stemExtension} Q217 164 211 139 T209 91`" fill="none" stroke="#356e3a" stroke-width="5" />
+              <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5" />
+              <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5" />
+              <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5" />
+              <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5" />
+              <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2" />
+            </g>
           </g>
         </g>
-      </g>
+
+        <!-- Only the cupboard condition displays an instruction arrow.
+             The plant remains centred as a schematic representation. -->
+        <g v-if="dark" fill="none" stroke="#68776e" stroke-width="2.6"
+           stroke-linecap="round" stroke-linejoin="round">
+          <title>Move the plant into the cupboard</title>
+          <path d="M201 243 H180" />
+          <path d="M187 236 L180 243 L187 250" />
+        </g>
+
+        <!-- Water spoons remain centred above the plant in both conditions.
+             Composite Canva artwork > repeated single spoon > SVG fallback. -->
+        <image v-if="spoonCombinedImage" :href="spoonCombinedImage" x="173" y="16" width="148" height="69" preserveAspectRatio="xMidYMid meet" />
+        <template v-else>
+          <g v-for="(x, idx) in spoonPositions" :key="'spoon-' + idx" :transform="`translate(${x}, 22)`">
+          <image v-if="VISUAL_ASSETS.waterSpoons?.single" :href="VISUAL_ASSETS.waterSpoons.single" x="-10" y="-1" width="20" height="55" preserveAspectRatio="xMidYMid meet" />
+          <g v-else>
+            <ellipse cx="0" cy="10" rx="8" ry="11" fill="#d2e0e7" stroke="#577b90" stroke-width="1.5" />
+            <ellipse cx="0" cy="11" rx="5" ry="6" fill="#66bae0" opacity=".78" />
+            <path d="M0 20 V49" fill="none" stroke="#8fa8b5" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M-2 20 V47" fill="none" stroke="#f3fafc" stroke-width="1.2" stroke-linecap="round" />
+          </g>
+        </g>
+        </template>
+        <text x="247" y="91" text-anchor="middle" font-size="12" font-weight="800" fill="#3c5464">{{ waterLabel }}</text>
+
+        <!-- Fixed right-side physical materials: calendar, soil bag, fertiliser.
+             These change by setting, NOT according to the selected tab. -->
+        <image v-if="calendarImage" :href="calendarImage" x="387" y="12" width="127" height="87" preserveAspectRatio="xMidYMid meet" />
+        <g v-else>
+          <rect x="397" y="18" width="104" height="79" rx="3" fill="#fffdfa" stroke="#8f9c88" stroke-width="2" />
+          <path v-for="i in 4" :key="'cal-line-' + i" :d="`M${393 + i * 21} 19 V96`" stroke="#cbd5cb" stroke-width="1" />
+          <path d="M398 44 H500 M398 69 H500" stroke="#cbd5cb" />
+          <text x="449" y="35" font-size="11" font-weight="800" text-anchor="middle" fill="#39704f">WATER</text>
+        </g>
+        <text x="452" y="114" text-anchor="middle" font-size="11" font-weight="800" fill="#3f5947">{{ labelFor('wateringFrequency', values.wateringFrequency) }}</text>
+
+        <!-- Potting mix/dirt bag sits ON the bench, to the right of the plant.
+             Keep labels ABOVE the objects instead of beneath the bench line. -->
+        <text x="363" y="198" text-anchor="middle" font-size="11" font-weight="800" fill="#3f5947">{{ labelFor('soilType', values.soilType) }}</text>
+        <image v-if="soilBagImage" :href="soilBagImage" x="317" y="203" width="92" height="83" preserveAspectRatio="xMidYMid meet" />
+        <g v-else>
+          <path d="M333 220 Q359 207 386 220 L392 285 H327Z" fill="#ead6b5" stroke="#a1896d" stroke-width="2" />
+          <path d="M334 220 Q360 207 386 220" fill="none" stroke="#805e42" stroke-width="9" />
+          <text x="359" y="251" text-anchor="middle" font-size="11" font-weight="800" fill="#4d3829">SOIL</text>
+        </g>
+
+        <!-- Fertiliser is a separate object further right, only when used. -->
+        <template v-if="hasFertiliser">
+          <image v-if="fertiliserImage" :href="fertiliserImage" x="430" y="215" width="70" height="71" preserveAspectRatio="xMidYMid meet" />
+          <g v-else>
+            <path d="M442 229 H474 L480 285 H436Z" fill="#e0e9cf" stroke="#709167" stroke-width="2" />
+            <text x="458" y="251" text-anchor="middle" font-size="9" font-weight="900" fill="#376443">PLANT</text>
+            <text x="458" y="263" text-anchor="middle" font-size="9" font-weight="900" fill="#376443">FOOD</text>
+          </g>
+        </template>
+      </template>
+
+      <!-- Original component behaviour, for any other caller not using the
+           whiteboard-scene flag. Tiny Farms is entirely unaffected. -->
+      <template v-else>
+        <rect width="420" :height="sceneHeight" fill="#eef6e9" />
+        <image v-if="backdrop" :href="backdrop" v-bind="backdropFrame" preserveAspectRatio="xMidYMid meet" />
+        <rect :y="benchY" width="420" height="43" fill="#deb687" />
+        <rect :y="benchY" width="420" height="7" fill="#af855f" opacity=".3" />
+        <g :transform="potGroupTransform">
+          <ellipse cx="210" cy="267" :rx="rimWidth * .52" ry="10" fill="#503d30" opacity=".18" />
+          <image v-if="pot" :href="pot" v-bind="potFrame" preserveAspectRatio="xMidYMid meet" />
+          <g :transform="`translate(0, ${seedlingDrop})`">
+            <image v-if="VISUAL_ASSETS.seedling" :href="VISUAL_ASSETS.seedling" v-bind="IMAGE_FRAMES.seedling" />
+            <g v-else :opacity="dark ? 0.88 : 1" transform="translate(0,42) scale(1,0.78)" stroke-linecap="round" stroke-linejoin="round">
+              <path :d="`M210 ${soilTop + stemExtension} Q217 164 211 139 T209 91`" fill="none" stroke="#356e3a" stroke-width="5" />
+              <path d="M211 132 Q177 103 166 125 Q178 152 211 135" fill="#70bd59" stroke="#397c42" stroke-width="2.5" />
+              <path d="M211 123 Q243 94 264 111 Q250 138 211 129" fill="#8fcb63" stroke="#397c42" stroke-width="2.5" />
+              <path d="M210 102 Q181 76 190 62 Q217 61 210 106" fill="#76c366" stroke="#397c42" stroke-width="2.5" />
+              <path d="M211 104 Q226 76 245 80 Q246 108 211 111" fill="#88c95a" stroke="#397c42" stroke-width="2.5" />
+              <path d="M211 91 Q205 68 218 52 Q229 78 211 91" fill="#9bd77c" stroke="#397c42" stroke-width="2" />
+            </g>
+          </g>
+        </g>
+      </template>
     </template>
   </svg>
 </template>
 
-<style scoped>
+<style>
 .pk-scene-picture {
   display: block;
   width: 100%;

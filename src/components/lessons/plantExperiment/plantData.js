@@ -73,10 +73,12 @@ export const VARIABLES = {
   waterVolume: {
     modes: ["classroom"],
     label: "Amount of water",
-    // the SAME 250 mL measuring cup for both plants
+    // TRIAL quantities until Alide/GTAC confirms the final amount.
+    // Keep the old internal values (125/250) so previously saved plans
+    // survive the Vue change. These numbers are NOT millilitres now.
     options: [
-      { value: "125", label: "Half a cup" },
-      { value: "250", label: "Full cup" },
+      { value: "125", label: "3 tablespoons" },
+      { value: "250", label: "5 tablespoons" },
     ],
     comparisons: [{ id: "125-250", a: "125", b: "250" }],
   },
@@ -216,6 +218,18 @@ const file = (name) => (name ? FOLDER + name : "");
 
 export const VISUAL_ASSETS = {
   backgrounds: { window: file("window.png"), cupboard: file("cupboard.png") },
+  // When Alide exports new Canva assets, enter the filenames here only.
+  // Use a closed cupboard WITHOUT a plant, and an open cupboard WITHOUT
+  // a plant; the live pot is drawn separately so it can change normally.
+  sceneFurniture: {
+    closedCupboard: "", // e.g. file("cupboardclosed.png")
+    openCupboard: "",   // e.g. file("cupboardopen.png")
+  },
+  waterSpoons: {
+    single: "",         // e.g. file("tablespoon.png") (transparent PNG)
+    three: "",          // optional combined picture of three tablespoons
+    five: "",           // optional combined picture of five tablespoons
+  },
 
   // Each image already contains the pot AND soil cross-section.
   // Key: POT SIZE - POT MATERIAL - SOIL LEVEL - SOIL TYPE. Every combination
@@ -241,7 +255,8 @@ export const VISUAL_ASSETS = {
   // blank = drawn seedling
   seedling: "",
 
-  // Materials & care tray (teaching references, not results)
+  // Existing Canva materials, now drawn within the physical scene.
+  // The old cup images stay mapped but are not shown in the new scene.
   materials: {
     soilType: { garden: file("dirt.png"), potting: file("pottingmix.png") },
     waterVolume: { 125: file("halfcupwater.png"), 250: file("fullcupwater.png") },
