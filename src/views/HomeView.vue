@@ -281,15 +281,9 @@ onBeforeUnmount(() => {
     <header class="lesson-heading">
       <div id="hero" @click="onHeroClick">
         <div class="image-container">
-          <img
-            :src="titleImg"
-            alt="Science Inquiry Lab"
-          />
+          <img :src="titleImg" alt="Science Inquiry Lab" />
           <div class="hero-lens">
-            <img
-              :src="titleResponsiveImg"
-              alt="Responsive part of the title"
-            />
+            <img :src="titleResponsiveImg" alt="Responsive part of the title" />
             <span class="glow"></span>
           </div>
         </div>
@@ -351,7 +345,7 @@ onBeforeUnmount(() => {
 .page {
   box-sizing: border-box;
   display: grid;
-  grid-template-rows: auto minmax(min-content, 1fr) auto;
+  grid-template-rows: auto minmax(min-content, auto) auto;
   align-items: center;
   gap: clamp(8px, 1.2vh, 20px);
   width: 100%;
@@ -376,7 +370,8 @@ onBeforeUnmount(() => {
 }
 #hero {
   --gradient: linear-gradient(to top, var(--purple), var(--orange));
-  --mask: url("@/assets/homepage/title-responsive.png") center / 100% 100% no-repeat;
+  --mask: url("@/assets/homepage/title-responsive.png") center / 100% 100%
+    no-repeat;
 
   position: relative;
   display: flex;
