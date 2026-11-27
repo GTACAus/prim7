@@ -31,9 +31,9 @@ import {
   ref,
   watch,
 } from "vue";
-import Activity from "@/components/activities/Activity.vue";
-import Button from "@/components/ui/Button.vue";
-import ContentBox from "@/components/ui/ContentBox.vue";
+import Activity from "../../activities/Activity.vue";
+import Button from "../../ui/Button.vue";
+import ContentBox from "../../ui/ContentBox.vue";
 import NumberLinePanel from "./NumberLinePanel.vue";
 import {
   DISTANCES,
@@ -369,6 +369,7 @@ const note = computed(() => {
 let clock = null;
 let lastTickAt = Date.now();
 const panelReady = ref(false); // only time a search after its photo has loaded
+const pageVisible = ref(!document.hidden); // reactive for clue visibility on tab changes
 
 function clueKey(name, distance) {
   return `${name}|${distance}`;
@@ -384,9 +385,9 @@ const missingInPanel = computed(() => {
 // Null while browsing another area, when the photograph is loading, when
 // the tab is hidden, or when this search is already finished.
 function activeSearchKey() {
-  if (document.hidden || !panelReady.value || !selectedSpecies.value ||
-      panelDistance.value === null || missingInPanel.value.length === 0 ||
-      isGraphMode.value) return null;
+  if (!pageVisible.value || document.hidden || !panelReady.value || !selectedSpecies.value ||
+      panelDistance.value === null || panelDistance.value !== activePoint.value ||
+      missingInPanel.value.length === 0 || isGraphMode.value) return null;
   return clueKey(selectedSpecies.value, panelDistance.value);
 }
 
@@ -399,12 +400,14 @@ function tickSearch() {
   // photograph. Switching species/quadrants preserves it; leaving the photo
   // or hiding the tab pauses it. Finding an animal lowers it in toggleFound().
   const key = activeSearchKey();
-  if (surveyTimerStarted.value && key && delta > 0 &&
-      !surveyCountsRevealed.value && !allSurveyCountsFound.value) {
-    struggleMs.value += delta;
-    timeSinceLastFindMs.value += delta;
-  }
   if (key && delta > 0) {
+    // A loaded, incomplete search is sufficient to start BOTH clocks.
+    // The legacy started flag is retained in saved state, not a separate gate.
+    surveyTimerStarted.value = true;
+    if (!surveyCountsRevealed.value && !allSurveyCountsFound.value) {
+      struggleMs.value += delta;
+      timeSinceLastFindMs.value += delta;
+    }
     searchIdleMs[key] = (searchIdleMs[key] || 0) + delta;
     const species = selectedSpecies.value;
     speciesSearchMs[species] = (speciesSearchMs[species] || 0) + delta;
@@ -414,10 +417,13 @@ function tickSearch() {
 
 function onTabVisibilityChange() {
   // Hidden-tab time never adds to the search clock.
+  pageVisible.value = !document.hidden;
   lastTickAt = Date.now();
 }
 
 function onPanelReady() {
+  // An old photo can finish decoding while the person is walking away.
+  if (panelDistance.value === null || panelDistance.value !== activePoint.value) return;
   panelReady.value = true;
   lastTickAt = Date.now();
 }
@@ -456,10 +462,12 @@ function showClue() {
 // successful finds keeps struggleMs low even during a long, happy search.
 // Require 45 seconds since the last new find so the prompt cannot interrupt
 // the moment of success. This does not affect the local clue timers.
+// Eligibility is survey-wide: once earned, the shortcut beside the graph
+// remains available even if the student closes the photo or visits a zero/
+// completed site. Suppress it when the selected species is ready to graph.
 const canRevealAllCounts = computed(() =>
-  surveyTimerStarted.value && !surveyCountsRevealed.value &&
-  !allSurveyCountsFound.value && !isGraphMode.value &&
-  missingInPanel.value.length > 0 &&
+  Boolean(selectedSpecies.value) && !surveyCountsRevealed.value &&
+  !allSurveyCountsFound.value && !allFound.value && !isGraphMode.value &&
   struggleMs.value >= STRUGGLE_THRESHOLD_MS &&
   timeSinceLastFindMs.value >= POST_FIND_PAUSE_MS,
 );
@@ -524,6 +532,11 @@ function closePanel() {
 
 function moveTo(distance) {
   tickSearch();
+  // Re-clicking the already-open quadrat must not clear panelReady: the
+  // keyed child is reused and will not emit another image-ready event.
+  if (activePoint.value === distance && panelDistance.value === distance) return;
+  // Do not let a pending close/open transition reopen an older target.
+  clearTimeout(panelTimer);
   // Mark the beginning of the search; the struggle meter only accumulates
   // while a loaded photograph is actively being searched.
   if (!surveyTimerStarted.value) surveyTimerStarted.value = true;
@@ -657,6 +670,7 @@ onMounted(() => {
   }
   lastTickAt = Date.now();
   clock = setInterval(tickSearch, 500);
+  pageVisible.value = !document.hidden;
   document.addEventListener('visibilitychange', onTabVisibilityChange);
 });
 
@@ -1069,7 +1083,7 @@ onBeforeUnmount(() => {
   grid-template-columns: auto;
   grid-template-rows: 5fr 2fr;
   min-width: 0;
-  aspect-ratio: 2172 / 724; /* matches rock-platform.png exactly */
+  aspect-ratio: 2172 / 724; /* matches Rockplatform.png exactly */
   padding: 0 30px;
   overflow: visible;
   border: 2px solid var(--charcoal);
@@ -1077,7 +1091,7 @@ onBeforeUnmount(() => {
   grid-row: 2;
   grid-column: 2;
   width: 100%;
-  background-image: url("@/assets/lesson6/rock-platform.png");
+  background-image: url("/images/lesson6/number_line_activity/Rockplatform.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
