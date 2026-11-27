@@ -94,14 +94,25 @@ function isLessonComplete(lessonNumber) {
 }
 
 // ─────────────────────────────────────────────
-// Carousel state
+// Carousel state (a 3D ring the cards sit around)
 // ─────────────────────────────────────────────
-const lastIndex = lessons.length - 1;
+const count = lessons.length;
+const lastIndex = count - 1;
+// One slot more than there are cards: the empty slot is a card-sized gap
+// between the last lesson and the first, marking where the ring starts.
+const SLOTS = count + 1;
+const ANGLE = 360 / SLOTS; // degrees between neighbouring slots on the ring
+const RING_GAP = 24; // px of space between neighbouring cards' edges
+
+const wrap = (n) => ((n % SLOTS) + SLOTS) % SLOTS;
+// Shortest signed distance around the ring, in the range [-SLOTS/2, SLOTS/2).
+const ringDistance = (n) => wrap(n + SLOTS / 2) - SLOTS / 2;
+
 const currentIndex = computed(() =>
   Math.max(0, Math.min(home.currentLesson, lastIndex)),
 );
 const status = computed(() => String(currentIndex.value + 1).padStart(2, "0"));
-const total = String(lessons.length).padStart(2, "0");
+const total = String(count).padStart(2, "0");
 
 const showAll = ref(false);
 const track = ref(null);
@@ -111,8 +122,15 @@ function isLocked(number) {
 }
 
 // The current lesson lives in the home store, which saves itself.
+// The ring stops at both ends: no going from the first lesson to the last.
 function showLesson(index) {
   home.currentLesson = Math.max(0, Math.min(index, lastIndex));
+}
+
+// Where a card sits relative to the current one: 0 = current, -1 = previous,
+// 1 = next. Not wrapped, so the first and last lessons are never neighbours.
+function ringOffset(index) {
+  return index - currentIndex.value;
 }
 
 // Clicking a side or locked card selects it instead of opening it.
@@ -134,6 +152,25 @@ function onHeroClick() {
 }
 
 // ─────────────────────────────────────────────
+// Ring geometry: the radius that fits every card around the circle
+// ─────────────────────────────────────────────
+const cardWidth = ref(0);
+let resizeObserver = null;
+
+function measureCards() {
+  const card = track.value?.querySelector(".lesson-card");
+  if (card) cardWidth.value = card.offsetWidth;
+}
+
+const ringRadius = computed(
+  () => (cardWidth.value / 2 + RING_GAP / 2) / Math.tan(Math.PI / SLOTS),
+);
+
+const trackStyle = computed(() =>
+  showAll.value ? undefined : { "--ring-radius": `${ringRadius.value}px` },
+);
+
+// ─────────────────────────────────────────────
 // Swipe (touch) handling
 // ─────────────────────────────────────────────
 const SWIPE_THRESHOLD = 100;
@@ -142,56 +179,59 @@ let swipeStart = null;
 let swipeClickCard = null;
 let swipeClickTimeout = 0;
 
-// null when not swiping; otherwise how far the carousel is dragged
-// (shift, in cards) and how far apart neighbouring cards sit (distance, px).
-const swipe = ref(null);
-const isSwiping = computed(() => swipe.value !== null);
+// How far the ring is being dragged, in cards (0 when not swiping).
+const swipeShift = ref(0);
+const isSwiping = ref(false);
 
 function updateSwipePreview(deltaX) {
   const trackWidth = track.value.clientWidth;
-  const swipeDirection = deltaX < 0 ? 1 : -1;
+  const direction = deltaX < 0 ? 1 : -1;
   let progress = Math.min(Math.abs(deltaX) / (trackWidth * 0.55), 1);
 
+  // At either end the ring only gives a little, then springs back.
   if (
-    (currentIndex.value === 0 && swipeDirection < 0) ||
-    (currentIndex.value === lastIndex && swipeDirection > 0)
+    (currentIndex.value === 0 && direction < 0) ||
+    (currentIndex.value === lastIndex && direction > 0)
   ) {
     progress *= 0.18;
   }
 
-  swipe.value = {
-    shift: swipeDirection * progress,
-    distance:
-      window.innerWidth <= 600
-        ? trackWidth * 0.3
-        : Math.min(window.innerWidth * 0.4, 460),
-  };
+  isSwiping.value = true;
+  swipeShift.value = direction * progress;
 }
 
 function clearSwipePreview() {
-  swipe.value = null;
+  isSwiping.value = false;
+  swipeShift.value = 0;
 }
 
-// CSS variables for a card while it is being dragged (read by .is-swiping in CSS).
-function swipeStyle(index) {
-  if (!swipe.value) return undefined;
+// Each card's angle around the ring and how strongly it shows. The angle is
+// never wrapped, so every card turns the same way when the ring moves.
+function cardStyle(index) {
+  if (showAll.value) return undefined;
 
-  const offset = index - currentIndex.value - swipe.value.shift;
-  const distance = Math.abs(offset);
-  const visibleOffset = Math.min(distance, 1);
-  const clamped = Math.max(-1, Math.min(1, offset));
+  const position = index - currentIndex.value - swipeShift.value;
+  const distance = Math.abs(ringDistance(position));
   const opacity =
     distance <= 1
-      ? 1 - visibleOffset * 0.38
-      : Math.max(0, 0.62 * (1 - (distance - 1) / 0.6));
+      ? 1 - distance * 0.08
+      : Math.max(0.2, 0.92 - (distance - 1) * 0.3);
+  // const opacity = 1;
 
   return {
-    "--swipe-x": `${clamped * swipe.value.distance}px`,
-    "--swipe-opacity": String(opacity),
-    "--swipe-scale": String(1 - visibleOffset * 0.18),
-    "--swipe-rotate": `${clamped * 30}deg`,
-    "--swipe-z": String(Math.max(0, 2 - Math.round(distance))),
+    "--ring-angle": `${position * ANGLE}deg`,
+    "--ring-opacity": String(opacity),
+    // Nearer cards paint (and take the mouse) on top of further ones.
+    "--ring-z": String(Math.round((SLOTS / 2 - distance) * 10)),
   };
+}
+
+// True once a card has turned 90° or more (edge-on or facing away), so its
+// contents can be hidden instead of showing through backwards.
+function isFacingAway(index) {
+  if (showAll.value) return false;
+  const position = index - currentIndex.value - swipeShift.value;
+  return Math.abs(ringDistance(position)) * ANGLE >= 80;
 }
 
 function onCarouselTrackPointerDown(event) {
@@ -269,10 +309,16 @@ function onCarouselTrackClick(event) {
 
 onMounted(() => {
   document.title = "Science Inquiry Lab Overview";
+  // Cards animate their width, so watch the cards themselves, not the track.
+  resizeObserver = new ResizeObserver(measureCards);
+  track.value
+    .querySelectorAll(".lesson-card")
+    .forEach((card) => resizeObserver.observe(card));
 });
 
 onBeforeUnmount(() => {
   window.clearTimeout(swipeClickTimeout);
+  resizeObserver?.disconnect();
 });
 </script>
 
@@ -300,7 +346,12 @@ onBeforeUnmount(() => {
       <div
         ref="track"
         class="carousel-track"
-        :class="{ 'is-swiping': isSwiping, 'is-grid': showAll }"
+        :class="{
+          'is-ring': !showAll,
+          'is-swiping': isSwiping,
+          'is-grid': showAll,
+        }"
+        :style="trackStyle"
         @click.capture="onCarouselTrackClick"
         @pointermove="onCarouselTrackPointerMove"
         @pointerup="onCarouselTrackPointerUp"
@@ -313,10 +364,11 @@ onBeforeUnmount(() => {
           :to="lesson.to"
           :img="lesson.img"
           :stage="number + 1"
-          :offset="number - currentIndex"
+          :offset="ringOffset(number)"
           :locked="isLocked(number + 1)"
           :grid="showAll"
-          :style="swipeStyle(number)"
+          :style="cardStyle(number)"
+          :class="{ 'is-back': isFacingAway(number) }"
           :accent="lesson.accent"
           :description="lesson.description"
           :experiment="lesson.experiment"
@@ -547,12 +599,54 @@ onBeforeUnmount(() => {
   background: color-mix(in srgb, var(--accent) 20%, white 80%);
 }
 
-.carousel-track.is-swiping .lesson-card {
-  left: calc(50% + var(--swipe-x));
-  z-index: var(--swipe-z);
-  opacity: var(--swipe-opacity);
-  transform: translate(-50%, -50%) scale(var(--swipe-scale))
-    rotateY(var(--swipe-rotate));
+/* ---------- 3D ring ----------
+   Every card is pushed out to the ring's edge and turned to its angle, so the
+   whole set forms a cylinder that rotates around its centre. The extra
+   .carousel prefix keeps these rules ahead of Card.vue's own styles. */
+/* No preserve-3d: the track's own flat surface would then sit in front of
+   every card set back into the ring and swallow their hovers and clicks.
+   Instead each card is projected on its own and --ring-z orders them. */
+.carousel .carousel-track.is-ring {
+  perspective: 1400px;
+  /* Look down on the ring from above so the cards behind rise above the front. */
+  perspective-origin: 50% 15%;
+}
+.carousel .carousel-track.is-ring .lesson-card {
+  left: 50%;
+  z-index: var(--ring-z, 0);
+  opacity: var(--ring-opacity, 1);
+  transform: translate(-50%, -50%) translateZ(calc(-1 * var(--ring-radius)))
+    rotateY(var(--ring-angle, 0deg))
+    translateZ(calc(var(--ring-radius) + var(--ring-pop, 0px)));
+  transition:
+    transform 0.75s cubic-bezier(0.22, 0.8, 0.26, 1),
+    opacity 0.75s ease,
+    box-shadow 0.2s ease,
+    background 0.45s ease,
+    width 0.45s ease;
+}
+/* Neighbours lean out of the ring and light up when hovered. */
+.carousel .carousel-track.is-ring .lesson-card.is-previous:hover,
+.carousel .carousel-track.is-ring .lesson-card.is-next:hover {
+  --ring-pop: 40px;
+  opacity: 1;
+  background: color-mix(in srgb, var(--accent) 12%, white 88%);
+  box-shadow: 0 24px 54px rgb(0 0 0 / 40%);
+}
+/* Locked cards stay solid (so the back of the ring doesn't show through)
+   and look washed out instead. */
+.carousel .carousel-track.is-ring .lesson-card.unavailable {
+  opacity: 1;
+  filter: grayscale(0.8) contrast(0.6) brightness(1.15);
+}
+/* Cards turned away from the viewer show a blank back instead of their
+   contents mirrored. (backface-visibility can't do this: each card flattens
+   its contents onto itself, so they never count as facing away.) */
+.carousel .carousel-track.is-ring .lesson-card.is-back > :deep(*) {
+  visibility: hidden;
+}
+/* While dragging, the ring follows the finger exactly. */
+.carousel .carousel-track.is-ring.is-swiping .lesson-card {
   transition: none;
 }
 .carousel-control {

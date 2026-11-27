@@ -5,6 +5,7 @@ import Section from "@/components/layout/Section.vue";
 import LessonIntro from "@/components/content/LessonIntro.vue";
 import LessonCard from "@/components/content/LessonCard.vue";
 import Button from "@/components/ui/Button.vue";
+import StopAndCheck from "@/components/content/StopAndCheck.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective = "Objective";
@@ -45,7 +46,9 @@ const sections = [
     </template>
 
     <template #sections>
-      <Section name="section"></Section>
+      <Section name="section">
+        <StopAndCheck></StopAndCheck>
+      </Section>
     </template>
   </Page>
 

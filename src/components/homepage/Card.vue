@@ -66,7 +66,10 @@ function onClick(event, navigate) {
       :data-stage="stage"
       @click="onClick($event, navigate)"
     >
-      <span v-if="lessonComplete" class="lesson-complete">Complete</span>
+      <span v-if="lessonComplete" class="lesson-badge lesson-complete"
+        >Complete</span
+      >
+      <span v-if="locked" class="lesson-badge lesson-locked">Locked</span>
       <span class="lesson-number"><slot name="number" /></span>
       <span class="lesson-subtitle"><slot name="subtitle" /></span>
       <div
@@ -124,27 +127,21 @@ function onClick(event, navigate) {
   scale: var(--tilt-scale, 1);
 
   transition:
-    left 0.45s ease,
-    opacity 0.45s ease,
-    transform 0.45s ease,
     box-shadow 0.2s ease,
-    background 0.45s ease,
-    width 0.45s ease;
-  will-change: left, transform, width;
+    background 0.45s ease;
+  will-change: transform;
 }
 .lesson-card span {
   position: relative;
 }
-.lesson-card .lesson-complete {
+.lesson-card .lesson-badge {
   position: absolute;
   top: 14px;
   right: 14px;
   z-index: 1;
   padding: 4px 12px;
-  background: var(--soft-green);
   border: 2px solid var(--charcoal);
   border-radius: 99px;
-  color: var(--text);
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -152,6 +149,14 @@ function onClick(event, navigate) {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+}
+.lesson-card .lesson-complete {
+  background: var(--soft-green);
+  color: var(--text);
+}
+.lesson-card .lesson-locked {
+  background: var(--orange);
+  color: var(--paper);
 }
 .lesson-card .lesson-complete::before {
   content: "✓ ";
@@ -172,12 +177,9 @@ function onClick(event, navigate) {
   transition: transform 0.45s ease;
 }
 .lesson-card.is-current {
-  z-index: 2;
-  opacity: 1;
   box-shadow:
     0 24px 54px rgb(0 0 0 / 40%),
     var(--tilt-shadow, 0 0 0 transparent);
-  transform: translate(-50%, -50%) scale(1);
 }
 .lesson-card.is-current:not(.unavailable):hover {
   background: color-mix(in srgb, var(--accent) 20%, white 80%);
@@ -256,43 +258,12 @@ function onClick(event, navigate) {
 }
 .lesson-card.is-previous,
 .lesson-card.is-next {
-  --scale-amount: 0.82;
-  z-index: 1;
   cursor: pointer;
-
-  transform: translate(-50%, -50%) scale(var(--scale-amount))
-    rotateY(var(--rotate-amount));
-  transition:
-    left 0.45s ease,
-    opacity 0.45s ease,
-    box-shadow 0.2s ease,
-    transform 0.45s ease,
-    width 0.45s ease;
 }
-.lesson-card.is-previous {
-  --rotate-amount: calc(-1 * 30deg);
-  left: max(0px, calc(50% - min(40vw, 460px)));
-}
-.lesson-card.is-next {
-  --rotate-amount: 30deg;
-  left: min(100%, calc(50% + min(40vw, 460px)));
-}
-.lesson-card.is-previous:hover,
-.lesson-card.is-next:hover {
-  --scale-amount: 0.88;
-  opacity: 0.88;
-}
+/* Cards round the back of the carousel can't be clicked. */
 .lesson-card.is-hidden {
-  z-index: 0;
-  opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -50%) scale(1);
-}
-.lesson-card.unavailable {
-  filter: grayscale(0.5);
-}
-.lesson-card.is-current.unavailable {
-  opacity: 0.55;
+  opacity: 1;
 }
 
 .lesson-card:focus-visible {
@@ -324,12 +295,6 @@ function onClick(event, navigate) {
     padding: 6px 10px;
     font-size: 0.85rem;
   }
-  .lesson-card.is-previous {
-    left: 20%;
-  }
-  .lesson-card.is-next {
-    left: 80%;
-  }
 }
 
 /* Larger screens: scale lesson cards and their contents */
@@ -359,14 +324,6 @@ function onClick(event, navigate) {
 
   .overview .experiment-content {
     font-size: max(1rem, 0.75vw);
-  }
-
-  .lesson-card.is-previous {
-    left: calc(50% - max(460px, 18vw));
-  }
-
-  .lesson-card.is-next {
-    left: calc(50% + max(460px, 18vw));
   }
 }
 </style>
