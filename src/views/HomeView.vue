@@ -345,15 +345,23 @@ onBeforeUnmount(() => {
 .page {
   box-sizing: border-box;
   display: grid;
-  grid-template-rows: auto minmax(min-content, auto) auto;
+  /* Heading and status keep their size; the carousel takes what is left so
+     everything fits on one screen without page scrolling. */
+  grid-template-rows: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: clamp(8px, 1.2vh, 20px);
+  gap: clamp(6px, 1.2vh, 20px);
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  padding: clamp(8px, 2vh, 30px) 0;
+}
+/* Teacher's all-lessons grid is taller than the screen, so let it scroll. */
+.page:has(.carousel-track.is-grid) {
+  height: auto;
   min-height: 100dvh;
-  /* Clip only sideways: allow vertical scrolling at high browser zoom. */
+  overflow: visible;
   overflow-x: clip;
-  padding: clamp(30px, 5vh, 50px) 0;
 }
 .lesson-heading {
   z-index: 1;
@@ -363,10 +371,10 @@ onBeforeUnmount(() => {
   justify-self: center;
   align-self: start;
   width: min(460px, 92vw);
-  height: max(210px, 18vh);
+  height: clamp(90px, 18vh, 210px);
 
   margin: 0;
-  margin-top: 10px;
+  margin-top: 0;
 }
 #hero {
   --gradient: linear-gradient(to top, var(--purple), var(--orange));
@@ -446,7 +454,7 @@ onBeforeUnmount(() => {
   position: relative;
   flex: none;
   /* Prevent the rotated logo from taking over short/zoomed viewports. */
-  width: clamp(200px, 40vw, 450px);
+  width: clamp(120px, min(40vw, 30vh), 450px);
   aspect-ratio: 1414 / 2000;
   transform: rotate(90deg);
 }
@@ -474,8 +482,8 @@ onBeforeUnmount(() => {
   grid-template-columns: 56px minmax(0, 1fr) 56px;
   grid-template-rows: 1fr;
   width: min(calc(100% - 32px), 1480px);
-  height: clamp(460px, 58vh, 620px);
-  align-self: center;
+  height: 100%;
+  align-self: stretch;
   justify-self: center;
   align-items: center;
   justify-items: center;
@@ -586,7 +594,7 @@ onBeforeUnmount(() => {
 }
 .carousel-status {
   margin: 0 auto;
-  padding: 10px;
+  padding: clamp(4px, 1vh, 10px) 10px;
   border-radius: 99px;
   color: var(--paper);
   background: var(--purple);
@@ -605,13 +613,9 @@ onBeforeUnmount(() => {
   outline-offset: 5px;
 }
 @media (max-width: 700px) {
-  .page {
-    padding: 18px 0;
-  }
   .carousel {
     grid-template-columns: 40px minmax(0, 1fr) 40px;
     grid-template-rows: 1fr;
-    height: 560px;
   }
   .carousel-track {
     height: 100%;
@@ -622,11 +626,6 @@ onBeforeUnmount(() => {
   .carousel-control {
     width: 40px;
     height: 40px;
-  }
-}
-@media (max-width: 520px) {
-  .carousel {
-    height: 620px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -642,7 +641,6 @@ onBeforeUnmount(() => {
 @media (min-width: 1600px) {
   .carousel {
     width: min(calc(100% - 32px), max(1480px, 70vw));
-    height: max(620px, 60vh);
   }
 
   .carousel-control {
