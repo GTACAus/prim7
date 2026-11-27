@@ -14,6 +14,7 @@
   localStorage under prim7:lesson7. The hidden teacher menu (click the
   lesson title five times) jumps to / unlocks missions.
 */
+import { asset } from "@/utils/asset.js";
 import {
   computed,
   nextTick,
@@ -25,20 +26,20 @@ import {
   watch,
   watchEffect,
 } from "vue";
-import Modal from "../../ui/Modal.vue";
-import DragDrop from "../../activities/DragDrop.vue";
-import DragItem from "../../activities/DragItem.vue";
-import DropSlot from "../../activities/DropSlot.vue";
-import StudentEntry from "../../ui/StudentEntry.vue";
-import Media from "../../ui/Media.vue";
+import Modal from "@/components/ui/Modal.vue";
+import DragDrop from "@/components/activities/DragDrop.vue";
+import DragItem from "@/components/activities/DragItem.vue";
+import DropSlot from "@/components/activities/DropSlot.vue";
+import StudentEntry from "@/components/ui/StudentEntry.vue";
+import Media from "@/components/ui/Media.vue";
 import MissionStage from "./MissionStage.vue";
 import RustSymbolMatch from "./RustSymbolMatch.vue";
 import RustDiagram from "./RustDiagram.vue";
 import UnknownSpecies from "./UnknownSpecies.vue";
 import FieldGuide from "./FieldGuide.vue";
-import LessonEndCard from "../../content/LessonEndCard.vue";
-import { useHomeStore } from "../../../stores/home.js";
-import { openGlossary, openModal } from "../../../composables/useModal.js";
+import LessonEndCard from "@/components/content/LessonEndCard.vue";
+import { useHomeStore } from "@/stores/home.js";
+import { openGlossary, openModal } from "@/composables/useModal.js";
 import {
   FROGFISH_LABELS,
   RUST_SYMBOL_ROUNDS,
@@ -53,7 +54,7 @@ const props = defineProps({
   glossary: { type: Object, default: null },
 });
 
-const IMG = "../images/lesson7/";
+const IMG = asset("images/lesson7/");
 
 /* ---------- saved state ---------- */
 
@@ -1821,7 +1822,7 @@ onBeforeUnmount(() => {
                     <video
                       v-if="showBubbles"
                       :ref="(el) => (bubblesVideo = el)"
-                      :src="'../videos/lesson5/bubbles.mp4'"
+                      :src="asset('videos/lesson5/bubbles.mp4')"
                       muted
                       playsinline
                       preload="metadata"
@@ -1831,7 +1832,7 @@ onBeforeUnmount(() => {
                     ></video>
                     <video
                       :ref="(el) => (waterVideo = el)"
-                      :src="'../videos/lesson5/shallow-waters.mp4'"
+                      :src="asset('videos/lesson5/shallow-waters.mp4')"
                       muted
                       playsinline
                       loop
@@ -1899,7 +1900,7 @@ onBeforeUnmount(() => {
                       best matches the animal shown by the camera.
                     </p>
                     <Media
-                      :src="'../videos/lesson5/visdeurbel-fish-1.mp4'"
+                      :src="asset('videos/lesson5/visdeurbel-fish-1.mp4')"
                       alt="Underwater camera footage showing a fish to identify"
                       :controls="false"
                       style="width: 100%; display: block"
@@ -2898,7 +2899,7 @@ onBeforeUnmount(() => {
     padding: 18px 24px;
     margin-bottom: 12px;
 
-    background-image: url(../images/lesson7/expedition-banner.png);
+    background-image: url("@/assets/lesson7/expedition-banner.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

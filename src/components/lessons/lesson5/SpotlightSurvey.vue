@@ -13,12 +13,13 @@
   Complete (and exposes countsCorrect) once every count is right. Night, the
   found animals, the check and the stack view are saved through <Activity :state>.
 */
+import { asset } from "@/utils/asset.js";
 import { computed, nextTick, onMounted, ref } from "vue";
-import Activity from "../../activities/Activity.vue";
-import ContentBox from "../../ui/ContentBox.vue";
-import Button from "../../ui/Button.vue";
+import Activity from "@/components/activities/Activity.vue";
+import ContentBox from "@/components/ui/ContentBox.vue";
+import Button from "@/components/ui/Button.vue";
 
-const IMG = "../images/lesson5/";
+const IMG = asset("images/lesson5/");
 
 // Hidden animals, positioned over the forest photo.
 const hotspots = [

@@ -9,7 +9,7 @@ import {
   nextTick,
 } from "vue";
 
-import { modal, openModal, closeModal } from "../../composables/useModal.js";
+import { modal, openModal, closeModal } from "@/composables/useModal.js";
 import Button from "./Button.vue";
 import Media from "./Media.vue";
 

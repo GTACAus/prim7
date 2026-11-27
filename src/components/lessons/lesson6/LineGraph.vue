@@ -26,11 +26,11 @@ import {
   ref,
   watch,
 } from "vue";
-import Activity from "../../activities/Activity.vue";
-import DragDrop from "../../activities/DragDrop.vue";
-import DragItem from "../../activities/DragItem.vue";
-import DropSlot from "../../activities/DropSlot.vue";
-import PredictionCheck from "../../activities/PredictionCheck.vue";
+import Activity from "@/components/activities/Activity.vue";
+import DragDrop from "@/components/activities/DragDrop.vue";
+import DragItem from "@/components/activities/DragItem.vue";
+import DropSlot from "@/components/activities/DropSlot.vue";
+import PredictionCheck from "@/components/activities/PredictionCheck.vue";
 import {
   DEFAULT_MESSAGES,
   average,

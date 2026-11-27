@@ -8,19 +8,19 @@
   prediction opens. Changing the plan clears the question and prediction.
 */
 import { computed, ref, watch } from "vue";
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import LessonIntro from "../components/content/LessonIntro.vue";
-import ContentBox from "../components/ui/ContentBox.vue";
-import Button from "../components/ui/Button.vue";
-import Activity from "../components/activities/Activity.vue";
-import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
-import PredictionTable from "../components/activities/PredictionTable.vue";
-import PlantPlanner from "../components/lessons/plantExperiment/PlantPlanner.vue";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import ContentBox from "@/components/ui/ContentBox.vue";
+import Button from "@/components/ui/Button.vue";
+import Activity from "@/components/activities/Activity.vue";
+import InvestigationQuestion from "@/components/activities/InvestigationQuestion.vue";
+import PredictionTable from "@/components/activities/PredictionTable.vue";
+import PlantPlanner from "@/components/lessons/plantExperiment/PlantPlanner.vue";
 import {
   CHANGE_WORDS,
   MEASURE_WORDS,
-} from "../components/lessons/plantExperiment/plantData.js";
+} from "@/components/lessons/plantExperiment/plantData.js";
 
 const glossary = {
   Variable:

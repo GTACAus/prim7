@@ -18,9 +18,9 @@
   @answer gets { question, value, correct }.
 */
 import { computed, ref } from "vue";
-import MultipleChoice from "../../activities/MultipleChoice.vue";
-import McQuestion from "../../activities/McQuestion.vue";
-import McChoice from "../../activities/McChoice.vue";
+import MultipleChoice from "@/components/activities/MultipleChoice.vue";
+import McQuestion from "@/components/activities/McQuestion.vue";
+import McChoice from "@/components/activities/McChoice.vue";
 import { CHOICE_CLASSES } from "./barGraph.js";
 
 const props = defineProps({

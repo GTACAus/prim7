@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, watch } from "vue";
-import { useTilt } from "../../composables/useTilt.js";
+import { useTilt } from "@/composables/useTilt.js";
 
 const props = defineProps({
   // position relative to the selected lesson: 0 = current, -1 = previous, 1 = next
@@ -96,7 +96,10 @@ function onClick(event, navigate) {
   /* Grow on large monitors, but stay proportional on narrower screens. */
   width: clamp(320px, 43vw, 660px);
   /* Minimum only: the card can grow if a description needs more lines. */
-  min-height: clamp(360px, 48vh, 490px);
+  min-height: min(clamp(240px, 44vh, 490px), 100%);
+  /* Never taller than the carousel; scroll inside if the window is very short */
+  max-height: 100%;
+  overflow-y: auto;
   flex-direction: column;
   align-items: center;
   justify-content: start;
@@ -195,6 +198,8 @@ function onClick(event, navigate) {
   flex-shrink: 0;
   width: 100%;
   max-width: 700px;
+  /* Pinned to the bottom of the card; the card's gap keeps a minimum space
+     under the title, and the card's min-height shrinks with window height. */
   margin: auto 0 0;
   padding: clamp(12px, 1.5vw, 20px);
   background: transparent;
@@ -297,7 +302,6 @@ function onClick(event, navigate) {
 @media (max-width: 700px) {
   .lesson-card {
     width: min(78vw, 380px);
-    min-height: 440px;
     padding: 18px 14px;
     gap: 10px;
   }
@@ -332,7 +336,7 @@ function onClick(event, navigate) {
 @media (min-width: 1600px) {
   .lesson-card {
     width: max(660px, 28vw);
-    min-height: max(490px, 50vh);
+    min-height: min(max(490px, 50vh), 100%);
     padding: max(28px, 1.5vw);
     gap: max(18px, 1vw);
   }

@@ -5,9 +5,10 @@
   sunlight, CO2 or nutrients. The right choice fades in the healthy plant
   and moves on after a moment; a wrong one shakes its button.
 */
+import { asset } from "@/utils/asset.js";
 import { computed, onBeforeUnmount, ref } from "vue";
 
-const IMG = "../images/pretask/plant_detective/";
+const IMG = asset("images/pretask/plant_detective/");
 
 const SCENARIOS = [
   {

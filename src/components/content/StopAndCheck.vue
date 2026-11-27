@@ -5,9 +5,10 @@
   once it has been checked (<StopAndCheck ref="check"> ... v-if="check?.pressed").
 */
 import { computed, ref } from "vue";
-import ButtonReveal from "../activities/ButtonReveal.vue";
-import Button from "../ui/Button.vue";
-import FloatingTitleBox from "../ui/FloatingTitleBox.vue";
+import ButtonReveal from "@/components/activities/ButtonReveal.vue";
+import Button from "@/components/ui/Button.vue";
+import FloatingTitleBox from "@/components/ui/FloatingTitleBox.vue";
+import stopIcon from "@/assets/stopandthinkicon.png";
 
 const reveal = ref(null);
 const pressed = computed(() => reveal.value?.pressed ?? false);
@@ -26,10 +27,7 @@ defineExpose({ pressed });
         <slot name="content" />
         <p>Click the button below to check your answer.</p>
       </div>
-      <img
-        src="../component_assets/stopandthinkicon.png"
-        alt="Stop and think icon"
-      />
+      <img :src="stopIcon" alt="Stop and think icon" />
       <FloatingTitleBox
         v-if="pressed"
         title="Answer"

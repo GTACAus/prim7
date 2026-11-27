@@ -7,26 +7,30 @@
     <YeastCards />
 */
 import { ref } from "vue";
-import Button from "../../ui/Button.vue";
+import Button from "@/components/ui/Button.vue";
+import sourdoughBreadImg from "@/assets/lesson3/sourdough-bread.jpg";
+import sourdoughStarterImg from "@/assets/lesson3/sourdough-starter.jpg";
+import sugarBlocksImg from "@/assets/lesson3/sugar-blocks.jpg";
+import yeastImg from "@/assets/lesson3/yeast.jpg";
 
 const cards = [
   {
-    image: "../images/lesson3/Yeast.jpg",
+    image: yeastImg,
     alt: "Dry yeast",
     text: "Dry yeast is sold in packets. Yeast is a tiny living thing that you can only see under a microscope! Even though it is tiny, yeast is alive, and just like other living things, it needs food to survive. The yeast in these packets is dormant. To wake it up you need to give it water, sugar, and the right temperature to make it active.",
   },
   {
-    image: "../images/lesson3/Sugar Blocks.jpg",
+    image: sugarBlocksImg,
     alt: "Sugar",
     text: "Yeast uses sugar as a food source, so it can grow and reproduce.",
   },
   {
-    image: "../images/lesson3/Sourdough Starter.jpg",
+    image: sourdoughStarterImg,
     alt: "Sourdough starter",
     text: "When you mix dry yeast and sugar in water, the yeast becomes active. Active yeast releases carbon dioxide gas. This gas can be seen as bubbles in the mixture. The gas bubbles rise to the top and they pop, so the gas escapes the mixture into the air.",
   },
   {
-    image: "../images/lesson3/Sourdough Bread 2.jpg",
+    image: sourdoughBreadImg,
     alt: "Sourdough bread",
     text: "Active yeast produces and releases carbon dioxide gas. When added to bread dough, this makes the dough rise. As bread is baked the bubbles of gas get trapped, making holes in the bread so it is light and soft to eat.",
   },

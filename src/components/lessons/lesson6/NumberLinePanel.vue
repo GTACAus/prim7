@@ -14,6 +14,7 @@
 */
 import { computed, onMounted, ref } from "vue";
 import { PANELS, SPECIES } from "./numberLine.js";
+import Button from "@/components/ui/Button.vue";
 
 const props = defineProps({
   distance: { type: Number, required: true },

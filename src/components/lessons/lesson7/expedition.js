@@ -13,6 +13,7 @@
     text-response    all six frogfish labels typed
     finale           Mission 4's sonar -> observe -> drawing, drawing ticked
 */
+import { asset } from "@/utils/asset.js";
 
 export const missionConfig = [
   {
@@ -171,8 +172,8 @@ export const FROGFISH_LABELS = [
 /* ==================================================
    ANIMALS
    Each id doubles as the file name:
-     static image     = ../images/lesson7/mission5/<id>.<ext>
-     observation gif  = ../images/lesson7/mission5/animations/<id>.gif
+     static image     = public/images/lesson7/mission5/<id>.<ext>
+     observation gif  = public/images/lesson7/mission5/animations/<id>.gif
    Frogfish and sawshark are left out of the final-mission pool: the
    storyboard flags them as borderline for the deep-sea framing.
    ================================================== */
@@ -180,9 +181,9 @@ export const FROGFISH_LABELS = [
 export const MISSION5_OBSERVE_SECONDS = 5;
 
 export const staticSrc = (species) =>
-  "../images/lesson7/mission5/" + species.id + "." + species.ext;
+  asset("images/lesson7/mission5/") + species.id + "." + species.ext;
 export const gifSrc = (species) =>
-  "../images/lesson7/mission5/animations/" + species.id + ".gif";
+  asset("images/lesson7/mission5/animations/") + species.id + ".gif";
 
 // guideText is what the field guide shows
 export const mission5SpeciesPool = [
@@ -379,7 +380,7 @@ export const ALL_SPECIES = [
    so the three jars are drawn first, then liquid, steel wool and lids.
    ================================================== */
 
-const DRAW = "../images/lesson7/mission2/draw_diagram/";
+const DRAW = asset("images/lesson7/mission2/draw_diagram/");
 
 /* The three liquids compared; each gets its own jar in the diagram. */
 const RUST_LIQUID_TYPES = ["Water", "Oil", "Sea water"];

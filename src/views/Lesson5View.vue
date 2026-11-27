@@ -1,21 +1,22 @@
 <script setup>
+import { asset } from "@/utils/asset.js";
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/pages/lesson5.css";
+import "@/styles/pages/lesson5.css";
 import { ref } from "vue";
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import LessonIntro from "../components/content/LessonIntro.vue";
-import Button from "../components/ui/Button.vue";
-import StopAndCheck from "../components/content/StopAndCheck.vue";
-import SpotlightSurvey from "../components/lessons/lesson5/SpotlightSurvey.vue";
-import SiteOneBarGraph from "../components/lessons/lesson5/SiteOneBarGraph.vue";
-import SiteTwoBarGraph from "../components/lessons/lesson5/SiteTwoBarGraph.vue";
-import CompareSites from "../components/lessons/lesson5/CompareSites.vue";
-import Media from "../components/ui/Media.vue";
-import { openPDF } from "../composables/useModal.js";
-import ContentBox from "../components/ui/ContentBox.vue";
-import Grid from "../components/layout/Grid.vue";
-import LessonCard from "../components/content/LessonCard.vue";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import Button from "@/components/ui/Button.vue";
+import StopAndCheck from "@/components/content/StopAndCheck.vue";
+import SpotlightSurvey from "@/components/lessons/lesson5/SpotlightSurvey.vue";
+import SiteOneBarGraph from "@/components/lessons/lesson5/SiteOneBarGraph.vue";
+import SiteTwoBarGraph from "@/components/lessons/lesson5/SiteTwoBarGraph.vue";
+import CompareSites from "@/components/lessons/lesson5/CompareSites.vue";
+import Media from "@/components/ui/Media.vue";
+import { openPDF } from "@/composables/useModal.js";
+import ContentBox from "@/components/ui/ContentBox.vue";
+import Grid from "@/components/layout/Grid.vue";
+import LessonCard from "@/components/content/LessonCard.vue";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -103,7 +104,7 @@ const graphChecklist = [
   },
 ];
 
-const IMG = "../images/lesson5/";
+const IMG = asset("images/lesson5/");
 const animals = [
   { name: "Leadbeater's Possum", image: "leadbeaters_possum_1.png" },
   { name: "Yellow-bellied Glider", image: "YBGlider_2.png" },
@@ -140,7 +141,7 @@ const partD = ref(null);
       <LessonIntro
         label="Lesson 5"
         title="Using Bar Graphs to Visualise Data"
-        worksheet="../worksheets/l5-worksheet.pdf"
+        :worksheet="asset('worksheets/l5-worksheet.pdf')"
         :objective="objective"
         :criteria="criteria"
       >
@@ -148,7 +149,7 @@ const partD = ref(null);
           <Button
             class="project-resource-button bar-data-resource-button"
             symbol="📄"
-            @click="openPDF('../downloads/lesson5/visualising-data.pdf', 'Visualising Data')"
+            @click="openPDF(asset('downloads/lesson5/visualising-data.pdf'), 'Visualising Data')"
           >
             Visualising Data
           </Button>
@@ -259,7 +260,7 @@ const partD = ref(null);
                       class="project-resource-button project-possum-flyer-button"
                       @click="
                         openPDF(
-                          '../downloads/lesson5/leadbeaters-possum-flyer.pdf',
+                          asset('downloads/lesson5/leadbeaters-possum-flyer.pdf'),
                           'Meet the Leadbeater\'s Possum',
                         )
                       "
@@ -494,7 +495,7 @@ const partD = ref(null);
         <Button
           class="project-resource-button partb-header-guide-button"
           symbol="📄"
-          @click="openPDF('../downloads/lesson5/visualising-data.pdf', 'How to make a bar graph')"
+          @click="openPDF(asset('downloads/lesson5/visualising-data.pdf'), 'How to make a bar graph')"
         >
           How to make a bar graph
         </Button>

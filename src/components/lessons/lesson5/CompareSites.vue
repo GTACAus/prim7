@@ -14,23 +14,24 @@
   while building and .partd-analysis-mode afterwards (lesson4.css highlights
   the matching table column and bars). Every step saves itself.
 */
+import { asset } from "@/utils/asset.js";
 import { computed, nextTick, ref, watch } from "vue";
-import MultipleChoice from "../../activities/MultipleChoice.vue";
-import McQuestion from "../../activities/McQuestion.vue";
-import McChoice from "../../activities/McChoice.vue";
-import PredictionCheck from "../../activities/PredictionCheck.vue";
-import StopAndCheck from "../../content/StopAndCheck.vue";
-import Button from "../../ui/Button.vue";
-import LessonEndCard from "../../content/LessonEndCard.vue";
+import MultipleChoice from "@/components/activities/MultipleChoice.vue";
+import McQuestion from "@/components/activities/McQuestion.vue";
+import McChoice from "@/components/activities/McChoice.vue";
+import PredictionCheck from "@/components/activities/PredictionCheck.vue";
+import StopAndCheck from "@/components/content/StopAndCheck.vue";
+import Button from "@/components/ui/Button.vue";
+import LessonEndCard from "@/components/content/LessonEndCard.vue";
 import BarSliders from "./BarSliders.vue";
 import PairedBarGraph from "./PairedBarGraph.vue";
 import AnalysisQuestions from "./AnalysisQuestions.vue";
 import { BOTH_SITES, formatNumber } from "./barGraph.js";
-import { openPDF } from "../../../composables/useModal.js";
+import { openPDF } from "@/composables/useModal.js";
 
 const emit = defineEmits(["reset"]);
 
-const IMG = "../images/lesson5/";
+const IMG = asset("images/lesson5/");
 
 const SLIDER_ROWS = BOTH_SITES.map((item) => ({
   label: item.label,
@@ -435,7 +436,7 @@ defineExpose({ sectionClass });
           symbol="📄"
           @click="
             openPDF(
-              '../downloads/lesson5/protect-leadbeaters-possum.pdf',
+              asset('downloads/lesson5/protect-leadbeaters-possum.pdf'),
               'Protecting Leadbeater\'s Possum',
             )
           "

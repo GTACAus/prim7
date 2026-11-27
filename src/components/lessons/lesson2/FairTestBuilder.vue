@@ -15,10 +15,10 @@
   shows the end-of-lesson card. The choices are saved through <Activity :state>.
 */
 import { computed, reactive, ref } from "vue";
-import Activity from "../../activities/Activity.vue";
-import Button from "../../ui/Button.vue";
-import LessonEndCard from "../../content/LessonEndCard.vue";
-import ContentBox from "../../ui/ContentBox.vue";
+import Activity from "@/components/activities/Activity.vue";
+import Button from "@/components/ui/Button.vue";
+import LessonEndCard from "@/components/content/LessonEndCard.vue";
+import ContentBox from "@/components/ui/ContentBox.vue";
 
 const variableConfig = {
   size: {

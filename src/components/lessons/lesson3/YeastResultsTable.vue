@@ -13,20 +13,21 @@
   through its own <Activity :state>; the watched videos and calculated
   averages are saved here.
 */
+import { asset } from "@/utils/asset.js";
 import { computed, ref, watch } from "vue";
-import Activity from "../../activities/Activity.vue";
-import DragDrop from "../../activities/DragDrop.vue";
-import DragItem from "../../activities/DragItem.vue";
-import DropSlot from "../../activities/DropSlot.vue";
-import InputResponse from "../../activities/InputResponse.vue";
-import ResponseBox from "../../activities/ResponseBox.vue";
-import PredictionCheck from "../../activities/PredictionCheck.vue";
-import McQuestion from "../../activities/McQuestion.vue";
-import McChoice from "../../activities/McChoice.vue";
-import StopAndCheck from "../../content/StopAndCheck.vue";
-import Button from "../../ui/Button.vue";
-import { openVideo } from "../../../composables/useModal.js";
-import LessonEndCard from "../../content/LessonEndCard.vue";
+import Activity from "@/components/activities/Activity.vue";
+import DragDrop from "@/components/activities/DragDrop.vue";
+import DragItem from "@/components/activities/DragItem.vue";
+import DropSlot from "@/components/activities/DropSlot.vue";
+import InputResponse from "@/components/activities/InputResponse.vue";
+import ResponseBox from "@/components/activities/ResponseBox.vue";
+import PredictionCheck from "@/components/activities/PredictionCheck.vue";
+import McQuestion from "@/components/activities/McQuestion.vue";
+import McChoice from "@/components/activities/McChoice.vue";
+import StopAndCheck from "@/components/content/StopAndCheck.vue";
+import Button from "@/components/ui/Button.vue";
+import { openVideo } from "@/composables/useModal.js";
+import LessonEndCard from "@/components/content/LessonEndCard.vue";
 
 const emit = defineEmits(["reset"]);
 
@@ -45,9 +46,9 @@ const labels = [
 ];
 
 const videos = [
-  { test: 1, src: "../videos/lesson3/Yeast Timelapse.mp4" },
-  { test: 2, src: "../videos/lesson3/Yeast Timelapse 2.mp4" },
-  { test: 3, src: "../videos/lesson3/Yeast Timelapse 3.mp4" },
+  { test: 1, src: asset("videos/lesson3/Yeast Timelapse.mp4") },
+  { test: 2, src: asset("videos/lesson3/Yeast Timelapse 2.mp4") },
+  { test: 3, src: asset("videos/lesson3/Yeast Timelapse 3.mp4") },
 ];
 
 // One row per temperature; answers are the correct Test 1-3 results (cm).

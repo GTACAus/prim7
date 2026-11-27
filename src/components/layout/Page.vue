@@ -10,9 +10,9 @@ import {
   onMounted,
   onUnmounted,
 } from "vue";
-import Button from "../ui/Button.vue";
-import Modal from "../ui/Modal.vue";
-import { useHomeStore } from "../../stores/home.js";
+import Button from "@/components/ui/Button.vue";
+import Modal from "@/components/ui/Modal.vue";
+import { useHomeStore } from "@/stores/home.js";
 
 const props = defineProps({
   lessonId: { type: String, required: true },

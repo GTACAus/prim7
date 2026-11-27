@@ -5,8 +5,8 @@
 
     <PostitBrainstorm id="brainstormActivity" :count="8" :min-total="4" />
 */
-import InputResponse from '../../activities/InputResponse.vue'
-import ResponseBox from '../../activities/ResponseBox.vue'
+import InputResponse from '@/components/activities/InputResponse.vue'
+import ResponseBox from '@/components/activities/ResponseBox.vue'
 
 // Vite serves public assets from the site's base URL (also works under /prim7/).
 const postitBackground = `${import.meta.env.BASE_URL}images/pretask/postitwall.jpg`

@@ -1,6 +1,7 @@
 <script setup>
-import LessonIntro from "../components/content/LessonIntro.vue";
-import Expedition from "../components/lessons/lesson7/Expedition.vue";
+import { asset } from "@/utils/asset.js";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import Expedition from "@/components/lessons/lesson7/Expedition.vue";
 
 // Terms shown in the vocabulary modal ("Field guide"): { word: description }
 const glossary = {
@@ -39,7 +40,7 @@ document.title = "Lesson 7 - Drawing Scientific Diagrams";
       <LessonIntro
         label="Lesson 7"
         title="Drawing Scientific Diagrams"
-        worksheet="../worksheets/l7-worksheet.pdf"
+        :worksheet="asset('worksheets/l7-worksheet.pdf')"
         :objective="objective"
         :criteria="criteria"
       >

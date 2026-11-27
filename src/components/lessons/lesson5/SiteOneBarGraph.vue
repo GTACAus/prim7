@@ -17,15 +17,15 @@
   <Activity :state>; the other steps are activities that save themselves.
 */
 import { computed, nextTick, ref } from "vue";
-import Activity from "../../activities/Activity.vue";
-import DragDrop from "../../activities/DragDrop.vue";
-import DragItem from "../../activities/DragItem.vue";
-import DropSlot from "../../activities/DropSlot.vue";
-import MultipleChoice from "../../activities/MultipleChoice.vue";
-import McQuestion from "../../activities/McQuestion.vue";
-import McChoice from "../../activities/McChoice.vue";
-import SelectItems from "../../activities/SelectItems.vue";
-import Button from "../../ui/Button.vue";
+import Activity from "@/components/activities/Activity.vue";
+import DragDrop from "@/components/activities/DragDrop.vue";
+import DragItem from "@/components/activities/DragItem.vue";
+import DropSlot from "@/components/activities/DropSlot.vue";
+import MultipleChoice from "@/components/activities/MultipleChoice.vue";
+import McQuestion from "@/components/activities/McQuestion.vue";
+import McChoice from "@/components/activities/McChoice.vue";
+import SelectItems from "@/components/activities/SelectItems.vue";
+import Button from "@/components/ui/Button.vue";
 import BarGraphFrame from "./BarGraphFrame.vue";
 import AnalysisQuestions from "./AnalysisQuestions.vue";
 import {

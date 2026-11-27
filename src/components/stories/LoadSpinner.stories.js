@@ -1,11 +1,11 @@
 import { fn, expect, userEvent, within } from "storybook/test";
-import LoadSpinner from "../ui/LoadSpinner.vue";
+import LoadSpinner from "@/components/ui/LoadSpinner.vue";
 
 export default {
   title: "UI/LoadSpinner",
   component: LoadSpinner,
   tags: ["autodocs"],
-  args: { size: "72px", label: "Loading...", showLabel: true },
+  args: { size: "72px", label: "Loading", showLabel: true },
   argTypes: {
     size: { control: "text" },
     label: { control: "text" },

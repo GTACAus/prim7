@@ -21,10 +21,11 @@
   ==================================================
 */
 import { computed, nextTick, ref, watch } from "vue";
-import Activity from "../../activities/Activity.vue";
-import Button from "../../ui/Button.vue";
-import Grid from "../../layout/Grid.vue";
+import Activity from "@/components/activities/Activity.vue";
+import Button from "@/components/ui/Button.vue";
+import Grid from "@/components/layout/Grid.vue";
 import PlantScene from "./PlantScene.vue";
+import { openImage } from "@/composables/useModal.js";
 import {
   GROWING_MODES,
   MEASUREMENTS,

@@ -1,15 +1,16 @@
 <script setup>
+import { asset } from "@/utils/asset.js";
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/pages/pretask.css";
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import ThinkBox from "../components/activities/ThinkBox.vue";
-import PostitBrainstorm from "../components/lessons/pretask/PostitBrainstorm.vue";
-import FinalBrainstorm from "../components/lessons/pretask/FinalBrainstorm.vue";
-import PlantDetective from "../components/lessons/pretask/PlantDetective.vue";
-import PlantGame from "../components/lessons/pretask/PlantGame.vue";
-import WordSentences from "../components/lessons/pretask/WordSentences.vue";
-import Media from "../components/ui/Media.vue";
+import "@/styles/pages/pretask.css";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import ThinkBox from "@/components/activities/ThinkBox.vue";
+import PostitBrainstorm from "@/components/lessons/pretask/PostitBrainstorm.vue";
+import FinalBrainstorm from "@/components/lessons/pretask/FinalBrainstorm.vue";
+import PlantDetective from "@/components/lessons/pretask/PlantDetective.vue";
+import PlantGame from "@/components/lessons/pretask/PlantGame.vue";
+import WordSentences from "@/components/lessons/pretask/WordSentences.vue";
+import Media from "@/components/ui/Media.vue";
 
 // Sections of the page. Order defines the unlock chain (next-id) and which
 // sections start locked; override per section where needed.
@@ -97,7 +98,10 @@ const finalBranches = [
   },
 ];
 
-import LessonIntro from "../components/content/LessonIntro.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import botanistImg from "@/assets/pretask/botanist.jpg";
+import plantneedsMarkedImg from "@/assets/pretask/plantneeds-marked.png";
+import plantneedsUnmarkedImg from "@/assets/pretask/plantneeds-unmarked.png";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -138,7 +142,7 @@ const glossary = {
       <LessonIntro
         label="Pre-Task"
         title="What do plants need to survive?"
-        worksheet="../worksheets/pretask-worksheet.pdf"
+        :worksheet="asset('worksheets/pretask-worksheet.pdf')"
         :objective="objective"
         :criteria="criteria"
       >
@@ -149,7 +153,7 @@ const glossary = {
           <div class="botanist-mission">
             <div class="mission-icon">
               <img
-                src="../images/pretask/botanist.jpg"
+                :src="botanistImg"
                 alt="A botanist studying plants"
               />
             </div>
@@ -263,7 +267,7 @@ const glossary = {
         </div>
 
         <Media
-          src="../images/pretask/plantneeds-unmarked.png"
+          :src="plantneedsUnmarkedImg"
           alt="Plants need water, sunlight and nutrients"
         />
 
@@ -285,7 +289,7 @@ const glossary = {
         <div class="learning-row">
           <div class="diagram-box diagram-activity">
             <Media
-              src="../images/pretask/plantneeds-marked.png"
+              :src="plantneedsMarkedImg"
               alt="Diagram showing the parts of a flowering plant"
             />
 

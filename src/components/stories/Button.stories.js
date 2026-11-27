@@ -1,5 +1,5 @@
 import { fn, expect, userEvent, within } from "storybook/test";
-import Button from "../ui/Button.vue";
+import Button from "@/components/ui/Button.vue";
 
 export default {
   title: "UI/Button",
