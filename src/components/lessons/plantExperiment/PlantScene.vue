@@ -43,16 +43,23 @@ const backdropFrame = computed(() => {
     // Position the window/cupboard above the plant in the left half.
     // The right half stays open for the unboxed material references.
     return props.values.lightExposure === "cupboard"
-      ? { x: 0, y: 55, width: 213, height: 208 }
+      ? { x: 0, y: 81, width: 213, height: 208 }
       : { x: 18, y: 24, width: 177, height: 151 };
   }
   return IMAGE_FRAMES.backgrounds[props.values.lightExposure];
 });
 // Move AND scale the pot and seedling together. Their relative rooting
 // positions remain intact across all 16 combined Canva pot/soil images.
+// Roomier wall v3.1: move pot + seedling + shadow down with the bench,
+// rather than stretching the artwork or disconnecting the stem from the pot.
 const potGroupTransform = computed(() =>
-  props.wallLayout && !tiny.value ? "translate(-53, 60) scale(0.76)" : ""
+  props.wallLayout && !tiny.value ? "translate(-53, 86) scale(0.76)" : ""
 );
+// Extend the illustrated wall by 26 SVG units (about 8.5% taller). Only
+// applies to the classroom wall layout; the Tiny Farms scene is unchanged.
+const classroomWallTall = computed(() => props.wallLayout && !tiny.value);
+const sceneHeight = computed(() => classroomWallTall.value ? 332 : 306);
+const benchY = computed(() => classroomWallTall.value ? 289 : 263);
 const large = computed(() => props.values.potSize === "large");
 const full = computed(() => props.values.soilFill === "full");
 const rimWidth = computed(() => (large.value ? 143 : 108));
@@ -90,7 +97,7 @@ const TRAY_PLANTS = [145, 210, 275];
 <template>
   <svg
     class="pk-scene-picture"
-    viewBox="0 0 420 306"
+    :viewBox="`0 0 420 ${sceneHeight}`"
     role="img"
     :aria-label="ariaLabel"
   >
@@ -171,7 +178,7 @@ const TRAY_PLANTS = [145, 210, 275];
 
     <!-- ============ CLASSROOM: pot on a bench by a window / in a cupboard ============ -->
     <template v-else>
-      <rect width="420" height="306" fill="#eef6e9" />
+      <rect width="420" :height="sceneHeight" fill="#eef6e9" />
       <image
         v-if="backdrop"
         :href="backdrop"
@@ -179,8 +186,8 @@ const TRAY_PLANTS = [145, 210, 275];
         preserveAspectRatio="xMidYMid meet"
       />
 
-      <rect y="263" width="420" height="43" fill="#deb687" />
-      <rect y="263" width="420" height="7" fill="#af855f" opacity=".3" />
+      <rect :y="benchY" width="420" height="43" fill="#deb687" />
+      <rect :y="benchY" width="420" height="7" fill="#af855f" opacity=".3" />
       <g :transform="potGroupTransform">
         <ellipse cx="210" cy="267" :rx="rimWidth * 0.52" ry="10" fill="#503d30" opacity=".18" />
 
