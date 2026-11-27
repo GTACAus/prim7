@@ -9,6 +9,7 @@
     "prebuild": "node scripts/ensure-install.mjs",
     "build": "vite build",
     "preview": "vite preview",
+    "prestorybook": "node scripts/ensure-install.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
