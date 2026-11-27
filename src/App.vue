@@ -11,7 +11,7 @@ const route = useRoute();
   <!-- while the next page's code downloads (first visit), over the current page -->
   <Transition name="page-spinner">
     <div v-if="pageLoading" class="page-spinner">
-      <LoadSpinner label="Loading..." show-label />
+      <LoadSpinner show-label />
     </div>
   </Transition>
   <PageHeader v-if="route.meta.header !== false" :save="route.meta.save" />

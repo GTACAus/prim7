@@ -1,13 +1,13 @@
 <script setup>
-import Button from "../ui/Button.vue";
+import Button from "@/components/ui/Button.vue";
 import LessonCard from "./LessonCard.vue";
-import Grid from "../layout/Grid.vue";
+import Grid from "@/components/layout/Grid.vue";
 /*
   Lesson introduction: label, title, summary, worksheet download and an
   optional objectives / "think like a scientist" grid.
 
     <LessonIntro label="Lesson 1" title="Questioning and Predicting"
-                 worksheet="../worksheets/l1-worksheet.pdf"
+                 :worksheet="asset('worksheets/l1-worksheet.pdf')"
                  :objective="objective" :criteria="criteria">
       Summary text (may contain <strong>HTML</strong>).
 

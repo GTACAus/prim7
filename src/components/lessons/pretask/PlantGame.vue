@@ -2,10 +2,15 @@
 // "Build a Plant" / "Label the Plant" drag and drop activity (pre-task, part C).
 // Labelling opens once the plant is built.
 import { computed, ref } from "vue";
-import Button from "../../ui/Button.vue";
-import DragDrop from "../../activities/DragDrop.vue";
-import DropSlot from "../../activities/DropSlot.vue";
-import DragItem from "../../activities/DragItem.vue";
+import Button from "@/components/ui/Button.vue";
+import DragDrop from "@/components/activities/DragDrop.vue";
+import DropSlot from "@/components/activities/DropSlot.vue";
+import DragItem from "@/components/activities/DragItem.vue";
+import flowerImg from "@/assets/pretask/flower.png";
+import leftLeafImg from "@/assets/pretask/left-leaf.png";
+import rootsImg from "@/assets/pretask/roots.png";
+import stemImg from "@/assets/pretask/stem.png";
+import sunflowerImg from "@/assets/pretask/sunflower.png";
 
 const plantGame = ref("parts");
 const plantParts = ref(null);
@@ -49,7 +54,7 @@ function switchGame(game) {
               <div class="plant-image-container">
                 <img
                   class="plant-image"
-                  src="../images/pretask/sunflower.png"
+                  :src="sunflowerImg"
                   alt="Sunflower"
                 />
               </div>
@@ -76,28 +81,28 @@ function switchGame(game) {
               <DragItem class="part" name="flower">
                 <img
                   class="flower-image"
-                  src="../images/pretask/flower.png"
+                  :src="flowerImg"
                   alt="Flower"
                 />
               </DragItem>
               <DragItem class="part" name="left-leaf">
                 <img
                   class="left-leaf-image"
-                  src="../images/pretask/left_leaf.png"
+                  :src="leftLeafImg"
                   alt="Left Leaf"
                 />
               </DragItem>
               <DragItem class="part" name="stem">
                 <img
                   class="stem-image"
-                  src="../images/pretask/stem.png"
+                  :src="stemImg"
                   alt="Stem"
                 />
               </DragItem>
               <DragItem class="part" name="roots">
                 <img
                   class="roots-image"
-                  src="../images/pretask/roots.png"
+                  :src="rootsImg"
                   alt="Roots"
                 />
               </DragItem>
@@ -128,7 +133,7 @@ function switchGame(game) {
               <div class="plant-image-container">
                 <img
                   class="plant-image"
-                  src="../images/pretask/sunflower.png"
+                  :src="sunflowerImg"
                   alt="Sunflower"
                 />
               </div>

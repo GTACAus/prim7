@@ -10,9 +10,9 @@
 */
 
 import { computed, nextTick, onBeforeUnmount, reactive, ref } from "vue";
-import Activity from "../../activities/Activity.vue";
-import Button from "../../ui/Button.vue";
-import StudentEntry from "../../ui/StudentEntry.vue";
+import Activity from "@/components/activities/Activity.vue";
+import Button from "@/components/ui/Button.vue";
+import StudentEntry from "@/components/ui/StudentEntry.vue";
 
 /* One entry per segment of the wheel. destination = the wheel angle (deg) that
    brings that segment under the pointer. */

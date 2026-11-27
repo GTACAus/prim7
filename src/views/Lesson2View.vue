@@ -1,16 +1,17 @@
 <script setup>
+import { asset } from "@/utils/asset.js";
 // Loads before the components so its rules keep the cascade order of the old stylesheet.
-import "../styles/pages/lesson2.css";
+import "@/styles/pages/lesson2.css";
 import { computed, ref } from "vue";
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import StopAndCheck from "../components/content/StopAndCheck.vue";
-import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
-import DiscoverVariables from "../components/lessons/lesson2/DiscoverVariables.vue";
-import BallPairChoice from "../components/lessons/lesson2/BallPairChoice.vue";
-import PredictionTable from "../components/activities/PredictionTable.vue";
-import VariableSort from "../components/activities/VariableSort.vue";
-import FairTestBuilder from "../components/lessons/lesson2/FairTestBuilder.vue";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import StopAndCheck from "@/components/content/StopAndCheck.vue";
+import InvestigationQuestion from "@/components/activities/InvestigationQuestion.vue";
+import DiscoverVariables from "@/components/lessons/lesson2/DiscoverVariables.vue";
+import BallPairChoice from "@/components/lessons/lesson2/BallPairChoice.vue";
+import PredictionTable from "@/components/activities/PredictionTable.vue";
+import VariableSort from "@/components/activities/VariableSort.vue";
+import FairTestBuilder from "@/components/lessons/lesson2/FairTestBuilder.vue";
 
 // Options passed to the activity components
 const sortVariablesOneActivityOptions = {
@@ -97,10 +98,11 @@ function resetQuestionAndPrediction() {
   questionActivity.value?.reset();
   predictionActivity.value?.reset();
 }
-import LessonIntro from "../components/content/LessonIntro.vue";
-import Button from "../components/ui/Button.vue";
-import ContentBox from "../components/ui/ContentBox.vue";
-import Grid from "../components/layout/Grid.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import Button from "@/components/ui/Button.vue";
+import ContentBox from "@/components/ui/ContentBox.vue";
+import Grid from "@/components/layout/Grid.vue";
+import l2StwImg from "@/assets/lesson2/l2-stw.png";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -181,7 +183,7 @@ const sections = [
       <LessonIntro
         label="Lesson 2"
         title="Planning a Fair Test"
-        worksheet="../worksheets/l2-worksheet.pdf"
+        :worksheet="asset('worksheets/l2-worksheet.pdf')"
         :objective="objective"
         :criteria="criteria"
       >
@@ -231,7 +233,7 @@ const sections = [
       <Section name="discover-variables">
         <DiscoverVariables
           id="discoverVariablesActivity"
-          image="../images/lesson2/l2-stw.png"
+          :image="l2StwImg"
           image-alt="Bouncing ball investigation showing possible variables"
         >
           <template #intro>

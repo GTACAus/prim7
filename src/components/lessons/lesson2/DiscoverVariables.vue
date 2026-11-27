@@ -3,7 +3,7 @@
   Lesson 2 "discover possible variables": type the variables you can spot on a
   mind-map image (a box laid over each spot), then list them again in a grid.
 
-    <DiscoverVariables image="../images/lesson2/l2-stw.png" image-alt="...">
+    <DiscoverVariables :image="l2StwImg" image-alt="...">
       <template #intro> instructions above the image </template>
       <template #between> instructions between the image and the grid </template>
     </DiscoverVariables>
@@ -13,8 +13,8 @@
   through <Activity :state>.
 */
 import { ref } from "vue";
-import Activity from "../../activities/Activity.vue";
-import StudentEntry from "../../ui/StudentEntry.vue";
+import Activity from "@/components/activities/Activity.vue";
+import StudentEntry from "@/components/ui/StudentEntry.vue";
 
 const props = defineProps({
   image: { type: String, required: true },

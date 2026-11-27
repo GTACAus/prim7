@@ -1,21 +1,24 @@
 <script setup>
 // Load before the components: these styles keep the cascade order of the old stylesheet.
 import { ref } from "vue";
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import LessonIntro from "../components/content/LessonIntro.vue";
-import NumberLine from "../components/lessons/lesson6/NumberLine.vue";
-import LineGraph from "../components/lessons/lesson6/LineGraph.vue";
-import Media from "../components/ui/Media.vue";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import NumberLine from "@/components/lessons/lesson6/NumberLine.vue";
+import LineGraph from "@/components/lessons/lesson6/LineGraph.vue";
+import Media from "@/components/ui/Media.vue";
 import {
   ELEPHANT,
   CONNIWINKS,
   YEAST,
   PLANTS,
-} from "../components/lessons/lesson6/lineGraphs.js";
-import ContentBox from "../components/ui/ContentBox.vue";
-import Grid from "../components/layout/Grid.vue";
-import LessonEndCard from "../components/content/LessonEndCard.vue";
+} from "@/components/lessons/lesson6/lineGraphs.js";
+import ContentBox from "@/components/ui/ContentBox.vue";
+import Grid from "@/components/layout/Grid.vue";
+import LessonEndCard from "@/components/content/LessonEndCard.vue";
+import steviaPlantsImg from "@/assets/lesson6/stevia-plants.png";
+import tideAnimationGif from "@/assets/lesson6/tide-animation.gif";
+import yeastExperimentImg from "@/assets/lesson6/yeast-experiment.png";
 
 // Terms shown in the vocabulary modal: { word: description }
 const glossary = {
@@ -178,7 +181,7 @@ const plants = ref(null);
 
         <Media
           class="spaced-block"
-          src="../images/lesson6/tide-animation.gif"
+          :src="tideAnimationGif"
           alt="Animated diagram showing the rock platform changing between low tide and high tide"
         />
       </Section>
@@ -268,7 +271,7 @@ const plants = ref(null);
 
         <Media
           class="spaced-block"
-          src="../images/lesson6/yeastexperiment.png"
+          :src="yeastExperimentImg"
           alt="Diagram of the yeast, sugar, water and balloon fair-test experiment"
         />
 
@@ -319,7 +322,7 @@ const plants = ref(null);
 
         <Media
           class="spaced-block"
-          src="../images/lesson6/stevia-plants.png"
+          :src="steviaPlantsImg"
           alt="Six Stevia plants split between 100 mL and 300 mL watering conditions"
         />
 

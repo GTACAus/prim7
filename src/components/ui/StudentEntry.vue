@@ -26,7 +26,7 @@
   an "entry:reset" event.
 */
 import { computed, nextTick, ref, useTemplateRef, watch } from "vue";
-import { useClassroomLanguageFilter } from "../../composables/useClassroomLanguageFilter.js";
+import { useClassroomLanguageFilter } from "@/composables/useClassroomLanguageFilter.js";
 import Button from "./Button.vue";
 
 const props = defineProps({

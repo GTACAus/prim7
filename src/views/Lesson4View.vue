@@ -1,17 +1,20 @@
 <script setup>
+import { asset } from "@/utils/asset.js";
 // Load before the components: these styles keep the cascade order of the old stylesheet.
 import { computed, ref } from "vue";
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import LessonIntro from "../components/content/LessonIntro.vue";
-import LessonCard from "../components/content/LessonCard.vue";
-import Grid from "../components/layout/Grid.vue";
-import ContentBox from "../components/ui/ContentBox.vue";
-import StopAndCheck from "../components/content/StopAndCheck.vue";
-import InvestigationQuestion from "../components/activities/InvestigationQuestion.vue";
-import PredictionTable from "../components/activities/PredictionTable.vue";
-import BallBounceVariables from "../components/lessons/lesson4/BallBounceVariables.vue";
-import BallBounceTable from "../components/lessons/lesson4/BallBounceTable.vue";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import LessonCard from "@/components/content/LessonCard.vue";
+import Grid from "@/components/layout/Grid.vue";
+import ContentBox from "@/components/ui/ContentBox.vue";
+import StopAndCheck from "@/components/content/StopAndCheck.vue";
+import InvestigationQuestion from "@/components/activities/InvestigationQuestion.vue";
+import PredictionTable from "@/components/activities/PredictionTable.vue";
+import BallBounceVariables from "@/components/lessons/lesson4/BallBounceVariables.vue";
+import BallBounceTable from "@/components/lessons/lesson4/BallBounceTable.vue";
+import ballBounceImg from "@/assets/lesson4/ball-bounce.png";
+import repeatTestsImg from "@/assets/lesson4/repeat-tests.png";
 
 // Terms shown in the vocabulary modal: { word: description }
 const glossary = {
@@ -82,7 +85,7 @@ const predictionActivity = ref(null);
       <LessonIntro
         label="Lesson 4"
         title="Science Inquiry Lab - Skills Check!"
-        worksheet="../worksheets/l4-worksheet.pdf"
+        :worksheet="asset('worksheets/l4-worksheet.pdf')"
       >
         Practice what you have learned by doing a ball bounce experiment
 
@@ -215,7 +218,7 @@ const predictionActivity = ref(null);
             </p>
             <div class="ball-bounce-setup-image">
               <img
-                src="../images/lesson4/Ball Bounce.png"
+                :src="ballBounceImg"
                 alt="Ball bounce experiment setup"
               />
             </div>
@@ -311,7 +314,7 @@ const predictionActivity = ref(null);
                   </p>
                   <img
                     class="repeat-tests-image"
-                    src="../images/lesson4/Repeat Tests.png"
+                    :src="repeatTestsImg"
                     alt="Diagram showing three table tennis-ball bounce tests on grass, with one unusual result"
                   />
                 </div>

@@ -1,19 +1,24 @@
 <script setup>
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import Flashcards from "../components/lessons/lesson1/Flashcards.vue";
-import QuestionWheel from "../components/lessons/lesson1/QuestionWheel.vue";
-import PredictionTests from "../components/lessons/lesson1/PredictionTests.vue";
-import PredictionTable from "../components/activities/PredictionTable.vue";
-import LessonIntro from "../components/content/LessonIntro.vue";
-import LessonCard from "../components/content/LessonCard.vue";
-import Grid from "../components/layout/Grid.vue";
-import ThinkBox from "../components/activities/ThinkBox.vue";
-import Media from "../components/ui/Media.vue";
-import ContentBox from "../components/ui/ContentBox.vue";
+import { asset } from "@/utils/asset.js";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import Flashcards from "@/components/lessons/lesson1/Flashcards.vue";
+import QuestionWheel from "@/components/lessons/lesson1/QuestionWheel.vue";
+import PredictionTests from "@/components/lessons/lesson1/PredictionTests.vue";
+import PredictionTable from "@/components/activities/PredictionTable.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import LessonCard from "@/components/content/LessonCard.vue";
+import Grid from "@/components/layout/Grid.vue";
+import ThinkBox from "@/components/activities/ThinkBox.vue";
+import Media from "@/components/ui/Media.vue";
+import ContentBox from "@/components/ui/ContentBox.vue";
 
-import { openVideo } from "../composables/useModal.js";
-import Button from "../components/ui/Button.vue";
+import { openVideo } from "@/composables/useModal.js";
+import Button from "@/components/ui/Button.vue";
+import l1Example1Img from "@/assets/lesson1/l1-example1.png";
+import l1Example2Img from "@/assets/lesson1/l1-example2.png";
+import l1Example3Img from "@/assets/lesson1/l1-example3.png";
+import l1Example4Img from "@/assets/lesson1/l1-example4.png";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -54,7 +59,7 @@ const predictionTests = [
       "Does <strong>changing</strong> the angle of the ramp <strong>affect</strong> how far the car travels?",
     prediction:
       "If I <strong>increase the angle of the ramp</strong>, then this will <strong>increase how far the car will travel</strong>. This is because the car gains more speed travelling down the ramp.",
-    image: "../images/lesson1/l1-example1.png",
+    image: l1Example1Img,
     answer: "true",
     correct:
       "It is supported. Increasing the angle of the ramp causes the car to travel further.",
@@ -67,7 +72,7 @@ const predictionTests = [
       "Does <strong>changing</strong> the colour of a car <strong>affect</strong> how far the car travels?",
     prediction:
       "If I <strong>change the colour of the car from blue to red</strong>, then <strong>the distance the car travels will stay the same</strong>. This is because colour does not affect how fast the car travels down the ramp.",
-    image: "../images/lesson1/l1-example2.png",
+    image: l1Example2Img,
     answer: "true",
     correct:
       "It is supported because the results show that both cars travel the same distance.",
@@ -80,7 +85,7 @@ const predictionTests = [
       "If we <strong>change</strong> the size of a car, how does this <strong>affect</strong> the distance it travels?",
     prediction:
       "If I <strong>increase the size of the car</strong>, then <strong>the distance the car travels will decrease</strong>. This is because bigger objects stop rolling sooner.",
-    image: "../images/lesson1/l1-example3.png",
+    image: l1Example3Img,
     answer: "false",
     correct:
       "It is not supported. The bigger car travels further than the smaller car.",
@@ -93,7 +98,7 @@ const predictionTests = [
       "How does <strong>changing</strong> the size of a car's wheels <strong>affect</strong> the distance it will travel?",
     prediction:
       "If I <strong>increase the size of the car's wheels</strong>, then <strong>the distance the car travels will increase</strong>. This is because bigger wheels will make it travel faster.",
-    image: "../images/lesson1/l1-example4.png",
+    image: l1Example4Img,
     answer: "false",
     correct:
       "It is not supported because the results show that the car with smaller wheels travels further than the car with bigger wheels.",
@@ -178,7 +183,7 @@ const sections = [
       <LessonIntro
         label="Lesson 1"
         title="Questioning and Predicting"
-        worksheet="../worksheets/l1-worksheet.pdf"
+        :worksheet="asset('worksheets/l1-worksheet.pdf')"
         :objective="objective"
         :criteria="criteria"
       >
@@ -220,7 +225,10 @@ const sections = [
           </p>
         </div>
         <div class="observe-experiment-grid">
-          <Media src="../images/lesson1/l1-default.png" alt="Toy car example" />
+          <Media
+            :src="asset('images/lesson1/l1-default.png')"
+            alt="Toy car example"
+          />
           <ThinkBox class="stw-box" :groups="stwGroups" />
         </div>
       </Section>
@@ -593,7 +601,7 @@ const sections = [
               symbol-class="prediction-video-play"
               @click="
                 openVideo(
-                  '../videos/lesson1/reasoned-prediction-v2.mp4',
+                  asset('videos/lesson1/reasoned-prediction-v2.mp4'),
                   'Reasoned prediction video',
                 )
               "
@@ -637,7 +645,6 @@ const sections = [
 </template>
 
 <style>
-
 /* Lesson 1-specific styles only */
 
 [data-page="lesson1"] {
@@ -659,7 +666,10 @@ const sections = [
   /* Each row is a horizontal stripe */
   .prediction-organiser-row {
     display: grid;
-    grid-template-columns: clamp(80px, 18vw, 180px) minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: clamp(80px, 18vw, 180px) minmax(0, 1fr) minmax(
+        0,
+        1fr
+      );
     border-bottom: 2px solid var(--line);
   }
 
@@ -1014,33 +1024,21 @@ const sections = [
     padding: 14px;
     color: white;
     background: var(--green);
-    border: 3px solid var(--line);
     border-radius: 18px;
-    box-shadow: 0 4px 0 var(--line);
     font: inherit;
     font-weight: 700;
-    cursor: pointer;
-    transition:
-      transform 160ms ease,
-      box-shadow 160ms ease,
-      background-color 160ms ease;
-  }
 
-  .prediction-video-button:hover {
-    background: var(--button-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 5px 0 var(--line);
+    --background-active: var(--purple);
   }
 
   .prediction-video-button:focus-visible {
     outline: 3px solid var(--purple);
-    outline-offset: 4px;
   }
 
   .prediction-video-play {
     width: 54px;
     height: 54px;
-    place-items: center;
+    place-content: center;
     padding-left: 4px;
     color: var(--purple);
     background: var(--paper);

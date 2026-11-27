@@ -1,13 +1,19 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from "vue";
-import Card from "../components/homepage/Card.vue";
-import Button from "../components/ui/Button.vue";
-import { useHomeStore } from "../stores/home.js";
+import Card from "@/components/homepage/Card.vue";
+import Button from "@/components/ui/Button.vue";
+import { useHomeStore } from "@/stores/home.js";
+import lesson1CardImg from "@/assets/homepage/lesson1.png";
+import lesson2CardImg from "@/assets/homepage/lesson2.png";
+import lesson3CardImg from "@/assets/homepage/lesson3.png";
+import lesson4CardImg from "@/assets/homepage/lesson4.png";
+import titleImg from "@/assets/homepage/title.png";
+import titleResponsiveImg from "@/assets/homepage/title-responsive.png";
 
 const lessons = [
   {
     to: "/lesson1",
-    img: "/images/index/lesson1.png",
+    img: lesson1CardImg,
     accent: "var(--purple)",
     subtitle: "Asking Scientific Questions & Making Predictions",
     description:
@@ -16,7 +22,7 @@ const lessons = [
   },
   {
     to: "/lesson2",
-    img: "/images/index/lesson2.png",
+    img: lesson2CardImg,
     accent: "var(--orange)",
     subtitle: "Planning a Fair Test",
     description: "Learn how to plan a fair test and represent it as a diagram.",
@@ -24,7 +30,7 @@ const lessons = [
   },
   {
     to: "/lesson3",
-    img: "/images/index/lesson3.png",
+    img: lesson3CardImg,
     accent: "var(--green)",
     subtitle: "Organising Fair Test Data into a Table",
     description:
@@ -33,7 +39,7 @@ const lessons = [
   },
   {
     to: "/lesson4",
-    img: "/images/index/lesson3.png",
+    img: lesson3CardImg,
     accent: "var(--purple)",
     subtitle: "Science Inquiry Lab - Skills Check!",
     description: "Apply what you have learned in lessons 1,2 and 3.",
@@ -41,7 +47,7 @@ const lessons = [
   },
   {
     to: "/lesson5",
-    img: "/images/index/lesson4.png",
+    img: lesson4CardImg,
     accent: "var(--blue)",
     subtitle: "Using Bar Graphs to Visualise Data",
     description:
@@ -50,7 +56,7 @@ const lessons = [
   },
   {
     to: "/lesson6",
-    img: "/images/index/lesson4.png",
+    img: lesson4CardImg,
     accent: "var(--blue)",
     subtitle: "Using Line Graphs to Visualise Data",
     description:
@@ -59,7 +65,7 @@ const lessons = [
   },
   {
     to: "/lesson7",
-    img: "/images/index/lesson4.png",
+    img: lesson4CardImg,
     accent: "var(--green)",
     subtitle: "Drawing Scientific Diagrams",
     description:
@@ -68,7 +74,7 @@ const lessons = [
   },
   {
     to: "/lesson8",
-    img: "/images/index/lesson4.png",
+    img: lesson4CardImg,
     accent: "var(--green)",
     subtitle: "Communicating Science",
     description:
@@ -275,10 +281,13 @@ onBeforeUnmount(() => {
     <header class="lesson-heading">
       <div id="hero" @click="onHeroClick">
         <div class="image-container">
-          <img src="../images/index/title.png" alt="Science Inquiry Lab" />
+          <img
+            :src="titleImg"
+            alt="Science Inquiry Lab"
+          />
           <div class="hero-lens">
             <img
-              src="../images/index/title-responsive.png"
+              :src="titleResponsiveImg"
               alt="Responsive part of the title"
             />
             <span class="glow"></span>
@@ -339,15 +348,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-:global(body) {
-  min-height: 100vh;
-  /* background: radial-gradient(ellipse at 50% 48%, #fffdf4 0, var(--cream) 68%); */
-  background-image: url("../images/index/background.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
 .page {
   box-sizing: border-box;
   display: grid;
@@ -376,7 +376,7 @@ onBeforeUnmount(() => {
 }
 #hero {
   --gradient: linear-gradient(to top, var(--purple), var(--orange));
-  --mask: url("/images/index/title-responsive.png") center / 100% 100% no-repeat;
+  --mask: url("@/assets/homepage/title-responsive.png") center / 100% 100% no-repeat;
 
   position: relative;
   display: flex;

@@ -2,9 +2,9 @@
 /*
   Media – one image or video, optionally with a caption and credit.
 
-    <Media src="../images/lesson6/stevia-plants.png" alt="Six Stevia plants" />
+    <Media :src="steviaPlantsImg" alt="Six Stevia plants" />
     <Media :src="IMG + 'rov.jpg'" alt="The ROV Hercules" caption="ROV “Hercules”" />
-    <Media src="../videos/lesson3/units.mp4" alt="Measuring units" />
+    <Media :src="asset('videos/lesson3/units.mp4')" alt="Measuring units" />
 
   src: image or video. Videos are picked by file type (.mp4, .webm, .ogg, .mov)
     and get playback controls (turn off with :controls="false").

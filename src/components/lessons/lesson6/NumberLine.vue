@@ -31,9 +31,9 @@ import {
   ref,
   watch,
 } from "vue";
-import Activity from "../../activities/Activity.vue";
-import Button from "../../ui/Button.vue";
-import ContentBox from "../../ui/ContentBox.vue";
+import Activity from "@/components/activities/Activity.vue";
+import Button from "@/components/ui/Button.vue";
+import ContentBox from "@/components/ui/ContentBox.vue";
 import NumberLinePanel from "./NumberLinePanel.vue";
 import {
   DISTANCES,
@@ -978,7 +978,7 @@ onBeforeUnmount(() => {
   grid-template-columns: auto;
   grid-template-rows: 5fr 2fr;
   min-width: 0;
-  aspect-ratio: 2172 / 724; /* matches Rockplatform.png exactly */
+  aspect-ratio: 2172 / 724; /* matches rock-platform.png exactly */
   padding: 0 30px;
   overflow: visible;
   border: 2px solid var(--charcoal);
@@ -986,7 +986,7 @@ onBeforeUnmount(() => {
   grid-row: 2;
   grid-column: 2;
   width: 100%;
-  background-image: url("/images/lesson6/number_line_activity/Rockplatform.png");
+  background-image: url("@/assets/lesson6/rock-platform.png");
   background-size: cover;
   background-repeat: no-repeat;
 }

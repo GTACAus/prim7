@@ -17,6 +17,7 @@
   Everything is a PLANNING illustration. It does NOT simulate growth.
   ==================================================
 */
+import { asset } from "@/utils/asset.js";
 
 // Set true to offer temperature as a Tiny Farms variable.
 const TINY_FARMS_TEMPERATURE = false;
@@ -210,7 +211,7 @@ export const MEASURE_WORDS = {
 };
 
 /* ---------- Images ---------- */
-const FOLDER = "/images/plant-experiment/";
+const FOLDER = asset("images/plant-experiment/");
 const file = (name) => (name ? FOLDER + name : "");
 
 export const VISUAL_ASSETS = {

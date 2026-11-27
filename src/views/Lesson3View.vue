@@ -1,18 +1,20 @@
 <script setup>
+import { asset } from "@/utils/asset.js";
 // Load before the components: these styles keep the cascade order of the old stylesheet.
-import "../styles/pages/lesson3.css";
+import "@/styles/pages/lesson3.css";
 import { ref } from "vue";
-import Page from "../components/layout/Page.vue";
-import Section from "../components/layout/Section.vue";
-import LessonIntro from "../components/content/LessonIntro.vue";
-import Button from "../components/ui/Button.vue";
-import StopAndCheck from "../components/content/StopAndCheck.vue";
-import VariableSort from "../components/activities/VariableSort.vue";
-import YeastCards from "../components/lessons/lesson3/YeastCards.vue";
-import YeastResultsTable from "../components/lessons/lesson3/YeastResultsTable.vue";
-import { openPDF, openVideo } from "../composables/useModal.js";
-import ContentBox from "../components/ui/ContentBox.vue";
-import FloatingTitleBox from "../components/ui/FloatingTitleBox.vue";
+import Page from "@/components/layout/Page.vue";
+import Section from "@/components/layout/Section.vue";
+import LessonIntro from "@/components/content/LessonIntro.vue";
+import Button from "@/components/ui/Button.vue";
+import StopAndCheck from "@/components/content/StopAndCheck.vue";
+import VariableSort from "@/components/activities/VariableSort.vue";
+import YeastCards from "@/components/lessons/lesson3/YeastCards.vue";
+import YeastResultsTable from "@/components/lessons/lesson3/YeastResultsTable.vue";
+import { openPDF, openVideo } from "@/composables/useModal.js";
+import ContentBox from "@/components/ui/ContentBox.vue";
+import FloatingTitleBox from "@/components/ui/FloatingTitleBox.vue";
+import balloonExperimentImg from "@/assets/lesson3/balloon-experiment.png";
 
 // Learning objective and success criteria shown in the lesson intro
 const objective =
@@ -90,23 +92,23 @@ const tableKeys = [
     class: "key-independent",
     title: "Independent variable",
     text: "What you change.",
-    video: "../videos/lesson3/independentvar.mp4",
+    video: asset("videos/lesson3/independentvar.mp4"),
     videoTitle: "Independent Variable Guide",
   },
   {
     class: "key-dependent",
     title: "Dependent variable",
     text: "What you measure or observe.",
-    video: "../videos/lesson3/dependentvar-2.mp4",
+    video: asset("videos/lesson3/dependentvar-2.mp4"),
     videoTitle: "Dependent Variable Guide",
   },
   {
     class: "key-units",
     title: "Units",
     text: "The <strong>unit</strong> belongs in the heading, not in each cell.",
-    video: "../videos/lesson3/units-2.mp4",
+    video: asset("videos/lesson3/units-2.mp4"),
     videoTitle: "Units Guide",
-    pdf: "../downloads/lesson3/units.pdf",
+    pdf: asset("downloads/lesson3/units.pdf"),
     pdfTitle: "Examples of Units",
   },
 ];
@@ -131,7 +133,7 @@ const labelsSection = ref(null);
       <LessonIntro
         label="Lesson 3"
         title="Organising Fair Test Data into a Table"
-        worksheet="../worksheets/l3-worksheet.pdf"
+        :worksheet="asset('worksheets/l3-worksheet.pdf')"
         :objective="objective"
         :criteria="criteria"
       >
@@ -234,7 +236,7 @@ const labelsSection = ref(null);
 
         <div class="yeast-balloon-image-box">
           <img
-            src="../images/lesson3/balloon-experiment.png"
+            :src="balloonExperimentImg"
             alt="A fair test for the effect of temperature on yeast activity"
           />
         </div>

@@ -15,13 +15,14 @@
   Everything typed and the calculated averages are saved through
   <Activity :state>; the interpretation saves itself.
 */
+import { asset } from "@/utils/asset.js";
 import { computed, nextTick, reactive, ref, watch } from "vue";
-import Activity from "../../activities/Activity.vue";
-import PredictionCheck from "../../activities/PredictionCheck.vue";
-import StudentEntry from "../../ui/StudentEntry.vue";
-import Button from "../../ui/Button.vue";
-import LessonEndCard from "../../content/LessonEndCard.vue";
-import { openVideo } from "../../../composables/useModal.js";
+import Activity from "@/components/activities/Activity.vue";
+import PredictionCheck from "@/components/activities/PredictionCheck.vue";
+import StudentEntry from "@/components/ui/StudentEntry.vue";
+import Button from "@/components/ui/Button.vue";
+import LessonEndCard from "@/components/content/LessonEndCard.vue";
+import { openVideo } from "@/composables/useModal.js";
 
 /* ---------- videos ---------- */
 
@@ -29,13 +30,13 @@ const videos = [
   {
     label: "Condition 1",
     title: "Hard surface",
-    src: "../videos/lesson3/Hard Trial 2.mp4",
+    src: asset("videos/lesson3/Hard Trial 2.mp4"),
     videoTitle: "Ball Bounce Experiment - Hard Surface",
   },
   {
     label: "Condition 2",
     title: "Soft surface",
-    src: "../videos/lesson3/Soft Trial 2.mp4",
+    src: asset("videos/lesson3/Soft Trial 2.mp4"),
     videoTitle: "Ball Bounce Experiment - Soft Surface",
   },
 ];

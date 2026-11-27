@@ -87,12 +87,18 @@ html {
 }
 
 body {
+  min-height: 100vh;
   margin: 0;
 
-  background: var(--cream);
   color: var(--text);
 
   font-family: "DM Sans", Arial, sans-serif;
+
+  background-image: url("@/assets/homepage/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .noselect {
@@ -215,7 +221,6 @@ input[type="checkbox"]:active {
   .lesson-heading h1 {
     font-size: 2rem;
   }
-
 }
 
 .locked {

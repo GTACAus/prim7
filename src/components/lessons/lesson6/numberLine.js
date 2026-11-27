@@ -4,8 +4,10 @@
   in it. Hotspot positions are % of the photo (left/top are the centre,
   width the sprite width); transform is any extra rotate/flip.
 */
+import { asset } from "@/utils/asset.js";
+import rockPlatformImg from "@/assets/lesson6/rock-platform.png";
 
-const BASE = "../images/lesson6/number_line_activity/";
+const BASE = asset("images/lesson6/number_line_activity/");
 const SNAILS = BASE + "Seasnails Scoring/Animals Images To use/";
 
 export const PERSON_IMAGES = {
@@ -15,7 +17,7 @@ export const PERSON_IMAGES = {
   placing: BASE + "person_investigating.gif",
 };
 
-export const ROCK_PLATFORM = BASE + "Rockplatform.png";
+export const ROCK_PLATFORM = rockPlatformImg;
 
 export const DISTANCES = [0, 5, 10, 15, 20];
 

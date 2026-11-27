@@ -6,17 +6,21 @@
 
     <BallPairChoice />
 */
-import MultipleChoice from "../../activities/MultipleChoice.vue";
-import McQuestion from "../../activities/McQuestion.vue";
-import McChoice from "../../activities/McChoice.vue";
-import Button from "../../ui/Button.vue";
-import Grid from "../../layout/Grid.vue";
+import MultipleChoice from "@/components/activities/MultipleChoice.vue";
+import McQuestion from "@/components/activities/McQuestion.vue";
+import McChoice from "@/components/activities/McChoice.vue";
+import Button from "@/components/ui/Button.vue";
+import Grid from "@/components/layout/Grid.vue";
+import l2Mcq1Img from "@/assets/lesson2/l2-mcq1.png";
+import l2Mcq2Img from "@/assets/lesson2/l2-mcq2.png";
+import l2Mcq3Img from "@/assets/lesson2/l2-mcq3.png";
+import l2Mcq4Img from "@/assets/lesson2/l2-mcq4.png";
 
 const pairs = [
   {
     // Correct: different size, same material and shape
     value: "basketballs",
-    image: "../images/lesson2/l2-mcq1.png",
+    image: l2Mcq1Img,
     alt: "A large basketball beside a small basketball",
     title: "Yes — this pair can be used for a fair test experiment",
     text: "These basketballs are different sizes, but they have the same shape and are made from the same material. Ball size is the only variable changed, so this pair can be used in a <strong>fair test</strong>.",
@@ -24,7 +28,7 @@ const pairs = [
   {
     // Incorrect: material also changes
     value: "basketball-tennis",
-    image: "../images/lesson2/l2-mcq2.png",
+    image: l2Mcq2Img,
     alt: "A basketball beside a tennis ball",
     title: "Not a fair test experiment - two variables are changed",
     text: "These balls are different sizes, but they are also made of different materials. You could not know whether the height of the bounce changes because of size or material. Try again.",
@@ -32,7 +36,7 @@ const pairs = [
   {
     // Incorrect: shape also changes
     value: "soccer-football",
-    image: "../images/lesson2/l2-mcq3.png",
+    image: l2Mcq3Img,
     alt: "A soccer ball beside an oval football",
     title: "Not a fair test experiment - two variables are changed",
     text: "These balls are different sizes and have different shapes. The size and shape could both affect the bounce height. Try again.",
@@ -40,7 +44,7 @@ const pairs = [
   {
     // Incorrect: no size change
     value: "same-size",
-    image: "../images/lesson2/l2-mcq4.png",
+    image: l2Mcq4Img,
     alt: "Two basketballs of the same size",
     title: "Not a fair test experiment - no variables are changed",
     text: "These balls have the same size, shape, and they are made of the same material. This investigation is testing the effect of ball size, so the balls must be different sizes. Try again.",

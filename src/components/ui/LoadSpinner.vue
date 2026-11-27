@@ -4,15 +4,38 @@
 
     <LoadSpinner />                     default size, "Loading…" read out to screen readers
     <LoadSpinner size="40px" />         smaller
-    <LoadSpinner label="Loading lesson" show-label />   with visible text underneath
+    <LoadSpinner label="Loading lesson" show-label />   with visible text underneath,
+                                                        dots counting up: "Loading lesson..."
 */
-defineProps({
+import { onBeforeUnmount, onMounted, ref } from "vue";
+
+const props = defineProps({
   // diameter of the puck (any CSS length)
   size: { type: String, default: "72px" },
   // text for screen readers (and underneath, with showLabel)
-  label: { type: String, default: "Loading…" },
+  label: { type: String, default: "Loading" },
   showLabel: { type: Boolean, default: false },
 });
+
+const DOT_INTERVAL = 500; // ms between dots
+const MAX_DOTS = 3; // "..." then back to none
+
+const ellipsis = ref("");
+let timer = null;
+
+async function loadingEllipsis() {
+  return setInterval(() => {
+    ellipsis.value =
+      ellipsis.value.length < MAX_DOTS ? ellipsis.value + "." : "";
+  }, DOT_INTERVAL);
+}
+
+onMounted(() => {
+  if (!props.showLabel) return;
+  timer = loadingEllipsis();
+});
+
+onBeforeUnmount(() => clearInterval(timer));
 </script>
 
 <template>
@@ -20,7 +43,10 @@ defineProps({
     <div class="load-spinner-puck" aria-hidden="true">
       <div class="load-spinner-ring" />
     </div>
-    <p v-if="showLabel" class="load-spinner-label">{{ label }}</p>
+    <p v-if="showLabel" class="load-spinner-label">
+      {{ label
+      }}<span class="load-spinner-dots" aria-hidden="true">{{ ellipsis }}</span>
+    </p>
     <span v-else class="load-spinner-sr">{{ label }}</span>
   </div>
 </template>
@@ -72,6 +98,19 @@ defineProps({
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+/* Room for all three dots from the start, so the label doesn't shift as they
+   appear. The same width on the left keeps the words themselves centred.
+   (Hidden from screen readers: role="status" would read every new dot out.) */
+.load-spinner-label {
+  padding-left: 3ch;
+}
+
+.load-spinner-dots {
+  display: inline-block;
+  width: 3ch;
+  text-align: left;
 }
 
 /* visible only to screen readers */

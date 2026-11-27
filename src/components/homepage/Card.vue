@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, watch } from "vue";
-import { useTilt } from "../../composables/useTilt.js";
+import { useTilt } from "@/composables/useTilt.js";
 
 const props = defineProps({
   // position relative to the selected lesson: 0 = current, -1 = previous, 1 = next

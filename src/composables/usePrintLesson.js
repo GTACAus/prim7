@@ -3,7 +3,7 @@
   it as a PDF). Locked sections are opened up for the print and locked again
   afterwards.
 
-    import { downloadLessonPDF } from "../composables/usePrintLesson.js";
+    import { downloadLessonPDF } from "@/composables/usePrintLesson.js";
     <Button @click="downloadLessonPDF">Save my work</Button>
 
   Vue version of downloadLessonPDF() from public/scripts/common_functions.js.
